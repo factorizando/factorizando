@@ -28,7 +28,7 @@ export const SUBJECTS_PREP = [
         name: "Números Enteros",
         quiz:  "/cuestionario/divisibilidad",   // ruta interna
         video: "https://www.youtube.com/watch?v=XXXXXXX",
-        pdf:   "/pdfs/numeros-enteros.pdf",
+        pdf:   "/factorizando/guias/teoriadivisibilidad.html",
       },
       // {
       //   id: "exp",

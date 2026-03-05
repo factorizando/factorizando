@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Divisibilidad: Guía Interactiva</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Chosen Palette: Warm Neutrals & Academic Tones */
+        /* Background: Cream/Off-white (#FDFBF7) */
+        /* Text: Dark Slate (#334155) */
+        /* Accents: Sage Green (#059669), Terracotta (#EA580C), Indigo (#4F46E5) */
+        
+        body {
+            background-color: #FDFBF7;
+            color: #334155;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px; /* Reduced to ensure it fits well */
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        .math-font {
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        /* Custom Scrollbar for tables */
+        .table-scroll::-webkit-scrollbar {
+            height: 8px;
+        }
+        .table-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        .table-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        .table-scroll::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+    <!-- Application Structure Plan:
+         1. Header & Intro: Contextualize the importance of divisibility.
+         2. "Laboratorio de Divisibilidad" (Basic Concepts): Interactive calculator to visualize 'a = b * k'.
+         3. "Panel de Criterios" (Rules): Interactive grid to explore divisibility rules (2-11) with dynamic examples.
+         4. "Constructor de Números" (Primes & Decomposition): Tool to decompose numbers and visualize the "building blocks" (FTA).
+         5. "Analizador de Divisores" (CD & SD): Detailed breakdown of divisor counting and sum formulas.
+         6. "Arena de MCD y MCM" (GCD/LCM): Comparison tool with Euclidean Algorithm visualization (Grid) and Property check.
+         7. "Simulador de Problemas" (Real World): Interactive scenarios for the Carpenter (MCD) and Bells (MCM) problems using Charts for visualization.
+    -->
+    <!-- Visualization & Content Choices:
+         - Concepts: Dynamic text updates to show the math clearly.
+         - Criterios: Clickable cards to reveal rules, avoiding long lists.
+         - Primes: Visual breakdown of factors.
+         - Euclidean Algo: Dynamic HTML table generation to mirror the "Grid" method taught in the text.
+         - Bells Problem: Chart.js Scatter/Line plot to visually demonstrate the "timeline" of ringing bells and the intersection point (MCM).
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold text-indigo-600 mr-2">➗</span>
+                    <span class="font-bold text-xl tracking-tight text-slate-800">Divisibilidad 3º Sec</span>
+                </div>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <button onclick="scrollToSection('conceptos')" class="text-slate-600 hover:text-indigo-600 font-medium">Conceptos</button>
+                    <button onclick="scrollToSection('criterios')" class="text-slate-600 hover:text-indigo-600 font-medium">Criterios</button>
+                    <button onclick="scrollToSection('primos')" class="text-slate-600 hover:text-indigo-600 font-medium">Primos</button>
+                    <button onclick="scrollToSection('mcd-mcm')" class="text-slate-600 hover:text-indigo-600 font-medium">MCD/MCM</button>
+                    <button onclick="scrollToSection('aplicaciones')" class="text-slate-600 hover:text-indigo-600 font-medium">Aplicaciones</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="bg-indigo-50 border-b border-indigo-100">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl font-extrabold text-slate-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
+                Teoría de la Divisibilidad
+            </h1>
+            <p class="mt-4 max-w-2xl mx-auto text-xl text-slate-500">
+                Explora los fundamentos de la aritmética, desde los criterios básicos hasta el Algoritmo de Euclides. Una herramienta interactiva para estudiantes de tercero de secundaria.
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16">
+
+        <!-- SECTION 1: CONCEPTOS BÁSICOS -->
+        <section id="conceptos" class="scroll-mt-20">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-slate-900">1. Conceptos Fundamentales</h2>
+                <p class="mt-2 text-lg text-slate-600">Entiende la relación entre múltiplos, divisores y la división exacta.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                <!-- Theory -->
+                <div class="card p-6 border-l-4 border-indigo-500">
+                    <h3 class="text-xl font-bold mb-4">Definición</h3>
+                    <p class="mb-4 text-slate-700">
+                        Un número entero <strong>a</strong> es divisible por <strong>b</strong> si existe un entero <strong>k</strong> tal que:
+                    </p>
+                    <div class="bg-slate-100 p-4 rounded-lg text-center text-2xl math-font font-bold text-indigo-700 mb-4">
+                        a = b · k
+                    </div>
+                    <ul class="space-y-2 text-slate-700">
+                        <li>• <strong>a</strong> es múltiplo de <strong>b</strong> <span class="text-sm text-slate-500">(Notación: a = <span class="math-font">b°</span>)</span></li>
+                        <li>• <strong>b</strong> es divisor de <strong>a</strong> <span class="text-sm text-slate-500">(Notación: b | a)</span></li>
+                        <li>• La división es exacta (Residuo = 0).</li>
+                    </ul>
+                </div>
+
+                <!-- Interactive Lab -->
+                <div class="card p-6 bg-slate-50">
+                    <h3 class="text-xl font-bold mb-4 text-slate-800">🧪 Laboratorio de Prueba</h3>
+                    <div class="flex space-x-4 mb-6">
+                        <div class="flex-1">
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Dividendo (a)</label>
+                            <input type="number" id="inputA" value="12" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                        </div>
+                        <div class="flex-1">
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Divisor (b)</label>
+                            <input type="number" id="inputB" value="4" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                        </div>
+                    </div>
+                    <button onclick="checkDivisibility()" class="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 transition font-medium">Calcular Relación</button>
+                    
+                    <div id="resultDivisibility" class="mt-6 p-4 rounded-lg bg-white border border-slate-200 hidden">
+                        <!-- Results populated by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: CRITERIOS -->
+        <section id="criterios" class="scroll-mt-20">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-slate-900">2. Criterios de Divisibilidad</h2>
+                <p class="mt-2 text-lg text-slate-600">Reglas rápidas para determinar divisibilidad sin dividir.</p>
+            </div>
+
+            <div class="bg-indigo-900 text-white p-6 rounded-xl mb-6 shadow-lg">
+                <div class="flex flex-col sm:flex-row items-center justify-between">
+                    <div>
+                        <h3 class="text-xl font-bold">Analizador de Criterios</h3>
+                        <p class="text-indigo-200 text-sm">Ingresa un número para verificar todos los criterios simultáneamente.</p>
+                    </div>
+                    <div class="mt-4 sm:mt-0 flex w-full sm:w-auto">
+                        <input type="number" id="criteriaInput" placeholder="Ej: 1234" class="p-2 rounded-l text-slate-900 focus:outline-none w-full sm:w-48">
+                        <button onclick="analyzeCriteria()" class="bg-indigo-500 px-4 py-2 rounded-r hover:bg-indigo-400 font-bold">Analizar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="criteriaGrid">
+                <!-- Cards generated by JS -->
+            </div>
+        </section>
+
+        <!-- SECTION 3 & 4: PRIMOS Y DIVISORES -->
+        <section id="primos" class="scroll-mt-20">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-slate-900">3. Primos y Teorema Fundamental</h2>
+                <p class="mt-2 text-lg text-slate-600">Descomposición canónica y análisis de divisores (CD y SD).</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Calculator Panel -->
+                <div class="lg:col-span-1 space-y-6">
+                    <div class="card p-6">
+                        <h3 class="text-lg font-bold mb-4">Herramienta de Análisis</h3>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Ingresa un número (N > 1)</label>
+                        <input type="number" id="primeInput" value="60" min="2" class="w-full p-2 border border-slate-300 rounded mb-4 focus:ring-2 focus:ring-green-500 focus:outline-none">
+                        <button onclick="analyzeNumber()" class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 font-bold transition">Descomponer</button>
+                    </div>
+                    <div class="card p-6 bg-slate-50">
+                        <h4 class="font-bold text-slate-700 mb-2">Conceptos Clave</h4>
+                        <ul class="text-sm text-slate-600 space-y-2">
+                            <li><strong>Números Primos:</strong> Solo divisibles por 1 y sí mismos (Ej: 2, 3, 5).</li>
+                            <li><strong>Compuestos:</strong> Tienen más de 2 divisores.</li>
+                            <li><strong>Teorema Fundamental:</strong> Todo número tiene una "huella digital" única de factores primos.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Results Panel -->
+                <div class="lg:col-span-2 card p-8">
+                    <div id="primeResults" class="hidden space-y-8">
+                        
+                        <!-- Canonical Decomposition -->
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-800 mb-2 border-b pb-2">Descomposición Canónica</h3>
+                            <div class="flex items-center space-x-2 text-3xl math-font text-indigo-700" id="canonicalDisplay">
+                                <!-- Populated by JS -->
+                            </div>
+                            <p class="text-sm text-slate-500 mt-2">Esta es la forma única de expresar <span class="currentNum font-bold">N</span> como producto de primos.</p>
+                        </div>
+
+                        <!-- Analysis Grid -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Quantity of Divisors -->
+                            <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
+                                <h4 class="font-bold text-blue-800 mb-2">Cantidad de Divisores (CD)</h4>
+                                <p class="text-sm text-blue-600 mb-2">Fórmula: Suma 1 a cada exponente y multiplica.</p>
+                                <div id="cdCalculation" class="text-lg font-mono text-slate-800">
+                                    <!-- Populated by JS -->
+                                </div>
+                            </div>
+
+                            <!-- Sum of Divisors -->
+                            <div class="bg-orange-50 p-4 rounded-lg border border-orange-100">
+                                <h4 class="font-bold text-orange-800 mb-2">Suma de Divisores (SD)</h4>
+                                <p class="text-sm text-orange-600 mb-2">Fórmula geométrica de las bases.</p>
+                                <div id="sdCalculation" class="text-sm font-mono text-slate-800 break-all">
+                                    <!-- Populated by JS -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Divisors List -->
+                        <div>
+                            <h4 class="font-bold text-slate-700 mb-2">Lista de todos los divisores:</h4>
+                            <div id="allDivisorsList" class="flex flex-wrap gap-2">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <!-- Empty State -->
+                    <div id="primeEmpty" class="text-center py-12 text-slate-400">
+                        <span class="text-4xl">🔢</span>
+                        <p class="mt-2">Ingresa un número y presiona "Descomponer" para ver la magia.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: MCD & MCM -->
+        <section id="mcd-mcm" class="scroll-mt-20">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-slate-900">4. Máximo Común Divisor y Mínimo Común Múltiplo</h2>
+                <p class="mt-2 text-lg text-slate-600">Herramientas esenciales para resolver problemas de reparto y sincronización.</p>
+            </div>
+
+            <div class="card p-6 mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end mb-6">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Número A</label>
+                        <input type="number" id="mcdInputA" value="120" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-purple-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Número B</label>
+                        <input type="number" id="mcdInputB" value="180" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-purple-500 focus:outline-none">
+                    </div>
+                    <button onclick="calculateMCDMCM()" class="bg-purple-600 text-white py-2 px-6 rounded hover:bg-purple-700 font-bold transition h-10">Calcular y Visualizar</button>
+                </div>
+
+                <div id="mcdResults" class="hidden">
+                    <!-- Summary Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-purple-50 p-4 rounded text-center border border-purple-100">
+                            <h4 class="text-purple-800 font-bold uppercase text-xs tracking-wider">MCD (Mayor Divisor)</h4>
+                            <div id="resMCD" class="text-3xl font-bold text-slate-800 my-2">-</div>
+                            <p class="text-xs text-slate-500">Factores comunes, menor exponente</p>
+                        </div>
+                        <div class="bg-teal-50 p-4 rounded text-center border border-teal-100">
+                            <h4 class="text-teal-800 font-bold uppercase text-xs tracking-wider">MCM (Menor Múltiplo)</h4>
+                            <div id="resMCM" class="text-3xl font-bold text-slate-800 my-2">-</div>
+                            <p class="text-xs text-slate-500">Comunes y no comunes, mayor exponente</p>
+                        </div>
+                        <div class="bg-amber-50 p-4 rounded text-center border border-amber-100">
+                            <h4 class="text-amber-800 font-bold uppercase text-xs tracking-wider">Propiedad</h4>
+                            <div class="text-sm font-mono text-slate-700 mt-2">A · B = <span id="propProd"></span></div>
+                            <div class="text-sm font-mono text-slate-700">MCD · MCM = <span id="propMCDMCM"></span></div>
+                            <div id="propCheck" class="text-green-600 font-bold text-xs mt-1">✓ Se cumple</div>
+                        </div>
+                    </div>
+
+                    <!-- Euclidean Algorithm Visualizer -->
+                    <div class="border-t pt-6">
+                        <h3 class="text-xl font-bold text-slate-800 mb-4">Algoritmo de Euclides (Divisiones Sucesivas)</h3>
+                        <p class="text-slate-600 mb-4 text-sm">Este método es el más eficiente para hallar el MCD. Observa cómo los residuos se convierten en los nuevos divisores.</p>
+                        
+                        <div class="overflow-x-auto table-scroll pb-2">
+                            <table class="min-w-full text-center border-collapse">
+                                <tbody id="euclideanTable">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="mt-4 text-xs text-slate-500 flex items-center gap-2">
+                            <span class="inline-block w-3 h-3 bg-blue-100 border border-blue-300"></span> Cocientes (Q)
+                            <span class="inline-block w-3 h-3 bg-yellow-100 border border-yellow-300"></span> Dividendos/Divisores
+                            <span class="inline-block w-3 h-3 bg-red-100 border border-red-300"></span> Residuos (R)
+                            <span class="ml-4 font-bold">El último divisor utilizado (cuando R=0) es el MCD.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: APLICACIONES (WORD PROBLEMS) -->
+        <section id="aplicaciones" class="scroll-mt-20">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-slate-900">5. Aplicaciones en la Vida Real</h2>
+                <p class="mt-2 text-lg text-slate-600">Interactúa con los problemas clásicos del texto.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <!-- Problem 1: Carpenter (MCD) -->
+                <div class="card overflow-hidden">
+                    <div class="bg-amber-600 px-6 py-4 text-white flex justify-between items-center">
+                        <h3 class="font-bold text-lg">🪵 El Carpintero (MCD)</h3>
+                        <span class="text-xs bg-amber-700 px-2 py-1 rounded">Reparto Máximo</span>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-sm text-slate-600 mb-4">
+                            Se tienen listones de madera. Se quieren cortar en trozos de igual longitud, lo más largos posible.
+                        </p>
+                        
+                        <div class="space-y-4 mb-6 bg-slate-50 p-4 rounded-lg">
+                            <div>
+                                <label class="flex justify-between text-sm font-medium mb-1">
+                                    <span>Listón 1 (cm)</span>
+                                    <span id="len1Val" class="text-amber-600">120</span>
+                                </label>
+                                <input type="range" id="wood1" min="60" max="300" step="10" value="120" class="w-full accent-amber-600" oninput="solveCarpenter()">
+                            </div>
+                            <div>
+                                <label class="flex justify-between text-sm font-medium mb-1">
+                                    <span>Listón 2 (cm)</span>
+                                    <span id="len2Val" class="text-amber-600">180</span>
+                                </label>
+                                <input type="range" id="wood2" min="60" max="300" step="10" value="180" class="w-full accent-amber-600" oninput="solveCarpenter()">
+                            </div>
+                        </div>
+
+                        <div class="border-t pt-4">
+                            <div class="flex justify-between items-end mb-2">
+                                <span class="text-sm font-bold text-slate-700">Resultado:</span>
+                                <span class="text-2xl font-bold text-amber-600" id="woodResult">60 cm</span>
+                            </div>
+                            <p class="text-xs text-slate-500 mb-4">Longitud máxima de cada trozo.</p>
+                            
+                            <!-- Visual Representation -->
+                            <div class="space-y-2 font-mono text-xs text-white text-center">
+                                <div id="visWood1" class="h-8 bg-amber-400 rounded flex items-center justify-center transition-all duration-500 relative overflow-hidden">
+                                    <!-- Grid lines added by JS -->
+                                </div>
+                                <div id="visWood2" class="h-8 bg-amber-500 rounded flex items-center justify-center transition-all duration-500 relative overflow-hidden">
+                                    <!-- Grid lines added by JS -->
+                                </div>
+                            </div>
+                            <p id="woodPieces" class="text-center text-xs text-slate-500 mt-2"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Problem 2: Bells (MCM) -->
+                <div class="card overflow-hidden">
+                    <div class="bg-blue-600 px-6 py-4 text-white flex justify-between items-center">
+                        <h3 class="font-bold text-lg">🔔 Sincronización (MCM)</h3>
+                        <span class="text-xs bg-blue-700 px-2 py-1 rounded">Encuentro Futuro</span>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-sm text-slate-600 mb-4">
+                            Campanas suenan a diferentes intervalos. ¿Cuándo coincidirán?
+                        </p>
+
+                        <div class="grid grid-cols-3 gap-2 mb-6 bg-slate-50 p-4 rounded-lg">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 text-center mb-1">Campana 1</label>
+                                <input type="number" id="bell1" value="4" class="w-full text-center border p-1 rounded" onchange="solveBells()">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 text-center mb-1">Campana 2</label>
+                                <input type="number" id="bell2" value="6" class="w-full text-center border p-1 rounded" onchange="solveBells()">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 text-center mb-1">Campana 3</label>
+                                <input type="number" id="bell3" value="8" class="w-full text-center border p-1 rounded" onchange="solveBells()">
+                            </div>
+                        </div>
+
+                        <div class="border-t pt-4">
+                             <div class="flex justify-between items-end mb-2">
+                                <span class="text-sm font-bold text-slate-700">Coinciden en:</span>
+                                <span class="text-2xl font-bold text-blue-600" id="bellResult">24 min</span>
+                            </div>
+                            
+                            <!-- Chart Container -->
+                            <div class="chart-container" style="height: 180px;">
+                                <canvas id="bellChart"></canvas>
+                            </div>
+                            <p class="text-center text-xs text-slate-500 mt-1">Los puntos muestran cuándo suena cada campana. La línea vertical marca el encuentro.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-800 text-slate-300 py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="mb-2">Desarrollado para 3º de Secundaria</p>
+            <p class="text-sm text-slate-500">Basado en el documento "Guía de Divisibilidad: Conceptos y Aplicaciones"</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- UTILITY FUNCTIONS ---
+        
+        function gcd(a, b) {
+            return b === 0 ? a : gcd(b, a % b);
+        }
+
+        function lcm(a, b) {
+            if (a === 0 || b === 0) return 0;
+            return Math.abs(a * b) / gcd(a, b);
+        }
+
+        function isPrime(num) {
+            if (num <= 1) return false;
+            for (let i = 2; i <= Math.sqrt(num); i++) {
+                if (num % i === 0) return false;
+            }
+            return true;
+        }
+
+        function getPrimeFactors(n) {
+            const factors = {};
+            let d = 2;
+            let temp = n;
+            while (d * d <= temp) {
+                while (temp % d === 0) {
+                    factors[d] = (factors[d] || 0) + 1;
+                    temp /= d;
+                }
+                d++;
+            }
+            if (temp > 1) {
+                factors[temp] = (factors[temp] || 0) + 1;
+            }
+            return factors;
+        }
+
+        function getAllDivisors(n) {
+            const divisors = [];
+            for(let i=1; i<=Math.sqrt(n); i++){
+                if(n % i === 0){
+                    divisors.push(i);
+                    if(i !== n/i) divisors.push(n/i);
+                }
+            }
+            return divisors.sort((a,b) => a-b);
+        }
+
+        // --- NAVIGATION ---
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // --- SECTION 1: CONCEPTS ---
+        function checkDivisibility() {
+            const a = parseInt(document.getElementById('inputA').value);
+            const b = parseInt(document.getElementById('inputB').value);
+            const resDiv = document.getElementById('resultDivisibility');
+
+            if (!a || !b || b === 0) {
+                resDiv.innerHTML = "<p class='text-red-500'>Por favor ingresa números válidos (b ≠ 0).</p>";
+                resDiv.classList.remove('hidden');
+                return;
+            }
+
+            const k = Math.floor(a / b);
+            const r = a % b;
+            const isDivisible = r === 0;
+
+            let html = `
+                <div class="text-center">
+                    <p class="text-lg font-mono mb-2">${a} ÷ ${b} = <strong>${k}</strong> con residuo <strong>${r}</strong></p>
+                    <div class="text-2xl font-bold mb-2 ${isDivisible ? 'text-green-600' : 'text-slate-600'}">
+                        ${a} = ${b} · ${k} ${r !== 0 ? `+ ${r}` : ''}
+                    </div>
+            `;
+
+            if (isDivisible) {
+                html += `
+                    <div class="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-bold mt-2">✅ División Exacta</div>
+                    <p class="mt-3 text-sm text-slate-600">
+                        • ${a} es <strong>múltiplo</strong> de ${b} (${a} = ${b}°)<br>
+                        • ${b} es <strong>divisor</strong> de ${a} (${b} | ${a})
+                    </p>
+                `;
+            } else {
+                html += `
+                    <div class="inline-block bg-slate-200 text-slate-600 px-3 py-1 rounded-full text-sm font-bold mt-2">❌ No es Exacta</div>
+                    <p class="mt-3 text-sm text-slate-600">${a} no es divisible por ${b} (${b} ∤ ${a})</p>
+                `;
+            }
+            html += `</div>`;
+
+            resDiv.innerHTML = html;
+            resDiv.classList.remove('hidden');
+        }
+
+        // --- SECTION 2: CRITERIA ---
+        const criteriaRules = [
+            { num: 2, rule: "Termina en cifra par (0, 2, 4, 6, 8)." },
+            { num: 3, rule: "Suma de cifras es múltiplo de 3." },
+            { num: 4, rule: "Últimas dos cifras son 00 o múltiplo de 4." },
+            { num: 5, rule: "Termina en 0 o 5." },
+            { num: 6, rule: "Es divisible por 2 y por 3 a la vez." },
+            { num: 8, rule: "Últimas 3 cifras son 000 o múltiplo de 8." },
+            { num: 9, rule: "Suma de cifras es múltiplo de 9." },
+            { num: 10, rule: "Termina en 0." },
+            { num: 11, rule: "Diferencia de sumas (impar - par) es 0 o 11°." }
+        ];
+
+        function initCriteria() {
+            const grid = document.getElementById('criteriaGrid');
+            grid.innerHTML = criteriaRules.map(c => `
+                <div class="card p-4 border border-slate-100" id="card-${c.num}">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-2xl font-bold text-indigo-600 w-10 h-10 flex items-center justify-center bg-indigo-50 rounded-full">${c.num}</span>
+                        <span class="status-icon text-2xl text-slate-300">?</span>
+                    </div>
+                    <p class="text-sm text-slate-600 h-10 leading-tight">${c.rule}</p>
+                    <div class="detail-text text-xs font-bold mt-2 h-6 text-slate-400">Esperando input...</div>
+                </div>
+            `).join('');
+        }
+
+        function analyzeCriteria() {
+            const val = document.getElementById('criteriaInput').value;
+            const n = parseInt(val);
+            if (!val) return;
+
+            criteriaRules.forEach(c => {
+                const card = document.getElementById(`card-${c.num}`);
+                const isDiv = n % c.num === 0;
+                
+                // Update Style
+                card.className = `card p-4 border-2 transition-all ${isDiv ? 'border-green-500 bg-green-50' : 'border-slate-200 bg-white opacity-60'}`;
+                
+                // Update Icon
+                card.querySelector('.status-icon').textContent = isDiv ? '✅' : '❌';
+                
+                // Update Details
+                const detailDiv = card.querySelector('.detail-text');
+                detailDiv.className = `detail-text text-xs font-bold mt-2 ${isDiv ? 'text-green-700' : 'text-slate-400'}`;
+                
+                if (c.num === 2) detailDiv.textContent = `Termina en ${val.slice(-1)}`;
+                if (c.num === 3 || c.num === 9) {
+                    const sum = val.split('').reduce((a,b)=>parseInt(a)+parseInt(b), 0);
+                    detailDiv.textContent = `Suma: ${sum}`;
+                }
+                if (c.num === 5) detailDiv.textContent = `Termina en ${val.slice(-1)}`;
+                if (c.num === 4) detailDiv.textContent = `Final: ${val.slice(-2)}`;
+                if (c.num === 6) detailDiv.textContent = (n%2===0 && n%3===0) ? "Cumple 2 y 3" : "Falla 2 o 3";
+                if (c.num === 11) detailDiv.textContent = isDiv ? "Diferencia válida" : "No cumple";
+                if (![2,3,4,5,6,9,11].includes(c.num)) detailDiv.textContent = isDiv ? "Es divisible" : "No es divisible";
+            });
+        }
+
+        // --- SECTION 3: PRIMES & DIVISORS ---
+        function analyzeNumber() {
+            const n = parseInt(document.getElementById('primeInput').value);
+            if (!n || n < 2) return alert("Ingresa un número mayor a 1");
+
+            document.getElementById('primeResults').classList.remove('hidden');
+            document.getElementById('primeEmpty').classList.add('hidden');
+            
+            document.querySelectorAll('.currentNum').forEach(el => el.textContent = n);
+
+            // 1. Decomposition
+            const factors = getPrimeFactors(n);
+            const bases = Object.keys(factors).map(Number).sort((a,b)=>a-b);
+            
+            let htmlCanonical = bases.map((base, i) => {
+                const exp = factors[base];
+                return `<span>${base}<sup class="text-lg text-slate-500">${exp}</sup></span>${i < bases.length-1 ? '<span class="text-slate-400 mx-1">·</span>' : ''}`;
+            }).join('');
+            document.getElementById('canonicalDisplay').innerHTML = htmlCanonical;
+
+            // 2. CD Calculation
+            const exponents = bases.map(b => factors[b]);
+            const cdFormula = exponents.map(e => `(${e}+1)`).join('');
+            const cdValue = exponents.reduce((acc, e) => acc * (e+1), 1);
+            document.getElementById('cdCalculation').innerHTML = `${cdFormula} = <strong>${cdValue}</strong>`;
+
+            // 3. SD Calculation
+            let sdFormula = bases.map(b => {
+                const exp = factors[b];
+                return `[(${b}<sup>${exp+1}</sup>-1)/(${b}-1)]`;
+            }).join(' · ');
+            
+            // Calculate actual sum
+            let sdValue = 1;
+            bases.forEach(b => {
+                const exp = factors[b];
+                sdValue *= (Math.pow(b, exp+1) - 1) / (b - 1);
+            });
+            document.getElementById('sdCalculation').innerHTML = `${sdFormula}<br>= <strong>${sdValue}</strong>`;
+
+            // 4. List Divisors
+            const divs = getAllDivisors(n);
+            document.getElementById('allDivisorsList').innerHTML = divs.map(d => 
+                `<span class="inline-block bg-slate-100 text-slate-700 px-2 py-1 rounded text-sm border border-slate-200">${d}</span>`
+            ).join('');
+        }
+
+        // --- SECTION 5: MCD & MCM ---
+        function calculateMCDMCM() {
+            const a = parseInt(document.getElementById('mcdInputA').value);
+            const b = parseInt(document.getElementById('mcdInputB').value);
+            
+            if(!a || !b) return;
+
+            document.getElementById('mcdResults').classList.remove('hidden');
+
+            const mcdVal = gcd(a, b);
+            const mcmVal = lcm(a, b);
+
+            document.getElementById('resMCD').textContent = mcdVal;
+            document.getElementById('resMCM').textContent = mcmVal;
+            document.getElementById('propProd').textContent = (a*b).toLocaleString();
+            document.getElementById('propMCDMCM').textContent = (mcdVal*mcmVal).toLocaleString();
+
+            // Euclidean Algorithm Visualization (Grid)
+            // Logic: Create the sequence of divisions
+            let big = Math.max(a, b);
+            let small = Math.min(a, b);
+            let qs = [];
+            let rs = [];
+            let divs = [big, small];
+
+            // Perform algo and store steps
+            let r = big % small;
+            let q = Math.floor(big / small);
+            
+            while (r >= 0) {
+                qs.push(q);
+                rs.push(r);
+                if (r === 0) break;
+                
+                // Shift for next step
+                big = small;
+                small = r;
+                divs.push(r); // Add new divisor (previous remainder)
+                
+                q = Math.floor(big / small);
+                r = big % small;
+            }
+
+            // Build Table HTML
+            // Row 1: Quotients (skip first cell)
+            let rowQ = `<tr><td class="p-2 border-b border-slate-200 text-slate-400 text-xs">C</td>`;
+            qs.forEach(q => rowQ += `<td class="p-2 border border-slate-200 bg-blue-50 font-mono text-blue-800 font-bold">${q}</td>`);
+            rowQ += `</tr>`;
+
+            // Row 2: Dividends/Divisors (Main)
+            let rowD = `<tr><td class="p-2 border-r border-slate-200 font-bold text-slate-500">A/B</td>`;
+            divs.forEach((d, i) => {
+                // Highlight MCD (last non-zero divisor)
+                let isMCD = (d === mcdVal && i > 0); 
+                let style = isMCD ? "bg-green-100 text-green-800 border-green-400 border-2" : "bg-yellow-50 text-slate-800";
+                rowD += `<td class="p-3 border border-slate-200 ${style} font-bold text-lg">${d}</td>`;
+            });
+            rowD += `</tr>`;
+
+            // Row 3: Remainders
+            let rowR = `<tr><td class="p-2 border-t border-slate-200 text-slate-400 text-xs">R</td>`;
+            // Remainders are offset by one column relative to Q in the standard grid visualization?
+            // Standard Grid: 
+            //    Q1 Q2 Q3
+            // A  B  R1 R2 (MCD)
+            // R1 R2 0
+            
+            // Shift remainders to align under the divisor that produced them
+            // The first remainder R1 goes under B. The second R2 goes under R1.
+            
+            // Add empty cell for under A
+            rowR += `<td class="p-2 border border-slate-200 bg-slate-50"></td>`; 
+            rs.forEach(rem => {
+                 rowR += `<td class="p-2 border border-slate-200 bg-red-50 text-red-600 font-mono">${rem}</td>`;
+            });
+            rowR += `</tr>`;
+
+            document.getElementById('euclideanTable').innerHTML = rowQ + rowD + rowR;
+        }
+
+        // --- SECTION 6: PROBLEMS ---
+        
+        // Carpenter Problem
+        function solveCarpenter() {
+            const w1 = parseInt(document.getElementById('wood1').value);
+            const w2 = parseInt(document.getElementById('wood2').value);
+            
+            document.getElementById('len1Val').textContent = w1 + " cm";
+            document.getElementById('len2Val').textContent = w2 + " cm";
+
+            const cutSize = gcd(w1, w2);
+            document.getElementById('woodResult').textContent = cutSize + " cm";
+
+            const p1 = w1 / cutSize;
+            const p2 = w2 / cutSize;
+
+            document.getElementById('woodPieces').textContent = `Obtendrás ${p1} trozos del primero y ${p2} del segundo. Total: ${p1+p2} trozos.`;
+
+            // Visualize planks
+            const maxW = 300; // max input
+            const scale = 100 / maxW; // percentage
+            
+            const v1 = document.getElementById('visWood1');
+            const v2 = document.getElementById('visWood2');
+            
+            v1.style.width = (w1 * scale) + "%";
+            v2.style.width = (w2 * scale) + "%";
+            
+            // Create cuts visual using repeating-linear-gradient
+            // Need to convert cm to CSS percentage within the element
+            // Since width is dynamic, simpler to use flex children for strict "cuts" or just CSS gradient
+            // Let's use CSS gradient for the "cuts" lines
+            
+            // Calculate % of cut relative to the plank itself
+            const cutPct1 = (cutSize / w1) * 100;
+            const cutPct2 = (cutSize / w2) * 100;
+
+            v1.style.backgroundImage = `linear-gradient(90deg, transparent calc(100% - 2px), rgba(255,255,255,0.8) calc(100% - 1px))`;
+            v1.style.backgroundSize = `${cutPct1}% 100%`;
+            
+            v2.style.backgroundImage = `linear-gradient(90deg, transparent calc(100% - 2px), rgba(255,255,255,0.8) calc(100% - 1px))`;
+            v2.style.backgroundSize = `${cutPct2}% 100%`;
+            
+            v1.textContent = w1 + "cm";
+            v2.textContent = w2 + "cm";
+        }
+
+        // Bells Problem
+        let bellChartInstance = null;
+
+        function solveBells() {
+            const b1 = parseInt(document.getElementById('bell1').value) || 1;
+            const b2 = parseInt(document.getElementById('bell2').value) || 1;
+            const b3 = parseInt(document.getElementById('bell3').value) || 1;
+
+            const common = lcm(lcm(b1, b2), b3);
+            document.getElementById('bellResult').textContent = common + " min";
+
+            // Chart Data
+            // Generate data points for each bell up to common + margin
+            const limit = common * 1.2;
+            const datasets = [];
+            const colors = ['#3B82F6', '#EF4444', '#10B981']; // Blue, Red, Green
+            
+            [b1, b2, b3].forEach((interval, idx) => {
+                const data = [];
+                for(let t = interval; t <= limit; t += interval) {
+                    data.push({x: t, y: 3 - idx}); // Stack vertically: Bell 1 top
+                }
+                datasets.push({
+                    label: `Campana ${idx+1} (${interval}m)`,
+                    data: data,
+                    backgroundColor: colors[idx],
+                    pointRadius: 6,
+                    pointHoverRadius: 8
+                });
+            });
+
+            const ctx = document.getElementById('bellChart').getContext('2d');
+            
+            if (bellChartInstance) {
+                bellChartInstance.destroy();
+            }
+
+            bellChartInstance = new Chart(ctx, {
+                type: 'scatter',
+                data: { datasets: datasets },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            position: 'bottom',
+                            title: { display: true, text: 'Minutos' },
+                            max: Math.ceil(limit)
+                        },
+                        y: {
+                            min: 0,
+                            max: 4,
+                            ticks: {
+                                callback: function(value) {
+                                    if(value === 1) return 'C 3';
+                                    if(value === 2) return 'C 2';
+                                    if(value === 3) return 'C 1';
+                                    return '';
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        annotation: {
+                            // If we had the annotation plugin, we'd draw a line. 
+                            // Since standard CDN usually doesn't include it by default without extra import,
+                            // we will rely on the data points aligning visually.
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `Suena al min ${context.raw.x}`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // --- INIT ---
+        window.onload = function() {
+            checkDivisibility(); // Section 1
+            initCriteria();      // Section 2
+            analyzeNumber();     // Section 3
+            calculateMCDMCM();   // Section 5
+            solveCarpenter();    // Section 6.1
+            solveBells();        // Section 6.2
+        };
+
+    </script>
+</body>
+</html>

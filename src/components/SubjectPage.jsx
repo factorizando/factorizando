@@ -194,7 +194,7 @@ export default function SubjectPage({ level, subjects }) {
             width: 36, height: 36, borderRadius: "50%",
             border: "1px dashed rgba(59,158,255,.4)", overflow: "hidden",
           }}>
-            <img src="/assets/logoX.png" alt="Logo" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            <img src={`${import.meta.env.BASE_URL}assets/logoX.png`} alt="Logo" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
           </div>
           <span style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.1rem", color: "#e8eaf0" }}>
   FACTO<span style={{ color: "#3b9eff" }}>ℝ[i]</span>ZANDO

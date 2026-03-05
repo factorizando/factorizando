@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 
 // ─── Inline SVG math symbols that float in the background ───────────────────
@@ -307,10 +308,10 @@ export default function Home() {
           {/* Logo & banner */}
           <div className="logo-section">
             <div className="logo-circle">
-              <img src="/assets/logoX.png" alt="Logo Factorizando" />
+              <img src={`${import.meta.env.BASE_URL}assets/logoX.png`} alt="Logo Factorizando" />
             </div>
             <div className="logo-banner">
-              <img src="/assets/ImWAPerfil.png" alt="Factorizando" />
+              <img src={`${import.meta.env.BASE_URL}assets/ImWAPerfil.png`} alt="Factorizando" />
             </div>
             <p className="tagline">Plataforma de evaluación matemática</p>
           </div>
@@ -321,16 +322,16 @@ export default function Home() {
 
           {/* Navigation buttons */}
           <div className="btn-group">
-            <a href="/preparatoria" className="btn">
+            <Link to="/preparatoria" className="btn">
               <span className="btn-icon">📐</span>
               <span className="btn-label">Preparatoria</span>
               <span className="btn-sub">Nivel medio superior</span>
-            </a>
-            <a href="/universidad" className="btn">
+            </Link>
+            <Link to="/universidad" className="btn">
               <span className="btn-icon">🎓</span>
               <span className="btn-label">Universidad</span>
               <span className="btn-sub">Nivel superior</span>
-            </a>
+            </Link>
           </div>
         </div>
 

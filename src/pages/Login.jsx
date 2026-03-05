@@ -275,7 +275,7 @@ export default function Login() {
           ))}
           <div className="art-content">
             <div className="art-logo">
-              <img src="/assets/logoX.png" alt="Logo Factorizando" />
+              <img src={`${import.meta.env.BASE_URL}assets/logoX.png`} alt="Logo Factorizando" />
             </div>
             <div className="art-brand">FACTO<span>ℝ[i]</span>ZANDO</div>
             <p className="art-quote">Donde las matemáticas<br />cobran forma</p>

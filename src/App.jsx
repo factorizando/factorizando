@@ -4,7 +4,7 @@
 // Usa React Router v6.
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import Home          from "./pages/Home";
 import Login         from "./pages/Login";
 import Preparatoria  from "./pages/Preparatoria";
@@ -16,7 +16,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         {/* Pública */}
         <Route path="/"      element={<Home />} />
@@ -57,6 +57,6 @@ export default function App() {
           </div>
         } />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }

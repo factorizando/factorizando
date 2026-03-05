@@ -26,7 +26,7 @@ export const SUBJECTS_PREP = [
       {
         id: "ent",
         name: "Números Enteros",
-        quiz:  "/cuestionario/Divisibilidad",   // ruta interna
+        quiz:  "/cuestionario/divisibilidad",   // ruta interna
         video: "https://www.youtube.com/watch?v=XXXXXXX",
         pdf:   "/pdfs/numeros-enteros.pdf",
       },

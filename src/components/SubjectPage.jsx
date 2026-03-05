@@ -29,14 +29,33 @@ function ResourcePill({ type, href, label }) {
     fontFamily: "'DM Sans', sans-serif",
   };
 
+  const handleHover = (e, enter) => {
+    e.currentTarget.style.transform = enter ? "translateY(-2px)" : "translateY(0)";
+    e.currentTarget.style.opacity = enter ? ".9" : "1";
+  };
+
+  if (type === "quiz") {
+    return (
+      <Link
+        to={href}
+        style={pillStyle}
+        onMouseEnter={e => handleHover(e, true)}
+        onMouseLeave={e => handleHover(e, false)}
+      >
+        <span style={{ fontSize: ".85rem" }}>{icons[type]}</span>
+        {label}
+      </Link>
+    );
+  }
+
   return (
     <a
       href={href}
-      target={type !== "quiz" ? "_blank" : undefined}
+      target="_blank"
       rel="noreferrer"
       style={pillStyle}
-      onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.opacity = ".9"; }}
-      onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.opacity = "1"; }}
+      onMouseEnter={e => handleHover(e, true)}
+      onMouseLeave={e => handleHover(e, false)}
     >
       <span style={{ fontSize: ".85rem" }}>{icons[type]}</span>
       {label}

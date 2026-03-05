@@ -10,6 +10,7 @@ import Login         from "./pages/Login";
 import Preparatoria  from "./pages/Preparatoria";
 import Universidad   from "./pages/Universidad";
 import ProtectedRoute from "./components/ProtectedRoute";
+import PrimosMcdMcm from "./pages/cuestionarios/Divisibilidad";
 
 // Cuestionarios — los irás agregando aquí conforme los crees
 // import Cuestionario1 from "./pages/cuestionarios/Cuestionario1";
@@ -28,6 +29,9 @@ export default function App() {
         } />
         <Route path="/universidad" element={
           <ProtectedRoute><Universidad /></ProtectedRoute>
+        } />
+        <Route path="/cuestionario/Divisibilidad" element={
+          <ProtectedRoute><Divisibilidad /></ProtectedRoute>
         } />
 
         {/* ── Cuestionarios ──────────────────────────────────────────────────

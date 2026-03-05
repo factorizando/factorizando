@@ -26,45 +26,45 @@ export const SUBJECTS_PREP = [
       {
         id: "ent",
         name: "Números Enteros",
-        quiz:  "/cuestionario/numeros-enteros",   // ruta interna
+        quiz:  "/cuestionario/Divisibilidad",   // ruta interna
         video: "https://www.youtube.com/watch?v=XXXXXXX",
         pdf:   "/pdfs/numeros-enteros.pdf",
       },
-      {
-        id: "exp",
-        name: "Leyes de los Exponentes",
-        quiz:  "/cuestionario/exponentes",
-        video: "https://www.youtube.com/watch?v=XXXXXXX",
-        pdf:   "/pdfs/exponentes.pdf",
-      },
-      {
-        id: "frac",
-        name: "Fracciones y Decimales",
-        quiz:  "/cuestionario/fracciones",
-        video: null,   // aún no disponible
-        pdf:   null,
-      },
-      {
-        id: "alg",
-        name: "Álgebra Básica",
-        quiz:  null,
-        video: null,
-        pdf:   null,
-      },
-      {
-        id: "ec1",
-        name: "Ecuaciones de Primer Grado",
-        quiz:  "/cuestionario/ecuaciones-1",
-        video: "https://www.youtube.com/watch?v=XXXXXXX",
-        pdf:   null,
-      },
-      {
-        id: "geo",
-        name: "Geometría Analítica",
-        quiz:  "/cuestionario/geometria",
-        video: "https://www.youtube.com/watch?v=XXXXXXX",
-        pdf:   "/pdfs/geometria.pdf",
-      },
+      // {
+      //   id: "exp",
+      //   name: "Leyes de los Exponentes",
+      //   quiz:  "/cuestionario/exponentes",
+      //   video: "https://www.youtube.com/watch?v=XXXXXXX",
+      //   pdf:   "/pdfs/exponentes.pdf",
+      // },
+      // {
+      //   id: "frac",
+      //   name: "Fracciones y Decimales",
+      //   quiz:  "/cuestionario/fracciones",
+      //   video: null,   // aún no disponible
+      //   pdf:   null,
+      // },
+      // {
+      //   id: "alg",
+      //   name: "Álgebra Básica",
+      //   quiz:  null,
+      //   video: null,
+      //   pdf:   null,
+      // },
+      // {
+      //   id: "ec1",
+      //   name: "Ecuaciones de Primer Grado",
+      //   quiz:  "/cuestionario/ecuaciones-1",
+      //   video: "https://www.youtube.com/watch?v=XXXXXXX",
+      //   pdf:   null,
+      // },
+      // {
+      //   id: "geo",
+      //   name: "Geometría Analítica",
+      //   quiz:  "/cuestionario/geometria",
+      //   video: "https://www.youtube.com/watch?v=XXXXXXX",
+      //   pdf:   "/pdfs/geometria.pdf",
+      // },
     ],
   },
   {

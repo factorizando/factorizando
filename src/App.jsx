@@ -1,0 +1,62 @@
+// src/App.jsx
+// ─────────────────────────────────────────────────────────────────────────────
+// Estructura de rutas del proyecto Factorizando.
+// Usa React Router v6.
+// ─────────────────────────────────────────────────────────────────────────────
+
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home          from "./pages/Home";
+import Login         from "./pages/Login";
+import Preparatoria  from "./pages/Preparatoria";
+import Universidad   from "./pages/Universidad";
+import ProtectedRoute from "./components/ProtectedRoute";
+
+// Cuestionarios — los irás agregando aquí conforme los crees
+// import Cuestionario1 from "./pages/cuestionarios/Cuestionario1";
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        {/* Pública */}
+        <Route path="/"      element={<Home />} />
+        <Route path="/login" element={<Login />} />
+
+        {/* Protegidas — requieren sesión activa */}
+        <Route path="/preparatoria" element={
+          <ProtectedRoute><Preparatoria /></ProtectedRoute>
+        } />
+        <Route path="/universidad" element={
+          <ProtectedRoute><Universidad /></ProtectedRoute>
+        } />
+
+        {/* ── Cuestionarios ──────────────────────────────────────────────────
+         *  Para agregar un cuestionario nuevo:
+         *    1. Crea el archivo en src/pages/cuestionarios/MiCuestionario.jsx
+         *    2. Importa el componente arriba (línea comentada de ejemplo)
+         *    3. Agrega la ruta aquí, dentro de ProtectedRoute
+         *
+         * Ejemplo:
+         *   <Route path="/cuestionario/algebra-1" element={
+         *     <ProtectedRoute><Cuestionario1 /></ProtectedRoute>
+         *   } />
+         * ───────────────────────────────────────────────────────────────────
+         */}
+
+        {/* 404 */}
+        <Route path="*" element={
+          <div style={{
+            minHeight:"100vh", background:"#0e0f11", color:"#e8eaf0",
+            display:"flex", flexDirection:"column",
+            alignItems:"center", justifyContent:"center", gap:"1rem",
+            fontFamily:"'DM Sans', sans-serif",
+          }}>
+            <span style={{ fontSize:"4rem" }}>404</span>
+            <p style={{ color:"#5a6070" }}>Página no encontrada</p>
+            <a href="/" style={{ color:"#3b9eff", textDecoration:"none" }}>← Regresar</a>
+          </div>
+        } />
+      </Routes>
+    </BrowserRouter>
+  );
+}

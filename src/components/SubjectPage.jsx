@@ -4,6 +4,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
+import BrandName from "./BrandName";
 
 // ── Resource pill ─────────────────────────────────────────────────────────────
 function ResourcePill({ type, href, label }) {
@@ -277,9 +278,7 @@ export default function SubjectPage({ level, subjects }) {
           }}>
             <img src={`${import.meta.env.BASE_URL}assets/logoX.png`} alt="Logo" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
           </div>
-          <span style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.1rem", color: "#e8eaf0" }}>
-            FACTO<span style={{ color: "#3b9eff" }}>ℝ[i]</span>ZANDO
-          </span>
+          <BrandName size="1.1rem" />
         </Link>
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
           <span style={{

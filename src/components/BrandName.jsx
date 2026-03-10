@@ -1,6 +1,4 @@
 // src/components/BrandName.jsx
-// Renderiza: FACTO + ℝ[i] (KaTeX, dorado ámbar) + ZANDO
-
 import { useEffect, useRef, useState } from "react";
 
 function useKaTeX() {
@@ -30,48 +28,26 @@ export default function BrandName({ size = "1.1rem" }) {
   const ready = useKaTeX();
 
   useEffect(() => {
-    if (!ref.current || !ready || !window.katex) return;
-    // Usamos \textcolor para aplicar el color directamente desde LaTeX
-    window.katex.render(
-      "\\textcolor{#f59e0b}{\\mathbb{R}[i]}",
-      ref.current,
-      {
-        throwOnError: false,
-        displayMode: false,
-        trust: true,
-        strict: false,
-      }
-    );
+    if (!ready || !window.katex) return;
+    // Pequeño delay para asegurar que el DOM esté montado
+    const id = setTimeout(() => {
+      if (!ref.current) return;
+      window.katex.render(
+        "\\textbf{\\text{Facto}}\\textcolor{#f59e0b}{\\mathbb{R}[i]}\\textbf{\\text{zando}}",
+        ref.current,
+        { throwOnError: false, displayMode: false, trust: true, strict: false }
+      );
+    }, 0);
+    return () => clearTimeout(id);
   }, [ready]);
 
-  const wrapStyle = {
-    fontFamily: "'Playfair Display', serif",
-    fontSize: size,
-    fontWeight: 700,
-    color: "#e8eaf0",
-    letterSpacing: ".04em",
-    display: "inline-flex",
-    alignItems: "center",
-    userSelect: "none",
-    lineHeight: 1,
-  };
-
-  const katexStyle = {
-    display: "inline-flex",
-    alignItems: "center",
-    fontSize: `calc(${size} * 0.9)`,
-    // Sin ready aún, mostramos placeholder con el color correcto
-    color: "#f59e0b",
-  };
-
   return (
-    <span style={wrapStyle}>
-      <span>Facto</span>
-      <span ref={ref} style={katexStyle}>
-        {/* Fallback mientras KaTeX carga */}
-        {!ready && <span>ℝ[<em>i</em>]</span>}
+    <span style={{ fontSize: size, letterSpacing: ".04em", userSelect: "none", color: "#e8eaf0" }}>
+      <span ref={ref}>
+        {/* Fallback visible siempre — KaTeX lo reemplaza cuando carga */}
+        <span style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}>
+          Facto<span style={{ color: "#f59e0b" }}>ℝ[<em>i</em>]</span>zando        </span>
       </span>
-      <span>zando</span>
     </span>
   );
 }

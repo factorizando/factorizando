@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
+import BrandName from "../components/BrandName";
 
 // ─── Lista de ecuaciones LaTeX flotantes ──────────────────────────────────────
 const EQUATIONS = [
@@ -43,6 +44,30 @@ function FloatingEquation({ tex, style }) {
 
   return <span ref={ref} className="float-eq" style={style} />;
 }
+
+// ─── Ícono matemático con KaTeX ───────────────────────────────────────────────
+function MathIcon({ tex, color }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    if (!ref.current || !window.katex) return;
+    const id = setTimeout(() => {
+      if (!ref.current) return;
+      window.katex.render(tex, ref.current, {
+        throwOnError: false,
+        displayMode: true,
+      });
+    }, 0);
+    return () => clearTimeout(id);
+  }, [tex]);
+  return (
+    <span
+      ref={ref}
+      style={{ color, fontSize: "2.4rem", lineHeight: 1, display: "block" }}
+    />
+  );
+}
+
+
 
 export default function Home() {
   const [symbols, setSymbols] = useState([]);
@@ -243,7 +268,7 @@ export default function Home() {
           background: var(--surface); border: 1px solid var(--border); border-radius: 4px;
           color: var(--text); font-family: 'DM Sans', sans-serif;
           font-size: 1rem; font-weight: 500; letter-spacing: 0.05em;
-          cursor: pointer; text-decoration: none; overflow: hidden; min-width: 180px;
+          cursor: pointer; text-decoration: none; overflow: visible; min-width: 180px;
           transition: border-color 0.3s, box-shadow 0.3s, transform 0.2s;
         }
         .btn::before {
@@ -291,9 +316,7 @@ export default function Home() {
             <div className="logo-circle">
               <img src={`${import.meta.env.BASE_URL}assets/logoX.png`} alt="Logo Factorizando" />
             </div>
-            <div className="logo-banner">
-              <img src={`${import.meta.env.BASE_URL}assets/ImWAPerfil.png`} alt="Factorizando" />
-            </div>
+            <BrandName size="3rem" />
             <p className="tagline">Plataforma de evaluación académica</p>
           </div>
 
@@ -303,12 +326,12 @@ export default function Home() {
 
           <div className="btn-group">
             <Link to="/preparatoria" className="btn">
-              <span className="btn-icon">📐</span>
+              <span className="btn-icon" style={{ fontSize: "2.8rem", color: "#3b9eff", fontFamily: "Georgia, serif", lineHeight: 1 }}>Σ</span>
               <span className="btn-label">Preparatoria</span>
               <span className="btn-sub">Nivel medio superior</span>
             </Link>
             <Link to="/universidad" className="btn">
-              <span className="btn-icon">🎓</span>
+              <span className="btn-icon" style={{ fontSize: "2.8rem", color: "#f59e0b", fontFamily: "KaTeX_Math, serif", lineHeight: 1 }}>∫</span>
               <span className="btn-label">Universidad</span>
               <span className="btn-sub">Nivel superior</span>
             </Link>

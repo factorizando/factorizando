@@ -1,8 +1,5 @@
 // src/components/SubjectPage.jsx
-// ─────────────────────────────────────────────────────────────────────────────
-// Componente reutilizable para Preparatoria y Universidad.
-// Recibe "level" ('preparatoria' | 'universidad') y "subjects" (array de datos).
-// ─────────────────────────────────────────────────────────────────────────────
+// Estructura: Materia → Tema (acordeón) → Subtema (indentado) → Recursos
 
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -11,11 +8,11 @@ import { supabase } from "../lib/supabase";
 // ── Resource pill ─────────────────────────────────────────────────────────────
 function ResourcePill({ type, href, label }) {
   const styles = {
-    quiz:  { bg: "#3b9eff", color: "#fff", border: "none", shadow: "0 2px 12px rgba(59,158,255,.3)" },
-    video: { bg: "#1a2535", color: "#60a5fa", border: "1px solid rgba(96,165,250,.25)", shadow: "none" },
-    pdf:   { bg: "#1e1a2e", color: "#c084fc", border: "1px solid rgba(192,132,252,.25)", shadow: "none" },
+    quiz:   { bg: "#3b9eff", color: "#fff", border: "none", shadow: "0 2px 12px rgba(59,158,255,.3)" },
+    video:  { bg: "#1a2535", color: "#60a5fa", border: "1px solid rgba(96,165,250,.25)", shadow: "none" },
+    teoria: { bg: "#1e1a2e", color: "#c084fc", border: "1px solid rgba(192,132,252,.25)", shadow: "none" },
   };
-  const icons = { quiz: "⚡", video: "▶", pdf: "📄" };
+  const icons = { quiz: "⚡", video: "▶", teoria: "📄" };
   const s = styles[type];
 
   const pillStyle = {
@@ -63,6 +60,101 @@ function ResourcePill({ type, href, label }) {
   );
 }
 
+// ── Subtopic row ──────────────────────────────────────────────────────────────
+function SubtopicRow({ subtopic, isLast }) {
+  return (
+    <div style={{
+      padding: "1rem 1.4rem 1rem 3.2rem",
+      borderBottom: isLast ? "none" : "1px solid #252830",
+    }}>
+      {/* Subtopic name */}
+      <div style={{
+        display: "flex", alignItems: "center", gap: ".6rem",
+        fontSize: ".88rem", fontWeight: 500, color: "#c8cad4",
+        marginBottom: ".7rem",
+      }}>
+        <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#3d4452", flexShrink: 0 }} />
+        {subtopic.name}
+      </div>
+
+      {/* Resources */}
+      <div style={{ display: "flex", gap: ".6rem", flexWrap: "wrap", alignItems: "center", paddingLeft: ".6rem" }}>
+        {subtopic.quiz   && <ResourcePill type="quiz"   href={subtopic.quiz}   label="Cuestionario" />}
+        {subtopic.video  && <ResourcePill type="video"  href={subtopic.video}  label="Video" />}
+        {subtopic.teoria && <ResourcePill type="teoria" href={subtopic.teoria} label="Teoría" />}
+        {!subtopic.quiz && !subtopic.video && !subtopic.teoria && (
+          <span style={{
+            fontSize: ".72rem", color: "#5a6070",
+            letterSpacing: ".1em", textTransform: "uppercase", fontStyle: "italic",
+          }}>
+            Recursos próximamente
+          </span>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ── Theme row (with subtopics) ────────────────────────────────────────────────
+function ThemeRow({ theme, isLast }) {
+  const [open, setOpen] = useState(false);
+  const subtopicCount = theme.subtopics?.length ?? 0;
+
+  return (
+    <div style={{ borderBottom: isLast ? "none" : "1px solid #252830" }}>
+      {/* Theme header */}
+      <div
+        onClick={() => setOpen(!open)}
+        style={{
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          padding: "1rem 1.4rem 1rem 2.4rem", cursor: "pointer",
+          background: open ? "#16181f" : "transparent",
+          transition: "background .2s", userSelect: "none",
+        }}
+        onMouseEnter={e => { if (!open) e.currentTarget.style.background = "#16181f"; }}
+        onMouseLeave={e => { if (!open) e.currentTarget.style.background = "transparent"; }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: ".7rem" }}>
+          <span style={{ width: 4, height: 4, borderRadius: "50%", background: "#3d4452", flexShrink: 0 }} />
+          <span style={{ fontSize: ".9rem", fontWeight: 500, color: "#e8eaf0" }}>
+            {theme.name}
+          </span>
+          <span style={{
+            fontSize: ".68rem", color: "#5a6070",
+            background: "#1e2230", border: "1px solid #2e3340",
+            borderRadius: "20px", padding: ".15rem .6rem",
+          }}>
+            {subtopicCount} {subtopicCount === 1 ? "subtema" : "subtemas"}
+          </span>
+        </div>
+        <span style={{
+          color: "#5a6070", fontSize: ".8rem",
+          transition: "transform .3s",
+          transform: open ? "rotate(180deg)" : "rotate(0deg)",
+          display: "inline-block",
+        }}>▾</span>
+      </div>
+
+      {/* Subtopics */}
+      <div style={{
+        maxHeight: open ? "2000px" : "0",
+        overflow: "hidden",
+        transition: "max-height .4s ease",
+        background: "#0f1114",
+        borderTop: open ? "1px solid #1e2230" : "none",
+      }}>
+        {theme.subtopics?.map((sub, i) => (
+          <SubtopicRow
+            key={sub.id}
+            subtopic={sub}
+            isLast={i === theme.subtopics.length - 1}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ── Subject block (accordion) ─────────────────────────────────────────────────
 function SubjectBlock({ subject }) {
   const [open, setOpen] = useState(false);
@@ -73,7 +165,7 @@ function SubjectBlock({ subject }) {
       borderRadius: "6px", overflow: "hidden",
       border: "1px solid #252830",
     }}>
-      {/* Header */}
+      {/* Subject header */}
       <div
         onClick={() => setOpen(!open)}
         style={{
@@ -111,43 +203,16 @@ function SubjectBlock({ subject }) {
       <div style={{
         background: "#13151a",
         borderTop: open ? "1px solid #252830" : "none",
-        maxHeight: open ? "2000px" : "0",
+        maxHeight: open ? "4000px" : "0",
         overflow: "hidden",
-        transition: "max-height .4s ease",
+        transition: "max-height .5s ease",
       }}>
         {subject.themes.map((theme, i) => (
-          <div
+          <ThemeRow
             key={theme.id}
-            style={{
-              padding: "1.1rem 1.4rem 1.1rem 2.4rem",
-              borderBottom: i < subject.themes.length - 1 ? "1px solid #252830" : "none",
-            }}
-          >
-            {/* Theme title */}
-            <div style={{
-              display: "flex", alignItems: "center", gap: ".6rem",
-              fontSize: ".92rem", fontWeight: 500, color: "#e8eaf0",
-              marginBottom: ".8rem",
-            }}>
-              <span style={{ width: 4, height: 4, borderRadius: "50%", background: "#3d4452", flexShrink: 0 }} />
-              {theme.name}
-            </div>
-
-            {/* Resources */}
-            <div style={{ display: "flex", gap: ".6rem", flexWrap: "wrap", alignItems: "center" }}>
-              {theme.quiz  && <ResourcePill type="quiz"  href={theme.quiz}  label="Cuestionario" />}
-              {theme.video && <ResourcePill type="video" href={theme.video} label="Video" />}
-              {theme.pdf   && <ResourcePill type="pdf"   href={theme.pdf}   label="Resumen PDF" />}
-              {!theme.quiz && !theme.video && !theme.pdf && (
-                <span style={{
-                  fontSize: ".72rem", color: "#5a6070",
-                  letterSpacing: ".1em", textTransform: "uppercase", fontStyle: "italic",
-                }}>
-                  Recursos próximamente
-                </span>
-              )}
-            </div>
-          </div>
+            theme={theme}
+            isLast={i === subject.themes.length - 1}
+          />
         ))}
       </div>
     </div>
@@ -180,7 +245,6 @@ export default function SubjectPage({ level, subjects }) {
           color: #e8eaf0; font-family: 'DM Sans', sans-serif;
         }
         a { text-decoration: none; }
-
         .filter-btn {
           padding: .4rem 1rem; background: #1a1d24;
           border: 1px solid #252830; border-radius: 20px;
@@ -188,12 +252,10 @@ export default function SubjectPage({ level, subjects }) {
           cursor: pointer; transition: all .2s;
           font-family: 'DM Sans', sans-serif;
         }
-        .filter-btn.active,
-        .filter-btn:hover {
+        .filter-btn.active, .filter-btn:hover {
           background: rgba(59,158,255,.12);
           border-color: #3b9eff; color: #e8eaf0;
         }
-        .subject-block:hover > .subject-header { background: #1a1d24; }
         @media(max-width:600px){
           .page-title { font-size: 1.8rem !important; }
           .content-wrap { padding: 1rem !important; }
@@ -216,8 +278,8 @@ export default function SubjectPage({ level, subjects }) {
             <img src={`${import.meta.env.BASE_URL}assets/logoX.png`} alt="Logo" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
           </div>
           <span style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.1rem", color: "#e8eaf0" }}>
-  FACTO<span style={{ color: "#3b9eff" }}>ℝ[i]</span>ZANDO
-</span>
+            FACTO<span style={{ color: "#3b9eff" }}>ℝ[i]</span>ZANDO
+          </span>
         </Link>
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
           <span style={{
@@ -249,24 +311,25 @@ export default function SubjectPage({ level, subjects }) {
         borderBottom: "1px solid #252830",
         background: "linear-gradient(to bottom, rgba(59,158,255,.04), transparent)",
       }}>
-        <div style={{ maxWidth: 960, width: "100%", margin: "0 auto" }}></div>
-        <div style={{
-          fontSize: ".7rem", letterSpacing: ".25em", textTransform: "uppercase",
-          color: "#5a6070", marginBottom: ".6rem",
-          display: "flex", alignItems: "center", gap: ".5rem",
-        }}>
-          <span style={{ width: 20, height: 1, background: "#5a6070", display: "inline-block" }} />
-          Materiales de estudio
+        <div style={{ maxWidth: 960, width: "100%", margin: "0 auto" }}>
+          <div style={{
+            fontSize: ".7rem", letterSpacing: ".25em", textTransform: "uppercase",
+            color: "#5a6070", marginBottom: ".6rem",
+            display: "flex", alignItems: "center", gap: ".5rem",
+          }}>
+            <span style={{ width: 20, height: 1, background: "#5a6070", display: "inline-block" }} />
+            Materiales de estudio
+          </div>
+          <h1 className="page-title" style={{
+            fontFamily: "'Playfair Display', serif", fontSize: "2.4rem",
+            fontWeight: 700, color: "#e8eaf0", marginBottom: ".5rem",
+          }}>
+            {levelLabel}
+          </h1>
+          <p style={{ fontSize: ".9rem", color: "#5a6070", maxWidth: 480, lineHeight: 1.6 }}>
+            Selecciona una materia, elige el tema y accede a cuestionarios interactivos, videos y teoría.
+          </p>
         </div>
-        <h1 className="page-title" style={{
-          fontFamily: "'Playfair Display', serif", fontSize: "2.4rem",
-          fontWeight: 700, color: "#e8eaf0", marginBottom: ".5rem",
-        }}>
-          {levelLabel}
-        </h1>
-        <p style={{ fontSize: ".9rem", color: "#5a6070", maxWidth: 480, lineHeight: 1.6 }}>
-          Selecciona una materia, elige el tema y accede a cuestionarios interactivos, videos y resúmenes en PDF.
-        </p>
       </div>
 
       {/* ── Filter bar ── */}
@@ -296,7 +359,7 @@ export default function SubjectPage({ level, subjects }) {
       {/* ── Subjects ── */}
       <div
         className="content-wrap"
-        style={{ padding: "2rem", maxWidth: 960, width:"100%", margin: "0 auto", display: "flex", flexDirection: "column", gap: "1.5rem" }}
+        style={{ padding: "2rem", maxWidth: 960, width: "100%", margin: "0 auto", display: "flex", flexDirection: "column", gap: "1.5rem" }}
       >
         {filtered.map(subject => (
           <SubjectBlock key={subject.id} subject={subject} />

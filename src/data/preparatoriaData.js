@@ -1,20 +1,12 @@
 // src/data/preparatoriaData.js
 // ─────────────────────────────────────────────────────────────────────────────
-// Estructura de materias, temas y recursos para Preparatoria.
+// Estructura: Materia → Tema → Subtema → Recursos
 //
-// CÓMO AGREGAR UN CUESTIONARIO:
-//   1. Crea tu cuestionario en src/pages/cuestionarios/NombreCuestionario.jsx
-//   2. Agrega la ruta en App.jsx (ver comentario en ese archivo)
-//   3. Aquí en "quiz", pon la ruta exacta que usaste en App.jsx
-//      Ejemplo: quiz: "/cuestionario/numeros-enteros"
-//
-// CÓMO AGREGAR UN VIDEO:
-//   Pon la URL completa de YouTube en el campo "video"
-//   Ejemplo: video: "https://www.youtube.com/watch?v=XXXXXXX"
-//
-// CÓMO AGREGAR UN PDF:
-//   Sube el PDF a la carpeta public/pdfs/ y referencia así:
-//   Ejemplo: pdf: "/pdfs/numeros-enteros.pdf"
+// CÓMO AGREGAR RECURSOS:
+//   quiz:   "/cuestionario/nombre"   (ruta interna, definida en App.jsx)
+//   video:  "https://youtube.com/..."
+//   teoria: `${import.meta.env.BASE_URL}guias/mi-guia.html`
+//   teoria: `${import.meta.env.BASE_URL}pdfs/mi-archivo.pdf`
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const SUBJECTS_PREP = [
@@ -26,45 +18,37 @@ export const SUBJECTS_PREP = [
       {
         id: "ent",
         name: "Números Enteros",
-        quiz:  "/cuestionario/divisibilidad",   // ruta interna
-        video: "https://www.youtube.com/watch?v=XXXXXXX",
-        pdf:   "/factorizando/guias/teoriadivisibilidad.html",
+        subtopics: [
+          {
+            id: "suma-prod",
+            name: "Suma y Producto",
+            quiz:   null,
+            video:  null,
+            teoria: null,
+          },
+          {
+            id: "exponentes",
+            name: "Leyes de los Exponentes",
+            quiz:   null,
+            video:  null,
+            teoria: null,
+          },
+          {
+            id: "div",
+            name: "Divisibilidad",
+            quiz:   "/cuestionario/divisibilidad",
+            video:  null,
+            teoria: `${import.meta.env.BASE_URL}guias/teoriadivisibilidad.html`,
+          },
+          // {
+          //   id: "primos",
+          //   name: "Números Primos",
+          //   quiz:   "/cuestionario/primos",
+          //   video:  "https://www.youtube.com/watch?v=XXXXXXX",
+          //   teoria: null,
+          // },
+        ],
       },
-      // {
-      //   id: "exp",
-      //   name: "Leyes de los Exponentes",
-      //   quiz:  "/cuestionario/exponentes",
-      //   video: "https://www.youtube.com/watch?v=XXXXXXX",
-      //   pdf:   "/pdfs/exponentes.pdf",
-      // },
-      // {
-      //   id: "frac",
-      //   name: "Fracciones y Decimales",
-      //   quiz:  "/cuestionario/fracciones",
-      //   video: null,   // aún no disponible
-      //   pdf:   null,
-      // },
-      // {
-      //   id: "alg",
-      //   name: "Álgebra Básica",
-      //   quiz:  null,
-      //   video: null,
-      //   pdf:   null,
-      // },
-      // {
-      //   id: "ec1",
-      //   name: "Ecuaciones de Primer Grado",
-      //   quiz:  "/cuestionario/ecuaciones-1",
-      //   video: "https://www.youtube.com/watch?v=XXXXXXX",
-      //   pdf:   null,
-      // },
-      // {
-      //   id: "geo",
-      //   name: "Geometría Analítica",
-      //   quiz:  "/cuestionario/geometria",
-      //   video: "https://www.youtube.com/watch?v=XXXXXXX",
-      //   pdf:   "/pdfs/geometria.pdf",
-      // },
     ],
   },
   {
@@ -75,23 +59,23 @@ export const SUBJECTS_PREP = [
       {
         id: "texto",
         name: "Tipos de Texto",
-        quiz:  "/cuestionario/tipos-texto",
-        video: null,
-        pdf:   "/pdfs/tipos-texto.pdf",
+        subtopics: [
+          { id: "texto-exp", name: "Texto Expositivo", quiz: "/cuestionario/tipos-texto", video: null, teoria: null },
+        ],
       },
       {
         id: "sint",
         name: "Sintaxis y Morfología",
-        quiz:  "/cuestionario/sintaxis",
-        video: null,
-        pdf:   null,
+        subtopics: [
+          { id: "sint-bas", name: "Análisis Sintáctico", quiz: "/cuestionario/sintaxis", video: null, teoria: null },
+        ],
       },
       {
         id: "lit",
         name: "Literatura Mexicana",
-        quiz:  null,
-        video: null,
-        pdf:   null,
+        subtopics: [
+          { id: "lit-bas", name: "Géneros Literarios", quiz: null, video: null, teoria: null },
+        ],
       },
     ],
   },
@@ -103,16 +87,16 @@ export const SUBJECTS_PREP = [
       {
         id: "mru",
         name: "Movimiento Rectilíneo Uniforme",
-        quiz:  "/cuestionario/mru",
-        video: "https://www.youtube.com/watch?v=XXXXXXX",
-        pdf:   null,
+        subtopics: [
+          { id: "mru-bas", name: "Conceptos Básicos de MRU", quiz: "/cuestionario/mru", video: "https://www.youtube.com/watch?v=XXXXXXX", teoria: null },
+        ],
       },
       {
         id: "newton",
         name: "Leyes de Newton",
-        quiz:  "/cuestionario/newton",
-        video: "https://www.youtube.com/watch?v=XXXXXXX",
-        pdf:   "/pdfs/newton.pdf",
+        subtopics: [
+          { id: "newton-bas", name: "Las Tres Leyes", quiz: "/cuestionario/newton", video: "https://www.youtube.com/watch?v=XXXXXXX", teoria: null },
+        ],
       },
     ],
   },
@@ -124,16 +108,16 @@ export const SUBJECTS_PREP = [
       {
         id: "cel",
         name: "La Célula",
-        quiz:  "/cuestionario/celula",
-        video: "https://www.youtube.com/watch?v=XXXXXXX",
-        pdf:   null,
+        subtopics: [
+          { id: "cel-bas", name: "Estructura Celular", quiz: "/cuestionario/celula", video: "https://www.youtube.com/watch?v=XXXXXXX", teoria: null },
+        ],
       },
       {
         id: "gen",
         name: "Genética y Herencia",
-        quiz:  null,
-        video: null,
-        pdf:   null,
+        subtopics: [
+          { id: "gen-bas", name: "Leyes de Mendel", quiz: null, video: null, teoria: null },
+        ],
       },
     ],
   },
@@ -145,9 +129,9 @@ export const SUBJECTS_PREP = [
       {
         id: "tabla",
         name: "Tabla Periódica",
-        quiz:  "/cuestionario/tabla-periodica",
-        video: null,
-        pdf:   "/pdfs/tabla-periodica.pdf",
+        subtopics: [
+          { id: "tabla-bas", name: "Organización y Grupos", quiz: "/cuestionario/tabla-periodica", video: null, teoria: null },
+        ],
       },
     ],
   },
@@ -159,9 +143,9 @@ export const SUBJECTS_PREP = [
       {
         id: "ind",
         name: "México Independiente",
-        quiz:  "/cuestionario/independencia",
-        video: null,
-        pdf:   null,
+        subtopics: [
+          { id: "ind-bas", name: "Causas de la Independencia", quiz: "/cuestionario/independencia", video: null, teoria: null },
+        ],
       },
     ],
   },

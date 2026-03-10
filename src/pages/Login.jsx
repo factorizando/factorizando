@@ -1,12 +1,33 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import { supabase } from "../lib/supabase";
+import BrandName from "../components/BrandName";
 
 // ─── Floating equations for the art panel ──────────────────────────────────
 const EQUATIONS = [
-  "x²+y²=z²", "eⁱᵖ+1=0", "∫f(x)dx", "∑aₙ",
-  "lim→0", "√-1=i", "ax²+bx+c", "∂f/∂x",
+  { tex: "e^{i\\pi} + 1 = 0",                                          scale: 0.9 },
+  { tex: "\\int_a^b f(x)\\,dx = F(b)-F(a)",                            scale: 0.7 },
+  { tex: "a^2 + b^2 = c^2",                                            scale: 0.8 },
+  { tex: "\\sum_{n=1}^\\infty \\frac{1}{n^2} = \\frac{\\pi^2}{6}",    scale: 0.6 },
+  { tex: "\\nabla \\times \\mathbf{B} = \\mu_0 \\mathbf{J}",          scale: 0.6 },
+  { tex: "\\frac{d}{dx}e^x = e^x",                                     scale: 0.7 },
+  { tex: "x^n + y^n = z^n",                                            scale: 0.7 },
+  { tex: "\\mathbb{Z}_6 \\cong \\mathbb{Z}_2 \\times \\mathbb{Z}_3",  scale: 0.6 },
 ];
+
+function FloatingEq({ tex, style }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    if (!ref.current || !window.katex) return;
+    try {
+      window.katex.render(tex, ref.current, { throwOnError: false, displayMode: false });
+      ref.current.querySelectorAll("*").forEach(el => el.style.color = "inherit");
+    } catch (e) {
+      ref.current.textContent = tex;
+    }
+  }, [tex]);
+  return <span ref={ref} className="floating-eq" style={style} />;
+}
 
 export default function Login() {
   const navigate = useNavigate();
@@ -19,20 +40,53 @@ export default function Login() {
   const [loading, setLoading]   = useState(false);
   const [error, setError]       = useState("");
   const [eqs, setEqs]           = useState([]);
+  const [katexReady, setKatexReady] = useState(!!window.katex);
 
-  // Generate floating equations on mount
+  // Cargar KaTeX
   useEffect(() => {
-    const generated = EQUATIONS.map((eq, i) => ({
-      id: i,
-      text: eq,
-      style: {
-        left: `${5 + Math.random() * 85}%`,
-        top:  `${5 + Math.random() * 85}%`,
-        fontSize: `${0.75 + Math.random() * 0.7}rem`,
-        animationDelay: `${i * 1.1}s`,
-        animationDuration: `${7 + Math.random() * 5}s`,
-      },
-    }));
+    if (window.katex) { setKatexReady(true); return; }
+    if (!document.getElementById("katex-css")) {
+      const link = document.createElement("link");
+      link.id = "katex-css"; link.rel = "stylesheet";
+      link.href = "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css";
+      document.head.appendChild(link);
+    }
+    if (!document.getElementById("katex-js")) {
+      const script = document.createElement("script");
+      script.id = "katex-js";
+      script.src = "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js";
+      script.async = true;
+      script.onload = () => setKatexReady(true);
+      document.head.appendChild(script);
+    }
+  }, []);
+
+  // Generar posiciones en cuadrícula para evitar solapamientos
+  useEffect(() => {
+    const cols = 2, rows = 4;
+    const cells = [];
+    for (let r = 0; r < rows; r++)
+      for (let c = 0; c < cols; c++)
+        cells.push({ r, c });
+    for (let i = cells.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [cells[i], cells[j]] = [cells[j], cells[i]];
+    }
+    const generated = EQUATIONS.map((eq, i) => {
+      const cell = cells[i % cells.length];
+      const cellW = 100 / cols, cellH = 100 / rows;
+      return {
+        id: i, tex: eq.tex,
+        style: {
+          left: `${cell.c * cellW + Math.random() * (cellW * 0.4)}%`,
+          top:  `${cell.r * cellH + Math.random() * (cellH * 0.5)}%`,
+          fontSize: `${eq.scale}rem`,
+          opacity: 0.08 + Math.random() * 0.08,
+          animationDelay: `${i * 0.9}s`,
+          animationDuration: `${7 + Math.random() * 5}s`,
+        },
+      };
+    });
     setEqs(generated);
   }, []);
 
@@ -133,14 +187,16 @@ export default function Login() {
           max-width: 220px;
         }
         .floating-eq {
-          position: absolute; font-family: 'Playfair Display', serif;
-          color: rgba(59,158,255,.18); pointer-events: none;
+          position: absolute;
+          color: rgba(59,158,255,.5);
+          pointer-events: none; white-space: nowrap;
           animation: float-eq linear infinite;
         }
+        .floating-eq .katex { color: inherit !important; font-size: 1em !important; }
         @keyframes float-eq {
-          0%   { transform: translateY(0) rotate(0deg);   opacity: .06; }
-          50%  { transform: translateY(-30px) rotate(4deg); opacity: .14; }
-          100% { transform: translateY(0) rotate(0deg);   opacity: .06; }
+          0%   { transform: translateY(0) rotate(0deg);     }
+          50%  { transform: translateY(-20px) rotate(3deg); }
+          100% { transform: translateY(0) rotate(0deg);     }
         }
 
         /* ── Login panel ── */
@@ -270,14 +326,14 @@ export default function Login() {
         {/* ── Left: Art panel ── */}
         <div className="side-art">
           <div className="art-glow" />
-          {eqs.map((eq) => (
-            <span key={eq.id} className="floating-eq" style={eq.style}>{eq.text}</span>
+          {katexReady && eqs.map((eq) => (
+            <FloatingEq key={eq.id} tex={eq.tex} style={eq.style} />
           ))}
           <div className="art-content">
             <div className="art-logo">
               <img src={`${import.meta.env.BASE_URL}assets/logoX.png`} alt="Logo Factorizando" />
             </div>
-            <div className="art-brand">FACTO<span>ℝ[i]</span>ZANDO</div>
+            <BrandName size="2rem" />
             <p className="art-quote">Donde las matemáticas<br />cobran forma</p>
           </div>
         </div>

@@ -11,6 +11,7 @@ import Preparatoria  from "./pages/Preparatoria";
 import Universidad   from "./pages/Universidad";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Divisibilidad from "./pages/cuestionarios/Divisibilidad";
+import SumaEnteros from "./pages/cuestionarios/SumaEnteros";
 
 // Cuestionarios — los irás agregando aquí conforme los crees
 // import Cuestionario1 from "./pages/cuestionarios/Cuestionario1";
@@ -33,6 +34,10 @@ export default function App() {
         <Route path="/cuestionario/divisibilidad" element={
           <ProtectedRoute><Divisibilidad /></ProtectedRoute>
         } />
+        <Route path="/cuestionario/suma-enteros" element={
+          <ProtectedRoute><SumaEnteros /></ProtectedRoute>
+        } />
+
 
         {/* ── Cuestionarios ──────────────────────────────────────────────────
          *  Para agregar un cuestionario nuevo:

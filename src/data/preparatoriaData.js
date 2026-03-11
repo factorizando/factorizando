@@ -20,9 +20,9 @@ export const SUBJECTS_PREP = [
         name: "Números Enteros",
         subtopics: [
           {
-            id: "suma-prod",
-            name: "Suma y Producto",
-            quiz:   null,
+            id: "suma-ent",
+            name: "Suma de Números Enteros",
+            quiz:   "/cuestionario/suma-enteros",
             video:  null,
             teoria: null,
           },

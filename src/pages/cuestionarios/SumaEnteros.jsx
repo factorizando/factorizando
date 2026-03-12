@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // ─── PALETA FACTORIZANDO ───────────────────────────────────────────────────
 const C = {
@@ -376,26 +376,106 @@ function ScoreBadge({ score, total }) {
 }
 
 // ─── APP ──────────────────────────────────────────────────────────────────
+// shuffle helper
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function fmt(s) {
+  const h = Math.floor(s / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  const sec = s % 60;
+  return h > 0
+    ? `${h}:${String(m).padStart(2,"0")}:${String(sec).padStart(2,"0")}`
+    : `${String(m).padStart(2,"0")}:${String(sec).padStart(2,"0")}`;
+}
+
 export default function SumaEnteros() {
-  const [answers, setAnswers]     = useState({});
-  const [submitted, setSubmitted] = useState(false);
-  const [section, setSection]     = useState(0);
-  const [filter, setFilter]       = useState("all");
+  // mode: "menu" | "exam" | "results"
+  const [mode, setMode]         = useState("menu");
+  const [examMode, setExamMode] = useState(null);   // "block-N" | "all" | "random"
+  const [queue, setQueue]       = useState([]);      // ordered list of questions for exam
+  const [current, setCurrent]   = useState(0);
+  const [answers, setAnswers]   = useState({});
+  const [confirmed, setConfirmed] = useState(false);
+  const [selected, setSelected]   = useState(null);
+  const [timeLeft, setTimeLeft]   = useState(120 * 60);
+  const [timerOn, setTimerOn]     = useState(false);
+  const [filter, setFilter]       = useState("all"); // results filter
 
+  // Timer
+  useEffect(() => {
+    if (!timerOn || timeLeft <= 0) return;
+    const t = setInterval(() => setTimeLeft(p => p - 1), 1000);
+    return () => clearInterval(t);
+  }, [timerOn, timeLeft]);
+
+  useEffect(() => {
+    if (timeLeft <= 0 && timerOn) { setTimerOn(false); setMode("results"); }
+  }, [timeLeft, timerOn]);
+
+  const startExam = (modeKey) => {
+    let qs;
+    if (modeKey === "all")    qs = questions;
+    else if (modeKey === "random") qs = shuffle(questions);
+    else {
+      const idx = parseInt(modeKey.replace("block-", ""), 10);
+      qs = questions.filter(q => q.id >= LEVELS[idx].range[0] && q.id <= LEVELS[idx].range[1]);
+    }
+    setQueue(qs);
+    setAnswers({});
+    setCurrent(0);
+    setSelected(null);
+    setConfirmed(false);
+    const mins = (modeKey === "all" || modeKey === "random") ? 120 : qs.length;
+    setTimeLeft(mins * 60);
+    setTimerOn(true);
+    setExamMode(modeKey);
+    setMode("exam");
+  };
+
+  const confirmAnswer = () => {
+    if (!selected) return;
+    setAnswers(p => ({ ...p, [queue[current].id]: selected }));
+    setConfirmed(true);
+  };
+
+  const goNext = () => {
+    if (current < queue.length - 1) {
+      const nextId = queue[current + 1].id;
+      setCurrent(c => c + 1);
+      setSelected(answers[nextId] || null);
+      setConfirmed(!!answers[nextId]);
+    } else {
+      setTimerOn(false);
+      setMode("results");
+    }
+  };
+
+  const goPrev = () => {
+    if (current > 0) {
+      const prevId = queue[current - 1].id;
+      setCurrent(c => c - 1);
+      setSelected(answers[prevId] || null);
+      setConfirmed(!!answers[prevId]);
+    }
+  };
+
+  const score = Object.entries(answers).reduce((acc, [id, ans]) => {
+    const q = questions.find(q => q.id === Number(id));
+    return acc + (q?.ans === ans ? 1 : 0);
+  }, 0);
+
+  const timerWarning = timeLeft < 600;
   const answered = Object.keys(answers).length;
-  const total    = questions.length; // 250
-  const score    = submitted ? questions.filter(q=>answers[q.id]===q.ans).length : 0;
 
-  const sectionQs = questions.filter(q =>
-    q.id >= LEVELS[section].range[0] && q.id <= LEVELS[section].range[1]
-  );
-  const displayQs = submitted
-    ? (filter==="wrong"   ? questions.filter(q=>answers[q.id]!==q.ans)
-      :filter==="correct" ? questions.filter(q=>answers[q.id]===q.ans)
-      : questions)
-    : sectionQs;
-
-  return (
+  // ── MENU ────────────────────────────────────────────────────────────────
+  if (mode === "menu") return (
     <div style={{ minHeight:"100vh", background:C.bg, paddingBottom:64 }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
@@ -404,10 +484,9 @@ export default function SumaEnteros() {
         ::-webkit-scrollbar-thumb{background:${C.border};border-radius:99px}
       `}</style>
 
-      {/* ENCABEZADO */}
+      {/* Header */}
       <div style={{
-        background:C.surface,
-        borderBottom:`1px solid ${C.border}`,
+        background:C.surface, borderBottom:`1px solid ${C.border}`,
         padding:"44px 24px 32px", textAlign:"center",
         position:"relative", overflow:"hidden"
       }}>
@@ -423,26 +502,18 @@ export default function SumaEnteros() {
             fontWeight:700, letterSpacing:2, textTransform:"uppercase",
             marginBottom:14, fontFamily:"'DM Sans',sans-serif"
           }}>FactoRizando · Preparatoria</span>
-
           <h1 style={{
             fontSize:"clamp(24px,4vw,42px)", fontWeight:700, color:C.text,
             letterSpacing:"-1px", lineHeight:1.1, marginBottom:10,
             fontFamily:"'DM Sans',sans-serif"
           }}>
-            Suma de{" "}
-            <span style={{ color:C.gold }}>Números Enteros</span>
+            Suma de <span style={{ color:C.gold }}>Números Enteros</span>
           </h1>
-
           <p style={{ color:C.muted, fontSize:14, maxWidth:460, margin:"0 auto 22px", fontFamily:"'DM Sans',sans-serif" }}>
-            250 reactivos · 10 bloques de dificultad progresiva
+            250 reactivos · 10 bloques · 120 minutos
           </p>
-
           <div style={{ display:"flex", justifyContent:"center", gap:36, flexWrap:"wrap", fontFamily:"'DM Sans',sans-serif" }}>
-            {[
-              { label:"Reactivos",    val:total },
-              { label:"Bloques",      val:"10" },
-              { label:"Respondidas",  val:`${answered}/${total}` },
-            ].map(s=>(
+            {[{ label:"Reactivos", val:250 },{ label:"Bloques", val:"10" },{ label:"Tiempo", val:"2 h" }].map(s => (
               <div key={s.label} style={{ textAlign:"center" }}>
                 <div style={{ fontSize:22, fontWeight:900, color:C.text, letterSpacing:"-1px" }}>{s.val}</div>
                 <div style={{ fontSize:10, color:C.muted, fontWeight:700, textTransform:"uppercase", letterSpacing:1.2 }}>{s.label}</div>
@@ -452,92 +523,280 @@ export default function SumaEnteros() {
         </div>
       </div>
 
-      <div style={{ maxWidth:760, margin:"0 auto", padding:"0 16px" }}>
-        {/* Barra de progreso */}
-        <div style={{ padding:"18px 0 4px" }}>
-          <ProgressBar answered={answered} total={total}/>
-          <div style={{ display:"flex", justifyContent:"space-between", fontSize:11, color:C.muted, fontFamily:"'DM Sans',sans-serif" }}>
-            <span>Progreso total</span>
-            <span>{Math.round((answered/total)*100)}%</span>
+      {/* Opciones de modo */}
+      <div style={{ maxWidth:760, margin:"0 auto", padding:"32px 16px" }}>
+        <p style={{ color:C.muted, fontSize:11, fontWeight:700, letterSpacing:2, textTransform:"uppercase", marginBottom:16, fontFamily:"'DM Sans',sans-serif" }}>
+          Selecciona el modo
+        </p>
+
+        {/* Todas / Aleatorio */}
+        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12, marginBottom:24 }}>
+          {[
+            { key:"all",    icon:"📋", label:"Todas",    sub:"250 preguntas en orden" },
+            { key:"random", icon:"🔀", label:"Aleatorio", sub:"250 preguntas mezcladas" },
+          ].map(({ key, icon, label, sub }) => (
+            <button key={key} onClick={() => startExam(key)} style={{
+              background:C.surface, border:`1px solid ${C.border}`,
+              borderRadius:14, padding:"22px 16px", cursor:"pointer",
+              textAlign:"center", transition:"all 0.2s", fontFamily:"'DM Sans',sans-serif",
+            }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = C.blue; e.currentTarget.style.background = C.blue+"11"; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.background = C.surface; }}
+            >
+              <div style={{ fontSize:28, marginBottom:8 }}>{icon}</div>
+              <div style={{ color:C.text, fontWeight:700, fontSize:15 }}>{label}</div>
+              <div style={{ color:C.muted, fontSize:12, marginTop:4 }}>{sub}</div>
+            </button>
+          ))}
+        </div>
+
+        {/* Bloques */}
+        <p style={{ color:C.muted, fontSize:11, fontWeight:700, letterSpacing:2, textTransform:"uppercase", marginBottom:12, fontFamily:"'DM Sans',sans-serif" }}>
+          O elige un bloque
+        </p>
+        <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(140px,1fr))", gap:10 }}>
+          {LEVELS.map((lv, i) => (
+            <button key={i} onClick={() => startExam(`block-${i}`)} style={{
+              background:C.surface, border:`1px solid ${lv.color}44`,
+              borderRadius:12, padding:"14px 12px", cursor:"pointer",
+              textAlign:"center", transition:"all 0.2s", fontFamily:"'DM Sans',sans-serif",
+            }}
+            onMouseEnter={e => { e.currentTarget.style.background = lv.color+"18"; e.currentTarget.style.borderColor = lv.color; }}
+            onMouseLeave={e => { e.currentTarget.style.background = C.surface; e.currentTarget.style.borderColor = lv.color+"44"; }}
+            >
+              <div style={{ color:lv.color, fontWeight:700, fontSize:13 }}>{lv.label}</div>
+              <div style={{ color:C.muted, fontSize:11, marginTop:3 }}>
+                {lv.range[1] - lv.range[0] + 1} preguntas
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
+  // ── RESULTS ──────────────────────────────────────────────────────────────
+  if (mode === "results") {
+    const total = queue.length;
+    const pct   = total > 0 ? Math.round((score / total) * 100) : 0;
+    const col   = pct >= 80 ? C.teal : pct >= 60 ? C.gold : C.crimson;
+    const msg   = pct >= 90 ? "¡Dominio sobresaliente!" : pct >= 70 ? "¡Buen trabajo!" : pct >= 50 ? "Sigue practicando" : "Necesitas repasar el tema";
+
+    const displayQs = filter === "correct" ? queue.filter(q => answers[q.id] === q.ans)
+                    : filter === "wrong"   ? queue.filter(q => answers[q.id] && answers[q.id] !== q.ans)
+                    : queue;
+
+    return (
+      <div style={{ minHeight:"100vh", background:C.bg, paddingBottom:64 }}>
+        <style>{`@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');*{box-sizing:border-box;margin:0;padding:0}`}</style>
+
+        <div style={{ maxWidth:760, margin:"0 auto", padding:"32px 16px" }}>
+          {/* Score badge */}
+          <div style={{
+            background:C.surface, border:`2px solid ${col}`,
+            borderRadius:18, padding:"30px 36px", textAlign:"center",
+            maxWidth:380, margin:"0 auto 32px", fontFamily:"'DM Sans',sans-serif"
+          }}>
+            <div style={{ fontSize:58, fontWeight:900, color:col, letterSpacing:"-3px", lineHeight:1 }}>{pct}%</div>
+            <div style={{ color:C.dim, fontSize:14, marginTop:8 }}>
+              <span style={{ color:C.text, fontWeight:700 }}>{score}</span> de {total} correctas
+            </div>
+            <div style={{ color:col, fontWeight:700, fontSize:15, marginTop:10 }}>{msg}</div>
+          </div>
+
+          {/* Filtros */}
+          <div style={{ display:"flex", gap:8, marginBottom:20, flexWrap:"wrap" }}>
+            {[["all","Todas"],["correct",`✓ Correctas (${score})`],["wrong",`✗ Incorrectas (${total - score})`]].map(([f, label]) => (
+              <button key={f} onClick={() => setFilter(f)} style={{
+                padding:"6px 14px", borderRadius:99, fontSize:12, fontWeight:700,
+                cursor:"pointer", border:"none", outline:"none",
+                background:filter === f ? C.blue : C.surface,
+                color:filter === f ? "#fff" : C.muted,
+                transition:"all 0.2s", fontFamily:"'DM Sans',sans-serif"
+              }}>{label}</button>
+            ))}
+          </div>
+
+          {/* Preguntas revisión */}
+          {displayQs.map(q => (
+            <QuestionCard key={q.id} q={q} selected={answers[q.id]} onSelect={()=>{}} showResult={true} />
+          ))}
+
+          <div style={{ display:"flex", gap:12, justifyContent:"center", marginTop:28, flexWrap:"wrap" }}>
+            <button onClick={() => setMode("menu")} style={{
+              background:C.surface, color:C.dim, border:`1px solid ${C.border}`,
+              borderRadius:12, padding:"12px 28px", fontSize:14, fontWeight:600,
+              fontFamily:"'DM Sans',sans-serif", cursor:"pointer"
+            }}>← Menú</button>
+            <button onClick={() => startExam(examMode)} style={{
+              background:`linear-gradient(135deg,${C.blue},${C.purple})`,
+              color:"#fff", border:"none", borderRadius:12, padding:"12px 28px",
+              fontSize:14, fontWeight:700, fontFamily:"'DM Sans',sans-serif", cursor:"pointer"
+            }}>↺ Repetir</button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ── EXAM ─────────────────────────────────────────────────────────────────
+  const q    = queue[current];
+  const lv   = getLvl(q.id);
+  const prog = ((current + 1) / queue.length) * 100;
+
+  return (
+    <div style={{ minHeight:"100vh", background:C.bg, paddingBottom:64 }}>
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');*{box-sizing:border-box;margin:0;padding:0}::-webkit-scrollbar{width:5px;background:${C.bg}}::-webkit-scrollbar-thumb{background:${C.border};border-radius:99px}`}</style>
+
+      <div style={{ maxWidth:760, margin:"0 auto", padding:"24px 16px" }}>
+
+        {/* Header del examen */}
+        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:16, flexWrap:"wrap", gap:8 }}>
+          <div style={{ fontFamily:"'DM Sans',sans-serif" }}>
+            <span style={{ color:C.muted, fontSize:13 }}>Pregunta </span>
+            <span style={{ color:C.text, fontWeight:700 }}>{current + 1}</span>
+            <span style={{ color:C.muted }}> / {queue.length}</span>
+            <span style={{ color:C.muted, fontSize:12, marginLeft:10 }}>({answered} respondidas)</span>
+          </div>
+          <div style={{ display:"flex", alignItems:"center", gap:10 }}>
+            <span style={{
+              fontSize:13, fontWeight:700,
+              color:timerWarning ? C.crimson : C.blue,
+              background:timerWarning ? C.crimson+"18" : C.blue+"18",
+              padding:"5px 12px", borderRadius:20,
+              border:`1px solid ${timerWarning ? C.crimson : C.blue}55`,
+              fontFamily:"'DM Sans',sans-serif"
+            }}>⏱ {fmt(timeLeft)}</span>
+            <button onClick={() => { setTimerOn(false); setMode("results"); }} style={{
+              padding:"5px 12px", background:C.crimson+"18", color:C.crimson,
+              border:`1px solid ${C.crimson}44`, borderRadius:20,
+              cursor:"pointer", fontSize:12, fontFamily:"'DM Sans',sans-serif"
+            }}>Terminar</button>
           </div>
         </div>
 
-        {/* Resultado */}
-        {submitted && <ScoreBadge score={score} total={total}/>}
+        {/* Barra de progreso */}
+        <div style={{ background:C.border, borderRadius:99, height:4, overflow:"hidden", marginBottom:20 }}>
+          <div style={{
+            height:"100%", width:`${prog}%`,
+            background:`linear-gradient(90deg,${C.blue},${C.purple})`,
+            transition:"width 0.3s", borderRadius:99
+          }}/>
+        </div>
 
-        {/* Navegación de bloques */}
-        <div style={{ display:"flex", gap:6, flexWrap:"wrap", marginBottom:20, paddingTop:submitted?0:12 }}>
-          {submitted ? (
-            ["all","correct","wrong"].map(f=>(
-              <button key={f} onClick={()=>setFilter(f)} style={{
-                padding:"6px 14px", borderRadius:99, fontSize:12, fontWeight:700,
-                cursor:"pointer", border:"none", outline:"none",
-                background:filter===f?C.blue:C.surface,
-                color:filter===f?"#fff":C.muted,
-                transition:"all 0.2s", fontFamily:"'DM Sans',sans-serif"
+        {/* Badge de nivel */}
+        <div style={{ marginBottom:12 }}>
+          <span style={{
+            background:lv.color+"1a", color:lv.color, borderRadius:6,
+            padding:"2px 10px", fontSize:10, fontWeight:700,
+            letterSpacing:1.5, textTransform:"uppercase", fontFamily:"'DM Sans',sans-serif"
+          }}>{lv.label}</span>
+          <span style={{ marginLeft:10, color:C.muted, fontSize:12, fontFamily:"'DM Sans',sans-serif" }}>#{q.id} / 250</span>
+        </div>
+
+        {/* Pregunta */}
+        <div style={{
+          background:C.surface, border:`1px solid ${C.border}`,
+          borderRadius:14, padding:"22px 26px", marginBottom:16
+        }}>
+          <p style={{
+            color:C.text, fontSize:17, fontWeight:600, lineHeight:1.55,
+            fontFamily:"'DM Sans',sans-serif", letterSpacing:"-0.01em", margin:0
+          }}>{q.q}</p>
+        </div>
+
+        {/* Opciones */}
+        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:8, marginBottom:20 }}>
+          {q.opts.map(opt => {
+            const isSel = selected === opt;
+            const isOk  = opt === q.ans;
+            let bg = C.bg, bd = `1px solid ${C.border}`, co = C.dim;
+            if (confirmed && isSel && isOk)  { bg = C.teal+"22";    bd = `1px solid ${C.teal}`;    co = C.teal; }
+            else if (confirmed && isSel)     { bg = C.crimson+"22"; bd = `1px solid ${C.crimson}`; co = C.crimson; }
+            else if (confirmed && isOk)      { bg = C.teal+"0e";    bd = `1px solid ${C.teal}55`;  co = C.teal+"99"; }
+            else if (isSel)                  { bg = lv.color+"18";  bd = `1px solid ${lv.color}`;  co = lv.color; }
+            return (
+              <button key={opt} onClick={() => !confirmed && setSelected(opt)} style={{
+                background:bg, border:bd, color:co,
+                borderRadius:9, padding:"10px 13px", fontSize:14, fontWeight:600,
+                cursor:confirmed ? "default" : "pointer", textAlign:"left",
+                transition:"all 0.15s", outline:"none", fontFamily:"'DM Sans',sans-serif"
               }}>
-                {f==="all"?"Todas":f==="correct"?`✓ Correctas (${score})`:`✗ Incorrectas (${total-score})`}
+                {confirmed && isOk ? "✓ " : ""}{confirmed && isSel && !isOk ? "✗ " : ""}{opt}
               </button>
-            ))
+            );
+          })}
+        </div>
+
+        {/* Acciones */}
+        <div style={{ display:"flex", gap:10, justifyContent:"space-between", alignItems:"center" }}>
+          <button onClick={goPrev} disabled={current === 0} style={{
+            padding:"10px 20px", background:C.surface, color:C.muted,
+            border:`1px solid ${C.border}`, borderRadius:10,
+            cursor:current === 0 ? "not-allowed" : "pointer",
+            opacity:current === 0 ? 0.4 : 1, fontSize:14, fontFamily:"'DM Sans',sans-serif"
+          }}>← Anterior</button>
+
+          {!confirmed ? (
+            <button onClick={confirmAnswer} disabled={!selected} style={{
+              padding:"10px 28px", fontSize:14, fontWeight:700,
+              background:selected ? `linear-gradient(135deg,${C.blue},${C.purple})` : C.surface,
+              color:selected ? "#fff" : C.muted, border:"none", borderRadius:10,
+              cursor:selected ? "pointer" : "not-allowed",
+              boxShadow:selected ? `0 4px 20px ${C.blue}33` : "none",
+              fontFamily:"'DM Sans',sans-serif", transition:"all 0.2s"
+            }}>Confirmar respuesta</button>
           ) : (
-            LEVELS.map((lv,i)=>{
-              const done = questions
-                .filter(q=>q.id>=lv.range[0]&&q.id<=lv.range[1])
-                .every(q=>answers[q.id]);
-              return (
-                <button key={i} onClick={()=>setSection(i)} style={{
-                  padding:"5px 11px", borderRadius:99, fontSize:11, fontWeight:700,
-                  cursor:"pointer", outline:"none",
-                  border:`1px solid ${section===i?lv.color:C.border}`,
-                  background:section===i?lv.color+"22":C.surface,
-                  color:section===i?lv.color:C.muted,
-                  transition:"all 0.2s", fontFamily:"'DM Sans',sans-serif"
-                }}>
-                  {lv.label}{done&&section!==i?" ✓":""}
-                </button>
-              );
-            })
+            <button onClick={goNext} style={{
+              padding:"10px 28px", fontSize:14, fontWeight:700,
+              background:`linear-gradient(135deg,${C.teal},${C.blue})`,
+              color:"#fff", border:"none", borderRadius:10,
+              cursor:"pointer", boxShadow:`0 4px 20px ${C.teal}33`,
+              fontFamily:"'DM Sans',sans-serif"
+            }}>
+              {current === queue.length - 1 ? "Ver resultados →" : "Siguiente →"}
+            </button>
           )}
         </div>
 
-        {/* Reactivos */}
-        {displayQs.map(q=>(
-          <QuestionCard
-            key={q.id} q={q}
-            selected={answers[q.id]}
-            onSelect={(id,opt)=>setAnswers(p=>({...p,[id]:opt}))}
-            showResult={submitted}
-          />
-        ))}
-
-        {/* Botón calificar / reiniciar */}
-        <div style={{ display:"flex", justifyContent:"center", marginTop:28 }}>
-          {!submitted ? (
-            <button
-              onClick={()=>answered===total&&setSubmitted(true)}
-              style={{
-                background:answered===total?`linear-gradient(135deg,${C.blue},${C.purple})`:C.surface,
-                color:answered===total?"#fff":C.muted,
-                border:"none", borderRadius:12, padding:"14px 36px",
-                fontSize:15, fontWeight:700, fontFamily:"'DM Sans',sans-serif",
-                cursor:answered===total?"pointer":"not-allowed",
-                transition:"all 0.2s",
-                boxShadow:answered===total?`0 8px 24px ${C.blue}33`:"none"
-              }}>
-              {answered===total ? "Calificar cuestionario →" : `Responde todas (${total-answered} restantes)`}
-            </button>
-          ) : (
-            <button
-              onClick={()=>{setAnswers({});setSubmitted(false);setSection(0);setFilter("all");}}
-              style={{
-                background:C.surface, color:C.dim,
-                border:`1px solid ${C.border}`, borderRadius:12,
-                padding:"12px 28px", fontSize:14, fontWeight:600,
-                fontFamily:"'DM Sans',sans-serif", cursor:"pointer", transition:"all 0.2s"
-              }}>
-              ↺ Reiniciar cuestionario
-            </button>
-          )}
+        {/* Navegador */}
+        <div style={{
+          marginTop:24, background:C.surface, borderRadius:12,
+          padding:16, border:`1px solid ${C.border}`
+        }}>
+          <p style={{ color:C.muted, fontSize:11, marginBottom:10, textTransform:"uppercase", letterSpacing:1, fontFamily:"'DM Sans',sans-serif" }}>
+            Navegador de reactivos
+          </p>
+          <div style={{ display:"flex", flexWrap:"wrap", gap:5 }}>
+            {queue.map((fq, i) => {
+              const ans = answers[fq.id];
+              const isCurr = i === current;
+              let bg = C.surface, co = C.muted;
+              if (isCurr)          { bg = C.blue;           co = "#fff"; }
+              else if (ans === fq.ans) { bg = C.teal+"33";  co = C.teal; }
+              else if (ans)        { bg = C.crimson+"33";   co = C.crimson; }
+              return (
+                <button key={fq.id} onClick={() => {
+                  setCurrent(i);
+                  setSelected(answers[fq.id] || null);
+                  setConfirmed(!!answers[fq.id]);
+                }} style={{
+                  width:28, height:28, borderRadius:6, background:bg, color:co,
+                  border:isCurr ? `2px solid ${C.blue}` : `1px solid ${C.border}`,
+                  cursor:"pointer", fontSize:11, fontWeight:isCurr ? 700 : 400,
+                  fontFamily:"'DM Sans',sans-serif"
+                }}>{i + 1}</button>
+              );
+            })}
+          </div>
+          <div style={{ display:"flex", gap:16, marginTop:10 }}>
+            {[[C.teal+"33", C.teal, "Correcta"],[C.crimson+"33", C.crimson, "Incorrecta"],[C.surface, C.muted, "Sin contestar"]].map(([bg, co, label]) => (
+              <div key={label} style={{ display:"flex", alignItems:"center", gap:5 }}>
+                <div style={{ width:12, height:12, borderRadius:3, background:bg, border:`1px solid ${co}` }}/>
+                <span style={{ color:C.muted, fontSize:11, fontFamily:"'DM Sans',sans-serif" }}>{label}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

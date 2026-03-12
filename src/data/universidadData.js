@@ -17,9 +17,15 @@ export const SUBJECTS_UNI = [
     themes: [
       {
         id: "mat-tem1",
-        name: "Tema por definir",
+        name: "Números Enteros",
         subtopics: [
-          { id: "mat-sub1", name: "Subtema por definir", quiz: null, video: null, teoria: null },
+          {
+            id: "enteros-prepa",
+            name: "Suma, Producto, Exponenciación y Divisibilidad",
+            quiz: "/cuestionario/enteros-prepa",
+            video: null,
+            teoria: null,
+          },
         ],
       },
     ],

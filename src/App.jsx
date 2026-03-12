@@ -13,6 +13,9 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Divisibilidad from "./pages/cuestionarios/Divisibilidad";
 import SumaEnteros from "./pages/cuestionarios/SumaEnteros";
 import LaCelula from "./pages/cuestionarios/LaCelula";
+import ProductoEnteros from "./pages/cuestionarios/ProductoEnteros";
+import EnterosPrepa from "./pages/cuestionarios/EnterosPrepa";
+
 
 // Cuestionarios — los irás agregando aquí conforme los crees
 // import Cuestionario1 from "./pages/cuestionarios/Cuestionario1";
@@ -41,7 +44,12 @@ export default function App() {
         <Route path="/cuestionario/la-celula" element={
           <ProtectedRoute><LaCelula /></ProtectedRoute>
         } />
-
+        <Route path="/cuestionario/producto-enteros" element={
+          <ProtectedRoute><ProductoEnteros /></ProtectedRoute>
+        } />
+        <Route path="/cuestionario/enteros-prepa" element={
+          <ProtectedRoute><EnterosPrepa /></ProtectedRoute>
+        } />
 
         {/* ── Cuestionarios ──────────────────────────────────────────────────
          *  Para agregar un cuestionario nuevo:

@@ -27,6 +27,13 @@ export const SUBJECTS_PREP = [
             teoria: null,
           },
           {
+            id: "prod-ent",
+            name: "Producto de Números Enteros",
+            quiz: "/cuestionario/producto-enteros",
+            video: null,
+            teoria: null,
+},
+          {
             id: "exponentes",
             name: "Leyes de los Exponentes",
             quiz:   null,

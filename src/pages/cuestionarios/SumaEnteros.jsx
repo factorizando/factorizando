@@ -421,11 +421,11 @@ export default function SumaEnteros() {
 
   const startExam = (modeKey) => {
     let qs;
-    if (modeKey === "all")    qs = questions;
+    if (modeKey === "all")    qs = shuffle(questions);
     else if (modeKey === "random") qs = shuffle(questions);
     else {
       const idx = parseInt(modeKey.replace("block-", ""), 10);
-      qs = questions.filter(q => q.id >= LEVELS[idx].range[0] && q.id <= LEVELS[idx].range[1]);
+      qs = shuffle(questions.filter(q => q.id >= LEVELS[idx].range[0] && q.id <= LEVELS[idx].range[1]));
     }
     setQueue(qs);
     setAnswers({});
@@ -591,6 +591,18 @@ export default function SumaEnteros() {
         <style>{`@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');*{box-sizing:border-box;margin:0;padding:0}`}</style>
 
         <div style={{ maxWidth:760, margin:"0 auto", padding:"32px 16px" }}>
+          <div style={{ display:"flex", gap:12, marginBottom:24, flexWrap:"wrap" }}>
+            <button onClick={() => setMode("menu")} style={{
+              background:C.surface, color:C.dim, border:`1px solid ${C.border}`,
+              borderRadius:12, padding:"12px 28px", fontSize:14, fontWeight:600,
+              fontFamily:"'DM Sans',sans-serif", cursor:"pointer"
+            }}>← Menú</button>
+            <button onClick={() => startExam(examMode)} style={{
+              background:`linear-gradient(135deg,${C.blue},${C.purple})`,
+              color:"#fff", border:"none", borderRadius:12, padding:"12px 28px",
+              fontSize:14, fontWeight:700, fontFamily:"'DM Sans',sans-serif", cursor:"pointer"
+            }}>↺ Repetir</button>
+          </div>
           {/* Score badge */}
           <div style={{
             background:C.surface, border:`2px solid ${col}`,
@@ -622,18 +634,7 @@ export default function SumaEnteros() {
             <QuestionCard key={q.id} q={q} selected={answers[q.id]} onSelect={()=>{}} showResult={true} />
           ))}
 
-          <div style={{ display:"flex", gap:12, justifyContent:"center", marginTop:28, flexWrap:"wrap" }}>
-            <button onClick={() => setMode("menu")} style={{
-              background:C.surface, color:C.dim, border:`1px solid ${C.border}`,
-              borderRadius:12, padding:"12px 28px", fontSize:14, fontWeight:600,
-              fontFamily:"'DM Sans',sans-serif", cursor:"pointer"
-            }}>← Menú</button>
-            <button onClick={() => startExam(examMode)} style={{
-              background:`linear-gradient(135deg,${C.blue},${C.purple})`,
-              color:"#fff", border:"none", borderRadius:12, padding:"12px 28px",
-              fontSize:14, fontWeight:700, fontFamily:"'DM Sans',sans-serif", cursor:"pointer"
-            }}>↺ Repetir</button>
-          </div>
+
         </div>
       </div>
     );

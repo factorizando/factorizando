@@ -306,6 +306,22 @@ export default function SubjectPage({ level, subjects }) {
           }}>
             {levelLabel}
           </span>
+          {activeQuiz && (
+            <button
+              onClick={() => setActiveQuiz(null)}
+              style={{
+                background: "none", border: "1px solid #252830", borderRadius: "3px",
+                color: "#5a6070", fontSize: ".78rem", letterSpacing: ".1em",
+                textTransform: "uppercase", padding: ".4rem .9rem",
+                cursor: "pointer", fontFamily: "'DM Sans', sans-serif",
+                transition: "border-color .2s, color .2s",
+              }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = "#3b9eff"; e.currentTarget.style.color = "#e8eaf0"; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = "#252830"; e.currentTarget.style.color = "#5a6070"; }}
+            >
+              ← Materias
+            </button>
+          )}
           <button
             onClick={handleLogout}
             style={{
@@ -357,7 +373,7 @@ export default function SubjectPage({ level, subjects }) {
       }}>
         <button
           className={`filter-btn${activeFilter === "all" ? " active" : ""}`}
-          onClick={() => setActiveFilter("all")}
+          onClick={() => { setActiveFilter("all"); setActiveQuiz(null); }}
         >
           Todas
         </button>
@@ -365,7 +381,7 @@ export default function SubjectPage({ level, subjects }) {
           <button
             key={s.id}
             className={`filter-btn${activeFilter === s.id ? " active" : ""}`}
-            onClick={() => setActiveFilter(s.id)}
+            onClick={() => { setActiveFilter(s.id); setActiveQuiz(null); }}
           >
             {s.name}
           </button>
@@ -377,24 +393,6 @@ export default function SubjectPage({ level, subjects }) {
         const QuizComponent = QUIZ_REGISTRY[activeQuiz];
         return (
           <div style={{ maxWidth: 960, width: "100%", margin: "0 auto" }}>
-            {/* Breadcrumb de regreso */}
-            <div style={{ padding: "1rem 2rem 0" }}>
-              <button
-                onClick={() => setActiveQuiz(null)}
-                style={{
-                  display: "inline-flex", alignItems: "center", gap: ".5rem",
-                  background: "none", border: "1px solid #252830", borderRadius: "3px",
-                  color: "#5a6070", fontSize: ".78rem", letterSpacing: ".1em",
-                  textTransform: "uppercase", padding: ".4rem .9rem",
-                  cursor: "pointer", fontFamily: "'DM Sans', sans-serif",
-                  transition: "border-color .2s, color .2s",
-                }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = "#3b9eff"; e.currentTarget.style.color = "#e8eaf0"; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = "#252830"; e.currentTarget.style.color = "#5a6070"; }}
-              >
-                ← Volver a materias
-              </button>
-            </div>
             {QuizComponent
               ? <QuizComponent />
               : <p style={{ padding: "2rem", color: "#5a6070" }}>Cuestionario no encontrado.</p>

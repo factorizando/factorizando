@@ -2,17 +2,17 @@ import { useState } from "react";
 
 // ─── PALETA FACTORIZANDO ───────────────────────────────────────────────────
 const C = {
-  bg:      "#080b12",
-  surface: "#0d1120",
-  border:  "#1c2035",
-  blue:    "#4d9de0",
-  gold:    "#d4922a",
-  purple:  "#7b5ea7",
-  teal:    "#3a9fa8",
-  orange:  "#c06030",
-  crimson: "#c0392b",
-  text:    "#dce4f0",
-  muted:   "#4a5570",
+  bg:      "#0e0f11",
+  surface: "#13151a",
+  border:  "#252830",
+  blue:    "#3b9eff",
+  gold:    "#f59e0b",
+  purple:  "#a78bfa",
+  teal:    "#34d399",
+  orange:  "#f97316",
+  crimson: "#f43f5e",
+  text:    "#e8eaf0",
+  muted:   "#5a6070",
   dim:     "#8a9ab8",
 };
 

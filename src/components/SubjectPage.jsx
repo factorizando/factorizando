@@ -5,9 +5,16 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import BrandName from "./BrandName";
+import Divisibilidad from "../pages/cuestionarios/Divisibilidad";
+import SumaEnteros   from "../pages/cuestionarios/SumaEnteros";
+
+const QUIZ_REGISTRY = {
+  "/cuestionario/divisibilidad": Divisibilidad,
+  "/cuestionario/suma-enteros":  SumaEnteros,
+};
 
 // ── Resource pill ─────────────────────────────────────────────────────────────
-function ResourcePill({ type, href, label }) {
+function ResourcePill({ type, href, label, onClick }) {
   const styles = {
     quiz:   { bg: "#3b9eff", color: "#fff", border: "none", shadow: "0 2px 12px rgba(59,158,255,.3)" },
     video:  { bg: "#1a2535", color: "#60a5fa", border: "1px solid rgba(96,165,250,.25)", shadow: "none" },
@@ -34,15 +41,15 @@ function ResourcePill({ type, href, label }) {
 
   if (type === "quiz") {
     return (
-      <Link
-        to={href}
-        style={pillStyle}
+      <button
+        onClick={() => onClick && onClick(href)}
+        style={{ ...pillStyle, border: "none" }}
         onMouseEnter={e => handleHover(e, true)}
         onMouseLeave={e => handleHover(e, false)}
       >
         <span style={{ fontSize: ".85rem" }}>{icons[type]}</span>
         {label}
-      </Link>
+      </button>
     );
   }
 
@@ -62,7 +69,7 @@ function ResourcePill({ type, href, label }) {
 }
 
 // ── Subtopic row ──────────────────────────────────────────────────────────────
-function SubtopicRow({ subtopic, isLast }) {
+function SubtopicRow({ subtopic, isLast, onQuizOpen }) {
   return (
     <div style={{
       padding: "1rem 1.4rem 1rem 3.2rem",
@@ -80,7 +87,7 @@ function SubtopicRow({ subtopic, isLast }) {
 
       {/* Resources */}
       <div style={{ display: "flex", gap: ".6rem", flexWrap: "wrap", alignItems: "center", paddingLeft: ".6rem" }}>
-        {subtopic.quiz   && <ResourcePill type="quiz"   href={subtopic.quiz}   label="Cuestionario" />}
+        {subtopic.quiz   && <ResourcePill type="quiz"   href={subtopic.quiz}   label="Cuestionario" onClick={onQuizOpen} />}
         {subtopic.video  && <ResourcePill type="video"  href={subtopic.video}  label="Video" />}
         {subtopic.teoria && <ResourcePill type="teoria" href={subtopic.teoria} label="Teoría" />}
         {!subtopic.quiz && !subtopic.video && !subtopic.teoria && (
@@ -97,7 +104,7 @@ function SubtopicRow({ subtopic, isLast }) {
 }
 
 // ── Theme row (with subtopics) ────────────────────────────────────────────────
-function ThemeRow({ theme, isLast }) {
+function ThemeRow({ theme, isLast, onQuizOpen }) {
   const [open, setOpen] = useState(false);
   const subtopicCount = theme.subtopics?.length ?? 0;
 
@@ -149,6 +156,7 @@ function ThemeRow({ theme, isLast }) {
             key={sub.id}
             subtopic={sub}
             isLast={i === theme.subtopics.length - 1}
+            onQuizOpen={onQuizOpen}
           />
         ))}
       </div>
@@ -157,7 +165,7 @@ function ThemeRow({ theme, isLast }) {
 }
 
 // ── Subject block (accordion) ─────────────────────────────────────────────────
-function SubjectBlock({ subject }) {
+function SubjectBlock({ subject, onQuizOpen }) {
   const [open, setOpen] = useState(false);
   const themeCount = subject.themes.length;
 
@@ -213,6 +221,7 @@ function SubjectBlock({ subject }) {
             key={theme.id}
             theme={theme}
             isLast={i === subject.themes.length - 1}
+            onQuizOpen={onQuizOpen}
           />
         ))}
       </div>
@@ -224,6 +233,7 @@ function SubjectBlock({ subject }) {
 export default function SubjectPage({ level, subjects }) {
   const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState("all");
+  const [activeQuiz, setActiveQuiz]     = useState(null); // ruta del quiz activo
 
   const levelLabel = level === "preparatoria" ? "Preparatoria" : "Universidad";
 
@@ -355,23 +365,54 @@ export default function SubjectPage({ level, subjects }) {
         ))}
       </div>
 
-      {/* ── Subjects ── */}
-      <div
-        className="content-wrap"
-        style={{ padding: "2rem", maxWidth: 960, width: "100%", margin: "0 auto", display: "flex", flexDirection: "column", gap: "1.5rem" }}
-      >
-        {filtered.map(subject => (
-          <SubjectBlock key={subject.id} subject={subject} />
-        ))}
-      </div>
-
-      <footer style={{
-        textAlign: "center", padding: "2rem",
-        fontSize: ".72rem", color: "#5a6070", letterSpacing: ".1em",
-        borderTop: "1px solid #252830", marginTop: "2rem",
-      }}>
-        © Factorizando — Todos los derechos reservados
-      </footer>
+      {/* ── Contenido: cuestionario embebido o lista de materias ── */}
+      {activeQuiz ? (() => {
+        const QuizComponent = QUIZ_REGISTRY[activeQuiz];
+        return (
+          <div style={{ maxWidth: 960, width: "100%", margin: "0 auto" }}>
+            {/* Breadcrumb de regreso */}
+            <div style={{ padding: "1rem 2rem 0" }}>
+              <button
+                onClick={() => setActiveQuiz(null)}
+                style={{
+                  display: "inline-flex", alignItems: "center", gap: ".5rem",
+                  background: "none", border: "1px solid #252830", borderRadius: "3px",
+                  color: "#5a6070", fontSize: ".78rem", letterSpacing: ".1em",
+                  textTransform: "uppercase", padding: ".4rem .9rem",
+                  cursor: "pointer", fontFamily: "'DM Sans', sans-serif",
+                  transition: "border-color .2s, color .2s",
+                }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = "#3b9eff"; e.currentTarget.style.color = "#e8eaf0"; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = "#252830"; e.currentTarget.style.color = "#5a6070"; }}
+              >
+                ← Volver a materias
+              </button>
+            </div>
+            {QuizComponent
+              ? <QuizComponent />
+              : <p style={{ padding: "2rem", color: "#5a6070" }}>Cuestionario no encontrado.</p>
+            }
+          </div>
+        );
+      })() : (
+        <>
+          <div
+            className="content-wrap"
+            style={{ padding: "2rem", maxWidth: 960, width: "100%", margin: "0 auto", display: "flex", flexDirection: "column", gap: "1.5rem" }}
+          >
+            {filtered.map(subject => (
+              <SubjectBlock key={subject.id} subject={subject} onQuizOpen={setActiveQuiz} />
+            ))}
+          </div>
+          <footer style={{
+            textAlign: "center", padding: "2rem",
+            fontSize: ".72rem", color: "#5a6070", letterSpacing: ".1em",
+            borderTop: "1px solid #252830", marginTop: "2rem",
+          }}>
+            © Factorizando — Todos los derechos reservados
+          </footer>
+        </>
+      )}
     </>
   );
 }

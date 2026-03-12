@@ -47,7 +47,7 @@ export default function ProtectedRoute({ children }) {
 
   if (status === "unauth") {
     // Extract the first path segment as destination (e.g. /preparatoria → preparatoria)
-    const dest = location.pathname.replace("/", "").split("/")[0] || "preparatoria";
+    const dest = location.pathname.replace(/^\//, "") || "preparatoria";
     return <Navigate to={`/login?dest=${dest}`} replace />;
   }
 

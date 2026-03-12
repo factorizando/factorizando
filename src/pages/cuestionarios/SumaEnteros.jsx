@@ -330,7 +330,7 @@ function QuestionCard({ q, selected, onSelect, showResult }) {
       </div>
       <p style={{
         color:C.text, fontSize:17, fontWeight:600, marginBottom:16,
-        lineHeight:1.55, fontFamily:"'Cormorant Garamond',serif", letterSpacing:"-0.01em"
+        lineHeight:1.55, fontFamily:"'DM Sans',sans-serif", letterSpacing:"-0.01em"
       }}>{q.q}</p>
       <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:8 }}>
         {q.opts.map(opt => {
@@ -345,7 +345,7 @@ function QuestionCard({ q, selected, onSelect, showResult }) {
               background:bg, border:bd, color:co,
               borderRadius:9, padding:"10px 13px", fontSize:14, fontWeight:600,
               cursor:showResult?"default":"pointer", textAlign:"left",
-              transition:"all 0.15s", outline:"none", fontFamily:"'DM Mono',monospace"
+              transition:"all 0.15s", outline:"none", fontFamily:"'DM Sans',sans-serif"
             }}>
               {showResult&&isOk?"✓ ":""}{showResult&&isSel&&!isOk?"✗ ":""}{opt}
             </button>
@@ -398,7 +398,7 @@ export default function SumaEnteros() {
   return (
     <div style={{ minHeight:"100vh", background:C.bg, paddingBottom:64 }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=DM+Sans:wght@400;500;600;700;900&family=DM+Mono:wght@400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
         *{box-sizing:border-box;margin:0;padding:0}
         ::-webkit-scrollbar{width:5px;background:${C.bg}}
         ::-webkit-scrollbar-thumb{background:${C.border};border-radius:99px}
@@ -406,7 +406,7 @@ export default function SumaEnteros() {
 
       {/* ENCABEZADO */}
       <div style={{
-        background:`linear-gradient(160deg,${C.surface} 0%,#0e1230 60%,${C.surface} 100%)`,
+        background:C.surface,
         borderBottom:`1px solid ${C.border}`,
         padding:"44px 24px 32px", textAlign:"center",
         position:"relative", overflow:"hidden"
@@ -427,7 +427,7 @@ export default function SumaEnteros() {
           <h1 style={{
             fontSize:"clamp(24px,4vw,42px)", fontWeight:700, color:C.text,
             letterSpacing:"-1px", lineHeight:1.1, marginBottom:10,
-            fontFamily:"'Cormorant Garamond',serif"
+            fontFamily:"'DM Sans',sans-serif"
           }}>
             Suma de{" "}
             <span style={{ color:C.gold }}>Números Enteros</span>

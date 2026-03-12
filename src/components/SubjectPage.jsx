@@ -7,10 +7,12 @@ import { supabase } from "../lib/supabase";
 import BrandName from "./BrandName";
 import Divisibilidad from "../pages/cuestionarios/Divisibilidad";
 import SumaEnteros   from "../pages/cuestionarios/SumaEnteros";
+import LaCelula from "../pages/cuestionarios/LaCelula";
 
 const QUIZ_REGISTRY = {
   "/cuestionario/divisibilidad": Divisibilidad,
   "/cuestionario/suma-enteros":  SumaEnteros,
+  "/cuestionario/la-celula":  LaCelula,
 };
 
 // ── Resource pill ─────────────────────────────────────────────────────────────

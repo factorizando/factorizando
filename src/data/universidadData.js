@@ -73,9 +73,9 @@ export const SUBJECTS_UNI = [
     themes: [
       {
         id: "bio-tem1",
-        name: "Tema por definir",
+        name: "La Célula",
         subtopics: [
-          { id: "bio-sub1", name: "Subtema por definir", quiz: null, video: null, teoria: null },
+          { id: "celula", name: "Organelos Celulares", quiz: "/cuestionario/la-celula", video: null, teoria: null },
         ],
       },
     ],

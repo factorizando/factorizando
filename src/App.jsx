@@ -12,6 +12,7 @@ import Universidad   from "./pages/Universidad";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Divisibilidad from "./pages/cuestionarios/Divisibilidad";
 import SumaEnteros from "./pages/cuestionarios/SumaEnteros";
+import LaCelula from "./pages/cuestionarios/LaCelula";
 
 // Cuestionarios — los irás agregando aquí conforme los crees
 // import Cuestionario1 from "./pages/cuestionarios/Cuestionario1";
@@ -36,6 +37,9 @@ export default function App() {
         } />
         <Route path="/cuestionario/suma-enteros" element={
           <ProtectedRoute><SumaEnteros /></ProtectedRoute>
+        } />
+        <Route path="/cuestionario/la-celula" element={
+          <ProtectedRoute><LaCelula /></ProtectedRoute>
         } />
 
 

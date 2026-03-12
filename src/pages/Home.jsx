@@ -299,9 +299,24 @@ export default function Home() {
           font-size: 0.72rem; color: var(--muted); letter-spacing: 0.12em; z-index: 2;
         }
 
-        @media (max-width: 480px) {
-          .btn-group { flex-direction: column; align-items: center; }
-          .btn { min-width: 240px; }
+        @media (max-width: 600px) {
+          .home { padding: 1.2rem; justify-content: center; }
+
+          .logo-circle { width: 80px; height: 80px; }
+
+          .card { gap: 1.8rem; }
+
+          .logo-section { gap: 0.8rem; }
+
+          .tagline { font-size: 0.78rem; letter-spacing: 0.12em; text-align: center; }
+
+          .divider { width: 180px; }
+
+          .btn-group { flex-direction: column; align-items: center; width: 100%; }
+
+          .btn { min-width: unset; width: 100%; max-width: 320px; padding: 1.2rem 1.6rem; }
+
+          .footer { font-size: 0.65rem; text-align: center; padding: 0 1rem; }
         }
       `}</style>
 
@@ -316,7 +331,9 @@ export default function Home() {
             <div className="logo-circle">
               <img src={`${import.meta.env.BASE_URL}assets/logoX.png`} alt="Logo Factorizando" />
             </div>
-            <BrandName size="3rem" />
+            <div style={{ fontSize: "clamp(1.6rem, 7vw, 3rem)" }}>
+              <BrandName size="1em" />
+            </div>
             <p className="tagline">Plataforma de evaluación académica</p>
           </div>
 

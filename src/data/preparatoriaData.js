@@ -32,7 +32,14 @@ export const SUBJECTS_PREP = [
             quiz: "/cuestionario/producto-enteros",
             video: null,
             teoria: null,
-},
+          },
+          {
+            id: "primos-mcd-mcm",
+            name: "Primos, M.C.D. y M.C.M.",
+            quiz: "/cuestionario/primos-mcd-mcm",
+            video: null,
+            teoria: null,
+          },
           {
             id: "exponentes",
             name: "Leyes de los Exponentes",
@@ -62,12 +69,18 @@ export const SUBJECTS_PREP = [
     id: "esp",
     name: "Español",
     color: "#a78bfa",
-    themes: [
+    themes: [   
       {
-        id: "texto",
-        name: "Tipos de Texto",
+        id: "sintaxis",
+        name: "Sintaxis",
         subtopics: [
-          { id: "texto-exp", name: "Texto Expositivo", quiz: "/cuestionario/tipos-texto", video: null, teoria: null },
+          {
+        id: "sin",
+        name: "Sintaxis: Análisis Oracional",
+        quiz: "/cuestionario/sintaxis-espanol",
+        video: null,
+        teoria: null,
+      },
         ],
       },
       {

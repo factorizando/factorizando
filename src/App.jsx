@@ -15,6 +15,14 @@ import SumaEnteros from "./pages/cuestionarios/SumaEnteros";
 import LaCelula from "./pages/cuestionarios/LaCelula";
 import ProductoEnteros from "./pages/cuestionarios/ProductoEnteros";
 import EnterosPrepa from "./pages/cuestionarios/EnterosPrepa";
+import SintaxisEspanol from "./pages/cuestionarios/SintaxisEspanol";
+import PrimosMCDMCM from "./pages/cuestionarios/PrimosMCDMCM";
+import OrtografiaGrafias from "./pages/cuestionarios/OrtografiaGrafias";
+import CelulaOrganelos from "./pages/cuestionarios/CelulaOrganelos";
+import SinonimosAntonimosAnalogias from "./pages/cuestionarios/SinonimosAntonimosAnalogias";
+
+
+
 
 
 // Cuestionarios — los irás agregando aquí conforme los crees
@@ -49,6 +57,21 @@ export default function App() {
         } />
         <Route path="/cuestionario/enteros-prepa" element={
           <ProtectedRoute><EnterosPrepa /></ProtectedRoute>
+        } />
+        <Route path="/cuestionario/sintaxis-espanol" element={
+          <ProtectedRoute><SintaxisEspanol /></ProtectedRoute>
+        } />
+        <Route path="/cuestionario/primos-mcd-mcm" element={
+          <ProtectedRoute><PrimosMCDMCM /></ProtectedRoute>
+        } />
+        <Route path="/cuestionario/ortografia-grafias" element={
+          <ProtectedRoute><OrtografiaGrafias /></ProtectedRoute>
+        } />
+        <Route path="/cuestionario/celula-organelos" element={
+          <ProtectedRoute><CelulaOrganelos /></ProtectedRoute>
+        } />
+        <Route path="/cuestionario/sinonimos-antonimos-analogias" element={
+          <ProtectedRoute><SinonimosAntonimosAnalogias /></ProtectedRoute>
         } />
 
         {/* ── Cuestionarios ──────────────────────────────────────────────────

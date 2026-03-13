@@ -10,6 +10,13 @@ import SumaEnteros   from "../pages/cuestionarios/SumaEnteros";
 import LaCelula from "../pages/cuestionarios/LaCelula";
 import ProductoEnteros from "../pages/cuestionarios/ProductoEnteros";
 import EnterosPrepa from "../pages/cuestionarios/EnterosPrepa";
+import SintaxisEspanol from "../pages/cuestionarios/SintaxisEspanol";
+import PrimosMCDMCM from "../pages/cuestionarios/PrimosMCDMCM";
+import OrtografiaGrafias from "../pages/cuestionarios/OrtografiaGrafias";
+import CelulaOrganelos from "../pages/cuestionarios/CelulaOrganelos";
+import SinonimosAntonimosAnalogias from "../pages/cuestionarios/SinonimosAntonimosAnalogias";
+
+
 
 
 const QUIZ_REGISTRY = {
@@ -18,6 +25,11 @@ const QUIZ_REGISTRY = {
   "/cuestionario/la-celula":  LaCelula,
   "/cuestionario/producto-enteros": ProductoEnteros,
   "/cuestionario/enteros-prepa": EnterosPrepa,
+  "/cuestionario/sintaxis-espanol": SintaxisEspanol,
+  "/cuestionario/primos-mcd-mcm": PrimosMCDMCM,
+  "/cuestionario/ortografia-grafias": OrtografiaGrafias,
+  "/cuestionario/celula-organelos": CelulaOrganelos,
+  "/cuestionario/sinonimos-antonimos-analogias": SinonimosAntonimosAnalogias,
 };
 
 // ── Resource pill ─────────────────────────────────────────────────────────────

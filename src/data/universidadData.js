@@ -37,10 +37,23 @@ export const SUBJECTS_UNI = [
     themes: [
       {
         id: "esp-tem1",
-        name: "Tema por definir",
+        name: "Ortografía",
         subtopics: [
-          { id: "esp-sub1", name: "Subtema por definir", quiz: null, video: null, teoria: null },
-        ],
+        {
+          id: "ortografia-grafias",
+          name: "Ortografía y Grafías (Simulador UNAM)",
+          quiz: "/cuestionario/ortografia-grafias",
+          video: null,
+          teoria: null,
+        },
+        {
+          id: "sin-ant-ana",
+          name: "Sinónimos, Antónimos y Analogías",
+          quiz: "/cuestionario/sinonimos-antonimos-analogias",
+          video: null,
+          teoria: null,
+        }
+      ],
       },
     ],
   },
@@ -82,6 +95,13 @@ export const SUBJECTS_UNI = [
         name: "La Célula",
         subtopics: [
           { id: "celula", name: "Organelos Celulares", quiz: "/cuestionario/la-celula", video: null, teoria: null },
+          {
+          id: "celula-organelos",
+          name: "Organelos y Funciones (Simulador UNAM)",
+          quiz: "/cuestionario/celula-organelos",
+          video: null,
+          teoria: null,
+        },
         ],
       },
     ],

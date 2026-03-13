@@ -433,6 +433,7 @@ export default function ProductoEnteros() {
       qs = shuffle(questions.filter(q => q.id >= LEVELS[idx].range[0] && q.id <= LEVELS[idx].range[1]));
     }
     const mins = (modeKey === "all" || modeKey === "random") ? 120 : qs.length;
+    qs = qs.map(q => ({ ...q, opts: shuffle(q.opts) }));
     setQueue(qs);
     setAnswers({});
     setCurrent(0);

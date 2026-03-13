@@ -427,6 +427,7 @@ export default function SumaEnteros() {
       const idx = parseInt(modeKey.replace("block-", ""), 10);
       qs = shuffle(questions.filter(q => q.id >= LEVELS[idx].range[0] && q.id <= LEVELS[idx].range[1]));
     }
+    qs = qs.map(q => ({ ...q, opts: shuffle(q.opts) }));
     setQueue(qs);
     setAnswers({});
     setCurrent(0);

@@ -42,7 +42,7 @@ function FloatingEquation({ tex, style }) {
     }
   }, [tex]);
 
-  return <span ref={ref} className="float-eq" style={style} />;
+  return <span ref={ref} className="float-eq" style={style}></span>;
 }
 
 // ─── Ícono matemático con KaTeX ───────────────────────────────────────────────
@@ -63,7 +63,7 @@ function MathIcon({ tex, color }) {
     <span
       ref={ref}
       style={{ color, fontSize: "2.4rem", lineHeight: 1, display: "block" }}
-    />
+    ></span>
   );
 }
 
@@ -97,7 +97,6 @@ export default function Home() {
   useEffect(() => {
   const cols = 4;
   const rows = 5;
-  const total = EQUATIONS.length; // 20 ecuaciones
 
   // Crear lista de celdas y mezclarla aleatoriamente
   const cells = [];
@@ -167,9 +166,9 @@ export default function Home() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: center;
           position: relative;
-          overflow: hidden;
+          overflow-x: hidden;
+          overflow-y: auto;
           padding: 2rem;
         }
 
@@ -193,6 +192,12 @@ export default function Home() {
           top: 50%; left: 50%;
           transform: translate(-50%, -55%);
           pointer-events: none;
+        }
+
+        /* Espaciadores flexibles para centrado dinámico */
+        .spacer {
+          flex: 1;
+          min-height: 2rem;
         }
 
         /* Ecuaciones flotantes */
@@ -219,6 +224,7 @@ export default function Home() {
           align-items: center; gap: 2.8rem;
           opacity: 0; transform: translateY(24px);
           transition: opacity 0.8s ease, transform 0.8s ease;
+          width: 100%;
         }
         .card.show { opacity: 1; transform: translateY(0); }
 
@@ -246,6 +252,7 @@ export default function Home() {
         .tagline {
           font-size: 0.95rem; font-weight: 300;
           color: var(--muted); letter-spacing: 0.18em; text-transform: uppercase;
+          text-align: center;
         }
 
         .divider {
@@ -294,13 +301,14 @@ export default function Home() {
         .btn-label { font-size: 1rem; font-weight: 500; }
         .btn-sub { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
 
+        /* Ajuste responsivo del footer */
         .footer {
-          position: absolute; bottom: 1.5rem;
           font-size: 0.72rem; color: var(--muted); letter-spacing: 0.12em; z-index: 2;
+          text-align: center; padding-top: 1.5rem; width: 100%;
         }
 
         @media (max-width: 600px) {
-          .home { padding: 1.2rem; justify-content: center; }
+          .home { padding: 1.2rem; }
 
           .logo-circle { width: 80px; height: 80px; }
 
@@ -308,7 +316,7 @@ export default function Home() {
 
           .logo-section { gap: 0.8rem; }
 
-          .tagline { font-size: 0.78rem; letter-spacing: 0.12em; text-align: center; }
+          .tagline { font-size: 0.78rem; letter-spacing: 0.12em; }
 
           .divider { width: 180px; }
 
@@ -316,7 +324,7 @@ export default function Home() {
 
           .btn { min-width: unset; width: 100%; max-width: 320px; padding: 1.2rem 1.6rem; }
 
-          .footer { font-size: 0.65rem; text-align: center; padding: 0 1rem; }
+          .footer { font-size: 0.65rem; padding: 2rem 1rem 0 1rem; }
         }
       `}</style>
 
@@ -325,6 +333,8 @@ export default function Home() {
         {katexLoaded && symbols.map((s) => (
           <FloatingEquation key={s.id} tex={s.tex} style={s.style} />
         ))}
+
+        <div className="spacer"></div>
 
         <div className={`card ${visible ? "show" : ""}`}>
           <div className="logo-section">
@@ -337,7 +347,7 @@ export default function Home() {
             <p className="tagline">Plataforma de evaluación académica</p>
           </div>
 
-          <div className="divider" />
+          <div className="divider"></div>
 
           <p className="section-label">Selecciona tu nivel</p>
 
@@ -354,6 +364,8 @@ export default function Home() {
             </Link>
           </div>
         </div>
+
+        <div className="spacer"></div>
 
         <p className="footer">© Factorizando — Todos los derechos reservados</p>
       </div>

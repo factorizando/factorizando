@@ -20,7 +20,9 @@ import PrimosMCDMCM from "./pages/cuestionarios/PrimosMCDMCM";
 import OrtografiaGrafias from "./pages/cuestionarios/OrtografiaGrafias";
 import CelulaOrganelos from "./pages/cuestionarios/CelulaOrganelos";
 import SinonimosAntonimosAnalogias from "./pages/cuestionarios/SinonimosAntonimosAnalogias";
-
+import RacionalesPrepa from "./pages/cuestionarios/RacionalesPrepa";
+import AlgebraPrepa from "./pages/cuestionarios/AlgebraPrepa";
+import SimuladorPrepa1 from "./pages/cuestionarios/SimuladorPrepa1";
 
 
 
@@ -72,6 +74,15 @@ export default function App() {
         } />
         <Route path="/cuestionario/sinonimos-antonimos-analogias" element={
           <ProtectedRoute><SinonimosAntonimosAnalogias /></ProtectedRoute>
+        } />
+        <Route path="/cuestionario/racionales-prepa" element={
+          <ProtectedRoute><RacionalesPrepa /></ProtectedRoute>
+        } />
+        <Route path="/cuestionario/algebra-prepa" element={
+          <ProtectedRoute><AlgebraPrepa /></ProtectedRoute>
+        } />
+        <Route path="/cuestionario/simulador-prepa-1" element={
+          <ProtectedRoute><SimuladorPrepa1 /></ProtectedRoute>
         } />
 
         {/* ── Cuestionarios ──────────────────────────────────────────────────

@@ -169,4 +169,20 @@ export const SUBJECTS_PREP = [
       },
     ],
   },
+  {
+    id: "sim",
+    name: "Entrenamiento Simulado", 
+    color: "#8b5cf6",
+    themes: [
+      {
+        id: "sim-tem1",
+        name: "Simuladores",
+        subtopics: [
+          { id: "sim-prepa-1", 
+            name: "Simulador 1", 
+            quiz: "/cuestionario/simulador-prepa-1", video: null, teoria: null },
+        ],
+      },
+    ],
+  },
 ];

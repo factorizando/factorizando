@@ -15,8 +15,9 @@ import PrimosMCDMCM from "../pages/cuestionarios/PrimosMCDMCM";
 import OrtografiaGrafias from "../pages/cuestionarios/OrtografiaGrafias";
 import CelulaOrganelos from "../pages/cuestionarios/CelulaOrganelos";
 import SinonimosAntonimosAnalogias from "../pages/cuestionarios/SinonimosAntonimosAnalogias";
-
-
+import RacionalesPrepa from "../pages/cuestionarios/RacionalesPrepa";
+import AlgebraPrepa from "../pages/cuestionarios/AlgebraPrepa";
+import SimuladorPrepa1 from "../pages/cuestionarios/SimuladorPrepa1";
 
 
 const QUIZ_REGISTRY = {
@@ -30,6 +31,9 @@ const QUIZ_REGISTRY = {
   "/cuestionario/ortografia-grafias": OrtografiaGrafias,
   "/cuestionario/celula-organelos": CelulaOrganelos,
   "/cuestionario/sinonimos-antonimos-analogias": SinonimosAntonimosAnalogias,
+  "/cuestionario/racionales-prepa": RacionalesPrepa,
+  "/cuestionario/algebra-prepa": AlgebraPrepa,
+  "/cuestionario/simulador-prepa-1": SimuladorPrepa1,
 };
 
 // ── Resource pill ─────────────────────────────────────────────────────────────

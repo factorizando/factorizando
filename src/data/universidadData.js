@@ -26,6 +26,27 @@ export const SUBJECTS_UNI = [
             video: null,
             teoria: null,
           },
+          {
+            id: "racionales-prepa",
+            name: "Números Racionales",
+            quiz: "/cuestionario/racionales-prepa",
+            video: null,
+            teoria: null,
+          },
+            
+        ],
+      },
+      {
+        id: "mat-tem2",
+        name: "Álgebra",
+        subtopics: [
+          {
+            id: "algebra-prepa",  
+            name: "Algebra Básica",
+            quiz: "/cuestionario/algebra-prepa",
+            video: null,
+            teoria: null,
+          },
         ],
       },
     ],
@@ -41,14 +62,21 @@ export const SUBJECTS_UNI = [
         subtopics: [
         {
           id: "ortografia-grafias",
-          name: "Ortografía y Grafías (Simulador UNAM)",
+          name: "Acentuación y Grafías",
           quiz: "/cuestionario/ortografia-grafias",
           video: null,
           teoria: null,
         },
-        {
+        
+      ],
+      },
+      {
+        id: "esp-tem2",
+        name: "Vocabulario",
+        subtopics: [
+          {
           id: "sin-ant-ana",
-          name: "Sinónimos, Antónimos y Analogías",
+          name: "Sinónimos, Antónimos, Homófonos y Analogías",
           quiz: "/cuestionario/sinonimos-antonimos-analogias",
           video: null,
           teoria: null,

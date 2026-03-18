@@ -18,6 +18,7 @@ import SinonimosAntonimosAnalogias from "../pages/cuestionarios/SinonimosAntonim
 import RacionalesPrepa from "../pages/cuestionarios/RacionalesPrepa";
 import AlgebraPrepa from "../pages/cuestionarios/AlgebraPrepa";
 import SimuladorPrepa1 from "../pages/cuestionarios/SimuladorPrepa1";
+import DivisibilidadMCDMCM from "../pages/cuestionarios/DivisibilidadMCDMCM";
 
 
 const QUIZ_REGISTRY = {
@@ -34,6 +35,7 @@ const QUIZ_REGISTRY = {
   "/cuestionario/racionales-prepa": RacionalesPrepa,
   "/cuestionario/algebra-prepa": AlgebraPrepa,
   "/cuestionario/simulador-prepa-1": SimuladorPrepa1,
+  "/cuestionario/divisibilidad-mcd-mcm": DivisibilidadMCDMCM,
 };
 
 // ── Resource pill ─────────────────────────────────────────────────────────────

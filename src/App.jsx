@@ -23,6 +23,7 @@ import SinonimosAntonimosAnalogias from "./pages/cuestionarios/SinonimosAntonimo
 import RacionalesPrepa from "./pages/cuestionarios/RacionalesPrepa";
 import AlgebraPrepa from "./pages/cuestionarios/AlgebraPrepa";
 import SimuladorPrepa1 from "./pages/cuestionarios/SimuladorPrepa1";
+import DivisibilidadMCDMCM from "./pages/cuestionarios/DivisibilidadMCDMCM";
 
 
 
@@ -83,6 +84,9 @@ export default function App() {
         } />
         <Route path="/cuestionario/simulador-prepa-1" element={
           <ProtectedRoute><SimuladorPrepa1 /></ProtectedRoute>
+        } />
+        <Route path="/cuestionario/divisibilidad-mcd-mcm" element={
+          <ProtectedRoute><DivisibilidadMCDMCM /></ProtectedRoute>
         } />
 
         {/* ── Cuestionarios ──────────────────────────────────────────────────

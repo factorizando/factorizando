@@ -54,6 +54,11 @@ export const SUBJECTS_PREP = [
             video:  null,
             teoria: `${import.meta.env.BASE_URL}guias/teoriadivisibilidad.html`,
           },
+          {
+            id: "div-mcd-mcm",
+            name: "Divisibilidad, M.C.D. y M.C.M.",
+            quiz:   "/cuestionario/divisibilidad-mcd-mcm",
+          }
           // {
           //   id: "primos",
           //   name: "Números Primos",

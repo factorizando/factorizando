@@ -24,6 +24,7 @@ import RacionalesPrepa from "./pages/cuestionarios/RacionalesPrepa";
 import AlgebraPrepa from "./pages/cuestionarios/AlgebraPrepa";
 import SimuladorPrepa1 from "./pages/cuestionarios/SimuladorPrepa1";
 import DivisibilidadMCDMCM from "./pages/cuestionarios/DivisibilidadMCDMCM";
+import UniNumerosRacionales from "./pages/cuestionarios/UniNumerosRacionales";
 
 
 
@@ -87,6 +88,9 @@ export default function App() {
         } />
         <Route path="/cuestionario/divisibilidad-mcd-mcm" element={
           <ProtectedRoute><DivisibilidadMCDMCM /></ProtectedRoute>
+        } />
+        <Route path="/cuestionario/uni-numeros-racionales" element={
+          <ProtectedRoute><UniNumerosRacionales /></ProtectedRoute>
         } />
 
         {/* ── Cuestionarios ──────────────────────────────────────────────────

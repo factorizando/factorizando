@@ -19,6 +19,7 @@ import RacionalesPrepa from "../pages/cuestionarios/RacionalesPrepa";
 import AlgebraPrepa from "../pages/cuestionarios/AlgebraPrepa";
 import SimuladorPrepa1 from "../pages/cuestionarios/SimuladorPrepa1";
 import DivisibilidadMCDMCM from "../pages/cuestionarios/DivisibilidadMCDMCM";
+import UniNumerosRacionales from "../pages/cuestionarios/UniNumerosRacionales";
 
 
 const QUIZ_REGISTRY = {
@@ -36,6 +37,7 @@ const QUIZ_REGISTRY = {
   "/cuestionario/algebra-prepa": AlgebraPrepa,
   "/cuestionario/simulador-prepa-1": SimuladorPrepa1,
   "/cuestionario/divisibilidad-mcd-mcm": DivisibilidadMCDMCM,
+  "/cuestionario/uni-numeros-racionales": UniNumerosRacionales,
 };
 
 // ── Resource pill ─────────────────────────────────────────────────────────────

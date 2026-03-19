@@ -33,7 +33,13 @@ export const SUBJECTS_UNI = [
             video: null,
             teoria: null,
           },
-            
+          {
+            id: "uni-numeros-racionales",
+            name: "Números Racionales",
+            quiz: "/cuestionario/uni-numeros-racionales",
+            video: null,
+            teoria: null,
+          },
         ],
       },
       {

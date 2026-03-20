@@ -25,6 +25,7 @@ import AlgebraPrepa from "./pages/cuestionarios/AlgebraPrepa";
 import SimuladorPrepa1 from "./pages/cuestionarios/SimuladorPrepa1";
 import DivisibilidadMCDMCM from "./pages/cuestionarios/DivisibilidadMCDMCM";
 import UniNumerosRacionales from "./pages/cuestionarios/UniNumerosRacionales";
+import Premedicina from "./pages/cuestionarios/Premedicina";
 
 
 
@@ -91,6 +92,9 @@ export default function App() {
         } />
         <Route path="/cuestionario/uni-numeros-racionales" element={
           <ProtectedRoute><UniNumerosRacionales /></ProtectedRoute>
+        } />
+        <Route path="/cuestionario/premedicina" element={
+          <ProtectedRoute><Premedicina /></ProtectedRoute>
         } />
 
         {/* ── Cuestionarios ──────────────────────────────────────────────────

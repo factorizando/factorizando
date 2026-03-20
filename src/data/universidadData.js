@@ -136,6 +136,13 @@ export const SUBJECTS_UNI = [
           video: null,
           teoria: null,
         },
+        {
+          id: "premedicina",
+          name: "Pre Medicina",
+          quiz: "/cuestionario/premedicina",
+          video: null,
+          teoria: null,
+        },
         ],
       },
     ],

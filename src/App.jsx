@@ -5,10 +5,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { HashRouter, Routes, Route } from "react-router-dom";
-import Home          from "./pages/Home";
-import Login         from "./pages/Login";
-import Preparatoria  from "./pages/Preparatoria";
-import Universidad   from "./pages/Universidad";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Preparatoria from "./pages/Preparatoria";
+import Universidad from "./pages/Universidad";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Divisibilidad from "./pages/cuestionarios/Divisibilidad";
 import SumaEnteros from "./pages/cuestionarios/SumaEnteros";
@@ -26,9 +26,8 @@ import SimuladorPrepa1 from "./pages/cuestionarios/SimuladorPrepa1";
 import DivisibilidadMCDMCM from "./pages/cuestionarios/DivisibilidadMCDMCM";
 import UniNumerosRacionales from "./pages/cuestionarios/UniNumerosRacionales";
 import Premedicina from "./pages/cuestionarios/Premedicina";
-
-
-
+import ExaniI from "./pages/cuestionarios/ExaniI";
+import ExaniII from "./pages/cuestionarios/ExaniII";
 
 // Cuestionarios — los irás agregando aquí conforme los crees
 // import Cuestionario1 from "./pages/cuestionarios/Cuestionario1";
@@ -38,64 +37,156 @@ export default function App() {
     <HashRouter>
       <Routes>
         {/* Pública */}
-        <Route path="/"      element={<Home />} />
+        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
 
         {/* Protegidas — requieren sesión activa */}
-        <Route path="/preparatoria" element={
-          <ProtectedRoute><Preparatoria /></ProtectedRoute>
-        } />
-        <Route path="/universidad" element={
-          <ProtectedRoute><Universidad /></ProtectedRoute>
-        } />
-        <Route path="/cuestionario/divisibilidad" element={
-          <ProtectedRoute><Divisibilidad /></ProtectedRoute>
-        } />
-        <Route path="/cuestionario/suma-enteros" element={
-          <ProtectedRoute><SumaEnteros /></ProtectedRoute>
-        } />
-        <Route path="/cuestionario/la-celula" element={
-          <ProtectedRoute><LaCelula /></ProtectedRoute>
-        } />
-        <Route path="/cuestionario/producto-enteros" element={
-          <ProtectedRoute><ProductoEnteros /></ProtectedRoute>
-        } />
-        <Route path="/cuestionario/enteros-prepa" element={
-          <ProtectedRoute><EnterosPrepa /></ProtectedRoute>
-        } />
-        <Route path="/cuestionario/sintaxis-espanol" element={
-          <ProtectedRoute><SintaxisEspanol /></ProtectedRoute>
-        } />
-        <Route path="/cuestionario/primos-mcd-mcm" element={
-          <ProtectedRoute><PrimosMCDMCM /></ProtectedRoute>
-        } />
-        <Route path="/cuestionario/ortografia-grafias" element={
-          <ProtectedRoute><OrtografiaGrafias /></ProtectedRoute>
-        } />
-        <Route path="/cuestionario/celula-organelos" element={
-          <ProtectedRoute><CelulaOrganelos /></ProtectedRoute>
-        } />
-        <Route path="/cuestionario/sinonimos-antonimos-analogias" element={
-          <ProtectedRoute><SinonimosAntonimosAnalogias /></ProtectedRoute>
-        } />
-        <Route path="/cuestionario/racionales-prepa" element={
-          <ProtectedRoute><RacionalesPrepa /></ProtectedRoute>
-        } />
-        <Route path="/cuestionario/algebra-prepa" element={
-          <ProtectedRoute><AlgebraPrepa /></ProtectedRoute>
-        } />
-        <Route path="/cuestionario/simulador-prepa-1" element={
-          <ProtectedRoute><SimuladorPrepa1 /></ProtectedRoute>
-        } />
-        <Route path="/cuestionario/divisibilidad-mcd-mcm" element={
-          <ProtectedRoute><DivisibilidadMCDMCM /></ProtectedRoute>
-        } />
-        <Route path="/cuestionario/uni-numeros-racionales" element={
-          <ProtectedRoute><UniNumerosRacionales /></ProtectedRoute>
-        } />
-        <Route path="/cuestionario/premedicina" element={
-          <ProtectedRoute><Premedicina /></ProtectedRoute>
-        } />
+        <Route
+          path="/preparatoria"
+          element={
+            <ProtectedRoute>
+              <Preparatoria />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/universidad"
+          element={
+            <ProtectedRoute>
+              <Universidad />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/cuestionario/divisibilidad"
+          element={
+            <ProtectedRoute>
+              <Divisibilidad />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/cuestionario/suma-enteros"
+          element={
+            <ProtectedRoute>
+              <SumaEnteros />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/cuestionario/la-celula"
+          element={
+            <ProtectedRoute>
+              <LaCelula />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/cuestionario/producto-enteros"
+          element={
+            <ProtectedRoute>
+              <ProductoEnteros />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/cuestionario/enteros-prepa"
+          element={
+            <ProtectedRoute>
+              <EnterosPrepa />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/cuestionario/sintaxis-espanol"
+          element={
+            <ProtectedRoute>
+              <SintaxisEspanol />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/cuestionario/primos-mcd-mcm"
+          element={
+            <ProtectedRoute>
+              <PrimosMCDMCM />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/cuestionario/ortografia-grafias"
+          element={
+            <ProtectedRoute>
+              <OrtografiaGrafias />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/cuestionario/celula-organelos"
+          element={
+            <ProtectedRoute>
+              <CelulaOrganelos />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/cuestionario/sinonimos-antonimos-analogias"
+          element={
+            <ProtectedRoute>
+              <SinonimosAntonimosAnalogias />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/cuestionario/racionales-prepa"
+          element={
+            <ProtectedRoute>
+              <RacionalesPrepa />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/cuestionario/algebra-prepa"
+          element={
+            <ProtectedRoute>
+              <AlgebraPrepa />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/cuestionario/simulador-prepa-1"
+          element={
+            <ProtectedRoute>
+              <SimuladorPrepa1 />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/cuestionario/divisibilidad-mcd-mcm"
+          element={
+            <ProtectedRoute>
+              <DivisibilidadMCDMCM />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/cuestionario/uni-numeros-racionales"
+          element={
+            <ProtectedRoute>
+              <UniNumerosRacionales />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/cuestionario/premedicina"
+          element={
+            <ProtectedRoute>
+              <Premedicina />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/exani-i" element={<ExaniI />} />
+        <Route path="/exani-ii" element={<ExaniII />} />
 
         {/* ── Cuestionarios ──────────────────────────────────────────────────
          *  Para agregar un cuestionario nuevo:
@@ -111,18 +202,30 @@ export default function App() {
          */}
 
         {/* 404 */}
-        <Route path="*" element={
-          <div style={{
-            minHeight:"100vh", background:"#0e0f11", color:"#e8eaf0",
-            display:"flex", flexDirection:"column",
-            alignItems:"center", justifyContent:"center", gap:"1rem",
-            fontFamily:"'DM Sans', sans-serif",
-          }}>
-            <span style={{ fontSize:"4rem" }}>404</span>
-            <p style={{ color:"#5a6070" }}>Página no encontrada</p>
-            <a href="/" style={{ color:"#3b9eff", textDecoration:"none" }}>← Regresar</a>
-          </div>
-        } />
+        <Route
+          path="*"
+          element={
+            <div
+              style={{
+                minHeight: "100vh",
+                background: "#0e0f11",
+                color: "#e8eaf0",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "1rem",
+                fontFamily: "'DM Sans', sans-serif",
+              }}
+            >
+              <span style={{ fontSize: "4rem" }}>404</span>
+              <p style={{ color: "#5a6070" }}>Página no encontrada</p>
+              <a href="/" style={{ color: "#3b9eff", textDecoration: "none" }}>
+                ← Regresar
+              </a>
+            </div>
+          }
+        />
       </Routes>
     </HashRouter>
   );

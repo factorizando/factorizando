@@ -4,22 +4,43 @@ import BrandName from "../components/BrandName";
 
 // ─── Lista de ecuaciones LaTeX flotantes ──────────────────────────────────────
 const EQUATIONS = [
-  { tex: "n = p_{1}^{\\alpha_1}\\cdot p_{2}^{\\alpha_2}\\cdots p_{k}^{\\alpha_k}", scale: 1.6 },
+  {
+    tex: "n = p_{1}^{\\alpha_1}\\cdot p_{2}^{\\alpha_2}\\cdots p_{k}^{\\alpha_k}",
+    scale: 1.6,
+  },
   { tex: "x^2 - y^2 = (x + y)(x - y)", scale: 1.2 },
   { tex: "G = H \\times K", scale: 1.6 },
-  { tex: "\\mathbb{Z}_6 \\cong \\mathbb{Z}_2 \\times \\mathbb{Z}_3", scale: 1.1 },
+  {
+    tex: "\\mathbb{Z}_6 \\cong \\mathbb{Z}_2 \\times \\mathbb{Z}_3",
+    scale: 1.1,
+  },
   { tex: "5 = (1 + 2i)(1 - 2i)", scale: 1.6 },
   { tex: "A \\xrightarrow{e} \\text{Im}(f) \\xrightarrow{m} B", scale: 1.6 },
   { tex: "M \\cong R^n \\oplus \\bigoplus R/(p_i^{k_i})", scale: 1.6 },
   { tex: "S^1 \\to S^3 \\to S^2", scale: 1.4 },
   { tex: "A = \\int \\lambda \\, dE(\\lambda)", scale: 1.6 },
-  { tex: "\\det(A) = \\sum_{\\sigma \\in S_n} \\text{sgn}(\\sigma) \\prod_{i=1}^n a_{i,\\sigma(i)}", scale: 0.9 },
+  {
+    tex: "\\det(A) = \\sum_{\\sigma \\in S_n} \\text{sgn}(\\sigma) \\prod_{i=1}^n a_{i,\\sigma(i)}",
+    scale: 0.9,
+  },
   { tex: "\\int_a^b f(x)\\,dx = F(b) - F(a)", scale: 1.6 },
   { tex: "a^2 + b^2 = c^2", scale: 0.8 },
-  { tex: "f(z) = z^m e^{g(z)} \\prod_{n=1}^\\infty \\left(1 - \\frac{z}{a_n}\\right)e^{z/a_n}", scale: 1.6 },
-  { tex: "H_n(X) \\cong \\mathbb{Z}^k \\oplus \\bigoplus \\mathbb{Z}_{p_i^{m_i}}", scale: 1.3 },
-  { tex: "\\int_{X \\times Y} f\\,d(\\mu \\times \\nu) = \\int_X \\left(\\int_Y f\\,d\\nu\\right)d\\mu", scale: 1.6 },
-  { tex: "\\hat{A} = \\sum_i \\lambda_i |\\psi_i\\rangle\\langle\\psi_i|", scale: 1.1},
+  {
+    tex: "f(z) = z^m e^{g(z)} \\prod_{n=1}^\\infty \\left(1 - \\frac{z}{a_n}\\right)e^{z/a_n}",
+    scale: 1.6,
+  },
+  {
+    tex: "H_n(X) \\cong \\mathbb{Z}^k \\oplus \\bigoplus \\mathbb{Z}_{p_i^{m_i}}",
+    scale: 1.3,
+  },
+  {
+    tex: "\\int_{X \\times Y} f\\,d(\\mu \\times \\nu) = \\int_X \\left(\\int_Y f\\,d\\nu\\right)d\\mu",
+    scale: 1.6,
+  },
+  {
+    tex: "\\hat{A} = \\sum_i \\lambda_i |\\psi_i\\rangle\\langle\\psi_i|",
+    scale: 1.1,
+  },
   { tex: "f = m \\circ e", scale: 1.6 },
   { tex: "\\chi = V - E + F", scale: 1.7 },
   { tex: "e^{i\\pi} + 1 = 0", scale: 2.0 },
@@ -67,8 +88,6 @@ function MathIcon({ tex, color }) {
   );
 }
 
-
-
 export default function Home() {
   const [symbols, setSymbols] = useState([]);
   const [visible, setVisible] = useState(false);
@@ -80,7 +99,8 @@ export default function Home() {
       const link = document.createElement("link");
       link.id = "katex-css";
       link.rel = "stylesheet";
-      link.href = "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css";
+      link.href =
+        "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css";
       document.head.appendChild(link);
     }
     if (window.katex) {
@@ -95,47 +115,47 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-  const cols = 4;
-  const rows = 5;
+    const cols = 4;
+    const rows = 5;
 
-  // Crear lista de celdas y mezclarla aleatoriamente
-  const cells = [];
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      cells.push({ r, c });
+    // Crear lista de celdas y mezclarla aleatoriamente
+    const cells = [];
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        cells.push({ r, c });
+      }
     }
-  }
-  // Mezclar (Fisher-Yates)
-  for (let i = cells.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [cells[i], cells[j]] = [cells[j], cells[i]];
-  }
+    // Mezclar (Fisher-Yates)
+    for (let i = cells.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [cells[i], cells[j]] = [cells[j], cells[i]];
+    }
 
-  const generated = EQUATIONS.map((eq, i) => {
-    const cell = cells[i % cells.length];
-    // Posición base de la celda + offset aleatorio dentro de la celda
-    const cellW = 100 / cols;
-    const cellH = 100 / rows;
-    const left = cell.c * cellW + Math.random() * (cellW * 0.5);
-    const top  = cell.r * cellH + Math.random() * (cellH * 0.5);
+    const generated = EQUATIONS.map((eq, i) => {
+      const cell = cells[i % cells.length];
+      // Posición base de la celda + offset aleatorio dentro de la celda
+      const cellW = 100 / cols;
+      const cellH = 100 / rows;
+      const left = cell.c * cellW + Math.random() * (cellW * 0.5);
+      const top = cell.r * cellH + Math.random() * (cellH * 0.5);
 
-    return {
-      id: i,
-      tex: eq.tex,
-      style: {
-        left: `${left}%`,
-        top:  `${top}%`,
-        fontSize: `${eq.scale * 0.8}rem`,
-        opacity: 0.05 + Math.random() * 0.05,
-        animationDelay: `${Math.random() * 8}s`,
-        animationDuration: `${7 + Math.random() * 9}s`,
-      },
-    };
-  });
+      return {
+        id: i,
+        tex: eq.tex,
+        style: {
+          left: `${left}%`,
+          top: `${top}%`,
+          fontSize: `${eq.scale * 0.8}rem`,
+          opacity: 0.05 + Math.random() * 0.05,
+          animationDelay: `${Math.random() * 8}s`,
+          animationDuration: `${7 + Math.random() * 9}s`,
+        },
+      };
+    });
 
-  setSymbols(generated);
-  setTimeout(() => setVisible(true), 80);
-}, []);
+    setSymbols(generated);
+    setTimeout(() => setVisible(true), 80);
+  }, []);
 
   return (
     <>
@@ -330,35 +350,199 @@ export default function Home() {
 
       <div className="home">
         {/* Ecuaciones flotantes */}
-        {katexLoaded && symbols.map((s) => (
-          <FloatingEquation key={s.id} tex={s.tex} style={s.style} />
-        ))}
+        {katexLoaded &&
+          symbols.map((s) => (
+            <FloatingEquation key={s.id} tex={s.tex} style={s.style} />
+          ))}
 
         <div className="spacer"></div>
 
         <div className={`card ${visible ? "show" : ""}`}>
           <div className="logo-section">
             <div className="logo-circle">
-              <img src={`${import.meta.env.BASE_URL}assets/logoX.png`} alt="Logo Factorizando" />
+              <img
+                src={`${import.meta.env.BASE_URL}assets/logoX.png`}
+                alt="Logo Factorizando"
+              />
             </div>
             <div style={{ fontSize: "clamp(1.6rem, 7vw, 3rem)" }}>
               <BrandName size="1em" />
             </div>
             <p className="tagline">Plataforma de evaluación académica</p>
           </div>
-
+          <div className="divider"></div>
+          <div
+            style={{
+              margin: "28px auto 0",
+              maxWidth: 700, // puedes subir esto a 760 para que sea más ancho
+              width: "100%",
+              borderRadius: 12,
+              overflow: "hidden",
+              border: "1px solid #252830",
+              boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
+            }}
+          >
+            <div
+              style={{
+                position: "relative",
+                paddingBottom: "56.25%",
+                height: 0,
+              }}
+            >
+              <iframe
+                src="https://www.youtube.com/embed/-82ApOuxKME"
+                title="Video Factorizando"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                }}
+              />
+            </div>
+          </div>
           <div className="divider"></div>
 
-          <p className="section-label">Selecciona tu nivel</p>
+          <div style={{ marginTop: "1.8rem", textAlign: "center" }}>
+            <p className="section-label" style={{ marginBottom: "1.2rem" }}>
+              Acceso libre · Sin cuenta
+            </p>
 
+            {/* Grid de cuestionarios */}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+                gap: "1.2rem",
+                maxWidth: "700px",
+                margin: "0 auto",
+              }}
+            >
+              {/* EXANI-I */}
+              <Link
+                to="/exani-i"
+                className="btn"
+                style={{
+                  minWidth: "unset",
+                  border: "1px solid #ec652a",
+                  justifyContent: "flex-start",
+                }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.borderColor = "#f9a041")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.borderColor = "#ec652a")
+                }
+              >
+                <span
+                  className="btn-icon"
+                  style={{ fontSize: "2.2rem", color: "#f9a041" }}
+                >
+                  📙
+                </span>
+                <div style={{ flex: 1 }}>
+                  <span className="btn-label" style={{ display: "block" }}>
+                    Simulacro de EXANI-I-BUAP
+                  </span>
+                  <ul
+                    style={{
+                      listStyle: "disc",
+                      paddingLeft: "1.2rem",
+                      textAlign: "left",
+                      fontSize: "0.7rem",
+                      color: "var(--muted)",
+                      letterSpacing: "0.06em",
+                      lineHeight: 1.6,
+                      margin: "0.6rem 0 0 0",
+                    }}
+                  >
+                    <li>Pensamiento Científico</li>
+                    <li>Redacción Indirecta</li>
+                    <li>Comprensión Lectora</li>
+                    <li>Pensamiento Matemático</li>
+                  </ul>
+                </div>
+              </Link>
+
+              {/* EXANI-II */}
+              <Link
+                to="/exani-ii"
+                className="btn"
+                style={{
+                  minWidth: "unset",
+                  border: "1px solid #6ab327",
+                  justifyContent: "flex-start",
+                }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.borderColor = "#acc914")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.borderColor = "#6ab327")
+                }
+              >
+                <span
+                  className="btn-icon"
+                  style={{ fontSize: "2.2rem", color: "#acc914" }}
+                >
+                  📗
+                </span>
+                <div style={{ flex: 1 }}>
+                  <span className="btn-label" style={{ display: "block" }}>
+                    Simulacro de EXANI-II(EIPM/EPIU)
+                  </span>
+                  <ul
+                    style={{
+                      listStyle: "disc",
+                      paddingLeft: "1.2rem",
+                      textAlign: "left",
+                      fontSize: "0.7rem",
+                      color: "var(--muted)",
+                      letterSpacing: "0.06em",
+                      lineHeight: 1.6,
+                      margin: "0.6rem 0 0 0",
+                    }}
+                  >
+                    <li>Comprensión Lectora</li>
+                    <li>Redacción Indirecta</li>
+                    <li>Pensamiento Matemático</li>
+                  </ul>
+                </div>
+              </Link>
+            </div>
+          </div>
+          <p className="section-label">Selecciona tu nivel</p>
           <div className="btn-group">
             <Link to="/preparatoria" className="btn">
-              <span className="btn-icon" style={{ fontSize: "2.8rem", color: "#3b9eff", fontFamily: "Georgia, serif", lineHeight: 1 }}>Σ</span>
+              <span
+                className="btn-icon"
+                style={{
+                  fontSize: "2.8rem",
+                  color: "#3b9eff",
+                  fontFamily: "Georgia, serif",
+                  lineHeight: 1,
+                }}
+              >
+                Σ
+              </span>
               <span className="btn-label">Preparatoria</span>
               <span className="btn-sub">Nivel medio superior</span>
             </Link>
             <Link to="/universidad" className="btn">
-              <span className="btn-icon" style={{ fontSize: "2.8rem", color: "#f59e0b", fontFamily: "KaTeX_Math, serif", lineHeight: 1 }}>∫</span>
+              <span
+                className="btn-icon"
+                style={{
+                  fontSize: "2.8rem",
+                  color: "#f59e0b",
+                  fontFamily: "KaTeX_Math, serif",
+                  lineHeight: 1,
+                }}
+              >
+                ∫
+              </span>
               <span className="btn-label">Universidad</span>
               <span className="btn-sub">Nivel superior</span>
             </Link>

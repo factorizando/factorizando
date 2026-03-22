@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
 
 const C = {
   bg: "#0e0f11",
@@ -538,6 +539,108 @@ const questions = [
 ];
 
 // ── Componente ────────────────────────────────────────────────────────────────
+
+// ── Barra de navegación superior ─────────────────────────────────────────────
+const Navbar = () => {
+  const brandRef = useRef(null);
+
+  useEffect(() => {
+    const load = () => {
+      if (!document.getElementById("katex-css")) {
+        const lnk = document.createElement("link");
+        lnk.id = "katex-css";
+        lnk.rel = "stylesheet";
+        lnk.href =
+          "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css";
+        document.head.appendChild(lnk);
+      }
+      if (window.katex) {
+        render();
+      } else if (!document.getElementById("katex-js")) {
+        const sc = document.createElement("script");
+        sc.id = "katex-js";
+        sc.src = "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js";
+        sc.async = true;
+        sc.onload = render;
+        document.head.appendChild(sc);
+      }
+    };
+    const render = () => {
+      if (!brandRef.current || !window.katex) return;
+      window.katex.render(
+        "\\textbf{\\text{Facto}}\\textcolor{#f59e0b}{\\mathbb{R}[i]}\\textbf{\\text{zando}}",
+        brandRef.current,
+        { throwOnError: false, displayMode: false, trust: true, strict: false },
+      );
+    };
+    load();
+  }, []);
+
+  return (
+    <div
+      style={{
+        position: "sticky",
+        top: 0,
+        zIndex: 50,
+        background: "rgba(14,15,17,0.92)",
+        backdropFilter: "blur(12px)",
+        borderBottom: "1px solid #252830",
+        padding: "10px 20px",
+        display: "flex",
+        alignItems: "center",
+        gap: 12,
+      }}
+    >
+      <Link
+        to="/"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 10,
+          textDecoration: "none",
+          color: "inherit",
+        }}
+      >
+        <img
+          src={`${import.meta.env.BASE_URL}assets/logoX.png`}
+          alt="Logo Factorizando"
+          style={{
+            width: 34,
+            height: 34,
+            borderRadius: "50%",
+            objectFit: "cover",
+            border: "1px solid #3b9eff44",
+          }}
+        />
+        <span
+          style={{
+            fontSize: "1.1rem",
+            letterSpacing: ".04em",
+            userSelect: "none",
+            color: "#e8eaf0",
+          }}
+        >
+          <span ref={brandRef}>
+            {/* Fallback hasta que KaTeX cargue */}
+            <span
+              style={{
+                fontFamily: "'Playfair Display', Georgia, serif",
+                fontWeight: 700,
+              }}
+            >
+              Facto
+              <span style={{ color: "#f59e0b" }}>
+                ℝ[<em>i</em>]
+              </span>
+              zando
+            </span>
+          </span>
+        </span>
+      </Link>
+    </div>
+  );
+};
+
 export default function ExaniI() {
   const [mode, setMode] = useState("menu");
   const [examMode, setExamMode] = useState(null);
@@ -623,6 +726,7 @@ export default function ExaniI() {
     const totalQ = questions.length;
     return (
       <div style={{ minHeight: "100vh", background: C.bg, paddingBottom: 64 }}>
+        <Navbar />
         <style>{CSS}</style>
         <div
           style={{
@@ -866,6 +970,7 @@ export default function ExaniI() {
 
     return (
       <div style={{ minHeight: "100vh", background: C.bg, paddingBottom: 64 }}>
+        <Navbar />
         <style>{CSS}</style>
         <div style={{ maxWidth: 800, margin: "0 auto", padding: "32px 16px" }}>
           <div
@@ -1167,6 +1272,7 @@ export default function ExaniI() {
 
   return (
     <div style={{ minHeight: "100vh", background: C.bg, paddingBottom: 64 }}>
+      <Navbar />
       <style>{CSS}</style>
       <div style={{ maxWidth: 820, margin: "0 auto", padding: "24px 16px" }}>
         {/* Cabecera */}

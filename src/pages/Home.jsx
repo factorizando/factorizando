@@ -345,6 +345,29 @@ export default function Home() {
           .btn { min-width: unset; width: 100%; max-width: 320px; padding: 1.2rem 1.6rem; }
 
           .footer { font-size: 0.65rem; padding: 2rem 1rem 0 1rem; }
+
+          /* ✅ Arreglo para el grid de cuestionarios en mobile */
+          .questionnaires-grid {
+            display: grid !important;
+            gridTemplateColumns: 1fr !important;
+            gap: 0.8rem !important;
+            maxWidth: 100% !important;
+            width: 100% !important;
+          }
+
+          .questionnaires-grid .btn {
+            padding: 1rem 1.2rem;
+          }
+
+          .questionnaires-grid .btn-label {
+            font-size: 0.95rem;
+          }
+
+          .questionnaires-grid ul {
+            fontSize: "0.65rem" !important;
+            line-height: 1.4 !important;
+            margin: "0.4rem 0 0 0" !important;
+          }
         }
       `}</style>
 
@@ -414,12 +437,15 @@ export default function Home() {
 
             {/* Grid de cuestionarios */}
             <div
+              className="questionnaires-grid"
               style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+                gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
                 gap: "1.2rem",
-                maxWidth: "700px",
+                maxWidth: "720px",
                 margin: "0 auto",
+                width: "100%",
+                padding: "0 0.5rem",
               }}
             >
               {/* EXANI-I */}

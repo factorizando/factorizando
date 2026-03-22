@@ -28,6 +28,7 @@ import UniNumerosRacionales from "./pages/cuestionarios/UniNumerosRacionales";
 import Premedicina from "./pages/cuestionarios/Premedicina";
 import ExaniI from "./pages/cuestionarios/ExaniI";
 import ExaniII from "./pages/cuestionarios/ExaniII";
+import Registro from "./pages/Registro";
 
 // Cuestionarios — los irás agregando aquí conforme los crees
 // import Cuestionario1 from "./pages/cuestionarios/Cuestionario1";
@@ -187,6 +188,7 @@ export default function App() {
         />
         <Route path="/exani-i" element={<ExaniI />} />
         <Route path="/exani-ii" element={<ExaniII />} />
+        <Route path="/registro" element={<Registro />} />
 
         {/* ── Cuestionarios ──────────────────────────────────────────────────
          *  Para agregar un cuestionario nuevo:

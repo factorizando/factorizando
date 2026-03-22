@@ -5,14 +5,17 @@ import BrandName from "../components/BrandName";
 
 // ─── Floating equations for the art panel ──────────────────────────────────
 const EQUATIONS = [
-  { tex: "e^{i\\pi} + 1 = 0",                                          scale: 0.9 },
-  { tex: "\\int_a^b f(x)\\,dx = F(b)-F(a)",                            scale: 0.7 },
-  { tex: "a^2 + b^2 = c^2",                                            scale: 0.8 },
-  { tex: "\\sum_{n=1}^\\infty \\frac{1}{n^2} = \\frac{\\pi^2}{6}",    scale: 0.6 },
-  { tex: "\\nabla \\times \\mathbf{B} = \\mu_0 \\mathbf{J}",          scale: 0.6 },
-  { tex: "\\frac{d}{dx}e^x = e^x",                                     scale: 0.7 },
-  { tex: "x^n + y^n = z^n",                                            scale: 0.7 },
-  { tex: "\\mathbb{Z}_6 \\cong \\mathbb{Z}_2 \\times \\mathbb{Z}_3",  scale: 0.6 },
+  { tex: "e^{i\\pi} + 1 = 0", scale: 0.9 },
+  { tex: "\\int_a^b f(x)\\,dx = F(b)-F(a)", scale: 0.7 },
+  { tex: "a^2 + b^2 = c^2", scale: 0.8 },
+  { tex: "\\sum_{n=1}^\\infty \\frac{1}{n^2} = \\frac{\\pi^2}{6}", scale: 0.6 },
+  { tex: "\\nabla \\times \\mathbf{B} = \\mu_0 \\mathbf{J}", scale: 0.6 },
+  { tex: "\\frac{d}{dx}e^x = e^x", scale: 0.7 },
+  { tex: "x^n + y^n = z^n", scale: 0.7 },
+  {
+    tex: "\\mathbb{Z}_6 \\cong \\mathbb{Z}_2 \\times \\mathbb{Z}_3",
+    scale: 0.6,
+  },
 ];
 
 function FloatingEq({ tex, style }) {
@@ -20,8 +23,13 @@ function FloatingEq({ tex, style }) {
   useEffect(() => {
     if (!ref.current || !window.katex) return;
     try {
-      window.katex.render(tex, ref.current, { throwOnError: false, displayMode: false });
-      ref.current.querySelectorAll("*").forEach(el => el.style.color = "inherit");
+      window.katex.render(tex, ref.current, {
+        throwOnError: false,
+        displayMode: false,
+      });
+      ref.current
+        .querySelectorAll("*")
+        .forEach((el) => (el.style.color = "inherit"));
     } catch (e) {
       ref.current.textContent = tex;
     }
@@ -34,27 +42,33 @@ export default function Login() {
   const [searchParams] = useSearchParams();
   const dest = searchParams.get("dest") || "preparatoria"; // where to go after login
 
-  const [email, setEmail]       = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPw, setShowPw]     = useState(false);
-  const [loading, setLoading]   = useState(false);
-  const [error, setError]       = useState("");
-  const [eqs, setEqs]           = useState([]);
+  const [showPw, setShowPw] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [eqs, setEqs] = useState([]);
   const [katexReady, setKatexReady] = useState(!!window.katex);
 
   // Cargar KaTeX
   useEffect(() => {
-    if (window.katex) { setKatexReady(true); return; }
+    if (window.katex) {
+      setKatexReady(true);
+      return;
+    }
     if (!document.getElementById("katex-css")) {
       const link = document.createElement("link");
-      link.id = "katex-css"; link.rel = "stylesheet";
-      link.href = "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css";
+      link.id = "katex-css";
+      link.rel = "stylesheet";
+      link.href =
+        "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css";
       document.head.appendChild(link);
     }
     if (!document.getElementById("katex-js")) {
       const script = document.createElement("script");
       script.id = "katex-js";
-      script.src = "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js";
+      script.src =
+        "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js";
       script.async = true;
       script.onload = () => setKatexReady(true);
       document.head.appendChild(script);
@@ -63,23 +77,25 @@ export default function Login() {
 
   // Generar posiciones en cuadrícula para evitar solapamientos
   useEffect(() => {
-    const cols = 2, rows = 4;
+    const cols = 2,
+      rows = 4;
     const cells = [];
     for (let r = 0; r < rows; r++)
-      for (let c = 0; c < cols; c++)
-        cells.push({ r, c });
+      for (let c = 0; c < cols; c++) cells.push({ r, c });
     for (let i = cells.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [cells[i], cells[j]] = [cells[j], cells[i]];
     }
     const generated = EQUATIONS.map((eq, i) => {
       const cell = cells[i % cells.length];
-      const cellW = 100 / cols, cellH = 100 / rows;
+      const cellW = 100 / cols,
+        cellH = 100 / rows;
       return {
-        id: i, tex: eq.tex,
+        id: i,
+        tex: eq.tex,
         style: {
           left: `${cell.c * cellW + Math.random() * (cellW * 0.4)}%`,
-          top:  `${cell.r * cellH + Math.random() * (cellH * 0.5)}%`,
+          top: `${cell.r * cellH + Math.random() * (cellH * 0.5)}%`,
           fontSize: `${eq.scale}rem`,
           opacity: 0.08 + Math.random() * 0.08,
           animationDelay: `${i * 0.9}s`,
@@ -322,19 +338,26 @@ export default function Login() {
       `}</style>
 
       <div className="layout">
-
         {/* ── Left: Art panel ── */}
         <div className="side-art">
           <div className="art-glow" />
-          {katexReady && eqs.map((eq) => (
-            <FloatingEq key={eq.id} tex={eq.tex} style={eq.style} />
-          ))}
+          {katexReady &&
+            eqs.map((eq) => (
+              <FloatingEq key={eq.id} tex={eq.tex} style={eq.style} />
+            ))}
           <div className="art-content">
             <div className="art-logo">
-              <img src={`${import.meta.env.BASE_URL}assets/logoX.png`} alt="Logo Factorizando" />
+              <img
+                src={`${import.meta.env.BASE_URL}assets/logoX.png`}
+                alt="Logo Factorizando"
+              />
             </div>
             <BrandName size="2rem" />
-            <p className="art-quote">Donde las matemáticas<br />cobran forma</p>
+            <p className="art-quote">
+              La esencia de las matemáticas
+              <br />
+              radica en su libertad
+            </p>
           </div>
         </div>
 
@@ -342,9 +365,15 @@ export default function Login() {
         <div className="side-login">
           <div className="login-box">
             <div className="login-eyebrow">Acceso seguro</div>
-            <h1 className="login-title">Bienvenido<br />de vuelta</h1>
+            <h1 className="login-title">
+              Bienvenido
+              <br />
+              de vuelta
+            </h1>
             <p className="login-subtitle">
-              Ingresa tus credenciales para<br />acceder a tus cuestionarios.
+              Ingresa tus credenciales para
+              <br />
+              acceder a tus cuestionarios.
             </p>
 
             {/* Destination badge */}
@@ -359,15 +388,28 @@ export default function Login() {
                 <label htmlFor="email">Correo electrónico</label>
                 <div className="input-wrap">
                   <input
-                    id="email" type="email" required
+                    id="email"
+                    type="email"
+                    required
                     placeholder="alumno@ejemplo.com"
                     autoComplete="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
                   {/* Mail icon */}
-                  <svg className="input-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                  <svg
+                    className="input-icon"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
+                    />
                   </svg>
                 </div>
               </div>
@@ -377,17 +419,34 @@ export default function Login() {
                 <label htmlFor="password">Contraseña</label>
                 <div className="input-wrap">
                   <input
-                    id="password" type={showPw ? "text" : "password"} required
+                    id="password"
+                    type={showPw ? "text" : "password"}
+                    required
                     placeholder="••••••••"
                     autoComplete="current-password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
                   {/* Lock icon */}
-                  <svg className="input-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                  <svg
+                    className="input-icon"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                    />
                   </svg>
-                  <button type="button" className="toggle-pw" onClick={() => setShowPw(!showPw)}>
+                  <button
+                    type="button"
+                    className="toggle-pw"
+                    onClick={() => setShowPw(!showPw)}
+                  >
                     {showPw ? "🙈" : "👁"}
                   </button>
                 </div>
@@ -408,7 +467,6 @@ export default function Login() {
             </div>
           </div>
         </div>
-
       </div>
     </>
   );

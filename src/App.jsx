@@ -1,47 +1,28 @@
 // src/App.jsx
-// ─────────────────────────────────────────────────────────────────────────────
-// Estructura de rutas del proyecto Factorizando.
-// Usa React Router v6.
-// ─────────────────────────────────────────────────────────────────────────────
-
 import { HashRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Preparatoria from "./pages/Preparatoria";
 import Universidad from "./pages/Universidad";
+import Cuestionario from "./pages/Cuestionario";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Divisibilidad from "./pages/cuestionarios/Divisibilidad";
-import SumaEnteros from "./pages/cuestionarios/SumaEnteros";
-import LaCelula from "./pages/cuestionarios/LaCelula";
-import ProductoEnteros from "./pages/cuestionarios/ProductoEnteros";
-import EnterosPrepa from "./pages/cuestionarios/EnterosPrepa";
-import SintaxisEspanol from "./pages/cuestionarios/SintaxisEspanol";
-import PrimosMCDMCM from "./pages/cuestionarios/PrimosMCDMCM";
-import OrtografiaGrafias from "./pages/cuestionarios/OrtografiaGrafias";
-import CelulaOrganelos from "./pages/cuestionarios/CelulaOrganelos";
-import SinonimosAntonimosAnalogias from "./pages/cuestionarios/SinonimosAntonimosAnalogias";
-import RacionalesPrepa from "./pages/cuestionarios/RacionalesPrepa";
-import AlgebraPrepa from "./pages/cuestionarios/AlgebraPrepa";
-import SimuladorPrepa1 from "./pages/cuestionarios/SimuladorPrepa1";
-import DivisibilidadMCDMCM from "./pages/cuestionarios/DivisibilidadMCDMCM";
-import UniNumerosRacionales from "./pages/cuestionarios/UniNumerosRacionales";
-import Premedicina from "./pages/cuestionarios/Premedicina";
+import Registro from "./pages/Registro";
+import SelectorBloque from "./pages/SelectorBloque";
 import ExaniI from "./pages/cuestionarios/ExaniI";
 import ExaniII from "./pages/cuestionarios/ExaniII";
-import Registro from "./pages/Registro";
-
-// Cuestionarios — los irás agregando aquí conforme los crees
-// import Cuestionario1 from "./pages/cuestionarios/Cuestionario1";
 
 export default function App() {
   return (
     <HashRouter>
       <Routes>
-        {/* Pública */}
+        {/* ── Públicas ── */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/registro" element={<Registro />} />
+        <Route path="/exani-i" element={<ExaniI />} />
+        <Route path="/exani-ii" element={<ExaniII />} />
 
-        {/* Protegidas — requieren sesión activa */}
+        {/* ── Protegidas ── */}
         <Route
           path="/preparatoria"
           element={
@@ -58,152 +39,28 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/cuestionario/divisibilidad"
-          element={
-            <ProtectedRoute>
-              <Divisibilidad />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/cuestionario/suma-enteros"
-          element={
-            <ProtectedRoute>
-              <SumaEnteros />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/cuestionario/la-celula"
-          element={
-            <ProtectedRoute>
-              <LaCelula />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/cuestionario/producto-enteros"
-          element={
-            <ProtectedRoute>
-              <ProductoEnteros />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/cuestionario/enteros-prepa"
-          element={
-            <ProtectedRoute>
-              <EnterosPrepa />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/cuestionario/sintaxis-espanol"
-          element={
-            <ProtectedRoute>
-              <SintaxisEspanol />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/cuestionario/primos-mcd-mcm"
-          element={
-            <ProtectedRoute>
-              <PrimosMCDMCM />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/cuestionario/ortografia-grafias"
-          element={
-            <ProtectedRoute>
-              <OrtografiaGrafias />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/cuestionario/celula-organelos"
-          element={
-            <ProtectedRoute>
-              <CelulaOrganelos />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/cuestionario/sinonimos-antonimos-analogias"
-          element={
-            <ProtectedRoute>
-              <SinonimosAntonimosAnalogias />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/cuestionario/racionales-prepa"
-          element={
-            <ProtectedRoute>
-              <RacionalesPrepa />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/cuestionario/algebra-prepa"
-          element={
-            <ProtectedRoute>
-              <AlgebraPrepa />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/cuestionario/simulador-prepa-1"
-          element={
-            <ProtectedRoute>
-              <SimuladorPrepa1 />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/cuestionario/divisibilidad-mcd-mcm"
-          element={
-            <ProtectedRoute>
-              <DivisibilidadMCDMCM />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/cuestionario/uni-numeros-racionales"
-          element={
-            <ProtectedRoute>
-              <UniNumerosRacionales />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/cuestionario/premedicina"
-          element={
-            <ProtectedRoute>
-              <Premedicina />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="/exani-i" element={<ExaniI />} />
-        <Route path="/exani-ii" element={<ExaniII />} />
-        <Route path="/registro" element={<Registro />} />
 
-        {/* ── Cuestionarios ──────────────────────────────────────────────────
-         *  Para agregar un cuestionario nuevo:
-         *    1. Crea el archivo en src/pages/cuestionarios/MiCuestionario.jsx
-         *    2. Importa el componente arriba (línea comentada de ejemplo)
-         *    3. Agrega la ruta aquí, dentro de ProtectedRoute
-         *
-         * Ejemplo:
-         *   <Route path="/cuestionario/algebra-1" element={
-         *     <ProtectedRoute><Cuestionario1 /></ProtectedRoute>
-         *   } />
-         * ───────────────────────────────────────────────────────────────────
-         */}
+        {/* ── Selector de bloque ── */}
+        <Route
+          path="/selector/:id"
+          element={
+            <ProtectedRoute>
+              <SelectorBloque />
+            </ProtectedRoute>
+          }
+        />
 
-        {/* 404 */}
+        {/* ── Cuestionario dinámico ── */}
+        <Route
+          path="/cuestionario/:id"
+          element={
+            <ProtectedRoute>
+              <Cuestionario />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ── 404 ── */}
         <Route
           path="*"
           element={

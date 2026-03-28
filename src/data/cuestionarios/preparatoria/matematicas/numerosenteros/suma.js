@@ -1,0 +1,3041 @@
+// src/data/cuestionarios/preparatoria/matematicas/numerosenteros/suma.js
+// Archivo generado automáticamente - Suma de Enteros (250 preguntas)
+
+export const SUMA_ENTEROS = {
+  metadata: {
+    id: "suma-enteros",
+    titulo: "Suma de Enteros",
+    materia: "Matemáticas",
+    tema: "Números Reales",
+    subtema: "Números Enteros",
+    subnivel: "Suma y Producto",
+    nivel: "preparatoria",
+    icono: "🔢",
+  },
+
+  config: {
+    hasTheory: false,
+    hasSections: false,
+    hasNavigator: true,
+    timePerQuestion: 60, // 60 segundos (1 minuto) por reactivo
+    hasExplanations: true,
+  },
+
+  questions: [
+    {
+    "id": 1,
+    "question": "¿Cuánto es 5 + 3?",
+    "options": [
+      "6",
+      "8",
+      "9",
+      "2"
+    ],
+    "correctAnswer": 1,
+    "explanation": "5 + 3 = 8. Sumamos directamente."
+  },
+    {
+    "id": 2,
+    "question": "¿Cuánto es 7 + 4?",
+    "options": [
+      "10",
+      "12",
+      "11",
+      "3"
+    ],
+    "correctAnswer": 2,
+    "explanation": "7 + 4 = 11. Sumamos directamente."
+  },
+    {
+    "id": 3,
+    "question": "¿Cuánto es 12 + 8?",
+    "options": [
+      "18",
+      "20",
+      "22",
+      "16"
+    ],
+    "correctAnswer": 1,
+    "explanation": "12 + 8 = 20. Sumamos directamente."
+  },
+    {
+    "id": 4,
+    "question": "¿Cuánto es 15 + 6?",
+    "options": [
+      "20",
+      "21",
+      "19",
+      "23"
+    ],
+    "correctAnswer": 1,
+    "explanation": "15 + 6 = 21. Sumamos directamente."
+  },
+    {
+    "id": 5,
+    "question": "¿Cuánto es 9 + 9?",
+    "options": [
+      "16",
+      "17",
+      "18",
+      "19"
+    ],
+    "correctAnswer": 2,
+    "explanation": "9 + 9 = 18. Sumamos directamente."
+  },
+    {
+    "id": 6,
+    "question": "¿Cuánto es 2 + 7?",
+    "options": [
+      "8",
+      "9",
+      "10",
+      "5"
+    ],
+    "correctAnswer": 1,
+    "explanation": "2 + 7 = 9. Sumamos directamente."
+  },
+    {
+    "id": 7,
+    "question": "¿Cuánto es 4 + 6?",
+    "options": [
+      "9",
+      "10",
+      "11",
+      "8"
+    ],
+    "correctAnswer": 1,
+    "explanation": "4 + 6 = 10. Sumamos directamente."
+  },
+    {
+    "id": 8,
+    "question": "¿Cuánto es 11 + 5?",
+    "options": [
+      "14",
+      "16",
+      "15",
+      "17"
+    ],
+    "correctAnswer": 1,
+    "explanation": "11 + 5 = 16. Sumamos directamente."
+  },
+    {
+    "id": 9,
+    "question": "¿Cuánto es 3 + 8?",
+    "options": [
+      "10",
+      "12",
+      "11",
+      "9"
+    ],
+    "correctAnswer": 2,
+    "explanation": "3 + 8 = 11. Sumamos directamente."
+  },
+    {
+    "id": 10,
+    "question": "¿Cuánto es 13 + 7?",
+    "options": [
+      "19",
+      "18",
+      "21",
+      "20"
+    ],
+    "correctAnswer": 3,
+    "explanation": "13 + 7 = 20. Sumamos directamente."
+  },
+    {
+    "id": 11,
+    "question": "¿Cuánto es 6 + 9?",
+    "options": [
+      "14",
+      "16",
+      "15",
+      "13"
+    ],
+    "correctAnswer": 2,
+    "explanation": "6 + 9 = 15. Sumamos directamente."
+  },
+    {
+    "id": 12,
+    "question": "¿Cuánto es 8 + 8?",
+    "options": [
+      "14",
+      "15",
+      "16",
+      "17"
+    ],
+    "correctAnswer": 2,
+    "explanation": "8 + 8 = 16. Sumamos directamente."
+  },
+    {
+    "id": 13,
+    "question": "¿Cuánto es 17 + 3?",
+    "options": [
+      "18",
+      "19",
+      "21",
+      "20"
+    ],
+    "correctAnswer": 3,
+    "explanation": "17 + 3 = 20. Sumamos directamente."
+  },
+    {
+    "id": 14,
+    "question": "¿Cuánto es 25 + 5?",
+    "options": [
+      "28",
+      "29",
+      "31",
+      "30"
+    ],
+    "correctAnswer": 3,
+    "explanation": "25 + 5 = 30. Sumamos directamente."
+  },
+    {
+    "id": 15,
+    "question": "¿Cuánto es 14 + 16?",
+    "options": [
+      "28",
+      "29",
+      "31",
+      "30"
+    ],
+    "correctAnswer": 3,
+    "explanation": "14 + 16 = 30. Sumamos directamente."
+  },
+    {
+    "id": 16,
+    "question": "¿Cuánto es 22 + 8?",
+    "options": [
+      "28",
+      "29",
+      "31",
+      "30"
+    ],
+    "correctAnswer": 3,
+    "explanation": "22 + 8 = 30. Sumamos directamente."
+  },
+    {
+    "id": 17,
+    "question": "¿Cuánto es 7 + 13?",
+    "options": [
+      "18",
+      "19",
+      "21",
+      "20"
+    ],
+    "correctAnswer": 3,
+    "explanation": "7 + 13 = 20. Sumamos directamente."
+  },
+    {
+    "id": 18,
+    "question": "¿Cuánto es 18 + 12?",
+    "options": [
+      "28",
+      "29",
+      "31",
+      "30"
+    ],
+    "correctAnswer": 3,
+    "explanation": "18 + 12 = 30. Sumamos directamente."
+  },
+    {
+    "id": 19,
+    "question": "¿Cuánto es 30 + 10?",
+    "options": [
+      "38",
+      "39",
+      "41",
+      "40"
+    ],
+    "correctAnswer": 3,
+    "explanation": "30 + 10 = 40. Sumamos directamente."
+  },
+    {
+    "id": 20,
+    "question": "¿Cuánto es 45 + 15?",
+    "options": [
+      "58",
+      "59",
+      "61",
+      "60"
+    ],
+    "correctAnswer": 3,
+    "explanation": "45 + 15 = 60. Sumamos directamente."
+  },
+    {
+    "id": 21,
+    "question": "¿Cuánto es 23 + 17?",
+    "options": [
+      "38",
+      "39",
+      "41",
+      "40"
+    ],
+    "correctAnswer": 3,
+    "explanation": "23 + 17 = 40. Sumamos directamente."
+  },
+    {
+    "id": 22,
+    "question": "¿Cuánto es 11 + 19?",
+    "options": [
+      "28",
+      "29",
+      "31",
+      "30"
+    ],
+    "correctAnswer": 3,
+    "explanation": "11 + 19 = 30. Sumamos directamente."
+  },
+    {
+    "id": 23,
+    "question": "¿Cuánto es 35 + 25?",
+    "options": [
+      "58",
+      "59",
+      "61",
+      "60"
+    ],
+    "correctAnswer": 3,
+    "explanation": "35 + 25 = 60. Sumamos directamente."
+  },
+    {
+    "id": 24,
+    "question": "¿Cuánto es 40 + 20?",
+    "options": [
+      "58",
+      "59",
+      "61",
+      "60"
+    ],
+    "correctAnswer": 3,
+    "explanation": "40 + 20 = 60. Sumamos directamente."
+  },
+    {
+    "id": 25,
+    "question": "¿Cuánto es 50 + 30?",
+    "options": [
+      "78",
+      "79",
+      "81",
+      "80"
+    ],
+    "correctAnswer": 3,
+    "explanation": "50 + 30 = 80. Sumamos directamente."
+  },
+    {
+    "id": 26,
+    "question": "¿Cuánto es 16 + 24?",
+    "options": [
+      "38",
+      "39",
+      "41",
+      "40"
+    ],
+    "correctAnswer": 3,
+    "explanation": "16 + 24 = 40. Sumamos directamente."
+  },
+    {
+    "id": 27,
+    "question": "¿Cuánto es 28 + 12?",
+    "options": [
+      "38",
+      "39",
+      "41",
+      "40"
+    ],
+    "correctAnswer": 3,
+    "explanation": "28 + 12 = 40. Sumamos directamente."
+  },
+    {
+    "id": 28,
+    "question": "¿Cuánto es 33 + 7?",
+    "options": [
+      "38",
+      "39",
+      "41",
+      "40"
+    ],
+    "correctAnswer": 3,
+    "explanation": "33 + 7 = 40. Sumamos directamente."
+  },
+    {
+    "id": 29,
+    "question": "¿Cuánto es 42 + 18?",
+    "options": [
+      "58",
+      "59",
+      "61",
+      "60"
+    ],
+    "correctAnswer": 3,
+    "explanation": "42 + 18 = 60. Sumamos directamente."
+  },
+    {
+    "id": 30,
+    "question": "¿Cuánto es 55 + 45?",
+    "options": [
+      "98",
+      "99",
+      "101",
+      "100"
+    ],
+    "correctAnswer": 3,
+    "explanation": "55 + 45 = 100. Sumamos directamente."
+  },
+    {
+    "id": 31,
+    "question": "¿Cuánto es (−3) + (−5)?",
+    "options": [
+      "−6",
+      "−8",
+      "8",
+      "−2"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-3) + (-5) = -8."
+  },
+    {
+    "id": 32,
+    "question": "¿Cuánto es (−7) + (−4)?",
+    "options": [
+      "−3",
+      "11",
+      "−11",
+      "−10"
+    ],
+    "correctAnswer": 2,
+    "explanation": "(-7) + (-4) = -11."
+  },
+    {
+    "id": 33,
+    "question": "¿Cuánto es (−10) + (−6)?",
+    "options": [
+      "−14",
+      "−16",
+      "16",
+      "−4"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-10) + (-6) = -16."
+  },
+    {
+    "id": 34,
+    "question": "¿Cuánto es (−12) + (−9)?",
+    "options": [
+      "−20",
+      "−22",
+      "−21",
+      "21"
+    ],
+    "correctAnswer": 2,
+    "explanation": "(-12) + (-9) = -21."
+  },
+    {
+    "id": 35,
+    "question": "¿Cuánto es (−25) + (−15)?",
+    "options": [
+      "−35",
+      "−40",
+      "40",
+      "−45"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-25) + (-15) = -40."
+  },
+    {
+    "id": 36,
+    "question": "¿Cuánto es (−2) + (−8)?",
+    "options": [
+      "−8",
+      "−10",
+      "10",
+      "−6"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-2) + (-8) = -10."
+  },
+    {
+    "id": 37,
+    "question": "¿Cuánto es (−6) + (−4)?",
+    "options": [
+      "−8",
+      "−10",
+      "10",
+      "−2"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-6) + (-4) = -10."
+  },
+    {
+    "id": 38,
+    "question": "¿Cuánto es (−11) + (−9)?",
+    "options": [
+      "−18",
+      "−20",
+      "20",
+      "−2"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-11) + (-9) = -20."
+  },
+    {
+    "id": 39,
+    "question": "¿Cuánto es (−15) + (−5)?",
+    "options": [
+      "−18",
+      "−20",
+      "20",
+      "−10"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-15) + (-5) = -20."
+  },
+    {
+    "id": 40,
+    "question": "¿Cuánto es (−13) + (−7)?",
+    "options": [
+      "−18",
+      "−20",
+      "20",
+      "−6"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-13) + (-7) = -20."
+  },
+    {
+    "id": 41,
+    "question": "¿Cuánto es (−20) + (−10)?",
+    "options": [
+      "−28",
+      "−30",
+      "30",
+      "−10"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-20) + (-10) = -30."
+  },
+    {
+    "id": 42,
+    "question": "¿Cuánto es (−14) + (−16)?",
+    "options": [
+      "−28",
+      "−30",
+      "30",
+      "−2"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-14) + (-16) = -30."
+  },
+    {
+    "id": 43,
+    "question": "¿Cuánto es (−18) + (−12)?",
+    "options": [
+      "−28",
+      "−30",
+      "30",
+      "−6"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-18) + (-12) = -30."
+  },
+    {
+    "id": 44,
+    "question": "¿Cuánto es (−22) + (−8)?",
+    "options": [
+      "−28",
+      "−30",
+      "30",
+      "−14"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-22) + (-8) = -30."
+  },
+    {
+    "id": 45,
+    "question": "¿Cuánto es (−17) + (−13)?",
+    "options": [
+      "−28",
+      "−30",
+      "30",
+      "−4"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-17) + (-13) = -30."
+  },
+    {
+    "id": 46,
+    "question": "¿Cuánto es (−30) + (−20)?",
+    "options": [
+      "−48",
+      "−50",
+      "50",
+      "−10"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-30) + (-20) = -50."
+  },
+    {
+    "id": 47,
+    "question": "¿Cuánto es (−25) + (−25)?",
+    "options": [
+      "−48",
+      "−50",
+      "50",
+      "0"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-25) + (-25) = -50."
+  },
+    {
+    "id": 48,
+    "question": "¿Cuánto es (−40) + (−10)?",
+    "options": [
+      "−48",
+      "−50",
+      "50",
+      "−30"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-40) + (-10) = -50."
+  },
+    {
+    "id": 49,
+    "question": "¿Cuánto es (−35) + (−15)?",
+    "options": [
+      "−48",
+      "−50",
+      "50",
+      "−20"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-35) + (-15) = -50."
+  },
+    {
+    "id": 50,
+    "question": "¿Cuánto es (−45) + (−5)?",
+    "options": [
+      "−48",
+      "−50",
+      "50",
+      "−40"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-45) + (-5) = -50."
+  },
+    {
+    "id": 51,
+    "question": "¿Cuánto es (−60) + (−40)?",
+    "options": [
+      "−98",
+      "−100",
+      "100",
+      "−20"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-60) + (-40) = -100."
+  },
+    {
+    "id": 52,
+    "question": "¿Cuánto es (−55) + (−45)?",
+    "options": [
+      "−98",
+      "−100",
+      "100",
+      "−10"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-55) + (-45) = -100."
+  },
+    {
+    "id": 53,
+    "question": "¿Cuánto es (−70) + (−30)?",
+    "options": [
+      "−98",
+      "−100",
+      "100",
+      "−40"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-70) + (-30) = -100."
+  },
+    {
+    "id": 54,
+    "question": "¿Cuánto es (−80) + (−20)?",
+    "options": [
+      "−98",
+      "−100",
+      "100",
+      "−60"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-80) + (-20) = -100."
+  },
+    {
+    "id": 55,
+    "question": "¿Cuánto es (−75) + (−25)?",
+    "options": [
+      "−98",
+      "−100",
+      "100",
+      "−50"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-75) + (-25) = -100."
+  },
+    {
+    "id": 56,
+    "question": "¿Cuánto es (−100) + (−50)?",
+    "options": [
+      "−148",
+      "−150",
+      "150",
+      "−50"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-100) + (-50) = -150."
+  },
+    {
+    "id": 57,
+    "question": "¿Cuánto es (−90) + (−60)?",
+    "options": [
+      "−148",
+      "−150",
+      "150",
+      "−30"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-90) + (-60) = -150."
+  },
+    {
+    "id": 58,
+    "question": "¿Cuánto es (−85) + (−65)?",
+    "options": [
+      "−148",
+      "−150",
+      "150",
+      "−20"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-85) + (-65) = -150."
+  },
+    {
+    "id": 59,
+    "question": "¿Cuánto es (−110) + (−40)?",
+    "options": [
+      "−148",
+      "−150",
+      "150",
+      "−70"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-110) + (-40) = -150."
+  },
+    {
+    "id": 60,
+    "question": "¿Cuánto es (−120) + (−30)?",
+    "options": [
+      "−148",
+      "−150",
+      "150",
+      "−90"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-120) + (-30) = -150."
+  },
+    {
+    "id": 61,
+    "question": "¿Cuánto es 8 + (−3)?",
+    "options": [
+      "4",
+      "5",
+      "6",
+      "11"
+    ],
+    "correctAnswer": 1,
+    "explanation": "8 + (-3) = 5."
+  },
+    {
+    "id": 62,
+    "question": "¿Cuánto es 10 + (−4)?",
+    "options": [
+      "8",
+      "6",
+      "14",
+      "5"
+    ],
+    "correctAnswer": 1,
+    "explanation": "10 + (-4) = 6."
+  },
+    {
+    "id": 63,
+    "question": "¿Cuánto es 15 + (−7)?",
+    "options": [
+      "6",
+      "9",
+      "8",
+      "22"
+    ],
+    "correctAnswer": 2,
+    "explanation": "15 + (-7) = 8."
+  },
+    {
+    "id": 64,
+    "question": "¿Cuánto es 20 + (−9)?",
+    "options": [
+      "10",
+      "12",
+      "11",
+      "29"
+    ],
+    "correctAnswer": 2,
+    "explanation": "20 + (-9) = 11."
+  },
+    {
+    "id": 65,
+    "question": "¿Cuánto es 30 + (−12)?",
+    "options": [
+      "16",
+      "18",
+      "20",
+      "42"
+    ],
+    "correctAnswer": 1,
+    "explanation": "30 + (-12) = 18."
+  },
+    {
+    "id": 66,
+    "question": "¿Cuánto es 12 + (−5)?",
+    "options": [
+      "6",
+      "7",
+      "8",
+      "17"
+    ],
+    "correctAnswer": 1,
+    "explanation": "12 + (-5) = 7."
+  },
+    {
+    "id": 67,
+    "question": "¿Cuánto es 18 + (−6)?",
+    "options": [
+      "10",
+      "12",
+      "14",
+      "24"
+    ],
+    "correctAnswer": 1,
+    "explanation": "18 + (-6) = 12."
+  },
+    {
+    "id": 68,
+    "question": "¿Cuánto es 25 + (−10)?",
+    "options": [
+      "13",
+      "15",
+      "17",
+      "35"
+    ],
+    "correctAnswer": 1,
+    "explanation": "25 + (-10) = 15."
+  },
+    {
+    "id": 69,
+    "question": "¿Cuánto es 14 + (−8)?",
+    "options": [
+      "4",
+      "6",
+      "8",
+      "22"
+    ],
+    "correctAnswer": 1,
+    "explanation": "14 + (-8) = 6."
+  },
+    {
+    "id": 70,
+    "question": "¿Cuánto es 22 + (−15)?",
+    "options": [
+      "5",
+      "7",
+      "9",
+      "37"
+    ],
+    "correctAnswer": 1,
+    "explanation": "22 + (-15) = 7."
+  },
+    {
+    "id": 71,
+    "question": "¿Cuánto es 40 + (−18)?",
+    "options": [
+      "20",
+      "22",
+      "24",
+      "58"
+    ],
+    "correctAnswer": 1,
+    "explanation": "40 + (-18) = 22."
+  },
+    {
+    "id": 72,
+    "question": "¿Cuánto es 35 + (−20)?",
+    "options": [
+      "13",
+      "15",
+      "17",
+      "55"
+    ],
+    "correctAnswer": 1,
+    "explanation": "35 + (-20) = 15."
+  },
+    {
+    "id": 73,
+    "question": "¿Cuánto es 50 + (−25)?",
+    "options": [
+      "23",
+      "25",
+      "27",
+      "75"
+    ],
+    "correctAnswer": 1,
+    "explanation": "50 + (-25) = 25."
+  },
+    {
+    "id": 74,
+    "question": "¿Cuánto es 60 + (−33)?",
+    "options": [
+      "25",
+      "27",
+      "29",
+      "93"
+    ],
+    "correctAnswer": 1,
+    "explanation": "60 + (-33) = 27."
+  },
+    {
+    "id": 75,
+    "question": "¿Cuánto es 45 + (−22)?",
+    "options": [
+      "21",
+      "23",
+      "25",
+      "67"
+    ],
+    "correctAnswer": 1,
+    "explanation": "45 + (-22) = 23."
+  },
+    {
+    "id": 76,
+    "question": "¿Cuánto es 100 + (−45)?",
+    "options": [
+      "53",
+      "55",
+      "57",
+      "145"
+    ],
+    "correctAnswer": 1,
+    "explanation": "100 + (-45) = 55."
+  },
+    {
+    "id": 77,
+    "question": "¿Cuánto es 75 + (−38)?",
+    "options": [
+      "35",
+      "37",
+      "39",
+      "113"
+    ],
+    "correctAnswer": 1,
+    "explanation": "75 + (-38) = 37."
+  },
+    {
+    "id": 78,
+    "question": "¿Cuánto es 80 + (−55)?",
+    "options": [
+      "23",
+      "25",
+      "27",
+      "135"
+    ],
+    "correctAnswer": 1,
+    "explanation": "80 + (-55) = 25."
+  },
+    {
+    "id": 79,
+    "question": "¿Cuánto es 90 + (−47)?",
+    "options": [
+      "41",
+      "43",
+      "45",
+      "137"
+    ],
+    "correctAnswer": 1,
+    "explanation": "90 + (-47) = 43."
+  },
+    {
+    "id": 80,
+    "question": "¿Cuánto es 70 + (−34)?",
+    "options": [
+      "34",
+      "36",
+      "38",
+      "104"
+    ],
+    "correctAnswer": 1,
+    "explanation": "70 + (-34) = 36."
+  },
+    {
+    "id": 81,
+    "question": "¿Cuánto es 55 + (−30)?",
+    "options": [
+      "23",
+      "25",
+      "27",
+      "85"
+    ],
+    "correctAnswer": 1,
+    "explanation": "55 + (-30) = 25."
+  },
+    {
+    "id": 82,
+    "question": "¿Cuánto es 48 + (−26)?",
+    "options": [
+      "20",
+      "22",
+      "24",
+      "74"
+    ],
+    "correctAnswer": 1,
+    "explanation": "48 + (-26) = 22."
+  },
+    {
+    "id": 83,
+    "question": "¿Cuánto es 66 + (−40)?",
+    "options": [
+      "24",
+      "26",
+      "28",
+      "106"
+    ],
+    "correctAnswer": 1,
+    "explanation": "66 + (-40) = 26."
+  },
+    {
+    "id": 84,
+    "question": "¿Cuánto es 72 + (−50)?",
+    "options": [
+      "20",
+      "22",
+      "24",
+      "122"
+    ],
+    "correctAnswer": 1,
+    "explanation": "72 + (-50) = 22."
+  },
+    {
+    "id": 85,
+    "question": "¿Cuánto es 85 + (−60)?",
+    "options": [
+      "23",
+      "25",
+      "27",
+      "145"
+    ],
+    "correctAnswer": 1,
+    "explanation": "85 + (-60) = 25."
+  },
+    {
+    "id": 86,
+    "question": "¿Cuánto es 120 + (−75)?",
+    "options": [
+      "43",
+      "45",
+      "47",
+      "195"
+    ],
+    "correctAnswer": 1,
+    "explanation": "120 + (-75) = 45."
+  },
+    {
+    "id": 87,
+    "question": "¿Cuánto es 200 + (−150)?",
+    "options": [
+      "48",
+      "50",
+      "52",
+      "350"
+    ],
+    "correctAnswer": 1,
+    "explanation": "200 + (-150) = 50."
+  },
+    {
+    "id": 88,
+    "question": "¿Cuánto es 180 + (−95)?",
+    "options": [
+      "83",
+      "85",
+      "87",
+      "275"
+    ],
+    "correctAnswer": 1,
+    "explanation": "180 + (-95) = 85."
+  },
+    {
+    "id": 89,
+    "question": "¿Cuánto es 150 + (−88)?",
+    "options": [
+      "60",
+      "62",
+      "64",
+      "238"
+    ],
+    "correctAnswer": 1,
+    "explanation": "150 + (-88) = 62."
+  },
+    {
+    "id": 90,
+    "question": "¿Cuánto es 250 + (−200)?",
+    "options": [
+      "48",
+      "50",
+      "52",
+      "450"
+    ],
+    "correctAnswer": 1,
+    "explanation": "250 + (-200) = 50."
+  },
+    {
+    "id": 91,
+    "question": "¿Cuánto es 3 + (−7)?",
+    "options": [
+      "4",
+      "−4",
+      "−10",
+      "10"
+    ],
+    "correctAnswer": 1,
+    "explanation": "3 + (-7) = -4."
+  },
+    {
+    "id": 92,
+    "question": "¿Cuánto es 5 + (−9)?",
+    "options": [
+      "−3",
+      "−4",
+      "14",
+      "−14"
+    ],
+    "correctAnswer": 1,
+    "explanation": "5 + (-9) = -4."
+  },
+    {
+    "id": 93,
+    "question": "¿Cuánto es 6 + (−13)?",
+    "options": [
+      "−7",
+      "7",
+      "−19",
+      "19"
+    ],
+    "correctAnswer": 0,
+    "explanation": "6 + (-13) = -7."
+  },
+    {
+    "id": 94,
+    "question": "¿Cuánto es 11 + (−18)?",
+    "options": [
+      "7",
+      "−8",
+      "−7",
+      "−29"
+    ],
+    "correctAnswer": 2,
+    "explanation": "11 + (-18) = -7."
+  },
+    {
+    "id": 95,
+    "question": "¿Cuánto es 14 + (−25)?",
+    "options": [
+      "−10",
+      "−11",
+      "−39",
+      "11"
+    ],
+    "correctAnswer": 1,
+    "explanation": "14 + (-25) = -11."
+  },
+    {
+    "id": 96,
+    "question": "¿Cuánto es 4 + (−10)?",
+    "options": [
+      "−4",
+      "−6",
+      "14",
+      "6"
+    ],
+    "correctAnswer": 1,
+    "explanation": "4 + (-10) = -6."
+  },
+    {
+    "id": 97,
+    "question": "¿Cuánto es 8 + (−15)?",
+    "options": [
+      "−5",
+      "−7",
+      "23",
+      "7"
+    ],
+    "correctAnswer": 1,
+    "explanation": "8 + (-15) = -7."
+  },
+    {
+    "id": 98,
+    "question": "¿Cuánto es 12 + (−20)?",
+    "options": [
+      "−6",
+      "−8",
+      "32",
+      "8"
+    ],
+    "correctAnswer": 1,
+    "explanation": "12 + (-20) = -8."
+  },
+    {
+    "id": 99,
+    "question": "¿Cuánto es 7 + (−16)?",
+    "options": [
+      "−7",
+      "−9",
+      "23",
+      "9"
+    ],
+    "correctAnswer": 1,
+    "explanation": "7 + (-16) = -9."
+  },
+    {
+    "id": 100,
+    "question": "¿Cuánto es 10 + (−22)?",
+    "options": [
+      "−10",
+      "−12",
+      "32",
+      "12"
+    ],
+    "correctAnswer": 1,
+    "explanation": "10 + (-22) = -12."
+  },
+    {
+    "id": 101,
+    "question": "¿Cuánto es 15 + (−30)?",
+    "options": [
+      "−13",
+      "−15",
+      "45",
+      "15"
+    ],
+    "correctAnswer": 1,
+    "explanation": "15 + (-30) = -15."
+  },
+    {
+    "id": 102,
+    "question": "¿Cuánto es 20 + (−35)?",
+    "options": [
+      "−13",
+      "−15",
+      "55",
+      "15"
+    ],
+    "correctAnswer": 1,
+    "explanation": "20 + (-35) = -15."
+  },
+    {
+    "id": 103,
+    "question": "¿Cuánto es 25 + (−40)?",
+    "options": [
+      "−13",
+      "−15",
+      "65",
+      "15"
+    ],
+    "correctAnswer": 1,
+    "explanation": "25 + (-40) = -15."
+  },
+    {
+    "id": 104,
+    "question": "¿Cuánto es 18 + (−30)?",
+    "options": [
+      "−10",
+      "−12",
+      "48",
+      "12"
+    ],
+    "correctAnswer": 1,
+    "explanation": "18 + (-30) = -12."
+  },
+    {
+    "id": 105,
+    "question": "¿Cuánto es 22 + (−40)?",
+    "options": [
+      "−16",
+      "−18",
+      "62",
+      "18"
+    ],
+    "correctAnswer": 1,
+    "explanation": "22 + (-40) = -18."
+  },
+    {
+    "id": 106,
+    "question": "¿Cuánto es 30 + (−55)?",
+    "options": [
+      "−23",
+      "−25",
+      "85",
+      "25"
+    ],
+    "correctAnswer": 1,
+    "explanation": "30 + (-55) = -25."
+  },
+    {
+    "id": 107,
+    "question": "¿Cuánto es 40 + (−65)?",
+    "options": [
+      "−23",
+      "−25",
+      "105",
+      "25"
+    ],
+    "correctAnswer": 1,
+    "explanation": "40 + (-65) = -25."
+  },
+    {
+    "id": 108,
+    "question": "¿Cuánto es 45 + (−70)?",
+    "options": [
+      "−23",
+      "−25",
+      "115",
+      "25"
+    ],
+    "correctAnswer": 1,
+    "explanation": "45 + (-70) = -25."
+  },
+    {
+    "id": 109,
+    "question": "¿Cuánto es 50 + (−80)?",
+    "options": [
+      "−28",
+      "−30",
+      "130",
+      "30"
+    ],
+    "correctAnswer": 1,
+    "explanation": "50 + (-80) = -30."
+  },
+    {
+    "id": 110,
+    "question": "¿Cuánto es 35 + (−60)?",
+    "options": [
+      "−23",
+      "−25",
+      "95",
+      "25"
+    ],
+    "correctAnswer": 1,
+    "explanation": "35 + (-60) = -25."
+  },
+    {
+    "id": 111,
+    "question": "¿Cuánto es 60 + (−90)?",
+    "options": [
+      "−28",
+      "−30",
+      "150",
+      "30"
+    ],
+    "correctAnswer": 1,
+    "explanation": "60 + (-90) = -30."
+  },
+    {
+    "id": 112,
+    "question": "¿Cuánto es 70 + (−100)?",
+    "options": [
+      "−28",
+      "−30",
+      "170",
+      "30"
+    ],
+    "correctAnswer": 1,
+    "explanation": "70 + (-100) = -30."
+  },
+    {
+    "id": 113,
+    "question": "¿Cuánto es 80 + (−120)?",
+    "options": [
+      "−38",
+      "−40",
+      "200",
+      "40"
+    ],
+    "correctAnswer": 1,
+    "explanation": "80 + (-120) = -40."
+  },
+    {
+    "id": 114,
+    "question": "¿Cuánto es 75 + (−100)?",
+    "options": [
+      "−23",
+      "−25",
+      "175",
+      "25"
+    ],
+    "correctAnswer": 1,
+    "explanation": "75 + (-100) = -25."
+  },
+    {
+    "id": 115,
+    "question": "¿Cuánto es 90 + (−130)?",
+    "options": [
+      "−38",
+      "−40",
+      "220",
+      "40"
+    ],
+    "correctAnswer": 1,
+    "explanation": "90 + (-130) = -40."
+  },
+    {
+    "id": 116,
+    "question": "¿Cuánto es 100 + (−160)?",
+    "options": [
+      "−58",
+      "−60",
+      "260",
+      "60"
+    ],
+    "correctAnswer": 1,
+    "explanation": "100 + (-160) = -60."
+  },
+    {
+    "id": 117,
+    "question": "¿Cuánto es 120 + (−200)?",
+    "options": [
+      "−78",
+      "−80",
+      "320",
+      "80"
+    ],
+    "correctAnswer": 1,
+    "explanation": "120 + (-200) = -80."
+  },
+    {
+    "id": 118,
+    "question": "¿Cuánto es 150 + (−250)?",
+    "options": [
+      "−98",
+      "−100",
+      "400",
+      "100"
+    ],
+    "correctAnswer": 1,
+    "explanation": "150 + (-250) = -100."
+  },
+    {
+    "id": 119,
+    "question": "¿Cuánto es 200 + (−350)?",
+    "options": [
+      "−148",
+      "−150",
+      "550",
+      "150"
+    ],
+    "correctAnswer": 1,
+    "explanation": "200 + (-350) = -150."
+  },
+    {
+    "id": 120,
+    "question": "¿Cuánto es 180 + (−300)?",
+    "options": [
+      "−118",
+      "−120",
+      "480",
+      "120"
+    ],
+    "correctAnswer": 1,
+    "explanation": "180 + (-300) = -120."
+  },
+    {
+    "id": 121,
+    "question": "¿Cuánto es (−8) + 0?",
+    "options": [
+      "8",
+      "0",
+      "−8",
+      "−16"
+    ],
+    "correctAnswer": 2,
+    "explanation": "(-8) + 0 = -8."
+  },
+    {
+    "id": 122,
+    "question": "¿Cuánto es 0 + 13?",
+    "options": [
+      "0",
+      "−13",
+      "13",
+      "26"
+    ],
+    "correctAnswer": 2,
+    "explanation": "0 + 13 = 13. Sumamos directamente."
+  },
+    {
+    "id": 123,
+    "question": "¿Cuánto es 0 + 0?",
+    "options": [
+      "1",
+      "−1",
+      "indefinido",
+      "0"
+    ],
+    "correctAnswer": 3,
+    "explanation": "0 + 0 = 0. Sumamos directamente."
+  },
+    {
+    "id": 124,
+    "question": "¿Cuánto es 22 + 0?",
+    "options": [
+      "0",
+      "44",
+      "22",
+      "11"
+    ],
+    "correctAnswer": 2,
+    "explanation": "22 + 0 = 22. Sumamos directamente."
+  },
+    {
+    "id": 125,
+    "question": "¿Cuánto es (−17) + 0?",
+    "options": [
+      "0",
+      "17",
+      "−34",
+      "−17"
+    ],
+    "correctAnswer": 3,
+    "explanation": "(-17) + 0 = -17."
+  },
+    {
+    "id": 126,
+    "question": "¿Cuánto es 9 + (−9)?",
+    "options": [
+      "18",
+      "−18",
+      "1",
+      "0"
+    ],
+    "correctAnswer": 3,
+    "explanation": "9 + (-9) = 0."
+  },
+    {
+    "id": 127,
+    "question": "¿Cuánto es (−15) + 15?",
+    "options": [
+      "−30",
+      "30",
+      "0",
+      "1"
+    ],
+    "correctAnswer": 2,
+    "explanation": "(-15) + 15 = 0."
+  },
+    {
+    "id": 128,
+    "question": "¿Cuánto es 100 + (−100)?",
+    "options": [
+      "200",
+      "−100",
+      "100",
+      "0"
+    ],
+    "correctAnswer": 3,
+    "explanation": "100 + (-100) = 0."
+  },
+    {
+    "id": 129,
+    "question": "¿Cuánto es (−50) + 50?",
+    "options": [
+      "100",
+      "−100",
+      "0",
+      "50"
+    ],
+    "correctAnswer": 2,
+    "explanation": "(-50) + 50 = 0."
+  },
+    {
+    "id": 130,
+    "question": "¿Cuánto es 33 + (−33)?",
+    "options": [
+      "66",
+      "−66",
+      "0",
+      "33"
+    ],
+    "correctAnswer": 2,
+    "explanation": "33 + (-33) = 0."
+  },
+    {
+    "id": 131,
+    "question": "¿Cuánto es 48 + 37?",
+    "options": [
+      "83",
+      "85",
+      "87",
+      "80"
+    ],
+    "correctAnswer": 1,
+    "explanation": "48 + 37 = 85. Sumamos directamente."
+  },
+    {
+    "id": 132,
+    "question": "¿Cuánto es (−56) + (−44)?",
+    "options": [
+      "−98",
+      "−100",
+      "−102",
+      "100"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-56) + (-44) = -100."
+  },
+    {
+    "id": 133,
+    "question": "¿Cuánto es 75 + (−30)?",
+    "options": [
+      "40",
+      "45",
+      "50",
+      "105"
+    ],
+    "correctAnswer": 1,
+    "explanation": "75 + (-30) = 45."
+  },
+    {
+    "id": 134,
+    "question": "¿Cuánto es (−80) + 55?",
+    "options": [
+      "−20",
+      "−25",
+      "25",
+      "−135"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-80) + 55 = -25."
+  },
+    {
+    "id": 135,
+    "question": "¿Cuánto es 63 + (−90)?",
+    "options": [
+      "−27",
+      "27",
+      "−153",
+      "153"
+    ],
+    "correctAnswer": 0,
+    "explanation": "63 + (-90) = -27."
+  },
+    {
+    "id": 136,
+    "question": "¿Cuánto es 125 + 75?",
+    "options": [
+      "198",
+      "200",
+      "202",
+      "50"
+    ],
+    "correctAnswer": 1,
+    "explanation": "125 + 75 = 200. Sumamos directamente."
+  },
+    {
+    "id": 137,
+    "question": "¿Cuánto es (−130) + (−70)?",
+    "options": [
+      "−198",
+      "−200",
+      "200",
+      "−60"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-130) + (-70) = -200."
+  },
+    {
+    "id": 138,
+    "question": "¿Cuánto es 200 + (−85)?",
+    "options": [
+      "113",
+      "115",
+      "117",
+      "285"
+    ],
+    "correctAnswer": 1,
+    "explanation": "200 + (-85) = 115."
+  },
+    {
+    "id": 139,
+    "question": "¿Cuánto es (−150) + 90?",
+    "options": [
+      "−58",
+      "−60",
+      "240",
+      "60"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-150) + 90 = -60."
+  },
+    {
+    "id": 140,
+    "question": "¿Cuánto es 175 + (−95)?",
+    "options": [
+      "78",
+      "80",
+      "82",
+      "270"
+    ],
+    "correctAnswer": 1,
+    "explanation": "175 + (-95) = 80."
+  },
+    {
+    "id": 141,
+    "question": "¿Cuánto es 240 + 160?",
+    "options": [
+      "398",
+      "400",
+      "402",
+      "80"
+    ],
+    "correctAnswer": 1,
+    "explanation": "240 + 160 = 400. Sumamos directamente."
+  },
+    {
+    "id": 142,
+    "question": "¿Cuánto es (−300) + (−100)?",
+    "options": [
+      "−398",
+      "−400",
+      "400",
+      "−200"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-300) + (-100) = -400."
+  },
+    {
+    "id": 143,
+    "question": "¿Cuánto es 350 + (−150)?",
+    "options": [
+      "198",
+      "200",
+      "202",
+      "500"
+    ],
+    "correctAnswer": 1,
+    "explanation": "350 + (-150) = 200."
+  },
+    {
+    "id": 144,
+    "question": "¿Cuánto es (−250) + 180?",
+    "options": [
+      "−68",
+      "−70",
+      "430",
+      "70"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-250) + 180 = -70."
+  },
+    {
+    "id": 145,
+    "question": "¿Cuánto es 420 + (−300)?",
+    "options": [
+      "118",
+      "120",
+      "122",
+      "720"
+    ],
+    "correctAnswer": 1,
+    "explanation": "420 + (-300) = 120."
+  },
+    {
+    "id": 146,
+    "question": "¿Cuánto es 500 + 300?",
+    "options": [
+      "798",
+      "800",
+      "802",
+      "200"
+    ],
+    "correctAnswer": 1,
+    "explanation": "500 + 300 = 800. Sumamos directamente."
+  },
+    {
+    "id": 147,
+    "question": "¿Cuánto es (−450) + (−250)?",
+    "options": [
+      "−698",
+      "−700",
+      "700",
+      "−200"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-450) + (-250) = -700."
+  },
+    {
+    "id": 148,
+    "question": "¿Cuánto es 600 + (−380)?",
+    "options": [
+      "218",
+      "220",
+      "222",
+      "980"
+    ],
+    "correctAnswer": 1,
+    "explanation": "600 + (-380) = 220."
+  },
+    {
+    "id": 149,
+    "question": "¿Cuánto es (−700) + 450?",
+    "options": [
+      "−248",
+      "−250",
+      "1150",
+      "250"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-700) + 450 = -250."
+  },
+    {
+    "id": 150,
+    "question": "¿Cuánto es 800 + (−520)?",
+    "options": [
+      "278",
+      "280",
+      "282",
+      "1320"
+    ],
+    "correctAnswer": 1,
+    "explanation": "800 + (-520) = 280."
+  },
+    {
+    "id": 151,
+    "question": "¿Cuánto es 1000 + 500?",
+    "options": [
+      "1498",
+      "1500",
+      "1502",
+      "500"
+    ],
+    "correctAnswer": 1,
+    "explanation": "1000 + 500 = 1500. Sumamos directamente."
+  },
+    {
+    "id": 152,
+    "question": "¿Cuánto es (−1000) + (−500)?",
+    "options": [
+      "−1498",
+      "−1500",
+      "1500",
+      "−500"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-1000) + (-500) = -1500."
+  },
+    {
+    "id": 153,
+    "question": "¿Cuánto es 1200 + (−800)?",
+    "options": [
+      "398",
+      "400",
+      "402",
+      "2000"
+    ],
+    "correctAnswer": 1,
+    "explanation": "1200 + (-800) = 400."
+  },
+    {
+    "id": 154,
+    "question": "¿Cuánto es (−900) + 600?",
+    "options": [
+      "−298",
+      "−300",
+      "1500",
+      "300"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-900) + 600 = -300."
+  },
+    {
+    "id": 155,
+    "question": "¿Cuánto es 750 + (−250)?",
+    "options": [
+      "498",
+      "500",
+      "502",
+      "1000"
+    ],
+    "correctAnswer": 1,
+    "explanation": "750 + (-250) = 500."
+  },
+    {
+    "id": 156,
+    "question": "¿Cuánto es 330 + 270?",
+    "options": [
+      "598",
+      "600",
+      "602",
+      "60"
+    ],
+    "correctAnswer": 1,
+    "explanation": "330 + 270 = 600. Sumamos directamente."
+  },
+    {
+    "id": 157,
+    "question": "¿Cuánto es (−440) + (−360)?",
+    "options": [
+      "−798",
+      "−800",
+      "800",
+      "−80"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-440) + (-360) = -800."
+  },
+    {
+    "id": 158,
+    "question": "¿Cuánto es 520 + (−180)?",
+    "options": [
+      "338",
+      "340",
+      "342",
+      "700"
+    ],
+    "correctAnswer": 1,
+    "explanation": "520 + (-180) = 340."
+  },
+    {
+    "id": 159,
+    "question": "¿Cuánto es (−650) + 400?",
+    "options": [
+      "−248",
+      "−250",
+      "1050",
+      "250"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-650) + 400 = -250."
+  },
+    {
+    "id": 160,
+    "question": "¿Cuánto es 880 + (−630)?",
+    "options": [
+      "248",
+      "250",
+      "252",
+      "1510"
+    ],
+    "correctAnswer": 1,
+    "explanation": "880 + (-630) = 250."
+  },
+    {
+    "id": 161,
+    "question": "¿Cuánto es 3 + (−5) + 2?",
+    "options": [
+      "0",
+      "1",
+      "−1",
+      "10"
+    ],
+    "correctAnswer": 0,
+    "explanation": "3 + (-5) + 2 = 5 + (-5) = 0. Agrupamos: positivos 5, negativos -5."
+  },
+    {
+    "id": 162,
+    "question": "¿Cuánto es (−4) + (−6) + 8?",
+    "options": [
+      "−2",
+      "2",
+      "−18",
+      "18"
+    ],
+    "correctAnswer": 0,
+    "explanation": "(-4) + (-6) + 8 = 8 + (-10) = -2. Agrupamos: positivos 8, negativos -10."
+  },
+    {
+    "id": 163,
+    "question": "¿Cuánto es 7 + (−3) + (−7)?",
+    "options": [
+      "−3",
+      "3",
+      "−17",
+      "17"
+    ],
+    "correctAnswer": 0,
+    "explanation": "7 + (-3) + (-7) = 7 + (-10) = -3. Agrupamos: positivos 7, negativos -10."
+  },
+    {
+    "id": 164,
+    "question": "¿Cuánto es (−10) + 4 + 9?",
+    "options": [
+      "2",
+      "3",
+      "−3",
+      "23"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-10) + 4 + 9 = 13 + (-10) = 3. Agrupamos: positivos 13, negativos -10."
+  },
+    {
+    "id": 165,
+    "question": "¿Cuánto es 5 + (−8) + 6?",
+    "options": [
+      "2",
+      "3",
+      "−3",
+      "19"
+    ],
+    "correctAnswer": 1,
+    "explanation": "5 + (-8) + 6 = 11 + (-8) = 3. Agrupamos: positivos 11, negativos -8."
+  },
+    {
+    "id": 166,
+    "question": "¿Cuánto es (−2) + (−3) + (−5)?",
+    "options": [
+      "−8",
+      "−10",
+      "10",
+      "−6"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-2) + (-3) + (-5) = -10."
+  },
+    {
+    "id": 167,
+    "question": "¿Cuánto es 10 + (−4) + (−3)?",
+    "options": [
+      "2",
+      "3",
+      "4",
+      "17"
+    ],
+    "correctAnswer": 1,
+    "explanation": "10 + (-4) + (-3) = 10 + (-7) = 3. Agrupamos: positivos 10, negativos -7."
+  },
+    {
+    "id": 168,
+    "question": "¿Cuánto es (−8) + 5 + (−2)?",
+    "options": [
+      "−3",
+      "−5",
+      "15",
+      "5"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-8) + 5 + (-2) = 5 + (-10) = -5. Agrupamos: positivos 5, negativos -10."
+  },
+    {
+    "id": 169,
+    "question": "¿Cuánto es 12 + (−7) + (−8)?",
+    "options": [
+      "−1",
+      "−3",
+      "27",
+      "3"
+    ],
+    "correctAnswer": 1,
+    "explanation": "12 + (-7) + (-8) = 12 + (-15) = -3. Agrupamos: positivos 12, negativos -15."
+  },
+    {
+    "id": 170,
+    "question": "¿Cuánto es (−15) + 8 + 10?",
+    "options": [
+      "2",
+      "3",
+      "4",
+      "33"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-15) + 8 + 10 = 18 + (-15) = 3. Agrupamos: positivos 18, negativos -15."
+  },
+    {
+    "id": 171,
+    "question": "¿Cuánto es 20 + (−12) + (−5)?",
+    "options": [
+      "2",
+      "3",
+      "4",
+      "37"
+    ],
+    "correctAnswer": 1,
+    "explanation": "20 + (-12) + (-5) = 20 + (-17) = 3. Agrupamos: positivos 20, negativos -17."
+  },
+    {
+    "id": 172,
+    "question": "¿Cuánto es (−18) + (−7) + 15?",
+    "options": [
+      "−8",
+      "−10",
+      "40",
+      "10"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-18) + (-7) + 15 = 15 + (-25) = -10. Agrupamos: positivos 15, negativos -25."
+  },
+    {
+    "id": 173,
+    "question": "¿Cuánto es 25 + (−10) + (−8)?",
+    "options": [
+      "5",
+      "7",
+      "9",
+      "43"
+    ],
+    "correctAnswer": 1,
+    "explanation": "25 + (-10) + (-8) = 25 + (-18) = 7. Agrupamos: positivos 25, negativos -18."
+  },
+    {
+    "id": 174,
+    "question": "¿Cuánto es (−30) + 12 + 22?",
+    "options": [
+      "2",
+      "4",
+      "6",
+      "64"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-30) + 12 + 22 = 34 + (-30) = 4. Agrupamos: positivos 34, negativos -30."
+  },
+    {
+    "id": 175,
+    "question": "¿Cuánto es 15 + (−20) + 8?",
+    "options": [
+      "2",
+      "3",
+      "4",
+      "43"
+    ],
+    "correctAnswer": 1,
+    "explanation": "15 + (-20) + 8 = 23 + (-20) = 3. Agrupamos: positivos 23, negativos -20."
+  },
+    {
+    "id": 176,
+    "question": "¿Cuánto es (−5) + (−5) + (−5)?",
+    "options": [
+      "−10",
+      "−15",
+      "15",
+      "−20"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-5) + (-5) + (-5) = -15."
+  },
+    {
+    "id": 177,
+    "question": "¿Cuánto es 10 + (−10) + 10?",
+    "options": [
+      "0",
+      "10",
+      "−10",
+      "20"
+    ],
+    "correctAnswer": 1,
+    "explanation": "10 + (-10) + 10 = 20 + (-10) = 10. Agrupamos: positivos 20, negativos -10."
+  },
+    {
+    "id": 178,
+    "question": "¿Cuánto es (−20) + 15 + (−10)?",
+    "options": [
+      "−13",
+      "−15",
+      "45",
+      "15"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-20) + 15 + (-10) = 15 + (-30) = -15. Agrupamos: positivos 15, negativos -30."
+  },
+    {
+    "id": 179,
+    "question": "¿Cuánto es 30 + (−18) + (−7)?",
+    "options": [
+      "4",
+      "5",
+      "6",
+      "55"
+    ],
+    "correctAnswer": 1,
+    "explanation": "30 + (-18) + (-7) = 30 + (-25) = 5. Agrupamos: positivos 30, negativos -25."
+  },
+    {
+    "id": 180,
+    "question": "¿Cuánto es (−25) + 10 + 20?",
+    "options": [
+      "4",
+      "5",
+      "6",
+      "55"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-25) + 10 + 20 = 30 + (-25) = 5. Agrupamos: positivos 30, negativos -25."
+  },
+    {
+    "id": 181,
+    "question": "¿Cuánto es 40 + (−25) + (−10)?",
+    "options": [
+      "4",
+      "5",
+      "6",
+      "75"
+    ],
+    "correctAnswer": 1,
+    "explanation": "40 + (-25) + (-10) = 40 + (-35) = 5. Agrupamos: positivos 40, negativos -35."
+  },
+    {
+    "id": 182,
+    "question": "¿Cuánto es (−50) + 30 + 25?",
+    "options": [
+      "4",
+      "5",
+      "6",
+      "105"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-50) + 30 + 25 = 55 + (-50) = 5. Agrupamos: positivos 55, negativos -50."
+  },
+    {
+    "id": 183,
+    "question": "¿Cuánto es 60 + (−40) + (−15)?",
+    "options": [
+      "4",
+      "5",
+      "6",
+      "115"
+    ],
+    "correctAnswer": 1,
+    "explanation": "60 + (-40) + (-15) = 60 + (-55) = 5. Agrupamos: positivos 60, negativos -55."
+  },
+    {
+    "id": 184,
+    "question": "¿Cuánto es 2 + (−3) + 4 + (−5)?",
+    "options": [
+      "−3",
+      "−2",
+      "2",
+      "3"
+    ],
+    "correctAnswer": 1,
+    "explanation": "2 + (-3) + 4 + (-5) = 6 + (-8) = -2. Agrupamos: positivos 6, negativos -8."
+  },
+    {
+    "id": 185,
+    "question": "¿Cuánto es (−6) + 7 + (−8) + 9?",
+    "options": [
+      "0",
+      "2",
+      "−2",
+      "4"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-6) + 7 + (-8) + 9 = 16 + (-14) = 2. Agrupamos: positivos 16, negativos -14."
+  },
+    {
+    "id": 186,
+    "question": "¿Cuánto es 10 + (−5) + (−3) + (−2)?",
+    "options": [
+      "−1",
+      "0",
+      "1",
+      "2"
+    ],
+    "correctAnswer": 1,
+    "explanation": "10 + (-5) + (-3) + (-2) = 10 + (-10) = 0. Agrupamos: positivos 10, negativos -10."
+  },
+    {
+    "id": 187,
+    "question": "¿Cuánto es (−12) + 8 + (−6) + 14?",
+    "options": [
+      "2",
+      "4",
+      "6",
+      "8"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-12) + 8 + (-6) + 14 = 22 + (-18) = 4. Agrupamos: positivos 22, negativos -18."
+  },
+    {
+    "id": 188,
+    "question": "¿Cuánto es 1 + (−2) + 3 + (−4) + 5?",
+    "options": [
+      "1",
+      "3",
+      "5",
+      "−5"
+    ],
+    "correctAnswer": 1,
+    "explanation": "1 + (-2) + 3 + (-4) + 5 = 9 + (-6) = 3. Agrupamos: positivos 9, negativos -6."
+  },
+    {
+    "id": 189,
+    "question": "¿Cuánto es (−1)+(−1)+(−1)+(−1)+(−1)?",
+    "options": [
+      "−3",
+      "−5",
+      "−4",
+      "5"
+    ],
+    "correctAnswer": 1,
+    "explanation": "(-1)+(-1)+(-1)+(-1)+(-1) = -5."
+  },
+    {
+    "id": 190,
+    "question": "¿Cuánto es 6 + (−4) + 2 + (−6) + 4?",
+    "options": [
+      "0",
+      "2",
+      "−2",
+      "4"
+    ],
+    "correctAnswer": 1,
+    "explanation": "6 + (-4) + 2 + (-6) + 4 = 12 + (-10) = 2. Agrupamos: positivos 12, negativos -10."
+  },
+    {
+    "id": 191,
+    "question": "Un buzo está a −15 m. Sube 6 m. ¿A qué profundidad queda?",
+    "options": [
+      "−9 m",
+      "9 m",
+      "−21 m",
+      "21 m"
+    ],
+    "correctAnswer": 0,
+    "explanation": "La respuesta correcta es −9 m."
+  },
+    {
+    "id": 192,
+    "question": "La temperatura es −8 °C. Sube 12 °C. ¿Cuál es la nueva temperatura?",
+    "options": [
+      "−4 °C",
+      "4 °C",
+      "20 °C",
+      "−20 °C"
+    ],
+    "correctAnswer": 1,
+    "explanation": "La respuesta correcta es 4 °C."
+  },
+    {
+    "id": 193,
+    "question": "Pedro tiene $20 y gasta $35. ¿Cuánto le queda?",
+    "options": [
+      "15",
+      "−15",
+      "55",
+      "−55"
+    ],
+    "correctAnswer": 1,
+    "explanation": "La respuesta correcta es −15."
+  },
+    {
+    "id": 194,
+    "question": "Un elevador está en el piso −3. Sube 7 pisos. ¿En qué piso queda?",
+    "options": [
+      "Piso 4",
+      "Piso −4",
+      "Piso 10",
+      "Piso −10"
+    ],
+    "correctAnswer": 0,
+    "explanation": "La respuesta correcta es Piso 4."
+  },
+    {
+    "id": 195,
+    "question": "La deuda de Ana es −$50. Recibe $30. ¿Cuál es su saldo?",
+    "options": [
+      "−$20",
+      "$20",
+      "−$80",
+      "$80"
+    ],
+    "correctAnswer": 0,
+    "explanation": "La respuesta correcta es −$20."
+  },
+    {
+    "id": 196,
+    "question": "Un submarino está a −200 m. Sube 80 m. ¿A qué profundidad queda?",
+    "options": [
+      "−120 m",
+      "120 m",
+      "−280 m",
+      "280 m"
+    ],
+    "correctAnswer": 0,
+    "explanation": "La respuesta correcta es −120 m."
+  },
+    {
+    "id": 197,
+    "question": "La temperatura es −15 °C. Baja 8 °C más. ¿Cuál es la nueva temperatura?",
+    "options": [
+      "−7 °C",
+      "7 °C",
+      "−23 °C",
+      "23 °C"
+    ],
+    "correctAnswer": 2,
+    "explanation": "La respuesta correcta es −23 °C."
+  },
+    {
+    "id": 198,
+    "question": "Carlos debe $120 y paga $75. ¿Cuánto sigue debiendo?",
+    "options": [
+      "−$45",
+      "$45",
+      "$195",
+      "−$195"
+    ],
+    "correctAnswer": 0,
+    "explanation": "La respuesta correcta es −$45."
+  },
+    {
+    "id": 199,
+    "question": "Un globo está a 300 m. Baja 450 m. ¿A qué altura queda?",
+    "options": [
+      "−150 m",
+      "150 m",
+      "750 m",
+      "−750 m"
+    ],
+    "correctAnswer": 0,
+    "explanation": "La respuesta correcta es −150 m."
+  },
+    {
+    "id": 200,
+    "question": "El marcador es −5 puntos. El equipo anota 12. ¿Cuál es el nuevo marcador?",
+    "options": [
+      "−17",
+      "7",
+      "17",
+      "−7"
+    ],
+    "correctAnswer": 1,
+    "explanation": "La respuesta correcta es 7."
+  },
+    {
+    "id": 201,
+    "question": "Una empresa tiene ganancias de $500 y pérdidas de $750. ¿Cuál es el balance?",
+    "options": [
+      "$250",
+      "−$250",
+      "$1250",
+      "−$1250"
+    ],
+    "correctAnswer": 1,
+    "explanation": "La respuesta correcta es −$250."
+  },
+    {
+    "id": 202,
+    "question": "El nivel del agua en un pozo es −8 m. Sube 3 m por la lluvia. ¿Cuál es el nivel?",
+    "options": [
+      "−11 m",
+      "11 m",
+      "−5 m",
+      "5 m"
+    ],
+    "correctAnswer": 2,
+    "explanation": "La respuesta correcta es −5 m."
+  },
+    {
+    "id": 203,
+    "question": "Rodrigo está en el piso −2. Sube 5 pisos. ¿En qué piso queda?",
+    "options": [
+      "Piso −7",
+      "Piso 7",
+      "Piso 3",
+      "Piso −3"
+    ],
+    "correctAnswer": 2,
+    "explanation": "La respuesta correcta es Piso 3."
+  },
+    {
+    "id": 204,
+    "question": "La puntuación de un jugador es −30. Gana 45 puntos. ¿Cuál es su puntuación?",
+    "options": [
+      "−75",
+      "75",
+      "−15",
+      "15"
+    ],
+    "correctAnswer": 3,
+    "explanation": "La respuesta correcta es 15."
+  },
+    {
+    "id": 205,
+    "question": "El saldo de una cuenta es −$200. Se depositan $350. ¿Cuál es el nuevo saldo?",
+    "options": [
+      "$150",
+      "−$150",
+      "$550",
+      "−$550"
+    ],
+    "correctAnswer": 0,
+    "explanation": "La respuesta correcta es $150."
+  },
+    {
+    "id": 206,
+    "question": "Un buzo está a −50 m. Sube 30 m. ¿A qué profundidad queda?",
+    "options": [
+      "−80 m",
+      "80 m",
+      "−20 m",
+      "20 m"
+    ],
+    "correctAnswer": 2,
+    "explanation": "La respuesta correcta es −20 m."
+  },
+    {
+    "id": 207,
+    "question": "La temperatura es 5 °C. Baja 18 °C. ¿Cuál es la nueva temperatura?",
+    "options": [
+      "13 °C",
+      "−13 °C",
+      "23 °C",
+      "−23 °C"
+    ],
+    "correctAnswer": 1,
+    "explanation": "La respuesta correcta es −13 °C."
+  },
+    {
+    "id": 208,
+    "question": "Sofía tiene $80 y gasta $110. ¿Cuánto le queda?",
+    "options": [
+      "$30",
+      "−$30",
+      "$190",
+      "−$190"
+    ],
+    "correctAnswer": 1,
+    "explanation": "La respuesta correcta es −$30."
+  },
+    {
+    "id": 209,
+    "question": "Un avión vuela a 1000 m. Desciende 1200 m. ¿A qué altitud queda?",
+    "options": [
+      "−200 m",
+      "200 m",
+      "2200 m",
+      "−2200 m"
+    ],
+    "correctAnswer": 0,
+    "explanation": "La respuesta correcta es −200 m."
+  },
+    {
+    "id": 210,
+    "question": "El saldo de Luis es $150. Hace un gasto de $220. ¿Cuál es su saldo?",
+    "options": [
+      "$70",
+      "−$70",
+      "$370",
+      "−$370"
+    ],
+    "correctAnswer": 1,
+    "explanation": "La respuesta correcta es −$70."
+  },
+    {
+    "id": 211,
+    "question": "La temperatura mínima fue −12 °C. Subió 20 °C al mediodía. ¿Cuál fue la temperatura?",
+    "options": [
+      "−32 °C",
+      "32 °C",
+      "−8 °C",
+      "8 °C"
+    ],
+    "correctAnswer": 3,
+    "explanation": "La respuesta correcta es 8 °C."
+  },
+    {
+    "id": 212,
+    "question": "El equipo A tiene −15 puntos. Gana 25 en la siguiente ronda. ¿Cuál es su puntuación?",
+    "options": [
+      "−40",
+      "40",
+      "−10",
+      "10"
+    ],
+    "correctAnswer": 3,
+    "explanation": "La respuesta correcta es 10."
+  },
+    {
+    "id": 213,
+    "question": "Una empresa tiene deuda de $1000 y recibe un pago de $600. ¿Cuál es el balance?",
+    "options": [
+      "$400",
+      "−$400",
+      "$1600",
+      "−$1600"
+    ],
+    "correctAnswer": 1,
+    "explanation": "La respuesta correcta es −$400."
+  },
+    {
+    "id": 214,
+    "question": "Javier debe $45 a Pedro y $30 a María. ¿Cuánto debe en total?",
+    "options": [
+      "$75",
+      "−$75",
+      "$15",
+      "−$15"
+    ],
+    "correctAnswer": 1,
+    "explanation": "La respuesta correcta es −$75."
+  },
+    {
+    "id": 215,
+    "question": "Lucía tiene $200 y paga dos deudas de $120 y $90. ¿Cuál es su saldo?",
+    "options": [
+      "$10",
+      "−$10",
+      "$410",
+      "−$410"
+    ],
+    "correctAnswer": 1,
+    "explanation": "La respuesta correcta es −$10."
+  },
+    {
+    "id": 216,
+    "question": "El nivel del mar en una costa es −3 m. Sube 5 m por marea. ¿Cuál es el nivel?",
+    "options": [
+      "−8 m",
+      "8 m",
+      "−2 m",
+      "2 m"
+    ],
+    "correctAnswer": 3,
+    "explanation": "La respuesta correcta es 2 m."
+  },
+    {
+    "id": 217,
+    "question": "La puntuación en un juego era −40. Se sumaron 40 puntos. ¿Cuál es la puntuación final?",
+    "options": [
+      "−80",
+      "80",
+      "−40",
+      "0"
+    ],
+    "correctAnswer": 3,
+    "explanation": "La respuesta correcta es 0."
+  },
+    {
+    "id": 218,
+    "question": "Un alpinista está a 3200 m. Baja 3500 m. ¿A qué altitud queda?",
+    "options": [
+      "−300 m",
+      "300 m",
+      "6700 m",
+      "−6700 m"
+    ],
+    "correctAnswer": 0,
+    "explanation": "La respuesta correcta es −300 m."
+  },
+    {
+    "id": 219,
+    "question": "La temperatura era −20 °C. Después de un cambio climático es −5 °C. ¿Cuánto aumentó?",
+    "options": [
+      "−25 °C",
+      "25 °C",
+      "−15 °C",
+      "15 °C"
+    ],
+    "correctAnswer": 3,
+    "explanation": "La respuesta correcta es 15 °C."
+  },
+    {
+    "id": 220,
+    "question": "El saldo era −$180. Se retiran $40 más. ¿Cuál es el nuevo saldo?",
+    "options": [
+      "−$140",
+      "$140",
+      "−$220",
+      "$220"
+    ],
+    "correctAnswer": 2,
+    "explanation": "La respuesta correcta es −$220."
+  },
+    {
+    "id": 221,
+    "question": "Un buzo estaba a cierta profundidad. Subió 15 m y quedó a −3 m. ¿A qué profundidad estaba?",
+    "options": [
+      "−18 m",
+      "18 m",
+      "−12 m",
+      "12 m"
+    ],
+    "correctAnswer": 0,
+    "explanation": "La respuesta correcta es −18 m."
+  },
+    {
+    "id": 222,
+    "question": "La temperatura era desconocida. Subió 8 °C y llegó a −2 °C. ¿Cuál era la temperatura?",
+    "options": [
+      "−10 °C",
+      "10 °C",
+      "6 °C",
+      "−6 °C"
+    ],
+    "correctAnswer": 0,
+    "explanation": "La respuesta correcta es −10 °C."
+  },
+    {
+    "id": 223,
+    "question": "El saldo de Tomás más un depósito de $30 da $5. ¿Cuál era su saldo?",
+    "options": [
+      "−$25",
+      "$35",
+      "$25",
+      "−$35"
+    ],
+    "correctAnswer": 0,
+    "explanation": "La respuesta correcta es −$25."
+  },
+    {
+    "id": 224,
+    "question": "Un globo estaba a cierta altura. Subió 200 m y quedó a 50 m. ¿A qué altura estaba?",
+    "options": [
+      "−150 m",
+      "250 m",
+      "150 m",
+      "−250 m"
+    ],
+    "correctAnswer": 0,
+    "explanation": "La respuesta correcta es −150 m."
+  },
+    {
+    "id": 225,
+    "question": "La puntuación de Alicia más 18 puntos da −4. ¿Cuál era su puntuación?",
+    "options": [
+      "14",
+      "−14",
+      "−22",
+      "22"
+    ],
+    "correctAnswer": 2,
+    "explanation": "La respuesta correcta es −22."
+  },
+    {
+    "id": 226,
+    "question": "Rosa tenía cierta cantidad. Recibió $45 y ahora tiene $12. ¿Cuánto tenía antes?",
+    "options": [
+      "$57",
+      "−$57",
+      "$33",
+      "−$33"
+    ],
+    "correctAnswer": 3,
+    "explanation": "La respuesta correcta es −$33."
+  },
+    {
+    "id": 227,
+    "question": "El nivel del agua era desconocido. Subió 10 m y quedó en −5 m. ¿Cuál era el nivel?",
+    "options": [
+      "−5 m",
+      "5 m",
+      "−15 m",
+      "15 m"
+    ],
+    "correctAnswer": 2,
+    "explanation": "La respuesta correcta es −15 m."
+  },
+    {
+    "id": 228,
+    "question": "Una empresa tuvo ganancias de $100 y su nuevo balance es $40. ¿Cuál era el balance anterior?",
+    "options": [
+      "−$60",
+      "$60",
+      "$140",
+      "−$140"
+    ],
+    "correctAnswer": 0,
+    "explanation": "La respuesta correcta es −$60."
+  },
+    {
+    "id": 229,
+    "question": "La temperatura era desconocida. Bajó 12 °C y quedó en −20 °C. ¿Cuál era la temperatura?",
+    "options": [
+      "−8 °C",
+      "8 °C",
+      "−32 °C",
+      "32 °C"
+    ],
+    "correctAnswer": 0,
+    "explanation": "La respuesta correcta es −8 °C."
+  },
+    {
+    "id": 230,
+    "question": "Un submarino estaba a cierta profundidad. Subió 75 m y quedó a −25 m. ¿A qué profundidad estaba?",
+    "options": [
+      "50 m",
+      "−50 m",
+      "−100 m",
+      "100 m"
+    ],
+    "correctAnswer": 2,
+    "explanation": "La respuesta correcta es −100 m."
+  },
+    {
+    "id": 231,
+    "question": "Héctor tenía cierta deuda. Le perdonaron $20 y ahora debe $15. ¿Cuánto debía?",
+    "options": [
+      "−$35",
+      "$5",
+      "−$5",
+      "$35"
+    ],
+    "correctAnswer": 0,
+    "explanation": "La respuesta correcta es −$35."
+  },
+    {
+    "id": 232,
+    "question": "Un avión de altitud desconocida ascendió 400 m y llegó a 150 m. ¿A qué altitud volaba?",
+    "options": [
+      "550 m",
+      "−550 m",
+      "−250 m",
+      "250 m"
+    ],
+    "correctAnswer": 2,
+    "explanation": "La respuesta correcta es −250 m."
+  },
+    {
+    "id": 233,
+    "question": "La puntuación de un equipo más 30 puntos da −10. ¿Cuál era la puntuación?",
+    "options": [
+      "20",
+      "−20",
+      "−40",
+      "40"
+    ],
+    "correctAnswer": 2,
+    "explanation": "La respuesta correcta es −40."
+  },
+    {
+    "id": 234,
+    "question": "Un elevador en cierto piso subió 6 y quedó en el piso 2. ¿En qué piso estaba?",
+    "options": [
+      "Piso 8",
+      "Piso −8",
+      "Piso −4",
+      "Piso 4"
+    ],
+    "correctAnswer": 2,
+    "explanation": "La respuesta correcta es Piso −4."
+  },
+    {
+    "id": 235,
+    "question": "El saldo de María sufrió un cargo de $55 y quedó en −$30. ¿Cuál era su saldo antes?",
+    "options": [
+      "$25",
+      "−$25",
+      "$85",
+      "−$85"
+    ],
+    "correctAnswer": 0,
+    "explanation": "La respuesta correcta es $25."
+  },
+    {
+    "id": 236,
+    "question": "¿Qué número debe ser x para que x + (−1) = 0?",
+    "options": [
+      "−1",
+      "0",
+      "1",
+      "2"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Despejamos x: x + (-1) = 0. Entonces x = 0 - (-1) = 1."
+  },
+    {
+    "id": 237,
+    "question": "¿Qué número debe ser x para que x + 5 = 0?",
+    "options": [
+      "5",
+      "0",
+      "−5",
+      "−10"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Despejamos x: x + (5) = 0. Entonces x = 0 - (5) = NaN."
+  },
+    {
+    "id": 238,
+    "question": "¿Qué número debe ser x para que x + (−3) = 4?",
+    "options": [
+      "1",
+      "7",
+      "−7",
+      "−1"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Despejamos x: x + (-3) = 4. Entonces x = 4 - (-3) = 7."
+  },
+    {
+    "id": 239,
+    "question": "¿Qué número debe ser x para que x + 8 = 3?",
+    "options": [
+      "5",
+      "11",
+      "−5",
+      "−11"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Despejamos x: x + (8) = 3. Entonces x = 3 - (8) = NaN."
+  },
+    {
+    "id": 240,
+    "question": "¿Qué número debe ser x para que x + (−6) = −10?",
+    "options": [
+      "4",
+      "−4",
+      "16",
+      "−16"
+    ],
+    "correctAnswer": 1,
+    "explanation": "La respuesta correcta es −4."
+  },
+    {
+    "id": 241,
+    "question": "¿Qué número debe ser x para que x + 12 = 5?",
+    "options": [
+      "7",
+      "17",
+      "−7",
+      "−17"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Despejamos x: x + (12) = 5. Entonces x = 5 - (12) = NaN."
+  },
+    {
+    "id": 242,
+    "question": "¿Qué número debe ser x para que x + (−9) = −4?",
+    "options": [
+      "−13",
+      "13",
+      "5",
+      "−5"
+    ],
+    "correctAnswer": 2,
+    "explanation": "La respuesta correcta es 5."
+  },
+    {
+    "id": 243,
+    "question": "¿Qué número debe ser x para que x + 15 = −8?",
+    "options": [
+      "7",
+      "−7",
+      "−23",
+      "23"
+    ],
+    "correctAnswer": 2,
+    "explanation": "La respuesta correcta es −23."
+  },
+    {
+    "id": 244,
+    "question": "¿Qué número debe ser x para que x + (−7) = 10?",
+    "options": [
+      "3",
+      "17",
+      "−3",
+      "−17"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Despejamos x: x + (-7) = 10. Entonces x = 10 - (-7) = 17."
+  },
+    {
+    "id": 245,
+    "question": "¿Qué número debe ser x para que x + 20 = −5?",
+    "options": [
+      "15",
+      "−15",
+      "25",
+      "−25"
+    ],
+    "correctAnswer": 3,
+    "explanation": "La respuesta correcta es −25."
+  },
+    {
+    "id": 246,
+    "question": "¿Qué número debe ser x para que x + (−14) = −6?",
+    "options": [
+      "−20",
+      "20",
+      "8",
+      "−8"
+    ],
+    "correctAnswer": 2,
+    "explanation": "La respuesta correcta es 8."
+  },
+    {
+    "id": 247,
+    "question": "¿Qué número debe ser x para que x + 25 = 10?",
+    "options": [
+      "35",
+      "−35",
+      "15",
+      "−15"
+    ],
+    "correctAnswer": 3,
+    "explanation": "Despejamos x: x + (25) = 10. Entonces x = 10 - (25) = NaN."
+  },
+    {
+    "id": 248,
+    "question": "¿Qué número debe ser x para que x + (−30) = −12?",
+    "options": [
+      "−42",
+      "42",
+      "18",
+      "−18"
+    ],
+    "correctAnswer": 2,
+    "explanation": "La respuesta correcta es 18."
+  },
+    {
+    "id": 249,
+    "question": "¿Qué número debe ser x para que x + 40 = 15?",
+    "options": [
+      "55",
+      "−55",
+      "25",
+      "−25"
+    ],
+    "correctAnswer": 3,
+    "explanation": "Despejamos x: x + (40) = 15. Entonces x = 15 - (40) = NaN."
+  },
+    {
+    "id": 250,
+    "question": "¿Qué número debe ser x para que x + (−50) = 50?",
+    "options": [
+      "0",
+      "100",
+      "−100",
+      "50"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Despejamos x: x + (-50) = 50. Entonces x = 50 - (-50) = 100."
+  }
+],
+
+  
+  bloques: [
+    { id: "basico-i", titulo: "Básico I", cantidad: 30, color: "#3b9eff", from: 0, to: 29 },
+    { id: "basico-ii", titulo: "Básico II", cantidad: 30, color: "#34d399", from: 30, to: 59 },
+    { id: "intermedio-i", titulo: "Intermedio I", cantidad: 30, color: "#a78bfa", from: 60, to: 89 },
+    { id: "intermedio-ii", titulo: "Intermedio II", cantidad: 30, color: "#f97316", from: 90, to: 119 },
+    { id: "cero", titulo: "Cero", cantidad: 5, color: "#fbbf24", from: 120, to: 124 },
+    { id: "avanzado-i", titulo: "Avanzado I", cantidad: 30, color: "#f43f5e", from: 125, to: 154 },
+    { id: "avanzado-ii", titulo: "Avanzado II", cantidad: 30, color: "#06b6d4", from: 155, to: 184 },
+    { id: "contexto", titulo: "Contexto", cantidad: 30, color: "#ec4899", from: 185, to: 214 },
+    { id: "desafio", titulo: "Desafío", cantidad: 35, color: "#8b5cf6", from: 215, to: 249 },
+  ],
+  sections: null,
+  theory: null,
+};

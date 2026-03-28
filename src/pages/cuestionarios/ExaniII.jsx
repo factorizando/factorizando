@@ -453,7 +453,7 @@ const questions = [
     block: 1,
     instruccion: "Elija la oración que presenta la ortografía correcta.",
     opts: [
-      "Tras aquella pausa obligada, el conferencista retomó el hilo de su exposición con renovado ímpetu",
+      "Tras aquella pausa obligada, el conferencista retomó el hilo de su exposición con renovado impetu",
       "Tras aquella pausa obligada, el conferencista retomó el hilo de su exposición con renovado ímpetu",
       "Tras aquélla pausa obligada, el conferencista retomó el hilo de su exposición con renovado ímpetu",
     ],
@@ -768,7 +768,8 @@ export default function ExaniII() {
       const t1 = questions.filter((q) => q.block === 0 && q.passage === 1);
       const t2 = questions.filter((q) => q.block === 0 && q.passage === 2);
       const ri = shuffle(questions.filter((q) => q.block === 1));
-      qs = [...t1, ...t2, ...ri];
+      const pm = shuffle(questions.filter((q) => q.block === 2));
+      qs = [...t1, ...t2, ...ri, ...pm];
     } else {
       const idx = parseInt(modeKey.replace("block-", ""), 10);
       if (idx === 0) {
@@ -895,7 +896,7 @@ export default function ExaniII() {
             >
               {[
                 { label: "Reactivos", val: totalQ },
-                { label: "Áreas", val: 2 },
+                { label: "Áreas", val: 3 },
                 { label: "Tiempo total", val: `${totalQ} min` },
               ].map((s) => (
                 <div key={s.label} style={{ textAlign: "center" }}>

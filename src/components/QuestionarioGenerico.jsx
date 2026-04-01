@@ -2,6 +2,8 @@
 // Versión CORRECTA: Nuevo header + Temporizador original intacto
 
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import BrandName from "./BrandName";
 
 // ─── Componentes Internos para Renderizado (Corregidos) ──────────────────────
 const MathRenderer = ({ children }) => {
@@ -60,129 +62,122 @@ const C = {
   muted: "#5a6070",
 };
 
-// Sub-componente: Temporizador Global (ORIGINAL - SIN MODIFICAR)
-function TemporizadorGlobal({ tiempoRestante, tiempoTotal }) {
-  const porcentaje = (tiempoRestante / tiempoTotal) * 100;
+// Sub-componente: Navbar
+function Navbar({ onBack }) {
+  return (
+    <div style={{
+      position: "sticky",
+      top: 0,
+      zIndex: 50,
+      background: "rgba(14,15,17,0.92)",
+      backdropFilter: "blur(12px)",
+      borderBottom: `1px solid ${C.border}`,
+      padding: "10px 20px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+    }}>
+      <Link to="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: "inherit" }}>
+        <img
+          src={`${import.meta.env.BASE_URL}assets/logoX.png`}
+          alt="Logo"
+          style={{ width: 34, height: 34, borderRadius: "50%", objectFit: "cover", border: "1px solid #3b9eff44" }}
+        />
+        <BrandName size="1.1rem" />
+      </Link>
+      <button
+        onClick={onBack}
+        style={{
+          background: "none",
+          border: `1px solid ${C.border}`,
+          borderRadius: "3px",
+          color: C.muted,
+          fontSize: ".78rem",
+          letterSpacing: ".1em",
+          textTransform: "uppercase",
+          padding: ".4rem .9rem",
+          cursor: "pointer",
+          fontFamily: "'DM Sans', sans-serif",
+          transition: "border-color .2s, color .2s",
+        }}
+        onMouseEnter={(e) => { e.currentTarget.style.borderColor = C.blue; e.currentTarget.style.color = C.text; }}
+        onMouseLeave={(e) => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.color = C.muted; }}
+      >
+        ← Menú Principal
+      </button>
+    </div>
+  );
+}
 
-  let colorTiempo = C.green;
-  const porcentajeRestante = (tiempoRestante / tiempoTotal) * 100;
+// Sub-componente: Temporizador Global
+function TemporizadorGlobal({ tiempoRestante, tiempoTotal, onTerminar, currentIndex, totalQuestions }) {
+  const tiempoPct = (tiempoRestante / tiempoTotal) * 100;
+  const progresoPct = totalQuestions > 0 ? ((currentIndex + 1) / totalQuestions) * 100 : 0;
 
-  if (porcentajeRestante <= 10) {
-    colorTiempo = C.red;
-  } else if (porcentajeRestante <= 25) {
-    colorTiempo = C.orange;
-  }
+  let colorTiempo = C.blue;
+  if (tiempoPct <= 10) colorTiempo = "#D76F02";
+  else if (tiempoPct <= 25) colorTiempo = "#fbbf24";
 
   const horas = Math.floor(tiempoRestante / 3600);
   const minutos = Math.floor((tiempoRestante % 3600) / 60);
   const segundos = Math.floor(tiempoRestante % 60);
-
   const formatoTiempo = `${horas.toString().padStart(2, "0")}:${minutos.toString().padStart(2, "0")}:${segundos.toString().padStart(2, "0")}`;
 
-  return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        gap: "1rem",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: "0.3rem",
-        }}
-      >
-        <div
-          style={{
-            fontSize: "0.65rem",
-            color: C.muted,
-            letterSpacing: "0.1em",
-            textTransform: "uppercase",
-          }}
-        >
-          Tiempo restante
-        </div>
-        <div
-          style={{
-            fontSize: "1.5rem",
-            fontWeight: 700,
-            color: colorTiempo,
-            fontFamily: "monospace",
-            letterSpacing: "0.05em",
-          }}
-        >
-          {formatoTiempo}
-        </div>
-      </div>
+  const SIZE = 52;
+  const R = 22;
+  const CIRC = 2 * Math.PI * R;
 
-      <div
-        style={{
-          position: "relative",
-          width: 80,
-          height: 80,
-        }}
-      >
-        <svg
-          width="80"
-          height="80"
-          style={{ transform: "rotate(-90deg)" }}
-          viewBox="0 0 80 80"
-        >
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+      {/* SVG circular — muestra progreso de preguntas */}
+      <div style={{ position: "relative", width: SIZE, height: SIZE, flexShrink: 0 }}>
+        <svg width={SIZE} height={SIZE} style={{ transform: "rotate(-90deg)" }} viewBox={`0 0 ${SIZE} ${SIZE}`}>
+          <circle cx={SIZE/2} cy={SIZE/2} r={R} fill="none" stroke={C.border} strokeWidth="3" />
           <circle
-            cx="40"
-            cy="40"
-            r="35"
-            fill="none"
-            stroke={C.border}
-            strokeWidth="4"
-          />
-          <circle
-            cx="40"
-            cy="40"
-            r="35"
-            fill="none"
-            stroke={colorTiempo}
-            strokeWidth="4"
-            strokeDasharray={`${(porcentaje / 100) * 219.8} 219.8`}
-            style={{ transition: "stroke-dasharray 0.3s linear" }}
+            cx={SIZE/2} cy={SIZE/2} r={R} fill="none"
+            stroke={C.blue} strokeWidth="3"
+            strokeDasharray={`${(progresoPct / 100) * CIRC} ${CIRC}`}
+            style={{ transition: "stroke-dasharray 0.4s ease" }}
           />
         </svg>
-
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexDirection: "column",
-          }}
-        >
-          <div
-            style={{
-              fontSize: "1.2rem",
-              fontWeight: 700,
-              color: colorTiempo,
-            }}
-          >
-            {Math.round(porcentaje)}%
-          </div>
-          <div
-            style={{
-              fontSize: "0.65rem",
-              color: C.muted,
-            }}
-          >
-            restante
-          </div>
+        <div style={{
+          position: "absolute", inset: 0,
+          display: "flex", alignItems: "center", justifyContent: "center",
+        }}>
+          <span style={{ fontSize: "0.6rem", fontWeight: 700, color: C.blue }}>
+            {Math.round(progresoPct)}%
+          </span>
         </div>
       </div>
+
+      {/* Badge de tiempo restante */}
+      <span style={{
+        fontSize: "0.95rem", fontWeight: 700,
+        color: colorTiempo, fontFamily: "monospace",
+        letterSpacing: "0.04em",
+        background: colorTiempo + "18",
+        border: `1px solid ${colorTiempo}44`,
+        borderRadius: "20px", padding: "4px 10px",
+      }}>
+        ⏱ {formatoTiempo}
+      </span>
+
+      {/* Botón Terminar */}
+      <button
+        onClick={onTerminar}
+        style={{
+          background: C.blue + "18", color: C.blue,
+          border: `1px solid ${C.blue}44`,
+          borderRadius: "20px", padding: "4px 12px",
+          fontSize: "0.78rem", fontWeight: 600,
+          cursor: "pointer", fontFamily: "'DM Sans', sans-serif",
+          letterSpacing: ".04em", transition: "background .2s, border-color .2s",
+        }}
+        onMouseEnter={(e) => { e.currentTarget.style.background = C.blue + "33"; e.currentTarget.style.borderColor = C.blue + "88"; }}
+        onMouseLeave={(e) => { e.currentTarget.style.background = C.blue + "18"; e.currentTarget.style.borderColor = C.blue + "44"; }}
+      >
+        Terminar
+      </button>
     </div>
   );
 }
@@ -282,6 +277,7 @@ function QuizScreenConSiguiente({
   bloqueNombre = null,
   indiceGlobal = null,
   totalGlobal = null,
+  onTerminar,
 }) {
   const [showExplanation, setShowExplanation] = useState(false);
 
@@ -306,89 +302,71 @@ function QuizScreenConSiguiente({
 
   return (
     <div>
-      {/* ─── NUEVO HEADER: Pregunta + Progreso + Bloque + Número Global ─── */}
+      {/* ─── HEADER COMPACTO ─── */}
       <div style={{ marginBottom: "1.5rem" }}>
-        {/* Fila 1: Pregunta y Respondidas + Temporizador Original */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "flex-start",
-            marginBottom: "0.8rem",
-          }}
-        >
-          <div style={{ color: C.muted, fontSize: ".9rem" }}>
-            Pregunta {currentIndex + 1} / {totalQuestions}
-            <span style={{ marginLeft: "0.5rem" }}>
-              ({respondidas} respondidas)
+
+        {/* Fila 1: Reactivo + Timer */}
+        <div style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: 10,
+        }}>
+          <div style={{ fontFamily: "'DM Sans', sans-serif" }}>
+            <span style={{ color: C.muted, fontSize: 13 }}>Reactivo </span>
+            <span style={{ color: C.text, fontWeight: 700 }}>{currentIndex + 1}</span>
+            <span style={{ color: C.muted }}> / {totalQuestions}</span>
+            <span style={{ color: C.muted, fontSize: 12, marginLeft: 8 }}>
+              ({respondidas} respondidos)
             </span>
           </div>
-          {/* Temporizador ORIGINAL - Intacto */}
           <TemporizadorGlobal
             tiempoRestante={tiempoRestante}
             tiempoTotal={tiempoTotal}
+            onTerminar={onTerminar}
+            currentIndex={currentIndex}
+            totalQuestions={totalQuestions}
           />
         </div>
 
         {/* Fila 2: Barra de progreso */}
-        <div
-          style={{
-            width: "100%",
-            height: "3px",
-            background: C.border,
-            borderRadius: "2px",
-            marginBottom: "0.8rem",
-            overflow: "hidden",
-          }}
-        >
-          <div
-            style={{
-              width: `${prog}%`,
-              height: "100%",
-              background: C.blue,
-              borderRadius: "2px",
-              transition: "width 0.3s ease",
-            }}
-          />
+        <div style={{
+          width: "100%", height: 4,
+          background: C.border, borderRadius: 99,
+          overflow: "hidden", marginBottom: 10,
+        }}>
+          <div style={{
+            width: `${prog}%`, height: "100%",
+            background: `linear-gradient(90deg, ${C.blue}, #a78bfa)`,
+            borderRadius: 99, transition: "width 0.3s ease",
+          }} />
         </div>
 
-        {/* Fila 3: Bloque, Número Global */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            paddingTop: "0.8rem",
-            borderTop: `1px solid ${C.border}`,
-          }}
-        >
-          {/* Bloque (si existe) */}
-          {bloqueNombre && (
-            <div
-              style={{
-                display: "inline-block",
-                background: C.orange + "22",
-                color: C.orange,
-                padding: "4px 10px",
-                borderRadius: "4px",
-                fontSize: "0.75rem",
+        {/* Fila 3: Tag de bloque + número global */}
+        {(bloqueNombre || (indiceGlobal !== null && totalGlobal !== null)) && (
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            {bloqueNombre && (
+              <span style={{
+                background: C.blue + "1a",
+                color: C.blue,
+                borderRadius: 6,
+                padding: "2px 10px",
+                fontSize: 10,
                 fontWeight: 700,
-                letterSpacing: "0.05em",
+                letterSpacing: 1.5,
                 textTransform: "uppercase",
-              }}
-            >
-              {bloqueNombre}
-            </div>
-          )}
-          {!bloqueNombre && <div />}
-
-          {/* Número global (si existe) */}
-          {indiceGlobal !== null && totalGlobal !== null && (
-            <div style={{ color: C.text, fontSize: ".85rem", fontWeight: 600 }}>
-              #{indiceGlobal} / {totalGlobal}
-            </div>
-          )}
-        </div>
+                fontFamily: "'DM Sans', sans-serif",
+              }}>
+                {bloqueNombre}
+              </span>
+            )}
+            {indiceGlobal !== null && totalGlobal !== null && (
+              <span style={{ color: C.muted, fontSize: 12, fontFamily: "'DM Sans', sans-serif" }}>
+                #{indiceGlobal} / {totalGlobal}
+              </span>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Advertencia si el tiempo se está acabando */}
@@ -410,243 +388,153 @@ function QuizScreenConSiguiente({
       )}
 
       {/* Tarjeta de la Pregunta (Estilo IDÉNTICO a la primera imagen) */}
-      <div
-        style={{
-          padding: "2.5rem 2rem",
+      <div style={{
+          padding: "20px 24px",
           background: C.surface,
-          borderRadius: "12px",
+          borderRadius: 14,
           border: `1px solid ${C.border}`,
-          marginBottom: "2rem",
-        }}
-      >
-        {/* Etiqueta azul de PREGUNTA */}
-        <div
-          style={{
-            display: "inline-block",
-            background: C.blue + "22",
-            color: C.blue,
-            padding: "6px 12px",
-            borderRadius: "6px",
-            fontSize: "0.75rem",
-            fontWeight: 700,
-            letterSpacing: "0.05em",
-            marginBottom: "1.5rem",
-            textTransform: "uppercase",
-          }}
-        >
-          PREGUNTA {currentIndex + 1} DE {totalQuestions}
-        </div>
-
+          marginBottom: 16,
+        }}>
         {/* Texto de la Pregunta */}
-        <div
-          style={{
-            fontSize: "1.3rem",
-            fontWeight: 500,
-            marginBottom: "2rem",
-            color: C.text,
-          }}
-        >
+        <div style={{
+          fontSize: "clamp(14px, 2.5vw, 16px)",
+          fontWeight: 600,
+          marginBottom: "1.2rem",
+          color: C.text,
+          lineHeight: 1.7,
+          fontFamily: "'DM Sans', sans-serif",
+        }}>
           <MathRenderer>{currentQuestion.question}</MathRenderer>
         </div>
 
         {/* SVG Inline o URL (si existe) */}
         {currentQuestion.diagram && (
-          <div
-            style={{
-              marginBottom: "2rem",
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
+          <div style={{ marginBottom: "1.2rem", display: "flex", justifyContent: "center" }}>
             {currentQuestion.diagram}
           </div>
         )}
         {currentQuestion.svgUrl && (
-          <div
-            style={{
-              marginBottom: "2rem",
-              textAlign: "center",
-              background: C.bg,
-              padding: "10px",
-              borderRadius: "8px",
-              border: `1px solid ${C.border}`,
-            }}
-          >
+          <div style={{
+            marginBottom: "1.2rem", textAlign: "center",
+            background: C.bg, padding: "10px",
+            borderRadius: "8px", border: `1px solid ${C.border}`,
+          }}>
             <SVGRenderer src={currentQuestion.svgUrl} />
           </div>
         )}
 
-        {/* Opciones (Estilo Rectangular Limpio) */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "1rem",
-            marginBottom: "2.5rem",
-          }}
-        >
+        {/* Opciones */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 16 }}>
           {currentQuestion.options.map((option, idx) => {
             const isSelected = selectedAnswer === idx;
             const isCorrectAnswer = idx === currentQuestion.correctAnswer;
             const isUserCorrect = answers[currentIndex]?.correct;
 
-            let borderColor = C.border;
-            let backgroundColor = C.bg;
-
-            // Si el usuario respondió
+            let bg = C.bg, bd = `1px solid ${C.border}`, co = C.muted;
             if (isAnswered) {
               if (isCorrectAnswer) {
-                borderColor = C.green;
-                backgroundColor = C.green + "15";
+                bg = C.blue + "08";
+                bd = `1px solid ${C.blue}`;
+                co = C.blue;
               } else if (isSelected && !isUserCorrect) {
-                borderColor = C.red;
-                backgroundColor = C.red + "15";
+                bg = "#fbbf2408";
+                bd = `1px solid #fbbf24`;
+                co = "#fbbf24";
               }
-            }
-            // Si está siendo seleccionado ahora
-            else if (isSelected) {
-              borderColor = C.blue;
-              backgroundColor = C.blue + "15";
+            } else if (isSelected) {
+              bg = C.blue + "18"; bd = `1px solid ${C.blue}`; co = C.blue;
             }
 
             return (
               <button
                 key={idx}
-                onClick={() => {
-                  if (!isAnswered) {
-                    onSelectAnswer(idx);
-                  }
-                }}
+                onClick={() => { if (!isAnswered) onSelectAnswer(idx); }}
                 disabled={tiempoAgotado || isAnswered}
                 style={{
-                  padding: "1.2rem 1.5rem",
-                  background: backgroundColor,
-                  border: `1px solid ${borderColor}`,
-                  borderRadius: "8px",
-                  color: C.text,
-                  cursor: tiempoAgotado || isAnswered ? "default" : "pointer",
-                  textAlign: "left",
-                  fontSize: "1rem",
+                  padding: "13px 16px",
+                  background: bg, border: bd, color: co,
+                  borderRadius: 9, cursor: tiempoAgotado || isAnswered ? "default" : "pointer",
+                  textAlign: "left", fontSize: 14,
                   fontFamily: "'DM Sans', sans-serif",
-                  transition: "all .2s",
-                  opacity: tiempoAgotado ? 0.5 : 1,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
+                  fontWeight: 500, transition: "all .15s",
+                  lineHeight: 1.6, outline: "none",
+                  display: "flex", alignItems: "center", gap: 8,
                 }}
               >
-                {/* Checkmarks opcionales si ya se respondió */}
-                {isAnswered && isCorrectAnswer && (
-                  <span style={{ color: C.green, fontWeight: 700 }}>✓</span>
-                )}
-                {isAnswered && isSelected && !isUserCorrect && (
-                  <span style={{ color: C.red, fontWeight: 700 }}>✗</span>
-                )}
+                {isAnswered && isCorrectAnswer && <span style={{ fontWeight: 700, color: C.blue }}>✓</span>}
+                {isAnswered && isSelected && !isUserCorrect && <span style={{ fontWeight: 700, color: "#fbbf24" }}>✗</span>}
                 <MathRenderer>{option}</MathRenderer>
               </button>
             );
           })}
         </div>
 
-        {/* Explicación (Solo visible tras confirmar) */}
+        {/* Explicación — badge 💡 estilo ExaniII */}
         {showExplanation && isAnswered && currentQuestion.explanation && (
-          <div
-            style={{
-              marginBottom: "2rem",
-              padding: "1.2rem",
-              background: C.bg,
-              border: `1px solid ${answers[currentIndex]?.correct ? C.green : C.red}44`,
-              borderLeft: `4px solid ${answers[currentIndex]?.correct ? C.green : C.red}`,
-              borderRadius: "6px",
-            }}
-          >
-            <h4
-              style={{
-                marginBottom: ".5rem",
-                color: answers[currentIndex]?.correct ? C.green : C.red,
-              }}
-            >
-              {answers[currentIndex]?.correct
-                ? "¡Respuesta Correcta!"
-                : "Respuesta Incorrecta"}
-            </h4>
-            <div
-              style={{ color: C.text, lineHeight: 1.5, fontSize: "0.95rem" }}
-            >
+          <div style={{
+            background: C.blue + "0e",
+            border: `1px solid ${C.blue}22`,
+            borderRadius: 10,
+            padding: "12px 16px",
+            marginBottom: 16,
+          }}>
+            <span style={{ color: C.blue, fontSize: 12, fontWeight: 700, fontFamily: "'DM Sans', sans-serif" }}>💡 </span>
+            <span style={{ color: C.muted, fontSize: 13, fontFamily: "'DM Sans', sans-serif" }}>
               <MathRenderer>{currentQuestion.explanation}</MathRenderer>
-            </div>
+            </span>
           </div>
         )}
 
-        {/* ── CONTROLES INFERIORES: Botones Anterior y Confirmar/Siguiente ── */}
-        <div style={{ display: "flex", gap: "1rem" }}>
-          {/* Botón Anterior */}
+        {/* Controles inferiores */}
+        <div style={{ display: "flex", gap: 10, justifyContent: "space-between", alignItems: "center" }}>
           <button
             onClick={() => onNavigate(currentIndex - 1)}
             disabled={currentIndex === 0 || tiempoAgotado}
             style={{
-              flex: 1,
-              padding: "1rem",
-              background: C.surface,
+              padding: "10px 20px",
+              background: C.surface, color: C.muted,
               border: `1px solid ${C.border}`,
-              color: currentIndex === 0 || tiempoAgotado ? C.muted : C.text,
-              borderRadius: "8px",
-              cursor:
-                currentIndex === 0 || tiempoAgotado ? "not-allowed" : "pointer",
-              fontFamily: "'DM Sans', sans-serif",
-              fontWeight: 600,
-              fontSize: "1rem",
-              transition: "all 0.2s",
+              borderRadius: 10,
+              cursor: currentIndex === 0 || tiempoAgotado ? "not-allowed" : "pointer",
+              opacity: currentIndex === 0 ? 0.4 : 1,
+              fontSize: 14, fontFamily: "'DM Sans', sans-serif",
             }}
           >
             ← Anterior
           </button>
 
-          {/* Botón Confirmar / Siguiente */}
           {!isAnswered ? (
             <button
               onClick={handleConfirmClick}
               disabled={selectedAnswer === null || tiempoAgotado}
               style={{
-                flex: 1,
-                padding: "1rem",
-                background: selectedAnswer === null ? C.surface : C.blue,
-                color: selectedAnswer === null ? C.muted : "#fff",
-                border:
-                  selectedAnswer === null ? `1px solid ${C.border}` : "none",
-                borderRadius: "8px",
-                cursor:
-                  selectedAnswer === null || tiempoAgotado
-                    ? "not-allowed"
-                    : "pointer",
+                padding: "10px 28px", fontSize: 14, fontWeight: 700,
+                background: selectedAnswer !== null
+                  ? `linear-gradient(135deg, ${C.blue}, #a78bfa)`
+                  : C.surface,
+                color: selectedAnswer !== null ? "#fff" : C.muted,
+                border: "none", borderRadius: 10,
+                cursor: selectedAnswer === null || tiempoAgotado ? "not-allowed" : "pointer",
+                boxShadow: selectedAnswer !== null ? `0 4px 20px ${C.blue}33` : "none",
                 fontFamily: "'DM Sans', sans-serif",
-                fontWeight: 600,
-                fontSize: "1rem",
                 transition: "all 0.2s",
               }}
             >
-              Confirmar
+              Confirmar respuesta
             </button>
           ) : (
             <button
               onClick={handleNextClick}
               style={{
-                flex: 1,
-                padding: "1rem",
-                background: C.surface,
-                border: `1px solid ${C.border}`,
-                color: C.text,
-                borderRadius: "8px",
+                padding: "10px 28px", fontSize: 14, fontWeight: 700,
+                background: `linear-gradient(135deg, ${C.blue}, #a78bfa)`,
+                color: "#fff", border: "none", borderRadius: 10,
                 cursor: "pointer",
+                boxShadow: `0 4px 20px ${C.blue}33`,
                 fontFamily: "'DM Sans', sans-serif",
-                fontWeight: 600,
-                fontSize: "1rem",
-                transition: "all 0.2s",
               }}
             >
-              {currentIndex === totalQuestions - 1
-                ? "Ver resultados"
-                : "Siguiente →"}
+              {currentIndex === totalQuestions - 1 ? "Ver resultados →" : "Siguiente →"}
             </button>
           )}
         </div>
@@ -683,11 +571,11 @@ function QuizScreenConSiguiente({
               bdr = `1px solid ${C.blue}`;
             } else if (ans !== undefined) {
               if (ans.correct) {
-                bg = C.green + "33";
-                co = C.green;
+                bg = C.blue + "33";
+                co = C.blue;
               } else {
-                bg = C.red + "33";
-                co = C.red;
+                bg = "#fbbf2433";
+                co = "#fbbf24";
               }
             }
 
@@ -720,6 +608,19 @@ function QuizScreenConSiguiente({
             );
           })}
         </div>
+        {/* Leyenda */}
+        <div style={{ display: "flex", gap: 14, marginTop: 10, flexWrap: "wrap" }}>
+          {[
+            [C.blue + "33", C.blue, "Correcta"],
+            ["#fbbf2433", "#fbbf24", "Incorrecta"],
+            [C.bg, C.muted, "Sin contestar"],
+          ].map(([bg, co, label]) => (
+            <div key={label} style={{ display: "flex", alignItems: "center", gap: 5 }}>
+              <div style={{ width: 11, height: 11, borderRadius: 3, background: bg, border: `1px solid ${co}` }} />
+              <span style={{ color: C.muted, fontSize: 11, fontFamily: "'DM Sans', sans-serif" }}>{label}</span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -733,117 +634,186 @@ function ResultsScreen({
   tiempoTotal,
   onRestart,
   onBack,
+  questions,
+  answers,
 }) {
-  const percentage = ((correctCount / totalQuestions) * 100).toFixed(1);
-  const isPerfect = correctCount === totalQuestions;
+  const [filter, setFilter] = useState("all");
+  const pct = totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 0;
+  const col = pct >= 80 ? C.blue : pct >= 60 ? "#fbbf24" : "#f97316";
+  const msg =
+    pct >= 90 ? "¡Excelente dominio del temario!" :
+    pct >= 75 ? "¡Muy bien! Repasa los temas fallidos." :
+    pct >= 50 ? "Sigue practicando, vas por buen camino." :
+    "Te recomendamos reforzar el temario.";
 
   const minutos = Math.floor(tiempoUsado / 60);
   const segundos = tiempoUsado % 60;
-  const tiempoUsadoFormato = `${minutos}m ${segundos}s`;
+  const tiempoUsadoFormato = `${minutos}m ${String(segundos).padStart(2, "0")}s`;
+
+  // Construir lista con índice original preservado
+  const questionsWithIdx = (questions || []).map((q, i) => ({ q, i }));
+  const displayQs =
+    filter === "correct"
+      ? questionsWithIdx.filter(({ i }) => answers[i]?.correct)
+      : filter === "wrong"
+        ? questionsWithIdx.filter(({ i }) => answers[i] && !answers[i].correct)
+        : questionsWithIdx;
 
   return (
-    <div style={{ textAlign: "center", padding: "3rem" }}>
-      <div
-        style={{
-          fontSize: "4rem",
-          marginBottom: "1rem",
-        }}
-      >
-        {isPerfect ? "🎉" : correctCount >= totalQuestions * 0.7 ? "✨" : "📚"}
-      </div>
-
-      <h2 style={{ marginBottom: "1rem", color: C.text, fontSize: "2rem" }}>
-        ¡Cuestionario Completado!
-      </h2>
-
-      <div
-        style={{
-          padding: "2rem",
-          background: C.surface,
-          borderRadius: "8px",
-          marginBottom: "2rem",
-          border: `1px solid ${C.border}`,
-        }}
-      >
-        <div
-          style={{
-            fontSize: "3rem",
-            fontWeight: 700,
-            color: C.blue,
-            marginBottom: ".5rem",
-          }}
-        >
-          {correctCount}/{totalQuestions}
-        </div>
-        <div
-          style={{ fontSize: "1.5rem", color: C.text, marginBottom: "1rem" }}
-        >
-          {percentage}%
-        </div>
-        <div style={{ color: C.muted, marginBottom: "1.5rem" }}>
-          {isPerfect
-            ? "¡Puntuación perfecta! 🏆"
-            : correctCount >= totalQuestions * 0.7
-              ? "¡Excelente desempeño!"
-              : "Sigue practicando"}
-        </div>
-
-        <div
-          style={{
-            padding: "1rem",
-            background: C.bg,
-            borderRadius: "6px",
-            borderTop: `1px solid ${C.border}`,
-            marginTop: "1rem",
-            color: C.muted,
-            fontSize: ".9rem",
-          }}
-        >
-          <div style={{ marginBottom: ".5rem" }}>
-            Tiempo usado:{" "}
-            <strong style={{ color: C.text }}>{tiempoUsadoFormato}</strong>
-          </div>
-          <div>
-            Tiempo disponible:{" "}
-            <strong style={{ color: C.text }}>
-              {Math.floor(tiempoTotal / 60)} minutos
-            </strong>
-          </div>
-        </div>
-      </div>
-
-      <div style={{ display: "flex", gap: "1rem", justifyContent: "center" }}>
-        <button
-          onClick={onRestart}
-          style={{
-            padding: ".8rem 2rem",
-            background: C.blue,
-            color: "#fff",
-            border: "none",
-            borderRadius: "6px",
-            cursor: "pointer",
-            fontWeight: 600,
-            fontFamily: "'DM Sans', sans-serif",
-          }}
-        >
-          Repetir cuestionario
-        </button>
+    <div style={{ paddingBottom: 64 }}>
+      {/* Botones superiores */}
+      <div style={{ display: "flex", gap: 12, marginBottom: 24, flexWrap: "wrap", paddingTop: "1.5rem" }}>
         <button
           onClick={onBack}
           style={{
-            padding: ".8rem 2rem",
-            background: "none",
-            border: `1px solid ${C.border}`,
-            borderRadius: "6px",
-            color: C.text,
-            cursor: "pointer",
-            fontWeight: 600,
-            fontFamily: "'DM Sans', sans-serif",
+            background: C.surface, color: C.muted,
+            border: `1px solid ${C.border}`, borderRadius: 12,
+            padding: "12px 28px", fontSize: 14, fontWeight: 600,
+            fontFamily: "'DM Sans', sans-serif", cursor: "pointer",
           }}
         >
-          Volver
+          ← Menú
+        </button>
+        <button
+          onClick={onRestart}
+          style={{
+            background: `linear-gradient(135deg, ${C.blue}, #a78bfa)`,
+            color: "#fff", border: "none", borderRadius: 12,
+            padding: "12px 28px", fontSize: 14, fontWeight: 700,
+            fontFamily: "'DM Sans', sans-serif", cursor: "pointer",
+          }}
+        >
+          ↺ Repetir
         </button>
       </div>
+
+      {/* Card de puntuación */}
+      <div style={{
+        background: C.surface, border: `2px solid ${col}`,
+        borderRadius: 18, padding: "30px 36px",
+        textAlign: "center", maxWidth: 380,
+        margin: "0 auto 32px",
+        fontFamily: "'DM Sans', sans-serif",
+      }}>
+        <div style={{
+          fontSize: 58, fontWeight: 900, color: col,
+          letterSpacing: "-3px", lineHeight: 1,
+        }}>
+          {pct}%
+        </div>
+        <div style={{ color: C.muted, fontSize: 14, marginTop: 8 }}>
+          <span style={{ color: C.text, fontWeight: 700 }}>{correctCount}</span> de {totalQuestions} correctas
+        </div>
+        <div style={{ color: col, fontWeight: 700, fontSize: 15, marginTop: 10 }}>
+          {msg}
+        </div>
+        <div style={{ color: C.muted, fontSize: 12, marginTop: 12 }}>
+          Tiempo usado: <strong style={{ color: C.text }}>{tiempoUsadoFormato}</strong>
+        </div>
+      </div>
+
+      {/* Filtros */}
+      {questions && questions.length > 0 && (
+        <>
+          <div style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap" }}>
+            {[
+              ["all", "Todas"],
+              ["correct", `✓ Correctas (${correctCount})`],
+              ["wrong", `✗ Incorrectas (${totalQuestions - correctCount})`],
+            ].map(([f, label]) => (
+              <button
+                key={f}
+                onClick={() => setFilter(f)}
+                style={{
+                  padding: "6px 14px", borderRadius: 99,
+                  fontSize: 12, fontWeight: 700, cursor: "pointer",
+                  border: "none",
+                  background: filter === f ? C.blue : C.surface,
+                  color: filter === f ? "#fff" : C.muted,
+                  fontFamily: "'DM Sans', sans-serif",
+                }}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+
+          {/* Lista de preguntas */}
+          {displayQs.map(({ q, i: qIndex }) => {
+            const ans = answers[qIndex];
+            const isCorrect = ans?.correct;
+            const selectedIdx = ans?.answer;
+            return (
+              <div key={qIndex} style={{
+                background: C.surface, border: `1px solid ${C.border}`,
+                borderRadius: 14, padding: "20px 24px", marginBottom: 12,
+              }}>
+                {/* Número + estado */}
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
+                  <span style={{
+                    background: (isCorrect ? C.blue : "#fbbf24") + "1a",
+                    color: isCorrect ? C.blue : "#fbbf24",
+                    borderRadius: 6, padding: "2px 10px",
+                    fontSize: 10, fontWeight: 700,
+                    letterSpacing: 1.5, textTransform: "uppercase",
+                    fontFamily: "'DM Sans', sans-serif",
+                  }}>
+                    {isCorrect ? "✓ Correcta" : ans ? "✗ Incorrecta" : "Sin contestar"}
+                  </span>
+                  <span style={{ marginLeft: "auto", color: C.muted, fontSize: 12, fontFamily: "'DM Sans', sans-serif" }}>
+                    #{qIndex + 1}
+                  </span>
+                </div>
+
+                {/* Pregunta */}
+                <p style={{
+                  color: C.text, fontSize: 14, fontWeight: 600,
+                  marginBottom: 10, lineHeight: 1.6,
+                  fontFamily: "'DM Sans', sans-serif",
+                }}>
+                  <MathRenderer>{q.question}</MathRenderer>
+                </p>
+
+                {/* Opciones */}
+                <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 10 }}>
+                  {q.options.map((opt, oi) => {
+                    const isOk = oi === q.correctAnswer;
+                    const isUser = oi === selectedIdx;
+                    let bg = C.bg, bd = `1px solid ${C.border}`, co = C.muted;
+                    if (isOk) { bg = C.blue + "08"; bd = `1px solid ${C.blue}`; co = C.blue; }
+                    else if (isUser && !isOk) { bg = "#fbbf2408"; bd = `1px solid #fbbf24`; co = "#fbbf24"; }
+                    return (
+                      <div key={oi} style={{
+                        background: bg, border: bd, color: co,
+                        borderRadius: 8, padding: "10px 14px",
+                        fontSize: 13, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.6,
+                      }}>
+                        {isOk ? "✓ " : ""}{isUser && !isOk ? "✗ " : ""}
+                        <MathRenderer>{opt}</MathRenderer>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Explicación */}
+                {q.explanation && (
+                  <div style={{
+                    padding: "8px 12px",
+                    background: C.blue + "0e",
+                    borderRadius: 8,
+                    border: `1px solid ${C.blue}22`,
+                  }}>
+                    <span style={{ color: C.blue, fontSize: 11, fontWeight: 700, fontFamily: "'DM Sans', sans-serif" }}>💡 </span>
+                    <span style={{ color: C.muted, fontSize: 12, fontFamily: "'DM Sans', sans-serif" }}>
+                      <MathRenderer>{q.explanation}</MathRenderer>
+                    </span>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </>
+      )}
     </div>
   );
 }
@@ -938,60 +908,19 @@ export default function QuestionarioGenerico({
   modo = {},
   onBack,
 }) {
-  const [stage, setStage] = useState("theory");
+  const timePerQuestion = cuestionario.config?.timePerQuestion || 60;
+  const initialTiempo = cuestionario.questions.length * timePerQuestion;
+
+  const [stage, setStage] = useState(() => cuestionario.theory ? "theory" : "quiz");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [answers, setAnswers] = useState({});
-  const [filteredQuestions, setFilteredQuestions] = useState([]);
-  const [tiempoRestante, setTiempoRestante] = useState(0);
-  const [tiempoTotal, setTiempoTotal] = useState(0);
+  const [filteredQuestions] = useState(cuestionario.questions);
+  const [tiempoRestante, setTiempoRestante] = useState(initialTiempo);
+  const [tiempoTotal] = useState(initialTiempo);
   const [tiempoAgotado, setTiempoAgotado] = useState(false);
-  const [bloqueNombre, setBloqueNombre] = useState(null);
+  const [bloqueNombre] = useState(null);
   const [indiceGlobal, setIndiceGlobal] = useState(null);
-
-  const timePerQuestion = cuestionario.config?.timePerQuestion || 60;
-
-  // Inicializar preguntas filtradas y calcular tiempo total
-  useEffect(() => {
-    let preguntas = [...cuestionario.questions];
-    let bloqueInfo = null;
-    let globalIndex = null;
-
-    if (modo.tipo === "bloque" && cuestionario.bloques) {
-      bloqueInfo = cuestionario.bloques.find((b) => b.id === modo.bloqueId);
-      if (bloqueInfo) {
-        setBloqueNombre(bloqueInfo.titulo);
-        preguntas = preguntas.slice(bloqueInfo.from, bloqueInfo.to + 1);
-        // El índice global es el from + currentIndex
-        globalIndex = bloqueInfo.from;
-        setIndiceGlobal(globalIndex + 1); // Comenzamos en 1
-      }
-    }
-
-    // NUEVO: Soporte para bloque-aleatorio
-    if (modo.tipo === "bloque-aleatorio" && cuestionario.bloques) {
-      bloqueInfo = cuestionario.bloques.find((b) => b.id === modo.bloqueId);
-      if (bloqueInfo) {
-        setBloqueNombre(bloqueInfo.titulo);
-        preguntas = preguntas.slice(bloqueInfo.from, bloqueInfo.to + 1);
-        globalIndex = bloqueInfo.from;
-        setIndiceGlobal(globalIndex + 1);
-      }
-    }
-
-    // MODIFICADO: Agregar || modo.tipo === "bloque-aleatorio"
-    if (modo.tipo === "aleatorio" || modo.tipo === "bloque-aleatorio") {
-      preguntas = preguntas.sort(() => Math.random() - 0.5);
-    }
-
-    setFilteredQuestions(preguntas);
-
-    const tiempo = preguntas.length * timePerQuestion;
-    setTiempoTotal(tiempo);
-    setTiempoRestante(tiempo);
-
-    setStage(cuestionario.theory ? "theory" : "quiz");
-  }, [cuestionario, modo, timePerQuestion]);
 
   // Temporizador GLOBAL
   useEffect(() => {
@@ -1010,17 +939,7 @@ export default function QuestionarioGenerico({
     return () => clearInterval(interval);
   }, [stage, tiempoAgotado]);
 
-  // Actualizar índice global cuando cambia currentIndex
-  useEffect(() => {
-    if ((modo.tipo === "bloque" || modo.tipo === "bloque-aleatorio") && cuestionario.bloques) {
-      const bloqueInfo = cuestionario.bloques.find(
-        (b) => b.id === modo.bloqueId,
-      );
-      if (bloqueInfo) {
-        setIndiceGlobal(bloqueInfo.from + currentIndex + 1);
-      }
-    }
-  }, [currentIndex, modo, cuestionario.bloques]);
+
 
   const currentQuestion = filteredQuestions[currentIndex];
   const correctCount = Object.values(answers).filter((a) => a.correct).length;
@@ -1070,45 +989,91 @@ export default function QuestionarioGenerico({
   }
 
   return (
-    <div
-      style={{
-        maxWidth: 800,
-        margin: "0 auto",
-        padding: "1rem",
-        fontFamily: "'DM Sans', sans-serif",
-      }}
-    >
-      {/* Header Estilo Primera Imagen */}
-      {stage !== "results" && stage !== "tiempoAgotado" && (
-        <div style={{ marginBottom: "2.5rem" }}>
-          <button
-            onClick={onBack}
-            style={{
-              padding: ".5rem 1rem",
-              background: C.surface,
-              border: `1px solid ${C.border}`,
-              borderRadius: "6px",
-              color: C.text,
-              cursor: "pointer",
-              fontSize: ".85rem",
-              fontFamily: "'DM Sans', sans-serif",
-              marginBottom: "1.5rem",
+    <div style={{ minHeight: "100vh", background: C.bg, fontFamily: "'DM Sans', sans-serif" }}>
+      <Navbar onBack={onBack} />
+      <div style={{ maxWidth: 800, margin: "0 auto", padding: "1rem" }}>
+      {stage === "theory" && (
+        <div style={{
+          background: C.surface,
+          borderBottom: `1px solid ${C.border}`,
+          borderRadius: "12px",
+          padding: "44px 24px 36px",
+          textAlign: "center",
+          position: "relative",
+          overflow: "hidden",
+          marginBottom: "2rem",
+          marginTop: "1.5rem",
+        }}>
+          {/* Fondo de puntos */}
+          <div style={{
+            position: "absolute", inset: 0, opacity: 0.03,
+            backgroundImage: `radial-gradient(${C.blue} 1px, transparent 1px)`,
+            backgroundSize: "36px 36px",
+          }} />
+          <div style={{ position: "relative" }}>
+            {/* Badge */}
+            <span style={{
               display: "inline-block",
-            }}
-          >
-            ← Menú Principal
-          </button>
-
-          <h1
-            style={{
-              fontSize: "1.8rem",
-              color: C.text,
-              margin: 0,
+              background: C.blue + "22",
+              color: C.blue,
+              borderRadius: 99,
+              padding: "3px 14px",
+              fontSize: 11,
               fontWeight: 700,
-            }}
-          >
-            {cuestionario.metadata.titulo}
-          </h1>
+              letterSpacing: 2,
+              textTransform: "uppercase",
+              marginBottom: 16,
+              fontFamily: "'DM Sans', sans-serif",
+            }}>
+              {cuestionario.metadata.nivel} · {cuestionario.metadata.materia}
+            </span>
+
+            {/* Título */}
+            <h1 style={{
+              fontSize: "clamp(20px, 4vw, 34px)",
+              fontWeight: 700,
+              color: C.text,
+              letterSpacing: "-1.5px",
+              lineHeight: 1.1,
+              marginBottom: 10,
+              fontFamily: "'DM Sans', sans-serif",
+            }}>
+              {cuestionario.metadata.titulo}
+            </h1>
+
+            {/* Subtítulo */}
+            <p style={{
+              color: C.muted, fontSize: 14,
+              maxWidth: 540, margin: "0 auto 24px",
+              fontFamily: "'DM Sans', sans-serif",
+            }}>
+              {cuestionario.questions.length} reactivos · {cuestionario.config?.timePerQuestion || 60} s por reactivo
+            </p>
+
+            {/* Stats */}
+            <div style={{ display: "flex", justifyContent: "center", gap: 40, flexWrap: "wrap" }}>
+              {[
+                { label: "Reactivos", val: cuestionario.questions.length },
+                { label: "Tiempo total", val: `${Math.round(cuestionario.questions.length * (cuestionario.config?.timePerQuestion || 60) / 60)} min` },
+              ].map((s) => (
+                <div key={s.label} style={{ textAlign: "center" }}>
+                  <div style={{
+                    fontSize: 22, fontWeight: 900, color: C.text,
+                    letterSpacing: "-1px", fontFamily: "'DM Sans', sans-serif",
+                  }}>
+                    {s.val}
+                  </div>
+                  <div style={{
+                    fontSize: 10, color: C.muted, fontWeight: 700,
+                    textTransform: "uppercase", letterSpacing: 1.5,
+                    fontFamily: "'DM Sans', sans-serif",
+                  }}>
+                    {s.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       )}
 
@@ -1136,6 +1101,7 @@ export default function QuestionarioGenerico({
           bloqueNombre={bloqueNombre}
           indiceGlobal={indiceGlobal}
           totalGlobal={cuestionario.questions.length}
+          onTerminar={() => { setTiempoAgotado(false); setStage("results"); }}
         />
       )}
 
@@ -1147,6 +1113,8 @@ export default function QuestionarioGenerico({
           tiempoTotal={tiempoTotal}
           onRestart={handleRestart}
           onBack={onBack}
+          questions={filteredQuestions}
+          answers={answers}
         />
       )}
 
@@ -1158,6 +1126,7 @@ export default function QuestionarioGenerico({
           onBack={onBack}
         />
       )}
+      </div>
     </div>
   );
 }

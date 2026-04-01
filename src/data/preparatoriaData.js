@@ -1,12 +1,16 @@
 // src/data/preparatoriaData.js
 // ─────────────────────────────────────────────────────────────────────────────
-// Estructura: Materia → Tema → Subtema → Recursos
+// Estructura RECURSIVA: cada nodo puede tener children y/o recursos
 //
-// CÓMO AGREGAR RECURSOS:
-//   quiz:   "/cuestionario/nombre"   (ruta interna, definida en App.jsx)
+// CÓMO AGREGAR RECURSOS EN CUALQUIER NIVEL:
+//   quiz:   "/cuestionario/nombre"
 //   video:  "https://youtube.com/..."
 //   teoria: `${import.meta.env.BASE_URL}guias/mi-guia.html`
-//   teoria: `${import.meta.env.BASE_URL}pdfs/mi-archivo.pdf`
+//
+// REGLAS:
+//   - Si un nodo tiene children → muestra acordeón
+//   - Si un nodo tiene quiz/video/teoria → muestra pills de recursos
+//   - Un nodo puede tener ambos al mismo tiempo
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const SUBJECTS_PREP = [
@@ -14,58 +18,104 @@ export const SUBJECTS_PREP = [
     id: "mat",
     name: "Matemáticas",
     color: "#3b9eff",
-    themes: [
+    children: [
       {
-        id: "ent",
-        name: "Números Enteros",
-        subtopics: [
+        id: "numeros-reales",
+        name: "Números Reales",
+        children: [
           {
-            id: "suma-ent",
-            name: "Suma de Números Enteros",
-            quiz:   "/cuestionario/suma-enteros",
-            video:  null,
-            teoria: null,
+            id: "numeros-enteros",
+            name: "Números Enteros",
+            children: [
+              {
+                id: "numeros-enteros-suma",
+                name: "Suma de Números Enteros",
+                quiz: "/cuestionario/suma-enteros",
+              },
+              {
+                id: "numeros-enteros-producto",
+                name: "Producto de Números Enteros",
+                quiz: "/cuestionario/producto-enteros",
+              },
+              {
+                id: "numeros-enteros-exponentes",
+                name: "Leyes de los Exponentes para Números Enteros",
+              },
+              {
+                id: "Operaciones-con-enteros",
+                name: "Operaciones con Números Enteros y Signos de Agrupación",
+                quiz: "/cuestionario/numeros-enteros",
+              },
+              {
+                id: "numeros-enteros-divisibilidad",
+                name: "Divisibilidad de Números Enteros",
+                quiz: "/cuestionario/divisibilidad",
+                teoria: `${import.meta.env.BASE_URL}guias/teoriadivisibilidad.html`,
+              },
+              {
+                id: "divisibilidad-mcd-mcm",
+                name: "Divisibilidad, M.C.D. y M.C.M. (Avanzado)",
+                quiz: "/cuestionario/divisibilidad-mcd-mcm",
+              },
+              {
+                id: "numeros-enteros-todos",
+                name: "Números Primos, M.C.D. y M.C.M.",
+                quiz: "/cuestionario/primos-mcd-mcm",
+              },
+            ],
           },
           {
-            id: "prod-ent",
-            name: "Producto de Números Enteros",
-            quiz: "/cuestionario/producto-enteros",
-            video: null,
-            teoria: null,
+            id: "numeros-racionales",
+            name: "Números Racionales",
+            quiz: "/cuestionario/racionales-prepa",
+            // children: [
+            //   {
+            //     id: "numeros-racionales-suma",
+            //     name: "Suma de Números Racionales",
+            //   },
+            // ],
           },
           {
-            id: "primos-mcd-mcm",
-            name: "Primos, M.C.D. y M.C.M.",
-            quiz: "/cuestionario/primos-mcd-mcm",
-            video: null,
-            teoria: null,
+            id: "numeros-reales",
+            name: "Números Reales",
+            children: [
+              {
+                id: "numeros-reales-suma",
+                name: "Suma de Números Reales",
+              },
+            ],
           },
+        ],
+      },
+      {
+        id: "algebra",
+        name: "Álgebra",
+        children: [
           {
-            id: "exponentes",
-            name: "Leyes de los Exponentes",
-            quiz:   null,
-            video:  null,
-            teoria: null,
+            id: "algebra-all",
+            name: "Suma, Producto, etc",
+            quiz: "/cuestionario/algebra-prepa",
           },
+        ],
+      },
+      {
+        id: "geometria",
+        name: "Geometría",
+        children: [
           {
-            id: "div",
-            name: "Divisibilidad",
-            quiz:   "/cuestionario/divisibilidad",
-            video:  null,
-            teoria: `${import.meta.env.BASE_URL}guias/teoriadivisibilidad.html`,
+            id: "angulos",
+            name: "Ángulos",
           },
+        ],
+      },
+      {
+        id: "probabilidad-estadistica",
+        name: "Probabilidad y Estadística",
+        children: [
           {
-            id: "div-mcd-mcm",
-            name: "Divisibilidad, M.C.D. y M.C.M.",
-            quiz:   "/cuestionario/divisibilidad-mcd-mcm",
-          }
-          // {
-          //   id: "primos",
-          //   name: "Números Primos",
-          //   quiz:   "/cuestionario/primos",
-          //   video:  "https://www.youtube.com/watch?v=XXXXXXX",
-          //   teoria: null,
-          // },
+            id: "probabilidad",
+            name: "Probabilidad",
+          },
         ],
       },
     ],
@@ -74,32 +124,37 @@ export const SUBJECTS_PREP = [
     id: "esp",
     name: "Español",
     color: "#a78bfa",
-    themes: [   
+    children: [
       {
         id: "sintaxis",
         name: "Sintaxis",
-        subtopics: [
+        children: [
           {
-        id: "sin",
-        name: "Sintaxis: Análisis Oracional",
-        quiz: "/cuestionario/sintaxis-espanol",
-        video: null,
-        teoria: null,
-      },
+            id: "sin",
+            name: "Sintaxis: Análisis Oracional",
+            quiz: "/cuestionario/sintaxis-espanol",
+          },
         ],
       },
       {
-        id: "sint",
+        id: "sint-morf",
         name: "Sintaxis y Morfología",
-        subtopics: [
-          { id: "sint-bas", name: "Análisis Sintáctico", quiz: "/cuestionario/sintaxis", video: null, teoria: null },
+        children: [
+          {
+            id: "sint-bas",
+            name: "Análisis Sintáctico",
+            quiz: "/cuestionario/sintaxis",
+          },
         ],
       },
       {
         id: "lit",
         name: "Literatura Mexicana",
-        subtopics: [
-          { id: "lit-bas", name: "Géneros Literarios", quiz: null, video: null, teoria: null },
+        children: [
+          {
+            id: "lit-bas",
+            name: "Géneros Literarios",
+          },
         ],
       },
     ],
@@ -108,19 +163,29 @@ export const SUBJECTS_PREP = [
     id: "fis",
     name: "Física",
     color: "#34d399",
-    themes: [
+    children: [
       {
         id: "mru",
         name: "Movimiento Rectilíneo Uniforme",
-        subtopics: [
-          { id: "mru-bas", name: "Conceptos Básicos de MRU", quiz: "/cuestionario/mru", video: "https://www.youtube.com/watch?v=XXXXXXX", teoria: null },
+        children: [
+          {
+            id: "mru-bas",
+            name: "Conceptos Básicos de MRU",
+            quiz: "/cuestionario/mru",
+            video: "https://www.youtube.com/watch?v=XXXXXXX",
+          },
         ],
       },
       {
         id: "newton",
         name: "Leyes de Newton",
-        subtopics: [
-          { id: "newton-bas", name: "Las Tres Leyes", quiz: "/cuestionario/newton", video: "https://www.youtube.com/watch?v=XXXXXXX", teoria: null },
+        children: [
+          {
+            id: "newton-bas",
+            name: "Las Tres Leyes",
+            quiz: "/cuestionario/newton",
+            video: "https://www.youtube.com/watch?v=XXXXXXX",
+          },
         ],
       },
     ],
@@ -129,19 +194,27 @@ export const SUBJECTS_PREP = [
     id: "bio",
     name: "Biología",
     color: "#f97316",
-    themes: [
+    children: [
       {
         id: "cel",
         name: "La Célula",
-        subtopics: [
-          { id: "cel-bas", name: "Estructura Celular", quiz: "/cuestionario/celula", video: "https://www.youtube.com/watch?v=XXXXXXX", teoria: null },
+        children: [
+          {
+            id: "cel-bas",
+            name: "Estructura Celular",
+            quiz: "/cuestionario/celula",
+            video: "https://www.youtube.com/watch?v=XXXXXXX",
+          },
         ],
       },
       {
         id: "gen",
         name: "Genética y Herencia",
-        subtopics: [
-          { id: "gen-bas", name: "Leyes de Mendel", quiz: null, video: null, teoria: null },
+        children: [
+          {
+            id: "gen-bas",
+            name: "Leyes de Mendel",
+          },
         ],
       },
     ],
@@ -150,12 +223,16 @@ export const SUBJECTS_PREP = [
     id: "qui",
     name: "Química",
     color: "#f43f5e",
-    themes: [
+    children: [
       {
         id: "tabla",
         name: "Tabla Periódica",
-        subtopics: [
-          { id: "tabla-bas", name: "Organización y Grupos", quiz: "/cuestionario/tabla-periodica", video: null, teoria: null },
+        children: [
+          {
+            id: "tabla-bas",
+            name: "Organización y Grupos",
+            quiz: "/cuestionario/tabla-periodica",
+          },
         ],
       },
     ],
@@ -164,28 +241,34 @@ export const SUBJECTS_PREP = [
     id: "hist",
     name: "Historia",
     color: "#fbbf24",
-    themes: [
+    children: [
       {
         id: "ind",
         name: "México Independiente",
-        subtopics: [
-          { id: "ind-bas", name: "Causas de la Independencia", quiz: "/cuestionario/independencia", video: null, teoria: null },
+        children: [
+          {
+            id: "ind-bas",
+            name: "Causas de la Independencia",
+            quiz: "/cuestionario/independencia",
+          },
         ],
       },
     ],
   },
   {
     id: "sim",
-    name: "Entrenamiento Simulado", 
+    name: "Entrenamiento Simulado",
     color: "#8b5cf6",
-    themes: [
+    children: [
       {
         id: "sim-tem1",
         name: "Simuladores",
-        subtopics: [
-          { id: "sim-prepa-1", 
-            name: "Simulador 1", 
-            quiz: "/cuestionario/simulador-prepa-1", video: null, teoria: null },
+        children: [
+          {
+            id: "sim-prepa-1",
+            name: "Simulador 1",
+            quiz: "/cuestionario/simulador-prepa-1",
+          },
         ],
       },
     ],

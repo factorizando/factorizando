@@ -10,7 +10,16 @@
 // Por ahora, esto es un TEMPLATE. Cuando migres tus cuestionarios,
 // importarás cada uno aquí.
 
-import { SUMA_ENTEROS } from "./preparatoria/matematicas/numerosenteros/suma";
+import { SUMA_ENTEROS } from "./preparatoria/matematicas/numerosreales/numerosenteros/suma";
+import ALGEBRA_PREPA from "./preparatoria/matematicas/algebra/algebra-prepa.js";
+import DIVISIBILIDAD from "./preparatoria/matematicas/numerosreales/numerosenteros/divisibilidad";
+import DIVISIBILIDAD_MCD from "./preparatoria/matematicas/numerosreales/numerosenteros/divisibilidad-mcd-mcm";
+import PRODUCTO_ENTEROS from "./preparatoria/matematicas/numerosreales/numerosenteros/producto-enteros.js";
+import NUMEROS_ENTEROS from "./preparatoria/matematicas/numerosreales/numerosenteros/numeros-enteros.js";
+import PRIMOS_MCD_MCM from "./preparatoria/matematicas/numerosreales/numerosenteros/primos-mcd-mcm.js";
+import RACIONALES_PREPA from "./preparatoria/matematicas/numerosreales/numerosracionales/racionales-prepa.js";
+import CELULA_ORGANELOS from "./universidad/biologia/celula-organelos.js";
+import LA_CELULA from "./universidad/biologia/la-celula.js";
 
 export const CUESTIONARIOS_INDEX = {
   // ──────────────────────────────────────────────────────────────────────────
@@ -44,7 +53,7 @@ export const CUESTIONARIOS_INDEX = {
                 id: "producto-enteros",
                 titulo: "Producto de Enteros",
                 description: "Domina la multiplicación de números enteros",
-                // data: PRODUCTO_ENTEROS,
+                data: PRODUCTO_ENTEROS,
               },
             ],
           },
@@ -71,13 +80,25 @@ export const CUESTIONARIOS_INDEX = {
                 titulo: "Primos, M.C.D. y M.C.M.",
                 description:
                   "Domina los conceptos fundamentales de divisibilidad",
-                // data: DIVISIBILIDAD,
+                data: DIVISIBILIDAD,
               },
               {
                 id: "divisibilidad-mcd-mcm",
                 titulo: "Divisibilidad, M.C.D. y M.C.M. (Avanzado)",
                 description: "Ejercicios más complejos",
-                // data: DIVISIBILIDAD_MCD_MCM,
+                data: DIVISIBILIDAD_MCD,
+              },
+              {
+                id: "numeros-enteros",
+                titulo: "Números Enteros",
+                description: "Repasa todos los conceptos de números enteros",
+                data: NUMEROS_ENTEROS,
+              },
+              {
+                id: "primos-mcd-mcm",
+                titulo: "Números Primos, M.C.D. y M.C.M.",
+                description: "Ejercicios específicos de números primos",
+                data: PRIMOS_MCD_MCM,
               },
             ],
           },
@@ -96,7 +117,7 @@ export const CUESTIONARIOS_INDEX = {
                 titulo: "Números Racionales - Preparatoria",
                 description:
                   "Suma, resta, multiplicación y división de fracciones",
-                // data: RACIONALES_PREPA,
+                data: RACIONALES_PREPA,
               },
             ],
           },
@@ -174,7 +195,7 @@ export const CUESTIONARIOS_INDEX = {
               id: "algebra-prepa",
               titulo: "Álgebra - Preparatoria",
               description: "",
-              // data: ALGEBRA_PREPA,
+              data: ALGEBRA_PREPA,
             },
           ],
         },
@@ -237,13 +258,13 @@ export const CUESTIONARIOS_INDEX = {
           id: "la-celula",
           titulo: "La Célula",
           description: "",
-          // data: LA_CELULA,
+          data: LA_CELULA,
         },
         {
           id: "celula-organelos",
           titulo: "Célula y Organelos",
           description: "",
-          // data: CELULA_ORGANELOS,
+          data: CELULA_ORGANELOS,
         },
       ],
     },

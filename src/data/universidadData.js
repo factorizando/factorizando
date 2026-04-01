@@ -1,12 +1,16 @@
 // src/data/universidadData.js
 // ─────────────────────────────────────────────────────────────────────────────
-// Estructura: Materia → Tema → Subtema → Recursos
+// Estructura RECURSIVA: cada nodo puede tener children y/o recursos
 //
-// CÓMO AGREGAR RECURSOS:
-//   quiz:   "/cuestionario/nombre"   (ruta interna, definida en App.jsx)
+// CÓMO AGREGAR RECURSOS EN CUALQUIER NIVEL:
+//   quiz:   "/cuestionario/nombre"
 //   video:  "https://youtube.com/..."
 //   teoria: `${import.meta.env.BASE_URL}guias/mi-guia.html`
-//   teoria: `${import.meta.env.BASE_URL}pdfs/mi-archivo.pdf`
+//
+// REGLAS:
+//   - Si un nodo tiene children → muestra acordeón
+//   - Si un nodo tiene quiz/video/teoria → muestra pills de recursos
+//   - Un nodo puede tener ambos al mismo tiempo
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const SUBJECTS_UNI = [
@@ -14,44 +18,36 @@ export const SUBJECTS_UNI = [
     id: "mat",
     name: "Matemáticas",
     color: "#3b9eff",
-    themes: [
+    children: [
       {
-        id: "mat-tem1",
+        id: "numeros-enteros",
         name: "Números Enteros",
-        subtopics: [
+        children: [
           {
             id: "enteros-prepa",
             name: "Suma, Producto, Exponenciación y Divisibilidad",
             quiz: "/cuestionario/enteros-prepa",
-            video: null,
-            teoria: null,
           },
           {
             id: "racionales-prepa",
             name: "Números Racionales",
             quiz: "/cuestionario/racionales-prepa",
-            video: null,
-            teoria: null,
           },
           {
             id: "uni-numeros-racionales",
-            name: "Números Racionales",
+            name: "Números Racionales (Avanzado)",
             quiz: "/cuestionario/uni-numeros-racionales",
-            video: null,
-            teoria: null,
           },
         ],
       },
       {
-        id: "mat-tem2",
+        id: "algebra",
         name: "Álgebra",
-        subtopics: [
+        children: [
           {
-            id: "algebra-prepa",  
-            name: "Algebra Básica",
+            id: "algebra-prepa",
+            name: "Álgebra Básica",
             quiz: "/cuestionario/algebra-prepa",
-            video: null,
-            teoria: null,
           },
         ],
       },
@@ -61,33 +57,28 @@ export const SUBJECTS_UNI = [
     id: "esp",
     name: "Español",
     color: "#a78bfa",
-    themes: [
+    children: [
       {
-        id: "esp-tem1",
+        id: "ortografia",
         name: "Ortografía",
-        subtopics: [
-        {
-          id: "ortografia-grafias",
-          name: "Acentuación y Grafías",
-          quiz: "/cuestionario/ortografia-grafias",
-          video: null,
-          teoria: null,
-        },
-        
-      ],
+        children: [
+          {
+            id: "ortografia-grafias",
+            name: "Acentuación y Grafías",
+            quiz: "/cuestionario/ortografia-grafias",
+          },
+        ],
       },
       {
-        id: "esp-tem2",
+        id: "vocabulario",
         name: "Vocabulario",
-        subtopics: [
+        children: [
           {
-          id: "sin-ant-ana",
-          name: "Sinónimos, Antónimos, Homófonos y Analogías",
-          quiz: "/cuestionario/sinonimos-antonimos-analogias",
-          video: null,
-          teoria: null,
-        }
-      ],
+            id: "sin-ant-ana",
+            name: "Sinónimos, Antónimos, Homófonos y Analogías",
+            quiz: "/cuestionario/sinonimos-antonimos-analogias",
+          },
+        ],
       },
     ],
   },
@@ -95,13 +86,11 @@ export const SUBJECTS_UNI = [
     id: "lit",
     name: "Literatura",
     color: "#f472b6",
-    themes: [
+    children: [
       {
         id: "lit-tem1",
         name: "Tema por definir",
-        subtopics: [
-          { id: "lit-sub1", name: "Subtema por definir", quiz: null, video: null, teoria: null },
-        ],
+        children: [{ id: "lit-sub1", name: "Subtema por definir" }],
       },
     ],
   },
@@ -109,13 +98,11 @@ export const SUBJECTS_UNI = [
     id: "fis",
     name: "Física",
     color: "#34d399",
-    themes: [
+    children: [
       {
         id: "fis-tem1",
         name: "Tema por definir",
-        subtopics: [
-          { id: "fis-sub1", name: "Subtema por definir", quiz: null, video: null, teoria: null },
-        ],
+        children: [{ id: "fis-sub1", name: "Subtema por definir" }],
       },
     ],
   },
@@ -123,26 +110,26 @@ export const SUBJECTS_UNI = [
     id: "bio",
     name: "Biología",
     color: "#f97316",
-    themes: [
+    children: [
       {
-        id: "bio-tem1",
+        id: "celula",
         name: "La Célula",
-        subtopics: [
-          { id: "celula", name: "Organelos Celulares", quiz: "/cuestionario/la-celula", video: null, teoria: null },
+        children: [
           {
-          id: "celula-organelos",
-          name: "Organelos y Funciones (Simulador UNAM)",
-          quiz: "/cuestionario/celula-organelos",
-          video: null,
-          teoria: null,
-        },
-        {
-          id: "premedicina",
-          name: "Pre Medicina",
-          quiz: "/cuestionario/premedicina",
-          video: null,
-          teoria: null,
-        },
+            id: "celula-bas",
+            name: "Organelos Celulares I",
+            quiz: "/cuestionario/la-celula",
+          },
+          {
+            id: "celula-organelos",
+            name: "Organelos Celulares II",
+            quiz: "/cuestionario/celula-organelos",
+          },
+          {
+            id: "premedicina",
+            name: "Pre Medicina",
+            quiz: "/cuestionario/premedicina",
+          },
         ],
       },
     ],
@@ -151,13 +138,11 @@ export const SUBJECTS_UNI = [
     id: "qui",
     name: "Química",
     color: "#f43f5e",
-    themes: [
+    children: [
       {
         id: "qui-tem1",
         name: "Tema por definir",
-        subtopics: [
-          { id: "qui-sub1", name: "Subtema por definir", quiz: null, video: null, teoria: null },
-        ],
+        children: [{ id: "qui-sub1", name: "Subtema por definir" }],
       },
     ],
   },
@@ -165,13 +150,11 @@ export const SUBJECTS_UNI = [
     id: "geo",
     name: "Geografía",
     color: "#4ade80",
-    themes: [
+    children: [
       {
         id: "geo-tem1",
         name: "Tema por definir",
-        subtopics: [
-          { id: "geo-sub1", name: "Subtema por definir", quiz: null, video: null, teoria: null },
-        ],
+        children: [{ id: "geo-sub1", name: "Subtema por definir" }],
       },
     ],
   },
@@ -179,13 +162,11 @@ export const SUBJECTS_UNI = [
     id: "hist",
     name: "Historia",
     color: "#fbbf24",
-    themes: [
+    children: [
       {
         id: "hist-tem1",
         name: "Tema por definir",
-        subtopics: [
-          { id: "hist-sub1", name: "Subtema por definir", quiz: null, video: null, teoria: null },
-        ],
+        children: [{ id: "hist-sub1", name: "Subtema por definir" }],
       },
     ],
   },
@@ -193,13 +174,11 @@ export const SUBJECTS_UNI = [
     id: "sim",
     name: "Simuladores de Examen",
     color: "#e879f9",
-    themes: [
+    children: [
       {
         id: "sim-tem1",
         name: "Simulador por definir",
-        subtopics: [
-          { id: "sim-sub1", name: "Subtema por definir", quiz: null, video: null, teoria: null },
-        ],
+        children: [{ id: "sim-sub1", name: "Subtema por definir" }],
       },
     ],
   },

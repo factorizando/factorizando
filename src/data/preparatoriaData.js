@@ -132,7 +132,7 @@ export const SUBJECTS_PREP = [
           {
             id: "sin",
             name: "Sintaxis: Análisis Oracional",
-            quiz: "/cuestionario/sintaxis-espanol",
+            //quiz: "/cuestionario/sintaxis-espanol",
           },
         ],
       },
@@ -143,7 +143,7 @@ export const SUBJECTS_PREP = [
           {
             id: "sint-bas",
             name: "Análisis Sintáctico",
-            quiz: "/cuestionario/sintaxis",
+            //quiz: "/cuestionario/sintaxis",
           },
         ],
       },
@@ -171,8 +171,8 @@ export const SUBJECTS_PREP = [
           {
             id: "mru-bas",
             name: "Conceptos Básicos de MRU",
-            quiz: "/cuestionario/mru",
-            video: "https://www.youtube.com/watch?v=XXXXXXX",
+            // quiz: "/cuestionario/mru",
+            //video: "https://www.youtube.com/watch?v=XXXXXXX",
           },
         ],
       },
@@ -183,8 +183,8 @@ export const SUBJECTS_PREP = [
           {
             id: "newton-bas",
             name: "Las Tres Leyes",
-            quiz: "/cuestionario/newton",
-            video: "https://www.youtube.com/watch?v=XXXXXXX",
+            //quiz: "/cuestionario/newton",
+            //video: "https://www.youtube.com/watch?v=XXXXXXX",
           },
         ],
       },
@@ -202,8 +202,8 @@ export const SUBJECTS_PREP = [
           {
             id: "cel-bas",
             name: "Estructura Celular",
-            quiz: "/cuestionario/celula",
-            video: "https://www.youtube.com/watch?v=XXXXXXX",
+            //quiz: "/cuestionario/celula",
+            //video: "https://www.youtube.com/watch?v=XXXXXXX",
           },
         ],
       },
@@ -231,45 +231,38 @@ export const SUBJECTS_PREP = [
           {
             id: "tabla-bas",
             name: "Organización y Grupos",
-            quiz: "/cuestionario/tabla-periodica",
+            //quiz: "/cuestionario/tabla-periodica",
           },
         ],
       },
     ],
   },
   {
-    id: "hist",
-    name: "Historia",
-    color: "#fbbf24",
+    id: "exani-i",
+    name: "Simuladores tipo EXANI-I",
+    color: "#12c7db",
     children: [
       {
-        id: "ind",
-        name: "México Independiente",
-        children: [
-          {
-            id: "ind-bas",
-            name: "Causas de la Independencia",
-            quiz: "/cuestionario/independencia",
-          },
-        ],
+        id: "exani-i1",
+        name: "Simulador I",
+        //quiz: "/cuestionario/exani-mat",
       },
     ],
   },
   {
     id: "sim",
-    name: "Entrenamiento Simulado",
+    name: "Simuladores de Examen",
     color: "#8b5cf6",
     children: [
       {
-        id: "sim-tem1",
-        name: "Simuladores",
-        children: [
-          {
-            id: "sim-prepa-1",
-            name: "Simulador 1",
-            quiz: "/cuestionario/simulador-prepa-1",
-          },
-        ],
+        id: "sim-prepa-1",
+        name: "Simulador 1",
+        quiz: "/cuestionario/simulador-prepa-1",
+      },
+      {
+        id: "sim-prepa-2",
+        name: "Simulador 2",
+        quiz: "/cuestionario/simulador-prepa-2",
       },
     ],
   },

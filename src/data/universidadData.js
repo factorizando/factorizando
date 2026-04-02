@@ -74,9 +74,20 @@ export const SUBJECTS_UNI = [
         name: "Vocabulario",
         children: [
           {
-            id: "sin-ant-ana",
+            id: "sinonimos-antonimos-analogias",
             name: "Sinónimos, Antónimos, Homófonos y Analogías",
             quiz: "/cuestionario/sinonimos-antonimos-analogias",
+          },
+        ],
+      },
+      {
+        id: "sintaxis",
+        name: "Sintaxis",
+        children: [
+          {
+            id: "sintaxis-espanol",
+            name: "Sintaxis en Español",
+            quiz: "/cuestionario/sintaxis-espanol",
           },
         ],
       },
@@ -125,11 +136,6 @@ export const SUBJECTS_UNI = [
             name: "Organelos Celulares II",
             quiz: "/cuestionario/celula-organelos",
           },
-          {
-            id: "premedicina",
-            name: "Pre Medicina",
-            quiz: "/cuestionario/premedicina",
-          },
         ],
       },
     ],
@@ -167,6 +173,17 @@ export const SUBJECTS_UNI = [
         id: "hist-tem1",
         name: "Tema por definir",
         children: [{ id: "hist-sub1", name: "Subtema por definir" }],
+      },
+    ],
+  },
+  {
+    id: "exani-ii",
+    name: "Simuladores tipo EXANI-II",
+    color: "#43a8b1",
+    children: [
+      {
+        id: "simulador-1",
+        name: "Simulador por definir",
       },
     ],
   },

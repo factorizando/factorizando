@@ -20,6 +20,12 @@ import PRIMOS_MCD_MCM from "./preparatoria/matematicas/numerosreales/numerosente
 import RACIONALES_PREPA from "./preparatoria/matematicas/numerosreales/numerosracionales/racionales-prepa.js";
 import CELULA_ORGANELOS from "./universidad/biologia/celula-organelos.js";
 import LA_CELULA from "./universidad/biologia/la-celula.js";
+import UNI_RACIONALES from "./universidad/matematicas/numerosreales/uni-numeros-racionales.js";
+import ORTOGRAFIA_GRAFIAS from "./universidad/espanol/ortografia-grafias.js";
+import SINONIMOS from "./universidad/espanol/sinonimos-antonimos-analogias.js";
+import SINTAXIS_ESPANOL from "./universidad/espanol/sintaxis-espanol.js";
+import SIMULADOR_PREPA_1 from "./preparatoria/simuladores/simulador-prepa-1.jsx";
+import SIMULADOR_PREPA_2 from "./preparatoria/simuladores/simulador-prepa-2.jsx";
 
 export const CUESTIONARIOS_INDEX = {
   // ──────────────────────────────────────────────────────────────────────────
@@ -222,26 +228,7 @@ export const CUESTIONARIOS_INDEX = {
     espanol: {
       icon: "📚",
       label: "Español",
-      cuestionarios: [
-        {
-          id: "sintaxis-espanol",
-          titulo: "Sintaxis Español",
-          description: "",
-          // data: SINTAXIS_ESPANOL,
-        },
-        {
-          id: "ortografia-grafias",
-          titulo: "Ortografía y Grafías",
-          description: "",
-          // data: ORTOGRAFIA_GRAFIAS,
-        },
-        {
-          id: "sinonimos-antonimos-analogias",
-          titulo: "Sinónimos, Antónimos y Analogías",
-          description: "",
-          // data: SINONIMOS_ANTONIMOS_ANALOGIAS,
-        },
-      ],
+      cuestionarios: [],
     },
 
     fisica: {
@@ -274,6 +261,24 @@ export const CUESTIONARIOS_INDEX = {
       label: "Química",
       cuestionarios: [],
     },
+    simuladores: {
+      icon: "🕹️",
+      label: "Simuladores",
+      cuestionarios: [
+        {
+          id: "simulador-prepa-1",
+          titulo: "Simulador de Examen 1",
+          description: "",
+          data: SIMULADOR_PREPA_1,
+        },
+        {
+          id: "simulador-prepa-2",
+          titulo: "Simulador de Examen 2",
+          description: "",
+          data: SIMULADOR_PREPA_2,
+        },
+      ],
+    },
   },
 
   // ──────────────────────────────────────────────────────────────────────────
@@ -292,12 +297,35 @@ export const CUESTIONARIOS_INDEX = {
             id: "uni-numeros-racionales",
             titulo: "Números Racionales (Universidad)",
             description: "",
-            // data: UNI_NUMEROS_RACIONALES,
+            data: UNI_RACIONALES,
           },
         ],
       },
     },
-
+    espanol: {
+      icon: "📖",
+      label: "Español",
+      cuestionarios: [
+        {
+          id: "ortografia-grafias",
+          titulo: "Ortografía y Grafías",
+          description: "",
+          data: ORTOGRAFIA_GRAFIAS,
+        },
+        {
+          id: "sinonimos-antonimos-analogias",
+          titulo: "Sinónimos, Antónimos y Analogías",
+          description: "",
+          data: SINONIMOS,
+        },
+        {
+          id: "sintaxis-espanol",
+          titulo: "Sintaxis en Español",
+          description: "",
+          data: SINTAXIS_ESPANOL,
+        },
+      ],
+    },
     biologia: {
       icon: "🧬",
       label: "Biología",

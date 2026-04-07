@@ -15,6 +15,18 @@
 
 export const SUBJECTS_UNI = [
   {
+    id: "teo",
+    name: "Teoría",
+    color: "#336594",
+    children: [
+      {
+        id: "limites",
+        name: "Límites",
+        teoria: "/teoria/limites",
+      },
+    ],
+  },
+  {
     id: "mat",
     name: "Matemáticas",
     color: "#3b9eff",

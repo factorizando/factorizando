@@ -19,6 +19,8 @@ const C = {
 };
 
 function ResourcePill({ type, href, label, onClick }) {
+  const navigate = useNavigate();
+  const isInternal = href && href.startsWith("/") && !href.includes(".");
   const styles = {
     quiz:   { bg: C.blue,    color: "#fff",    border: "none",                            shadow: "0 2px 12px rgba(59,158,255,.3)" },
     video:  { bg: "#1a2535", color: "#60a5fa", border: "1px solid rgba(96,165,250,.25)",  shadow: "none" },
@@ -42,6 +44,14 @@ function ResourcePill({ type, href, label, onClick }) {
   if (type === "quiz") {
     return (
       <button onClick={() => onClick && onClick(href)} style={{ ...base, border: "none" }}
+        onMouseEnter={(e) => hover(e, true)} onMouseLeave={(e) => hover(e, false)}>
+        <span style={{ fontSize: ".85rem" }}>{icons[type]}</span>{label}
+      </button>
+    );
+  }
+  if (isInternal) {
+    return (
+      <button onClick={() => navigate(href)} style={{ ...base, border: s.border }}
         onMouseEnter={(e) => hover(e, true)} onMouseLeave={(e) => hover(e, false)}>
         <span style={{ fontSize: ".85rem" }}>{icons[type]}</span>{label}
       </button>

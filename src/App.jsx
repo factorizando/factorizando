@@ -10,6 +10,7 @@ import Registro from "./pages/Registro";
 import SelectorBloque from "./pages/SelectorBloque";
 import ExaniI from "./pages/cuestionarios/ExaniI";
 import ExaniII from "./pages/cuestionarios/ExaniII";
+import Limites from "./data/teoria/limites.jsx";
 
 export default function App() {
   return (
@@ -39,6 +40,7 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/teoria/limites" element={<Limites />} />
 
         {/* ── Selector de bloque ── */}
         <Route

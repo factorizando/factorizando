@@ -88,14 +88,15 @@ const D = {
 </svg>),
   115: (<svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" style={{background:"#1a1d23",borderRadius:8,border:"1px solid #2a2d35",width:"100%",maxWidth:240}}>
   <rect x="20" y="20" width="200" height="200" fill="#1e2530" stroke="#4a505a" strokeWidth="2"/>
-  <rect x="20" y="20" width="50" height="50" fill="#1a1d23" stroke="#4a505a" strokeWidth="1"/>
-  <rect x="170" y="20" width="50" height="50" fill="#1a1d23" stroke="#4a505a" strokeWidth="1"/>
-  <rect x="20" y="170" width="50" height="50" fill="#1a1d23" stroke="#4a505a" strokeWidth="1"/>
-  <rect x="170" y="170" width="50" height="50" fill="#1a1d23" stroke="#4a505a" strokeWidth="1"/>
-  <polygon points="120,120 70,20 170,20" fill="#3b9eff" opacity="0.8"/>
-  <polygon points="120,120 220,70 220,170" fill="#3b9eff" opacity="0.8"/>
-  <polygon points="120,120 170,220 70,220" fill="#3b9eff" opacity="0.8"/>
-  <polygon points="120,120 20,170 20,70" fill="#3b9eff" opacity="0.8"/>
+  <polygon points="120,120 70,20 70,70 20,70" fill="#3b9eff" opacity="0.85"/>
+  <polygon points="120,120 170,20 170,70 220,70" fill="#3b9eff" opacity="0.85"/>
+  <polygon points="120,120 220,170 170,170 170,220" fill="#3b9eff" opacity="0.85"/>
+  <polygon points="120,120 20,170 70,170 70,220" fill="#3b9eff" opacity="0.85"/>
+  <rect x="20" y="20" width="50" height="50" fill="#1e2530" stroke="#4a505a" strokeWidth="1"/>
+  <rect x="170" y="20" width="50" height="50" fill="#1e2530" stroke="#4a505a" strokeWidth="1"/>
+  <rect x="20" y="170" width="50" height="50" fill="#1e2530" stroke="#4a505a" strokeWidth="1"/>
+  <rect x="170" y="170" width="50" height="50" fill="#1e2530" stroke="#4a505a" strokeWidth="1"/>
+  <rect x="20" y="20" width="200" height="200" fill="none" stroke="#4a505a" strokeWidth="2"/>
 </svg>),
   116: (<svg viewBox="0 0 240 220" xmlns="http://www.w3.org/2000/svg" style={{background:"#1a1d23",borderRadius:8,border:"1px solid #2a2d35",width:"100%",maxWidth:240}}>
   <rect x="20" y="20" width="200" height="180" fill="#1e2530" stroke="#4a505a" strokeWidth="2"/>
@@ -262,7 +263,7 @@ export default {
     { question: "Un cuadrado grande = 4 rectángulos idénticos + cuadrado pequeño. Área grande = 81 cm², diagonal de rectángulo = 7 cm. ¿Cuál es el área del cuadrado pequeño?", options: ["17 cm²", "18 cm²", "19 cm²", "20 cm²", "21 cm²"], correctAnswer: 0, explanation: "Lado = 9 cm. a+b=9, a²+b²=49, 2ab=32. Área pequeña = (a-b)² = a²+b²-2ab = 49-32 = 17 cm².", diagram: D[112] },
     { question: "La figura muestra tres cubos en equilibrio. Cubo pequeño: lado = 1 cm, cubo mediano: lado = 3 cm. ¿Cuánto mide el lado del cubo grande?", options: ["4", "4√5", "8", "6√3", "3√5"], correctAnswer: 0, explanation: "El cubo grande soporta los otros dos apilados: su lado = 1 + 3 = 4 cm.", diagram: D[113] },
     { question: "La estrella tiene 6 rombos de área 5 cm² cada uno. Se unen los picos para formar un hexágono. ¿Cuál es el área del hexágono?", options: ["30 cm²", "32 cm²", "36 cm²", "40 cm²", "46 cm²"], correctAnswer: 0, explanation: "Los 6 rombos forman la estrella con área total 30 cm². El hexágono formado al unir los picos tiene área = 30 cm².", diagram: D[114] },
-    { question: "El cuadrado grande tiene área 16 cm² y los 4 cuadrados pequeños en las esquinas tienen área 1 cm² cada uno. ¿Cuál es el área de la región sombreada?", options: ["3 cm²", "7/2 cm²", "4 cm²", "11/2 cm²", "6 cm²"], correctAnswer: 4, explanation: "Por simetría y descomposición de áreas: el área sombreada = 6 cm².", diagram: D[115] },
+    { question: "El cuadrado grande tiene área 16 cm² y los 4 cuadrados pequeños en las esquinas tienen área 1 cm² cada uno. ¿Cuál es el área de la región sombreada?", options: ["3 cm²", "7/2 cm²", "4 cm²", "11/2 cm²", "6 cm²"], correctAnswer: 2, explanation: "Para cada cuadrado pequeño (lado 1cm) se trazan 2 segmentos al centro. Cada región delimitada tiene área = 1 cm². Total: 4 × 1 = 4 cm².", diagram: D[115] },
     { question: "Un cuadrado de área 1 está dividido en cuadrados más pequeños, cada uno con un círculo inscrito. ¿Cuál es el área sombreada (de los círculos)?", options: ["$8\\pi/9$", "$13\\pi/6$", "$3/4$", "$\\pi/4$", "$1-\\pi$"], correctAnswer: 3, explanation: "Para cualquier cuadrado dividido en sub-cuadrados con círculos inscritos: el área de los círculos = $\\pi/4$ × área total = $\\pi/4$.", diagram: D[116] },
     { question: "En la figura hay dos cuadrados adyacentes de lados $a$ y $b$ (con $a < b$). ¿Cuál es el área del triángulo sombreado?", options: ["$\\sqrt{ab}$", "$a^2/2$", "$b^2/2$", "$(1/4)(a^2+b^2)$", "$(1/2)(a^2+b^2)$"], correctAnswer: 1, explanation: "Calculando con coordenadas los vértices del triángulo sombreado, el área resulta $a^2/2$.", diagram: D[117] },
   ],

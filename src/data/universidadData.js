@@ -24,6 +24,11 @@ export const SUBJECTS_UNI = [
         name: "Límites",
         teoria: "/teoria/limites",
       },
+      {
+        id: "continuidad",
+        name: "Continuidad",
+        teoria: "/teoria/continuidad",
+      },
     ],
   },
   {
@@ -38,7 +43,7 @@ export const SUBJECTS_UNI = [
           {
             id: "enteros-prepa",
             name: "Suma, Producto, Exponenciación y Divisibilidad",
-            quiz: "/cuestionario/enteros-prepa",
+            quiz: "/cuestionario/numeros-enteros",
           },
           {
             id: "racionales-prepa",

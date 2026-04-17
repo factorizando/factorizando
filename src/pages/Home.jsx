@@ -419,9 +419,9 @@ export default function Home() {
           <div className="divider"></div>
 
           <div style={{ marginTop: "1.8rem", textAlign: "center" }}>
-            <p className="section-label" style={{ marginBottom: "1.2rem" }}>
+            {/* <p className="section-label" style={{ marginBottom: "1.2rem" }}>
               Acceso libre · Sin cuenta
-            </p>
+            </p> */}
 
             {/* Grid de cuestionarios */}
             <div
@@ -435,7 +435,7 @@ export default function Home() {
                 margin: "0 auto",
               }}
             >
-              {/* EXANI-I */}
+              {/* EXANI-I
               <Link
                 to="/exani-i"
                 className="btn"
@@ -479,10 +479,10 @@ export default function Home() {
                     <li>Pensamiento Matemático</li>
                   </ul>
                 </div>
-              </Link>
+              </Link> */}
 
               {/* EXANI-II */}
-              <Link
+              {/* <Link
                 to="/exani-ii"
                 className="btn"
                 style={{
@@ -524,7 +524,7 @@ export default function Home() {
                     <li>Pensamiento Matemático</li>
                   </ul>
                 </div>
-              </Link>
+              </Link> */}
             </div>
           </div>
 

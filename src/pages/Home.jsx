@@ -347,16 +347,6 @@ export default function Home() {
           .footer { font-size: 0.65rem; padding: 2rem 1rem 0 1rem; }
         }
 
-        @media (min-width: 601px) {
-          /* En desktop: 2 columnas */
-          .questionnaires-grid {
-            display: grid !important;
-            gridTemplateColumns: repeat(2, 1fr) !important;
-            gap: 1.2rem !important;
-            maxWidth: 700px !important;
-            margin: 0 auto !important;
-          }
-        }
       `}</style>
 
       <div className="home">
@@ -381,164 +371,7 @@ export default function Home() {
             </div>
             <p className="tagline">Plataforma de evaluación académica</p>
           </div>
-          <div className="divider"></div>
-          <div
-            style={{
-              margin: "28px auto 0",
-              maxWidth: 700, // puedes subir esto a 760 para que sea más ancho
-              width: "100%",
-              borderRadius: 12,
-              overflow: "hidden",
-              border: "1px solid #252830",
-              boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
-            }}
-          >
-            <div
-              style={{
-                position: "relative",
-                paddingBottom: "56.25%",
-                height: 0,
-              }}
-            >
-              <iframe
-                src="https://www.youtube.com/embed/12U_oOqlSGg"
-                title="Video Factorizando"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "100%",
-                }}
-              />
-            </div>
-          </div>
-          <div className="divider"></div>
-
-          <div style={{ marginTop: "1.8rem", textAlign: "center" }}>
-            {/* <p className="section-label" style={{ marginBottom: "1.2rem" }}>
-              Acceso libre · Sin cuenta
-            </p> */}
-
-            {/* Grid de cuestionarios */}
-            <div
-              className="questionnaires-grid"
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr",
-                gap: "1rem",
-                maxWidth: "100%",
-                width: "100%",
-                margin: "0 auto",
-              }}
-            >
-              {/* EXANI-I
-              <Link
-                to="/exani-i"
-                className="btn"
-                style={{
-                  minWidth: "unset",
-                  border: "1px solid #ec652a",
-                  justifyContent: "flex-start",
-                }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.borderColor = "#f9a041")
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.borderColor = "#ec652a")
-                }
-              >
-                <span
-                  className="btn-icon"
-                  style={{ fontSize: "2.2rem", color: "#f9a041" }}
-                >
-                  📙
-                </span>
-                <div style={{ flex: 1 }}>
-                  <span className="btn-label" style={{ display: "block" }}>
-                    Simulacro de EXANI-I-BUAP
-                  </span>
-                  <ul
-                    style={{
-                      listStyle: "disc",
-                      paddingLeft: "1.2rem",
-                      textAlign: "left",
-                      fontSize: "0.7rem",
-                      color: "var(--muted)",
-                      letterSpacing: "0.06em",
-                      lineHeight: 1.6,
-                      margin: "0.6rem 0 0 0",
-                    }}
-                  >
-                    <li>Pensamiento Científico</li>
-                    <li>Redacción Indirecta</li>
-                    <li>Comprensión Lectora</li>
-                    <li>Pensamiento Matemático</li>
-                  </ul>
-                </div>
-              </Link> */}
-
-              {/* EXANI-II */}
-              {/* <Link
-                to="/exani-ii"
-                className="btn"
-                style={{
-                  minWidth: "unset",
-                  border: "1px solid #6ab327",
-                  justifyContent: "flex-start",
-                }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.borderColor = "#acc914")
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.borderColor = "#6ab327")
-                }
-              >
-                <span
-                  className="btn-icon"
-                  style={{ fontSize: "2.2rem", color: "#acc914" }}
-                >
-                  📗
-                </span>
-                <div style={{ flex: 1 }}>
-                  <span className="btn-label" style={{ display: "block" }}>
-                    Simulacro de EXANI-II(EIPM/EPIU)
-                  </span>
-                  <ul
-                    style={{
-                      listStyle: "disc",
-                      paddingLeft: "1.2rem",
-                      textAlign: "left",
-                      fontSize: "0.7rem",
-                      color: "var(--muted)",
-                      letterSpacing: "0.06em",
-                      lineHeight: 1.6,
-                      margin: "0.6rem 0 0 0",
-                    }}
-                  >
-                    <li>Comprensión Lectora</li>
-                    <li>Redacción Indirecta</li>
-                    <li>Pensamiento Matemático</li>
-                  </ul>
-                </div>
-              </Link> */}
-            </div>
-          </div>
-
-          <Link
-            to="/registro"
-            className="btn"
-            style={{ minWidth: 220, border: "1px solid #34d39966" }}
-          >
-            <span className="btn-icon" style={{ fontSize: "2.2rem" }}>
-              📝
-            </span>
-            <span className="btn-label">Registrarse</span>
-            <span className="btn-sub">Solicita tu acceso a la plataforma</span>
-          </Link>
+          {/* <div className="divider"></div> */}
           <p className="section-label">Selecciona tu nivel</p>
           <div className="btn-group">
             <Link to="/preparatoria" className="btn">
@@ -572,7 +405,21 @@ export default function Home() {
               <span className="btn-sub">Nivel superior</span>
             </Link>
           </div>
+
+          <Link
+            to="/registro"
+            className="btn"
+            style={{ minWidth: 220, border: "1px solid #34d39966" }}
+          >
+            <span className="btn-icon" style={{ fontSize: "2.2rem" }}>
+              📝
+            </span>
+            <span className="btn-label">Registrarse</span>
+            <span className="btn-sub">Solicita tu acceso a la plataforma</span>
+          </Link>
         </div>
+
+        <div className="divider"></div>
 
         <div className="spacer"></div>
 

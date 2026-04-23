@@ -26,6 +26,7 @@ import SINONIMOS from "./universidad/espanol/sinonimos-antonimos-analogias.js";
 import SINTAXIS_ESPANOL from "./universidad/espanol/sintaxis-espanol.js";
 import SIMULADOR_PREPA_1 from "./preparatoria/simuladores/simulador-prepa-1.jsx";
 import SIMULADOR_PREPA_2 from "./preparatoria/simuladores/simulador-prepa-2.jsx";
+import ESTRUCTURA_ORACION_UNI from "./universidad/espanol/estructura-oracion-uni.js";
 
 export const CUESTIONARIOS_INDEX = {
   // ──────────────────────────────────────────────────────────────────────────
@@ -323,6 +324,11 @@ export const CUESTIONARIOS_INDEX = {
           titulo: "Sintaxis en Español",
           description: "",
           data: SINTAXIS_ESPANOL,
+        },
+        {
+          id: "estructura-oracion-uni",
+          titulo: "Estructura de la Oración",
+          data: ESTRUCTURA_ORACION_UNI,
         },
       ],
     },

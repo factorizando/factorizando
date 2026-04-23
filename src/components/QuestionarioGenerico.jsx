@@ -6,12 +6,19 @@ import { Link } from "react-router-dom";
 import BrandName from "./BrandName";
 
 // ─── Componentes Internos para Renderizado (Corregidos) ──────────────────────
+// Convierte markdown básico a HTML (negrita, cursiva, código)
+const parseMd = (txt) =>
+  txt
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+    .replace(/\*(.+?)\*/g,     "<em>$1</em>")
+    .replace(/`(.+?)`/g,       "<code>$1</code>");
+
 const MathRenderer = ({ children }) => {
   const renderText = (txt) => {
-    if (!window.katex || typeof txt !== "string") return txt;
+    if (typeof txt !== "string") return txt;
     const parts = txt.split(/(\$.*?\$)/g);
     return parts.map((part, i) => {
-      if (part.startsWith("$") && part.endsWith("$")) {
+      if (part.startsWith("$") && part.endsWith("$") && window.katex) {
         const math = part.slice(1, -1);
         try {
           return (
@@ -28,7 +35,13 @@ const MathRenderer = ({ children }) => {
           return <span key={i}>{part}</span>;
         }
       }
-      return <span key={i}>{part}</span>;
+      // Texto plano: aplicar markdown
+      return (
+        <span
+          key={i}
+          dangerouslySetInnerHTML={{ __html: parseMd(part) }}
+        />
+      );
     });
   };
   return <>{renderText(children)}</>;

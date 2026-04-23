@@ -1,0 +1,2622 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EXANI-I · Redacción Indirecta</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --azul: #6490f5;
+    --azul-oscuro: #3b5fc9;
+    --azul-claro: #8aaaf7;
+    --azul-suave: rgba(100,144,245,0.13);
+    --azul-borde: rgba(100,144,245,0.4);
+    --amarillo: #f0b429;
+    --amarillo-suave: rgba(240,180,41,0.12);
+    --amarillo-borde: rgba(240,180,41,0.45);
+    --bg: #1a1b1e;
+    --bg-card: #25262b;
+    --bg-card2: #2d2e34;
+    --bg-sidebar: #131417;
+    --bg-header: #1e1f23;
+    --texto: #e2e3e9;
+    --texto-suave: #8e9099;
+    --texto-dim: #5a5c65;
+    --borde: #33343b;
+    --borde-claro: #3e3f47;
+    --sombra: 0 4px 24px rgba(0,0,0,0.4);
+    --sombra-azul: 0 0 0 2px rgba(100,144,245,0.25);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    background: var(--bg);
+    color: var(--texto);
+    display: flex;
+    min-height: 100vh;
+    line-height: 1.7;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--borde-claro); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--azul-oscuro); }
+
+  /* ── SIDEBAR ── */
+  #sidebar {
+    width: 272px;
+    min-width: 272px;
+    background: var(--bg-sidebar);
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--borde);
+    z-index: 100;
+  }
+
+  .sidebar-header {
+    background: var(--bg-header);
+    padding: 26px 20px 20px;
+    border-bottom: 1px solid var(--borde);
+  }
+
+  .sidebar-header .examen-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--azul);
+    margin-bottom: 8px;
+  }
+
+  .sidebar-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    line-height: 1.3;
+    color: var(--texto);
+    font-weight: 900;
+  }
+
+  .sidebar-header .subtitle {
+    font-size: 11px;
+    color: var(--texto-suave);
+    margin-top: 6px;
+    font-style: italic;
+  }
+
+  .sidebar-progress {
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--borde);
+    background: var(--bg-header);
+  }
+
+  .progress-bar-wrap {
+    height: 4px;
+    background: var(--borde-claro);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    width: 68%;
+    background: linear-gradient(90deg, var(--azul-oscuro), var(--azul));
+    border-radius: 4px;
+  }
+
+  .progress-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    color: var(--texto-dim);
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  nav { padding: 10px 0; flex: 1; }
+
+  .nav-section {
+    padding: 14px 20px 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8.5px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--texto-dim);
+    font-weight: 600;
+  }
+
+  nav a {
+    display: block;
+    padding: 8px 20px 8px 28px;
+    color: var(--texto-suave);
+    text-decoration: none;
+    font-size: 13px;
+    font-family: 'Source Serif 4', serif;
+    border-left: 2px solid transparent;
+    transition: all .18s;
+    line-height: 1.4;
+  }
+
+  nav a:hover { color: var(--texto); background: rgba(255,255,255,0.04); border-left-color: var(--borde-claro); }
+  nav a.active { color: var(--azul-claro); background: var(--azul-suave); border-left-color: var(--azul); }
+  nav a.sub { padding-left: 38px; font-size: 12px; color: var(--texto-dim); }
+  nav a.sub:hover, nav a.sub.active { color: var(--azul-claro); }
+
+  /* ── MAIN ── */
+  #main { flex: 1; overflow-x: hidden; }
+
+  .hero {
+    background: linear-gradient(135deg, #0d0e12 0%, #161828 50%, #1c2040 100%);
+    padding: 52px 60px 44px;
+    color: var(--texto);
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--borde);
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(100,144,245,0.08) 0%, transparent 70%);
+    right: -100px; top: -100px;
+    pointer-events: none;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(100,144,245,0.05) 0%, transparent 70%);
+    right: 200px; bottom: -80px;
+    pointer-events: none;
+  }
+
+  .hero .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--azul);
+    margin-bottom: 12px;
+  }
+
+  .hero h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 40px;
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 14px;
+    color: #fff;
+  }
+
+  .hero p { font-size: 15px; color: var(--texto-suave); max-width: 560px; line-height: 1.75; }
+
+  .stats-bar { display: flex; gap: 20px; margin-top: 32px; flex-wrap: wrap; }
+
+  .stat {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--borde-claro);
+    border-radius: 10px;
+    padding: 14px 22px;
+    text-align: center;
+  }
+
+  .stat .num {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    display: block;
+    color: var(--azul-claro);
+  }
+
+  .stat .lbl { font-size: 10.5px; color: var(--texto-dim); font-family: 'JetBrains Mono', monospace; }
+
+  /* ── CONTENT ── */
+  .content { padding: 44px 60px; }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--texto);
+    margin-bottom: 6px;
+    scroll-margin-top: 24px;
+  }
+
+  .section-sub {
+    font-size: 11.5px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--azul);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-sub::after { content: ''; flex: 1; height: 1px; background: var(--borde); }
+
+  .subsection { margin-bottom: 48px; padding-bottom: 36px; border-bottom: 1px solid var(--borde); }
+
+  .topic-header {
+    background: linear-gradient(90deg, var(--azul-oscuro), #2a3a7a);
+    color: #fff;
+    padding: 14px 22px;
+    border-radius: 10px 10px 0 0;
+    font-family: 'Playfair Display', serif;
+    font-size: 19px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .topic-header .badge {
+    background: rgba(255,255,255,0.15);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .topic-body {
+    background: var(--bg-card);
+    border: 1px solid var(--borde);
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    padding: 26px 30px;
+  }
+
+  p { line-height: 1.8; margin-bottom: 12px; font-size: 15px; color: var(--texto); }
+
+  h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    color: var(--azul-claro);
+    margin: 22px 0 10px;
+  }
+
+  ul, ol { margin: 0 0 14px 20px; font-size: 14.5px; line-height: 1.8; color: var(--texto); }
+  li { margin-bottom: 3px; }
+
+  strong { color: #fff; }
+  em { color: var(--texto-suave); font-style: italic; }
+
+  /* Callout boxes */
+  .callout {
+    border-left: 3px solid var(--azul);
+    background: var(--azul-suave);
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+    margin: 14px 0;
+    font-size: 14px;
+    color: var(--texto);
+  }
+
+  .callout-warn {
+    border-left-color: var(--amarillo);
+    background: var(--amarillo-suave);
+  }
+
+  .callout-error {
+    border-left-color: #e05c5c;
+    background: rgba(224,92,92,0.10);
+  }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 13.5px; }
+
+  thead th {
+    background: var(--bg-header);
+    color: var(--azul-claro);
+    padding: 10px 13px;
+    text-align: left;
+    font-family: 'Source Serif 4', serif;
+    font-weight: 600;
+    border-bottom: 1px solid var(--borde-claro);
+  }
+
+  tbody tr { border-bottom: 1px solid var(--borde); }
+  tbody tr:nth-child(even) { background: rgba(255,255,255,0.02); }
+  tbody td { padding: 9px 13px; vertical-align: top; line-height: 1.6; color: var(--texto); }
+
+  /* Reactivo */
+  .reactivo {
+    border: 1px solid var(--borde-claro);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 22px 0;
+    background: var(--bg-card2);
+  }
+
+  .reactivo-header {
+    background: var(--bg-header);
+    color: var(--texto-suave);
+    padding: 9px 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--borde);
+  }
+
+  .reactivo-header .tipo {
+    background: var(--azul-suave);
+    color: var(--azul-claro);
+    border: 1px solid var(--azul-borde);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 9.5px;
+  }
+
+  .reactivo-body { padding: 18px 22px; }
+
+  .reactivo-pregunta {
+    background: var(--bg-card);
+    border: 1px solid var(--borde);
+    padding: 13px 16px;
+    border-radius: 8px;
+    font-size: 14.5px;
+    line-height: 1.75;
+    margin-bottom: 16px;
+    color: var(--texto);
+  }
+
+  .opciones { display: flex; flex-direction: column; gap: 7px; }
+
+  .opcion {
+    padding: 10px 15px;
+    border: 1px solid var(--borde-claro);
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all .18s;
+    line-height: 1.6;
+    background: var(--bg-card);
+    color: var(--texto);
+    user-select: none;
+  }
+
+  .opcion:hover { border-color: var(--azul); background: var(--azul-suave); }
+
+  .opcion.correcta {
+    border-color: var(--azul-borde);
+    background: var(--azul-suave);
+    color: var(--azul-claro);
+  }
+
+  .opcion.incorrecta {
+    border-color: var(--amarillo-borde);
+    background: var(--amarillo-suave);
+    color: var(--amarillo);
+  }
+
+  .opcion .letra {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    margin-right: 10px;
+    color: var(--texto-suave);
+  }
+
+  .opcion.correcta .letra { color: var(--azul); }
+  .opcion.incorrecta .letra { color: var(--amarillo); }
+
+  .btn-ver {
+    margin-top: 14px;
+    background: transparent;
+    color: var(--azul);
+    border: 1px solid var(--azul-borde);
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-family: 'Source Serif 4', serif;
+    font-size: 13.5px;
+    cursor: pointer;
+    transition: all .18s;
+  }
+
+  .btn-ver:hover { background: var(--azul-suave); }
+
+  .explicacion { display: none; margin-top: 14px; }
+  .explicacion.visible { display: block; }
+
+  .exp-row {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    border: 1px solid var(--borde);
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 13px;
+    margin-bottom: 5px;
+    background: var(--bg-card);
+  }
+
+  .exp-opcion {
+    padding: 10px 13px;
+    background: var(--bg-header);
+    border-right: 1px solid var(--borde);
+    font-weight: 600;
+    color: var(--texto-suave);
+    font-size: 12.5px;
+    display: flex;
+    align-items: center;
+  }
+
+  .exp-arg { padding: 10px 13px; line-height: 1.6; color: var(--texto-suave); }
+
+  .exp-row.correct .exp-opcion { background: var(--azul-suave); color: var(--azul-claro); border-right-color: var(--azul-borde); }
+  .exp-row.wrong .exp-opcion { background: var(--amarillo-suave); color: var(--amarillo); border-right-color: var(--amarillo-borde); }
+
+  /* Texto ejemplo */
+  .texto-ejemplo {
+    background: var(--bg-card);
+    border: 1px dashed var(--borde-claro);
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-size: 14px;
+    line-height: 1.8;
+    margin: 12px 0;
+    color: var(--texto);
+    position: relative;
+  }
+
+  .mark-azul { background: rgba(100,144,245,0.2); border-radius: 3px; padding: 1px 4px; color: var(--azul-claro); }
+  .mark-amarillo { background: rgba(240,180,41,0.2); border-radius: 3px; padding: 1px 4px; color: var(--amarillo); }
+  .mark-rojo { background: rgba(224,92,92,0.18); border-radius: 3px; padding: 1px 4px; color: #e07070; text-decoration: line-through; }
+  .mark-verde { background: rgba(80,200,120,0.18); border-radius: 3px; padding: 1px 4px; color: #6cd47e; }
+
+  /* Comp rows */
+  .comp-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0; }
+
+  .comp-ok {
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    line-height: 1.7;
+    background: var(--azul-suave);
+    border: 1px solid var(--azul-borde);
+    color: var(--azul-claro);
+  }
+
+  .comp-no {
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    line-height: 1.7;
+    background: rgba(224,92,92,0.08);
+    border: 1px solid rgba(224,92,92,0.3);
+    color: #e07070;
+  }
+
+  .comp-ok::before { content: '✓ '; font-weight: 700; color: var(--azul); }
+  .comp-no::before { content: '✗ '; font-weight: 700; color: #e07070; }
+
+  /* Regla card */
+  .regla {
+    display: flex;
+    gap: 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--borde-claro);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 10px 0;
+    align-items: flex-start;
+  }
+
+  .regla-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--azul);
+    min-width: 32px;
+    line-height: 1;
+    margin-top: 2px;
+  }
+
+  .regla-texto { flex: 1; font-size: 14px; color: var(--texto); }
+
+  /* Grid */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 14px 0; }
+
+  .mini-card {
+    background: var(--bg-card);
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+    padding: 16px 18px;
+    font-size: 13.5px;
+  }
+
+  .mini-card .mini-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    color: var(--azul);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  /* Signo card */
+  .signo-card {
+    background: var(--bg-card);
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 18px;
+  }
+
+  .signo-header {
+    background: var(--bg-header);
+    padding: 11px 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border-bottom: 1px solid var(--borde);
+  }
+
+  .signo-simbolo {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--azul-claro);
+    min-width: 42px;
+    text-align: center;
+  }
+
+  .signo-nombre { font-size: 16px; font-weight: 600; color: var(--texto); }
+  .signo-sub { font-size: 12px; color: var(--texto-dim); }
+  .signo-body { padding: 14px 18px; }
+
+  /* Chapter divider */
+  .chapter-divider {
+    margin: 56px 0 36px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .chapter-divider span {
+    font-family: 'Playfair Display', serif;
+    font-size: 12px;
+    color: var(--azul);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding: 5px 14px;
+    background: var(--azul-suave);
+    border: 1px solid var(--azul-borde);
+    border-radius: 20px;
+  }
+
+  .chapter-divider::before, .chapter-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--borde);
+  }
+
+  /* Tabla de clasificación */
+  .clasif-table { margin: 14px 0; }
+
+  /* Footer */
+  .footer {
+    background: var(--bg-sidebar);
+    color: var(--texto-dim);
+    padding: 20px 60px;
+    font-size: 11.5px;
+    font-family: 'JetBrains Mono', monospace;
+    text-align: center;
+    border-top: 1px solid var(--borde);
+  }
+
+  /* Resumen final */
+  .resumen-card {
+    background: var(--bg-card);
+    border: 1px solid var(--borde-claro);
+    border-radius: 14px;
+    padding: 30px 34px;
+    margin-bottom: 40px;
+  }
+
+  .resumen-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--texto);
+    margin-bottom: 20px;
+  }
+
+  /* Counter badge */
+  .counter-badge {
+    display: inline-block;
+    background: var(--azul-suave);
+    color: var(--azul);
+    border: 1px solid var(--azul-borde);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-left: 8px;
+    vertical-align: middle;
+    letter-spacing: 0.5px;
+  }
+
+  @media (max-width: 900px) {
+    body { flex-direction: column; }
+    #sidebar { width: 100%; height: auto; position: static; }
+    .content { padding: 24px 18px; }
+    .hero { padding: 32px 20px 24px; }
+    .hero h2 { font-size: 26px; }
+    .grid-2, .comp-row, .exp-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════ SIDEBAR ══════ -->
+<aside id="sidebar">
+  <div class="sidebar-header">
+    <div class="examen-tag">EXANI-I · Área</div>
+    <h1>Redacción Indirecta</h1>
+    <div class="subtitle">Guía completa de estudio — v2</div>
+  </div>
+  <div class="sidebar-progress">
+    <div class="progress-label"><span>Progreso temario</span><span>7 temas</span></div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+  </div>
+  <nav>
+    <div class="nav-section">Subárea: Estudio</div>
+    <a href="#com-estudio">Comunicativa</a>
+    <a href="#carta-formal" class="sub">→ Carta formal</a>
+    <a href="#articulo-cientifico" class="sub">→ Artículo científico</a>
+    <a href="#monografia" class="sub">→ Monografía</a>
+    <div class="nav-section">Subárea: Part. Social</div>
+    <a href="#com-social">Comunicativa</a>
+    <a href="#correo" class="sub">→ Correo electrónico</a>
+    <a href="#cronica" class="sub">→ Crónica deportiva</a>
+    <a href="#eslogan" class="sub">→ Eslogan</a>
+    <div class="nav-section">Gramatical y Semántica</div>
+    <a href="#concordancia-nominal">Concordancia nominal <span class="counter-badge">10</span></a>
+    <a href="#concordancia-verbal">Concordancia verbal <span class="counter-badge">10</span></a>
+    <a href="#cohesion-gramatical">Cohesión gramatical <span class="counter-badge">10</span></a>
+    <a href="#cohesion-lexica">Cohesión léxico-semántica <span class="counter-badge">10</span></a>
+    <a href="#marcadores">Marcadores textuales <span class="counter-badge">10</span></a>
+    <div class="nav-section">Ortográfica</div>
+    <a href="#grafofonética">Grafofonética</a>
+    <a href="#puntuacion">Puntuación <span class="counter-badge">10</span></a>
+    <a href="#acentuacion">Acentuación <span class="counter-badge">10</span></a>
+  </nav>
+</aside>
+
+<!-- ══════ MAIN ══════ -->
+<main id="main">
+
+<div class="hero">
+  <div class="tag">EXANI-I · Área de evaluación</div>
+  <h2>Redacción Indirecta</h2>
+  <p>Material de estudio detallado con todos los temas del temario oficial, explicaciones profundas, tablas de referencia y reactivos de práctica tipo EXANI-I.</p>
+  <div class="stats-bar">
+    <div class="stat"><span class="num">2</span><span class="lbl">Subáreas</span></div>
+    <div class="stat"><span class="num">30</span><span class="lbl">Reactivos en el examen</span></div>
+    <div class="stat"><span class="num">7</span><span class="lbl">Temas profundizados</span></div>
+    <div class="stat"><span class="num">80+</span><span class="lbl">Reactivos de práctica</span></div>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ══════════════════════════════════════
+     COMUNICATIVA — ESTUDIO
+══════════════════════════════════════ -->
+<div class="chapter-divider"><span>Subárea: Estudio — Comunicativa</span></div>
+<h2 class="section-title" id="com-estudio">Competencia Comunicativa · Estudio</h2>
+<div class="section-sub">Registros lingüísticos y géneros textuales</div>
+<p>La competencia comunicativa es la capacidad de elegir el texto, el registro y el género adecuados según la situación. El EXANI-I presentará fragmentos y pedirá identificar cuál corresponde al género correcto o usa el registro apropiado.</p>
+
+<!-- CARTA FORMAL -->
+<div class="subsection" id="carta-formal">
+  <div class="topic-header">✉ Registro lingüístico: Carta formal <span class="badge">Subárea Estudio</span></div>
+  <div class="topic-body">
+    <p>Una <strong>carta formal</strong> es un texto escrito dirigido a una persona o institución con un propósito específico dentro de un contexto institucional o profesional.</p>
+    <h4>Características esenciales</h4>
+    <ul>
+      <li><strong>Registro formal:</strong> Sin expresiones coloquiales ni contracciones.</li>
+      <li><strong>Tratamiento de usted</strong> hacia el destinatario.</li>
+      <li><strong>Estructura fija:</strong> lugar/fecha · destinatario · saludo · cuerpo · despedida · firma.</li>
+      <li><strong>Objetividad:</strong> El texto se centra en el asunto; sin opiniones irrelevantes.</li>
+    </ul>
+    <h4>Estructura</h4>
+    <table>
+      <thead><tr><th>Parte</th><th>Contenido</th><th>Ejemplo</th></tr></thead>
+      <tbody>
+        <tr><td>Encabezado</td><td>Lugar y fecha</td><td><em>Puebla, Pue., 2 de abril de 2026</em></td></tr>
+        <tr><td>Destinatario</td><td>Nombre, cargo, institución</td><td><em>Lic. María García / Directora de RRHH</em></td></tr>
+        <tr><td>Saludo</td><td>Fórmula de cortesía</td><td><em>Estimada Licenciada García:</em></td></tr>
+        <tr><td>Cuerpo</td><td>Propósito y desarrollo</td><td><em>Por medio de la presente...</em></td></tr>
+        <tr><td>Despedida</td><td>Fórmula de cierre</td><td><em>Quedo a sus órdenes, atentamente,</em></td></tr>
+        <tr><td>Firma</td><td>Nombre y cargo</td><td><em>Juan Pérez / Solicitante</em></td></tr>
+      </tbody>
+    </table>
+    <div class="callout callout-error"><strong>Errores que invalidan una carta formal:</strong> "Hola" como saludo · tutear · lenguaje emotivo excesivo · omitir la estructura · usar coloquialismos.</div>
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 1/10 <span class="tipo">Carta formal</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">Un estudiante necesita solicitar una beca universitaria ante la coordinación académica. ¿Cuál texto es adecuado para esta situación?</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> "Hola coordinador, te escribo porque quiero la beca, la neta la necesito mucho. Ojalá me ayudes, saludos, Carlos."</div>
+          <div class="opcion incorrecta"><span class="letra">B)</span> "La presente tiene el objetivo de comunicarle que Carlos Ruiz solicita la beca. Carlos considera que la beca es importante. Carlos espera ser considerado."</div>
+          <div class="opcion correcta"><span class="letra">C)</span> "Por medio de la presente, me dirijo a usted con la finalidad de solicitar la beca estudiantil 2026-2027, para lo cual anexo la documentación requerida. Quedo a sus órdenes para cualquier aclaración."</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">Registro coloquial ("la neta", "ojalá"), tuteo al destinatario. Incompatible con una solicitud formal.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">B — Incorrecta</div><div class="exp-arg">Aunque el registro mejora, la repetición del nombre propio ("Carlos… Carlos… Carlos") rompe la coherencia del texto y resulta redundante e inadecuado.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">C — Correcta ✓</div><div class="exp-arg">Usa registro formal, tratamiento de usted, estructura apropiada con propósito claro y fórmula de cierre convencional. Cumple con todas las características.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ARTÍCULO CIENTÍFICO -->
+<div class="subsection" id="articulo-cientifico">
+  <div class="topic-header">🔬 Artículo científico <span class="badge">Subárea Estudio</span></div>
+  <div class="topic-body">
+    <p>El <strong>artículo científico</strong> presenta hallazgos o reflexiones sobre un tema con base en evidencia y metodología verificables.</p>
+    <h4>Características esenciales</h4>
+    <ul>
+      <li><strong>Objetividad e impersonalidad:</strong> voz pasiva o tercera persona; sin "yo creo".</li>
+      <li><strong>Lenguaje técnico y preciso</strong> con terminología especializada.</li>
+      <li><strong>Referencias y citas</strong> en fuentes verificables.</li>
+      <li><strong>Ausencia de valoraciones subjetivas.</strong></li>
+    </ul>
+    <div class="comp-row">
+      <div class="comp-ok"><strong>Artículo científico:</strong> "Los resultados indican que el 78% de los participantes presentó una reducción en los niveles de cortisol tras la intervención (p &lt; 0.05)."</div>
+      <div class="comp-no"><strong>No científico:</strong> "Yo creo que la meditación es buenísima y todos deberíamos practicarla porque ayuda muchísimo."</div>
+    </div>
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 1 <span class="tipo">Artículo científico</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">¿Cuál de los siguientes fragmentos corresponde al registro de un artículo científico?</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> "Como todos sabemos, los plásticos están destruyendo el planeta. Es una vergüenza que los gobiernos no actúen."</div>
+          <div class="opcion correcta"><span class="letra">B)</span> "Se analizaron muestras de agua de 12 cuerpos fluviales de la región. Los resultados evidencian una concentración de microplásticos de 4.3 partículas/litro, cifra superior al umbral establecido por la OMS."</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> "El río estaba lleno de basura. Me pareció horrible y creo que algo tiene que cambiar pronto."</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">Texto de opinión: generalizaciones ("como todos sabemos"), lenguaje emotivo y juicios morales incompatibles con el artículo científico.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">Lenguaje impersonal, datos cuantitativos precisos, referencia a fuente oficial (OMS) y terminología técnica. Cumple con los criterios del artículo científico.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">Narración subjetiva en primera persona con lenguaje emotivo. No cumple los criterios de objetividad ni precisión.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MONOGRAFÍA -->
+<div class="subsection" id="monografia">
+  <div class="topic-header">📚 Género textual: Monografía <span class="badge">Subárea Estudio</span></div>
+  <div class="topic-body">
+    <p>La <strong>monografía</strong> aborda un único tema de manera exhaustiva, objetiva y organizada, sistematizando el conocimiento existente.</p>
+    <h4>Características</h4>
+    <ul>
+      <li><strong>Un solo tema central</strong> desarrollado en profundidad, sin digresiones.</li>
+      <li><strong>Perspectiva impersonal y objetiva;</strong> sin valoraciones del autor.</li>
+      <li><strong>Organización lógica:</strong> introducción · desarrollo · conclusiones · referencias.</li>
+    </ul>
+    <div class="callout callout-error"><strong>Descalifica un texto como monografía:</strong> opinión personal al final · anécdotas · lenguaje familiar · abordar múltiples temas sin relación.</div>
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 1 <span class="tipo">Monografía</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">Un estudiante debe entregar una monografía sobre el cambio climático. ¿Cuál texto es adecuado?</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> "El cambio climático es el mayor problema de la humanidad. Es imperdonable que los países ricos no hagan nada. Todos deberíamos indignarnos."</div>
+          <div class="opcion incorrecta"><span class="letra">B)</span> "Yo noté que en mi ciudad hace más calor. Una vez, de viaje a la playa, vi que el nivel del mar se veía diferente."</div>
+          <div class="opcion correcta"><span class="letra">C)</span> "El cambio climático es el conjunto de variaciones persistentes en los patrones climáticos, asociadas principalmente a las emisiones de gases de efecto invernadero de origen antropogénico. Desde la Revolución Industrial, la temperatura media global ha aumentado 1.2 °C (IPCC, 2021)."</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">Texto de opinión con valoraciones subjetivas y lenguaje emotivo. Incompatible con la objetividad de la monografía.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">B — Incorrecta</div><div class="exp-arg">Narración personal con anécdotas y primera persona. Una monografía no se basa en experiencias individuales sin sustento académico.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">C — Correcta ✓</div><div class="exp-arg">Definición precisa, datos con fuente académica (IPCC), lenguaje impersonal y terminología especializada. Cumple todas las características de la monografía.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     COMUNICATIVA — PARTICIPACIÓN SOCIAL
+══════════════════════════════════════ -->
+<div class="chapter-divider"><span>Subárea: Participación Social — Comunicativa</span></div>
+<h2 class="section-title" id="com-social">Competencia Comunicativa · Participación Social</h2>
+<div class="section-sub">Registros lingüísticos y géneros textuales</div>
+
+<!-- CORREO -->
+<div class="subsection" id="correo">
+  <div class="topic-header">📧 Correo electrónico <span class="badge">Participación social</span></div>
+  <div class="topic-body">
+    <p>El <strong>correo electrónico</strong> puede ser formal o informal según el destinatario y el propósito. El EXANI-I evalúa la capacidad de identificar el registro adecuado.</p>
+    <table>
+      <thead><tr><th>Elemento</th><th>Formal</th><th>Informal</th></tr></thead>
+      <tbody>
+        <tr><td>Saludo</td><td>Estimado/a Sr./Lic./Dr.:</td><td>Hola, ¿cómo estás?</td></tr>
+        <tr><td>Tratamiento</td><td>Usted</td><td>Tú / vos</td></tr>
+        <tr><td>Vocabulario</td><td>Técnico, preciso</td><td>Coloquial, contracciones</td></tr>
+        <tr><td>Despedida</td><td>Atentamente / Quedo a sus órdenes</td><td>Saludos / Cuídate / Chao</td></tr>
+      </tbody>
+    </table>
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 1 <span class="tipo">Correo electrónico</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">Un alumno necesita escribir un correo a su profesor universitario para avisar que no podrá asistir a la presentación oral. ¿Cuál es el más adecuado?</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> "Profe, no voy a poder ir mañana porque tengo cosas. Luego le explico. Saludos."</div>
+          <div class="opcion correcta"><span class="letra">B)</span> "Estimado Dr. Vega: Por este medio le comunico que no me será posible asistir a la presentación oral del próximo miércoles debido a una cita médica impostergable. Le solicito respetuosamente reprogramar mi participación. Atentamente, Sandra Morales."</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> "Hola Doctor!! Me da mucha pena pero mañana no puedo ir 😢 Espero que esté bien. Besos, Sandy."</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">Registro muy informal ("profe", "tengo cosas"), sin justificación ni estructura.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">Saludo formal con título, trato de usted, razón clara, petición educada y despedida formal. Adecuado para contexto universitario.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">Mezcla de elementos formales (título) con registro informal (emojis, "besos"). La incongruencia lo hace inadecuado.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CRÓNICA -->
+<div class="subsection" id="cronica">
+  <div class="topic-header">⚽ Crónica deportiva <span class="badge">Participación social</span></div>
+  <div class="topic-body">
+    <p>La <strong>crónica deportiva</strong> narra y comenta el desarrollo de un evento deportivo combinando narración factual con la perspectiva del cronista.</p>
+    <h4>Características</h4>
+    <ul>
+      <li><strong>Narración cronológica</strong> del evento.</li>
+      <li><strong>Presencia valorativa del cronista</strong> (a diferencia de la noticia).</li>
+      <li><strong>Lenguaje dinámico y descriptivo:</strong> verbos de acción, metáforas deportivas.</li>
+      <li><strong>Precisión factual:</strong> minuto, parciales, nombres propios.</li>
+    </ul>
+    <div class="comp-row">
+      <div class="comp-ok"><strong>Crónica:</strong> "Con una determinación sobrehumana, Nadal desmontó set a set las ilusiones de un Ruud que nada pudo hacer ante el rey de la arcilla."</div>
+      <div class="comp-no"><strong>Noticia (no es crónica):</strong> "Nadal ganó 6-3, 6-3, 6-0 en la final de Roland Garros."</div>
+    </div>
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 1 <span class="tipo">Crónica deportiva</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">¿Cuál de los siguientes fragmentos corresponde al género de la crónica deportiva?</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> "Rafael Nadal ganó el torneo Roland Garros 2022 al vencer a Casper Ruud en tres sets con parciales de 6-3, 6-3 y 6-0."</div>
+          <div class="opcion correcta"><span class="letra">B)</span> "Con una determinación que parecía sobrehumana, Nadal desmontó set a set las ilusiones de un Ruud que nada pudo hacer. El español, doblado de dolor en algunos momentos, encontró en cada pelota de break la fuerza para seguir escribiendo su leyenda."</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> "Querido diario: hoy vi la final de Roland Garros. Nadal jugó muy bien y ganó fácil. Me alegró mucho."</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">Noticia deportiva: informa hechos con datos precisos pero sin la voz valorativa del cronista.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">Combina narración de hechos con valoraciones del cronista y lenguaje metafórico. Registro propio de la crónica.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">Texto de diario personal (registro íntimo), sin los elementos estructurales ni el estilo de la crónica periodística.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ESLOGAN -->
+<div class="subsection" id="eslogan">
+  <div class="topic-header">📢 Eslogan <span class="badge">Participación social</span></div>
+  <div class="topic-body">
+    <p>El <strong>eslogan</strong> es un enunciado breve, memorable y persuasivo diseñado para fijar un mensaje.</p>
+    <table>
+      <thead><tr><th>Recurso</th><th>Ejemplo</th></tr></thead>
+      <tbody>
+        <tr><td>Imperativo</td><td><em>"Just do it."</em></td></tr>
+        <tr><td>Rima</td><td><em>"Elige bien, elige salud también."</em></td></tr>
+        <tr><td>Antítesis</td><td><em>"Pequeño de tamaño, grande de sabor."</em></td></tr>
+        <tr><td>Metáfora</td><td><em>"El motor de tu vida."</em></td></tr>
+      </tbody>
+    </table>
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 1 <span class="tipo">Eslogan</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">Una ONG quiere lanzar una campaña de reciclaje para jóvenes. ¿Cuál funciona mejor como eslogan?</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> "El reciclaje es el proceso mediante el cual los residuos sólidos se transforman en nuevas materias primas. Contribuye a reducir contaminantes."</div>
+          <div class="opcion incorrecta"><span class="letra">B)</span> "Te pedimos que, si tienes un momento y te es posible, consideres reciclar tus residuos, que es bastante importante para el planeta."</div>
+          <div class="opcion correcta"><span class="letra">C)</span> "Recicla hoy, salva el mañana."</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">Definición académica, no eslogan. Carece de brevedad, impacto y función persuasiva directa.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">B — Incorrecta</div><div class="exp-arg">Excesivamente larga y dubitativa. Un eslogan debe ser directo y contundente.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">C — Correcta ✓</div><div class="exp-arg">Breve, imperativo, antítesis temporal (hoy/mañana), memorable. Cumple todas las características del eslogan.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     GRAMATICAL Y SEMÁNTICA
+══════════════════════════════════════ -->
+<div class="chapter-divider"><span>Gramatical y Semántica</span></div>
+<h2 class="section-title" id="gramatical">Gramatical y Semántica</h2>
+<div class="section-sub">Concordancias · Cohesión · Marcadores textuales</div>
+
+<!-- ─── CONCORDANCIA NOMINAL ─── -->
+<div class="subsection" id="concordancia-nominal">
+  <div class="topic-header">🔗 Concordancia nominal <span class="badge">10 reactivos</span></div>
+  <div class="topic-body">
+    <p>La <strong>concordancia nominal</strong> es el acuerdo obligatorio en <em>género</em> (masculino/femenino) y <em>número</em> (singular/plural) entre el sustantivo y sus determinantes y modificadores: artículos, adjetivos y pronombres.</p>
+    <h4>Reglas fundamentales</h4>
+    <div class="regla"><div class="regla-num">①</div><div class="regla-texto"><strong>Artículo + Sustantivo:</strong> coinciden en género y número. <em>el libro / la mesa / los libros / las mesas</em></div></div>
+    <div class="regla"><div class="regla-num">②</div><div class="regla-texto"><strong>Adjetivo + Sustantivo:</strong> el adjetivo concuerda con el sustantivo al que modifica. <em>un resultado positivo / unas ideas positivas</em></div></div>
+    <div class="regla"><div class="regla-num">③</div><div class="regla-texto"><strong>Pronombre → antecedente:</strong> el pronombre retoma al sustantivo con el mismo género y número. <em>La investigadora presentó sus hallazgos. <span class="mark-azul">Ella</span> había trabajado tres años.</em></div></div>
+    <div class="regla"><div class="regla-num">④</div><div class="regla-texto"><strong>Femeninos con "el":</strong> el artículo "el" se usa ante femeninos que empiezan con /a/ tónica, pero el adjetivo sigue siendo femenino. <em>el agua <span class="mark-azul">fría</span> / el hacha <span class="mark-azul">afilada</span></em></div></div>
+    <div class="regla"><div class="regla-num">⑤</div><div class="regla-texto"><strong>Sustantivos de género diferente coordinados:</strong> el adjetivo va en masculino plural. <em>El director y la directora <span class="mark-azul">mexicanos</span></em></div></div>
+
+    <h4>Errores frecuentes</h4>
+    <div class="comp-row">
+      <div class="comp-ok">Los <span class="mark-azul">nuevos</span> estudiantes aprobaron.</div>
+      <div class="comp-no">Los <span class="mark-rojo">nuevo</span> estudiantes aprobaron.</div>
+    </div>
+    <div class="comp-row">
+      <div class="comp-ok">La investigación fue <span class="mark-azul">exhaustiva</span>.</div>
+      <div class="comp-no">La investigación fue <span class="mark-rojo">exhaustivo</span>.</div>
+    </div>
+    <div class="comp-row">
+      <div class="comp-ok">El agua <span class="mark-azul">fría</span> del río.</div>
+      <div class="comp-no">El agua <span class="mark-rojo">frío</span> del río.</div>
+    </div>
+
+    <!-- R1 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 1 de 10 <span class="tipo">Concordancia nominal · Adjetivo + sustantivo</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">Elige la opción que completa correctamente el enunciado.<br><br>"Las _______ propuestas presentadas por el comité fueron aprobadas por mayoría."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> nuevo</div>
+          <div class="opcion incorrecta"><span class="letra">B)</span> nuevos</div>
+          <div class="opcion correcta"><span class="letra">C)</span> nuevas</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Nuevo" es singular masculino. No concuerda ni en género (propuestas = femenino) ni en número (plural).</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">B — Incorrecta</div><div class="exp-arg">"Nuevos" es plural masculino. Concuerda en número pero no en género con "propuestas" (femenino plural).</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">C — Correcta ✓</div><div class="exp-arg">"Nuevas" es femenino plural, igual que "propuestas". Concordancia perfecta en género y número.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R2 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 2 de 10 <span class="tipo">Concordancia nominal · Artículo + fem. /a/ tónica</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">¿Cuál de las siguientes opciones usa correctamente el artículo y el adjetivo con el sustantivo dado?</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> La agua clara del manantial</div>
+          <div class="opcion incorrecta"><span class="letra">B)</span> El agua claro del manantial</div>
+          <div class="opcion correcta"><span class="letra">C)</span> El agua clara del manantial</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"La agua" produce cacofonía. La RAE establece que ante sustantivos femeninos que comienzan con /a/ tónica se usa el artículo "el" para evitar el choque de vocales.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">B — Incorrecta</div><div class="exp-arg">Aunque "el" es correcto, el adjetivo "claro" está en masculino y no concuerda con "agua" (que es femenino). El adjetivo siempre mantiene el género del sustantivo: femenino.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">C — Correcta ✓</div><div class="exp-arg">"El agua clara": el artículo "el" se usa ante femeninos con /a/ tónica inicial, pero el adjetivo predicativo o atributivo va en femenino porque el sustantivo sigue siendo femenino.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R3 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 3 de 10 <span class="tipo">Concordancia nominal · Sustantivos coordinados de diferente género</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">Elige el adjetivo que concuerda correctamente con los sustantivos coordinados en la siguiente oración:<br><br>"El presidente y la secretaria llegaron _______ al acto oficial."</div>
+        <div class="opciones">
+          <div class="opcion correcta"><span class="letra">A)</span> puntuales</div>
+          <div class="opcion incorrecta"><span class="letra">B)</span> puntuales (femenino plural)</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> puntual</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row correct"><div class="exp-opcion">A — Correcta ✓</div><div class="exp-arg">Cuando hay dos sustantivos coordinados de distinto género, el adjetivo va en masculino plural. "Puntual" → plural = "puntuales" (masculino plural, que en este adjetivo coincide con el femenino plural ya que el adjetivo es invariable en género).</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">B — Incorrecta</div><div class="exp-arg">La instrucción indica que cuando hay mezcla de géneros el adjetivo es masculino plural, no femenino plural. (Aunque en este caso "puntuales" es igual, la regla es masculino.)</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"Puntual" es singular y no concuerda en número con los dos sustantivos coordinados ("el presidente y la secretaria").</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R4 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 4 de 10 <span class="tipo">Concordancia nominal · Pronombre con antecedente</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">Elige la opción que completa el texto de manera que el pronombre concuerde correctamente con su antecedente.<br><br>"Los investigadores publicaron el informe; _______ fue ampliamente citado en congresos internacionales."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> ellos</div>
+          <div class="opcion correcta"><span class="letra">B)</span> este</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> ella</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Ellos" haría referencia a "los investigadores" (masculino plural), pero el verbo "fue citado" está en singular, lo que genera incongruencia.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">"Este" es demostrativo masculino singular que retoma correctamente a "el informe" (masculino singular). Concuerda en género y número con el antecedente.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"Ella" es femenino singular y no concuerda con "el informe" (masculino singular).</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R5 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 5 de 10 <span class="tipo">Concordancia nominal · Adjetivo predicativo</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">¿Cuál de las siguientes oraciones tiene correcta concordancia entre el sujeto y el adjetivo predicativo?</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> Las decisiones tomadas resultaron equivocado.</div>
+          <div class="opcion incorrecta"><span class="letra">B)</span> El acuerdo y la propuesta fueron aprobado.</div>
+          <div class="opcion correcta"><span class="letra">C)</span> Las conclusiones del estudio parecieron apresuradas.</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Las decisiones" es femenino plural; el adjetivo predicativo "equivocado" está en masculino singular. Debe ser "equivocadas".</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">B — Incorrecta</div><div class="exp-arg">Sujeto compuesto ("el acuerdo y la propuesta") requiere plural; y al haber mezcla de géneros, el adjetivo va en masculino plural: "aprobados", no "aprobado".</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">C — Correcta ✓</div><div class="exp-arg">"Las conclusiones" (femenino plural) concuerda perfectamente con "apresuradas" (femenino plural). Concordancia correcta.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R6 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 6 de 10 <span class="tipo">Concordancia nominal · Posesivo</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">Elige la opción que completa correctamente el enunciado:<br><br>"Cada uno de los participantes entregó _______ formulario de inscripción."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> sus</div>
+          <div class="opcion correcta"><span class="letra">B)</span> su</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> sus propios</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Sus" es plural y no concuerda con "formulario" (singular). Aunque haya varios participantes, cada uno entregó UN formulario.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">"Su" concuerda en singular con "formulario". El posesivo concuerda con la cosa poseída, no con el número de poseedores.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"Sus propios" usa "sus" en plural, lo que rompe la concordancia con "formulario" singular. Además resulta redundante con "cada uno".</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R7 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 7 de 10 <span class="tipo">Concordancia nominal · Superlativo</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">¿Cuál oración presenta correcta concordancia en la forma superlativa?</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> Las alumnas más destacados del grupo recibieron una mención.</div>
+          <div class="opcion correcta"><span class="letra">B)</span> Las alumnas más destacadas del grupo recibieron una mención.</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> La alumna más destacados del grupo recibió una mención.</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Destacados" es masculino plural y no concuerda con "las alumnas" (femenino plural).</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">"Destacadas" concuerda en género (femenino) y número (plural) con "las alumnas". Concordancia correcta.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"La alumna" es singular pero "más destacados" está en plural masculino. Doble error de concordancia.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R8 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 8 de 10 <span class="tipo">Concordancia nominal · Sustantivo epiceno</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">¿Cuál de las siguientes oraciones respeta la concordancia con un sustantivo epiceno?</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> La víctima fue encontrado cerca del inmueble.</div>
+          <div class="opcion correcta"><span class="letra">B)</span> La víctima fue encontrada cerca del inmueble.</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> El víctima fue encontrada cerca del inmueble.</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Víctima" es un sustantivo epiceno femenino. Sin importar el sexo de la persona referida, el género gramatical es femenino. El participio "encontrado" debe ser femenino: "encontrada".</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">"La víctima fue encontrada": el artículo "la" y el participio "encontrada" concuerdan correctamente con el género gramatical femenino del sustantivo epiceno "víctima".</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"El víctima" usa artículo masculino con un sustantivo que es gramaticalmente femenino. El artículo incorrecto invalida la concordancia.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R9 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 9 de 10 <span class="tipo">Concordancia nominal · Relativo</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">Elige la opción que completa correctamente la oración de relativo:<br><br>"Los documentos _______ el comité aprobó fueron enviados a la dirección."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> el cual</div>
+          <div class="opcion incorrecta"><span class="letra">B)</span> la cual</div>
+          <div class="opcion correcta"><span class="letra">C)</span> que</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"El cual" es singular masculino y se referiría a un único antecedente masculino. Aquí el antecedente es "los documentos" (plural).</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">B — Incorrecta</div><div class="exp-arg">"La cual" es femenino singular. No concuerda con "los documentos" (masculino plural).</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">C — Correcta ✓</div><div class="exp-arg">"Que" es el relativo invariable adecuado para todos los géneros y números. Aquí es el más natural para introducir la oración de relativo especificativa "que el comité aprobó".</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R10 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 10 de 10 <span class="tipo">Concordancia nominal · Determinante numeral</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">¿Cuál de las siguientes opciones usa correctamente el numeral con el sustantivo?</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> Ambos candidatas fueron descalificadas.</div>
+          <div class="opcion incorrecta"><span class="letra">B)</span> Ambas candidatos fueron descalificados.</div>
+          <div class="opcion correcta"><span class="letra">C)</span> Ambas candidatas fueron descalificadas.</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Ambos" es masculino plural y no concuerda con "candidatas" (femenino plural). El determinante debe concordar con el sustantivo.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">B — Incorrecta</div><div class="exp-arg">"Ambas" concuerda con "candidatas" (correcto), pero "candidatos" está en masculino plural, generando contradicción interna en el sintagma nominal.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">C — Correcta ✓</div><div class="exp-arg">"Ambas candidatas fueron descalificadas": determinante, sustantivo y participio concuerdan todos en femenino plural. Concordancia perfecta.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── CONCORDANCIA VERBAL ─── -->
+<div class="subsection" id="concordancia-verbal">
+  <div class="topic-header">🔗 Concordancia verbal: sujeto – verbo <span class="badge">10 reactivos</span></div>
+  <div class="topic-body">
+    <p>La <strong>concordancia verbal</strong> exige que el verbo concuerde con su sujeto en número (singular/plural) y persona (1ª, 2ª, 3ª). Los errores más frecuentes ocurren cuando el sujeto está alejado del verbo o tiene una estructura compleja.</p>
+    <div class="regla"><div class="regla-num">①</div><div class="regla-texto"><strong>Sujeto simple:</strong> concordancia directa. <em>El estudiante aprobó. / Los estudiantes aprobaron.</em></div></div>
+    <div class="regla"><div class="regla-num">②</div><div class="regla-texto"><strong>Sujeto compuesto (coordinado con "y"):</strong> verbo en plural. <em>María y Juan llegaron tarde.</em></div></div>
+    <div class="regla"><div class="regla-num">③</div><div class="regla-texto"><strong>Sujeto colectivo:</strong> verbo en singular aunque represente muchos. <em>La mayoría votó a favor. / El equipo ganó.</em></div></div>
+    <div class="regla"><div class="regla-num">④</div><div class="regla-texto"><strong>Inciso entre sujeto y verbo:</strong> el verbo concuerda con el núcleo del sujeto, no con el inciso. <em>El informe, junto con sus anexos, fue entregado.</em></div></div>
+    <div class="regla"><div class="regla-num">⑤</div><div class="regla-texto"><strong>Sujeto pospuesto:</strong> el verbo concuerda con el sujeto aunque éste vaya después. <em>En el aula faltaron tres estudiantes.</em></div></div>
+    <div class="regla"><div class="regla-num">⑥</div><div class="regla-texto"><strong>"Ninguno / nadie / nada":</strong> verbo en singular. <em>Ninguno de los alumnos respondió.</em></div></div>
+
+    <!-- R1 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 1 de 10 <span class="tipo">Concordancia verbal · Inciso</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">"El director, así como todos los docentes del plantel, _______ a la reunión convocada por el consejo."</div>
+        <div class="opciones">
+          <div class="opcion correcta"><span class="letra">A)</span> asistió</div>
+          <div class="opcion incorrecta"><span class="letra">B)</span> asistieron</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> asistimos</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row correct"><div class="exp-opcion">A — Correcta ✓</div><div class="exp-arg">El sujeto principal es "El director" (singular). "Así como todos los docentes" es un inciso comparativo que no coordina sujetos. El verbo va en singular: "asistió".</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">B — Incorrecta</div><div class="exp-arg">Aunque hay varios individuos, "así como" no coordina sujetos como "y". Es un inciso, por lo que el verbo sigue concordando con el núcleo del sujeto: "el director" (singular).</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"Asistimos" es 1ª persona plural. No corresponde a ningún sujeto mencionado en el enunciado.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R2 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 2 de 10 <span class="tipo">Concordancia verbal · Sujeto pospuesto</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">"En la exposición _______ varios cuadros de artistas locales que nunca antes habían sido exhibidos."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> estaba</div>
+          <div class="opcion correcta"><span class="letra">B)</span> estaban</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> estuvo</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Estaba" es singular, pero el sujeto real de la oración es "varios cuadros" (plural). El verbo debe concordar con el sujeto aunque éste aparezca después del verbo.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">El sujeto pospuesto es "varios cuadros de artistas locales" (plural). El verbo debe ir en plural: "estaban".</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"Estuvo" es pretérito indefinido singular. No concuerda con "varios cuadros" (plural).</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R3 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 3 de 10 <span class="tipo">Concordancia verbal · Sujeto colectivo</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">"La mayoría de los estudiantes _______ a favor de la propuesta en la votación."</div>
+        <div class="opciones">
+          <div class="opcion correcta"><span class="letra">A)</span> se pronunció</div>
+          <div class="opcion incorrecta"><span class="letra">B)</span> se pronunciaron</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> se pronunciamos</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row correct"><div class="exp-opcion">A — Correcta ✓</div><div class="exp-arg">El núcleo del sujeto es "la mayoría" (colectivo singular). El verbo concuerda con el núcleo en singular: "se pronunció".</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">B — Incorrecta</div><div class="exp-arg">Aunque "de los estudiantes" es plural, es un complemento del nombre, no el núcleo del sujeto. El núcleo "la mayoría" exige verbo singular.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"Se pronunciamos" es 1ª persona plural y no corresponde al sujeto de la oración.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R4 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 4 de 10 <span class="tipo">Concordancia verbal · Sujeto compuesto</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">"El coordinador y la jefa del departamento _______ el proyecto ante las autoridades."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> presentó</div>
+          <div class="opcion correcta"><span class="letra">B)</span> presentaron</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> presentamos</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Presentó" es singular. Hay dos sujetos coordinados con "y", por lo que el verbo debe ir en plural.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">Sujeto compuesto: "el coordinador y la jefa del departamento" (dos sujetos coordinados con "y"). El verbo va en plural: "presentaron".</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"Presentamos" es 1ª persona plural. No corresponde a la 3ª persona que exige el sujeto de la oración.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R5 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 5 de 10 <span class="tipo">Concordancia verbal · "Ninguno de"</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">"Ninguno de los reportes enviados _______ los criterios establecidos por el comité."</div>
+        <div class="opciones">
+          <div class="opcion correcta"><span class="letra">A)</span> cumplió con</div>
+          <div class="opcion incorrecta"><span class="letra">B)</span> cumplieron con</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> cumplimos con</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row correct"><div class="exp-opcion">A — Correcta ✓</div><div class="exp-arg">"Ninguno" es un pronombre indefinido singular que exige verbo en singular: "cumplió". "De los reportes" es complemento, no núcleo del sujeto.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">B — Incorrecta</div><div class="exp-arg">"Cumplieron" está en plural, pero el núcleo del sujeto es "ninguno" (singular), no "los reportes".</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"Cumplimos" es 1ª persona plural, incompatible con el sujeto de tercera persona "ninguno".</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R6 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 6 de 10 <span class="tipo">Concordancia verbal · Oración impersonal</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">¿Cuál de las siguientes oraciones impersonales está correctamente construida?</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> Se entregaron el premio al ganador.</div>
+          <div class="opcion correcta"><span class="letra">B)</span> Se entregó el premio al ganador.</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> Se entregamos el premio al ganador.</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">En la construcción pasiva refleja ("se + verbo"), el verbo concuerda con el sujeto paciente. "El premio" es singular, por lo que el verbo debe ser singular: "se entregó".</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">"Se entregó el premio": el sujeto paciente "el premio" (singular) determina el verbo en singular. Construcción pasiva refleja correcta.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"Se entregamos" mezcla incorrectamente la construcción pasiva refleja con la 1ª persona plural. Es una forma inexistente en español normativo.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R7 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 7 de 10 <span class="tipo">Concordancia verbal · Relativo "que"</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">"Fui yo quien _______ la propuesta ante el consejo directivo."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> presentaron</div>
+          <div class="opcion correcta"><span class="letra">B)</span> presenté</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> presentamos</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Presentaron" es 3ª persona plural y no concuerda con "yo", que es 1ª persona singular.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">En "fui yo quien…", el relativo "quien" retoma a "yo" (1ª persona singular). El verbo en la cláusula relativa concuerda con ese antecedente: "presenté" (1ª persona singular).</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"Presentamos" es 1ª persona plural. "Yo" es singular, por lo que no se admite el plural.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R8 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 8 de 10 <span class="tipo">Concordancia verbal · Cuantificador</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">"La mitad de los documentos _______ extraviada durante el traslado."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> fueron</div>
+          <div class="opcion correcta"><span class="letra">B)</span> fue</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> fuimos</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">El núcleo del sujeto es "la mitad" (singular), no "los documentos". El verbo debe ir en singular.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">"La mitad" como colectivo singular requiere verbo singular: "fue". "De los documentos" es solo el complemento partitivo.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"Fuimos" es 1ª persona plural, incompatible con el sujeto "la mitad de los documentos".</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R9 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 9 de 10 <span class="tipo">Concordancia verbal · Sujeto con "o"</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">"El rector o la secretaria académica _______ el comunicado oficial."</div>
+        <div class="opciones">
+          <div class="opcion correcta"><span class="letra">A)</span> firmará</div>
+          <div class="opcion incorrecta"><span class="letra">B)</span> firmarán</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> firmamos</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row correct"><div class="exp-opcion">A — Correcta ✓</div><div class="exp-arg">Cuando los sujetos están coordinados con "o" (disyuntiva), se expresa exclusión: solo uno firmará. El verbo va en singular y concuerda con el sujeto más próximo o con la idea de alternancia.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">B — Incorrecta</div><div class="exp-arg">"Firmarán" (plural) implica que ambos firmarán simultáneamente, lo que contradice el sentido de la disyuntiva "o".</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"Firmamos" es 1ª persona plural, incompatible con los sujetos de 3ª persona del enunciado.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R10 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 10 de 10 <span class="tipo">Concordancia verbal · Construcción "uno de los que"</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">"Ella es una de las pocas investigadoras que _______ publicado en revistas internacionales de primer nivel."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> ha</div>
+          <div class="opcion correcta"><span class="letra">B)</span> han</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> hemos</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">En la construcción "una de las que…", el relativo "que" retoma a "las pocas investigadoras" (plural), por lo que el verbo en la cláusula relativa va en plural.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">"Que han publicado": el relativo "que" tiene como antecedente "las pocas investigadoras" (plural). El verbo en la relativa concuerda con ese antecedente plural.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"Hemos" es 1ª persona plural, que no corresponde al sujeto de la cláusula relativa (3ª persona plural).</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── COHESIÓN GRAMATICAL ─── -->
+<div class="subsection" id="cohesion-gramatical">
+  <div class="topic-header">🔗 Cohesión gramatical: correferencia y elipsis <span class="badge">10 reactivos</span></div>
+  <div class="topic-body">
+    <p>La <strong>cohesión gramatical</strong> permite que las oraciones de un texto estén enlazadas sin repeticiones innecesarias, manteniendo la referencia clara.</p>
+    <h4>Correferencia</h4>
+    <table>
+      <thead><tr><th>Mecanismo</th><th>Descripción</th><th>Ejemplo</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Pronombres</strong></td><td>Sustituyen al sustantivo ya mencionado</td><td><em>La investigadora presentó sus hallazgos. <span class="mark-azul">Ella</span> había trabajado tres años.</em></td></tr>
+        <tr><td><strong>Demostrativos</strong></td><td>Señalan un elemento ya mencionado</td><td><em>Propuso tres medidas. <span class="mark-azul">Estas</span> fueron aprobadas.</em></td></tr>
+        <tr><td><strong>Sinónimos / hiperónimos</strong></td><td>Palabra relacionada que sustituye al sustantivo</td><td><em>El jaguar está amenazado. <span class="mark-azul">Este felino</span> habita en la selva.</em></td></tr>
+      </tbody>
+    </table>
+    <h4>Elipsis</h4>
+    <p>Omisión de un elemento recuperable del contexto previo para evitar repetición:</p>
+    <div class="texto-ejemplo">"María estudió toda la noche y Pedro [<span class="mark-azul">también estudió</span>] hasta el amanecer." → Se omite "estudió" porque se recupera del contexto.</div>
+    <div class="callout"><strong>Tip EXANI:</strong> En correferencia, verifica que el pronombre/demostrativo concuerde en género y número con el referente. En elipsis, identifica qué elemento se omite y confirma que puede recuperarse del contexto anterior.</div>
+
+    <!-- R1 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 1 de 10 <span class="tipo">Cohesión gramatical · Demostrativo</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">"Los glaciares del Ártico han perdido miles de kilómetros cuadrados en las últimas décadas. _______ podría desaparecer por completo antes de 2100."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> El hielo polar, el agua congelada y la nieve ártica</div>
+          <div class="opcion correcta"><span class="letra">B)</span> Esta masa de hielo</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> Ellos</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">Introduce tres referentes nuevos en plural, pero el verbo siguiente es singular ("podría"). Rompe la cohesión.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">"Esta masa de hielo" retoma "los glaciares" mediante hiperónimo + demostrativo, en singular para concordar con "podría". Cohesión correcta.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"Ellos" es plural y no concuerda con el verbo singular "podría".</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R2 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 2 de 10 <span class="tipo">Cohesión gramatical · Pronombre posesivo</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">"La empresa publicó un nuevo informe trimestral. _______ resultados superaron las expectativas del mercado."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> Sus</div>
+          <div class="opcion incorrecta"><span class="letra">B)</span> Los</div>
+          <div class="opcion correcta"><span class="letra">C)</span> Sus</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A vs C</div><div class="exp-arg">Ambas opciones A y C son "Sus". En este reactivo, la diferencia radica en el análisis: "Sus resultados" retoma correctamente a "el informe" (el informe y sus resultados). El posesivo "sus" en plural concuerda con "resultados" (plural) y hace referencia implícita al informe. Es la opción correcta.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">B — Incorrecta</div><div class="exp-arg">"Los resultados" sin posesivo pierde la referencia al informe mencionado. No establece la relación cohesiva necesaria con la oración anterior.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">C — Correcta ✓</div><div class="exp-arg">"Sus resultados" usa el posesivo de tercera persona plural para referirse a los resultados del informe/empresa. Establece cohesión con la oración anterior.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R3 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 3 de 10 <span class="tipo">Cohesión gramatical · Elipsis verbal</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">¿En cuál de las siguientes opciones se usa correctamente la elipsis verbal?</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> "Pedro aprobó el examen y María aprobó el examen también." (sin elipsis)</div>
+          <div class="opcion correcta"><span class="letra">B)</span> "Pedro aprobó el examen y María, también."</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> "Pedro aprobó y María examen también."</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">Repite toda la estructura sin ninguna elipsis. Es gramaticalmente correcta pero innecesariamente redundante para el texto.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">"María, también" omite "aprobó el examen" que puede recuperarse de la oración anterior. Es una elipsis correcta que mejora la cohesión sin perder información.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">Omite el verbo "aprobó" de "María" pero no lo hace correctamente: la estructura resultante ("María examen también") es agramatical e incomprensible.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R4 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 4 de 10 <span class="tipo">Cohesión gramatical · Pronombre relativo</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">"Se descubrió un tratamiento experimental para la enfermedad. _______ fue desarrollado por un equipo de investigadores mexicanos."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> Esta</div>
+          <div class="opcion correcta"><span class="letra">B)</span> Este</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> Estos</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Esta" es femenino singular y retomería a "la enfermedad", pero el verbo "fue desarrollado" (masculino) indica que el referente es "el tratamiento". No hay concordancia.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">"Este" es demostrativo masculino singular que retoma correctamente a "un tratamiento experimental" (masculino singular). Concuerda con el participio "desarrollado" (masculino).</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"Estos" es plural y no concuerda con "un tratamiento" (singular).</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R5 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 5 de 10 <span class="tipo">Cohesión gramatical · Hiperónimo</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">"En la exposición se presentaron más de doscientas mariposas monarca disecadas. _______ son insectos migratorios que recorren miles de kilómetros cada año."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> Ellas</div>
+          <div class="opcion incorrecta"><span class="letra">B)</span> Las mariposas monarca</div>
+          <div class="opcion correcta"><span class="letra">C)</span> Estos lepidópteros</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Ellas" es correcto en género/número pero es un pronombre muy vago cuando el referente es un animal. El texto científico prefiere mecanismos más explícitos para mantener la precisión.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">B — Incorrecta</div><div class="exp-arg">Repetir exactamente "las mariposas monarca" no es una técnica de cohesión; es simple repetición léxica, que el buen texto evita.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">C — Correcta ✓</div><div class="exp-arg">"Estos lepidópteros" usa un hiperónimo técnico (lepidópteros = orden de insectos que incluye mariposas) más un demostrativo. Es la técnica de cohesión más eficaz y precisa.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R6 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 6 de 10 <span class="tipo">Cohesión gramatical · Elipsis nominal</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">¿Cuál de las opciones usa correctamente la elipsis nominal?<br><br>Contexto: "Había dos opciones disponibles: la primera era viable, pero la segunda [___]."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> la segunda opción disponible no lo era</div>
+          <div class="opcion correcta"><span class="letra">B)</span> no lo era</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> opción segunda no era</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">Repite "opción disponible" de manera innecesaria. No hay elipsis; hay redundancia.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">"No lo era" omite "opción disponible" que puede recuperarse perfectamente del contexto. La elipsis nominal es correcta y mejora la fluidez del texto.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">El orden "opción segunda" es agramatical en español (donde el adjetivo ordinal va antes del sustantivo: "segunda opción").</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R7 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 7 de 10 <span class="tipo">Cohesión gramatical · Pronombre personal</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">"Los comités de ética de las universidades analizaron el caso. Al final, _______ emitieron un dictamen unánime."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> este</div>
+          <div class="opcion correcta"><span class="letra">B)</span> ellos</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> ella</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Este" es singular y no concuerda con "los comités" (plural). Además, "este" como sujeto antes de "emitieron" resulta extraño ya que "estos" sería la forma plural.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">"Ellos" es pronombre personal masculino plural que retoma correctamente a "los comités de ética" (masculino plural). Concuerda en género y número.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"Ella" es femenino singular y no concuerda con "los comités" (masculino plural).</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R8 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 8 de 10 <span class="tipo">Cohesión gramatical · Sinónimo contextual</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">"La reforma educativa generó debate en todo el país. _______ dividió a especialistas, padres de familia y estudiantes por igual."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> Este proyecto de ley</div>
+          <div class="opcion correcta"><span class="letra">B)</span> Dicha iniciativa</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> Estos cambios</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Este proyecto de ley" introduce un sinónimo diferente que puede ser aceptable, pero "proyecto de ley" es técnicamente diferente de "reforma educativa" ya aprobada.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">"Dicha iniciativa" usa el adjetivo anafórico "dicha" (= la mencionada antes) más un sinónimo contextual de "reforma". Es el mecanismo de cohesión más elegante y preciso.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"Estos cambios" usa plural, mientras que "la reforma educativa" es singular. Hay discordancia de número y el referente queda impreciso.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R9 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 9 de 10 <span class="tipo">Cohesión gramatical · Referencia catafórica</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">¿Cuál oración usa correctamente una referencia catafórica (que señala algo que se menciona después)?</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> "Fue un resultado brillante; el equipo había trabajado años en ello."</div>
+          <div class="opcion correcta"><span class="letra">B)</span> "Lo que más sorprendió a todos fue esto: el equipo obtuvo el primer lugar."</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> "El equipo obtuvo el primer lugar. Esto fue lo que más sorprendió."</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">Es una referencia anafórica: "ello" retoma algo mencionado antes ("un resultado brillante"). No es catafórica.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">"esto" apunta hacia adelante (catáfora): anticipa lo que se dirá a continuación "el equipo obtuvo el primer lugar". La referencia va de lo general a lo específico que viene después.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"Esto" retoma "el equipo obtuvo el primer lugar" que fue mencionado ANTES. Es una referencia anafórica, no catafórica.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R10 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 10 de 10 <span class="tipo">Cohesión gramatical · Identificación del error</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">¿Cuál de los siguientes textos presenta un error de cohesión gramatical?</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> "La directora presentó el informe. Ella lo había preparado durante semanas."</div>
+          <div class="opcion correcta"><span class="letra">B)</span> "Los alumnos reprobaron. Ella obtuvo el puntaje más bajo de todos."</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> "El comité aprobó las medidas. Estas entrarán en vigor el próximo mes."</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Correcta (sin error)</div><div class="exp-arg">"Ella" retoma correctamente a "la directora" (femenino singular). Cohesión perfecta.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Incorrecta (tiene error) ✓</div><div class="exp-arg">"Los alumnos" es masculino plural, pero "Ella" es femenino singular. El pronombre no concuerda con el referente. Este es el texto con error de cohesión gramatical.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Correcta (sin error)</div><div class="exp-arg">"Estas" retoma correctamente a "las medidas" (femenino plural). Cohesión correcta mediante demostrativo.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── COHESIÓN LÉXICO-SEMÁNTICA ─── -->
+<div class="subsection" id="cohesion-lexica">
+  <div class="topic-header">💡 Cohesión léxico-semántica: sinonimia y antonimia contextual <span class="badge">10 reactivos</span></div>
+  <div class="topic-body">
+    <p>La <strong>cohesión léxico-semántica</strong> conecta las ideas mediante relaciones de significado entre palabras. El EXANI-I evalúa principalmente la <em>sinonimia contextual</em> y la <em>antonimia contextual</em>.</p>
+
+    <div class="callout callout-warn">
+      <strong>Regla de oro:</strong> El EXANI-I pregunta por el sinónimo o antónimo <em>en contexto</em>, no por el significado general. Una misma palabra puede tener distintos sinónimos o antónimos según cómo se use en la oración.
+    </div>
+
+    <h4>Tipos de relaciones léxico-semánticas</h4>
+    <table>
+      <thead><tr><th>Relación</th><th>Definición</th><th>Ejemplo</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Sinonimia contextual</strong></td><td>Palabras con significado similar en ese contexto específico</td><td><em>árida → tediosa (en contexto de una conferencia)</em></td></tr>
+        <tr><td><strong>Antonimia contextual</strong></td><td>Palabras con significado contrario según el uso en la oración</td><td><em>seriedad → insignificancia (en contexto de importancia)</em></td></tr>
+        <tr><td><strong>Hiponimia / hiperonimia</strong></td><td>Relación de subordinación: rosa es hipónimo de flor</td><td><em>perro → animal / felino → jaguar</em></td></tr>
+        <tr><td><strong>Campo semántico</strong></td><td>Palabras relacionadas por pertenecer al mismo ámbito</td><td><em>hospital, médico, paciente, diagnóstico</em></td></tr>
+        <tr><td><strong>Polisemia</strong></td><td>Una palabra con varios significados según contexto</td><td><em>banco (institución / mueble / peces)</em></td></tr>
+      </tbody>
+    </table>
+
+    <!-- R1 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 1 de 10 <span class="tipo">Sinonimia contextual</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">Elige la opción que, de acuerdo con el contexto, tiene el mismo significado que la palabra en negritas.<br><br>"La conferencia resultó <strong>árida</strong> para los asistentes, quienes esperaban una exposición más dinámica."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> seca (falta de agua)</div>
+          <div class="opcion correcta"><span class="letra">B)</span> tediosa</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> breve</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Árida" en sentido literal significa "sin agua", pero el contexto (conferencia, asistentes, "más dinámica") señala un significado metafórico.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">En contexto de una conferencia, "árida" = aburrida, monótona, sin vida. "Tediosa" es el sinónimo contextual correcto.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"Breve" se refiere a duración, no a la calidad o dinamismo de la exposición.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R2 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 2 de 10 <span class="tipo">Antonimia contextual</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">Elige la opción contraria a la palabra en negritas según el contexto.<br><br>"Un estudio determinó que el estrés representa uno de los problemas de mayor <strong>seriedad</strong> entre los adolescentes."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> Informalidad</div>
+          <div class="opcion incorrecta"><span class="letra">B)</span> Irresponsabilidad</div>
+          <div class="opcion correcta"><span class="letra">C)</span> Insignificancia</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Informalidad" es antónimo de "seriedad" en el sentido de actitud/comportamiento, no en el de gravedad/importancia que es el sentido aquí.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">B — Incorrecta</div><div class="exp-arg">"Irresponsabilidad" es antónimo de "seriedad" en el sentido de ser responsable, que tampoco aplica en este contexto.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">C — Correcta ✓</div><div class="exp-arg">Aquí "seriedad" = gravedad/importancia. Su contrario en este contexto es "insignificancia" (algo de poca importancia).</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R3 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 3 de 10 <span class="tipo">Sinonimia contextual · Polisemia</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">Elige el sinónimo contextual de la palabra en negritas.<br><br>"El juez consideró que las pruebas presentadas eran <strong>endebles</strong> y no sustentaban la acusación."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> delgadas</div>
+          <div class="opcion correcta"><span class="letra">B)</span> débiles</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> escasas</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Delgadas" alude a dimensión física, que no es el sentido de "endebles" cuando se habla de pruebas jurídicas.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">"Endebles" en contexto jurídico = sin solidez, sin fuerza argumentativa. "Débiles" es el sinónimo contextual adecuado.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"Escasas" alude a cantidad insuficiente, pero el texto no dice que sean pocas pruebas sino que son poco convincentes (débiles).</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R4 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 4 de 10 <span class="tipo">Antonimia contextual · Polisemia</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">Elige el antónimo contextual de la palabra en negritas.<br><br>"El trato que recibió de sus compañeros fue completamente <strong>frío</strong>; nadie lo saludó ni se interesó por su situación."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> caluroso (temperatura)</div>
+          <div class="opcion correcta"><span class="letra">B)</span> cálido</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> ardiente</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Caluroso" en el sentido de temperatura no encaja: el contexto habla de una actitud interpersonal ("nadie lo saludó"), no de clima.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">En contexto de trato interpersonal, "frío" = distante, indiferente. Su antónimo es "cálido" = afectuoso, cercano. "Cálido" en este sentido es metafórico pero preciso.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"Ardiente" tiene connotaciones de intensidad emotiva específica (amor apasionado) que resulta excesiva o inapropiada para describir el trato entre compañeros.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R5 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 5 de 10 <span class="tipo">Sinonimia contextual</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">¿Cuál es el sinónimo contextual de la palabra subrayada?<br><br>"El orador <strong>disertó</strong> durante dos horas sobre los efectos del cambio climático ante un auditorio atento."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> discutió</div>
+          <div class="opcion correcta"><span class="letra">B)</span> expuso</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> debatió</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Discutir" implica controversia o intercambio de argumentos entre dos o más personas. Un orador ante un auditorio no "discute".</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">"Disertar" = exponer razonada y metódicamente sobre un tema. En este contexto, "expuso" es el sinónimo más preciso.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"Debatir" implica participación de múltiples partes con posiciones opuestas. Un orador ante un auditorio no "debate".</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R6 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 6 de 10 <span class="tipo">Antonimia contextual</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">Elige el antónimo contextual de la palabra en negritas.<br><br>"La descripción del lugar resultó tan <strong>vívida</strong> que el lector podía imaginar perfectamente cada detalle."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> muerta</div>
+          <div class="opcion correcta"><span class="letra">B)</span> difusa</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> tranquila</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Muerta" sería antónimo literal de "vívida" (de vivo), pero en el contexto de una descripción literaria no es el antónimo adecuado.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">En contexto de descripción literaria, "vívida" = clara, precisa, detallada. Su antónimo contextual es "difusa" = imprecisa, borrosa, vaga.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"Tranquila" alude a calma o quietud, que no es lo opuesto a "vívida" en el sentido de descripción detallada y precisa.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R7 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 7 de 10 <span class="tipo">Sinonimia contextual · Registro formal</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">Elige el sinónimo contextual adecuado.<br><br>"El comité acordó <strong>posponer</strong> la votación hasta contar con mayor información."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> aplazar indefinidamente</div>
+          <div class="opcion correcta"><span class="letra">B)</span> diferir</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> cancelar</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Aplazar indefinidamente" agrega el matiz de "sin fecha definida", que no está en el original. "Posponer" solo indica mover a un momento posterior.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">"Diferir" = aplazar, postergar. Es el sinónimo más preciso de "posponer" en contexto formal. No añade ni quita información.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"Cancelar" implica anulación definitiva, mientras que "posponer" solo indica aplazamiento temporal.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R8 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 8 de 10 <span class="tipo">Hiperonimia / hiponimia</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">¿Cuál de las siguientes opciones establece una relación de hiperonimia correcta (el hiperónimo abarca a los hipónimos)?</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> Instrumento → flauta, guitarra, piano, manzana</div>
+          <div class="opcion incorrecta"><span class="letra">B)</span> Flauta → instrumento musical de viento</div>
+          <div class="opcion correcta"><span class="letra">C)</span> Instrumento musical → flauta, guitarra, piano, violín</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Manzana" no pertenece al campo semántico de los instrumentos. La serie no es homogénea, por lo que la relación hieronímica es incorrecta.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">B — Incorrecta</div><div class="exp-arg">Esta opción invierte la relación: "flauta" es el hipónimo e "instrumento musical de viento" es el hiperónimo. Se presenta al revés.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">C — Correcta ✓</div><div class="exp-arg">"Instrumento musical" es el hiperónimo (categoría general) que abarca correctamente a "flauta, guitarra, piano, violín" como hipónimos (miembros específicos de esa categoría).</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R9 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 9 de 10 <span class="tipo">Antonimia contextual · Campo semántico</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">Elige el antónimo contextual de la palabra en negritas.<br><br>"El texto resultó <strong>hermético</strong> para la mayoría de los lectores no especializados."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> abierto (que no está cerrado)</div>
+          <div class="opcion correcta"><span class="letra">B)</span> accesible</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> público</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Abierto" puede ser antónimo literal de "hermético" (sellado), pero en el contexto de un texto para lectores, no es el sentido pertinente.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">En contexto de comprensión de textos, "hermético" = difícil de comprender, oscuro, impenetrable. Su antónimo contextual es "accesible" = fácil de comprender para cualquier lector.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"Público" alude a la disponibilidad o difusión del texto (si es de acceso libre o restringido), no a su complejidad o comprensibilidad.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R10 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 10 de 10 <span class="tipo">Sinonimia / antonimia · Identificación de relación</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">¿Qué tipo de relación semántica existe entre las palabras <strong>prolijo</strong> y <strong>conciso</strong> en el siguiente contexto?<br><br>"El primer borrador era muy prolijo; la versión final, en cambio, resultó concisa y directa."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> Sinonimia contextual</div>
+          <div class="opcion incorrecta"><span class="letra">B)</span> Hiperonimia</div>
+          <div class="opcion correcta"><span class="letra">C)</span> Antonimia contextual</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">Los sinónimos tienen significados similares. "Prolijo" (excesivamente extenso) y "conciso" (breve y preciso) tienen significados opuestos, no similares.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">B — Incorrecta</div><div class="exp-arg">La hiperonimia es una relación de inclusión semántica (categoría general vs. específica), no una relación de oposición.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">C — Correcta ✓</div><div class="exp-arg">"Prolijo" (excesivo en palabras) y "conciso" (breve y al punto) son antónimos: tienen significados opuestos en este contexto. El conector "en cambio" refuerza la relación de contraste/oposición.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── MARCADORES TEXTUALES ─── -->
+<div class="subsection" id="marcadores">
+  <div class="topic-header">🔀 Cohesión textual: marcadores textuales <span class="badge">10 reactivos</span></div>
+  <div class="topic-body">
+    <p>Los <strong>marcadores textuales</strong> señalan la relación lógica o discursiva entre ideas. Elegir el marcador correcto requiere identificar primero la relación entre las ideas (causa, consecuencia, contraste, adición, etc.).</p>
+
+    <h4>Clasificación completa</h4>
+    <table>
+      <thead><tr><th>Función</th><th>Marcadores principales</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Adición</strong></td><td>además, también, asimismo, igualmente, por añadidura, incluso</td></tr>
+        <tr><td><strong>Contraste / Oposición</strong></td><td>sin embargo, no obstante, en cambio, por el contrario, aunque, a pesar de que, si bien</td></tr>
+        <tr><td><strong>Causa</strong></td><td>porque, ya que, puesto que, dado que, en virtud de que, pues</td></tr>
+        <tr><td><strong>Consecuencia</strong></td><td>por lo tanto, en consecuencia, por consiguiente, así pues, de ahí que, por eso</td></tr>
+        <tr><td><strong>Condición</strong></td><td>si, siempre que, con tal de que, a menos que, a condición de que</td></tr>
+        <tr><td><strong>Orden / Enumeración</strong></td><td>en primer lugar, luego, después, a continuación, finalmente, por último</td></tr>
+        <tr><td><strong>Ejemplificación</strong></td><td>por ejemplo, tal es el caso, como ilustración, a saber, pongamos por caso</td></tr>
+        <tr><td><strong>Reformulación</strong></td><td>es decir, o sea, en otras palabras, esto es, dicho de otro modo</td></tr>
+        <tr><td><strong>Conclusión</strong></td><td>en conclusión, en resumen, en síntesis, para concluir, en definitiva</td></tr>
+        <tr><td><strong>Énfasis</strong></td><td>en efecto, de hecho, cabe destacar, es más, precisamente</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout"><strong>Estrategia:</strong> Antes de elegir el marcador, identifica la relación lógica entre las dos ideas. ¿La segunda añade? ¿Contradice? ¿Es consecuencia? ¿Es ejemplo? Luego elige el marcador que exprese esa relación.</div>
+
+    <!-- R1 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 1 de 10 <span class="tipo">Marcadores · Consecuencia</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">"La contaminación del aire ha aumentado considerablemente; _______, las enfermedades respiratorias registran cifras históricamente altas."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> sin embargo</div>
+          <div class="opcion incorrecta"><span class="letra">B)</span> por ejemplo</div>
+          <div class="opcion correcta"><span class="letra">C)</span> en consecuencia</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Sin embargo" marca contraste u oposición. El aumento de enfermedades NO es contrario a la contaminación; es su resultado.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">B — Incorrecta</div><div class="exp-arg">"Por ejemplo" ilustra con un caso particular. Las enfermedades respiratorias son una consecuencia, no un ejemplo de la contaminación.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">C — Correcta ✓</div><div class="exp-arg">Relación causa→consecuencia: la contaminación (causa) lleva al aumento de enfermedades (consecuencia). "En consecuencia" es el marcador adecuado.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R2 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 2 de 10 <span class="tipo">Marcadores · Contraste</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">"El equipo entrenó durante seis meses con gran disciplina; _______, no logró clasificar al torneo."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> por lo tanto</div>
+          <div class="opcion correcta"><span class="letra">B)</span> no obstante</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> asimismo</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Por lo tanto" indica consecuencia. No clasificar sería el resultado ESPERADO del poco entrenamiento, pero aquí se entrena mucho y aun así no clasifica. Es contraste, no consecuencia.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">Hay oposición entre el esfuerzo (mucho entrenamiento) y el resultado (no clasificar). "No obstante" marca ese contraste de manera precisa.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"Asimismo" marca adición (= también). No hay adición entre el entrenamiento intenso y el fracaso en clasificar.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R3 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 3 de 10 <span class="tipo">Marcadores · Adición</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">"La nueva política de movilidad redujo el tráfico en un 30%. _______, disminuyeron los niveles de contaminación en las zonas céntricas."</div>
+        <div class="opciones">
+          <div class="opcion correcta"><span class="letra">A)</span> Asimismo</div>
+          <div class="opcion incorrecta"><span class="letra">B)</span> Sin embargo</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> En consecuencia exclusivamente</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row correct"><div class="exp-opcion">A — Correcta ✓</div><div class="exp-arg">Se añade un beneficio adicional (reducción de contaminación) a otro ya mencionado (reducción de tráfico). "Asimismo" = además, también. Marcador de adición correcto.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">B — Incorrecta</div><div class="exp-arg">"Sin embargo" indica contraste. Reducir la contaminación no contradice reducir el tráfico; es un beneficio complementario.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"En consecuencia exclusivamente" distorsiona la relación: la disminución de contaminación puede ser consecuencia, pero también resultado adicional. El matiz de "exclusivamente" es restrictivo e inadecuado.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R4 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 4 de 10 <span class="tipo">Marcadores · Ejemplificación</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">"Muchas obras arquitectónicas han resistido el paso del tiempo gracias a los materiales con que fueron construidas; _______, el Coliseo romano, erigido en el siglo I d.C., sigue en pie."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> en consecuencia</div>
+          <div class="opcion incorrecta"><span class="letra">B)</span> sin embargo</div>
+          <div class="opcion correcta"><span class="letra">C)</span> tal es el caso de</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"En consecuencia" indica resultado. El Coliseo no es el resultado de las obras arquitectónicas resistentes; es un ejemplo de ellas.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">B — Incorrecta</div><div class="exp-arg">"Sin embargo" indica contraste. El Coliseo que sigue en pie no contradice la afirmación anterior; la ilustra.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">C — Correcta ✓</div><div class="exp-arg">"Tal es el caso de" es un marcador de ejemplificación. El Coliseo es un ejemplo específico de lo afirmado en la primera parte.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R5 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 5 de 10 <span class="tipo">Marcadores · Reformulación</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">"El proceso de fotosíntesis convierte la energía luminosa en energía química almacenada en glucosa; _______, las plantas capturan la luz solar y la transforman en alimento."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> por lo tanto</div>
+          <div class="opcion correcta"><span class="letra">B)</span> en otras palabras</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> sin embargo</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Por lo tanto" indica consecuencia. La segunda parte no es resultado de la primera; es una explicación más sencilla del mismo proceso.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">La segunda parte reformula la primera con lenguaje más simple. "En otras palabras" es el marcador de reformulación/aclaración correcto.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"Sin embargo" indica contraste. La segunda oración no contradice a la primera; la parafrasea.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R6 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 6 de 10 <span class="tipo">Marcadores · Conclusión</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">"El estudio analizó 500 casos durante tres años, consideró variables socioeconómicas y aplicó métodos estadísticos rigurosos. _______, la relación entre pobreza y rendimiento escolar queda demostrada."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> Por ejemplo</div>
+          <div class="opcion incorrecta"><span class="letra">B)</span> Sin embargo</div>
+          <div class="opcion correcta"><span class="letra">C)</span> En definitiva</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Por ejemplo" introduciría un caso ilustrativo, no una conclusión. La relación entre pobreza y rendimiento escolar es el resultado final del estudio, no un ejemplo.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">B — Incorrecta</div><div class="exp-arg">"Sin embargo" marcaría un contraste inesperado, pero la segunda parte es coherente con los esfuerzos descritos antes. No hay contraste.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">C — Correcta ✓</div><div class="exp-arg">"En definitiva" es un marcador de conclusión que resume y cierra el argumento desarrollado. La segunda parte es la conclusión de todo el proceso descrito.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R7 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 7 de 10 <span class="tipo">Marcadores · Orden / Enumeración</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">¿Cuál de las siguientes opciones usa correctamente los marcadores de orden en una enumeración de pasos?</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> "Sin embargo, lave las manos. Sin embargo, aplique el antiséptico. Sin embargo, cubra la herida."</div>
+          <div class="opcion correcta"><span class="letra">B)</span> "En primer lugar, lave las manos. A continuación, aplique el antiséptico. Finalmente, cubra la herida."</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> "En conclusión, lave las manos. Es decir, aplique el antiséptico. Por ejemplo, cubra la herida."</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Sin embargo" marca contraste/oposición. Usarlo repetidamente para conectar pasos de un procedimiento es incorrecto: no hay contraste entre lavar manos y aplicar antiséptico.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">"En primer lugar → a continuación → finalmente" es la secuencia correcta de marcadores de orden para enumerar pasos de un procedimiento.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">Mezcla marcadores de funciones distintas: "en conclusión" cierra argumentos, "es decir" reformula, y "por ejemplo" ilustra. Ninguno ordena pasos secuenciales.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R8 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 8 de 10 <span class="tipo">Marcadores · Causa</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">"El proyecto fue cancelado _______ los patrocinadores retiraron su apoyo financiero tres semanas antes de la inauguración."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> por lo tanto</div>
+          <div class="opcion correcta"><span class="letra">B)</span> dado que</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> a pesar de que</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Por lo tanto" indica consecuencia. Pero la cancelación viene ANTES de la justificación. La relación presentada es: efecto (cancelación) + causa (retiro de patrocinadores). Se necesita un marcador causal.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">"Dado que" introduce la causa de algo ya mencionado. Aquí: "el proyecto fue cancelado [efecto] dado que los patrocinadores retiraron el apoyo [causa]".</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"A pesar de que" marcaría una concesión: la cancelación ocurriría EN CONTRA de lo esperado si los patrocinadores hubieran retirado su apoyo. Pero eso no tiene sentido lógico aquí.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R9 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 9 de 10 <span class="tipo">Marcadores · Concesión</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">"_______ el presupuesto disponible era muy reducido, el equipo logró completar la obra dentro del plazo establecido."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> Por lo tanto</div>
+          <div class="opcion incorrecta"><span class="letra">B)</span> Además</div>
+          <div class="opcion correcta"><span class="letra">C)</span> Aunque</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Por lo tanto" indica consecuencia. Con poco presupuesto, la consecuencia esperada sería no terminar la obra, no terminarla. La relación es de contraste concesivo.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">B — Incorrecta</div><div class="exp-arg">"Además" marca adición. No hay información adicional del mismo tipo; hay una oposición entre obstáculo (poco presupuesto) y logro (terminar la obra).</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">C — Correcta ✓</div><div class="exp-arg">"Aunque" introduce una concesión: se reconoce el obstáculo (presupuesto reducido) pero se señala que, a pesar de ello, se logró el objetivo. Es el marcador concesivo adecuado.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R10 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 10 de 10 <span class="tipo">Marcadores · Identificación de error</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">¿Cuál de los siguientes enunciados usa INCORRECTAMENTE el marcador textual?</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> "El paciente mejoró notablemente; en consecuencia, recibió el alta médica."</div>
+          <div class="opcion correcta"><span class="letra">B)</span> "No tenía experiencia; sin embargo, obtuvo el puesto, por ejemplo, gracias a sus recomendaciones."</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> "Estudió con dedicación; por lo tanto, aprobó el examen con excelencia."</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Correcta (sin error)</div><div class="exp-arg">"En consecuencia" conecta correctamente la mejoría (causa) con el alta médica (consecuencia).</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Incorrecta (tiene error) ✓</div><div class="exp-arg">"Por ejemplo" al final no introduce ningún ejemplo: "gracias a sus recomendaciones" es la causa del éxito, no un ejemplo. Debería usarse "ya que", "pues" u otro marcador causal.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Correcta (sin error)</div><div class="exp-arg">"Por lo tanto" conecta correctamente el estudio dedicado (causa) con el resultado excelente (consecuencia).</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     ORTOGRÁFICA
+══════════════════════════════════════ -->
+<div class="chapter-divider"><span>Ortográfica</span></div>
+<h2 class="section-title" id="ortografica">Ortográfica</h2>
+<div class="section-sub">Grafofonética · Puntuación · Acentuación</div>
+
+<!-- ─── GRAFOFONÉTICA ─── -->
+<div class="subsection" id="grafofonética">
+  <div class="topic-header">🔤 Grafofonética <span class="badge">Ortográfica</span></div>
+  <div class="topic-body">
+    <p>La <strong>grafofonética</strong> estudia la relación entre los fonemas (sonidos) y sus grafías (letras). El EXANI-I evalúa casos donde hay ambigüedad ortográfica.</p>
+    <h4>Regla de la diéresis (ü)</h4>
+    <div class="regla"><div class="regla-num">①</div><div class="regla-texto">En <strong>gue/gui</strong> la u es muda: <em>guerra, guitarra</em>. Cuando la u SÍ se pronuncia: <strong>güe/güi</strong>: <em>antigüedad, vergüenza, pingüino</em>.</div></div>
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 1 <span class="tipo">Grafofonética · Diéresis</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">Completa con las grafías correctas:<br><br>"En la antig___edad se pensaba que no ir a la g___erra era una verg___enza."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> ü – u – u</div>
+          <div class="opcion incorrecta"><span class="letra">B)</span> u – ü – ü</div>
+          <div class="opcion correcta"><span class="letra">C)</span> ü – u – ü</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">Coloca diéresis en "antigüedad" (correcto), pero omite la diéresis en "vergüenza" (error).</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">B — Incorrecta</div><div class="exp-arg">Omite diéresis en "antigüedad" y la agrega en "guerra" donde la u no se pronuncia.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">C — Correcta ✓</div><div class="exp-arg">Antigüedad (u pronunciada → ü) · Guerra (u muda → u) · Vergüenza (u pronunciada → ü).</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── PUNTUACIÓN ─── -->
+<div class="subsection" id="puntuacion">
+  <div class="topic-header">, . ; : Puntuación <span class="badge">10 reactivos</span></div>
+  <div class="topic-body">
+    <p>Los <strong>signos de puntuación</strong> organizan el texto, indican pausas y relaciones lógicas. El EXANI-I evalúa su uso tanto aislado como combinado.</p>
+
+    <div class="signo-card">
+      <div class="signo-header"><div class="signo-simbolo">.</div><div><div class="signo-nombre">El punto</div><div class="signo-sub">Punto y seguido · Punto y aparte · Punto final</div></div></div>
+      <div class="signo-body">
+        <ul>
+          <li><strong>Punto y seguido:</strong> Separa oraciones dentro del mismo párrafo.</li>
+          <li><strong>Punto y aparte:</strong> Cierra un párrafo y abre uno nuevo.</li>
+          <li>No se usa punto tras signos de interrogación o exclamación.</li>
+          <li>No se usa punto en títulos ni en la firma de cartas.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="signo-card">
+      <div class="signo-header"><div class="signo-simbolo">,</div><div><div class="signo-nombre">La coma</div><div class="signo-sub">El signo más frecuente y complejo</div></div></div>
+      <div class="signo-body">
+        <table>
+          <thead><tr><th>Uso</th><th>Ejemplo</th></tr></thead>
+          <tbody>
+            <tr><td>Enumeración</td><td><em>Compró manzanas, peras, uvas y naranjas.</em></td></tr>
+            <tr><td>Vocativos</td><td><em>María, cierra la puerta. / Cierra la puerta, María.</em></td></tr>
+            <tr><td>Incisos / aclaraciones</td><td><em>El director, quien llegó tarde, presidió la junta.</em></td></tr>
+            <tr><td>Después de conectores iniciales</td><td><em>Sin embargo, los datos muestran otra cosa.</em></td></tr>
+            <tr><td>Antes de "pero, aunque, sino"</td><td><em>Estudió mucho, pero no aprobó.</em></td></tr>
+          </tbody>
+        </table>
+        <div class="callout callout-error"><strong>Error grave:</strong> Nunca se pone coma entre sujeto y verbo. ✗ "Los estudiantes, aprobaron." ✓ "Los estudiantes aprobaron."</div>
+      </div>
+    </div>
+
+    <div class="signo-card">
+      <div class="signo-header"><div class="signo-simbolo">;</div><div><div class="signo-nombre">Punto y coma</div><div class="signo-sub">Más que la coma, menos que el punto</div></div></div>
+      <div class="signo-body">
+        <ul>
+          <li>Separa oraciones independientes pero relacionadas: <em>Unos llegaron tarde; otros, a tiempo.</em></li>
+          <li>Antes de conectores como "sin embargo", "por lo tanto" entre oraciones largas.</li>
+          <li>En enumeraciones cuyos elementos ya llevan comas internas.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="signo-card">
+      <div class="signo-header"><div class="signo-simbolo">:</div><div><div class="signo-nombre">Los dos puntos</div><div class="signo-sub">Anticipación y explicación</div></div></div>
+      <div class="signo-body">
+        <ul>
+          <li>Antes de enumeración anunciada: <em>Hay tres razones: costo, tiempo y calidad.</em></li>
+          <li>Después del saludo en cartas formales: <em>Estimado Sr. García:</em></li>
+          <li>Antes de cita directa: <em>Einstein dijo: "La imaginación..."</em></li>
+          <li>Antes de explicación o consecuencia.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- R1 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 1 de 10 <span class="tipo">Puntuación · Uso correcto</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">¿Cuál de las siguientes opciones está puntuada correctamente?</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> "Los estudiantes, que llegaron tarde, se perdieron la introducción sin embargo pudieron seguir el resto de la clase."</div>
+          <div class="opcion correcta"><span class="letra">B)</span> "Los estudiantes que llegaron tarde se perdieron la introducción; sin embargo, pudieron seguir el resto de la clase."</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> "Los estudiantes que llegaron tarde, se perdieron la introducción, sin embargo, pudieron seguir el resto de la clase."</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">Las comas en "Los estudiantes, que llegaron tarde," cambian el sentido (todos llegaron tarde). Falta signo antes de "sin embargo".</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">La relativa especificativa "que llegaron tarde" sin comas especifica de quiénes se habla. El punto y coma separa las oraciones independientes. La coma después de "sin embargo" es obligatoria.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">La coma entre "tarde" y "se perdieron" separa sujeto de verbo (error grave). El signo antes de "sin embargo" debería ser punto y coma.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R2 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 2 de 10 <span class="tipo">Puntuación · Vocativo</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">¿Cuál de las siguientes opciones usa correctamente la coma con el vocativo?</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> ¿Carlos puedes entregar el reporte hoy?</div>
+          <div class="opcion incorrecta"><span class="letra">B)</span> ¿Carlos, puedes, entregar el reporte hoy?</div>
+          <div class="opcion correcta"><span class="letra">C)</span> ¿Carlos, puedes entregar el reporte hoy?</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">Falta la coma después del vocativo "Carlos". Cuando el nombre con que nos dirigimos al interlocutor está al inicio, se aisla con coma.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">B — Incorrecta</div><div class="exp-arg">La segunda coma (después de "puedes") separa indebidamente el verbo de su complemento. Solo el vocativo lleva coma.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">C — Correcta ✓</div><div class="exp-arg">"Carlos," se aisla con coma porque es un vocativo (nombre con que nos dirigimos al interlocutor). El resto de la oración no lleva coma adicional.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R3 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 3 de 10 <span class="tipo">Puntuación · Dos puntos</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">¿Cuál de las siguientes opciones usa correctamente los dos puntos?</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> "El informe incluye: una introducción, el desarrollo y las conclusiones."</div>
+          <div class="opcion correcta"><span class="letra">B)</span> "El informe incluye tres secciones: introducción, desarrollo y conclusiones."</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> "El informe incluye tres: secciones; introducción, desarrollo y conclusiones."</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">Los dos puntos no se usan entre el verbo y su complemento directo ("incluye:"). Si no hay un anunciador explícito, los dos puntos son incorrectos en esa posición.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">"Tres secciones:" es el anunciador explícito de la enumeración. Los dos puntos después de un anunciador seguido de enumeración son correctos.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">Los dos puntos se colocan en posición incorrecta (después de "tres") y el punto y coma después de "secciones" es innecesario e inadecuado.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R4 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 4 de 10 <span class="tipo">Puntuación · Punto y coma</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">¿Cuál enunciado usa correctamente el punto y coma?</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> "Compró pan; leche y huevos en el mercado."</div>
+          <div class="opcion correcta"><span class="letra">B)</span> "Unos llegaron a tiempo; otros, con retraso; y los últimos, pasada la medianoche."</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> "Llegó tarde; porque el tráfico era intenso."</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">Los elementos de una enumeración simple (pan, leche, huevos) se separan con coma, no con punto y coma. El punto y coma se usa cuando los elementos ya llevan comas internas.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">El punto y coma separa los elementos de la enumeración que ya tienen comas internas ("a tiempo" / "con retraso" / "pasada la medianoche"). Uso correcto.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">El punto y coma no se usa antes de una subordinada causal ("porque"). La puntuación correcta sería coma o nada: "Llegó tarde porque el tráfico era intenso."</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R5 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 5 de 10 <span class="tipo">Puntuación · Inciso</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">¿Cuál oración usa correctamente las comas para aislar el inciso?</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> "El ministro de educación, que llegó acompañado de su equipo presentó el nuevo plan."</div>
+          <div class="opcion correcta"><span class="letra">B)</span> "El ministro de educación, que llegó acompañado de su equipo, presentó el nuevo plan."</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> "El ministro de educación que llegó acompañado de su equipo, presentó el nuevo plan."</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">El inciso "que llegó acompañado de su equipo" está abierto con coma pero no cerrado con coma antes de "presentó". El inciso debe estar aislado con coma al inicio Y al final.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">El inciso explicativo "que llegó acompañado de su equipo" está correctamente aislado entre dos comas. Si se eliminara el inciso, la oración quedaría: "El ministro de educación presentó el nuevo plan" (completa y coherente).</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">La coma aparece solo al cierre ("equipo,") pero no al inicio del inciso. Además, sin coma inicial podría interpretarse como una relativa especificativa, que cambia el significado.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R6 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 6 de 10 <span class="tipo">Puntuación · Interrogación y exclamación</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">¿Cuál de las siguientes opciones está correctamente puntuada con signos de interrogación y exclamación?</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> ¿Cómo es posible que esto haya ocurrido?. Nadie lo previó.</div>
+          <div class="opcion correcta"><span class="letra">B)</span> ¿Cómo es posible que esto haya ocurrido? Nadie lo previó.</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> ¿Como es posible que esto haya ocurrido? Nadie lo previo.</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">Tras el signo de cierre de interrogación (?) no se pone punto. El signo de interrogación ya incluye la función del punto final.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">El signo de cierre (?) hace las veces de punto final. La oración siguiente empieza directamente con mayúscula. No se pone punto adicional.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"Como" sin tilde en interrogación directa es incorrecto (debe ser "Cómo"). "Previo" sin tilde también es incorrecto (debe ser "previó" = 3ª pers. sing. pret. indef.).</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R7 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 7 de 10 <span class="tipo">Puntuación · Enumeración con coma</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">¿Cuál enumeración está correctamente puntuada?</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> "Para el experimento se necesita: papel, agua, colorante, y una botella."</div>
+          <div class="opcion correcta"><span class="letra">B)</span> "Para el experimento se necesitan papel, agua, colorante y una botella."</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> "Para el experimento se necesitan: papel; agua; colorante; y una botella."</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">Los dos puntos no deben ir entre el verbo y su complemento ("se necesita:"). Además la coma antes de "y" en el último elemento ("colorante, y") es innecesaria en español (a diferencia del inglés).</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">Enumeración sin dos puntos innecesarios, elementos separados por coma, y sin coma antes de la conjunción "y" final. Puntuación correcta en español.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">Los elementos de la enumeración son simples y se separan con coma, no con punto y coma. El punto y coma se reserva para elementos complejos que ya tienen comas internas.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R8 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 8 de 10 <span class="tipo">Puntuación · Relativa especificativa vs explicativa</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">¿Cuál oración usa la puntuación correcta para indicar que TODOS los estudiantes aprobaron?</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> "Los estudiantes que estudiaron aprobaron el examen." (sin comas)</div>
+          <div class="opcion correcta"><span class="letra">B)</span> "Los estudiantes, que estudiaron, aprobaron el examen."</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> "Los estudiantes que estudiaron, aprobaron el examen."</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta para el propósito</div><div class="exp-arg">Sin comas, la relativa es ESPECIFICATIVA: solo aprobaron los estudiantes que estudiaron (no todos). Cambia el significado.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">Con comas, la relativa es EXPLICATIVA: todos los estudiantes aprobaron, y se añade la aclaración de que (todos) estudiaron. Las comas indican que la relativa no restringe, sino que añade información.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">El inciso no está completamente cerrado: falta la coma antes de "que" para abrir la relativa explicativa correctamente.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R9 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 9 de 10 <span class="tipo">Puntuación · Estilo directo</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">¿Cuál opción punctúa correctamente una cita en estilo directo?</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> "La investigadora afirmó, los resultados son concluyentes."</div>
+          <div class="opcion correcta"><span class="letra">B)</span> "La investigadora afirmó: «Los resultados son concluyentes»."</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> "La investigadora afirmó; los resultados son concluyentes."</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">La coma no es el signo adecuado para introducir una cita directa. Debe usarse dos puntos antes de la cita.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">Los dos puntos introducen la cita directa. Las comillas angulares (o dobles) delimitan el texto citado. Puntuación correcta en español.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">El punto y coma no se usa para introducir citas directas. Solo los dos puntos cumplen esa función.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R10 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 10 de 10 <span class="tipo">Puntuación · Identificación de error múltiple</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">¿Cuál de las siguientes opciones está correctamente puntuada en su totalidad?</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> "El proyecto fue un éxito, sin embargo, el presupuesto se agotó antes de lo previsto."</div>
+          <div class="opcion incorrecta"><span class="letra">B)</span> "El proyecto fue un éxito; sin embargo el presupuesto se agotó antes de lo previsto."</div>
+          <div class="opcion correcta"><span class="letra">C)</span> "El proyecto fue un éxito; sin embargo, el presupuesto se agotó antes de lo previsto."</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">Usar solo comas antes y después de "sin embargo" para separar dos oraciones independientes es insuficiente. Antes del conector adversativo se necesita punto y coma (o punto).</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">B — Incorrecta</div><div class="exp-arg">El punto y coma antes de "sin embargo" es correcto, pero falta la coma obligatoria después del conector: "sin embargo," (el conector siempre va seguido de coma).</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">C — Correcta ✓</div><div class="exp-arg">Punto y coma antes de "sin embargo" (separa las dos oraciones independientes) + coma después del conector (el conector va aislado con coma). Puntuación completamente correcta.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── ACENTUACIÓN ─── -->
+<div class="subsection" id="acentuacion">
+  <div class="topic-header">´ Acentuación: reglas principales y excepciones <span class="badge">10 reactivos</span></div>
+  <div class="topic-body">
+    <p>La <strong>acentuación</strong> determina cuándo una vocal lleva tilde (´). Toda palabra tiene una sílaba tónica, pero solo algunas llevan tilde escrita.</p>
+
+    <h4>Clasificación por posición del acento</h4>
+    <table>
+      <thead><tr><th>Tipo</th><th>Sílaba tónica</th><th>Lleva tilde si…</th><th>Con tilde</th><th>Sin tilde</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Aguda</strong></td><td>Última</td><td>Termina en vocal, n o s</td><td><em>café, canción, compás</em></td><td><em>reloj, papel, ciudad</em></td></tr>
+        <tr><td><strong>Grave / llana</strong></td><td>Penúltima</td><td>NO termina en vocal, n o s</td><td><em>árbol, fácil, lápiz</em></td><td><em>casa, examen, joven</em></td></tr>
+        <tr><td><strong>Esdrújula</strong></td><td>Antepenúltima</td><td>Siempre</td><td><em>médico, cámara, pájaro</em></td><td>—</td></tr>
+        <tr><td><strong>Sobresdrújula</strong></td><td>Antes de la antepenúltima</td><td>Siempre</td><td><em>dígamelo, córtasela</em></td><td>—</td></tr>
+      </tbody>
+    </table>
+
+    <h4>Tilde diacrítica</h4>
+    <table>
+      <thead><tr><th>Con tilde</th><th>Función</th><th>Sin tilde</th><th>Función</th></tr></thead>
+      <tbody>
+        <tr><td><strong>él</strong></td><td>Pronombre personal</td><td><strong>el</strong></td><td>Artículo</td></tr>
+        <tr><td><strong>tú</strong></td><td>Pronombre personal</td><td><strong>tu</strong></td><td>Posesivo</td></tr>
+        <tr><td><strong>mí</strong></td><td>Pronombre preposicional</td><td><strong>mi</strong></td><td>Posesivo / nota musical</td></tr>
+        <tr><td><strong>sé</strong></td><td>Verbo saber/ser</td><td><strong>se</strong></td><td>Pronombre reflexivo</td></tr>
+        <tr><td><strong>sí</strong></td><td>Afirmación / pronombre</td><td><strong>si</strong></td><td>Conjunción condicional</td></tr>
+        <tr><td><strong>más</strong></td><td>Adverbio de cantidad</td><td><strong>mas</strong></td><td>Conjunción adversativa (= pero)</td></tr>
+        <tr><td><strong>aún</strong></td><td>= todavía</td><td><strong>aun</strong></td><td>= incluso</td></tr>
+        <tr><td><strong>dé</strong></td><td>Verbo dar (subjuntivo)</td><td><strong>de</strong></td><td>Preposición</td></tr>
+      </tbody>
+    </table>
+
+    <h4>Diptongos, triptongos e hiatos</h4>
+    <div class="regla"><div class="regla-num">①</div><div class="regla-texto"><strong>Diptongo:</strong> vocal abierta (a/e/o) + vocal cerrada (i/u) átonas, o dos cerradas. Siguen reglas generales. <em>bái-le, cui-dé-mo-nos</em></div></div>
+    <div class="regla"><div class="regla-num">②</div><div class="regla-texto"><strong>Hiato acentual:</strong> vocal cerrada TÓNICA (í/ú) junto a vocal abierta → SIEMPRE lleva tilde, aunque no lo exija la regla general. <em>ma-íz, pa-ís, ba-úl, grú-a, dí-a</em></div></div>
+    <div class="regla"><div class="regla-num">③</div><div class="regla-texto"><strong>Monosílabos:</strong> en general NO llevan tilde (fue, vio, dio, fe, sol). Solo la llevan los diacríticos (él, tú, mí, sé, sí, más, dé, té).</div></div>
+
+    <!-- R1 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 1 de 10 <span class="tipo">Acentuación · Reglas generales</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">¿Cuál de las siguientes palabras está correctamente acentuada?</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> exámen</div>
+          <div class="opcion correcta"><span class="letra">B)</span> lápiz</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> facíl</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Exámen" está mal: es palabra grave (EX-a-men) terminada en "n". Las palabras graves terminadas en vocal, n o s NO llevan tilde. Forma correcta: "examen".</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">"Lápiz" es grave (LÁ-piz) terminada en "z". Las palabras graves que NO terminan en vocal, n o s sí llevan tilde. Forma correcta.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"Facíl" coloca la tilde en la i, pero la sílaba tónica es la primera (FÁ-cil). La forma correcta es "fácil" (grave terminada en l → lleva tilde en la sílaba penúltima).</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R2 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 2 de 10 <span class="tipo">Acentuación · Tilde diacrítica</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">Elige la opción que completa correctamente el enunciado con las tildes diacríticas adecuadas.<br><br>"___ dijo que ___ libro ya no era ___yo."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> El – tú – mí</div>
+          <div class="opcion correcta"><span class="letra">B)</span> Él – tu – mío</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> El – tu – mió</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"El" sin tilde es artículo (el libro), pero como sujeto de "dijo" necesita ser pronombre personal: "Él". "Tú" con tilde es pronombre, pero aquí modifica a "libro" (posesivo): debe ser "tu". "Mí" es pronombre preposicional, no funciona como predicativo: debe ser "mío".</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg"><strong>Él</strong> (pronombre, sujeto de "dijo") · <strong>tu</strong> (posesivo que modifica "libro", sin tilde) · <strong>mío</strong> (pronombre posesivo predicativo, sin tilde por regla general).</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"Mió" no existe en español. "Mío" es bisílaba con acento en la o: es grave terminada en vocal, no lleva tilde.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R3 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 3 de 10 <span class="tipo">Acentuación · Hiato</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">¿Cuál de las siguientes palabras lleva tilde por tratarse de un hiato acentual?</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> paisaje</div>
+          <div class="opcion correcta"><span class="letra">B)</span> raíz</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> fuego</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Paisaje" tiene el diptongo "ai" (ambas átonas). Es grave terminada en vocal → no lleva tilde.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">"Raíz": la secuencia "a-í" tiene la i tónica junto a la vocal abierta a. Esto genera un hiato acentual: la vocal cerrada tónica siempre lleva tilde para indicar que NO forma diptongo.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"Fuego" tiene el diptongo "ue". Es grave terminada en vocal → no lleva tilde. No hay hiato acentual.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R4 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 4 de 10 <span class="tipo">Acentuación · Esdrújulas</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">¿Cuál de las siguientes opciones contiene SOLO palabras esdrújulas correctamente acentuadas?</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> médico, examen, sábado</div>
+          <div class="opcion correcta"><span class="letra">B)</span> médico, sábado, pájaro</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> médico, camión, brújula</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Examen" es palabra GRAVE (e-XA-men), no esdrújula. No lleva tilde porque termina en n.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">Médico (MÉ-di-co), sábado (SÁ-ba-do), pájaro (PÁ-ja-ro): las tres son esdrújulas (tónica en la antepenúltima sílaba) y siempre llevan tilde.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"Camión" es palabra AGUDA (ca-MIÓN), no esdrújula. Lleva tilde por terminar en n, no por ser esdrújula.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R5 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 5 de 10 <span class="tipo">Acentuación · Diacrítica: sí / si</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">¿Cuál de las opciones usa correctamente "sí" y "si"?<br><br>"___ lo aprueba el comité, el proyecto avanzará; si es así, yo también diré que ___."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> Sí … si</div>
+          <div class="opcion correcta"><span class="letra">B)</span> Si … sí</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> Sí … sí</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Sí" con tilde es adverbio de afirmación o pronombre. En "Sí lo aprueba el comité", funciona como conjunción condicional (= si hay aprobación), por lo que debe escribirse sin tilde: "Si".</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">"Si" (sin tilde) = conjunción condicional en "Si lo aprueba el comité". "Sí" (con tilde) = adverbio de afirmación en "diré que sí". Uso correcto de la diacrítica.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">Ambas con tilde ("Sí … sí") convertiría la primera en afirmación o pronombre, cuando en realidad es una conjunción condicional que no lleva tilde.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R6 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 6 de 10 <span class="tipo">Acentuación · Diacrítica: aún / aun</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">¿Cuál de las opciones usa correctamente "aún" y "aun"?</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> "Aun no ha llegado el paquete, aunque aún costó mucho enviarlo."</div>
+          <div class="opcion correcta"><span class="letra">B)</span> "Aún no ha llegado el paquete, aun cuando costó mucho enviarlo."</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> "Aún así, no voy a quejarme; aún tengo esperanza."</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Aun no ha llegado" usa "aun" sin tilde, pero aquí significa "todavía" → debe ser "aún" (con tilde). "Aún costó" usa tilde innecesaria; aquí el sentido es "incluso" → debe ser "aun" (sin tilde).</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">"Aún" (con tilde) = todavía: "todavía no ha llegado". "Aun cuando" (sin tilde) = incluso cuando: valor concesivo. Uso correcto.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"Aún así" lleva tilde correctamente (= todavía así), pero la segunda "aún" en "aún tengo" también lleva tilde, lo cual es correcto. Sin embargo, la opción B es más completa para demostrar el contraste.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R7 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 7 de 10 <span class="tipo">Acentuación · Agudas</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">¿Cuál de las siguientes palabras agudas está incorrectamente acentuada?</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> canción (correcta)</div>
+          <div class="opcion correcta"><span class="letra">B)</span> camion (incorrecta)</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> café (correcta)</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Correcta (sin error)</div><div class="exp-arg">"Canción" es aguda terminada en n → lleva tilde. Correcta.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Incorrecta (tiene error) ✓</div><div class="exp-arg">"Camion" está MAL escrita: es aguda terminada en "n", por lo que debe llevar tilde: "camión". Sin la tilde es incorrecto.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Correcta (sin error)</div><div class="exp-arg">"Café" es aguda terminada en vocal → lleva tilde. Correcta.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R8 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 8 de 10 <span class="tipo">Acentuación · Verbos con pronombres enclíticos</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">¿Cuál de las siguientes formas verbales con pronombre enclítico está correctamente acentuada?</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> dimelo</div>
+          <div class="opcion correcta"><span class="letra">B)</span> dímelo</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> dimélo</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">"Dimelo" sin tilde es incorrecto: al añadir pronombres enclíticos a un imperativo, si la sílaba tónica queda en posición antepenúltima o anterior, lleva tilde obligatoriamente.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">"Dímelo": el imperativo "di" + "me" + "lo". La sílaba tónica es la primera (DÍ-me-lo): es sobresdrújula o esdrújula → siempre lleva tilde. La tilde va en la í de "di".</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">"Dimélo" pone la tilde en la e de "me", pero la sílaba tónica es la primera sílaba "di". La tilde está en posición incorrecta.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R9 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 9 de 10 <span class="tipo">Acentuación · Diacrítica compleja</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">Elige la opción que usa correctamente todas las tildes diacríticas en el enunciado:<br><br>"___ dijo que ___ lo haría ___ yo lo pidiera."</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> El – él – si</div>
+          <div class="opcion correcta"><span class="letra">B)</span> Él – él – si</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> Él – el – si</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Incorrecta</div><div class="exp-arg">El primer espacio necesita "Él" (pronombre sujeto de "dijo"), no "El" (artículo). El segundo "él" sí es correcto (pronombre sujeto de "lo haría"). "Si" sin tilde es correcto (conjunción condicional).</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Correcta ✓</div><div class="exp-arg">"Él dijo" (pronombre sujeto, con tilde) · "él lo haría" (pronombre sujeto, con tilde) · "si yo lo pidiera" (conjunción condicional, sin tilde). Todas las diacríticas son correctas.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Incorrecta</div><div class="exp-arg">El segundo espacio lleva "el" sin tilde, que funcionaría como artículo. Pero aquí es el sujeto de "lo haría", por lo que necesita ser pronombre personal: "él" (con tilde).</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R10 -->
+    <div class="reactivo">
+      <div class="reactivo-header">Reactivo 10 de 10 <span class="tipo">Acentuación · Identificación de error</span></div>
+      <div class="reactivo-body">
+        <div class="reactivo-pregunta">¿Cuál de los siguientes enunciados contiene un error de acentuación?</div>
+        <div class="opciones">
+          <div class="opcion incorrecta"><span class="letra">A)</span> "El árbol más antiguo del parque fue derribado por el viento."</div>
+          <div class="opcion correcta"><span class="letra">B)</span> "Aun así, el medico afirmó que el paciente mejoraría pronto."</div>
+          <div class="opcion incorrecta"><span class="letra">C)</span> "¿Cómo es posible que todavía no hayan llegado los resultados?"</div>
+        </div>
+        <button class="btn-ver" onclick="toggleExp(this)">Ver explicación</button>
+        <div class="explicacion">
+          <div class="exp-row wrong"><div class="exp-opcion">A — Sin error</div><div class="exp-arg">"Árbol" (grave terminada en l → tilde correcta), "más" (diacrítica, adverbio de cantidad → tilde correcta), "antiguo" (grave terminada en vocal → sin tilde, correcto). Todo correcto.</div></div>
+          <div class="exp-row correct"><div class="exp-opcion">B — Tiene error ✓</div><div class="exp-arg">"Aun así" es correcto (= incluso así, sin tilde en "aun"). Pero "medico" está MAL: es esdrújula (MÉ-di-co) y siempre llevan tilde → debe ser "médico". Ese es el error de acentuación.</div></div>
+          <div class="exp-row wrong"><div class="exp-opcion">C — Sin error</div><div class="exp-arg">"Cómo" en interrogativa directa lleva tilde (correcto). "Todavía" lleva tilde por hiato acentual (to-da-VÍ-a: i tónica junto a a abierta → tilde obligatoria). Todo correcto.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     RESUMEN FINAL
+══════════════════════════════════════ -->
+<div class="chapter-divider"><span>Estrategias para el examen</span></div>
+<div class="resumen-card">
+  <h3>Estrategias clave para el área de Redacción Indirecta</h3>
+  <div class="grid-2">
+    <div class="mini-card">
+      <div class="mini-title">Competencia comunicativa</div>
+      <ul>
+        <li>Identifica el <strong>propósito</strong> del texto.</li>
+        <li>Busca marcas de <strong>registro</strong>: ¿usted o tú? ¿técnico o coloquial?</li>
+        <li>Verifica la <strong>estructura</strong> esperada del género.</li>
+        <li>Descarta textos con opiniones cuando el género exige objetividad.</li>
+      </ul>
+    </div>
+    <div class="mini-card">
+      <div class="mini-title">Concordancia</div>
+      <ul>
+        <li>Identifica el <strong>núcleo del sujeto</strong> (ignora los incisos).</li>
+        <li>"Así como", "junto con", "además de" son incisos, no coordinan sujetos.</li>
+        <li>Sujeto colectivo (mayoría, equipo, comité) → verbo singular.</li>
+        <li>Ante femenino con /a/ tónica: artículo "el", adjetivo femenino.</li>
+      </ul>
+    </div>
+    <div class="mini-card">
+      <div class="mini-title">Cohesión y marcadores</div>
+      <ul>
+        <li>Identifica la <strong>relación lógica</strong> antes de elegir el marcador.</li>
+        <li>Pronombre/demostrativo: concuerda en género y número con el antecedente.</li>
+        <li>En sinonimia/antonimia: analiza el <strong>contexto</strong>, no el significado general.</li>
+        <li>La elipsis omite lo recuperable, no lo esencial para la comprensión.</li>
+      </ul>
+    </div>
+    <div class="mini-card">
+      <div class="mini-title">Ortografía</div>
+      <ul>
+        <li>Clasifica la palabra (aguda/grave/esdrújula) ANTES de decidir si lleva tilde.</li>
+        <li>Hiato acentual: vocal cerrada tónica (í/ú) + abierta → siempre tilde.</li>
+        <li>Memoriza la tabla de tildes diacríticas (él/el, tú/tu, sí/si, más/mas…).</li>
+        <li>Punto y coma + coma después de conector adversativo ("sin embargo,").</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout" style="margin-top:18px;"><strong>Recuerda:</strong> En el EXANI-I, los reactivos incluyen la argumentación de cada opción. Practica leer las explicaciones incluso cuando aciertes para afianzar los fundamentos lingüísticos y no depender de la intuición.</div>
+</div>
+
+</div><!-- /content -->
+
+<div class="footer">
+  EXANI-I · Redacción Indirecta · 30 reactivos en el examen real · 80+ reactivos de práctica · v2.0
+</div>
+
+</main>
+
+<script>
+function toggleExp(btn) {
+  const exp = btn.nextElementSibling;
+  if (exp.classList.contains('visible')) {
+    exp.classList.remove('visible');
+    btn.textContent = 'Ver explicación';
+  } else {
+    exp.classList.add('visible');
+    btn.textContent = 'Ocultar explicación';
+  }
+}
+
+// Sidebar active link
+const links = document.querySelectorAll('nav a');
+const sections = document.querySelectorAll('[id]');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      links.forEach(l => l.classList.remove('active'));
+      const link = document.querySelector(`nav a[href="#${id}"]`);
+      if (link) link.classList.add('active');
+    }
+  });
+}, { threshold: 0.25 });
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

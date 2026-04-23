@@ -108,6 +108,18 @@ export const SUBJECTS_UNI = [
           },
         ],
       },
+      {
+        id: "gramatica",
+        name: "Gramática",
+        children: [
+          {
+            id: "estructura-oracion-uni",
+            name: "Estructura de la oración",
+            quiz: "/cuestionario/estructura-oracion-uni",
+            teoria: "/teoria/errores-frecuentes",
+          },
+        ],
+      },
     ],
   },
   {

@@ -126,36 +126,14 @@ export const SUBJECTS_PREP = [
     color: "#a78bfa",
     children: [
       {
-        id: "sintaxis",
-        name: "Sintaxis",
-        children: [
-          {
-            id: "sin",
-            name: "Sintaxis: Análisis Oracional",
-            //quiz: "/cuestionario/sintaxis-espanol",
-          },
-        ],
+        id: "categorias-gramaticales",
+        name: "Categorías Gramaticales",
+        teoria: `${import.meta.env.BASE_URL}guias/categorias_gramaticales.html`,
       },
       {
-        id: "sint-morf",
-        name: "Sintaxis y Morfología",
-        children: [
-          {
-            id: "sint-bas",
-            name: "Análisis Sintáctico",
-            //quiz: "/cuestionario/sintaxis",
-          },
-        ],
-      },
-      {
-        id: "lit",
-        name: "Literatura Mexicana",
-        children: [
-          {
-            id: "lit-bas",
-            name: "Géneros Literarios",
-          },
-        ],
+        id: "redaccion-indirecta",
+        name: "Redacción Indirecta",
+        teoria: `${import.meta.env.BASE_URL}guias/EXANI-I_RedaccionIndirecta.html`,
       },
     ],
   },

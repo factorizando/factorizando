@@ -26,6 +26,7 @@ import SINONIMOS from "./universidad/espanol/sinonimos-antonimos-analogias.js";
 import SINTAXIS_ESPANOL from "./universidad/espanol/sintaxis-espanol.js";
 import SIMULADOR_PREPA_1 from "./preparatoria/simuladores/simulador-prepa-1.jsx";
 import SIMULADOR_PREPA_2 from "./preparatoria/simuladores/simulador-prepa-2.jsx";
+import SUJETO_PREDICADO from "./preparatoria/espanol/sujeto-predicado-exani-i.js";
 import ESTRUCTURA_ORACION_UNI from "./universidad/espanol/estructura-oracion-uni.js";
 
 export const CUESTIONARIOS_INDEX = {
@@ -229,7 +230,15 @@ export const CUESTIONARIOS_INDEX = {
     espanol: {
       icon: "📚",
       label: "Español",
-      cuestionarios: [],
+      cuestionarios: [
+        {
+          id: "sujeto-predicado-exani-i",
+          titulo: "Estructura de la Oración: Sujeto y Predicado",
+          description:
+            "Aprende a identificar el sujeto y predicado en las oraciones",
+          data: SUJETO_PREDICADO, // Descomentar cuando importes
+        },
+      ],
     },
 
     fisica: {

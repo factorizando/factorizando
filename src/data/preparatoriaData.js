@@ -126,14 +126,36 @@ export const SUBJECTS_PREP = [
     color: "#a78bfa",
     children: [
       {
-        id: "categorias-gramaticales",
-        name: "Categorías Gramaticales",
-        teoria: `${import.meta.env.BASE_URL}guias/categorias_gramaticales.html`,
+        id: "gramatica",
+        name: "Gramática",
+        children: [
+          {
+            id: "sintaxis",
+            name: "Sintaxis",
+            quiz: "/cuestionario/sujeto-predicado-exani-i",
+          },
+        ],
       },
       {
-        id: "redaccion-indirecta",
-        name: "Redacción Indirecta",
-        teoria: `${import.meta.env.BASE_URL}guias/EXANI-I_RedaccionIndirecta.html`,
+        id: "teoria-gramatica",
+        name: "Teoría Gramatical",
+        children: [
+          {
+            id: "categorias-gramaticales",
+            name: "Categorías Gramaticales",
+            teoria: `${import.meta.env.BASE_URL}guias/categorias_gramaticales.html`,
+          },
+          {
+            id:"estructura-oracion",
+            name: "Estructura de la Oración",
+            teoria: "/teoria/estructuraoracion",
+          },
+          {
+            id: "redaccion-indirecta",
+            name: "Redacción Indirecta",
+            teoria: `${import.meta.env.BASE_URL}guias/EXANI-I_RedaccionIndirecta.html`,
+          },
+        ],
       },
     ],
   },

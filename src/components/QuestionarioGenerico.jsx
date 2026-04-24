@@ -35,7 +35,6 @@ const MathRenderer = ({ children }) => {
           return <span key={i}>{part}</span>;
         }
       }
-      // Texto plano: aplicar markdown
       return (
         <span
           key={i}
@@ -989,6 +988,7 @@ export default function QuestionarioGenerico({
   };
 
   const handleRestart = () => {
+    if (onRetry) onRetry();
     setCurrentIndex(0);
     setSelectedAnswer(null);
     setAnswers({});

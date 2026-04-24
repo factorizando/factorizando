@@ -1,6 +1,6 @@
 // src/pages/Cuestionario.jsx
 // Página que carga el cuestionario y filtra por bloque/modo
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 import QuestionarioGenerico from "../components/QuestionarioGenerico";
 import { buscarCuestionario } from "../data/cuestionarios/cuestionariosIndex";
@@ -14,6 +14,7 @@ export default function Cuestionario() {
   const modo = searchParams.get("modo");
 
   const cuestionarioObj = buscarCuestionario(id);
+  const [shuffleKey, setShuffleKey] = useState(0);
 
   const cuestionarioFiltrado = useMemo(() => {
     if (!cuestionarioObj) return null;
@@ -51,7 +52,7 @@ export default function Cuestionario() {
     });
 
     return { ...cuestionarioOriginal, questions: preguntas };
-  }, [cuestionarioObj, bloque, modo]);
+  }, [cuestionarioObj, bloque, modo, shuffleKey]);
 
   if (!cuestionarioFiltrado) {
     return (
@@ -77,6 +78,7 @@ export default function Cuestionario() {
     <QuestionarioGenerico
       cuestionario={cuestionarioFiltrado}
       onBack={handleBack}
+      onRetry={() => setShuffleKey((k) => k + 1)}
     />
   );
 }

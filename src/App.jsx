@@ -13,7 +13,7 @@ import ExaniII from "./pages/cuestionarios/ExaniII";
 import Limites from "./data/teoria/limites.jsx";
 import Continuidad from "./data/teoria/continuidad.jsx";
 import ErroresFrecuentes from "./data/teoria/errores-frecuentes.jsx";
-
+import Oracion from "./data/teoria/estructuraoracion.jsx"
 export default function App() {
   return (
     <HashRouter>
@@ -44,6 +44,7 @@ export default function App() {
         />
         <Route path="/teoria/limites" element={<Limites />} />
         <Route path="/teoria/continuidad" element={<Continuidad />} />
+        <Route path="/teoria/estructuraoracion" element={<Oracion />} />
         <Route
           path="/teoria/errores-frecuentes"
           element={<ErroresFrecuentes />}

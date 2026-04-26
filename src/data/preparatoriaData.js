@@ -68,6 +68,7 @@ export const SUBJECTS_PREP = [
             id: "numeros-racionales",
             name: "Números Racionales",
             quiz: "/cuestionario/racionales-prepa",
+            teoria: "/teoria/fracciones-decimales",
             // children: [
             //   {
             //     id: "numeros-racionales-suma",
@@ -146,7 +147,7 @@ export const SUBJECTS_PREP = [
             teoria: `${import.meta.env.BASE_URL}guias/categorias_gramaticales.html`,
           },
           {
-            id:"estructura-oracion",
+            id: "estructura-oracion",
             name: "Estructura de la Oración",
             teoria: "/teoria/estructuraoracion",
           },

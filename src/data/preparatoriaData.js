@@ -248,44 +248,61 @@ export const SUBJECTS_PREP = [
         name: "Matemáticas",
         children: [
           {
-            id: "sesion-1",
-            name: "Sesión 1 - Números Enteros",
-            video: "https://youtu.be/E91tPJm_tfY",
+            id: "sesion-numreales",
+            name: "Números Reales",
+            children: [
+              {
+                id: "sesion-1",
+                name: "Sesión 1 - Números Enteros",
+                video: "https://youtu.be/E91tPJm_tfY",
+              },
+              {
+                id: "sesion-2",
+                name: "Sesión 2 - Números Enteros",
+                video: "https://youtu.be/v0bzbrzMBsk",
+              },
+              {
+                id: "sesion-3",
+                name: "Sesión 3 - Divisibilidad",
+                video: "https://youtu.be/ME10h-skfhI",
+              },
+              {
+                id: "sesion-4",
+                name: "Sesión 4 - TFA, Primos y Algoritmo de Euclides",
+                video: "https://youtu.be/OI0Ts_3jJss",
+              },
+              {
+                id: "sesion-5",
+                name: "Sesión 5 - Números Racionales",
+                video: "https://youtu.be/NoyQsunLJZo",
+              },
+              {
+                id: "sesion-6",
+                name: "Sesión 6 - Números Racionales",
+                video: "https://youtu.be/BLjM1jshchY",
+              },
+              {
+                id: "sesion-7",
+                name: "Sesión 7 - Representación Decimal de Números Racionales",
+                video: "https://youtu.be/9rfl9T6fhCI",
+              },
+              {
+                id: "sesion-8",
+                name: "Sesión 8 - Porcentajes",
+                video: "https://youtu.be/BkxToYyh-Cc",
+              },
+            ],
           },
           {
-            id: "sesion-2",
-            name: "Sesión 2 - Números Enteros",
-            video: "https://youtu.be/v0bzbrzMBsk",
-          },
-          {
-            id: "sesion-3",
-            name: "Sesión 3 - Divisibilidad",
-            video: "https://youtu.be/ME10h-skfhI",
-          },
-          {
-            id: "sesion-4",
-            name: "Sesión 4 - TFA, Primos y Algoritmo de Euclides",
-            video: "https://youtu.be/OI0Ts_3jJss",
-          },
-          {
-            id: "sesion-5",
-            name: "Sesión 5 - Números Racionales",
-            video: "https://youtu.be/NoyQsunLJZo",
-          },
-          {
-            id: "sesion-6",
-            name: "Sesión 6 - Números Racionales",
-            video: "https://youtu.be/BLjM1jshchY",
-          },
-          {
-            id: "sesion-7",
-            name: "Sesión 7 - Representación Decimal de Números Racionales",
-            video: "https://youtu.be/9rfl9T6fhCI",
-          },
-          {
-            id: "sesion-8",
-            name: "Sesión 8 - Porcentajes",
-            video: "https://youtu.be/BkxToYyh-Cc",
+            id: "sesion-algebra",
+            name: "Álgebra",
+            children: [
+              {
+                id: "sesion-1",
+                name: "Sesión 1 - Álgebra",
+                //video: "https://youtu.be/9rfl9T6fhCI",
+              },
+            ],
           },
         ],
       },

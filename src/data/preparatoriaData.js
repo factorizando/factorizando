@@ -291,6 +291,11 @@ export const SUBJECTS_PREP = [
                 name: "Sesión 8 - Porcentajes",
                 video: "https://youtu.be/BkxToYyh-Cc",
               },
+              {
+                id: "sesion-9",
+                name: "Sesión 9 - Proporciones y Razones",
+                video: "https://youtu.be/qO7KgflaKfY",
+              },
             ],
           },
           {
@@ -314,6 +319,22 @@ export const SUBJECTS_PREP = [
             id: "sesion-1",
             name: "Sesión 1 - Las Categorías Gramaticales",
             video: "https://youtu.be/Amhygadh77M",
+          },
+        ],
+      },
+      {
+        id: "sesion-bio",
+        name: "Biología",
+        children: [
+          {
+            id: "sesion-1",
+            name: "Sesión 1 - La Célula Part 1",
+            video: "https://youtu.be/bE119zeGp54",
+          },
+          {
+            id: "sesion-2",
+            name: "Sesión 2 - La Célula Part 2",
+            video: "https://youtu.be/DL_F1AeM4Gs",
           },
         ],
       },

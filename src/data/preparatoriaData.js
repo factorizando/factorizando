@@ -135,6 +135,11 @@ export const SUBJECTS_PREP = [
             name: "Sintaxis",
             quiz: "/cuestionario/sujeto-predicado-exani-i",
           },
+          {
+            id: "categorias-gramaticales",
+            name: "Estructura de la Oración",
+            quiz: "/cuestionario/estructura-oracion-prepa",
+          },
         ],
       },
       {
@@ -324,6 +329,11 @@ export const SUBJECTS_PREP = [
             id: "sesion-2",
             name: "Sesión 2 - Estructura de la Oración",
             video: "https://youtu.be/z5O13l3kzQo",
+          },
+          {
+            id: "sesion-3",
+            name: "Sesión 3 - Oraciones Compuestas",
+            video: "https://youtu.be/nOtduxD4MZA",
           },
         ],
       },

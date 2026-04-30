@@ -28,6 +28,7 @@ import SIMULADOR_PREPA_1 from "./preparatoria/simuladores/simulador-prepa-1.jsx"
 import SIMULADOR_PREPA_2 from "./preparatoria/simuladores/simulador-prepa-2.jsx";
 import SUJETO_PREDICADO from "./preparatoria/espanol/sujeto-predicado-exani-i.js";
 import ESTRUCTURA_ORACION_UNI from "./universidad/espanol/estructura-oracion-uni.js";
+import ESTRUCTURA_ORACION_PREPA from "./preparatoria/espanol/estructura-oracion-prepa.js";
 
 export const CUESTIONARIOS_INDEX = {
   // ──────────────────────────────────────────────────────────────────────────
@@ -237,6 +238,12 @@ export const CUESTIONARIOS_INDEX = {
           description:
             "Aprende a identificar el sujeto y predicado en las oraciones",
           data: SUJETO_PREDICADO, // Descomentar cuando importes
+        },
+        {
+          id: "estructura-oracion-prepa",
+          titulo: "Estructura de la Oración",
+          description: "Repasa todos los conceptos de estructura de la oración",
+          data: ESTRUCTURA_ORACION_PREPA,
         },
       ],
     },

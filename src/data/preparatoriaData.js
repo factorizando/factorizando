@@ -320,6 +320,11 @@ export const SUBJECTS_PREP = [
             name: "Sesión 1 - Las Categorías Gramaticales",
             video: "https://youtu.be/Amhygadh77M",
           },
+          {
+            id: "sesion-2",
+            name: "Sesión 2 - Estructura de la Oración",
+            video: "https://youtu.be/z5O13l3kzQo",
+          },
         ],
       },
       {

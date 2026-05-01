@@ -353,6 +353,22 @@ export const SUBJECTS_PREP = [
           },
         ],
       },
+      {
+        id: "sesion-fis",
+        name: "Física",
+        children: [
+          {
+            id: "sesion-1",
+            name: "Sesión 1 - Velocidad",
+            video: "https://youtu.be/c7OuTZgXBL8",
+          },
+          {
+            id: "sesion-2",
+            name: "Sesión 2 - Aceleración",
+            video: "https://youtu.be/XDm4stjYSrI",
+          },
+        ],
+      },
     ],
   },
   {

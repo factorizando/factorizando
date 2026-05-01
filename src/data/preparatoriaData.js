@@ -172,13 +172,12 @@ export const SUBJECTS_PREP = [
     children: [
       {
         id: "mru",
-        name: "Movimiento Rectilíneo Uniforme",
+        name: "Cinemática",
         children: [
           {
             id: "mru-bas",
-            name: "Conceptos Básicos de MRU",
-            // quiz: "/cuestionario/mru",
-            //video: "https://www.youtube.com/watch?v=XXXXXXX",
+            name: "Conceptos Básicos de MRU y MRUA ",
+            teoria: "/teoria/cinematica-velocidad-aceleracion",
           },
         ],
       },

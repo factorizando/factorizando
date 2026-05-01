@@ -15,6 +15,8 @@ import Continuidad from "./data/teoria/continuidad.jsx";
 import ErroresFrecuentes from "./data/teoria/errores-frecuentes.jsx";
 import Oracion from "./data/teoria/estructuraoracion.jsx";
 import FraccionesDecimales from "./data/teoria/fracciones-decimales.jsx";
+import Cinematica from "./data/teoria/cinematica-velocidad-aceleracion.jsx";
+
 export default function App() {
   return (
     <HashRouter>
@@ -54,7 +56,10 @@ export default function App() {
           path="/teoria/errores-frecuentes"
           element={<ErroresFrecuentes />}
         />
-
+        <Route
+          path="/teoria/cinematica-velocidad-aceleracion"
+          element={<Cinematica />}
+        />
         {/* ── Selector de bloque ── */}
         <Route
           path="/selector/:id"

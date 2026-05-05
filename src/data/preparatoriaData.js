@@ -300,6 +300,11 @@ export const SUBJECTS_PREP = [
                 name: "Sesión 9 - Proporciones y Razones",
                 video: "https://youtu.be/qO7KgflaKfY",
               },
+              {
+                id: "sesion-10",
+                name: "Sesión 10 - Números Reales",
+                video: "https://youtu.be/sqxYXIZnCCs",
+              },
             ],
           },
           {

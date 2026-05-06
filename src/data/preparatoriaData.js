@@ -305,6 +305,11 @@ export const SUBJECTS_PREP = [
                 name: "Sesión 10 - Números Reales",
                 video: "https://youtu.be/sqxYXIZnCCs",
               },
+              {
+                id: "sesion-11",
+                name: "Sesión 11 - Números Reales: Leyes de los Exponentes y radicales",
+                video: "https://youtu.be/O-Fy1I_m4o8",
+              },
             ],
           },
           {

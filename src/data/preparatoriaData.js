@@ -344,6 +344,11 @@ export const SUBJECTS_PREP = [
             name: "Sesión 3 - Oraciones Compuestas",
             video: "https://youtu.be/nOtduxD4MZA",
           },
+          {
+            id: "sesion-4",
+            name: "Sesión 4 - Análisis de Oraciones Compuestas",
+            video: "https://youtu.be/SDc7mOnQ9QU",
+          },
         ],
       },
       {

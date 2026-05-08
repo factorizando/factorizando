@@ -319,7 +319,7 @@ export const SUBJECTS_PREP = [
               {
                 id: "sesion-1",
                 name: "Sesión 1 - Álgebra",
-                //video: "https://youtu.be/9rfl9T6fhCI",
+                video: "https://youtu.be/ygZNO2afktI",
               },
             ],
           },

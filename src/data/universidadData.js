@@ -29,6 +29,11 @@ export const SUBJECTS_UNI = [
         name: "Continuidad",
         teoria: "/teoria/continuidad",
       },
+      {
+        id: "quimica-unam",
+        name: "Química UNAM",
+        teoria: "/teoria/quimica-unam",
+      },
     ],
   },
   {

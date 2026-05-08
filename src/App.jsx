@@ -16,6 +16,7 @@ import ErroresFrecuentes from "./data/teoria/errores-frecuentes.jsx";
 import Oracion from "./data/teoria/estructuraoracion.jsx";
 import FraccionesDecimales from "./data/teoria/fracciones-decimales.jsx";
 import Cinematica from "./data/teoria/cinematica-velocidad-aceleracion.jsx";
+import Quimica from "./data/teoria/quimica-unam.jsx";
 
 export default function App() {
   return (
@@ -60,6 +61,7 @@ export default function App() {
           path="/teoria/cinematica-velocidad-aceleracion"
           element={<Cinematica />}
         />
+        <Route path="/teoria/quimica-unam" element={<Quimica />} />
         {/* ── Selector de bloque ── */}
         <Route
           path="/selector/:id"

@@ -349,6 +349,11 @@ export const SUBJECTS_PREP = [
             name: "Sesión 4 - Análisis de Oraciones Compuestas",
             video: "https://youtu.be/SDc7mOnQ9QU",
           },
+          {
+            id: "sesion-5",
+            name: "Sesión 5 - Concordancia Nomial",
+            video: "https://youtu.be/FZaQ1t_F9ew",
+          },
         ],
       },
       {

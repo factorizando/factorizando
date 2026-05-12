@@ -605,7 +605,7 @@ export default {
 
     // 43 · Interpretación — tema central (B)
     {
-      question: "Con base en el cuento «El jardín del abuelo»:<br><br>«El abuelo sembraba aunque sabía que no vería florecer lo que plantaba. "Yo estoy aquí porque alguien que no me conoció sembró este árbol."»<br><br>¿Cuál es el tema central del cuento?",
+      question: "Con base en el cuento «El jardín del abuelo»:<br><br>«El abuelo sembraba aunque sabía que no vería florecer lo que plantaba. \'Yo estoy aquí porque alguien que no me conoció sembró este árbol.\'»<br><br>¿Cuál es el tema central del cuento?",
       options: [
         "La importancia del trabajo físico en la vejez para mantener la salud",
         "La solidaridad intergeneracional: actuar en beneficio de quienes vendrán después",
@@ -746,7 +746,7 @@ export default {
 
     // 54 · Identificación de información (A)
     {
-      question: "Lee el siguiente texto y responde.<br><br>«CONVOCATORIA — Festival Nacional de Cortometraje Universitario "Primer Plano 2025". La Universidad Autónoma de la Ciudad convoca a estudiantes inscritos en cualquier institución de educación superior del país. Los trabajos deberán tener entre 3 y 15 minutos de duración, ser de producción propia e inédita, y filmarse en cualquier formato (incluyendo teléfono móvil). Se enviarán en formato MP4 a cortometraje@primerplano.edu.mx antes del 15 de octubre de 2025. Cada participante puede enviar máximo dos obras. Los ganadores serán seleccionados por un jurado de cineastas profesionales y recibirán diploma, proyección pública y un taller de cine de tres días.»<br><br>¿Cuál es el requisito de duración de los cortometrajes participantes?",
+      question: "Lee el siguiente texto y responde.<br><br>«CONVOCATORIA — Festival Nacional de Cortometraje Universitario \'Primer Plano 2025\'. La Universidad Autónoma de la Ciudad convoca a estudiantes inscritos en cualquier institución de educación superior del país. Los trabajos deberán tener entre 3 y 15 minutos de duración, ser de producción propia e inédita, y filmarse en cualquier formato (incluyendo teléfono móvil). Se enviarán en formato MP4 a cortometraje@primerplano.edu.mx antes del 15 de octubre de 2025. Cada participante puede enviar máximo dos obras. Los ganadores serán seleccionados por un jurado de cineastas profesionales y recibirán diploma, proyección pública y un taller de cine de tres días.»<br><br>¿Cuál es el requisito de duración de los cortometrajes participantes?",
       options: [
         "Entre 3 y 15 minutos",
         "Máximo 3 minutos",

@@ -410,6 +410,11 @@ export const SUBJECTS_PREP = [
         name: "Simulador EXANI-I #2",
         quiz: "/cuestionario/simulador-exani-i-2",
       },
+      {
+        id: "exani-i3",
+        name: "Simulador EXANI-I #3",
+        quiz: "/cuestionario/simulador-exani-i-3",
+      },
     ],
   },
   {

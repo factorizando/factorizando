@@ -27,6 +27,7 @@ import SINTAXIS_ESPANOL from "./universidad/espanol/sintaxis-espanol.js";
 import SIMULADOR_PREPA_1 from "./preparatoria/simuladores/simulador-prepa-1.jsx";
 import SIMULADOR_PREPA_2 from "./preparatoria/simuladores/simulador-prepa-2.jsx";
 import SIMULADOR_EXANI_I from "./preparatoria/simuladores/simulador-exani-i.js";
+import SIMULADOR_EXANI_I_2 from "./preparatoria/simuladores/simulador-exani-i-2.js";
 import SUJETO_PREDICADO from "./preparatoria/espanol/sujeto-predicado-exani-i.js";
 import ESTRUCTURA_ORACION_UNI from "./universidad/espanol/estructura-oracion-uni.js";
 import ESTRUCTURA_ORACION_PREPA from "./preparatoria/espanol/estructura-oracion-prepa.js";
@@ -288,6 +289,12 @@ export const CUESTIONARIOS_INDEX = {
           titulo: "Simulador EXANI-I",
           description: "Simulador oficial tipo EXANI-I: Pensamiento Científico, Comprensión Lectora, Redacción Indirecta y Pensamiento Matemático",
           data: SIMULADOR_EXANI_I,
+        },
+        {
+          id: "simulador-exani-i-2",
+          titulo: "Simulador EXANI-I #2",
+          description: "Segundo simulador tipo EXANI-I con reactivos distintos: Pensamiento Científico, Comprensión Lectora, Redacción Indirecta y Pensamiento Matemático",
+          data: SIMULADOR_EXANI_I_2,
         },
         {
           id: "simulador-prepa-1",

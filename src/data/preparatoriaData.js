@@ -321,6 +321,11 @@ export const SUBJECTS_PREP = [
                 name: "Sesión 1 - Álgebra",
                 video: "https://youtu.be/ygZNO2afktI",
               },
+              {
+                id: "sesion-2",
+                name: "Sesión 2 - Álgebra",
+                video: "https://youtu.be/Qh6I9nNP0Eg",
+              },
             ],
           },
         ],
@@ -397,8 +402,8 @@ export const SUBJECTS_PREP = [
     children: [
       {
         id: "exani-i1",
-        name: "Simulador I",
-        //quiz: "/cuestionario/exani-mat",
+        name: "Simulador EXANI-I",
+        quiz: "/cuestionario/simulador-exani-i",
       },
     ],
   },

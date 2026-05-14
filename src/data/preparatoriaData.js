@@ -364,6 +364,11 @@ export const SUBJECTS_PREP = [
             name: "Sesión 5 - Concordancia Nomial",
             video: "https://youtu.be/FZaQ1t_F9ew",
           },
+          {
+            id: "sesion-6",
+            name: "Sesión 6 - Concordancia Nominal",
+            video: "https://youtu.be/AJK121qCRMs",
+          },
         ],
       },
       {
@@ -422,21 +427,21 @@ export const SUBJECTS_PREP = [
       },
     ],
   },
-  {
-    id: "sim",
-    name: "Simuladores de Examen",
-    color: "#8b5cf6",
-    children: [
-      {
-        id: "sim-prepa-1",
-        name: "Simulador 1",
-        quiz: "/cuestionario/simulador-prepa-1",
-      },
-      {
-        id: "sim-prepa-2",
-        name: "Simulador 2",
-        quiz: "/cuestionario/simulador-prepa-2",
-      },
-    ],
-  },
+  // {
+  //   id: "sim",
+  //   name: "Simuladores de Examen",
+  //   color: "#8b5cf6",
+  //   children: [
+  //     {
+  //       id: "sim-prepa-1",
+  //       name: "Simulador 1",
+  //       quiz: "/cuestionario/simulador-prepa-1",
+  //     },
+  //     {
+  //       id: "sim-prepa-2",
+  //       name: "Simulador 2",
+  //       quiz: "/cuestionario/simulador-prepa-2",
+  //     },
+  //   ],
+  // },
 ];

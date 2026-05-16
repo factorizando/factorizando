@@ -406,6 +406,11 @@ export const SUBJECTS_PREP = [
             name: "Sesión 2 - Aceleración",
             video: "https://youtu.be/XDm4stjYSrI",
           },
+          {
+            id: "sesion-3",
+            name: "Sesión 3 - Leyes de Newton",
+            video: "https://youtu.be/sqyqHzbBW1Y",
+          },
         ],
       },
     ],

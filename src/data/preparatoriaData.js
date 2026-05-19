@@ -188,8 +188,7 @@ export const SUBJECTS_PREP = [
           {
             id: "newton-bas",
             name: "Las Tres Leyes",
-            //quiz: "/cuestionario/newton",
-            //video: "https://www.youtube.com/watch?v=XXXXXXX",
+            teoria: "/teoria/leyes-de-newton",
           },
         ],
       },
@@ -335,6 +334,11 @@ export const SUBJECTS_PREP = [
                 id: "sesion-4",
                 name: "Sesión 4 - Álgebra",
                 video: "https://youtu.be/l34juzi2ejc",
+              },
+              {
+                id: "sesion-5",
+                name: "Sesión 5 - Álgebra",
+                video: "https://youtu.be/wLaVTjkdIs4",
               },
             ],
           },

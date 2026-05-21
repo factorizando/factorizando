@@ -437,24 +437,35 @@ export default function Home() {
 
         <div className="spacer"></div>
 
+        <p className="footer">© Factorizando — Todos los derechos reservados</p>
+
+        {/* Botón admin (solo visible para administrador) */}
         {isAdmin && (
           <Link
             to="/admin"
             style={{
-              display: "block",
-              textAlign: "center",
-              color: "#5a6070",
-              fontSize: "0.72rem",
+              position: "fixed",
+              bottom: "24px",
+              left: "24px",
+              zIndex: 100,
+              background: "#1e2130",
+              border: "1px solid #3b9eff44",
+              borderRadius: "12px",
+              padding: "8px 14px",
+              display: "flex",
+              alignItems: "center",
+              gap: 7,
               textDecoration: "none",
-              marginBottom: "0.5rem",
-              letterSpacing: "0.08em",
+              color: "#3b9eff",
+              fontSize: "0.78rem",
+              fontWeight: 600,
               fontFamily: "'DM Sans', sans-serif",
+              boxShadow: "0 4px 14px rgba(0,0,0,0.4)",
             }}
           >
-            ⚙ Panel de administrador
+            ⚙ Admin
           </Link>
         )}
-        <p className="footer">© Factorizando — Todos los derechos reservados</p>
 
         {/* WhatsApp flotante */}
         <a

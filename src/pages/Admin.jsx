@@ -160,8 +160,8 @@ export default function Admin() {
   useEffect(() => {
     const load = async () => {
       const [{ data: results }, { data: profs }] = await Promise.all([
-        supabase.from("resultados").select("*").order("created_at", { ascending: false }),
-        supabase.from("profiles").select("*"),
+        supabase.rpc("get_all_resultados"),
+        supabase.rpc("get_all_profiles"),
       ]);
       setResultados(results || []);
       const map = {};

@@ -1,9 +1,10 @@
 // src/components/QuestionarioGenerico.jsx
 // Versión CORRECTA: Nuevo header + Temporizador original intacto
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Link } from "react-router-dom";
 import BrandName from "./BrandName";
+import { supabase } from "../lib/supabase";
 
 // ─── Componentes Internos para Renderizado (Corregidos) ──────────────────────
 // Convierte markdown básico a HTML (negrita, cursiva, código)
@@ -933,6 +934,39 @@ export default function QuestionarioGenerico({
   const [tiempoAgotado, setTiempoAgotado] = useState(false);
   const [bloqueNombre] = useState(null);
   const [indiceGlobal, setIndiceGlobal] = useState(null);
+  const savedRef = useRef(false);
+
+  const guardarResultado = useCallback(async (puntaje, total) => {
+    if (savedRef.current) return;
+    savedRef.current = true;
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+      await supabase.from("resultados").insert({
+        user_id: user.id,
+        cuestionario_id: cuestionario.metadata?.id ?? "desconocido",
+        cuestionario_titulo: cuestionario.metadata?.titulo ?? "",
+        puntaje,
+        total,
+      });
+    } catch (_) {
+      // fail silently para no interrumpir la experiencia
+    }
+  }, [cuestionario.metadata]);
+
+  // Guardar al llegar a resultados (fin normal o botón Terminar)
+  useEffect(() => {
+    if (stage !== "results") return;
+    const count = Object.values(answers).filter((a) => a.correct).length;
+    guardarResultado(count, filteredQuestions.length);
+  }, [stage]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Guardar cuando se agota el tiempo
+  useEffect(() => {
+    if (!tiempoAgotado) return;
+    const count = Object.values(answers).filter((a) => a.correct).length;
+    guardarResultado(count, filteredQuestions.length);
+  }, [tiempoAgotado]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Temporizador GLOBAL
   useEffect(() => {
@@ -988,6 +1022,7 @@ export default function QuestionarioGenerico({
   };
 
   const handleRestart = () => {
+    savedRef.current = false;
     if (onRetry) onRetry();
     setCurrentIndex(0);
     setSelectedAnswer(null);

@@ -8,6 +8,7 @@ import Cuestionario from "./pages/Cuestionario";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Registro from "./pages/Registro";
 import SelectorBloque from "./pages/SelectorBloque";
+import Admin from "./pages/Admin";
 import ExaniI from "./pages/cuestionarios/ExaniI";
 import ExaniII from "./pages/cuestionarios/ExaniII";
 import Limites from "./data/teoria/limites.jsx";
@@ -34,7 +35,7 @@ export default function App() {
         <Route
           path="/preparatoria"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute requiredNivel="preparatoria">
               <Preparatoria />
             </ProtectedRoute>
           }
@@ -42,8 +43,16 @@ export default function App() {
         <Route
           path="/universidad"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute requiredNivel="universidad">
               <Universidad />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute requiredNivel="admin">
+              <Admin />
             </ProtectedRoute>
           }
         />

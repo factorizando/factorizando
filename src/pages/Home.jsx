@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import BrandName from "../components/BrandName";
+import { supabase } from "../lib/supabase";
 
 // ─── Lista de ecuaciones LaTeX flotantes ──────────────────────────────────────
 const EQUATIONS = [
@@ -92,6 +93,19 @@ export default function Home() {
   const [symbols, setSymbols] = useState([]);
   const [visible, setVisible] = useState(false);
   const [katexLoaded, setKatexLoaded] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
+      if (!session) return;
+      const { data } = await supabase
+        .from("profiles")
+        .select("nivel")
+        .eq("id", session.user.id)
+        .single();
+      if (data?.nivel === "admin") setIsAdmin(true);
+    });
+  }, []);
 
   // Cargar KaTeX dinámicamente desde CDN
   useEffect(() => {
@@ -423,6 +437,23 @@ export default function Home() {
 
         <div className="spacer"></div>
 
+        {isAdmin && (
+          <Link
+            to="/admin"
+            style={{
+              display: "block",
+              textAlign: "center",
+              color: "#5a6070",
+              fontSize: "0.72rem",
+              textDecoration: "none",
+              marginBottom: "0.5rem",
+              letterSpacing: "0.08em",
+              fontFamily: "'DM Sans', sans-serif",
+            }}
+          >
+            ⚙ Panel de administrador
+          </Link>
+        )}
         <p className="footer">© Factorizando — Todos los derechos reservados</p>
 
         {/* WhatsApp flotante */}

@@ -1257,7 +1257,7 @@ export default {
       options: [
         "m = 2",
         "m = 3",
-        "m = 1/2",
+        "$m = \\frac{1}{2}$",
       ],
       correctAnswer: 0,
       explanation: "$m = \\frac{y_2 - y_1}{x_2 - x_1} = \\frac{9-3}{4-1} = \\frac{6}{3} = 2$.",
@@ -1353,12 +1353,12 @@ export default {
     {
       question: "¿Cuál de las siguientes fracciones es la mayor?",
       options: [
-        "5/9",
-        "7/13",
-        "3/5",
+        "$\\frac{5}{9}$",
+        "$\\frac{7}{13}$",
+        "$\\frac{3}{5}$",
       ],
       correctAnswer: 2,
-      explanation: "Convirtiendo a decimales: 5/9≈0.556, 7/13≈0.538, 3/5=0.600. La mayor es 3/5.",
+      explanation: "Convirtiendo a decimales: $\\frac{5}{9} \\approx 0.556$, $\\frac{7}{13} \\approx 0.538$, $\\frac{3}{5} = 0.600$. La mayor es $\\frac{3}{5}$.",
     },
 
     // 102 · Estimación de área (A)
@@ -1468,31 +1468,31 @@ export default {
         "20%",
       ],
       correctAnswer: 2,
-      explanation: "Porcentaje de aumento = (aumento / valor original) × 100 = (30/150) × 100 = 20%.",
+      explanation: "Porcentaje de aumento = $\\frac{\\text{aumento}}{\\text{valor original}} \\times 100 = \\frac{30}{150} \\times 100 = 20\\%$.",
     },
 
     // 111 · Ordenar números en la recta numérica (A)
     {
-      question: "¿Cuál es el orden correcto de mayor a menor de los números: 2/3, 0.65, −0.7 y 3/5?",
+      question: "¿Cuál es el orden correcto de mayor a menor de los números: $\\frac{2}{3}$, 0.65, −0.7 y $\\frac{3}{5}$?",
       options: [
-        "2/3 > 0.65 > 3/5 > −0.7",
-        "0.65 > 3/5 > 2/3 > −0.7",
-        "2/3 > 3/5 > 0.65 > −0.7",
+        "$\\frac{2}{3} > 0.65 > \\frac{3}{5} > -0.7$",
+        "$0.65 > \\frac{3}{5} > \\frac{2}{3} > -0.7$",
+        "$\\frac{2}{3} > \\frac{3}{5} > 0.65 > -0.7$",
       ],
       correctAnswer: 0,
-      explanation: "Convirtiendo: 2/3≈0.667, 0.65, 3/5=0.6, −0.7. Orden de mayor a menor: 0.667 > 0.65 > 0.6 > −0.7, es decir: 2/3 > 0.65 > 3/5 > −0.7.",
+      explanation: "Convirtiendo: $\\frac{2}{3} \\approx 0.667$, 0.65, $\\frac{3}{5} = 0.6$, −0.7. Orden de mayor a menor: $\\frac{2}{3} > 0.65 > \\frac{3}{5} > -0.7$.",
     },
 
     // 112 · Fracción como porcentaje (B)
     {
-      question: "¿Cuál es la representación porcentual de 5/8?",
+      question: "¿Cuál es la representación porcentual de $\\frac{5}{8}$?",
       options: [
         "50%",
         "62.5%",
         "58%",
       ],
       correctAnswer: 1,
-      explanation: "5/8 = 0.625 = 62.5%. También puede calcularse como (5÷8)×100 = 62.5%.",
+      explanation: "$\\frac{5}{8} = 0.625 = 62.5\\%$. También puede calcularse como $(5 \\div 8) \\times 100 = 62.5\\%$.",
     },
 
     // 113 · Sucesión geométrica (C)
@@ -1530,7 +1530,7 @@ export default {
         "70%",
       ],
       correctAnswer: 1,
-      explanation: "La mezcla total es 3+7 = 10 litros. El porcentaje de jugo = (3/10)×100 = 30%.",
+      explanation: "La mezcla total es 3+7 = 10 litros. El porcentaje de jugo = $\\frac{3}{10} \\times 100 = 30\\%$.",
     },
 
     // 116 · Problema de descuento (C)
@@ -1697,12 +1697,12 @@ export default {
     {
       question: "Se lanza un dado de seis caras (numeradas del 1 al 6). ¿Cuál es la probabilidad de obtener un número par?",
       options: [
-        "1/6",
-        "1/2",
-        "1/3",
+        "$\\frac{1}{6}$",
+        "$\\frac{1}{2}$",
+        "$\\frac{1}{3}$",
       ],
       correctAnswer: 1,
-      explanation: "Los números pares en un dado son: 2, 4 y 6 — tres de seis posibilidades. P(par) = 3/6 = 1/2.",
+      explanation: "Los números pares en un dado son: 2, 4 y 6 — tres de seis posibilidades. $P(\\text{par}) = \\frac{3}{6} = \\frac{1}{2}$.",
     },
 
   ],

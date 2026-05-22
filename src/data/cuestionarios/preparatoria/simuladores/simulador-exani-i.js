@@ -1361,10 +1361,10 @@ export default {
     {
       question:
         "Se lanza un dado de seis caras. ¿Cuál es la probabilidad de obtener un número mayor que 4?",
-      options: ["1/3", "1/2", "2/3"],
+      options: ["$\\frac{1}{3}$", "$\\frac{1}{2}$", "$\\frac{2}{3}$"],
       correctAnswer: 0,
       explanation:
-        "Los números mayores que 4 son 5 y 6 (2 resultados favorables de 6 posibles). P = 2/6 = 1/3.",
+        "Los números mayores que 4 son 5 y 6 (2 resultados favorables de 6 posibles). $P = \\frac{2}{6} = \\frac{1}{3}$.",
     },
 
     // 95 · Medidas de tendencia central — media
@@ -1390,10 +1390,10 @@ export default {
     {
       question:
         "Un estudiante elige al azar una letra de la palabra EXANI. ¿Cuál es la probabilidad de que sea una vocal?",
-      options: ["2/5", "3/5", "1/2"],
+      options: ["$\\frac{2}{5}$", "$\\frac{3}{5}$", "$\\frac{1}{2}$"],
       correctAnswer: 1,
       explanation:
-        "EXANI tiene 5 letras. Las vocales son E, A e I (3 letras). P(vocal) = 3/5.",
+        "EXANI tiene 5 letras. Las vocales son E, A e I (3 letras). $P(\\text{vocal}) = \\frac{3}{5}$.",
     },
 
     // ── Estimación ─────────────────────────────────────────────────────────
@@ -1428,11 +1428,11 @@ export default {
     // 101 · Números racionales — orden
     {
       question:
-        "¿Cuál es el orden correcto de menor a mayor de las fracciones 2/3, 3/4 y 5/8?",
-      options: ["5/8, 2/3, 3/4", "2/3, 5/8, 3/4", "5/8, 3/4, 2/3"],
+        "¿Cuál es el orden correcto de menor a mayor de las fracciones $\\frac{2}{3}$, $\\frac{3}{4}$ y $\\frac{5}{8}$?",
+      options: ["$\\frac{5}{8} < \\frac{2}{3} < \\frac{3}{4}$", "$\\frac{2}{3} < \\frac{5}{8} < \\frac{3}{4}$", "$\\frac{5}{8} < \\frac{3}{4} < \\frac{2}{3}$"],
       correctAnswer: 0,
       explanation:
-        "Convirtiendo a decimales: 5/8 = 0.625, 2/3 ≈ 0.667, 3/4 = 0.75. El orden es 5/8 < 2/3 < 3/4.",
+        "Convirtiendo a decimales: $\\frac{5}{8} = 0.625$, $\\frac{2}{3} \\approx 0.667$, $\\frac{3}{4} = 0.75$. El orden es $\\frac{5}{8} < \\frac{2}{3} < \\frac{3}{4}$.",
     },
 
     // 102 · Estimación de longitud — unidades
@@ -1469,9 +1469,9 @@ export default {
     {
       question:
         "Una caja contiene 5 pelotas rojas, 3 azules y 2 amarillas. Al sacar una al azar, ¿cuál es la probabilidad de que sea azul?",
-      options: ["1/3", "3/10", "1/5"],
+      options: ["$\\frac{1}{3}$", "$\\frac{3}{10}$", "$\\frac{1}{5}$"],
       correctAnswer: 1,
-      explanation: "Total de pelotas = 5 + 3 + 2 = 10. P(azul) = 3/10.",
+      explanation: "Total de pelotas = 5 + 3 + 2 = 10. $P(\\text{azul}) = \\frac{3}{10}$.",
     },
 
     // ── Sentido numérico ────────────────────────────────────────────────────
@@ -1507,9 +1507,9 @@ export default {
     {
       question:
         "¿Cuánto es 0.75 expresado como fracción en su mínima expresión?",
-      options: ["75/100", "3/4", "7/10"],
+      options: ["$\\frac{75}{100}$", "$\\frac{3}{4}$", "$\\frac{7}{10}$"],
       correctAnswer: 1,
-      explanation: "0.75 = 75/100. Simplificando entre 25: 75/100 = 3/4.",
+      explanation: "$0.75 = \\frac{75}{100}$. Simplificando entre 25: $\\frac{75}{100} = \\frac{3}{4}$.",
     },
 
     // 110 · Criterios de congruencia de triángulos
@@ -1551,7 +1551,7 @@ export default {
       options: ["18", "0.6", "60"],
       correctAnswer: 1,
       explanation:
-        "Frecuencia relativa = frecuencia absoluta / total = 18/30 = 0.6 (equivale al 60%).",
+        "Frecuencia relativa = $\\frac{\\text{frecuencia absoluta}}{\\text{total}} = \\frac{18}{30} = 0.6$ (equivale al 60%).",
     },
 
     // ── Desarrollo de usos ──────────────────────────────────────────────────
@@ -1664,7 +1664,7 @@ export default {
       options: ["0.45", "0.55", "0.50"],
       correctAnswer: 0,
       explanation:
-        "Número de águilas = 200 − 110 = 90. Frecuencia relativa = 90/200 = 0.45.",
+        "Número de águilas = 200 − 110 = 90. Frecuencia relativa = $\\frac{90}{200} = 0.45$.",
     },
 
     // ── Resignificaciones ───────────────────────────────────────────────────

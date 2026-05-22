@@ -623,7 +623,7 @@ export default {
         "60 km",
       ],
       correctAnswer: 2,
-      explanation: "40 minutos = 2/3 de hora. Distancia = velocidad × tiempo = 90 × (2/3) = 60 km.",
+      explanation: "40 minutos = $\\frac{2}{3}$ de hora. Distancia = velocidad × tiempo = $90 \\times \\frac{2}{3} = 60$ km.",
     },
 
     // ══════════════════════════════════════════════════════════════
@@ -1510,7 +1510,7 @@ export default {
         "Figura C (8 celdas sombreadas)",
       ],
       correctAnswer: 2,
-      explanation: "Figura A: 4/16 = 1/4. Figura B: 6/16 = 3/8. Figura C: 8/16 = 1/2. La mayor proporción es 1/2, correspondiente a la figura C.",
+      explanation: "Figura A: $\\frac{4}{16} = \\frac{1}{4}$. Figura B: $\\frac{6}{16} = \\frac{3}{8}$. Figura C: $\\frac{8}{16} = \\frac{1}{2}$. La mayor proporción es $\\frac{1}{2}$, correspondiente a la figura C.",
       diagram: D.grid2,
     },
 
@@ -1613,12 +1613,12 @@ export default {
       id: "q105",
       question: "Se lanza un dado equilibrado de 6 caras. ¿Cuál es la probabilidad de obtener un número par?",
       options: [
-        "1/2",
-        "1/3",
-        "2/3",
+        "$\\frac{1}{2}$",
+        "$\\frac{1}{3}$",
+        "$\\frac{2}{3}$",
       ],
       correctAnswer: 0,
-      explanation: "Los números pares son 2, 4 y 6: tres casos favorables de seis posibles. P = 3/6 = 1/2.",
+      explanation: "Los números pares son 2, 4 y 6: tres casos favorables de seis posibles. $P = \\frac{3}{6} = \\frac{1}{2}$.",
     },
 
     // Q106 — Ecuación de primer grado (C)
@@ -1670,7 +1670,7 @@ export default {
         "3 m",
       ],
       correctAnswer: 2,
-      explanation: "Más obreros → más metros (directa); menos horas → menos metros (directa). M = 3 × (10/5) × (2/4) = 3 × 2 × 0.5 = 3 m.",
+      explanation: "Más obreros → más metros (directa); menos horas → menos metros (directa). $M = 3 \\times \\frac{10}{5} \\times \\frac{2}{4} = 3 \\times 2 \\times 0.5 = 3$ m.",
     },
 
     // Q110 — Leyes de exponentes (B)
@@ -1693,7 +1693,7 @@ export default {
       options: [
         "2",
         "3",
-        "1/2",
+        "$\\frac{1}{2}$",
       ],
       correctAnswer: 0,
       explanation: "$m = \\frac{y_2 - y_1}{x_2 - x_1} = \\frac{9 - 3}{4 - 1} = \\frac{6}{3} = 2$.",
@@ -1780,7 +1780,7 @@ export default {
     // Q118 — Área de círculo con π ≈ 22/7 (C)
     {
       id: "q118",
-      question: "¿Cuál es el área de un círculo con radio 7 cm? (usa π ≈ 22/7)",
+      question: "¿Cuál es el área de un círculo con radio 7 cm? (usa $\\pi \\approx \\frac{22}{7}$)",
       options: [
         "44 cm²",
         "77 cm²",
@@ -1821,12 +1821,12 @@ export default {
       id: "q121",
       question: "Se lanza una moneda y un dado de 6 caras. ¿Cuál es la probabilidad de obtener cara y un número mayor que 4?",
       options: [
-        "1/4",
-        "1/3",
-        "1/6",
+        "$\\frac{1}{4}$",
+        "$\\frac{1}{3}$",
+        "$\\frac{1}{6}$",
       ],
       correctAnswer: 2,
-      explanation: "P(cara) = 1/2. P(número > 4) = 2/6 = 1/3 (solo 5 o 6). P(ambos) = 1/2 × 1/3 = 1/6.",
+      explanation: "$P(\\text{cara}) = \\frac{1}{2}$. $P(\\text{número} > 4) = \\frac{2}{6} = \\frac{1}{3}$ (solo 5 o 6). $P(\\text{ambos}) = \\frac{1}{2} \\times \\frac{1}{3} = \\frac{1}{6}$.",
     },
 
     // Q122 — Notación de conjuntos por comprensión (B)
@@ -1930,7 +1930,7 @@ export default {
         "18",
       ],
       correctAnswer: 0,
-      explanation: "Constante de proporcionalidad k = y/x = 12/4 = 3. Para x = 7: y = 3 × 7 = 21.",
+      explanation: "Constante de proporcionalidad $k = \\frac{y}{x} = \\frac{12}{4} = 3$. Para $x = 7$: $y = 3 \\times 7 = 21$.",
     },
 
   ],

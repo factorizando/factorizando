@@ -1217,38 +1217,38 @@ export default {
 
     // 90 · Diferencia de cuadrados (A)
     {
-      question: "¿Cuál es el resultado de (x+5)(x−5)?",
+      question: "¿Cuál es el resultado de $(x+5)(x-5)$?",
       options: [
-        "x²−25",
-        "x²+25",
-        "x²−10x−25",
+        "$x^2-25$",
+        "$x^2+25$",
+        "$x^2-10x-25$",
       ],
       correctAnswer: 0,
-      explanation: "(x+5)(x−5) es una diferencia de cuadrados: a²−b² con a=x y b=5. El resultado es x²−25. El término del medio se cancela porque los signos son opuestos.",
+      explanation: "$(x+5)(x-5)$ es una diferencia de cuadrados: $a^2-b^2$ con $a=x$ y $b=5$. El resultado es $x^2-25$. El término del medio se cancela porque los signos son opuestos.",
     },
 
     // 91 · Factor común (B)
     {
-      question: "¿Cuál es la factorización correcta de 12x³ − 8x²?",
+      question: "¿Cuál es la factorización correcta de $12x^3 - 8x^2$?",
       options: [
-        "4x(3x²−2x)",
-        "4x²(3x−2)",
-        "2x²(6x−4)",
+        "$4x(3x^2-2x)$",
+        "$4x^2(3x-2)$",
+        "$2x^2(6x-4)$",
       ],
       correctAnswer: 1,
-      explanation: "El factor común de 12x³ y 8x² es 4x². Al extraerlo: 12x³÷4x²=3x y 8x²÷4x²=2. Por lo tanto 12x³−8x²=4x²(3x−2). La opción C también factoriza, pero no usa el máximo factor común.",
+      explanation: "El factor común de $12x^3$ y $8x^2$ es $4x^2$. Al extraerlo: $12x^3 \\div 4x^2 = 3x$ y $8x^2 \\div 4x^2 = 2$. Por lo tanto $12x^3 - 8x^2 = 4x^2(3x-2)$. La opción C también factoriza, pero no usa el máximo factor común.",
     },
 
     // 92 · Ecuación cuadrática por factorización (C)
     {
-      question: "¿Cuáles son las soluciones de la ecuación x²−7x+12=0?",
+      question: "¿Cuáles son las soluciones de la ecuación $x^2 - 7x + 12 = 0$?",
       options: [
-        "x=2 y x=6",
-        "x=1 y x=12",
-        "x=3 y x=4",
+        "$x=2$ y $x=6$",
+        "$x=1$ y $x=12$",
+        "$x=3$ y $x=4$",
       ],
       correctAnswer: 2,
-      explanation: "Se buscan dos números que sumen 7 y cuyo producto sea 12: son 3 y 4. Por lo tanto x²−7x+12=(x−3)(x−4)=0, y las soluciones son x=3 y x=4. Verificación: 3+4=7 ✓ y 3×4=12 ✓.",
+      explanation: "Se buscan dos números que sumen 7 y cuyo producto sea 12: son 3 y 4. Por lo tanto $x^2 - 7x + 12 = (x-3)(x-4) = 0$, y las soluciones son $x=3$ y $x=4$. Verificación: $3+4=7$ ✓ y $3 \\times 4=12$ ✓.",
     },
 
     // 93 · Pendiente entre dos puntos (A)
@@ -1260,81 +1260,81 @@ export default {
         "m = 1/2",
       ],
       correctAnswer: 0,
-      explanation: "La pendiente se calcula como m = (y₂−y₁)/(x₂−x₁) = (9−3)/(4−1) = 6/3 = 2.",
+      explanation: "$m = \\frac{y_2 - y_1}{x_2 - x_1} = \\frac{9-3}{4-1} = \\frac{6}{3} = 2$.",
     },
 
     // 94 · Vértice de parábola (B)
     {
-      question: "¿En qué valor de x se encuentra el vértice de la parábola y = x²−4x+7?",
+      question: "¿En qué valor de $x$ se encuentra el vértice de la parábola $y = x^2 - 4x + 7$?",
       options: [
         "x = 7",
         "x = 2",
         "x = −2",
       ],
       correctAnswer: 1,
-      explanation: "Para y = ax²+bx+c, el vértice está en x = −b/(2a). Con a=1 y b=−4: x = −(−4)/(2·1) = 4/2 = 2.",
+      explanation: "Para $y = ax^2+bx+c$, el vértice está en $x = -\\frac{b}{2a}$. Con $a=1$ y $b=-4$: $x = \\frac{-(-4)}{2 \\cdot 1} = \\frac{4}{2} = 2$.",
     },
 
     // 95 · Ley de potencias — potencia de potencia (C)
     {
-      question: "¿Cuál es el valor de (2³)²?",
+      question: "¿Cuál es el valor de $(2^3)^2$?",
       options: [
         "12",
         "32",
         "64",
       ],
       correctAnswer: 2,
-      explanation: "La ley de potencia de una potencia indica (aᵐ)ⁿ = aᵐⁿ. Entonces (2³)² = 2⁶ = 64.",
+      explanation: "La ley de potencia de una potencia indica $(a^m)^n = a^{mn}$. Entonces $(2^3)^2 = 2^6 = 64$.",
     },
 
     // 96 · División de potencias con la misma base (A)
     {
-      question: "¿Cuál es el resultado de x⁶ ÷ x²?",
+      question: "¿Cuál es el resultado de $x^6 \\div x^2$?",
       options: [
-        "x⁴",
-        "x³",
-        "x⁸",
+        "$x^4$",
+        "$x^3$",
+        "$x^8$",
       ],
       correctAnswer: 0,
-      explanation: "Al dividir potencias con la misma base se restan los exponentes: x⁶ ÷ x² = x⁶⁻² = x⁴.",
+      explanation: "Al dividir potencias con la misma base se restan los exponentes: $x^6 \\div x^2 = x^{6-2} = x^4$.",
     },
 
     // 97 · Suma de fracciones algebraicas (B)
     {
-      question: "¿Cuál es el resultado de 1/x + 1/y (con x≠0 y y≠0)?",
+      question: "¿Cuál es el resultado de $\\frac{1}{x} + \\frac{1}{y}$ (con $x \\neq 0$ y $y \\neq 0$)?",
       options: [
-        "1/(x+y)",
-        "(x+y)/(xy)",
-        "(x+y)/x",
+        "$\\frac{1}{x+y}$",
+        "$\\frac{x+y}{xy}$",
+        "$\\frac{x+y}{x}$",
       ],
       correctAnswer: 1,
-      explanation: "Para sumar 1/x + 1/y se busca el denominador común xy: (y+x)/(xy) = (x+y)/(xy). Un error frecuente es escribir 1/(x+y), que no es equivalente.",
+      explanation: "Para sumar $\\frac{1}{x} + \\frac{1}{y}$ se busca el denominador común $xy$: $\\frac{y+x}{xy} = \\frac{x+y}{xy}$. Un error frecuente es escribir $\\frac{1}{x+y}$, que no es equivalente.",
     },
 
     // ── Estimación ─────────────────────────────────────────────────────────
 
     // 98 · Estimar raíz cuadrada (C)
     {
-      question: "¿Entre qué dos números enteros consecutivos se encuentra √80?",
+      question: "¿Entre qué dos números enteros consecutivos se encuentra $\\sqrt{80}$?",
       options: [
         "Entre 7 y 8",
         "Entre 9 y 10",
         "Entre 8 y 9",
       ],
       correctAnswer: 2,
-      explanation: "Como 8²=64 y 9²=81, entonces √80 está entre 8 y 9 (más cerca de 9, ya que 80 es muy cercano a 81). √80 ≈ 8.94.",
+      explanation: "Como $8^2=64$ y $9^2=81$, entonces $\\sqrt{80}$ está entre 8 y 9 (más cerca de 9, ya que 80 es muy cercano a 81). $\\sqrt{80} \\approx 8.94$.",
     },
 
     // 99 · Notación científica (A)
     {
       question: "¿Cuál es la expresión en notación científica de 0.00032?",
       options: [
-        "3.2 × 10⁻⁴",
-        "3.2 × 10⁴",
-        "32 × 10⁻⁵",
+        "$3.2 \\times 10^{-4}$",
+        "$3.2 \\times 10^4$",
+        "$32 \\times 10^{-5}$",
       ],
       correctAnswer: 0,
-      explanation: "Para escribir 0.00032 en notación científica se mueve el punto decimal 4 lugares a la derecha: 3.2 × 10⁻⁴. La opción C es equivalente matemáticamente, pero no cumple con la forma estándar (coeficiente entre 1 y 10).",
+      explanation: "Para escribir 0.00032 en notación científica se mueve el punto decimal 4 lugares a la derecha: $3.2 \\times 10^{-4}$. La opción C es equivalente matemáticamente, pero no cumple con la forma estándar (coeficiente entre 1 y 10).",
     },
 
     // 100 · Redondeo a décimas (B)
@@ -1394,7 +1394,7 @@ export default {
         "7",
       ],
       correctAnswer: 2,
-      explanation: "6²=36 y 7²=49. √45 ≈ 6.71. La distancia a 6 es 0.71 y a 7 es 0.29, por lo que 7 es el entero más cercano.",
+      explanation: "$6^2=36$ y $7^2=49$. $\\sqrt{45} \\approx 6.71$. La distancia a 6 es 0.71 y a 7 es 0.29, por lo que 7 es el entero más cercano.",
     },
 
     // 105 · Precio con descuento (A)
@@ -1406,7 +1406,7 @@ export default {
         "Aproximadamente $90",
       ],
       correctAnswer: 0,
-      explanation: "El 10% de $127.80 ≈ $12.80. Precio final ≈ $127.80 − $12.80 = $115. El valor exacto es $127.80 × 0.90 = $115.02.",
+      explanation: "El 10% de 127.80 pesos ≈ 12.80 pesos. Precio final ≈ 127.80 − 12.80 = 115 pesos. El valor exacto es 127.80 × 0.90 = 115.02 pesos.",
     },
 
     // ── Sentido numérico ───────────────────────────────────────────────────
@@ -1420,7 +1420,7 @@ export default {
         "18",
       ],
       correctAnswer: 1,
-      explanation: "Factorizando: 36=2²×3² y 48=2⁴×3. El MCD toma los factores comunes con el menor exponente: 2²×3 = 12.",
+      explanation: "Factorizando: $36=2^2 \\times 3^2$ y $48=2^4 \\times 3$. El MCD toma los factores comunes con el menor exponente: $2^2 \\times 3 = 12$.",
     },
 
     // 107 · MCM (C)
@@ -1432,36 +1432,36 @@ export default {
         "24",
       ],
       correctAnswer: 2,
-      explanation: "Factorizando: 6=2×3, 8=2³, 12=2²×3. El MCM toma los factores con el mayor exponente: 2³×3 = 24. Verificación: 24÷6=4 ✓, 24÷8=3 ✓, 24÷12=2 ✓.",
+      explanation: "Factorizando: $6=2 \\times 3$, $8=2^3$, $12=2^2 \\times 3$. El MCM toma los factores con el mayor exponente: $2^3 \\times 3 = 24$. Verificación: 24÷6=4 ✓, 24÷8=3 ✓, 24÷12=2 ✓.",
     },
 
     // 108 · Resta de fracciones (A)
     {
-      question: "¿Cuál es el resultado de 2/3 − 3/8?",
+      question: "¿Cuál es el resultado de $\\frac{2}{3} - \\frac{3}{8}$?",
       options: [
-        "7/24",
-        "1/5",
-        "5/24",
+        "$\\frac{7}{24}$",
+        "$\\frac{1}{5}$",
+        "$\\frac{5}{24}$",
       ],
       correctAnswer: 0,
-      explanation: "El denominador común de 3 y 8 es 24. 2/3 = 16/24 y 3/8 = 9/24. Entonces 16/24 − 9/24 = 7/24.",
+      explanation: "El denominador común de 3 y 8 es 24. $\\frac{2}{3} = \\frac{16}{24}$ y $\\frac{3}{8} = \\frac{9}{24}$. Entonces $\\frac{16}{24} - \\frac{9}{24} = \\frac{7}{24}$.",
     },
 
     // 109 · Potencia negativa (B)
     {
-      question: "¿Cuál es el valor de 4⁻²?",
+      question: "¿Cuál es el valor de $4^{-2}$?",
       options: [
-        "−16",
-        "1/16",
-        "−1/16",
+        "$-16$",
+        "$\\frac{1}{16}$",
+        "$-\\frac{1}{16}$",
       ],
       correctAnswer: 1,
-      explanation: "Un exponente negativo indica el recíproco: 4⁻² = 1/4² = 1/16. El resultado es positivo porque la base (4) es positiva.",
+      explanation: "Un exponente negativo indica el recíproco: $4^{-2} = \\frac{1}{4^2} = \\frac{1}{16}$. El resultado es positivo porque la base (4) es positiva.",
     },
 
     // 110 · Porcentaje de cambio (C)
     {
-      question: "Un producto pasó de costar $150 a $180. ¿Cuál es el porcentaje de aumento?",
+      question: "Un producto pasó de costar 150 pesos a 180 pesos. ¿Cuál es el porcentaje de aumento?",
       options: [
         "15%",
         "30%",
@@ -1542,7 +1542,7 @@ export default {
         "$212.50",
       ],
       correctAnswer: 2,
-      explanation: "Descuento = 15% de $250 = 0.15×250 = $37.50. Precio final = $250 − $37.50 = $212.50.",
+      explanation: "Descuento = 15% de 250 pesos = 0.15×250 = 37.50 pesos. Precio final = 250 − 37.50 = 212.50 pesos.",
     },
 
     // 117 · Problema de trabajo conjunto (B)
@@ -1554,21 +1554,21 @@ export default {
         "3 horas",
       ],
       correctAnswer: 1,
-      explanation: "La tasa de trabajo conjunta es 1/6 + 1/4 = 2/12 + 3/12 = 5/12 de habitación por hora. Tiempo = 1 ÷ (5/12) = 12/5 = 2.4 horas.",
+      explanation: "La tasa de trabajo conjunta es $\\frac{1}{6} + \\frac{1}{4} = \\frac{2}{12} + \\frac{3}{12} = \\frac{5}{12}$ de habitación por hora. Tiempo $= 1 \\div \\frac{5}{12} = \\frac{12}{5} = 2.4$ horas.",
     },
 
     // ── Lenguaje matemático ─────────────────────────────────────────────────
 
     // 118 · Desigualdad lineal (C)
     {
-      question: "¿Cuál es la solución de la desigualdad 3x + 2 ≤ 11?",
+      question: "¿Cuál es la solución de la desigualdad $3x + 2 \\leq 11$?",
       options: [
-        "x ≤ 5",
-        "x ≤ 4",
-        "x ≤ 3",
+        "$x \\leq 5$",
+        "$x \\leq 4$",
+        "$x \\leq 3$",
       ],
       correctAnswer: 2,
-      explanation: "3x + 2 ≤ 11 → 3x ≤ 9 → x ≤ 3. Se resta 2 a ambos lados y luego se divide entre 3 (positivo, sin cambiar el signo).",
+      explanation: "$3x + 2 \\leq 11 \\Rightarrow 3x \\leq 9 \\Rightarrow x \\leq 3$. Se resta 2 a ambos lados y luego se divide entre 3 (positivo, sin cambiar el signo).",
     },
 
     // 119 · Sistema de ecuaciones 2×2 (A)
@@ -1604,7 +1604,7 @@ export default {
         "(5, 7)",
       ],
       correctAnswer: 2,
-      explanation: "El punto medio se calcula como PM = ((x₁+x₂)/2, (y₁+y₂)/2) = ((2+8)/2, (4+10)/2) = (10/2, 14/2) = (5, 7).",
+      explanation: "El punto medio se calcula como $PM = \\left(\\frac{x_1+x_2}{2}, \\frac{y_1+y_2}{2}\\right) = \\left(\\frac{2+8}{2}, \\frac{4+10}{2}\\right) = (5, 7)$.",
     },
 
     // 122 · Distancia entre dos puntos (A)
@@ -1616,7 +1616,7 @@ export default {
         "25",
       ],
       correctAnswer: 0,
-      explanation: "d = √((3−0)² + (4−0)²) = √(9+16) = √25 = 5. Este es el triángulo 3-4-5, un caso clásico del teorema de Pitágoras.",
+      explanation: "$d = \\sqrt{(3-0)^2 + (4-0)^2} = \\sqrt{9+16} = \\sqrt{25} = 5$. Este es el triángulo 3-4-5, un caso clásico del teorema de Pitágoras.",
     },
 
     // 123 · Ecuación de recta (B)
@@ -1633,14 +1633,14 @@ export default {
 
     // 124 · Evaluar función cuadrática (C)
     {
-      question: "Si f(x) = 2x²−3x+1, ¿cuál es el valor de f(2)?",
+      question: "Si $f(x) = 2x^2 - 3x + 1$, ¿cuál es el valor de $f(2)$?",
       options: [
         "5",
         "2",
         "3",
       ],
       correctAnswer: 2,
-      explanation: "f(2) = 2(2)²−3(2)+1 = 2(4)−6+1 = 8−6+1 = 3.",
+      explanation: "$f(2) = 2(2)^2 - 3(2) + 1 = 2(4) - 6 + 1 = 8 - 6 + 1 = 3$.",
     },
 
     // 125 · Desigualdad con coeficiente negativo (A)
@@ -1666,7 +1666,7 @@ export default {
         "64.27 m²",
       ],
       correctAnswer: 1,
-      explanation: "Área del cuadrado = 6² = 36 m². Área del semicírculo = (π×r²)/2 = (3.14×3²)/2 = (3.14×9)/2 = 14.13 m². Área total = 36 + 14.13 = 50.13 m².",
+      explanation: "Área del cuadrado = $6^2 = 36$ m². Área del semicírculo = $\\frac{\\pi r^2}{2} = \\frac{3.14 \\times 3^2}{2} = \\frac{3.14 \\times 9}{2} = 14.13$ m². Área total = 36 + 14.13 = 50.13 m².",
     },
 
     // 127 · Volumen de prisma rectangular (A)

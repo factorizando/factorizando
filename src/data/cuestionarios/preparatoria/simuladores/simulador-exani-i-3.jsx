@@ -1441,7 +1441,7 @@ export default {
         "$340",
       ],
       correctAnswer: 1,
-      explanation: "Precio final = $480 × (1 − 0.25) = $480 × 0.75 = $360.",
+      explanation: "Precio final = 480 × (1 − 0.25) = 480 × 0.75 = 360 pesos.",
     },
 
     // Q93 — Venn: elementos en A∪B (A)
@@ -1496,7 +1496,7 @@ export default {
         "64π cm²",
       ],
       correctAnswer: 0,
-      explanation: "Área del anillo = π(R² − r²) = π(64 − 25) = 39π cm².",
+      explanation: "Área del anillo = $\\pi(R^2 - r^2) = \\pi(64 - 25) = 39\\pi$ cm².",
       diagram: D.donut,
     },
 
@@ -1524,7 +1524,7 @@ export default {
         "8 u²",
       ],
       correctAnswer: 1,
-      explanation: "Área = ½|x₀(y₁−y₂) + x₁(y₂−y₀) + x₂(y₀−y₁)| = ½|0(0−3) + 4(3−0) + 1(0−0)| = ½|12| = 6 u².",
+      explanation: "Área = $\\frac{1}{2}|x_0(y_1-y_2) + x_1(y_2-y_0) + x_2(y_0-y_1)| = \\frac{1}{2}|0(0-3) + 4(3-0) + 1(0-0)| = \\frac{1}{2}|12| = 6$ u².",
       diagram: D.grid6,
     },
 
@@ -1584,14 +1584,14 @@ export default {
     // Q103 — Factorización de trinomio (C)
     {
       id: "q103",
-      question: "¿Cuál es la factorización correcta de x² − 9x + 20?",
+      question: "¿Cuál es la factorización correcta de $x^2 - 9x + 20$?",
       options: [
-        "(x + 4)(x + 5)",
-        "(x − 4)(x + 5)",
-        "(x − 4)(x − 5)",
+        "$(x + 4)(x + 5)$",
+        "$(x - 4)(x + 5)$",
+        "$(x - 4)(x - 5)$",
       ],
       correctAnswer: 2,
-      explanation: "(x − 4)(x − 5) = x² − 5x − 4x + 20 = x² − 9x + 20 ✓. Se buscan dos números cuyo producto es +20 y cuya suma es −9: −4 y −5.",
+      explanation: "$(x - 4)(x - 5) = x^2 - 5x - 4x + 20 = x^2 - 9x + 20$ ✓. Se buscan dos números cuyo producto es +20 y cuya suma es −9: −4 y −5.",
     },
 
     // Q104 — Cuadrado grande dividido: lado del cuadrado central (B)
@@ -1604,7 +1604,7 @@ export default {
         "3 cm",
       ],
       correctAnswer: 1,
-      explanation: "Área total = 10² = 100 cm². Área de los 4 rectángulos = 4 × (6 × 4) = 96 cm². Área central = 100 − 96 = 4 cm². Lado = √4 = 2 cm.",
+      explanation: "Área total = $10^2 = 100$ cm². Área de los 4 rectángulos = 4 × (6 × 4) = 96 cm². Área central = 100 − 96 = 4 cm². Lado = $\\sqrt{4} = 2$ cm.",
       diagram: D.sq8,
     },
 
@@ -1676,14 +1676,14 @@ export default {
     // Q110 — Leyes de exponentes (B)
     {
       id: "q110",
-      question: "¿Cuál es el valor de (2³)² ÷ 2⁴?",
+      question: "¿Cuál es el valor de $(2^3)^2 \\div 2^4$?",
       options: [
         "8",
         "4",
         "2",
       ],
       correctAnswer: 1,
-      explanation: "(2³)² = 2⁶ = 64. Luego 64 ÷ 2⁴ = 64 ÷ 16 = 4.",
+      explanation: "$(2^3)^2 = 2^6 = 64$. Luego $64 \\div 2^4 = 64 \\div 16 = 4$.",
     },
 
     // Q111 — Pendiente de una recta (A)
@@ -1696,13 +1696,13 @@ export default {
         "1/2",
       ],
       correctAnswer: 0,
-      explanation: "m = (y₂ − y₁)/(x₂ − x₁) = (9 − 3)/(4 − 1) = 6/3 = 2.",
+      explanation: "$m = \\frac{y_2 - y_1}{x_2 - x_1} = \\frac{9 - 3}{4 - 1} = \\frac{6}{3} = 2$.",
     },
 
     // Q112 — Raíces de ecuación cuadrática (C)
     {
       id: "q112",
-      question: "¿Cuáles son las soluciones de x² − 5x + 6 = 0?",
+      question: "¿Cuáles son las soluciones de $x^2 - 5x + 6 = 0$?",
       options: [
         "x = 1 y x = 6",
         "x = −2 y x = −3",
@@ -1722,7 +1722,7 @@ export default {
         "160",
       ],
       correctAnswer: 1,
-      explanation: "a₁ = 1, d = 3, n = 10. S = n/2 × (2a₁ + (n−1)d) = 5 × (2 + 27) = 5 × 29 = 145.",
+      explanation: "$a_1 = 1$, $d = 3$, $n = 10$. $S = \\frac{n}{2}(2a_1 + (n-1)d) = 5 \\times (2 + 27) = 5 \\times 29 = 145$.",
     },
 
     // Q114 — Razón trigonométrica: cateto opuesto (A)
@@ -1741,27 +1741,27 @@ export default {
     // Q115 — Logaritmo en base 2 (C)
     {
       id: "q115",
-      question: "¿Cuál es el valor de log₂(32)?",
+      question: "¿Cuál es el valor de $\\log_2(32)$?",
       options: [
         "3",
         "4",
         "5",
       ],
       correctAnswer: 2,
-      explanation: "log₂(32) = log₂(2⁵) = 5, ya que 2⁵ = 32.",
+      explanation: "$\\log_2(32) = \\log_2(2^5) = 5$, ya que $2^5 = 32$.",
     },
 
     // Q116 — Valor numérico de expresión algebraica (B)
     {
       id: "q116",
-      question: "Si a = 2 y b = −3, ¿cuál es el valor de 2a² − b?",
+      question: "Si $a = 2$ y $b = -3$, ¿cuál es el valor de $2a^2 - b$?",
       options: [
         "5",
         "11",
         "13",
       ],
       correctAnswer: 1,
-      explanation: "2(2²) − (−3) = 2(4) + 3 = 8 + 3 = 11.",
+      explanation: "$2(2^2) - (-3) = 2(4) + 3 = 8 + 3 = 11$.",
     },
 
     // Q117 — Distancia entre dos puntos (A)
@@ -1774,7 +1774,7 @@ export default {
         "4",
       ],
       correctAnswer: 0,
-      explanation: "d = √((4−1)² + (6−2)²) = √(9 + 16) = √25 = 5.",
+      explanation: "$d = \\sqrt{(4-1)^2 + (6-2)^2} = \\sqrt{9 + 16} = \\sqrt{25} = 5$.",
     },
 
     // Q118 — Área de círculo con π ≈ 22/7 (C)
@@ -1787,33 +1787,33 @@ export default {
         "154 cm²",
       ],
       correctAnswer: 2,
-      explanation: "A = πr² = (22/7) × 7² = (22/7) × 49 = 22 × 7 = 154 cm².",
+      explanation: "$A = \\pi r^2 = \\frac{22}{7} \\times 7^2 = \\frac{22}{7} \\times 49 = 22 \\times 7 = 154$ cm².",
     },
 
     // Q119 — Ecuación con fracciones (B)
     {
       id: "q119",
-      question: "Resuelve: 1/x + 1/2 = 3/4",
+      question: "Resuelve: $\\frac{1}{x} + \\frac{1}{2} = \\frac{3}{4}$",
       options: [
         "x = 2",
         "x = 4",
         "x = 8",
       ],
       correctAnswer: 1,
-      explanation: "1/x = 3/4 − 1/2 = 3/4 − 2/4 = 1/4 → x = 4.",
+      explanation: "$\\frac{1}{x} = \\frac{3}{4} - \\frac{1}{2} = \\frac{3}{4} - \\frac{2}{4} = \\frac{1}{4} \\Rightarrow x = 4$.",
     },
 
     // Q120 — Radical: raíz cuarta (A)
     {
       id: "q120",
-      question: "¿Cuál es el valor de ⁴√81?",
+      question: "¿Cuál es el valor de $\\sqrt[4]{81}$?",
       options: [
         "3",
         "4",
         "9",
       ],
       correctAnswer: 0,
-      explanation: "81 = 3⁴, por lo tanto ⁴√81 = 3.",
+      explanation: "$81 = 3^4$, por lo tanto $\\sqrt[4]{81} = 3$.",
     },
 
     // Q121 — Probabilidad de evento compuesto (C)
@@ -1845,14 +1845,14 @@ export default {
     // Q123 — Simplificación de fracción algebraica (A)
     {
       id: "q123",
-      question: "Simplifica la expresión: (x² − 4) / (x + 2), para x ≠ −2.",
+      question: "Simplifica la expresión: $\\frac{x^2 - 4}{x + 2}$, para $x \\neq -2$.",
       options: [
-        "x − 2",
-        "x + 2",
-        "x² − 2",
+        "$x - 2$",
+        "$x + 2$",
+        "$x^2 - 2$",
       ],
       correctAnswer: 0,
-      explanation: "x² − 4 = (x+2)(x−2). Entonces (x+2)(x−2)/(x+2) = x − 2.",
+      explanation: "$x^2 - 4 = (x+2)(x-2)$. Entonces $\\frac{(x+2)(x-2)}{x+2} = x - 2$.",
     },
 
     // Q124 — Área de trapecio (C)
@@ -1865,7 +1865,7 @@ export default {
         "50 cm²",
       ],
       correctAnswer: 2,
-      explanation: "A = ½ × (b₁ + b₂) × h = ½ × (8 + 12) × 5 = ½ × 20 × 5 = 50 cm².",
+      explanation: "$A = \\frac{1}{2}(b_1 + b_2) \\times h = \\frac{1}{2}(8 + 12) \\times 5 = \\frac{1}{2} \\times 20 \\times 5 = 50$ cm².",
     },
 
     // Q125 — Conversión de unidades: litros a metros cúbicos (B)
@@ -1884,40 +1884,40 @@ export default {
     // Q126 — Ecuación con fracciones (A)
     {
       id: "q126",
-      question: "Resuelve: x/2 + 3 = (x + 10)/4",
+      question: "Resuelve: $\\frac{x}{2} + 3 = \\frac{x + 10}{4}$",
       options: [
         "x = −2",
         "x = 2",
         "x = 4",
       ],
       correctAnswer: 0,
-      explanation: "Multiplicando por 4: 2x + 12 = x + 10 → 2x − x = 10 − 12 → x = −2.",
+      explanation: "Multiplicando por 4: $2x + 12 = x + 10 \\Rightarrow 2x - x = 10 - 12 \\Rightarrow x = -2$.",
     },
 
     // Q127 — Dominio de función radical (C)
     {
       id: "q127",
-      question: "¿Cuál es el dominio de la función f(x) = √(x − 3)?",
+      question: "¿Cuál es el dominio de la función $f(x) = \\sqrt{x - 3}$?",
       options: [
         "x > 0",
         "x ≥ 0",
         "x ≥ 3",
       ],
       correctAnswer: 2,
-      explanation: "Para que la raíz cuadrada esté definida se necesita x − 3 ≥ 0, es decir x ≥ 3.",
+      explanation: "Para que la raíz cuadrada esté definida se necesita $x - 3 \\geq 0$, es decir $x \\geq 3$.",
     },
 
     // Q128 — Suma de fracciones algebraicas (B)
     {
       id: "q128",
-      question: "Simplifica: 1/x + 1/(x + 1)",
+      question: "Simplifica: $\\frac{1}{x} + \\frac{1}{x + 1}$",
       options: [
-        "2/(2x + 1)",
-        "(2x + 1) / (x(x + 1))",
-        "2/x²",
+        "$\\frac{2}{2x + 1}$",
+        "$\\frac{2x + 1}{x(x + 1)}$",
+        "$\\frac{2}{x^2}$",
       ],
       correctAnswer: 1,
-      explanation: "Mínimo común denominador x(x+1): (x+1)/(x(x+1)) + x/(x(x+1)) = (2x+1)/(x(x+1)).",
+      explanation: "Mínimo común denominador $x(x+1)$: $\\frac{x+1}{x(x+1)} + \\frac{x}{x(x+1)} = \\frac{2x+1}{x(x+1)}$.",
     },
 
     // Q129 — Variación directa (A)

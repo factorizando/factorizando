@@ -754,7 +754,7 @@ export default {
     {
       question:
         "Una hormiga camina recto de A a B (separados 5m). Se encuentra dos bloques de 1m de alto en el camino. ¿Qué distancia total recorrerá si tiene que subir y bajar ambos bloques y luego seguir recto?",
-      options: ["7 m", "9 m", "5 + 4√2 m", "Falta información"],
+      options: ["7 m", "9 m", "$5 + 4\\sqrt{2}$ m", "Falta información"],
       correctAnswer: 1,
       explanation:
         "Sube 1m y baja 1m por cada bloque (4m verticales en total). La distancia horizontal sigue siendo 5m. $5 + 4 = 9$m.",

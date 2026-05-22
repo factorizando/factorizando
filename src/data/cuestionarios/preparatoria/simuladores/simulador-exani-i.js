@@ -1322,29 +1322,29 @@ export default {
 
     // 90 · Productos notables
     {
-      question: "¿Cuál es la expansión correcta de (a + b)²?",
-      options: ["a² + b²", "a² + 2ab + b²", "a² + ab + b²"],
+      question: "¿Cuál es la expansión correcta de $(a + b)^2$?",
+      options: ["$a^2 + b^2$", "$a^2 + 2ab + b^2$", "$a^2 + ab + b^2$"],
       correctAnswer: 1,
       explanation:
-        "(a + b)² = a² + 2ab + b². El término del medio es 2ab, no ab ni cero.",
+        "$(a + b)^2 = a^2 + 2ab + b^2$. El término del medio es $2ab$, no $ab$ ni cero.",
     },
 
     // 91 · Factorización
     {
-      question: "¿Cuál es la factorización de x² + 5x + 6?",
-      options: ["(x + 2)(x + 3)", "(x + 1)(x + 6)", "(x + 5)(x + 1)"],
+      question: "¿Cuál es la factorización de $x^2 + 5x + 6$?",
+      options: ["$(x + 2)(x + 3)$", "$(x + 1)(x + 6)$", "$(x + 5)(x + 1)$"],
       correctAnswer: 0,
       explanation:
-        "Se buscan dos números que sumen 5 y cuyo producto sea 6: son 2 y 3. Por lo tanto x² + 5x + 6 = (x + 2)(x + 3).",
+        "Se buscan dos números que sumen 5 y cuyo producto sea 6: son 2 y 3. Por lo tanto $x^2 + 5x + 6 = (x + 2)(x + 3)$.",
     },
 
     // 92 · Funciones lineales — pendiente
     {
-      question: "¿Cuál es la pendiente de la función f(x) = 4x − 7?",
+      question: "¿Cuál es la pendiente de la función $f(x) = 4x - 7$?",
       options: ["−7", "4", "7"],
       correctAnswer: 1,
       explanation:
-        "En la forma f(x) = mx + b, m es la pendiente y b la ordenada al origen. Aquí m = 4.",
+        "En la forma $f(x) = mx + b$, $m$ es la pendiente y $b$ la ordenada al origen. Aquí $m = 4$.",
     },
 
     // 93 · Ángulos — suplementarios
@@ -1400,29 +1400,29 @@ export default {
 
     // 98 · Binomio al cuadrado
     {
-      question: "¿Cuál es el resultado de (3x + 2)²?",
-      options: ["9x² + 4", "9x² + 6x + 4", "9x² + 12x + 4"],
+      question: "¿Cuál es el resultado de $(3x + 2)^2$?",
+      options: ["$9x^2 + 4$", "$9x^2 + 6x + 4$", "$9x^2 + 12x + 4$"],
       correctAnswer: 2,
       explanation:
-        "(a + b)² = a² + 2ab + b². Con a = 3x y b = 2: (3x)² + 2(3x)(2) + 2² = 9x² + 12x + 4.",
+        "$(a + b)^2 = a^2 + 2ab + b^2$. Con $a = 3x$ y $b = 2$: $(3x)^2 + 2(3x)(2) + 2^2 = 9x^2 + 12x + 4$.",
     },
 
     // 99 · Diferencia de cuadrados — factorización
     {
-      question: "¿Cuál es la factorización de 4x² − 25?",
-      options: ["(2x − 5)²", "(2x + 5)(2x − 5)", "(4x + 5)(x − 5)"],
+      question: "¿Cuál es la factorización de $4x^2 - 25$?",
+      options: ["$(2x - 5)^2$", "$(2x + 5)(2x - 5)$", "$(4x + 5)(x - 5)$"],
       correctAnswer: 1,
       explanation:
-        "Es una diferencia de cuadrados: 4x² − 25 = (2x)² − 5² = (2x + 5)(2x − 5).",
+        "Es una diferencia de cuadrados: $4x^2 - 25 = (2x)^2 - 5^2 = (2x + 5)(2x - 5)$.",
     },
 
     // 100 · Potenciación — división de potencias
     {
-      question: "¿Cuánto es 4³ ÷ 4¹?",
-      options: ["4²", "4⁴", "1⁴"],
+      question: "¿Cuánto es $4^3 \\div 4^1$?",
+      options: ["$4^2$", "$4^4$", "$1^4$"],
       correctAnswer: 0,
       explanation:
-        "Al dividir potencias con la misma base se restan los exponentes: 4³ ÷ 4¹ = 4^(3−1) = 4² = 16.",
+        "Al dividir potencias con la misma base se restan los exponentes: $4^3 \\div 4^1 = 4^{3-1} = 4^2 = 16$.",
     },
 
     // 101 · Números racionales — orden
@@ -1482,7 +1482,7 @@ export default {
       options: ["6", "12", "8"],
       correctAnswer: 1,
       explanation:
-        "24 = 2³ × 3 y 36 = 2² × 3². El MCD usa los factores comunes con el menor exponente: 2² × 3 = 12.",
+        "$24 = 2^3 \\times 3$ y $36 = 2^2 \\times 3^2$. El MCD usa los factores comunes con el menor exponente: $2^2 \\times 3 = 12$.",
     },
 
     // 107 · Mínimo común múltiplo
@@ -1491,16 +1491,16 @@ export default {
       options: ["3", "18", "54"],
       correctAnswer: 1,
       explanation:
-        "6 = 2 × 3 y 9 = 3². El MCM usa todos los factores con el mayor exponente: 2 × 3² = 18.",
+        "$6 = 2 \\times 3$ y $9 = 3^2$. El MCM usa todos los factores con el mayor exponente: $2 \\times 3^2 = 18$.",
     },
 
     // 108 · Propiedades de la potenciación — potencia de potencia
     {
-      question: "¿Cuál es el resultado de (x⁴)³?",
-      options: ["x⁷", "x¹²", "3x⁴"],
+      question: "¿Cuál es el resultado de $(x^4)^3$?",
+      options: ["$x^7$", "$x^{12}$", "$3x^4$"],
       correctAnswer: 1,
       explanation:
-        "En la potencia de una potencia se multiplican los exponentes: (x⁴)³ = x^(4×3) = x¹².",
+        "En la potencia de una potencia se multiplican los exponentes: $(x^4)^3 = x^{4 \\times 3} = x^{12}$.",
     },
 
     // 109 · Números decimales y fraccionarios
@@ -1598,10 +1598,10 @@ export default {
 
     // 118 · Ecuaciones de primer grado
     {
-      question: "Resuelve la ecuación: 5x − 3 = 2x + 9",
-      options: ["x = 2", "x = 4", "x = 6"],
+      question: "Resuelve la ecuación: $5x - 3 = 2x + 9$",
+      options: ["$x = 2$", "$x = 4$", "$x = 6$"],
       correctAnswer: 1,
-      explanation: "Agrupando: 5x − 2x = 9 + 3 → 3x = 12 → x = 4.",
+      explanation: "Agrupando: $5x - 2x = 9 + 3 \\Rightarrow 3x = 12 \\Rightarrow x = 4$.",
     },
 
     // 119 · Ecuaciones de primer grado con paréntesis
@@ -1609,24 +1609,24 @@ export default {
       question: "Si 3(x + 4) = 21, ¿cuál es el valor de x?",
       options: ["x = 3", "x = 5", "x = 7"],
       correctAnswer: 0,
-      explanation: "Distribuyendo: 3x + 12 = 21 → 3x = 9 → x = 3.",
+      explanation: "Distribuyendo: $3x + 12 = 21 \\Rightarrow 3x = 9 \\Rightarrow x = 3$.",
     },
 
     // 120 · Binomio al cuadrado — expansión
     {
-      question: "¿Cuál es el resultado de (x + 4)²?",
-      options: ["x² + 8x + 16", "x² + 4x + 16", "x² + 16"],
+      question: "¿Cuál es el resultado de $(x + 4)^2$?",
+      options: ["$x^2 + 8x + 16$", "$x^2 + 4x + 16$", "$x^2 + 16$"],
       correctAnswer: 0,
-      explanation: "(x + 4)² = x² + 2(x)(4) + 4² = x² + 8x + 16.",
+      explanation: "$(x + 4)^2 = x^2 + 2(x)(4) + 4^2 = x^2 + 8x + 16$.",
     },
 
     // 121 · Producto de binomios
     {
-      question: "¿Cuánto es (3x − 2)(x + 5)?",
-      options: ["3x² + 13x − 10", "3x² − 3x − 10", "3x² + 15x − 10"],
+      question: "¿Cuánto es $(3x - 2)(x + 5)$?",
+      options: ["$3x^2 + 13x - 10$", "$3x^2 - 3x - 10$", "$3x^2 + 15x - 10$"],
       correctAnswer: 0,
       explanation:
-        "(3x)(x) + (3x)(5) + (−2)(x) + (−2)(5) = 3x² + 15x − 2x − 10 = 3x² + 13x − 10.",
+        "$(3x)(x) + (3x)(5) + (-2)(x) + (-2)(5) = 3x^2 + 15x - 2x - 10 = 3x^2 + 13x - 10$.",
     },
 
     // 122 · Expresión algebraica — despejar el ancho
@@ -1642,10 +1642,10 @@ export default {
     {
       question:
         "¿Cuál es la expresión correcta para el volumen de un cubo con arista a?",
-      options: ["3a", "a²", "a³"],
+      options: ["$3a$", "$a^2$", "$a^3$"],
       correctAnswer: 2,
       explanation:
-        "El volumen del cubo se obtiene multiplicando las tres aristas iguales: V = a × a × a = a³.",
+        "El volumen del cubo se obtiene multiplicando las tres aristas iguales: $V = a \\times a \\times a = a^3$.",
     },
 
     // 124 · Teorema de Pitágoras
@@ -1654,7 +1654,7 @@ export default {
         "En un triángulo rectángulo los catetos miden 5 cm y 12 cm. ¿Cuánto mide la hipotenusa?",
       options: ["13 cm", "15 cm", "17 cm"],
       correctAnswer: 0,
-      explanation: "c² = 5² + 12² = 25 + 144 = 169 → c = √169 = 13 cm.",
+      explanation: "$c^2 = 5^2 + 12^2 = 25 + 144 = 169 \\Rightarrow c = \\sqrt{169} = 13$ cm.",
     },
 
     // 125 · Probabilidad frecuencial

@@ -347,6 +347,17 @@ export const SUBJECTS_PREP = [
               },
             ],
           },
+          {
+            id: "sesion-geo",
+            name: "Geometría Euclidiana",
+            children: [
+              {
+                id: "sesion-1",
+                name: "Sesión 1 - Conceptos Básicos de Geometría",
+                video: "https://youtu.be/KwPBfASCQeQ",
+              },
+            ],
+          },
         ],
       },
       {

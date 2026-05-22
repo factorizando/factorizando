@@ -26,31 +26,33 @@ export default function ProtectedRoute({ children, requiredNivel = null }) {
   useEffect(() => {
     let cancelled = false;
 
-    const check = async (session) => {
-      if (!session) {
-        if (!cancelled) setStatus("unauth");
-        return;
-      }
-      if (!requiredNivel) {
-        if (!cancelled) setStatus("ok");
-        return;
-      }
+    async function check() {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (cancelled) return;
+
+      if (!session) { setStatus("unauth"); return; }
+      if (!requiredNivel) { setStatus("ok"); return; }
+
       const { data: profile } = await supabase
         .from("profiles")
         .select("nivel")
         .eq("id", session.user.id)
         .single();
       if (cancelled) return;
+
       if (!profile) { setStatus("unauthorized"); return; }
       if (profile.nivel === "admin" || profile.nivel === requiredNivel) {
         setStatus("ok");
       } else {
         setStatus("unauthorized");
       }
-    };
+    }
 
-    supabase.auth.getSession().then(({ data: { session } }) => check(session));
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, session) => check(session));
+    check();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "SIGNED_OUT" && !cancelled) setStatus("unauth");
+    });
     return () => { cancelled = true; subscription.unsubscribe(); };
   }, [requiredNivel]);
 

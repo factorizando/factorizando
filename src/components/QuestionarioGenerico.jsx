@@ -6,6 +6,16 @@ import { Link } from "react-router-dom";
 import BrandName from "./BrandName";
 import { supabase } from "../lib/supabase";
 
+function useIsMobile(bp = 480) {
+  const [m, setM] = useState(() => window.innerWidth <= bp);
+  useEffect(() => {
+    const h = () => setM(window.innerWidth <= bp);
+    window.addEventListener("resize", h);
+    return () => window.removeEventListener("resize", h);
+  }, [bp]);
+  return m;
+}
+
 // ─── Componentes Internos para Renderizado (Corregidos) ──────────────────────
 // Convierte markdown básico a HTML (negrita, cursiva, código)
 const parseMd = (txt) =>
@@ -124,6 +134,7 @@ function Navbar({ onBack }) {
 
 // Sub-componente: Temporizador Global
 function TemporizadorGlobal({ tiempoRestante, tiempoTotal, onTerminar, currentIndex, totalQuestions }) {
+  const isMobile = useIsMobile();
   const tiempoPct = (tiempoRestante / tiempoTotal) * 100;
   const progresoPct = totalQuestions > 0 ? ((currentIndex + 1) / totalQuestions) * 100 : 0;
 
@@ -141,56 +152,60 @@ function TemporizadorGlobal({ tiempoRestante, tiempoTotal, onTerminar, currentIn
   const CIRC = 2 * Math.PI * R;
 
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-      {/* SVG circular — muestra progreso de preguntas */}
-      <div style={{ position: "relative", width: SIZE, height: SIZE, flexShrink: 0 }}>
-        <svg width={SIZE} height={SIZE} style={{ transform: "rotate(-90deg)" }} viewBox={`0 0 ${SIZE} ${SIZE}`}>
-          <circle cx={SIZE/2} cy={SIZE/2} r={R} fill="none" stroke={C.border} strokeWidth="3" />
-          <circle
-            cx={SIZE/2} cy={SIZE/2} r={R} fill="none"
-            stroke={C.blue} strokeWidth="3"
-            strokeDasharray={`${(progresoPct / 100) * CIRC} ${CIRC}`}
-            style={{ transition: "stroke-dasharray 0.4s ease" }}
-          />
-        </svg>
-        <div style={{
-          position: "absolute", inset: 0,
-          display: "flex", alignItems: "center", justifyContent: "center",
-        }}>
-          <span style={{ fontSize: "0.6rem", fontWeight: 700, color: C.blue }}>
-            {Math.round(progresoPct)}%
-          </span>
+    <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+      {/* SVG circular — oculto en móvil para ahorrar espacio */}
+      {!isMobile && (
+        <div style={{ position: "relative", width: SIZE, height: SIZE, flexShrink: 0 }}>
+          <svg width={SIZE} height={SIZE} style={{ transform: "rotate(-90deg)" }} viewBox={`0 0 ${SIZE} ${SIZE}`}>
+            <circle cx={SIZE/2} cy={SIZE/2} r={R} fill="none" stroke={C.border} strokeWidth="3" />
+            <circle
+              cx={SIZE/2} cy={SIZE/2} r={R} fill="none"
+              stroke={C.blue} strokeWidth="3"
+              strokeDasharray={`${(progresoPct / 100) * CIRC} ${CIRC}`}
+              style={{ transition: "stroke-dasharray 0.4s ease" }}
+            />
+          </svg>
+          <div style={{
+            position: "absolute", inset: 0,
+            display: "flex", alignItems: "center", justifyContent: "center",
+          }}>
+            <span style={{ fontSize: "0.6rem", fontWeight: 700, color: C.blue }}>
+              {Math.round(progresoPct)}%
+            </span>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Badge de tiempo restante */}
       <span style={{
-        fontSize: "0.95rem", fontWeight: 700,
+        fontSize: isMobile ? "0.82rem" : "0.95rem", fontWeight: 700,
         color: colorTiempo, fontFamily: "monospace",
         letterSpacing: "0.04em",
         background: colorTiempo + "18",
         border: `1px solid ${colorTiempo}44`,
-        borderRadius: "20px", padding: "4px 10px",
+        borderRadius: "20px", padding: isMobile ? "3px 8px" : "4px 10px",
       }}>
         ⏱ {formatoTiempo}
       </span>
 
-      {/* Botón Terminar */}
-      <button
-        onClick={onTerminar}
-        style={{
-          background: C.blue + "18", color: C.blue,
-          border: `1px solid ${C.blue}44`,
-          borderRadius: "20px", padding: "4px 12px",
-          fontSize: "0.78rem", fontWeight: 600,
-          cursor: "pointer", fontFamily: "'DM Sans', sans-serif",
-          letterSpacing: ".04em", transition: "background .2s, border-color .2s",
-        }}
-        onMouseEnter={(e) => { e.currentTarget.style.background = C.blue + "33"; e.currentTarget.style.borderColor = C.blue + "88"; }}
-        onMouseLeave={(e) => { e.currentTarget.style.background = C.blue + "18"; e.currentTarget.style.borderColor = C.blue + "44"; }}
-      >
-        Terminar
-      </button>
+      {/* Botón Terminar — oculto en móvil */}
+      {!isMobile && (
+        <button
+          onClick={onTerminar}
+          style={{
+            background: C.blue + "18", color: C.blue,
+            border: `1px solid ${C.blue}44`,
+            borderRadius: "20px", padding: "4px 12px",
+            fontSize: "0.78rem", fontWeight: 600,
+            cursor: "pointer", fontFamily: "'DM Sans', sans-serif",
+            letterSpacing: ".04em", transition: "background .2s, border-color .2s",
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = C.blue + "33"; e.currentTarget.style.borderColor = C.blue + "88"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = C.blue + "18"; e.currentTarget.style.borderColor = C.blue + "44"; }}
+        >
+          Terminar
+        </button>
+      )}
     </div>
   );
 }
@@ -292,6 +307,7 @@ function QuizScreenConSiguiente({
   totalGlobal = null,
   onTerminar,
 }) {
+  const isMobile = useIsMobile();
   const [showExplanation, setShowExplanation] = useState(false);
 
   // Resetear estados cuando cambia de pregunta
@@ -329,9 +345,11 @@ function QuizScreenConSiguiente({
             <span style={{ color: C.muted, fontSize: 13 }}>Reactivo </span>
             <span style={{ color: C.text, fontWeight: 700 }}>{currentIndex + 1}</span>
             <span style={{ color: C.muted }}> / {totalQuestions}</span>
-            <span style={{ color: C.muted, fontSize: 12, marginLeft: 8 }}>
-              ({respondidas} respondidos)
-            </span>
+            {!isMobile && (
+              <span style={{ color: C.muted, fontSize: 12, marginLeft: 8 }}>
+                ({respondidas} respondidos)
+              </span>
+            )}
           </div>
           <TemporizadorGlobal
             tiempoRestante={tiempoRestante}
@@ -400,9 +418,9 @@ function QuizScreenConSiguiente({
         </div>
       )}
 
-      {/* Tarjeta de la Pregunta (Estilo IDÉNTICO a la primera imagen) */}
+      {/* Tarjeta de la Pregunta */}
       <div style={{
-          padding: "20px 24px",
+          padding: isMobile ? "14px 12px" : "20px 24px",
           background: C.surface,
           borderRadius: 14,
           border: `1px solid ${C.border}`,
@@ -499,7 +517,13 @@ function QuizScreenConSiguiente({
         )}
 
         {/* Controles inferiores */}
-        <div style={{ display: "flex", gap: 10, justifyContent: "space-between", alignItems: "center" }}>
+        <div style={{
+          display: "flex",
+          flexDirection: isMobile ? "column-reverse" : "row",
+          gap: isMobile ? 8 : 10,
+          justifyContent: isMobile ? "flex-start" : "space-between",
+          alignItems: isMobile ? "stretch" : "center",
+        }}>
           <button
             onClick={() => onNavigate(currentIndex - 1)}
             disabled={currentIndex === 0 || tiempoAgotado}
@@ -511,6 +535,7 @@ function QuizScreenConSiguiente({
               cursor: currentIndex === 0 || tiempoAgotado ? "not-allowed" : "pointer",
               opacity: currentIndex === 0 ? 0.4 : 1,
               fontSize: 14, fontFamily: "'DM Sans', sans-serif",
+              textAlign: "center",
             }}
           >
             ← Anterior
@@ -556,7 +581,7 @@ function QuizScreenConSiguiente({
       {/* ── NAVEGADOR INFERIOR (Estilo cuadrícula de números) ── */}
       <div
         style={{
-          padding: "1.5rem",
+          padding: isMobile ? "1rem" : "1.5rem",
           background: C.surface,
           borderRadius: "12px",
           border: `1px solid ${C.border}`,
@@ -650,6 +675,7 @@ function ResultsScreen({
   questions,
   answers,
 }) {
+  const isMobile = useIsMobile();
   const [filter, setFilter] = useState("all");
   const pct = totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 0;
   const col = pct >= 80 ? C.blue : pct >= 60 ? "#fbbf24" : "#f97316";
@@ -703,7 +729,7 @@ function ResultsScreen({
       {/* Card de puntuación */}
       <div style={{
         background: C.surface, border: `2px solid ${col}`,
-        borderRadius: 18, padding: "30px 36px",
+        borderRadius: 18, padding: isMobile ? "24px 20px" : "30px 36px",
         textAlign: "center", maxWidth: 380,
         margin: "0 auto 32px",
         fontFamily: "'DM Sans', sans-serif",
@@ -879,7 +905,7 @@ function TiempoAgotadoScreen({
         <div style={{ color: C.muted }}>Respuestas correctas</div>
       </div>
 
-      <div style={{ display: "flex", gap: "1rem", justifyContent: "center" }}>
+      <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
         <button
           onClick={onRestart}
           style={{

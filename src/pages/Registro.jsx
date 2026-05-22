@@ -171,7 +171,7 @@ export default function Registro() {
     * { box-sizing: border-box; margin: 0; padding: 0; }
     input, select {
       font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
+      font-size: 16px;
       width: 100%;
       background: #0e0f11;
       color: #e8eaf0;

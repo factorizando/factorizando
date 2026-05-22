@@ -275,7 +275,7 @@ export default function Login() {
           width: 100%; padding: .85rem 1rem .85rem 2.8rem;
           background: var(--panel); border: 1px solid var(--border);
           border-radius: 3px; color: var(--text); font-family: 'DM Sans', sans-serif;
-          font-size: .95rem; outline: none;
+          font-size: 1rem; outline: none;
           transition: border-color .25s, box-shadow .25s, background .25s;
         }
         .field input::placeholder { color: var(--muted); opacity: .6; }
@@ -335,6 +335,11 @@ export default function Login() {
         }
         .back-link a { color: var(--accent); text-decoration: none; font-weight: 500; }
         .back-link a:hover { opacity: .75; }
+
+        @media (max-width: 400px) {
+          .login-box { padding: 2rem 1.2rem; }
+          .login-title { font-size: 1.6rem; }
+        }
       `}</style>
 
       <div className="layout">

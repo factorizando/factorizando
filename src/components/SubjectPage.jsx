@@ -252,10 +252,20 @@ export default function SubjectPage({ level, subjects }) {
           cursor: pointer; transition: all .2s; font-family: 'DM Sans', sans-serif;
         }
         .filter-btn.active, .filter-btn:hover { background: rgba(59,158,255,.12); border-color: #3b9eff; color: #e8eaf0; }
-        @media(max-width:600px){ .page-title { font-size: 1.8rem !important; } .content-wrap { padding: 1rem !important; } }
+        @media(max-width:600px){
+          .page-title { font-size: 1.8rem !important; }
+          .content-wrap { padding: 1rem !important; }
+        }
+        @media(max-width:480px){
+          .sticky-nav { padding: 0.6rem 1rem !important; }
+          .nav-brand-text { display: none !important; }
+          .nav-level-badge { display: none !important; }
+          .filter-bar { padding: 0.7rem 1rem !important; }
+          .header-section { padding: 2rem 1rem 1.5rem !important; }
+        }
       `}</style>
 
-      <nav style={{
+      <nav className="sticky-nav" style={{
         position: "sticky", top: 0, zIndex: 100,
         background: "rgba(13,15,17,.9)", backdropFilter: "blur(12px)",
         borderBottom: "1px solid #252830",
@@ -266,10 +276,10 @@ export default function SubjectPage({ level, subjects }) {
           <div style={{ width: 36, height: 36, borderRadius: "50%", border: "1px dashed rgba(59,158,255,.4)", overflow: "hidden" }}>
             <img src={`${import.meta.env.BASE_URL}assets/logoX.png`} alt="Logo" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
           </div>
-          <BrandName size="1.1rem" />
+          <span className="nav-brand-text"><BrandName size="1.1rem" /></span>
         </Link>
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          <span style={{
+          <span className="nav-level-badge" style={{
             fontSize: ".7rem", letterSpacing: ".18em", textTransform: "uppercase",
             color: "#3b9eff", background: "rgba(59,158,255,.12)",
             border: "1px solid rgba(59,158,255,.2)", borderRadius: "20px", padding: ".3rem .9rem",
@@ -286,7 +296,7 @@ export default function SubjectPage({ level, subjects }) {
         </div>
       </nav>
 
-      <div style={{ padding: "3rem 2rem 2rem", borderBottom: "1px solid #252830", background: "linear-gradient(to bottom, rgba(59,158,255,.04), transparent)" }}>
+      <div className="header-section" style={{ padding: "3rem 2rem 2rem", borderBottom: "1px solid #252830", background: "linear-gradient(to bottom, rgba(59,158,255,.04), transparent)" }}>
         <div style={{ maxWidth: 960, width: "100%", margin: "0 auto" }}>
           <div style={{ fontSize: ".7rem", letterSpacing: ".25em", textTransform: "uppercase", color: "#5a6070", marginBottom: ".6rem", display: "flex", alignItems: "center", gap: ".5rem" }}>
             <span style={{ width: 20, height: 1, background: "#5a6070", display: "inline-block" }} />
@@ -301,7 +311,7 @@ export default function SubjectPage({ level, subjects }) {
         </div>
       </div>
 
-      <div style={{
+      <div className="filter-bar" style={{
         display: "flex", gap: ".5rem", flexWrap: "wrap",
         padding: "1.2rem 2rem", borderBottom: "1px solid #252830",
         position: "sticky", top: 61, zIndex: 90,

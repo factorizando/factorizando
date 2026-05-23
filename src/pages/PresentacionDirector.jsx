@@ -346,19 +346,20 @@ export default function PresentacionDirector() {
         style={{
           display: "flex",
           alignItems: "center",
-          justifyContent: "center",
+          justifyContent: "space-between",
           padding: "0 24px",
           height: 60,
           borderTop: `1px solid ${tema.border}`,
           background: "rgba(0,0,0,0.4)",
           flexShrink: 0,
-          gap: 20
+          gap: 16
         }}
       >
         <button
           onClick={() => irASlide(slideIdx - 1)}
           disabled={slideIdx === 0}
           style={{
+            flexShrink: 0,
             background: "transparent",
             border: `1px solid ${tema.border}`,
             color: slideIdx === 0 ? "#2a2820" : tema.texto,
@@ -374,7 +375,7 @@ export default function PresentacionDirector() {
         </button>
 
         {/* Puntos de progreso */}
-        <div style={{ display: "flex", gap: 5, alignItems: "center" }}>
+        <div style={{ display: "flex", gap: 5, alignItems: "center", flex: 1, minWidth: 0, overflow: "hidden", justifyContent: "center" }}>
           {slides.map((s, i) => (
             <button
               key={i}
@@ -406,6 +407,7 @@ export default function PresentacionDirector() {
           onClick={() => irASlide(slideIdx + 1)}
           disabled={slideIdx === slides.length - 1}
           style={{
+            flexShrink: 0,
             background:
               slideIdx < slides.length - 1 ? tema.acento : "transparent",
             border: `1px solid ${

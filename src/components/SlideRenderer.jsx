@@ -1,7 +1,18 @@
 // Renderizador de diapositivas para el sistema de presentaciones.
 // Recibe un objeto `slide`, un `tema` y props de contexto (modo, votos, etc.)
+import { useState, useEffect } from "react";
 import { M, useKaTeX } from "../data/teoria/shared.jsx";
 import { TEMAS, useFuentesTema } from "../data/presentaciones/temas.jsx";
+
+function useWindowWidth() {
+  const [w, setW] = useState(() => (typeof window !== "undefined" ? window.innerWidth : 1024));
+  useEffect(() => {
+    const handler = () => setW(window.innerWidth);
+    window.addEventListener("resize", handler);
+    return () => window.removeEventListener("resize", handler);
+  }, []);
+  return w;
+}
 
 // ── Componentes de apoyo ──────────────────────────────────────────────────────
 
@@ -577,15 +588,20 @@ function SlideEjemplo({ slide, tema }) {
 function SlideEjercicio({ slide, modo, votos, totalVotos, respuestaDada, onResponder, tema }) {
   const done = respuestaDada !== null && respuestaDada !== undefined;
   const correcta = slide.correcta;
+  const width = useWindowWidth();
+  const isMobile = width < 560;
+  const cols = isMobile ? 1 : slide.opciones.length === 3 ? 3 : 2;
+  const gridCols = Array(cols).fill("1fr").join(" ");
 
   return (
     <div
       style={{
-        padding: modo === "director" ? "28px 36px" : "28px 20px",
+        padding: modo === "director" ? "28px 36px" : "24px 16px",
         height: "100%",
         display: "flex",
         gap: 20,
-        boxSizing: "border-box"
+        boxSizing: "border-box",
+        overflowY: "auto"
       }}
     >
       {/* Pregunta + opciones */}
@@ -632,7 +648,7 @@ function SlideEjercicio({ slide, modo, votos, totalVotos, respuestaDada, onRespo
 
         {/* Opciones */}
         <div
-          style={{ display: "grid", gridTemplateColumns: slide.opciones.length === 3 ? "1fr 1fr 1fr" : "1fr 1fr", gap: 10, flex: 1 }}
+          style={{ display: "grid", gridTemplateColumns: gridCols, gap: 10, alignContent: "start" }}
         >
           {slide.opciones.map((op, i) => {
             const isOk = i === correcta;
@@ -877,7 +893,7 @@ function SlideRegla({ slide, tema }) {
           display: "grid",
           gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
           gap: 10,
-          flex: 1
+          alignContent: "start"
         }}
       >
         {slide.ejemplos.map((ej, i) => (

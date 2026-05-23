@@ -3,15 +3,10 @@
 import { useState, useEffect, useRef } from "react";
 import { supabase } from "../lib/supabase.js";
 import { PRESENTACION } from "../data/presentaciones/semejanza-triangulos.js";
+import { obtenerTema } from "../data/presentaciones/temas.jsx";
 import SlideRenderer from "../components/SlideRenderer.jsx";
 
-const C = {
-  bg: "#07080b",
-  border: "rgba(255,255,255,0.08)",
-  gold: "#f5c842",
-  text: "#f0ece3",
-  muted: "#6a6560"
-};
+const tema = obtenerTema(PRESENTACION.materia);
 
 export default function PresentacionAlumno() {
   const [codigo, setCodigo] = useState("");
@@ -102,18 +97,18 @@ export default function PresentacionAlumno() {
       <div
         style={{
           minHeight: "100vh",
-          background: C.bg,
+          background: tema.bg,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          fontFamily: "'DM Sans', sans-serif",
+          fontFamily: tema.body,
           padding: "20px"
         }}
       >
         <div
           style={{
-            background: "rgba(255,255,255,0.03)",
-            border: `1px solid ${C.border}`,
+            background: tema.card,
+            border: `1px solid ${tema.border}`,
             borderRadius: 16,
             padding: "48px 36px",
             maxWidth: 400,
@@ -123,10 +118,10 @@ export default function PresentacionAlumno() {
         >
           <div
             style={{
-              fontFamily: "IBM Plex Mono, monospace",
+              fontFamily: tema.mono,
               fontSize: 11,
               letterSpacing: "0.22em",
-              color: C.gold,
+              color: tema.acento,
               textTransform: "uppercase",
               marginBottom: 18,
               opacity: 0.8
@@ -138,7 +133,7 @@ export default function PresentacionAlumno() {
             style={{
               fontFamily: "'Playfair Display', serif",
               fontSize: 30,
-              color: C.text,
+              color: tema.texto,
               marginBottom: 8,
               lineHeight: 1.15
             }}
@@ -147,7 +142,7 @@ export default function PresentacionAlumno() {
           </h1>
           <p
             style={{
-              color: C.muted,
+              color: tema.muted,
               fontSize: 15,
               marginBottom: 32,
               lineHeight: 1.6
@@ -170,13 +165,13 @@ export default function PresentacionAlumno() {
             style={{
               width: "100%",
               background: "rgba(255,255,255,0.05)",
-              border: `1px solid ${error ? "rgba(248,113,113,0.45)" : C.border}`,
+              border: `1px solid ${error ? "rgba(248,113,113,0.45)" : tema.border}`,
               borderRadius: 10,
               padding: "16px 20px",
-              color: C.text,
+              color: tema.texto,
               fontSize: 34,
               textAlign: "center",
-              fontFamily: "IBM Plex Mono, monospace",
+              fontFamily: tema.mono,
               letterSpacing: "0.3em",
               fontWeight: 700,
               outline: "none",
@@ -200,13 +195,13 @@ export default function PresentacionAlumno() {
             disabled={cargando || codigo.length !== 4}
             style={{
               width: "100%",
-              background: codigo.length === 4 ? C.gold : "rgba(255,255,255,0.05)",
+              background: codigo.length === 4 ? tema.acento : "rgba(255,255,255,0.05)",
               border: "none",
               borderRadius: 10,
               padding: "15px",
               fontSize: 16,
               fontWeight: 700,
-              color: codigo.length === 4 ? "#0d0d0f" : C.muted,
+              color: codigo.length === 4 ? "#0d0d0f" : tema.muted,
               cursor: codigo.length === 4 && !cargando ? "pointer" : "default",
               fontFamily: "inherit",
               transition: "all 0.18s"
@@ -225,35 +220,28 @@ export default function PresentacionAlumno() {
       <div
         style={{
           minHeight: "100vh",
-          background: C.bg,
+          background: tema.bg,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          fontFamily: "'DM Sans', sans-serif",
+          fontFamily: tema.body,
           textAlign: "center",
           padding: "32px"
         }}
       >
         <div>
-          <div
-            style={{
-              fontSize: 48,
-              marginBottom: 20
-            }}
-          >
-            ✓
-          </div>
+          <div style={{ fontSize: 48, marginBottom: 20 }}>✓</div>
           <h2
             style={{
               fontFamily: "'Playfair Display', serif",
               fontSize: 30,
-              color: C.text,
+              color: tema.texto,
               marginBottom: 12
             }}
           >
             Clase terminada
           </h2>
-          <p style={{ color: C.muted, fontSize: 15, lineHeight: 1.6 }}>
+          <p style={{ color: tema.muted, fontSize: 15, lineHeight: 1.6 }}>
             El maestro terminó la sesión. ¡Hasta la próxima!
           </p>
         </div>
@@ -267,10 +255,10 @@ export default function PresentacionAlumno() {
       style={{
         minHeight: "100vh",
         height: "100vh",
-        background: C.bg,
+        background: tema.bg,
         display: "flex",
         flexDirection: "column",
-        fontFamily: "'DM Sans', sans-serif",
+        fontFamily: tema.body,
         overflow: "hidden"
       }}
     >
@@ -282,16 +270,16 @@ export default function PresentacionAlumno() {
           justifyContent: "space-between",
           padding: "0 16px",
           height: 44,
-          borderBottom: `1px solid ${C.border}`,
+          borderBottom: `1px solid ${tema.border}`,
           background: "rgba(0,0,0,0.45)",
           flexShrink: 0
         }}
       >
         <span
           style={{
-            fontFamily: "IBM Plex Mono, monospace",
+            fontFamily: tema.mono,
             fontSize: 10.5,
-            color: C.muted,
+            color: tema.muted,
             letterSpacing: "0.1em"
           }}
         >
@@ -309,9 +297,9 @@ export default function PresentacionAlumno() {
                 borderRadius: "50%",
                 background:
                   i === slideIdx
-                    ? C.gold
+                    ? tema.acento
                     : i < slideIdx
-                    ? "rgba(245,200,66,0.28)"
+                    ? tema.acentoOpaco
                     : "rgba(255,255,255,0.08)",
                 transition: "background 0.3s"
               }}
@@ -321,7 +309,7 @@ export default function PresentacionAlumno() {
 
         <span
           style={{
-            fontFamily: "IBM Plex Mono, monospace",
+            fontFamily: tema.mono,
             fontSize: 10.5,
             color: "#3a3830"
           }}
@@ -334,6 +322,7 @@ export default function PresentacionAlumno() {
       <div style={{ flex: 1, overflow: "hidden" }}>
         <SlideRenderer
           slide={slide}
+          tema={tema}
           modo="alumno"
           respuestaDada={respuestas[slide.id] ?? null}
           onResponder={responder}
@@ -345,7 +334,7 @@ export default function PresentacionAlumno() {
         <div
           style={{
             padding: "10px 16px",
-            borderTop: `1px solid ${C.border}`,
+            borderTop: `1px solid ${tema.border}`,
             background: "rgba(0,0,0,0.3)",
             textAlign: "center",
             flexShrink: 0
@@ -353,7 +342,7 @@ export default function PresentacionAlumno() {
         >
           <span
             style={{
-              fontFamily: "IBM Plex Mono, monospace",
+              fontFamily: tema.mono,
               fontSize: 10,
               color: "#2a2820",
               letterSpacing: "0.18em",

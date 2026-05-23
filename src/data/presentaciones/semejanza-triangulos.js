@@ -4,7 +4,7 @@
 export const PRESENTACION = {
   id: "semejanza-triangulos",
   titulo: "Semejanza de Triángulos",
-  materia: "Geometría",
+  materia: "Matemáticas",
   slides: [
     {
       id: 0,

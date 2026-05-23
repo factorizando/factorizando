@@ -21,6 +21,7 @@ import LeyesNewton from "./data/teoria/leyes-de-newton.jsx";
 import Quimica from "./data/teoria/quimica-unam.jsx";
 import PresentacionDirector from "./pages/PresentacionDirector.jsx";
 import PresentacionAlumno from "./pages/PresentacionAlumno.jsx";
+import TemaPreview from "./pages/TemaPreview.jsx";
 
 export default function App() {
   return (
@@ -88,6 +89,8 @@ export default function App() {
         />
         {/* Alumno (público): /clase */}
         <Route path="/clase" element={<PresentacionAlumno />} />
+        {/* Preview temporal de temas */}
+        <Route path="/tema-preview" element={<TemaPreview />} />
 
         {/* ── Selector de bloque ── */}
         <Route

@@ -4,17 +4,8 @@ import { useState, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { supabase } from "../lib/supabase.js";
 import { buscarPresentacion } from "../data/presentaciones/presentacionesIndex.js";
+import { obtenerTema } from "../data/presentaciones/temas.jsx";
 import SlideRenderer from "../components/SlideRenderer.jsx";
-
-const C = {
-  bg: "#07080b",
-  border: "rgba(255,255,255,0.08)",
-  gold: "#f5c842",
-  blue: "#3b9eff",
-  text: "#f0ece3",
-  muted: "#6a6560",
-  red: "#f87171"
-};
 
 function generarCodigo() {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -27,6 +18,7 @@ function generarCodigo() {
 export default function PresentacionDirector() {
   const { id } = useParams();
   const PRESENTACION = buscarPresentacion(id);
+  const tema = obtenerTema(PRESENTACION?.materia);
 
   const [sesion, setSesion] = useState(null);
   const [slideIdx, setSlideIdx] = useState(0);
@@ -37,10 +29,10 @@ export default function PresentacionDirector() {
 
   if (!PRESENTACION) {
     return (
-      <div style={{ minHeight: "100vh", background: C.bg, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'DM Sans', sans-serif" }}>
+      <div style={{ minHeight: "100vh", background: tema.bg, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: tema.body }}>
         <div style={{ textAlign: "center" }}>
-          <p style={{ color: C.muted, fontSize: 16, marginBottom: 20 }}>Presentación no encontrada.</p>
-          <Link to="/admin" style={{ color: C.gold, fontSize: 14 }}>← Volver al panel</Link>
+          <p style={{ color: tema.muted, fontSize: 16, marginBottom: 20 }}>Presentación no encontrada.</p>
+          <Link to="/admin" style={{ color: tema.acento, fontSize: 14 }}>← Volver al panel</Link>
         </div>
       </div>
     );
@@ -156,20 +148,20 @@ export default function PresentacionDirector() {
       <div
         style={{
           minHeight: "100vh",
-          background: C.bg,
+          background: tema.bg,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          fontFamily: "'DM Sans', sans-serif"
+          fontFamily: tema.body
         }}
       >
         <div style={{ textAlign: "center", maxWidth: 480, padding: "32px 24px" }}>
           <div
             style={{
-              fontFamily: "IBM Plex Mono, monospace",
+              fontFamily: tema.mono,
               fontSize: 11,
               letterSpacing: "0.22em",
-              color: C.gold,
+              color: tema.acento,
               textTransform: "uppercase",
               marginBottom: 20,
               opacity: 0.8
@@ -181,7 +173,7 @@ export default function PresentacionDirector() {
             style={{
               fontFamily: "'Playfair Display', serif",
               fontSize: 42,
-              color: C.text,
+              color: tema.texto,
               marginBottom: 10,
               lineHeight: 1.1
             }}
@@ -190,7 +182,7 @@ export default function PresentacionDirector() {
           </h1>
           <p
             style={{
-              color: C.muted,
+              color: tema.muted,
               fontSize: 16,
               marginBottom: 12,
               lineHeight: 1.6
@@ -207,7 +199,7 @@ export default function PresentacionDirector() {
           {error && (
             <p
               style={{
-                color: C.red,
+                color: tema.rojo,
                 fontSize: 14,
                 marginBottom: 18,
                 background: "rgba(248,113,113,0.08)",
@@ -224,7 +216,7 @@ export default function PresentacionDirector() {
             onClick={iniciarSesion}
             disabled={cargando}
             style={{
-              background: C.gold,
+              background: tema.acento,
               color: "#0d0d0f",
               border: "none",
               borderRadius: 10,
@@ -250,10 +242,10 @@ export default function PresentacionDirector() {
       style={{
         minHeight: "100vh",
         height: "100vh",
-        background: C.bg,
+        background: tema.bg,
         display: "flex",
         flexDirection: "column",
-        fontFamily: "'DM Sans', sans-serif",
+        fontFamily: tema.body,
         overflow: "hidden"
       }}
     >
@@ -265,7 +257,7 @@ export default function PresentacionDirector() {
           justifyContent: "space-between",
           padding: "0 20px",
           height: 52,
-          borderBottom: `1px solid ${C.border}`,
+          borderBottom: `1px solid ${tema.border}`,
           background: "rgba(0,0,0,0.5)",
           flexShrink: 0,
           gap: 16
@@ -273,9 +265,9 @@ export default function PresentacionDirector() {
       >
         <span
           style={{
-            fontFamily: "IBM Plex Mono, monospace",
+            fontFamily: tema.mono,
             fontSize: 11,
-            color: C.muted,
+            color: tema.muted,
             letterSpacing: "0.1em",
             whiteSpace: "nowrap"
           }}
@@ -289,19 +281,19 @@ export default function PresentacionDirector() {
             display: "flex",
             alignItems: "center",
             gap: 10,
-            background: "rgba(245,200,66,0.08)",
-            border: "1px solid rgba(245,200,66,0.2)",
+            background: tema.acentoSuave,
+            border: `1px solid ${tema.acentoBorde}`,
             borderRadius: 8,
             padding: "4px 16px"
           }}
         >
-          <span style={{ fontSize: 12, color: C.muted }}>Código:</span>
+          <span style={{ fontSize: 12, color: tema.muted }}>Código:</span>
           <span
             style={{
-              fontFamily: "IBM Plex Mono, monospace",
+              fontFamily: tema.mono,
               fontSize: 24,
               fontWeight: 700,
-              color: C.gold,
+              color: tema.acento,
               letterSpacing: "0.18em"
             }}
           >
@@ -313,9 +305,9 @@ export default function PresentacionDirector() {
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
           <span
             style={{
-              fontFamily: "IBM Plex Mono, monospace",
+              fontFamily: tema.mono,
               fontSize: 12,
-              color: C.muted
+              color: tema.muted
             }}
           >
             {slideIdx + 1} / {slides.length}
@@ -325,7 +317,7 @@ export default function PresentacionDirector() {
             style={{
               background: "rgba(248,113,113,0.1)",
               border: "1px solid rgba(248,113,113,0.28)",
-              color: C.red,
+              color: tema.rojo,
               borderRadius: 6,
               padding: "5px 14px",
               fontSize: 13,
@@ -342,6 +334,7 @@ export default function PresentacionDirector() {
       <div style={{ flex: 1, overflow: "hidden", position: "relative" }}>
         <SlideRenderer
           slide={slide}
+          tema={tema}
           modo="director"
           votos={votos[slide.id]}
           totalVotos={totalVotosSlide}
@@ -356,7 +349,7 @@ export default function PresentacionDirector() {
           justifyContent: "center",
           padding: "0 24px",
           height: 60,
-          borderTop: `1px solid ${C.border}`,
+          borderTop: `1px solid ${tema.border}`,
           background: "rgba(0,0,0,0.4)",
           flexShrink: 0,
           gap: 20
@@ -367,8 +360,8 @@ export default function PresentacionDirector() {
           disabled={slideIdx === 0}
           style={{
             background: "transparent",
-            border: `1px solid ${C.border}`,
-            color: slideIdx === 0 ? "#2a2820" : C.text,
+            border: `1px solid ${tema.border}`,
+            color: slideIdx === 0 ? "#2a2820" : tema.texto,
             borderRadius: 8,
             padding: "7px 22px",
             fontSize: 14,
@@ -393,13 +386,13 @@ export default function PresentacionDirector() {
                 borderRadius: 4,
                 background:
                   i === slideIdx
-                    ? C.gold
+                    ? tema.acento
                     : i < slideIdx
-                    ? "rgba(245,200,66,0.28)"
+                    ? tema.acentoOpaco
                     : "rgba(255,255,255,0.09)",
                 border:
                   s.tipo === "ejercicio" && i !== slideIdx
-                    ? `1px solid rgba(245,200,66,0.2)`
+                    ? `1px solid ${tema.acentoBorde}`
                     : "none",
                 cursor: "pointer",
                 padding: 0,
@@ -414,9 +407,9 @@ export default function PresentacionDirector() {
           disabled={slideIdx === slides.length - 1}
           style={{
             background:
-              slideIdx < slides.length - 1 ? C.gold : "transparent",
+              slideIdx < slides.length - 1 ? tema.acento : "transparent",
             border: `1px solid ${
-              slideIdx < slides.length - 1 ? C.gold : C.border
+              slideIdx < slides.length - 1 ? tema.acento : tema.border
             }`,
             color:
               slideIdx < slides.length - 1 ? "#0d0d0f" : "#2a2820",

@@ -1,32 +1,20 @@
 // Renderizador de diapositivas para el sistema de presentaciones.
-// Recibe un objeto `slide` y props de contexto (modo, votos, etc.)
+// Recibe un objeto `slide`, un `tema` y props de contexto (modo, votos, etc.)
 import { M, useKaTeX } from "../data/teoria/shared.jsx";
-
-const C = {
-  bg: "#07080b",
-  card: "rgba(255,255,255,0.04)",
-  border: "rgba(255,255,255,0.08)",
-  gold: "#f5c842",
-  blue: "#3b9eff",
-  green: "#4ade80",
-  red: "#f87171",
-  text: "#f0ece3",
-  muted: "#8a8580",
-  sub: "#9a958e"
-};
+import { TEMAS, useFuentesTema } from "../data/presentaciones/temas.jsx";
 
 // ── Componentes de apoyo ──────────────────────────────────────────────────────
 
-function Encabezado({ titulo, etiqueta }) {
+function Encabezado({ titulo, etiqueta, tema }) {
   return (
     <div style={{ marginBottom: 4 }}>
       {etiqueta && (
         <div
           style={{
-            fontFamily: "IBM Plex Mono, monospace",
+            fontFamily: tema.mono,
             fontSize: 11,
             letterSpacing: "0.2em",
-            color: C.gold,
+            color: tema.acento,
             textTransform: "uppercase",
             marginBottom: 10,
             opacity: 0.75
@@ -40,7 +28,7 @@ function Encabezado({ titulo, etiqueta }) {
           fontFamily: "'Playfair Display', serif",
           fontSize: "clamp(24px, 3.5vw, 40px)",
           fontWeight: 700,
-          color: C.text,
+          color: tema.texto,
           letterSpacing: "-0.01em",
           margin: 0,
           lineHeight: 1.15
@@ -52,14 +40,14 @@ function Encabezado({ titulo, etiqueta }) {
   );
 }
 
-function HistogramaVotos({ votos, totalVotos, opciones, correcta }) {
+function HistogramaVotos({ votos, totalVotos, opciones, correcta, tema }) {
   return (
     <div
       style={{
         width: 210,
         flexShrink: 0,
         background: "rgba(0,0,0,0.35)",
-        border: `1px solid ${C.border}`,
+        border: `1px solid ${tema.border}`,
         borderRadius: 12,
         padding: "18px 14px",
         display: "flex",
@@ -69,10 +57,10 @@ function HistogramaVotos({ votos, totalVotos, opciones, correcta }) {
     >
       <div
         style={{
-          fontFamily: "IBM Plex Mono, monospace",
+          fontFamily: tema.mono,
           fontSize: 10,
           letterSpacing: "0.18em",
-          color: C.muted,
+          color: tema.muted,
           textTransform: "uppercase"
         }}
       >
@@ -80,9 +68,9 @@ function HistogramaVotos({ votos, totalVotos, opciones, correcta }) {
       </div>
       <div
         style={{
-          fontFamily: "IBM Plex Mono, monospace",
+          fontFamily: tema.mono,
           fontSize: 28,
-          color: C.gold,
+          color: tema.acento,
           textAlign: "center",
           lineHeight: 1
         }}
@@ -101,13 +89,13 @@ function HistogramaVotos({ votos, totalVotos, opciones, correcta }) {
                 justifyContent: "space-between",
                 marginBottom: 5,
                 fontSize: 12,
-                fontFamily: "IBM Plex Mono, monospace"
+                fontFamily: tema.mono
               }}
             >
-              <span style={{ color: isOk ? C.green : C.muted }}>
+              <span style={{ color: isOk ? tema.verde : tema.muted }}>
                 {String.fromCharCode(65 + i)}. {op.length > 14 ? op.slice(0, 14) + "…" : op}
               </span>
-              <span style={{ color: isOk ? C.green : C.sub }}>
+              <span style={{ color: isOk ? tema.verde : tema.sub }}>
                 {count} ({pct}%)
               </span>
             </div>
@@ -123,7 +111,7 @@ function HistogramaVotos({ votos, totalVotos, opciones, correcta }) {
                 style={{
                   height: "100%",
                   width: `${pct}%`,
-                  background: isOk ? C.green : C.blue,
+                  background: isOk ? tema.verde : tema.azul,
                   borderRadius: 4,
                   transition: "width 0.4s ease"
                 }}
@@ -136,37 +124,10 @@ function HistogramaVotos({ votos, totalVotos, opciones, correcta }) {
   );
 }
 
-// ── SVG decorativo para la portada ────────────────────────────────────────────
-
-function TriangulosSVG() {
-  return (
-    <svg width="200" height="130" viewBox="0 0 300 195" fill="none">
-      <polygon
-        points="40,170 155,25 270,170"
-        stroke="#f5c842"
-        strokeWidth="2"
-        fill="rgba(245,200,66,0.07)"
-      />
-      <polygon
-        points="80,170 137,100 195,170"
-        stroke="#3b9eff"
-        strokeWidth="1.5"
-        fill="rgba(59,158,255,0.07)"
-      />
-      <text x="25" y="188" fill="#f5c842" fontSize="14" fontFamily="serif">A</text>
-      <text x="150" y="18" fill="#f5c842" fontSize="14" fontFamily="serif">B</text>
-      <text x="272" y="188" fill="#f5c842" fontSize="14" fontFamily="serif">C</text>
-      <text x="65" y="188" fill="#3b9eff" fontSize="12" fontFamily="serif">D</text>
-      <text x="133" y="95" fill="#3b9eff" fontSize="12" fontFamily="serif">E</text>
-      <text x="197" y="188" fill="#3b9eff" fontSize="12" fontFamily="serif">F</text>
-      <text x="215" y="150" fill="#8a8580" fontSize="26" fontFamily="serif">∼</text>
-    </svg>
-  );
-}
-
 // ── Tipos de diapositiva ──────────────────────────────────────────────────────
 
-function SlidePortada({ slide }) {
+function SlidePortada({ slide, tema }) {
+  const DecoSVG = tema.DecoSVG;
   return (
     <div
       style={{
@@ -180,13 +141,13 @@ function SlidePortada({ slide }) {
         padding: "40px 32px"
       }}
     >
-      <TriangulosSVG />
+      <DecoSVG tema={tema} />
       <div
         style={{
-          fontFamily: "IBM Plex Mono, monospace",
+          fontFamily: tema.mono,
           fontSize: 12,
           letterSpacing: "0.22em",
-          color: C.gold,
+          color: tema.acento,
           textTransform: "uppercase",
           opacity: 0.75
         }}
@@ -198,7 +159,7 @@ function SlidePortada({ slide }) {
           fontFamily: "'Playfair Display', serif",
           fontSize: "clamp(32px, 5.5vw, 68px)",
           fontWeight: 700,
-          color: C.text,
+          color: tema.texto,
           letterSpacing: "-0.02em",
           lineHeight: 1.1,
           margin: 0
@@ -206,14 +167,14 @@ function SlidePortada({ slide }) {
       >
         {slide.titulo}
       </h1>
-      <p style={{ fontSize: 18, color: C.muted, maxWidth: 500, fontWeight: 300, lineHeight: 1.6 }}>
+      <p style={{ fontSize: 18, color: tema.muted, maxWidth: 500, fontWeight: 300, lineHeight: 1.6 }}>
         {slide.subtitulo}
       </p>
     </div>
   );
 }
 
-function SlideDefinicion({ slide }) {
+function SlideDefinicion({ slide, tema }) {
   return (
     <div
       style={{
@@ -225,12 +186,12 @@ function SlideDefinicion({ slide }) {
         boxSizing: "border-box"
       }}
     >
-      <Encabezado titulo={slide.titulo} />
+      <Encabezado titulo={slide.titulo} tema={tema} />
 
       <div
         style={{
-          background: "rgba(245,200,66,0.06)",
-          border: "1px solid rgba(245,200,66,0.22)",
+          background: tema.acentoSuave,
+          border: `1px solid ${tema.acentoBorde}`,
           borderRadius: 12,
           padding: "22px 32px",
           textAlign: "center"
@@ -242,7 +203,7 @@ function SlideDefinicion({ slide }) {
         <p
           style={{
             fontSize: 17,
-            color: C.text,
+            color: tema.texto,
             lineHeight: 1.7,
             fontWeight: 300,
             margin: 0
@@ -257,18 +218,18 @@ function SlideDefinicion({ slide }) {
           <div
             key={i}
             style={{
-              background: C.card,
-              border: `1px solid ${C.border}`,
+              background: tema.card,
+              border: `1px solid ${tema.border}`,
               borderRadius: 10,
               padding: "18px 22px"
             }}
           >
             <div
               style={{
-                fontFamily: "IBM Plex Mono, monospace",
+                fontFamily: tema.mono,
                 fontSize: 10.5,
                 letterSpacing: "0.14em",
-                color: i === 0 ? C.blue : C.gold,
+                color: i === 0 ? tema.azul : tema.acento,
                 textTransform: "uppercase",
                 marginBottom: 14
               }}
@@ -285,7 +246,7 @@ function SlideDefinicion({ slide }) {
   );
 }
 
-function SlideConcepto({ slide }) {
+function SlideConcepto({ slide, tema }) {
   return (
     <div
       style={{
@@ -297,12 +258,12 @@ function SlideConcepto({ slide }) {
         boxSizing: "border-box"
       }}
     >
-      <Encabezado titulo={slide.titulo} etiqueta={slide.etiqueta} />
+      <Encabezado titulo={slide.titulo} etiqueta={slide.etiqueta} tema={tema} />
 
       <div
         style={{
           background: "rgba(0,0,0,0.45)",
-          border: "2px solid rgba(245,200,66,0.35)",
+          border: `2px solid ${tema.acentoFuerte}`,
           borderRadius: 12,
           padding: "22px 28px",
           textAlign: "center",
@@ -320,8 +281,8 @@ function SlideConcepto({ slide }) {
               display: "flex",
               alignItems: "center",
               gap: 18,
-              background: C.card,
-              border: `1px solid ${C.border}`,
+              background: tema.card,
+              border: `1px solid ${tema.border}`,
               borderRadius: 8,
               padding: "13px 22px"
             }}
@@ -338,8 +299,8 @@ function SlideConcepto({ slide }) {
       {slide.nota && (
         <div
           style={{
-            background: "rgba(59,158,255,0.07)",
-            border: "1px solid rgba(59,158,255,0.2)",
+            background: tema.azulSuave,
+            border: `1px solid ${tema.azulBorde}`,
             borderRadius: 8,
             padding: "13px 20px",
             display: "flex",
@@ -349,30 +310,26 @@ function SlideConcepto({ slide }) {
         >
           <span
             style={{
-              fontFamily: "IBM Plex Mono, monospace",
+              fontFamily: tema.mono,
               fontSize: 10,
               letterSpacing: "0.2em",
-              color: C.blue,
+              color: tema.azul,
               textTransform: "uppercase",
               flexShrink: 0
             }}
           >
             Nota
           </span>
-          <span style={{ fontSize: 15, color: "#b0c8f0" }}>{slide.nota}</span>
+          <span style={{ fontSize: 15, color: tema.azulTexto }}>{slide.nota}</span>
         </div>
       )}
     </div>
   );
 }
 
-function SlideListaCriterios({ slide }) {
-  const colores = [C.gold, C.blue, C.green];
-  const bgColores = [
-    "rgba(245,200,66,0.1)",
-    "rgba(59,158,255,0.1)",
-    "rgba(74,222,128,0.1)"
-  ];
+function SlideListaCriterios({ slide, tema }) {
+  const colores = [tema.acento, tema.azul, tema.verde];
+  const bgColores = [tema.acentoMed, tema.azulMed, "rgba(74,222,128,0.1)"];
   return (
     <div
       style={{
@@ -384,7 +341,7 @@ function SlideListaCriterios({ slide }) {
         boxSizing: "border-box"
       }}
     >
-      <Encabezado titulo={slide.titulo} etiqueta={slide.etiqueta} />
+      <Encabezado titulo={slide.titulo} etiqueta={slide.etiqueta} tema={tema} />
       <div
         style={{
           display: "flex",
@@ -401,8 +358,8 @@ function SlideListaCriterios({ slide }) {
               display: "flex",
               alignItems: "center",
               gap: 22,
-              background: C.card,
-              border: `1px solid ${C.border}`,
+              background: tema.card,
+              border: `1px solid ${tema.border}`,
               borderRadius: 12,
               padding: "18px 26px"
             }}
@@ -417,7 +374,7 @@ function SlideListaCriterios({ slide }) {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontFamily: "IBM Plex Mono, monospace",
+                fontFamily: tema.mono,
                 fontWeight: 700,
                 fontSize: 16,
                 color: colores[i],
@@ -431,13 +388,13 @@ function SlideListaCriterios({ slide }) {
                 style={{
                   fontSize: 18,
                   fontWeight: 600,
-                  color: C.text,
+                  color: tema.texto,
                   marginBottom: 5
                 }}
               >
                 {c.nombre}
               </div>
-              <div style={{ fontSize: 14.5, color: C.sub, lineHeight: 1.55 }}>
+              <div style={{ fontSize: 14.5, color: tema.sub, lineHeight: 1.55 }}>
                 {c.desc}
               </div>
             </div>
@@ -448,7 +405,7 @@ function SlideListaCriterios({ slide }) {
   );
 }
 
-function SlideCriterioDetalle({ slide }) {
+function SlideCriterioDetalle({ slide, tema }) {
   return (
     <div
       style={{
@@ -460,12 +417,12 @@ function SlideCriterioDetalle({ slide }) {
         boxSizing: "border-box"
       }}
     >
-      <Encabezado titulo={slide.titulo} etiqueta={slide.etiqueta} />
+      <Encabezado titulo={slide.titulo} etiqueta={slide.etiqueta} tema={tema} />
 
       <div
         style={{
-          background: "rgba(245,200,66,0.05)",
-          border: "1px solid rgba(245,200,66,0.2)",
+          background: tema.acentoSuave,
+          border: `1px solid ${tema.acentoBorde}`,
           borderRadius: 10,
           padding: "20px 28px"
         }}
@@ -473,10 +430,9 @@ function SlideCriterioDetalle({ slide }) {
         <p
           style={{
             fontSize: 16.5,
-            color: C.text,
+            color: tema.texto,
             lineHeight: 1.7,
             fontWeight: 300,
-            marginBottom: 18,
             margin: "0 0 18px"
           }}
         >
@@ -489,18 +445,18 @@ function SlideCriterioDetalle({ slide }) {
 
       <div
         style={{
-          background: "rgba(59,158,255,0.06)",
-          border: "1px solid rgba(59,158,255,0.18)",
+          background: tema.azulSuave,
+          border: `1px solid ${tema.azulBorde}`,
           borderRadius: 10,
           padding: "18px 24px"
         }}
       >
         <div
           style={{
-            fontFamily: "IBM Plex Mono, monospace",
+            fontFamily: tema.mono,
             fontSize: 10,
             letterSpacing: "0.2em",
-            color: C.blue,
+            color: tema.azul,
             textTransform: "uppercase",
             marginBottom: 10
           }}
@@ -510,7 +466,7 @@ function SlideCriterioDetalle({ slide }) {
         <p
           style={{
             fontSize: 15,
-            color: "#b0c8f0",
+            color: tema.azulTexto,
             lineHeight: 1.65,
             margin: 0,
             marginBottom: slide.math_razon ? 14 : 0
@@ -528,7 +484,7 @@ function SlideCriterioDetalle({ slide }) {
   );
 }
 
-function SlideEjemplo({ slide }) {
+function SlideEjemplo({ slide, tema }) {
   return (
     <div
       style={{
@@ -541,7 +497,7 @@ function SlideEjemplo({ slide }) {
         overflowY: "auto"
       }}
     >
-      <Encabezado titulo={slide.titulo} etiqueta={slide.etiqueta} />
+      <Encabezado titulo={slide.titulo} etiqueta={slide.etiqueta} tema={tema} />
 
       <p style={{ fontSize: 15.5, color: "#c4bfb3", lineHeight: 1.65, margin: 0 }}>
         {slide.enunciado}
@@ -560,16 +516,16 @@ function SlideEjemplo({ slide }) {
               key={i}
               style={{
                 background: "rgba(0,0,0,0.38)",
-                border: `1px solid ${C.border}`,
+                border: `1px solid ${tema.border}`,
                 borderRadius: 8,
                 padding: "14px 20px"
               }}
             >
               <div
                 style={{
-                  fontFamily: "IBM Plex Mono, monospace",
+                  fontFamily: tema.mono,
                   fontSize: 10,
-                  color: C.gold,
+                  color: tema.acento,
                   letterSpacing: "0.15em",
                   textTransform: "uppercase",
                   marginBottom: 10
@@ -593,12 +549,12 @@ function SlideEjemplo({ slide }) {
                 minWidth: 26,
                 height: 26,
                 borderRadius: "50%",
-                background: C.gold,
+                background: tema.acento,
                 color: "#0d0d0f",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontFamily: "IBM Plex Mono, monospace",
+                fontFamily: tema.mono,
                 fontSize: 11,
                 fontWeight: 700,
                 flexShrink: 0,
@@ -618,7 +574,7 @@ function SlideEjemplo({ slide }) {
   );
 }
 
-function SlideEjercicio({ slide, modo, votos, totalVotos, respuestaDada, onResponder }) {
+function SlideEjercicio({ slide, modo, votos, totalVotos, respuestaDada, onResponder, tema }) {
   const done = respuestaDada !== null && respuestaDada !== undefined;
   const correcta = slide.correcta;
 
@@ -638,9 +594,9 @@ function SlideEjercicio({ slide, modo, votos, totalVotos, respuestaDada, onRespo
       >
         <div
           style={{
-            fontFamily: "IBM Plex Mono, monospace",
+            fontFamily: tema.mono,
             fontSize: 11,
-            color: C.gold,
+            color: tema.acento,
             letterSpacing: "0.18em",
             textTransform: "uppercase"
           }}
@@ -651,7 +607,7 @@ function SlideEjercicio({ slide, modo, votos, totalVotos, respuestaDada, onRespo
         <p
           style={{
             fontSize: modo === "director" ? 17 : 19,
-            color: C.text,
+            color: tema.texto,
             lineHeight: 1.65,
             margin: 0
           }}
@@ -663,7 +619,7 @@ function SlideEjercicio({ slide, modo, votos, totalVotos, respuestaDada, onRespo
           <div
             style={{
               background: "rgba(0,0,0,0.4)",
-              border: `1px solid ${C.border}`,
+              border: `1px solid ${tema.border}`,
               borderRadius: 8,
               padding: "16px",
               textAlign: "center",
@@ -690,7 +646,7 @@ function SlideEjercicio({ slide, modo, votos, totalVotos, respuestaDada, onRespo
               if (isOk) {
                 bg = "rgba(74,222,128,0.1)";
                 border = "2px solid rgba(74,222,128,0.45)";
-                color = C.green;
+                color = tema.verde;
               } else if (isSel) {
                 bg = "rgba(248,113,113,0.09)";
                 border = "2px solid rgba(248,113,113,0.4)";
@@ -728,7 +684,7 @@ function SlideEjercicio({ slide, modo, votos, totalVotos, respuestaDada, onRespo
               >
                 <span
                   style={{
-                    fontFamily: "IBM Plex Mono, monospace",
+                    fontFamily: tema.mono,
                     fontSize: 12,
                     color: "rgba(255,255,255,0.28)",
                     flexShrink: 0
@@ -740,9 +696,9 @@ function SlideEjercicio({ slide, modo, votos, totalVotos, respuestaDada, onRespo
                 {modo === "director" && votos !== undefined && (
                   <span
                     style={{
-                      fontFamily: "IBM Plex Mono, monospace",
+                      fontFamily: tema.mono,
                       fontSize: 11,
-                      color: isOk ? C.green : C.muted,
+                      color: isOk ? tema.verde : tema.muted,
                       flexShrink: 0
                     }}
                   >
@@ -769,7 +725,7 @@ function SlideEjercicio({ slide, modo, votos, totalVotos, respuestaDada, onRespo
                   ? "rgba(74,222,128,0.25)"
                   : "rgba(248,113,113,0.2)"
               }`,
-              color: respuestaDada === correcta ? C.green : "#fca5a5",
+              color: respuestaDada === correcta ? tema.verde : "#fca5a5",
               fontSize: 14.5,
               lineHeight: 1.6
             }}
@@ -787,13 +743,14 @@ function SlideEjercicio({ slide, modo, votos, totalVotos, respuestaDada, onRespo
           totalVotos={totalVotos}
           opciones={slide.opciones}
           correcta={correcta}
+          tema={tema}
         />
       )}
     </div>
   );
 }
 
-function SlideResumen({ slide }) {
+function SlideResumen({ slide, tema }) {
   return (
     <div
       style={{
@@ -805,14 +762,14 @@ function SlideResumen({ slide }) {
         boxSizing: "border-box"
       }}
     >
-      <Encabezado titulo={slide.titulo} etiqueta={slide.etiqueta} />
+      <Encabezado titulo={slide.titulo} etiqueta={slide.etiqueta} tema={tema} />
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
         {slide.puntos.map((p, i) => (
           <div
             key={i}
             style={{
-              background: C.card,
-              border: `1px solid ${C.border}`,
+              background: tema.card,
+              border: `1px solid ${tema.border}`,
               borderRadius: 10,
               padding: "14px 18px",
               display: "flex",
@@ -825,7 +782,7 @@ function SlideResumen({ slide }) {
                 width: 6,
                 height: 6,
                 borderRadius: "50%",
-                background: C.gold,
+                background: tema.acento,
                 flexShrink: 0,
                 marginTop: 9
               }}
@@ -840,7 +797,7 @@ function SlideResumen({ slide }) {
                 <div
                   style={{
                     fontWeight: 600,
-                    color: C.gold,
+                    color: tema.acento,
                     marginBottom: 3,
                     fontSize: 13.5
                   }}
@@ -848,7 +805,7 @@ function SlideResumen({ slide }) {
                   {p.titulo}
                 </div>
               )}
-              <div style={{ fontSize: 13.5, color: C.sub, lineHeight: 1.5 }}>
+              <div style={{ fontSize: 13.5, color: tema.sub, lineHeight: 1.5 }}>
                 {p.texto}
               </div>
             </div>
@@ -863,6 +820,7 @@ function SlideResumen({ slide }) {
 
 export default function SlideRenderer({
   slide,
+  tema = TEMAS.matematicas,
   modo = "alumno",
   votos,
   totalVotos,
@@ -870,8 +828,9 @@ export default function SlideRenderer({
   onResponder
 }) {
   useKaTeX();
+  useFuentesTema(tema);
 
-  const props = { slide, modo, votos, totalVotos, respuestaDada, onResponder };
+  const props = { slide, tema, modo, votos, totalVotos, respuestaDada, onResponder };
 
   switch (slide.tipo) {
     case "portada":

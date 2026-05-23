@@ -632,7 +632,7 @@ function SlideEjercicio({ slide, modo, votos, totalVotos, respuestaDada, onRespo
 
         {/* Opciones */}
         <div
-          style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, flex: 1 }}
+          style={{ display: "grid", gridTemplateColumns: slide.opciones.length === 3 ? "1fr 1fr 1fr" : "1fr 1fr", gap: 10, flex: 1 }}
         >
           {slide.opciones.map((op, i) => {
             const isOk = i === correcta;
@@ -816,6 +816,102 @@ function SlideResumen({ slide, tema }) {
   );
 }
 
+function SlideRegla({ slide, tema }) {
+  return (
+    <div
+      style={{
+        padding: "30px 40px",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        gap: 18,
+        boxSizing: "border-box",
+        overflowY: "auto"
+      }}
+    >
+      <div>
+        <div
+          style={{
+            fontFamily: tema.mono,
+            fontSize: 11,
+            letterSpacing: "0.2em",
+            color: tema.acento,
+            textTransform: "uppercase",
+            marginBottom: 8,
+            opacity: 0.75
+          }}
+        >
+          {slide.etiqueta}
+        </div>
+        <h2
+          style={{
+            fontFamily: "'Playfair Display', serif",
+            fontSize: "clamp(20px, 2.8vw, 32px)",
+            fontWeight: 700,
+            color: tema.texto,
+            letterSpacing: "-0.01em",
+            margin: 0,
+            lineHeight: 1.2
+          }}
+        >
+          {slide.titulo}
+        </h2>
+      </div>
+
+      <div
+        style={{
+          background: tema.acentoSuave,
+          border: `1px solid ${tema.acentoBorde}`,
+          borderRadius: 10,
+          padding: "14px 22px"
+        }}
+      >
+        <p style={{ fontSize: 15, color: tema.texto, lineHeight: 1.65, margin: 0, fontWeight: 300 }}>
+          {slide.descripcion}
+        </p>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, flex: 1 }}>
+        {slide.ejemplos.map((ej, i) => (
+          <div
+            key={i}
+            style={{
+              background: tema.card,
+              border: `1px solid ${tema.border}`,
+              borderRadius: 10,
+              padding: "14px 16px",
+              display: "flex",
+              flexDirection: "column"
+            }}
+          >
+            <div
+              style={{
+                fontFamily: tema.mono,
+                fontSize: 9.5,
+                color: tema.muted,
+                letterSpacing: "0.22em",
+                textTransform: "uppercase",
+                marginBottom: 10
+              }}
+            >
+              {ej.categoria}
+            </div>
+            <div style={{ fontSize: 13.5, color: tema.texto, lineHeight: 1.6, flex: 1 }}>
+              <span style={{ color: tema.verde, marginRight: 5, fontWeight: 700 }}>✓</span>
+              {ej.correcto}
+            </div>
+            <div style={{ height: 1, background: tema.border, margin: "10px 0" }} />
+            <div style={{ fontSize: 13.5, color: tema.muted, lineHeight: 1.6, flex: 1 }}>
+              <span style={{ color: "#f5c842", marginRight: 5, fontWeight: 700 }}>✗</span>
+              {ej.incorrecto}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ── Exportación principal ─────────────────────────────────────────────────────
 
 export default function SlideRenderer({
@@ -849,6 +945,8 @@ export default function SlideRenderer({
       return <SlideEjercicio {...props} />;
     case "resumen":
       return <SlideResumen {...props} />;
+    case "regla":
+      return <SlideRegla {...props} />;
     default:
       return (
         <div style={{ padding: 40, color: "#888" }}>

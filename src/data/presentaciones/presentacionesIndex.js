@@ -3,9 +3,11 @@
 // Para agregar una nueva: importarla y añadirla al objeto.
 
 import { PRESENTACION as SEMEJANZA_TRIANGULOS } from "./semejanza-triangulos.js";
+import { PRESENTACION as CONCORDANCIA_VERBAL } from "./concordancia-verbal.js";
 
 export const PRESENTACIONES_INDEX = {
   "semejanza-triangulos": SEMEJANZA_TRIANGULOS,
+  "concordancia-verbal": CONCORDANCIA_VERBAL,
 };
 
 export function buscarPresentacion(id) {

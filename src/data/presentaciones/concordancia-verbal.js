@@ -163,22 +163,37 @@ export const PRESENTACION = {
       tipo: "regla",
       etiqueta: "Regla 3 / 24",
       titulo: "Sujeto con núcleo colectivo",
-      descripcion: "Cuando el núcleo del sujeto es un sustantivo colectivo (equipo, comité, mayoría, delegación, junta, multitud...), el verbo va en singular, aunque el colectivo represente a muchos individuos.",
+      descripcion: "Un sustantivo colectivo (equipo, comité, mayoría, delegación, junta, multitud, grupo…) es gramaticalmente singular aunque nombre a muchos. El verbo va en singular. El error típico es dejarse llevar por la idea de «muchos» e ir al plural.",
       ejemplos: [
         {
-          categoria: "Colectivo",
+          categoria: "mayoría",
           correcto: "La mayoría votó a favor de la propuesta en la sesión plenaria.",
           incorrecto: "La mayoría votaron a favor de la propuesta en la sesión."
         },
         {
-          categoria: "Colectivo",
+          categoria: "equipo",
           correcto: "El equipo ganó el campeonato nacional tras meses de entrenamiento.",
           incorrecto: "El equipo ganaron el campeonato nacional."
         },
         {
-          categoria: "Colectivo",
+          categoria: "comité",
           correcto: "El comité emitió un dictamen unánime sobre el caso presentado.",
           incorrecto: "El comité emitieron un dictamen unánime sobre el caso."
+        },
+        {
+          categoria: "colectivo + complemento",
+          correcto: "La mayoría de los estudiantes aprobó el examen sin dificultad.",
+          incorrecto: "La mayoría de los estudiantes aprobaron el examen."
+        },
+        {
+          categoria: "multitud",
+          correcto: "La multitud congregada en la plaza aplaudió al orador.",
+          incorrecto: "La multitud congregada en la plaza aplaudieron al orador."
+        },
+        {
+          categoria: "junta directiva",
+          correcto: "La junta directiva resolvió suspender la sesión por falta de quórum.",
+          incorrecto: "La junta directiva resolvieron suspender la sesión."
         }
       ]
     },

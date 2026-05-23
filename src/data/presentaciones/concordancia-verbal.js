@@ -234,22 +234,37 @@ export const PRESENTACION = {
       tipo: "regla",
       etiqueta: "Regla 4 / 24",
       titulo: "Sujeto tácito (elíptico)",
-      descripcion: "El sujeto tácito no aparece explícitamente, pero se recupera de la desinencia verbal. La concordancia está implícita en la forma del verbo: -mos (1ª pl.), -ste (2ª sing.), -ron (3ª pl.), etc.",
+      descripcion: "El sujeto tácito no aparece en la oración, pero la desinencia verbal lo revela: -o/a (3ª sing.), -mos (1ª pl.), -ste (2ª sing.), -ron (3ª pl.). Identificarlo correctamente es clave para elegir la forma verbal adecuada en preguntas de opción múltiple.",
       ejemplos: [
         {
-          categoria: "1ª Plural",
-          correcto: "[Nosotros] Llegamos tarde a la reunión del consejo.",
-          incorrecto: "No hay error posible, pero debe saberse que -mos = 1ª persona plural."
+          categoria: "1ª singular (-o)",
+          correcto: "[Yo] Presenté el proyecto ante el jurado universitario.",
+          incorrecto: "[Yo] Presentaron el proyecto ante el jurado. (desinencia incorrecta)"
         },
         {
-          categoria: "2ª Singular",
+          categoria: "2ª singular (-ste)",
           correcto: "[Tú] ¿Entregaste el informe a tiempo al coordinador?",
-          incorrecto: "La confusión ocurre cuando se usa «entregaste» sin reconocer que el sujeto es «tú»."
+          incorrecto: "[Tú] ¿Entregaron el informe a tiempo al coordinador?"
         },
         {
-          categoria: "3ª Plural",
-          correcto: "[Ellos/Ellas] Informaron que el evento fue cancelado por las lluvias.",
-          incorrecto: "Confundir «informaron» (3ª pl.) con un sujeto singular omitido."
+          categoria: "1ª plural (-mos)",
+          correcto: "[Nosotros] Llegamos tarde a la reunión del consejo directivo.",
+          incorrecto: "[Nosotros] Llegaron tarde a la reunión del consejo."
+        },
+        {
+          categoria: "3ª plural (-ron)",
+          correcto: "[Ellos] Informaron que el evento se canceló por las lluvias.",
+          incorrecto: "[Ellos] Informó que el evento se canceló por las lluvias."
+        },
+        {
+          categoria: "2ª plural (-ron / -steis)",
+          correcto: "[Ustedes] Aprobaron el reglamento en la sesión extraordinaria.",
+          incorrecto: "[Ustedes] Aprobó el reglamento en la sesión extraordinaria."
+        },
+        {
+          categoria: "sujeto recuperable por contexto",
+          correcto: "Ana llegó al auditorio. Saludó a todos y tomó la palabra. [ella]",
+          incorrecto: "Ana llegó al auditorio. Saludaron a todos. (cambia de sujeto sin razón)"
         }
       ]
     },

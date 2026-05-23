@@ -1,7 +1,8 @@
 // src/pages/Admin.jsx
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../lib/supabase";
+import { listaPresentaciones } from "../data/presentaciones/presentacionesIndex.js";
 
 const C = {
   bg: "#0e0f11",
@@ -149,6 +150,79 @@ function ResumenAlumno({ nombre, nivel, resultados }) {
   );
 }
 
+// ── Menú de presentaciones ────────────────────────────────────────────────────
+function PresentacionesMenu() {
+  const presentaciones = listaPresentaciones();
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    function handleClick(e) {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
+  if (presentaciones.length === 1) {
+    return (
+      <Link to={`/presentacion/${presentaciones[0].id}`} style={{
+        color: "#f5c842", fontSize: 13, textDecoration: "none",
+        border: "1px solid #f5c84244", borderRadius: 8,
+        padding: "5px 14px", fontWeight: 600,
+      }}>
+        ▶ Presentación
+      </Link>
+    );
+  }
+
+  return (
+    <div ref={ref} style={{ position: "relative" }}>
+      <button
+        onClick={() => setOpen((o) => !o)}
+        style={{
+          color: "#f5c842", fontSize: 13, background: "transparent",
+          border: "1px solid #f5c84244", borderRadius: 8,
+          padding: "5px 14px", fontWeight: 600, cursor: "pointer",
+          fontFamily: font,
+        }}
+      >
+        ▶ Presentaciones {open ? "▲" : "▼"}
+      </button>
+      {open && (
+        <div style={{
+          position: "absolute", top: "calc(100% + 6px)", right: 0,
+          background: C.surface, border: `1px solid ${C.border}`,
+          borderRadius: 10, minWidth: 220, zIndex: 200,
+          boxShadow: "0 8px 24px rgba(0,0,0,0.5)",
+          overflow: "hidden",
+        }}>
+          {presentaciones.map((p) => (
+            <Link
+              key={p.id}
+              to={`/presentacion/${p.id}`}
+              onClick={() => setOpen(false)}
+              style={{
+                display: "block", padding: "11px 16px",
+                textDecoration: "none", color: C.text,
+                fontSize: 13, fontFamily: font,
+                borderBottom: `1px solid ${C.border}`,
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = "#1e2130"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
+            >
+              <div style={{ fontWeight: 600 }}>{p.titulo}</div>
+              {p.materia && (
+                <div style={{ color: C.muted, fontSize: 11, marginTop: 2 }}>{p.materia}</div>
+              )}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ── Página principal ──────────────────────────────────────────────────────────
 export default function Admin() {
   const [loading, setLoading] = useState(true);
@@ -225,13 +299,7 @@ export default function Admin() {
           Panel de Administrador
         </div>
         <div style={{ display: "flex", gap: 8 }}>
-          <Link to="/presentacion/semejanza-triangulos" style={{
-            color: "#f5c842", fontSize: 13, textDecoration: "none",
-            border: "1px solid #f5c84244", borderRadius: 8,
-            padding: "5px 14px", fontWeight: 600,
-          }}>
-            ▶ Presentación
-          </Link>
+          <PresentacionesMenu />
           <Link to="/" style={{
             color: C.muted, fontSize: 13, textDecoration: "none",
             border: `1px solid ${C.border}`, borderRadius: 8,

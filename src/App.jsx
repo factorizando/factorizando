@@ -77,9 +77,9 @@ export default function App() {
         <Route path="/teoria/quimica-unam" element={<Quimica />} />
 
         {/* ── Presentaciones ── */}
-        {/* Director (protegido): /presentacion/semejanza-triangulos */}
+        {/* Director (protegido): /presentacion/:id */}
         <Route
-          path="/presentacion/semejanza-triangulos"
+          path="/presentacion/:id"
           element={
             <ProtectedRoute>
               <PresentacionDirector />

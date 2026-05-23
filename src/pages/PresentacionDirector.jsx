@@ -1,8 +1,9 @@
 // Vista del maestro (director de la presentación).
 // Crea sesiones, controla el slide actual y ve los votos en tiempo real.
 import { useState, useEffect, useRef } from "react";
+import { useParams, Link } from "react-router-dom";
 import { supabase } from "../lib/supabase.js";
-import { PRESENTACION } from "../data/presentaciones/semejanza-triangulos.js";
+import { buscarPresentacion } from "../data/presentaciones/presentacionesIndex.js";
 import SlideRenderer from "../components/SlideRenderer.jsx";
 
 const C = {
@@ -24,12 +25,26 @@ function generarCodigo() {
 }
 
 export default function PresentacionDirector() {
+  const { id } = useParams();
+  const PRESENTACION = buscarPresentacion(id);
+
   const [sesion, setSesion] = useState(null);
   const [slideIdx, setSlideIdx] = useState(0);
   const [votos, setVotos] = useState({}); // { [slideId]: { [opcionIdx]: count } }
   const [cargando, setCargando] = useState(false);
   const [error, setError] = useState("");
   const canalRef = useRef(null);
+
+  if (!PRESENTACION) {
+    return (
+      <div style={{ minHeight: "100vh", background: C.bg, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'DM Sans', sans-serif" }}>
+        <div style={{ textAlign: "center" }}>
+          <p style={{ color: C.muted, fontSize: 16, marginBottom: 20 }}>Presentación no encontrada.</p>
+          <Link to="/admin" style={{ color: C.gold, fontSize: 14 }}>← Volver al panel</Link>
+        </div>
+      </div>
+    );
+  }
 
   const slides = PRESENTACION.slides;
   const slide = slides[slideIdx];

@@ -399,6 +399,11 @@ export const SUBJECTS_PREP = [
             name: "Sesión 7 - Concordancia Verbal",
             video: "https://youtu.be/drCqyUPgR38",
           },
+          {
+            id: "sesion-8",
+            name: "Sesión 8 - Concordancia Verbal",
+            video: "https://youtu.be/JL4c-zDLPNA",
+          },
         ],
       },
       {

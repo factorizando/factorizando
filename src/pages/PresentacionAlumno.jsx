@@ -2,15 +2,14 @@
 // en tiempo real. No requiere autenticación.
 import { useState, useEffect, useRef } from "react";
 import { supabase } from "../lib/supabase.js";
-import { PRESENTACION } from "../data/presentaciones/semejanza-triangulos.js";
+import { buscarPresentacion } from "../data/presentaciones/presentacionesIndex.js";
 import { obtenerTema } from "../data/presentaciones/temas.jsx";
 import SlideRenderer from "../components/SlideRenderer.jsx";
-
-const tema = obtenerTema(PRESENTACION.materia);
 
 export default function PresentacionAlumno() {
   const [codigo, setCodigo] = useState("");
   const [sesion, setSesion] = useState(null);
+  const [presentacion, setPresentacion] = useState(null);
   const [slideIdx, setSlideIdx] = useState(0);
   const [error, setError] = useState("");
   const [cargando, setCargando] = useState(false);
@@ -19,7 +18,8 @@ export default function PresentacionAlumno() {
   const [respuestas, setRespuestas] = useState({});
   const canalRef = useRef(null);
 
-  const slides = PRESENTACION.slides;
+  const tema = obtenerTema(presentacion?.materia);
+  const slides = presentacion?.slides ?? [];
   const slide = slides[slideIdx] ?? slides[0];
 
   async function unirse() {
@@ -46,6 +46,7 @@ export default function PresentacionAlumno() {
 
     setSesion(data);
     setSlideIdx(data.slide_actual);
+    setPresentacion(buscarPresentacion(data.presentacion_id));
   }
 
   // Suscripción Realtime: seguir el slide del maestro
@@ -283,7 +284,7 @@ export default function PresentacionAlumno() {
             letterSpacing: "0.1em"
           }}
         >
-          {PRESENTACION.titulo}
+          {presentacion?.titulo}
         </span>
 
         {/* Progreso por puntos */}

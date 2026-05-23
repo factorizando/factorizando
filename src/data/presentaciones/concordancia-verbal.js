@@ -21,22 +21,37 @@ export const PRESENTACION = {
       tipo: "regla",
       etiqueta: "Regla 1 / 24",
       titulo: "Sujeto simple — concordancia directa",
-      descripcion: "El verbo concuerda en número (singular/plural) y persona (1ª, 2ª, 3ª) directamente con el núcleo del sujeto. Es la regla base de toda concordancia verbal.",
+      descripcion: "El verbo concuerda en número (singular/plural) y persona (1ª, 2ª, 3ª) con el núcleo del sujeto. Clave: identifica el núcleo ignorando los complementos que lo rodean; el verbo responde a ese núcleo, no a las palabras que lo modifican.",
       ejemplos: [
         {
-          categoria: "Número",
-          correcto: "El estudiante aprobó. / Los estudiantes aprobaron.",
-          incorrecto: "El estudiante aprobaron. / Los estudiantes aprobó."
+          categoria: "Singular básico",
+          correcto: "La maestra explicó el tema con claridad.",
+          incorrecto: "La maestra explicaron el tema con claridad."
         },
         {
-          categoria: "Persona",
-          correcto: "La investigadora presentó sus hallazgos ante el comité.",
-          incorrecto: "La investigadora presentaron sus hallazgos ante el comité."
+          categoria: "Plural básico",
+          correcto: "Los alumnos entregaron su tarea antes del plazo.",
+          incorrecto: "Los alumnos entregó su tarea antes del plazo."
         },
         {
-          categoria: "Género",
-          correcto: "El comité aprobó la propuesta. / La propuesta fue aprobada.",
-          incorrecto: "El comité aprobaron la propuesta."
+          categoria: "Núcleo + complemento",
+          correcto: "El director del plantel aprobó el nuevo reglamento.",
+          incorrecto: "El director del plantel aprobaron el nuevo reglamento."
+        },
+        {
+          categoria: "Sujeto pospuesto",
+          correcto: "Llegaron los delegados internacionales al foro.",
+          incorrecto: "Llegó los delegados internacionales al foro."
+        },
+        {
+          categoria: "Colectivo singular",
+          correcto: "La delegación mexicana asistió a la conferencia en Ginebra.",
+          incorrecto: "La delegación mexicana asistieron a la conferencia en Ginebra."
+        },
+        {
+          categoria: "Frase nominal compleja",
+          correcto: "El conjunto de datos recopilados durante el estudio demostró la hipótesis.",
+          incorrecto: "El conjunto de datos recopilados durante el estudio demostraron la hipótesis."
         }
       ]
     },

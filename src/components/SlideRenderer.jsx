@@ -820,11 +820,11 @@ function SlideRegla({ slide, tema }) {
   return (
     <div
       style={{
-        padding: "30px 40px",
+        padding: "20px 24px",
         height: "100%",
         display: "flex",
         flexDirection: "column",
-        gap: 18,
+        gap: 14,
         boxSizing: "border-box",
         overflowY: "auto"
       }}
@@ -833,11 +833,11 @@ function SlideRegla({ slide, tema }) {
         <div
           style={{
             fontFamily: tema.mono,
-            fontSize: 11,
+            fontSize: 10,
             letterSpacing: "0.2em",
             color: tema.acento,
             textTransform: "uppercase",
-            marginBottom: 8,
+            marginBottom: 6,
             opacity: 0.75
           }}
         >
@@ -846,7 +846,7 @@ function SlideRegla({ slide, tema }) {
         <h2
           style={{
             fontFamily: "'Playfair Display', serif",
-            fontSize: "clamp(20px, 2.8vw, 32px)",
+            fontSize: "clamp(18px, 2.4vw, 28px)",
             fontWeight: 700,
             color: tema.texto,
             letterSpacing: "-0.01em",
@@ -862,24 +862,32 @@ function SlideRegla({ slide, tema }) {
         style={{
           background: tema.acentoSuave,
           border: `1px solid ${tema.acentoBorde}`,
-          borderRadius: 10,
-          padding: "14px 22px"
+          borderRadius: 8,
+          padding: "10px 18px",
+          flexShrink: 0
         }}
       >
-        <p style={{ fontSize: 15, color: tema.texto, lineHeight: 1.65, margin: 0, fontWeight: 300 }}>
+        <p style={{ fontSize: 13.5, color: tema.texto, lineHeight: 1.6, margin: 0, fontWeight: 300 }}>
           {slide.descripcion}
         </p>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, flex: 1 }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+          gap: 10,
+          flex: 1
+        }}
+      >
         {slide.ejemplos.map((ej, i) => (
           <div
             key={i}
             style={{
               background: tema.card,
               border: `1px solid ${tema.border}`,
-              borderRadius: 10,
-              padding: "14px 16px",
+              borderRadius: 8,
+              padding: "10px 12px",
               display: "flex",
               flexDirection: "column"
             }}
@@ -887,22 +895,22 @@ function SlideRegla({ slide, tema }) {
             <div
               style={{
                 fontFamily: tema.mono,
-                fontSize: 9.5,
+                fontSize: 8.5,
                 color: tema.muted,
-                letterSpacing: "0.22em",
+                letterSpacing: "0.2em",
                 textTransform: "uppercase",
-                marginBottom: 10
+                marginBottom: 8
               }}
             >
               {ej.categoria}
             </div>
-            <div style={{ fontSize: 13.5, color: tema.texto, lineHeight: 1.6, flex: 1 }}>
-              <span style={{ color: tema.verde, marginRight: 5, fontWeight: 700 }}>✓</span>
+            <div style={{ fontSize: 12.5, color: tema.texto, lineHeight: 1.55, flex: 1 }}>
+              <span style={{ color: tema.verde, marginRight: 4, fontWeight: 700 }}>✓</span>
               {ej.correcto}
             </div>
-            <div style={{ height: 1, background: tema.border, margin: "10px 0" }} />
-            <div style={{ fontSize: 13.5, color: tema.muted, lineHeight: 1.6, flex: 1 }}>
-              <span style={{ color: "#f5c842", marginRight: 5, fontWeight: 700 }}>✗</span>
+            <div style={{ height: 1, background: tema.border, margin: "8px 0" }} />
+            <div style={{ fontSize: 12.5, color: tema.muted, lineHeight: 1.55, flex: 1 }}>
+              <span style={{ color: "#f5c842", marginRight: 4, fontWeight: 700 }}>✗</span>
               {ej.incorrecto}
             </div>
           </div>

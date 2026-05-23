@@ -92,12 +92,12 @@ export const PRESENTACION = {
       tipo: "regla",
       etiqueta: "Regla 2 / 24",
       titulo: "Sujeto compuesto con «y»",
-      descripcion: "Cuando dos o más sujetos están coordinados con la conjunción «y», el verbo va en plural (3ª persona), independientemente del género de los sujetos coordinados.",
+      descripcion: "Cuando dos o más sujetos se unen con «y» (o «e» ante palabras que empiezan con i-/hi-), el verbo va siempre en plural. Esto aplica sin importar el género de los sujetos ni si uno de ellos es singular; la suma de dos elementos obliga el plural.",
       ejemplos: [
         {
           categoria: "Masc. + Fem.",
-          correcto: "El coordinador y la jefa presentaron el proyecto ante las autoridades.",
-          incorrecto: "El coordinador y la jefa presentó el proyecto ante las autoridades."
+          correcto: "El coordinador y la jefa presentaron el informe ante el consejo.",
+          incorrecto: "El coordinador y la jefa presentó el informe ante el consejo."
         },
         {
           categoria: "Fem. + Fem.",
@@ -106,8 +106,23 @@ export const PRESENTACION = {
         },
         {
           categoria: "Masc. + Masc.",
-          correcto: "El análisis y el informe fueron revisados por el comité evaluador.",
-          incorrecto: "El análisis y el informe fue revisado por el comité evaluador."
+          correcto: "El rector y el secretario firmaron el convenio de colaboración.",
+          incorrecto: "El rector y el secretario firmó el convenio de colaboración."
+        },
+        {
+          categoria: "Tres o más sujetos",
+          correcto: "El director, la subdirectora y el coordinador aprobaron el plan.",
+          incorrecto: "El director, la subdirectora y el coordinador aprobó el plan."
+        },
+        {
+          categoria: "Persona + equipo",
+          correcto: "La investigadora y su equipo presentaron los resultados en el congreso.",
+          incorrecto: "La investigadora y su equipo presentó los resultados en el congreso."
+        },
+        {
+          categoria: "«e» ante i-/hi-",
+          correcto: "El alumno e Ignacio entregaron el proyecto a tiempo.",
+          incorrecto: "El alumno e Ignacio entregó el proyecto a tiempo."
         }
       ]
     },

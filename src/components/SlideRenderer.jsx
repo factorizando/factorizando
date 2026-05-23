@@ -7,9 +7,16 @@ import { TEMAS, useFuentesTema } from "../data/presentaciones/temas.jsx";
 function useWindowWidth() {
   const [w, setW] = useState(() => (typeof window !== "undefined" ? window.innerWidth : 1024));
   useEffect(() => {
-    const handler = () => setW(window.innerWidth);
-    window.addEventListener("resize", handler);
-    return () => window.removeEventListener("resize", handler);
+    const update = () => setW(window.innerWidth);
+    // orientationchange fires on mobile rotation; resize fires on desktop resize
+    // small timeout because orientationchange fires before dimensions update
+    const handler = () => setTimeout(update, 100);
+    window.addEventListener("resize", update);
+    window.addEventListener("orientationchange", handler);
+    return () => {
+      window.removeEventListener("resize", update);
+      window.removeEventListener("orientationchange", handler);
+    };
   }, []);
   return w;
 }
@@ -833,6 +840,8 @@ function SlideResumen({ slide, tema }) {
 }
 
 function SlideRegla({ slide, tema }) {
+  const width = useWindowWidth();
+  const gridCols = width < 560 ? "1fr" : "1fr 1fr";
   return (
     <div
       style={{
@@ -891,7 +900,7 @@ function SlideRegla({ slide, tema }) {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+          gridTemplateColumns: gridCols,
           gap: 10,
           alignContent: "start"
         }}

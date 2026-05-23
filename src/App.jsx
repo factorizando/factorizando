@@ -19,6 +19,8 @@ import FraccionesDecimales from "./data/teoria/fracciones-decimales.jsx";
 import Cinematica from "./data/teoria/cinematica-velocidad-aceleracion.jsx";
 import LeyesNewton from "./data/teoria/leyes-de-newton.jsx";
 import Quimica from "./data/teoria/quimica-unam.jsx";
+import PresentacionDirector from "./pages/PresentacionDirector.jsx";
+import PresentacionAlumno from "./pages/PresentacionAlumno.jsx";
 
 export default function App() {
   return (
@@ -73,6 +75,20 @@ export default function App() {
         />
         <Route path="/teoria/leyes-de-newton" element={<LeyesNewton />} />
         <Route path="/teoria/quimica-unam" element={<Quimica />} />
+
+        {/* ── Presentaciones ── */}
+        {/* Director (protegido): /presentacion/semejanza-triangulos */}
+        <Route
+          path="/presentacion/semejanza-triangulos"
+          element={
+            <ProtectedRoute>
+              <PresentacionDirector />
+            </ProtectedRoute>
+          }
+        />
+        {/* Alumno (público): /clase */}
+        <Route path="/clase" element={<PresentacionAlumno />} />
+
         {/* ── Selector de bloque ── */}
         <Route
           path="/selector/:id"

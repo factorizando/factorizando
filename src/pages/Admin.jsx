@@ -224,13 +224,22 @@ export default function Admin() {
         <div style={{ color: C.text, fontWeight: 700, fontSize: 16 }}>
           Panel de Administrador
         </div>
-        <Link to="/" style={{
-          color: C.muted, fontSize: 13, textDecoration: "none",
-          border: `1px solid ${C.border}`, borderRadius: 8,
-          padding: "5px 14px",
-        }}>
-          ← Inicio
-        </Link>
+        <div style={{ display: "flex", gap: 8 }}>
+          <Link to="/presentacion/semejanza-triangulos" style={{
+            color: "#f5c842", fontSize: 13, textDecoration: "none",
+            border: "1px solid #f5c84244", borderRadius: 8,
+            padding: "5px 14px", fontWeight: 600,
+          }}>
+            ▶ Presentación
+          </Link>
+          <Link to="/" style={{
+            color: C.muted, fontSize: 13, textDecoration: "none",
+            border: `1px solid ${C.border}`, borderRadius: 8,
+            padding: "5px 14px",
+          }}>
+            ← Inicio
+          </Link>
+        </div>
       </div>
 
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "28px 16px" }}>

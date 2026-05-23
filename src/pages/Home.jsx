@@ -431,6 +431,17 @@ export default function Home() {
             <span className="btn-label">Registrarse</span>
             <span className="btn-sub">Solicita tu acceso a la plataforma</span>
           </Link>
+          <Link
+            to="/clase"
+            className="btn"
+            style={{ minWidth: 220, border: "1px solid #a78bfa66" }}
+          >
+            <span className="btn-icon" style={{ fontSize: "2.2rem", color: "#a78bfa" }}>
+              ▶
+            </span>
+            <span className="btn-label">Clase en vivo</span>
+            <span className="btn-sub">Únete con tu código de sesión</span>
+          </Link>
         </div>
 
         <div className="divider"></div>

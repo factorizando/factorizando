@@ -37,6 +37,7 @@ export const PRESENTACION = {
       titulo: "Razón de Semejanza",
       etiqueta: "Factor de escala k",
       formula: "k = \\dfrac{\\text{lado de } \\triangle_1}{\\text{lado correspondiente de } \\triangle_2}",
+      svgDiagram: "razon-semejanza",
       items: [
         { math: "k > 1", texto: "el primer triángulo es el mayor" },
         { math: "k < 1", texto: "el primer triángulo es el menor" },

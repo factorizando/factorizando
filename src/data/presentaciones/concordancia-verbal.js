@@ -802,22 +802,37 @@ export const PRESENTACION = {
       tipo: "regla",
       etiqueta: "Regla 12 / 24",
       titulo: "Cuantificadores y partitivos — norma preferida",
-      descripcion: "Con «la mayoría de», «la mitad de», «una parte de», «el resto de», «una serie de», el verbo va preferentemente en singular (concordancia gramatical con el núcleo), aunque el plural también sea aceptado por concordancia de sentido.",
+      descripcion: "Con expresiones partitivas («la mayoría de», «la mitad de», «una parte de», «el resto de», «una serie de», «gran parte de»), el EXANI-I prefiere la concordancia gramatical: el verbo concuerda con el núcleo singular. El plural «por sentido» existe, pero en el examen elige siempre el singular.",
       ejemplos: [
         {
-          categoria: "La mitad de",
-          correcto: "La mitad de los documentos fue extraviada durante el traslado al nuevo edificio.",
-          incorrecto: "La mitad de los documentos fueron extraviados. (aceptable pero no preferido)"
+          categoria: "la mitad de",
+          correcto: "La mitad de los documentos fue extraviada durante el traslado.",
+          incorrecto: "La mitad de los documentos fueron extraviados. (por sentido, no preferido)"
         },
         {
-          categoria: "Una serie de",
-          correcto: "Una serie de errores imprevistos provocó el fracaso del proyecto institucional.",
-          incorrecto: "Una serie de errores imprevistos provocaron el fracaso. (aceptable pero no preferido)"
+          categoria: "una serie de",
+          correcto: "Una serie de errores imprevistos provocó el fracaso del proyecto.",
+          incorrecto: "Una serie de errores imprevistos provocaron el fracaso. (no preferido)"
         },
         {
-          categoria: "El resto de",
-          correcto: "El resto de los participantes llegó puntualmente a la segunda sesión del taller.",
-          incorrecto: "El resto de los participantes llegaron puntualmente. (aceptable, menos preciso)"
+          categoria: "el resto de",
+          correcto: "El resto de los participantes llegó puntualmente a la segunda sesión.",
+          incorrecto: "El resto de los participantes llegaron puntualmente. (no preferido)"
+        },
+        {
+          categoria: "gran parte de",
+          correcto: "Gran parte de los recursos fue destinada a infraestructura tecnológica.",
+          incorrecto: "Gran parte de los recursos fueron destinados a infraestructura."
+        },
+        {
+          categoria: "una parte de",
+          correcto: "Una parte de los estudiantes aprobó el examen diagnóstico con distinción.",
+          incorrecto: "Una parte de los estudiantes aprobaron el examen con distinción."
+        },
+        {
+          categoria: "la mayoría de (contraste con Regla 3)",
+          correcto: "La mayoría de los delegados votó a favor de la reforma propuesta.",
+          incorrecto: "La mayoría de los delegados votaron a favor de la reforma propuesta."
         }
       ]
     },

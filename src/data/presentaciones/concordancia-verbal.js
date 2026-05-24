@@ -873,22 +873,37 @@ export const PRESENTACION = {
       tipo: "regla",
       etiqueta: "Regla 13 / 24",
       titulo: "«El número de»",
-      descripcion: "La expresión «el número de» lleva verbo en singular, porque el núcleo del sujeto es «el número» (sustantivo masculino singular), no el sustantivo que aparece en el complemento.",
+      descripcion: "«El número de» siempre lleva verbo en singular: el núcleo es «el número» (masc. sing.), no el complemento. Contraste con la Regla 14: «un gran número de» va en plural porque el énfasis semántico recae en la cantidad del complemento. La diferencia está en el artículo: «el número» = dato exacto → singular; «un gran número» = cantidad aproximada → plural.",
       ejemplos: [
         {
-          categoria: "Sing.",
+          categoria: "el número de + pl. (básico)",
           correcto: "El número de estudiantes inscritos ha aumentado considerablemente este ciclo.",
           incorrecto: "El número de estudiantes inscritos han aumentado considerablemente este ciclo."
         },
         {
-          categoria: "Sing.",
-          correcto: "El número de errores encontrados en el sistema resultó preocupante para el equipo.",
-          incorrecto: "El número de errores encontrados en el sistema resultaron preocupantes."
+          categoria: "el número de + resultado",
+          correcto: "El número de errores detectados en el sistema resultó preocupante para el equipo.",
+          incorrecto: "El número de errores detectados en el sistema resultaron preocupantes."
         },
         {
-          categoria: "Sing.",
-          correcto: "El número de solicitudes recibidas supera ampliamente las expectativas del departamento.",
-          incorrecto: "El número de solicitudes recibidas superan las expectativas del departamento."
+          categoria: "el número de + supera",
+          correcto: "El número de solicitudes recibidas supera ampliamente las expectativas del área.",
+          incorrecto: "El número de solicitudes recibidas superan las expectativas del área."
+        },
+        {
+          categoria: "el número de + verbo compuesto",
+          correcto: "El número de accidentes registrados ha disminuido gracias a las nuevas medidas.",
+          incorrecto: "El número de accidentes registrados han disminuido gracias a las nuevas medidas."
+        },
+        {
+          categoria: "el número de + ser",
+          correcto: "El número de participantes es mayor al esperado por los organizadores.",
+          incorrecto: "El número de participantes son mayores al esperado por los organizadores."
+        },
+        {
+          categoria: "contraste: «un gran número de» → plural",
+          correcto: "Un gran número de personas asistieron al evento cultural organizado por la universidad.",
+          incorrecto: "Un gran número de personas asistió al evento. (aquí el plural es el preferido)"
         }
       ]
     },

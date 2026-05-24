@@ -100,6 +100,7 @@ export const PRESENTACION = {
       tipo: "criterio_detalle",
       titulo: "Criterio LAL",
       etiqueta: "Lado–Ángulo–Lado",
+      svgDiagram: "lal-detalle",
       enunciado:
         "Si dos pares de lados son proporcionales y el ángulo comprendido entre ellos es igual, los triángulos son semejantes.",
       math: "\\dfrac{AB}{DE} = \\dfrac{AC}{DF} \\;\\text{ y }\\; \\angle A = \\angle D \\implies \\triangle ABC \\sim \\triangle DEF",
@@ -112,6 +113,7 @@ export const PRESENTACION = {
       tipo: "ejemplo",
       titulo: "Ejemplo 1",
       etiqueta: "Verificar semejanza — criterio LLL",
+      svgDiagram: "ej1-lll",
       enunciado: "Determina si los siguientes triángulos son semejantes:",
       datos: [
         { label: "△ ABC", math: "AB = 6,\\; BC = 8,\\; CA = 10" },
@@ -132,6 +134,7 @@ export const PRESENTACION = {
       tipo: "ejemplo",
       titulo: "Ejemplo 2",
       etiqueta: "Encontrar un lado desconocido",
+      svgDiagram: "ej2-k32",
       enunciado:
         "Si △PQR ~ △XYZ con razón de semejanza k = 3/2 y PQ = 12, ¿cuánto mide XY?",
       datos: [],

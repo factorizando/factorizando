@@ -716,6 +716,157 @@ function CriterioLLLDetalleSVG({ tema }) {
   );
 }
 
+// △ABC: A(100,18) B(12,162) C(210,162)  △DEF: D(341,78) E(290,162) F(405,162)  k≈1.72
+function CriterioLALDetalleSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 480 182" width="100%" style={{ display: "block", maxHeight: 138 }}>
+      <polygon points="100,18 12,162 210,162" fill={tema.azulSuave} stroke="none"/>
+      <polygon points="341,78 290,162 405,162" fill={tema.azulSuave} stroke="none"/>
+
+      {/* AB/DE: azul (1 tick) — first proportional side */}
+      <line x1="100" y1="18"  x2="12"  y2="162" stroke={tema.azul}   strokeWidth="2.5"/>
+      <line x1="341" y1="78"  x2="290" y2="162" stroke={tema.azul}   strokeWidth="2.5"/>
+      {/* BC/EF: dimmed — third side, not constrained */}
+      <line x1="12"  y1="162" x2="210" y2="162" stroke="rgba(240,236,227,0.18)" strokeWidth="1.5"/>
+      <line x1="290" y1="162" x2="405" y2="162" stroke="rgba(240,236,227,0.18)" strokeWidth="1.5"/>
+      {/* CA/FD: acento (2 ticks) — second proportional side */}
+      <line x1="210" y1="162" x2="100" y2="18"  stroke={tema.acento} strokeWidth="2.5"/>
+      <line x1="405" y1="162" x2="341" y2="78"  stroke={tema.acento} strokeWidth="2.5"/>
+
+      {/* Included angle at A and D: verde arc */}
+      <path d="M 113,35 A 22,22 0 0,1 89,37" stroke={tema.verde} strokeWidth="2.2" fill="none"/>
+      <path d="M 351,91 A 16,16 0 0,1 333,92" stroke={tema.verde} strokeWidth="2.2" fill="none"/>
+
+      {/* Single tick on AB (azul) */}
+      <line x1="51" y1="87" x2="61" y2="93" stroke={tema.azul} strokeWidth="2"/>
+      {/* Single tick on DE (azul) */}
+      <line x1="312" y1="118" x2="319" y2="122" stroke={tema.azul} strokeWidth="2"/>
+
+      {/* Double tick on CA (acento) */}
+      <line x1="149" y1="90" x2="157" y2="84" stroke={tema.acento} strokeWidth="2"/>
+      <line x1="153" y1="96" x2="161" y2="90" stroke={tema.acento} strokeWidth="2"/>
+      {/* Double tick on FD (acento) */}
+      <line x1="367" y1="120" x2="375" y2="114" stroke={tema.acento} strokeWidth="2"/>
+      <line x1="371" y1="126" x2="379" y2="120" stroke={tema.acento} strokeWidth="2"/>
+
+      {/* Angle labels */}
+      <text x="104" y="52"  fill={tema.verde} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">∠A</text>
+      <text x="344" y="108" fill={tema.verde} fontSize="10" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">∠D</text>
+
+      {/* Vertex labels */}
+      <text x="100" y="10"  fill={tema.azul}   fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
+      <text x="4"   y="170" fill="rgba(240,236,227,0.45)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="215" y="170" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">C</text>
+      <text x="341" y="72"  fill={tema.azul}   fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
+      <text x="282" y="172" fill="rgba(240,236,227,0.45)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">E</text>
+      <text x="409" y="172" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">F</text>
+
+      {/* ∼ + caption */}
+      <text x="252" y="82"  fill="rgba(240,236,227,0.25)" fontSize="26" fontFamily="Georgia,serif" textAnchor="middle">∼</text>
+      <text x="252" y="114" fill={tema.verde} fontSize="9.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.03em">∠A = ∠D  (ángulo comprendido)</text>
+    </svg>
+  );
+}
+
+// Big right △ABC: B(28,150) A(28,78) C(124,150) — sides 6,8,10 (12px/unit)
+// Small right △DEF: E(188,132) D(188,96) F(236,132) — sides 3,4,5
+function Ej1LLLSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 265 172" width="100%" style={{ display: "block", maxHeight: 115 }}>
+      {/* Fills */}
+      <polygon points="28,78 28,150 124,150" fill={tema.azulSuave} stroke="none"/>
+      <polygon points="188,96 188,132 236,132" fill={tema.azulSuave} stroke="none"/>
+
+      {/* Right angle squares */}
+      <path d="M 28,142 L 36,142 L 36,150" fill="none" stroke="rgba(240,236,227,0.45)" strokeWidth="1.2"/>
+      <path d="M 188,124 L 196,124 L 196,132" fill="none" stroke="rgba(240,236,227,0.45)" strokeWidth="1.2"/>
+
+      {/* Sides: AB/DE=azul(1), BC/EF=verde(2), CA/FD=acento(3) */}
+      <line x1="28"  y1="78"  x2="28"  y2="150" stroke={tema.azul}   strokeWidth="2.5"/>
+      <line x1="28"  y1="150" x2="124" y2="150" stroke={tema.verde}  strokeWidth="2.5"/>
+      <line x1="124" y1="150" x2="28"  y2="78"  stroke={tema.acento} strokeWidth="2.5"/>
+      <line x1="188" y1="96"  x2="188" y2="132" stroke={tema.azul}   strokeWidth="2.5"/>
+      <line x1="188" y1="132" x2="236" y2="132" stroke={tema.verde}  strokeWidth="2.5"/>
+      <line x1="236" y1="132" x2="188" y2="96"  stroke={tema.acento} strokeWidth="2.5"/>
+
+      {/* Ticks — AB/DE: 1 azul (horizontal, ⊥ to vertical side) */}
+      <line x1="22"  y1="114" x2="34"  y2="114" stroke={tema.azul}  strokeWidth="2"/>
+      <line x1="182" y1="114" x2="194" y2="114" stroke={tema.azul}  strokeWidth="2"/>
+      {/* BC/EF: 2 verde (vertical, ⊥ to horizontal side) */}
+      <line x1="70"  y1="144" x2="70"  y2="156" stroke={tema.verde} strokeWidth="2"/>
+      <line x1="82"  y1="144" x2="82"  y2="156" stroke={tema.verde} strokeWidth="2"/>
+      <line x1="207" y1="126" x2="207" y2="138" stroke={tema.verde} strokeWidth="2"/>
+      <line x1="217" y1="126" x2="217" y2="138" stroke={tema.verde} strokeWidth="2"/>
+      {/* CA/FD: 3 acento (⊥ to diagonal, perp direction (0.600,−0.800)) */}
+      <line x1="79"  y1="110" x2="73"  y2="118" stroke={tema.acento} strokeWidth="2"/>
+      <line x1="75"  y1="107" x2="69"  y2="115" stroke={tema.acento} strokeWidth="2"/>
+      <line x1="83"  y1="113" x2="77"  y2="121" stroke={tema.acento} strokeWidth="2"/>
+      <line x1="214" y1="111" x2="210" y2="117" stroke={tema.acento} strokeWidth="2"/>
+      <line x1="211" y1="109" x2="207" y2="115" stroke={tema.acento} strokeWidth="2"/>
+      <line x1="217" y1="113" x2="213" y2="119" stroke={tema.acento} strokeWidth="2"/>
+
+      {/* Side labels */}
+      <text x="17"  y="118" fill={tema.azul}   fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="end">6</text>
+      <text x="76"  y="165" fill={tema.verde}  fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">8</text>
+      <text x="88"  y="101" fill={tema.acento} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="600">10</text>
+      <text x="180" y="116" fill={tema.azul}   fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="end">3</text>
+      <text x="212" y="145" fill={tema.verde}  fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">4</text>
+      <text x="221" y="104" fill={tema.acento} fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="600">5</text>
+
+      {/* Vertex labels */}
+      <text x="28"  y="70"  fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
+      <text x="14"  y="164" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="128" y="163" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">C</text>
+      <text x="188" y="89"  fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
+      <text x="174" y="142" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">E</text>
+      <text x="240" y="142" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">F</text>
+
+      {/* k=2 between the triangles */}
+      <text x="158" y="100" fill="rgba(240,236,227,0.50)" fontSize="16" fontWeight="700" fontFamily="'DM Sans',sans-serif" textAnchor="middle">k = 2</text>
+      <text x="158" y="116" fill="rgba(240,236,227,0.22)" fontSize="8.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">△ABC ∼ △DEF</text>
+    </svg>
+  );
+}
+
+// Big △PQR: P(95,14) Q(12,155) R(198,155) — labeled PQ=12
+// Small △XYZ: X(296,42) Y(240,136) Z(364,136) — labeled XY=8, k=3/2
+function Ej2K32SVG({ tema }) {
+  return (
+    <svg viewBox="0 0 388 170" width="100%" style={{ display: "block", maxHeight: 115 }}>
+      {/* Fills */}
+      <polygon points="95,14 12,155 198,155" fill={tema.azulSuave} stroke="none"/>
+      <polygon points="296,42 240,136 364,136" fill={tema.azulSuave} stroke="none"/>
+
+      {/* Big triangle sides — PQ highlighted in azul, rest dimmed */}
+      <line x1="95"  y1="14"  x2="12"  y2="155" stroke={tema.azul}   strokeWidth="2.8"/>
+      <line x1="12"  y1="155" x2="198" y2="155" stroke="rgba(240,236,227,0.35)" strokeWidth="1.8"/>
+      <line x1="198" y1="155" x2="95"  y2="14"  stroke="rgba(240,236,227,0.35)" strokeWidth="1.8"/>
+
+      {/* Small triangle sides — XY highlighted in azul, rest dimmed */}
+      <line x1="296" y1="42"  x2="240" y2="136" stroke={tema.azul}   strokeWidth="2.8"/>
+      <line x1="240" y1="136" x2="364" y2="136" stroke="rgba(240,236,227,0.35)" strokeWidth="1.8"/>
+      <line x1="364" y1="136" x2="296" y2="42"  stroke="rgba(240,236,227,0.35)" strokeWidth="1.8"/>
+
+      {/* Labels on PQ and XY */}
+      <text x="40"  y="93"  fill={tema.azul} fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">12</text>
+      <text x="258" y="95"  fill={tema.azul} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">8</text>
+
+      {/* Vertex labels */}
+      <text x="95"  y="8"   fill="rgba(240,236,227,0.70)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">P</text>
+      <text x="4"   y="163" fill="rgba(240,236,227,0.70)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">Q</text>
+      <text x="202" y="163" fill="rgba(240,236,227,0.70)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">R</text>
+      <text x="296" y="36"  fill="rgba(240,236,227,0.70)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">X</text>
+      <text x="232" y="148" fill="rgba(240,236,227,0.70)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">Y</text>
+      <text x="368" y="148" fill="rgba(240,236,227,0.70)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">Z</text>
+
+      {/* k = 3/2 in center + ∼ */}
+      <text x="222" y="72"  fill="rgba(240,236,227,0.28)" fontSize="22" fontFamily="Georgia,serif" textAnchor="middle">∼</text>
+      <text x="222" y="96"  fill="rgba(240,236,227,0.55)" fontSize="17" fontWeight="700" fontFamily="'DM Sans',sans-serif" textAnchor="middle">k = 3/2</text>
+      <text x="222" y="112" fill="rgba(240,236,227,0.22)" fontSize="9" fontFamily="'DM Sans',sans-serif" textAnchor="middle">PQ / XY = 12 / 8</text>
+    </svg>
+  );
+}
+
 function SlideCriterioDetalle({ slide, tema }) {
   const compact = !!slide.svgDiagram;
   return (
@@ -757,6 +908,7 @@ function SlideCriterioDetalle({ slide, tema }) {
 
       {slide.svgDiagram === "aa-detalle"  && <CriterioAADetalleSVG  tema={tema} />}
       {slide.svgDiagram === "lll-detalle" && <CriterioLLLDetalleSVG tema={tema} />}
+      {slide.svgDiagram === "lal-detalle" && <CriterioLALDetalleSVG tema={tema} />}
 
       <div
         style={{
@@ -800,14 +952,15 @@ function SlideCriterioDetalle({ slide, tema }) {
 }
 
 function SlideEjemplo({ slide, tema }) {
+  const compact = !!slide.svgDiagram;
   return (
     <div
       style={{
-        padding: "36px 44px",
+        padding: compact ? "20px 28px" : "36px 44px",
         height: "100%",
         display: "flex",
         flexDirection: "column",
-        gap: 22,
+        gap: compact ? 14 : 22,
         boxSizing: "border-box",
         overflowY: "auto"
       }}
@@ -818,7 +971,8 @@ function SlideEjemplo({ slide, tema }) {
         {slide.enunciado}
       </p>
 
-      {slide.datos.length > 0 && (
+      {/* When SVG is present it replaces the datos grid (side labels are embedded in SVG) */}
+      {!compact && slide.datos.length > 0 && (
         <div
           style={{
             display: "grid",
@@ -855,6 +1009,9 @@ function SlideEjemplo({ slide, tema }) {
           ))}
         </div>
       )}
+
+      {slide.svgDiagram === "ej1-lll" && <Ej1LLLSVG tema={tema} />}
+      {slide.svgDiagram === "ej2-k32" && <Ej2K32SVG tema={tema} />}
 
       <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
         {slide.pasos.map((p, i) => (

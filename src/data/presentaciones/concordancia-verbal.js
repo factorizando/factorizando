@@ -305,22 +305,37 @@ export const PRESENTACION = {
       tipo: "regla",
       etiqueta: "Regla 5 / 24",
       titulo: "Inciso intercalado entre sujeto y verbo",
-      descripcion: "Cuando hay un inciso entre el sujeto y el verbo, el verbo concuerda con el NÚCLEO del sujeto principal, no con el elemento del inciso. El inciso puede eliminarse y la concordancia no cambia.",
+      descripcion: "Un inciso es un complemento entre comas que se intercala entre el sujeto y el verbo. La clave: elimina el inciso mentalmente y el verbo sigue concordando con el núcleo del sujeto. Conectores frecuentes de inciso: «así como», «junto con», «además de», «acompañado de», «incluyendo».",
       ejemplos: [
         {
-          categoria: "Inciso",
-          correcto: "El director, así como todos los docentes, asistió a la reunión.",
-          incorrecto: "El director, así como todos los docentes, asistieron a la reunión."
+          categoria: "«así como»",
+          correcto: "El director, así como todos los docentes, asistió a la ceremonia.",
+          incorrecto: "El director, así como todos los docentes, asistieron a la ceremonia."
         },
         {
-          categoria: "Inciso",
-          correcto: "La propuesta, junto con sus anexos técnicos, fue entregada en tiempo.",
-          incorrecto: "La propuesta, junto con sus anexos técnicos, fueron entregadas en tiempo."
+          categoria: "«junto con»",
+          correcto: "La propuesta, junto con sus anexos técnicos, fue entregada a tiempo.",
+          incorrecto: "La propuesta, junto con sus anexos técnicos, fueron entregadas a tiempo."
         },
         {
-          categoria: "Inciso",
+          categoria: "«acompañado de»",
           correcto: "El informe, acompañado de tres apéndices, fue revisado por el comité.",
           incorrecto: "El informe, acompañado de tres apéndices, fueron revisados por el comité."
+        },
+        {
+          categoria: "«además de»",
+          correcto: "La rectora, además de varios coordinadores, firmó el convenio.",
+          incorrecto: "La rectora, además de varios coordinadores, firmaron el convenio."
+        },
+        {
+          categoria: "inciso adjetival",
+          correcto: "El equipo ganador, conformado por diez estudiantes, recibió el premio.",
+          incorrecto: "El equipo ganador, conformado por diez estudiantes, recibieron el premio."
+        },
+        {
+          categoria: "«incluyendo»",
+          correcto: "El presupuesto, incluyendo viáticos y materiales, fue aprobado por unanimidad.",
+          incorrecto: "El presupuesto, incluyendo viáticos y materiales, fueron aprobados por unanimidad."
         }
       ]
     },

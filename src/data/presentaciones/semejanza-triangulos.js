@@ -73,6 +73,7 @@ export const PRESENTACION = {
       tipo: "criterio_detalle",
       titulo: "Criterio AA",
       etiqueta: "Ángulo–Ángulo",
+      svgDiagram: "aa-detalle",
       enunciado:
         "Si dos ángulos de un triángulo son iguales a dos ángulos de otro, los triángulos son semejantes.",
       math: "\\angle A = \\angle D \\;\\text{ y }\\; \\angle B = \\angle E \\implies \\triangle ABC \\sim \\triangle DEF",

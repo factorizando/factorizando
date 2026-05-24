@@ -595,10 +595,6 @@ function SlideEjemplo({ slide, tema }) {
 function SlideEjercicio({ slide, modo, votos, totalVotos, respuestaDada, onResponder, tema }) {
   const done = respuestaDada !== null && respuestaDada !== undefined;
   const correcta = slide.correcta;
-  const width = useWindowWidth();
-  const isMobile = width < 560;
-  const cols = isMobile ? 1 : slide.opciones.length === 3 ? 3 : 2;
-  const gridCols = Array(cols).fill("1fr").join(" ");
 
   return (
     <div
@@ -655,7 +651,7 @@ function SlideEjercicio({ slide, modo, votos, totalVotos, respuestaDada, onRespo
 
         {/* Opciones */}
         <div
-          style={{ display: "grid", gridTemplateColumns: gridCols, gap: 10, alignContent: "start" }}
+          style={{ display: "grid", gridTemplateColumns: "1fr", gap: 10, alignContent: "start" }}
         >
           {slide.opciones.map((op, i) => {
             const isOk = i === correcta;

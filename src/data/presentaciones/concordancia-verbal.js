@@ -376,22 +376,37 @@ export const PRESENTACION = {
       tipo: "regla",
       etiqueta: "Regla 6 / 24",
       titulo: "Conectores que forman inciso (no coordinan sujetos)",
-      descripcion: "Los conectores «así como», «junto con», «además de», «al igual que», «incluyendo a», «acompañado de» y «seguido de» introducen incisos, NO coordinan sujetos. El verbo concuerda con el núcleo del sujeto principal.",
+      descripcion: "Diferencia clave: «y» coordina sujetos → verbo en plural. Los conectores «además de», «al igual que», «incluyendo a», «seguido de», «acompañado de» y «junto con» introducen incisos → verbo en singular (concuerda con el núcleo principal). Si puedes sustituir el conector por «y», tendrás que ir al plural; si no, el sujeto sigue siendo singular.",
       ejemplos: [
         {
-          categoria: "Además de",
+          categoria: "«además de»",
           correcto: "El comité, además de los asesores externos, revisó el documento final.",
           incorrecto: "El comité, además de los asesores externos, revisaron el documento final."
         },
         {
-          categoria: "Al igual que",
+          categoria: "«al igual que»",
           correcto: "La directora, al igual que sus colaboradores, firmó el acuerdo institucional.",
           incorrecto: "La directora, al igual que sus colaboradores, firmaron el acuerdo."
         },
         {
-          categoria: "Incluyendo a",
+          categoria: "«incluyendo a»",
           correcto: "El rector, incluyendo a los decanos, aprobó la resolución del consejo.",
           incorrecto: "El rector, incluyendo a los decanos, aprobaron la resolución del consejo."
+        },
+        {
+          categoria: "«seguido de»",
+          correcto: "El presidente, seguido de todo su gabinete, llegó al recinto oficial.",
+          incorrecto: "El presidente, seguido de todo su gabinete, llegaron al recinto oficial."
+        },
+        {
+          categoria: "«junto con» (inciso) vs «y» (coordinación)",
+          correcto: "El rector junto con los decanos aprobó la propuesta. (singular)",
+          incorrecto: "El rector junto con los decanos aprobaron la propuesta. (reserva el plural para «y»)"
+        },
+        {
+          categoria: "«acompañado de» + oración larga",
+          correcto: "La investigadora, acompañada de los miembros de su laboratorio, presentó los hallazgos ante el comité.",
+          incorrecto: "La investigadora, acompañada de los miembros de su laboratorio, presentaron los hallazgos ante el comité."
         }
       ]
     },

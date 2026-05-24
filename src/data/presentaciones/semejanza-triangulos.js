@@ -19,6 +19,7 @@ export const PRESENTACION = {
       titulo: "Definición",
       simbolo: "\\triangle ABC \\sim \\triangle DEF",
       cuerpo: "Dos triángulos son semejantes si tienen la misma forma pero no necesariamente el mismo tamaño.",
+      svgDiagram: "triangulos-semejantes",
       condiciones: [
         {
           texto: "① Ángulos correspondientes iguales",

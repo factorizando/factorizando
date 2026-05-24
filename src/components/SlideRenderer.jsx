@@ -192,15 +192,83 @@ function SlidePortada({ slide, tema }) {
   );
 }
 
+function TriangulosSemejantesSVG({ tema }) {
+  const A = [115, 16], B = [10, 178], C = [240, 178];
+  const D = [365, 81], E = [302, 178], F = [440, 178];
+
+  function mid([x1,y1],[x2,y2]) { return [(x1+x2)/2,(y1+y2)/2]; }
+  function vsub([x1,y1],[x2,y2]) { return [x1-x2,y1-y2]; }
+  function vadd([x1,y1],[x2,y2]) { return [x1+x2,y1+y2]; }
+  function vscale([x,y],s) { return [x*s,y*s]; }
+  function vunit([x,y]) { const l=Math.hypot(x,y); return [x/l,y/l]; }
+  function vperp([x,y]) { return [-y,x]; }
+  function fmt([x,y]) { return `${x.toFixed(1)},${y.toFixed(1)}`; }
+
+  function tickPath(P1, P2) {
+    const m = mid(P1,P2), p = vperp(vunit(vsub(P2,P1)));
+    return `M ${fmt(vadd(m,vscale(p,6)))} L ${fmt(vadd(m,vscale(p,-6)))}`;
+  }
+  function tick2Path(P1, P2) {
+    const m=mid(P1,P2), d=vunit(vsub(P2,P1)), p=vperp(d);
+    return [-4,4].map(o=>{const c=vadd(m,vscale(d,o));return `M ${fmt(vadd(c,vscale(p,6)))} L ${fmt(vadd(c,vscale(p,-6)))}`;}).join(" ");
+  }
+  function tick3Path(P1, P2) {
+    const m=mid(P1,P2), d=vunit(vsub(P2,P1)), p=vperp(d);
+    return [-7,0,7].map(o=>{const c=vadd(m,vscale(d,o));return `M ${fmt(vadd(c,vscale(p,6)))} L ${fmt(vadd(c,vscale(p,-6)))}`;}).join(" ");
+  }
+  function arcPath(V, P1, P2, r) {
+    const s=vadd(V,vscale(vunit(vsub(P1,V)),r)), e=vadd(V,vscale(vunit(vsub(P2,V)),r));
+    return `M ${fmt(s)} A ${r},${r} 0 0,1 ${fmt(e)}`;
+  }
+  const pts = ps => ps.map(fmt).join(" ");
+
+  return (
+    <svg viewBox="0 0 510 200" width="100%" style={{ maxHeight: 168, display: "block" }}>
+      <polygon points={pts([A,B,C])} fill={tema.azulSuave} stroke="none"/>
+      <polygon points={pts([D,E,F])} fill={tema.azulSuave} stroke="none"/>
+
+      <line x1={A[0]} y1={A[1]} x2={B[0]} y2={B[1]} stroke={tema.azul} strokeWidth="2" opacity="0.85"/>
+      <line x1={D[0]} y1={D[1]} x2={E[0]} y2={E[1]} stroke={tema.azul} strokeWidth="2" opacity="0.85"/>
+      <line x1={B[0]} y1={B[1]} x2={C[0]} y2={C[1]} stroke={tema.verde} strokeWidth="2" opacity="0.85"/>
+      <line x1={E[0]} y1={E[1]} x2={F[0]} y2={F[1]} stroke={tema.verde} strokeWidth="2" opacity="0.85"/>
+      <line x1={C[0]} y1={C[1]} x2={A[0]} y2={A[1]} stroke={tema.acento} strokeWidth="2" opacity="0.85"/>
+      <line x1={F[0]} y1={F[1]} x2={D[0]} y2={D[1]} stroke={tema.acento} strokeWidth="2" opacity="0.85"/>
+
+      <path d={tickPath(A,B)} stroke={tema.azul} strokeWidth="1.5" fill="none" opacity="0.9"/>
+      <path d={tickPath(D,E)} stroke={tema.azul} strokeWidth="1.5" fill="none" opacity="0.9"/>
+      <path d={tick2Path(B,C)} stroke={tema.verde} strokeWidth="1.5" fill="none" opacity="0.9"/>
+      <path d={tick2Path(E,F)} stroke={tema.verde} strokeWidth="1.5" fill="none" opacity="0.9"/>
+      <path d={tick3Path(C,A)} stroke={tema.acento} strokeWidth="1.5" fill="none" opacity="0.9"/>
+      <path d={tick3Path(F,D)} stroke={tema.acento} strokeWidth="1.5" fill="none" opacity="0.9"/>
+
+      <path d={arcPath(A,C,B,22)} stroke={tema.azul} strokeWidth="1.5" fill="none" opacity="0.8"/>
+      <path d={arcPath(D,F,E,16)} stroke={tema.azul} strokeWidth="1.5" fill="none" opacity="0.8"/>
+      <path d={arcPath(B,A,C,22)} stroke={tema.verde} strokeWidth="1.5" fill="none" opacity="0.8"/>
+      <path d={arcPath(E,D,F,16)} stroke={tema.verde} strokeWidth="1.5" fill="none" opacity="0.8"/>
+      <path d={arcPath(C,B,A,22)} stroke={tema.acento} strokeWidth="1.5" fill="none" opacity="0.8"/>
+      <path d={arcPath(F,E,D,16)} stroke={tema.acento} strokeWidth="1.5" fill="none" opacity="0.8"/>
+
+      <text x={A[0]-5} y={A[1]-10} fill={tema.azul} fontSize="15" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
+      <text x={B[0]-14} y={B[1]+4} fill={tema.verde} fontSize="15" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x={C[0]+7} y={C[1]+4} fill={tema.acento} fontSize="15" fontFamily="Georgia,serif" fontStyle="italic">C</text>
+      <text x={D[0]-5} y={D[1]-10} fill={tema.azul} fontSize="15" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
+      <text x={E[0]-14} y={E[1]+4} fill={tema.verde} fontSize="15" fontFamily="Georgia,serif" fontStyle="italic">E</text>
+      <text x={F[0]+7} y={F[1]+4} fill={tema.acento} fontSize="15" fontFamily="Georgia,serif" fontStyle="italic">F</text>
+
+      <text x="275" y="128" fill="rgba(240,236,227,0.32)" fontSize="36" fontFamily="Georgia,serif" textAnchor="middle">∼</text>
+    </svg>
+  );
+}
+
 function SlideDefinicion({ slide, tema }) {
   return (
     <div
       style={{
-        padding: "36px 44px",
+        padding: "24px 32px",
         height: "100%",
         display: "flex",
         flexDirection: "column",
-        gap: 28,
+        gap: 14,
         boxSizing: "border-box"
       }}
     >
@@ -211,18 +279,18 @@ function SlideDefinicion({ slide, tema }) {
           background: tema.acentoSuave,
           border: `1px solid ${tema.acentoBorde}`,
           borderRadius: 12,
-          padding: "22px 32px",
+          padding: "16px 28px",
           textAlign: "center"
         }}
       >
-        <div style={{ fontSize: "1.9em", marginBottom: 14 }}>
+        <div style={{ fontSize: "1.7em", marginBottom: 10 }}>
           <M>{slide.simbolo}</M>
         </div>
         <p
           style={{
-            fontSize: 17,
+            fontSize: 16,
             color: tema.texto,
-            lineHeight: 1.7,
+            lineHeight: 1.65,
             fontWeight: 300,
             margin: 0
           }}
@@ -231,7 +299,11 @@ function SlideDefinicion({ slide, tema }) {
         </p>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+      {slide.svgDiagram === "triangulos-semejantes" && (
+        <TriangulosSemejantesSVG tema={tema} />
+      )}
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
         {slide.condiciones.map((c, i) => (
           <div
             key={i}
@@ -239,7 +311,7 @@ function SlideDefinicion({ slide, tema }) {
               background: tema.card,
               border: `1px solid ${tema.border}`,
               borderRadius: 10,
-              padding: "18px 22px"
+              padding: "14px 18px"
             }}
           >
             <div
@@ -249,12 +321,12 @@ function SlideDefinicion({ slide, tema }) {
                 letterSpacing: "0.14em",
                 color: i === 0 ? tema.azul : tema.acento,
                 textTransform: "uppercase",
-                marginBottom: 14
+                marginBottom: 10
               }}
             >
               {c.texto}
             </div>
-            <div style={{ textAlign: "center", fontSize: "1.1em" }}>
+            <div style={{ textAlign: "center", fontSize: "1.05em" }}>
               <M>{c.math}</M>
             </div>
           </div>

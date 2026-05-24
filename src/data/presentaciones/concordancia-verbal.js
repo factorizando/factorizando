@@ -518,7 +518,7 @@ export const PRESENTACION = {
       tipo: "regla",
       etiqueta: "Regla 8 / 24",
       titulo: "«Hay», «hace», «hubo» — verbos impersonales",
-      descripcion: "El verbo «haber» como impersonal (hay, hubo, había, habrá, haya) y «hacer» en expresiones de tiempo (hace días, hace años) no tienen sujeto gramatical. Van siempre en singular. Error clásico: «hubieron», «han» en lugar de «hubo», «hay».",
+      descripcion: "Concepto clave — impersonalidad gramatical: cuando «haber» expresa existencia (hay, hubo, había, habrá, haya) y «hacer» expresa tiempo transcurrido (hace días, hace años), estos verbos carecen de sujeto gramatical. El sustantivo que los acompaña NO es el sujeto: es un Complemento Directo (CD). Sin sujeto con quien concordar, el verbo queda fijo en 3ª persona singular. Prueba del CD: si puedes sustituir el sustantivo por «lo/la/los/las» (pronombres de objeto), confirmas que es CD y no sujeto — «¿Había muchas personas? Sí, las había» (no «ellas habían»). ¿Por qué erramos? El cerebro ve un sustantivo plural junto al verbo y lo pluraliza por inercia. Recordar que «lo que hay» o «lo que hace» es el objeto y no el sujeto es el truco definitivo para mantener el singular.",
       ejemplos: [
         {
           categoria: "hay (presente)",

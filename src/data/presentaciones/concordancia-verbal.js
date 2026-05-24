@@ -731,22 +731,37 @@ export const PRESENTACION = {
       tipo: "regla",
       etiqueta: "Regla 11 / 24",
       titulo: "Construcción «uno de los que»",
-      descripcion: "En «uno/una de los/las que», el verbo en la cláusula relativa va en plural, porque el relativo «que» retoma al antecedente plural (los/las), no al «uno/una» singular.",
+      descripcion: "En «uno/una de los/las que + verbo», el verbo de la cláusula relativa va en PLURAL. El relativo «que» retoma el antecedente plural (los/las…), no al «uno/una» singular. Truco: pregunta ¿a qué se refiere «que»? → al grupo plural, no al individuo.",
       ejemplos: [
         {
-          categoria: "Fem. Pl.",
+          categoria: "una de las que (fem. pl.)",
           correcto: "Ella es una de las investigadoras que han publicado en revistas internacionales.",
           incorrecto: "Ella es una de las investigadoras que ha publicado en revistas internacionales."
         },
         {
-          categoria: "Masc. Pl.",
+          categoria: "uno de los que (masc. pl.)",
           correcto: "Él fue uno de los estudiantes que aprobaron con distinción el examen nacional.",
           incorrecto: "Él fue uno de los estudiantes que aprobó con distinción el examen nacional."
         },
         {
-          categoria: "Neut. Pl.",
+          categoria: "uno de los pocos que",
           correcto: "Es uno de los pocos proyectos que han recibido financiamiento completo este año.",
           incorrecto: "Es uno de los pocos proyectos que ha recibido financiamiento completo este año."
+        },
+        {
+          categoria: "una de las primeras que",
+          correcto: "Fue una de las primeras alumnas que obtuvieron beca en esa convocatoria.",
+          incorrecto: "Fue una de las primeras alumnas que obtuvo beca en esa convocatoria."
+        },
+        {
+          categoria: "uno de los mejores que",
+          correcto: "Es uno de los mejores libros que se han escrito sobre el tema en México.",
+          incorrecto: "Es uno de los mejores libros que se ha escrito sobre el tema en México."
+        },
+        {
+          categoria: "contraste: «el único que» → singular",
+          correcto: "Él es el único candidato que cumple todos los requisitos del perfil.",
+          incorrecto: "Él es el único candidato que cumplen todos los requisitos del perfil."
         }
       ]
     },

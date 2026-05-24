@@ -472,7 +472,7 @@ function SlideConcepto({ slide, tema }) {
 
 function CriterioAA_SVG({ tema }) {
   return (
-    <svg viewBox="0 0 190 88" width="100%" style={{ maxHeight: 44, display: "block" }}>
+    <svg viewBox="0 0 190 88" width="100%" style={{ display: "block" }}>
       <polygon points="50,10 8,78 96,78" fill={tema.azulSuave} stroke="none"/>
       <polygon points="148,33 120,78 178,78" fill={tema.azulSuave} stroke="none"/>
       <polygon points="50,10 8,78 96,78" fill="none" stroke="rgba(255,255,255,0.13)" strokeWidth="1.5"/>
@@ -494,7 +494,7 @@ function CriterioAA_SVG({ tema }) {
 
 function CriterioLLL_SVG({ tema }) {
   return (
-    <svg viewBox="0 0 190 88" width="100%" style={{ maxHeight: 44, display: "block" }}>
+    <svg viewBox="0 0 190 88" width="100%" style={{ display: "block" }}>
       <polygon points="50,10 8,78 96,78" fill={tema.azulSuave} stroke="none"/>
       <polygon points="148,33 120,78 178,78" fill={tema.azulSuave} stroke="none"/>
       {/* Color-coded sides: AB/DE=azul, BC/EF=verde, CA/FD=acento */}
@@ -517,7 +517,7 @@ function CriterioLLL_SVG({ tema }) {
 
 function CriterioLAL_SVG({ tema }) {
   return (
-    <svg viewBox="0 0 190 88" width="100%" style={{ maxHeight: 44, display: "block" }}>
+    <svg viewBox="0 0 190 88" width="100%" style={{ display: "block" }}>
       <polygon points="50,10 8,78 96,78" fill={tema.azulSuave} stroke="none"/>
       <polygon points="148,33 120,78 178,78" fill={tema.azulSuave} stroke="none"/>
       {/* Dim base sides (not part of LAL) */}
@@ -543,6 +543,9 @@ function CriterioLAL_SVG({ tema }) {
 function SlideListaCriterios({ slide, tema }) {
   const colores = [tema.acento, tema.azul, tema.verde];
   const bgColores = [tema.acentoMed, tema.azulMed, "rgba(74,222,128,0.1)"];
+  const winW = useWindowWidth();
+  // SVG lives outside the card; width scales with screen but stays bounded
+  const svgW = Math.min(185, Math.max(110, Math.floor(winW * 0.30)));
   const criterioSVGs = {
     "AA":  <CriterioAA_SVG  tema={tema} />,
     "LLL": <CriterioLLL_SVG tema={tema} />,
@@ -551,7 +554,7 @@ function SlideListaCriterios({ slide, tema }) {
   return (
     <div
       style={{
-        padding: "20px 28px",
+        padding: "22px 28px",
         height: "100%",
         display: "flex",
         flexDirection: "column",
@@ -560,61 +563,58 @@ function SlideListaCriterios({ slide, tema }) {
       }}
     >
       <Encabezado titulo={slide.titulo} etiqueta={slide.etiqueta} tema={tema} />
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: 12,
-        }}
-      >
+      <div style={{ display: "flex", flexDirection: "column", gap: 12, flex: 1, justifyContent: "center" }}>
         {slide.criterios.map((c, i) => (
-          <div
-            key={i}
-            style={{
-              display: "flex",
-              alignItems: "flex-start",
-              gap: 18,
-              background: tema.card,
-              border: `1px solid ${tema.border}`,
-              borderRadius: 12,
-              padding: "14px 20px"
-            }}
-          >
+          <div key={i} style={{ display: "flex", gap: 14, alignItems: "center" }}>
+
+            {/* Card box — badge + text only, no SVG inside */}
             <div
               style={{
-                minWidth: 52,
-                height: 52,
-                borderRadius: 10,
-                background: bgColores[i],
-                border: `2px solid ${colores[i]}`,
+                flex: 1,
+                minWidth: 0,
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
-                fontFamily: tema.mono,
-                fontWeight: 700,
-                fontSize: 14,
-                color: colores[i],
-                flexShrink: 0
+                gap: 16,
+                background: tema.card,
+                border: `1px solid ${tema.border}`,
+                borderRadius: 12,
+                padding: "14px 20px"
               }}
             >
-              {c.sigla}
-            </div>
-            <div style={{ flex: 1, minWidth: 0 }}>
               <div
                 style={{
-                  fontSize: 16,
-                  fontWeight: 600,
-                  color: tema.texto,
-                  marginBottom: 4
+                  minWidth: 54,
+                  height: 54,
+                  borderRadius: 10,
+                  background: bgColores[i],
+                  border: `2px solid ${colores[i]}`,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontFamily: tema.mono,
+                  fontWeight: 700,
+                  fontSize: 14,
+                  color: colores[i],
+                  flexShrink: 0
                 }}
               >
-                {c.nombre}
+                {c.sigla}
               </div>
-              <div style={{ fontSize: 13.5, color: tema.sub, lineHeight: 1.5, marginBottom: 8 }}>
-                {c.desc}
+              <div style={{ minWidth: 0 }}>
+                <div style={{ fontSize: 16, fontWeight: 600, color: tema.texto, marginBottom: 3 }}>
+                  {c.nombre}
+                </div>
+                <div style={{ fontSize: 13, color: tema.sub, lineHeight: 1.5 }}>
+                  {c.desc}
+                </div>
               </div>
+            </div>
+
+            {/* SVG fuera de la caja, más grande */}
+            <div style={{ width: svgW, flexShrink: 0 }}>
               {criterioSVGs[c.sigla]}
             </div>
+
           </div>
         ))}
       </div>

@@ -592,7 +592,7 @@ function SlideEjemplo({ slide, tema }) {
   );
 }
 
-function SlideEjercicio({ slide, modo, votos, totalVotos, respuestaDada, onResponder, tema }) {
+function SlideEjercicio({ slide, modo, votos, totalVotos, respuestaDada, onResponder, tema, resaltadoIdx, onResaltar }) {
   const done = respuestaDada !== null && respuestaDada !== undefined;
   const correcta = slide.correcta;
 
@@ -678,11 +678,20 @@ function SlideEjercicio({ slide, modo, votos, totalVotos, respuestaDada, onRespo
 
             const votoCount = votos?.[i] || 0;
 
+            const resaltado = resaltadoIdx === i;
+            if (resaltado) {
+              border = `2px solid ${tema.acento}`;
+              bg = bg === "rgba(255,255,255,0.04)" ? tema.acentoSuave : bg;
+            }
+
             return (
               <button
                 key={i}
-                onClick={() => modo === "alumno" && !done && onResponder(i)}
-                disabled={modo !== "alumno" || done}
+                onClick={() => {
+                  if (modo === "alumno" && !done) onResponder(i);
+                  if (modo === "director" && onResaltar) onResaltar(i);
+                }}
+                disabled={modo === "alumno" && done}
                 style={{
                   padding: "14px 18px",
                   border,
@@ -691,14 +700,16 @@ function SlideEjercicio({ slide, modo, votos, totalVotos, respuestaDada, onRespo
                   color,
                   fontSize: 16,
                   fontFamily: "inherit",
-                  cursor: modo === "alumno" && !done ? "pointer" : "default",
-                  transition: "all 0.18s",
+                  cursor: (modo === "alumno" && !done) || modo === "director" ? "pointer" : "default",
+                  transition: "all 0.2s",
                   textAlign: "center",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   gap: 8,
-                  minHeight: 60
+                  minHeight: 60,
+                  boxShadow: resaltado ? `0 0 0 2px ${tema.acentoBorde}, 0 0 18px ${tema.acentoBorde}` : "none",
+                  transform: resaltado ? "scale(1.01)" : "scale(1)",
                 }}
               >
                 <span
@@ -835,7 +846,7 @@ function SlideResumen({ slide, tema }) {
   );
 }
 
-function SlideRegla({ slide, tema }) {
+function SlideRegla({ slide, tema, modo, resaltadoIdx, onResaltar }) {
   const width = useWindowWidth();
   const gridCols = width < 560 ? "1fr" : "1fr 1fr";
   return (
@@ -901,16 +912,23 @@ function SlideRegla({ slide, tema }) {
           alignContent: "start"
         }}
       >
-        {slide.ejemplos.map((ej, i) => (
+        {slide.ejemplos.map((ej, i) => {
+          const activo = resaltadoIdx === i;
+          return (
           <div
             key={i}
+            onClick={() => modo === "director" && onResaltar && onResaltar(i)}
             style={{
-              background: tema.card,
-              border: `1px solid ${tema.border}`,
+              background: activo ? tema.acentoSuave : tema.card,
+              border: `1px solid ${activo ? tema.acento : tema.border}`,
               borderRadius: 8,
               padding: "10px 12px",
               display: "flex",
-              flexDirection: "column"
+              flexDirection: "column",
+              cursor: modo === "director" ? "pointer" : "default",
+              boxShadow: activo ? `0 0 0 2px ${tema.acentoBorde}, 0 0 18px ${tema.acentoBorde}` : "none",
+              transform: activo ? "scale(1.015)" : "scale(1)",
+              transition: "all 0.2s",
             }}
           >
             <div
@@ -935,7 +953,8 @@ function SlideRegla({ slide, tema }) {
               {ej.incorrecto}
             </div>
           </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
@@ -950,12 +969,14 @@ export default function SlideRenderer({
   votos,
   totalVotos,
   respuestaDada,
-  onResponder
+  onResponder,
+  resaltadoIdx = null,
+  onResaltar = null,
 }) {
   useKaTeX();
   useFuentesTema(tema);
 
-  const props = { slide, tema, modo, votos, totalVotos, respuestaDada, onResponder };
+  const props = { slide, tema, modo, votos, totalVotos, respuestaDada, onResponder, resaltadoIdx, onResaltar };
 
   switch (slide.tipo) {
     case "portada":

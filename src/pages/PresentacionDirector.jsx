@@ -25,7 +25,9 @@ export default function PresentacionDirector() {
   const [votos, setVotos] = useState({}); // { [slideId]: { [opcionIdx]: count } }
   const [cargando, setCargando] = useState(false);
   const [error, setError] = useState("");
+  const [resaltado, setResaltado] = useState(null);
   const canalRef = useRef(null);
+  const salaRef = useRef(null);
 
   if (!PRESENTACION) {
     return (
@@ -91,10 +93,31 @@ export default function PresentacionDirector() {
       .subscribe();
 
     canalRef.current = canal;
+
+    // Canal broadcast para resaltado de elementos
+    const sala = supabase.channel(`sala-${sesion.id}`).subscribe();
+    salaRef.current = sala;
+
     return () => {
       supabase.removeChannel(canal);
+      supabase.removeChannel(sala);
     };
   }, [sesion]);
+
+  // Limpiar resaltado al cambiar de slide
+  useEffect(() => {
+    setResaltado(null);
+  }, [slideIdx]);
+
+  function resaltar(idx) {
+    const nuevo = resaltado === idx ? null : idx;
+    setResaltado(nuevo);
+    salaRef.current?.send({
+      type: "broadcast",
+      event: "resaltado",
+      payload: { idx: nuevo },
+    });
+  }
 
   async function iniciarSesion() {
     setCargando(true);
@@ -338,6 +361,8 @@ export default function PresentacionDirector() {
           modo="director"
           votos={votos[slide.id]}
           totalVotos={totalVotosSlide}
+          resaltadoIdx={resaltado}
+          onResaltar={resaltar}
         />
       </div>
 

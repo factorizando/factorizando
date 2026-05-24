@@ -16,6 +16,7 @@ export default function PresentacionAlumno() {
   const [sesionTerminada, setSesionTerminada] = useState(false);
   // Respuestas dadas: { [slideId]: opcionIdx }
   const [respuestas, setRespuestas] = useState({});
+  const [resaltado, setResaltado] = useState(null);
   const canalRef = useRef(null);
 
   const tema = obtenerTema(presentacion?.materia);
@@ -74,10 +75,25 @@ export default function PresentacionAlumno() {
       .subscribe();
 
     canalRef.current = canal;
+
+    // Canal broadcast para recibir resaltado del director
+    const sala = supabase
+      .channel(`sala-${sesion.id}`)
+      .on("broadcast", { event: "resaltado" }, ({ payload }) => {
+        setResaltado(payload.idx);
+      })
+      .subscribe();
+
     return () => {
       supabase.removeChannel(canal);
+      supabase.removeChannel(sala);
     };
   }, [sesion]);
+
+  // Limpiar resaltado al cambiar de slide
+  useEffect(() => {
+    setResaltado(null);
+  }, [slideIdx]);
 
   async function responder(opcionIdx) {
     if (!sesion || respuestas[slide.id] !== undefined) return;
@@ -327,6 +343,7 @@ export default function PresentacionAlumno() {
           modo="alumno"
           respuestaDada={respuestas[slide.id] ?? null}
           onResponder={responder}
+          resaltadoIdx={resaltado}
         />
       </div>
 

@@ -517,23 +517,38 @@ export const PRESENTACION = {
       id: 29,
       tipo: "regla",
       etiqueta: "Regla 8 / 24",
-      titulo: "«Hay», «hace», «hubo» — impersonales",
-      descripcion: "Las construcciones impersonales «hay», «hace» (temporal), «hubo», «había», «hará» no tienen sujeto gramatical y van siempre en tercera persona singular, sin importar el sustantivo que les sigue.",
+      titulo: "«Hay», «hace», «hubo» — verbos impersonales",
+      descripcion: "El verbo «haber» como impersonal (hay, hubo, había, habrá, haya) y «hacer» en expresiones de tiempo (hace días, hace años) no tienen sujeto gramatical. Van siempre en singular. Error clásico: «hubieron», «han» en lugar de «hubo», «hay».",
       ejemplos: [
         {
-          categoria: "Hay",
-          correcto: "Hay muchos problemas pendientes que resolver en el departamento.",
-          incorrecto: "Han muchos problemas pendientes que resolver en el departamento."
+          categoria: "hay (presente)",
+          correcto: "Hay muchos factores que considerar antes de tomar esa decisión.",
+          incorrecto: "Han muchos factores que considerar antes de tomar esa decisión."
         },
         {
-          categoria: "Hace",
+          categoria: "hubo (pretérito) — error frecuente",
+          correcto: "Hubo varios accidentes en la autopista durante el fin de semana.",
+          incorrecto: "Hubieron varios accidentes en la autopista durante el fin de semana."
+        },
+        {
+          categoria: "había (copretérito)",
+          correcto: "Había decenas de personas esperando en el vestíbulo del edificio.",
+          incorrecto: "Habían decenas de personas esperando en el vestíbulo."
+        },
+        {
+          categoria: "habrá (futuro)",
+          correcto: "Habrá cambios importantes en el plan de estudios el próximo ciclo.",
+          incorrecto: "Habrán cambios importantes en el plan de estudios el próximo ciclo."
+        },
+        {
+          categoria: "hace + tiempo",
           correcto: "Hace varios días que no recibimos noticias sobre los resultados.",
           incorrecto: "Hacen varios días que no recibimos noticias sobre los resultados."
         },
         {
-          categoria: "Hubo",
-          correcto: "Hubo varios accidentes en la autopista durante el fin de semana.",
-          incorrecto: "Hubieron varios accidentes en la autopista durante el fin de semana."
+          categoria: "haber en subjuntivo",
+          correcto: "Es posible que haya errores en el informe que se entregó ayer.",
+          incorrecto: "Es posible que hayan errores en el informe que se entregó ayer."
         }
       ]
     },
@@ -573,23 +588,38 @@ export const PRESENTACION = {
       id: 33,
       tipo: "regla",
       etiqueta: "Regla 9 / 24",
-      titulo: "«Ninguno / nadie / nada»",
-      descripcion: "Los pronombres indefinidos negativos «ninguno», «nadie» y «nada» exigen verbo en tercera persona singular, aunque vayan seguidos de un complemento preposicional en plural.",
+      titulo: "«Ninguno / nadie / nada» — indefinidos negativos",
+      descripcion: "Los pronombres indefinidos negativos «ninguno/a», «nadie» y «nada» son gramaticalmente singulares. El verbo va en 3ª persona singular aunque el complemento que los acompañe sea plural. Truco: el complemento «de los/las…» no es el sujeto; el sujeto sigue siendo «ninguno», «nadie» o «nada».",
       ejemplos: [
         {
-          categoria: "Ninguno de",
-          correcto: "Ninguno de los reportes cumplió los criterios establecidos por el comité.",
+          categoria: "ninguno de (plural)",
+          correcto: "Ninguno de los reportes cumplió los criterios del comité evaluador.",
           incorrecto: "Ninguno de los reportes cumplieron los criterios del comité."
         },
         {
-          categoria: "Nadie",
+          categoria: "ninguna de (femenino)",
+          correcto: "Ninguna de las propuestas presentadas fue aprobada en la sesión.",
+          incorrecto: "Ninguna de las propuestas presentadas fueron aprobadas en la sesión."
+        },
+        {
+          categoria: "nadie + complemento",
           correcto: "Nadie en el grupo de trabajo cuestionó la decisión del coordinador.",
           incorrecto: "Nadie en el grupo de trabajo cuestionaron la decisión del coordinador."
         },
         {
-          categoria: "Nada",
-          correcto: "Nada de lo ocurrido ayer justifica esa reacción desproporcionada.",
-          incorrecto: "Nada de lo ocurrido ayer justifican esa reacción desproporcionada."
+          categoria: "nada de + oración",
+          correcto: "Nada de lo que declararon los testigos resultó suficientemente relevante.",
+          incorrecto: "Nada de lo que declararon los testigos resultaron suficientemente relevante."
+        },
+        {
+          categoria: "nadie + cláusula relativa",
+          correcto: "Nadie que haya leído el reglamento puede alegar desconocimiento.",
+          incorrecto: "Nadie que hayan leído el reglamento pueden alegar desconocimiento."
+        },
+        {
+          categoria: "ninguno como respuesta negativa",
+          correcto: "— ¿Algún participante aprobó? — Ninguno aprobó el examen diagnóstico.",
+          incorrecto: "— ¿Algún participante aprobó? — Ninguno aprobaron el examen diagnóstico."
         }
       ]
     },
@@ -629,23 +659,38 @@ export const PRESENTACION = {
       id: 37,
       tipo: "regla",
       etiqueta: "Regla 10 / 24",
-      titulo: "«Alguien», «cualquiera», «cada uno»",
-      descripcion: "Los pronombres indefinidos «nadie», «alguien», «cualquiera», «uno», «cada uno» exigen verbo en tercera persona singular, sin excepción.",
+      titulo: "«Alguien», «cualquiera», «cada uno» — indefinidos afirmativos",
+      descripcion: "Los pronombres indefinidos afirmativos «alguien», «cualquiera», «uno/una», «cada uno/a» exigen verbo en 3ª persona singular sin excepción. Son el contraparte afirmativo de la Regla 9. Aunque el complemento sea plural, el verbo permanece singular.",
       ejemplos: [
         {
-          categoria: "Alguien",
-          correcto: "¿Alguien sabe la respuesta correcta a ese reactivo tan difícil?",
+          categoria: "alguien",
+          correcto: "¿Alguien sabe la respuesta correcta a ese reactivo del examen?",
           incorrecto: "¿Alguien saben la respuesta correcta a ese reactivo?"
         },
         {
-          categoria: "Cualquiera",
+          categoria: "cualquiera",
           correcto: "Cualquiera puede lograrlo con práctica constante y dedicación.",
           incorrecto: "Cualquiera pueden lograrlo con práctica constante y dedicación."
         },
         {
-          categoria: "Cada uno",
+          categoria: "cada uno/a",
           correcto: "Cada uno debe entregar su formulario antes del viernes por la tarde.",
           incorrecto: "Cada uno deben entregar su formulario antes del viernes."
+        },
+        {
+          categoria: "cualquiera de (+ plural)",
+          correcto: "Cualquiera de los candidatos cumple los requisitos mínimos del puesto.",
+          incorrecto: "Cualquiera de los candidatos cumplen los requisitos mínimos."
+        },
+        {
+          categoria: "alguien que (+ cláusula)",
+          correcto: "Necesitamos alguien que conozca bien el sistema de evaluación.",
+          incorrecto: "Necesitamos alguien que conozcan bien el sistema de evaluación."
+        },
+        {
+          categoria: "uno de nosotros",
+          correcto: "Uno de nosotros tendrá que presentar el informe ante el comité.",
+          incorrecto: "Uno de nosotros tendrán que presentar el informe ante el comité."
         }
       ]
     },

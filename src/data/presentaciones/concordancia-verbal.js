@@ -447,22 +447,37 @@ export const PRESENTACION = {
       tipo: "regla",
       etiqueta: "Regla 7 / 24",
       titulo: "Sujeto pospuesto al verbo",
-      descripcion: "El sujeto puede aparecer después del verbo sin que cambie la concordancia. El verbo siempre concuerda con el sujeto real, esté antes o después de él en la oración.",
+      descripcion: "El sujeto puede ir después del verbo, especialmente en oraciones que empiezan con complemento circunstancial, en interrogativas y en estructuras pasivas. El verbo siempre concuerda con el sujeto real, sin importar su posición. Truco: localiza el sujeto real antes de elegir la forma verbal.",
       ejemplos: [
         {
-          categoria: "Pospuesto",
+          categoria: "Circunstancial + V + sujeto",
           correcto: "En el aula faltaron tres estudiantes el día del examen.",
           incorrecto: "En el aula faltó tres estudiantes el día del examen."
         },
         {
-          categoria: "Pospuesto",
+          categoria: "Circunstancial largo + V + sujeto",
           correcto: "Al final de la cumbre firmaron el tratado todas las naciones representadas.",
           incorrecto: "Al final de la cumbre firmó el tratado todas las naciones representadas."
         },
         {
-          categoria: "Interrogativa",
+          categoria: "Interrogativa directa",
           correcto: "¿Cuándo llegaron los invitados internacionales al aeropuerto?",
           incorrecto: "¿Cuándo llegó los invitados internacionales al aeropuerto?"
+        },
+        {
+          categoria: "Pasiva con sujeto pospuesto",
+          correcto: "Fueron publicadas las conclusiones del estudio por el comité editorial.",
+          incorrecto: "Fue publicadas las conclusiones del estudio por el comité editorial."
+        },
+        {
+          categoria: "Sujeto pospuesto singular",
+          correcto: "Durante la gala se entregó el premio al investigador más destacado.",
+          incorrecto: "Durante la gala se entregaron el premio al investigador más destacado."
+        },
+        {
+          categoria: "Interrogativa indirecta",
+          correcto: "No sé cuándo llegaron los documentos solicitados a la secretaría.",
+          incorrecto: "No sé cuándo llegó los documentos solicitados a la secretaría."
         }
       ]
     },

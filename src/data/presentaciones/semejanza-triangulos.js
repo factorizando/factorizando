@@ -87,6 +87,7 @@ export const PRESENTACION = {
       tipo: "criterio_detalle",
       titulo: "Criterio LLL",
       etiqueta: "Lado–Lado–Lado",
+      svgDiagram: "lll-detalle",
       enunciado:
         "Si los tres pares de lados correspondientes son proporcionales, los triángulos son semejantes.",
       math: "\\dfrac{AB}{DE} = \\dfrac{BC}{EF} = \\dfrac{CA}{FD} = k \\implies \\triangle ABC \\sim \\triangle DEF",

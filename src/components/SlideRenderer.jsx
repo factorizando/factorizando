@@ -467,17 +467,95 @@ function SlideConcepto({ slide, tema }) {
   );
 }
 
+// Triangles shared by all criterion SVGs:
+// Left △ABC: A(50,10) B(8,78) C(96,78)  Right △DEF: D(148,33) E(120,78) F(178,78)  k≈1.5
+
+function CriterioAA_SVG({ tema }) {
+  return (
+    <svg viewBox="0 0 190 88" width="100%" style={{ maxHeight: 44, display: "block" }}>
+      <polygon points="50,10 8,78 96,78" fill={tema.azulSuave} stroke="none"/>
+      <polygon points="148,33 120,78 178,78" fill={tema.azulSuave} stroke="none"/>
+      <polygon points="50,10 8,78 96,78" fill="none" stroke="rgba(255,255,255,0.13)" strokeWidth="1.5"/>
+      <polygon points="148,33 120,78 178,78" fill="none" stroke="rgba(255,255,255,0.13)" strokeWidth="1.5"/>
+      {/* Angle pair α: azul arcs at A and D */}
+      <path d="M 57,20 A 12,12 0 0,1 44,20" stroke={tema.azul} strokeWidth="2" fill="none"/>
+      <path d="M 153,40 A 9,9 0 0,1 143,41" stroke={tema.azul} strokeWidth="2" fill="none"/>
+      {/* Angle pair β: acento arcs at B and E */}
+      <path d="M 14,68 A 12,12 0 0,1 20,78" stroke={tema.acento} strokeWidth="2" fill="none"/>
+      <path d="M 125,70 A 9,9 0 0,1 129,78" stroke={tema.acento} strokeWidth="2" fill="none"/>
+      {/* Greek labels */}
+      <text x="50" y="5" fill={tema.azul} fontSize="9" textAnchor="middle" fontFamily="Georgia,serif" fontStyle="italic" opacity="0.85">α</text>
+      <text x="148" y="28" fill={tema.azul} fontSize="8" textAnchor="middle" fontFamily="Georgia,serif" fontStyle="italic" opacity="0.85">α</text>
+      <text x="2" y="83" fill={tema.acento} fontSize="9" fontFamily="Georgia,serif" fontStyle="italic" opacity="0.85">β</text>
+      <text x="116" y="83" fill={tema.acento} fontSize="8" fontFamily="Georgia,serif" fontStyle="italic" opacity="0.85">β</text>
+    </svg>
+  );
+}
+
+function CriterioLLL_SVG({ tema }) {
+  return (
+    <svg viewBox="0 0 190 88" width="100%" style={{ maxHeight: 44, display: "block" }}>
+      <polygon points="50,10 8,78 96,78" fill={tema.azulSuave} stroke="none"/>
+      <polygon points="148,33 120,78 178,78" fill={tema.azulSuave} stroke="none"/>
+      {/* Color-coded sides: AB/DE=azul, BC/EF=verde, CA/FD=acento */}
+      <line x1="50" y1="10" x2="8"   y2="78" stroke={tema.azul}   strokeWidth="2" opacity="0.85"/>
+      <line x1="148" y1="33" x2="120" y2="78" stroke={tema.azul}   strokeWidth="2" opacity="0.85"/>
+      <line x1="8"   y1="78" x2="96"  y2="78" stroke={tema.verde}  strokeWidth="2" opacity="0.85"/>
+      <line x1="120" y1="78" x2="178" y2="78" stroke={tema.verde}  strokeWidth="2" opacity="0.85"/>
+      <line x1="96"  y1="78" x2="50"  y2="10" stroke={tema.acento} strokeWidth="2" opacity="0.85"/>
+      <line x1="178" y1="78" x2="148" y2="33" stroke={tema.acento} strokeWidth="2" opacity="0.85"/>
+      {/* Tick marks: 1-azul, 2-verde, 3-acento */}
+      <path d="M 25,41 L 33,47" stroke={tema.azul} strokeWidth="1.5" fill="none"/>
+      <path d="M 131,53 L 137,58" stroke={tema.azul} strokeWidth="1.5" fill="none"/>
+      <path d="M 49,74 L 49,82 M 55,74 L 55,82" stroke={tema.verde} strokeWidth="1.5" fill="none"/>
+      <path d="M 146,74 L 146,82 M 152,74 L 152,82" stroke={tema.verde} strokeWidth="1.5" fill="none"/>
+      <path d="M 72,36 L 66,40 M 76,42 L 70,46 M 80,48 L 74,52" stroke={tema.acento} strokeWidth="1.5" fill="none"/>
+      <path d="M 169,53 L 163,49 M 166,58 L 160,54 M 163,62 L 157,58" stroke={tema.acento} strokeWidth="1.5" fill="none"/>
+    </svg>
+  );
+}
+
+function CriterioLAL_SVG({ tema }) {
+  return (
+    <svg viewBox="0 0 190 88" width="100%" style={{ maxHeight: 44, display: "block" }}>
+      <polygon points="50,10 8,78 96,78" fill={tema.azulSuave} stroke="none"/>
+      <polygon points="148,33 120,78 178,78" fill={tema.azulSuave} stroke="none"/>
+      {/* Dim base sides (not part of LAL) */}
+      <line x1="8"   y1="78" x2="96"  y2="78" stroke="rgba(255,255,255,0.14)" strokeWidth="1.5"/>
+      <line x1="120" y1="78" x2="178" y2="78" stroke="rgba(255,255,255,0.14)" strokeWidth="1.5"/>
+      {/* Two proportional sides: AB/DE=azul, CA/FD=acento */}
+      <line x1="50"  y1="10" x2="8"   y2="78" stroke={tema.azul}   strokeWidth="2" opacity="0.85"/>
+      <line x1="148" y1="33" x2="120" y2="78" stroke={tema.azul}   strokeWidth="2" opacity="0.85"/>
+      <line x1="96"  y1="78" x2="50"  y2="10" stroke={tema.acento} strokeWidth="2" opacity="0.85"/>
+      <line x1="178" y1="78" x2="148" y2="33" stroke={tema.acento} strokeWidth="2" opacity="0.85"/>
+      {/* Included angle at A and D: verde */}
+      <path d="M 57,20 A 12,12 0 0,1 44,20" stroke={tema.verde} strokeWidth="2" fill="none"/>
+      <path d="M 153,40 A 9,9 0 0,1 143,41" stroke={tema.verde} strokeWidth="2" fill="none"/>
+      {/* Tick marks: 1 on AB/DE (azul), 2 on CA/FD (acento) */}
+      <path d="M 25,41 L 33,47" stroke={tema.azul} strokeWidth="1.5" fill="none"/>
+      <path d="M 131,53 L 137,58" stroke={tema.azul} strokeWidth="1.5" fill="none"/>
+      <path d="M 72,36 L 66,40 M 76,42 L 70,46" stroke={tema.acento} strokeWidth="1.5" fill="none"/>
+      <path d="M 169,53 L 163,49 M 166,58 L 160,54" stroke={tema.acento} strokeWidth="1.5" fill="none"/>
+    </svg>
+  );
+}
+
 function SlideListaCriterios({ slide, tema }) {
   const colores = [tema.acento, tema.azul, tema.verde];
   const bgColores = [tema.acentoMed, tema.azulMed, "rgba(74,222,128,0.1)"];
+  const criterioSVGs = {
+    "AA":  <CriterioAA_SVG  tema={tema} />,
+    "LLL": <CriterioLLL_SVG tema={tema} />,
+    "LAL": <CriterioLAL_SVG tema={tema} />,
+  };
   return (
     <div
       style={{
-        padding: "36px 44px",
+        padding: "20px 28px",
         height: "100%",
         display: "flex",
         flexDirection: "column",
-        gap: 24,
+        gap: 16,
         boxSizing: "border-box"
       }}
     >
@@ -486,9 +564,7 @@ function SlideListaCriterios({ slide, tema }) {
         style={{
           display: "flex",
           flexDirection: "column",
-          gap: 14,
-          flex: 1,
-          justifyContent: "center"
+          gap: 12,
         }}
       >
         {slide.criterios.map((c, i) => (
@@ -496,18 +572,18 @@ function SlideListaCriterios({ slide, tema }) {
             key={i}
             style={{
               display: "flex",
-              alignItems: "center",
-              gap: 22,
+              alignItems: "flex-start",
+              gap: 18,
               background: tema.card,
               border: `1px solid ${tema.border}`,
               borderRadius: 12,
-              padding: "18px 26px"
+              padding: "14px 20px"
             }}
           >
             <div
               style={{
-                minWidth: 62,
-                height: 62,
+                minWidth: 52,
+                height: 52,
                 borderRadius: 10,
                 background: bgColores[i],
                 border: `2px solid ${colores[i]}`,
@@ -516,27 +592,28 @@ function SlideListaCriterios({ slide, tema }) {
                 justifyContent: "center",
                 fontFamily: tema.mono,
                 fontWeight: 700,
-                fontSize: 16,
+                fontSize: 14,
                 color: colores[i],
                 flexShrink: 0
               }}
             >
               {c.sigla}
             </div>
-            <div>
+            <div style={{ flex: 1, minWidth: 0 }}>
               <div
                 style={{
-                  fontSize: 18,
+                  fontSize: 16,
                   fontWeight: 600,
                   color: tema.texto,
-                  marginBottom: 5
+                  marginBottom: 4
                 }}
               >
                 {c.nombre}
               </div>
-              <div style={{ fontSize: 14.5, color: tema.sub, lineHeight: 1.55 }}>
+              <div style={{ fontSize: 13.5, color: tema.sub, lineHeight: 1.5, marginBottom: 8 }}>
                 {c.desc}
               </div>
+              {criterioSVGs[c.sigla]}
             </div>
           </div>
         ))}

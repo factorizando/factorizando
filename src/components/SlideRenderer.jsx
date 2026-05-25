@@ -1447,11 +1447,16 @@ function SlideReglaRica({ slide, tema, modo, resaltadoIdx, onResaltar }) {
               )}
               <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12.5 }}>
                 <thead>
-                  <tr style={{ borderBottom: `1px solid ${tema.border}` }}>
-                    <th style={{ padding: "5px 14px", textAlign: "left", color: tema.muted, fontFamily: tema.mono, fontSize: 9, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 400 }}>Tiempo</th>
-                    <th style={{ padding: "5px 14px", textAlign: "left", color: tema.verde, fontFamily: tema.mono, fontSize: 9, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 400 }}>✓ Correcto</th>
-                    <th style={{ padding: "5px 14px", textAlign: "left", color: "#f5c842", fontFamily: tema.mono, fontSize: 9, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 400 }}>✗ Error</th>
-                  </tr>
+                  {(() => {
+                    const [c0, c1, c2] = bloque.columnas || ["Tiempo", "✓ Correcto", "✗ Error"];
+                    return (
+                      <tr style={{ borderBottom: `1px solid ${tema.border}` }}>
+                        <th style={{ padding: "5px 14px", textAlign: "left", color: tema.muted, fontFamily: tema.mono, fontSize: 9, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 400 }}>{c0}</th>
+                        <th style={{ padding: "5px 14px", textAlign: "left", color: tema.verde, fontFamily: tema.mono, fontSize: 9, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 400 }}>{c1}</th>
+                        <th style={{ padding: "5px 14px", textAlign: "left", color: "#f5c842", fontFamily: tema.mono, fontSize: 9, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 400 }}>{c2}</th>
+                      </tr>
+                    );
+                  })()}
                 </thead>
                 <tbody>
                   {bloque.filas.map((fila, j) => (

@@ -666,40 +666,48 @@ export const PRESENTACION = {
     // ── Regla 9: Ninguno / nadie / nada ──────────────────────────────────────
     {
       id: 33,
-      tipo: "regla",
+      tipo: "regla_rica",
       etiqueta: "Regla 9 / 24",
-      titulo: "«Ninguno / nadie / nada» — indefinidos negativos",
-      descripcion: "Los pronombres indefinidos negativos «ninguno/a», «nadie» y «nada» son gramaticalmente singulares. El verbo va en 3ª persona singular aunque el complemento que los acompañe sea plural. Truco: el complemento «de los/las…» no es el sujeto; el sujeto sigue siendo «ninguno», «nadie» o «nada».",
-      ejemplos: [
+      titulo: "«Ninguno», «nadie», «nada» — indefinidos negativos",
+      bloques: [
         {
-          categoria: "ninguno de (plural)",
+          tipo: "texto",
+          texto: "Los pronombres indefinidos negativos «ninguno/a», «nadie» y «nada» son gramaticalmente singulares. El verbo va siempre en 3ª persona singular, aunque el complemento que los acompañe sea plural. Clave: el complemento «de los/las…» no es el sujeto; el sujeto sigue siendo el pronombre."
+        },
+        {
+          tipo: "tabla",
+          titulo: "Pronombres indefinidos negativos",
+          columnas: ["Pronombre", "✓ Singular", "✗ Error plural"],
+          filas: [
+            { tiempo: "ninguno/a de + pl.", correcto: "cumplió / fue aprobada",  error: "cumplieron / fueron aprobadas" },
+            { tiempo: "nadie",              correcto: "cuestionó",               error: "cuestionaron" },
+            { tiempo: "nada de",            correcto: "resultó",                 error: "resultaron" }
+          ]
+        },
+        {
+          tipo: "par",
+          etiqueta: "ninguno de + complemento plural",
           correcto: "Ninguno de los reportes cumplió los criterios del comité evaluador.",
           incorrecto: "Ninguno de los reportes cumplieron los criterios del comité."
         },
         {
-          categoria: "ninguna de (femenino)",
-          correcto: "Ninguna de las propuestas presentadas fue aprobada en la sesión.",
-          incorrecto: "Ninguna de las propuestas presentadas fueron aprobadas en la sesión."
-        },
-        {
-          categoria: "nadie + complemento",
+          tipo: "par",
+          etiqueta: "nadie + complemento",
           correcto: "Nadie en el grupo de trabajo cuestionó la decisión del coordinador.",
           incorrecto: "Nadie en el grupo de trabajo cuestionaron la decisión del coordinador."
         },
         {
-          categoria: "nada de + oración",
+          tipo: "par",
+          etiqueta: "nada de + cláusula",
           correcto: "Nada de lo que declararon los testigos resultó suficientemente relevante.",
           incorrecto: "Nada de lo que declararon los testigos resultaron suficientemente relevante."
         },
         {
-          categoria: "nadie + cláusula relativa",
-          correcto: "Nadie que haya leído el reglamento puede alegar desconocimiento.",
-          incorrecto: "Nadie que hayan leído el reglamento pueden alegar desconocimiento."
-        },
-        {
-          categoria: "ninguno como respuesta negativa",
-          correcto: "— ¿Algún participante aprobó? — Ninguno aprobó el examen diagnóstico.",
-          incorrecto: "— ¿Algún participante aprobó? — Ninguno aprobaron el examen diagnóstico."
+          tipo: "trampa",
+          letra: "A",
+          titulo: "«De los/las…» es complemento del pronombre, no el sujeto",
+          correcto: "Ninguno de los candidatos aprobó la prueba de selección.",
+          incorrecto: "Ninguno de los candidatos aprobaron la prueba de selección."
         }
       ]
     },
@@ -737,38 +745,47 @@ export const PRESENTACION = {
     // ── Regla 10: Alguien, cualquiera, cada uno ───────────────────────────────
     {
       id: 37,
-      tipo: "regla",
+      tipo: "regla_rica",
       etiqueta: "Regla 10 / 24",
       titulo: "«Alguien», «cualquiera», «cada uno» — indefinidos afirmativos",
-      descripcion: "Los pronombres indefinidos afirmativos «alguien», «cualquiera», «uno/una», «cada uno/a» exigen verbo en 3ª persona singular sin excepción. Son el contraparte afirmativo de la Regla 9. Aunque el complemento sea plural, el verbo permanece singular.",
-      ejemplos: [
+      bloques: [
         {
-          categoria: "alguien",
+          tipo: "texto",
+          texto: "Los pronombres indefinidos afirmativos «alguien», «cualquiera», «uno/una» y «cada uno/a» exigen verbo en 3ª persona singular sin excepción. Son el contraparte afirmativo de la Regla 9. Aunque el complemento sea plural, el verbo permanece singular."
+        },
+        {
+          tipo: "tabla",
+          titulo: "Pronombres indefinidos afirmativos",
+          columnas: ["Pronombre", "✓ Singular", "✗ Error plural"],
+          filas: [
+            { tiempo: "alguien",         correcto: "sabe",   error: "saben" },
+            { tiempo: "cualquiera (de)", correcto: "cumple", error: "cumplen" },
+            { tiempo: "cada uno/a",      correcto: "debe",   error: "deben" },
+            { tiempo: "uno de nosotros", correcto: "tendrá", error: "tendrán" }
+          ]
+        },
+        {
+          tipo: "par",
+          etiqueta: "alguien",
           correcto: "¿Alguien sabe la respuesta correcta a ese reactivo del examen?",
           incorrecto: "¿Alguien saben la respuesta correcta a ese reactivo?"
         },
         {
-          categoria: "cualquiera",
-          correcto: "Cualquiera puede lograrlo con práctica constante y dedicación.",
-          incorrecto: "Cualquiera pueden lograrlo con práctica constante y dedicación."
-        },
-        {
-          categoria: "cada uno/a",
-          correcto: "Cada uno debe entregar su formulario antes del viernes por la tarde.",
-          incorrecto: "Cada uno deben entregar su formulario antes del viernes."
-        },
-        {
-          categoria: "cualquiera de (+ plural)",
+          tipo: "par",
+          etiqueta: "cualquiera de + plural",
           correcto: "Cualquiera de los candidatos cumple los requisitos mínimos del puesto.",
           incorrecto: "Cualquiera de los candidatos cumplen los requisitos mínimos."
         },
         {
-          categoria: "alguien que (+ cláusula)",
-          correcto: "Necesitamos alguien que conozca bien el sistema de evaluación.",
-          incorrecto: "Necesitamos alguien que conozcan bien el sistema de evaluación."
+          tipo: "par",
+          etiqueta: "cada uno de + plural",
+          correcto: "Cada uno de los participantes debe entregar su formulario antes del viernes.",
+          incorrecto: "Cada uno de los participantes deben entregar su formulario antes del viernes."
         },
         {
-          categoria: "uno de nosotros",
+          tipo: "trampa",
+          letra: "A",
+          titulo: "Complemento plural no cambia la concordancia",
           correcto: "Uno de nosotros tendrá que presentar el informe ante el comité.",
           incorrecto: "Uno de nosotros tendrán que presentar el informe ante el comité."
         }
@@ -808,40 +825,42 @@ export const PRESENTACION = {
     // ── Regla 11: Uno de los que ──────────────────────────────────────────────
     {
       id: 41,
-      tipo: "regla",
+      tipo: "regla_rica",
       etiqueta: "Regla 11 / 24",
       titulo: "Construcción «uno de los que»",
-      descripcion: "En «uno/una de los/las que + verbo», el verbo de la cláusula relativa va en PLURAL. El relativo «que» retoma el antecedente plural (los/las…), no al «uno/una» singular. Truco: pregunta ¿a qué se refiere «que»? → al grupo plural, no al individuo.",
-      ejemplos: [
+      bloques: [
         {
-          categoria: "una de las que (fem. pl.)",
+          tipo: "texto",
+          texto: "En «uno/una de los/las que + verbo», el verbo de la cláusula relativa va en PLURAL. El relativo «que» retoma el antecedente plural (los/las…), no al «uno/una» singular. Truco: pregunta ¿a qué se refiere «que»? → al grupo plural, no al individuo."
+        },
+        {
+          tipo: "par",
+          etiqueta: "una de las que — antecedente plural femenino",
           correcto: "Ella es una de las investigadoras que han publicado en revistas internacionales.",
           incorrecto: "Ella es una de las investigadoras que ha publicado en revistas internacionales."
         },
         {
-          categoria: "uno de los que (masc. pl.)",
+          tipo: "par",
+          etiqueta: "uno de los que — antecedente plural masculino",
           correcto: "Él fue uno de los estudiantes que aprobaron con distinción el examen nacional.",
           incorrecto: "Él fue uno de los estudiantes que aprobó con distinción el examen nacional."
         },
         {
-          categoria: "uno de los pocos que",
+          tipo: "par",
+          etiqueta: "uno de los pocos que",
           correcto: "Es uno de los pocos proyectos que han recibido financiamiento completo este año.",
           incorrecto: "Es uno de los pocos proyectos que ha recibido financiamiento completo este año."
         },
         {
-          categoria: "una de las primeras que",
-          correcto: "Fue una de las primeras alumnas que obtuvieron beca en esa convocatoria.",
-          incorrecto: "Fue una de las primeras alumnas que obtuvo beca en esa convocatoria."
-        },
-        {
-          categoria: "uno de los mejores que",
-          correcto: "Es uno de los mejores libros que se han escrito sobre el tema en México.",
-          incorrecto: "Es uno de los mejores libros que se ha escrito sobre el tema en México."
-        },
-        {
-          categoria: "contraste: «el único que» → singular",
+          tipo: "trampa",
+          letra: "A",
+          titulo: "Contraste: «el único que» → singular (no hay grupo plural)",
           correcto: "Él es el único candidato que cumple todos los requisitos del perfil.",
           incorrecto: "Él es el único candidato que cumplen todos los requisitos del perfil."
+        },
+        {
+          tipo: "texto",
+          texto: "Regla de identificación: busca el sustantivo plural al que se refiere «que». Si «que» retoma «los/las + sustantivo» → plural en la relativa. Si «que» retoma un único antecedente → singular."
         }
       ]
     },
@@ -879,40 +898,45 @@ export const PRESENTACION = {
     // ── Regla 12: Cuantificadores y partitivos ────────────────────────────────
     {
       id: 45,
-      tipo: "regla",
+      tipo: "regla_rica",
       etiqueta: "Regla 12 / 24",
       titulo: "Cuantificadores y partitivos — norma preferida",
-      descripcion: "Con expresiones partitivas («la mayoría de», «la mitad de», «una parte de», «el resto de», «una serie de», «gran parte de»), el EXANI-I prefiere la concordancia gramatical: el verbo concuerda con el núcleo singular. El plural «por sentido» existe, pero en el examen elige siempre el singular.",
-      ejemplos: [
+      bloques: [
         {
-          categoria: "la mitad de",
+          tipo: "texto",
+          texto: "Con expresiones partitivas, el núcleo gramatical es el sustantivo singular de la expresión (mayoría, mitad, resto, serie…), no el complemento plural que le sigue. El EXANI-I prefiere la concordancia gramatical con el núcleo singular."
+        },
+        {
+          tipo: "tabla",
+          titulo: "Expresiones partitivas — concordancia gramatical (singular)",
+          columnas: ["Expresión partitiva", "✓ Sing. (EXANI-I)", "✗ Pl. (por sentido)"],
+          filas: [
+            { tiempo: "la mayoría de",  correcto: "votó",          error: "votaron" },
+            { tiempo: "la mitad de",    correcto: "fue extraviada", error: "fueron extraviados" },
+            { tiempo: "el resto de",    correcto: "llegó",          error: "llegaron" },
+            { tiempo: "una serie de",   correcto: "provocó",        error: "provocaron" },
+            { tiempo: "gran parte de",  correcto: "fue destinada",  error: "fueron destinados" },
+            { tiempo: "una parte de",   correcto: "aprobó",         error: "aprobaron" }
+          ]
+        },
+        {
+          tipo: "par",
+          etiqueta: "la mitad de + complemento plural",
           correcto: "La mitad de los documentos fue extraviada durante el traslado.",
-          incorrecto: "La mitad de los documentos fueron extraviados. (por sentido, no preferido)"
+          incorrecto: "La mitad de los documentos fueron extraviados durante el traslado."
         },
         {
-          categoria: "una serie de",
+          tipo: "par",
+          etiqueta: "una serie de + complemento plural",
           correcto: "Una serie de errores imprevistos provocó el fracaso del proyecto.",
-          incorrecto: "Una serie de errores imprevistos provocaron el fracaso. (no preferido)"
+          incorrecto: "Una serie de errores imprevistos provocaron el fracaso del proyecto."
         },
         {
-          categoria: "el resto de",
-          correcto: "El resto de los participantes llegó puntualmente a la segunda sesión.",
-          incorrecto: "El resto de los participantes llegaron puntualmente. (no preferido)"
-        },
-        {
-          categoria: "gran parte de",
-          correcto: "Gran parte de los recursos fue destinada a infraestructura tecnológica.",
-          incorrecto: "Gran parte de los recursos fueron destinados a infraestructura."
-        },
-        {
-          categoria: "una parte de",
-          correcto: "Una parte de los estudiantes aprobó el examen diagnóstico con distinción.",
-          incorrecto: "Una parte de los estudiantes aprobaron el examen con distinción."
-        },
-        {
-          categoria: "la mayoría de (contraste con Regla 3)",
-          correcto: "La mayoría de los delegados votó a favor de la reforma propuesta.",
-          incorrecto: "La mayoría de los delegados votaron a favor de la reforma propuesta."
+          tipo: "trampa",
+          letra: "A",
+          titulo: "Concordancia de sentido vs concordancia gramatical",
+          correcto: "El resto de los participantes llegó puntualmente. (gramatical → EXANI-I)",
+          incorrecto: "El resto de los participantes llegaron puntualmente. (sentido → no preferido)"
         }
       ]
     },
@@ -950,40 +974,38 @@ export const PRESENTACION = {
     // ── Regla 13: El número de ────────────────────────────────────────────────
     {
       id: 49,
-      tipo: "regla",
+      tipo: "regla_rica",
       etiqueta: "Regla 13 / 24",
       titulo: "«El número de»",
-      descripcion: "«El número de» siempre lleva verbo en singular: el núcleo es «el número» (masc. sing.), no el complemento. Contraste con la Regla 14: «un gran número de» va en plural porque el énfasis semántico recae en la cantidad del complemento. La diferencia está en el artículo: «el número» = dato exacto → singular; «un gran número» = cantidad aproximada → plural.",
-      ejemplos: [
+      bloques: [
         {
-          categoria: "el número de + pl. (básico)",
+          tipo: "texto",
+          texto: "«El número de» siempre lleva verbo en singular: el núcleo es «el número» (masc. sing.), no el complemento plural. La clave está en el artículo definido «el»: indica una cantidad concreta → concordancia gramatical con «el número»."
+        },
+        {
+          tipo: "par",
+          etiqueta: "el número de + sustantivo plural",
           correcto: "El número de estudiantes inscritos ha aumentado considerablemente este ciclo.",
           incorrecto: "El número de estudiantes inscritos han aumentado considerablemente este ciclo."
         },
         {
-          categoria: "el número de + resultado",
-          correcto: "El número de errores detectados en el sistema resultó preocupante para el equipo.",
-          incorrecto: "El número de errores detectados en el sistema resultaron preocupantes."
-        },
-        {
-          categoria: "el número de + supera",
+          tipo: "par",
+          etiqueta: "el número de + verbo simple",
           correcto: "El número de solicitudes recibidas supera ampliamente las expectativas del área.",
           incorrecto: "El número de solicitudes recibidas superan las expectativas del área."
         },
         {
-          categoria: "el número de + verbo compuesto",
-          correcto: "El número de accidentes registrados ha disminuido gracias a las nuevas medidas.",
-          incorrecto: "El número de accidentes registrados han disminuido gracias a las nuevas medidas."
-        },
-        {
-          categoria: "el número de + ser",
+          tipo: "par",
+          etiqueta: "el número de + verbo ser",
           correcto: "El número de participantes es mayor al esperado por los organizadores.",
           incorrecto: "El número de participantes son mayores al esperado por los organizadores."
         },
         {
-          categoria: "contraste: «un gran número de» → plural",
-          correcto: "Un gran número de personas asistieron al evento cultural organizado por la universidad.",
-          incorrecto: "Un gran número de personas asistió al evento. (aquí el plural es el preferido)"
+          tipo: "trampa",
+          letra: "A",
+          titulo: "Contraste clave: artículo definido «el» vs indefinido «un»",
+          correcto: "El número de propuestas fue revisado. (el → singular)",
+          incorrecto: "Un gran número de propuestas fue revisado. (un → plural preferido, ver Regla 14)"
         }
       ]
     },
@@ -1021,40 +1043,44 @@ export const PRESENTACION = {
     // ── Regla 14: Un gran número de / infinidad de ────────────────────────────
     {
       id: 53,
-      tipo: "regla",
+      tipo: "regla_rica",
       etiqueta: "Regla 14 / 24",
       titulo: "«Un gran número de» / «infinidad de»",
-      descripcion: "Contraste con Regla 13: cuando el artículo es indefinido («un»), el énfasis semántico recae en la cantidad del complemento → verbo en plural. Expresiones: «un gran número de», «una infinidad de», «una cantidad considerable de», «miles de», «centenares de».",
-      ejemplos: [
+      bloques: [
         {
-          categoria: "«un gran número de»",
+          tipo: "texto",
+          texto: "Contraste con Regla 13: cuando el artículo es indefinido («un»), el énfasis semántico recae en la cantidad del complemento plural. La concordancia de sentido prevalece → verbo en plural. Lo mismo aplica a «miles de», «centenares de», «una infinidad de»."
+        },
+        {
+          tipo: "tabla",
+          titulo: "Expresiones de cantidad indefinida → verbo plural",
+          columnas: ["Expresión", "✓ Plural (preferido)", "✗ Singular (forzado)"],
+          filas: [
+            { tiempo: "un gran número de",           correcto: "presentaron",     error: "presentó" },
+            { tiempo: "una infinidad de",             correcto: "surgieron",       error: "surgió" },
+            { tiempo: "miles de",                     correcto: "se manifestaron", error: "se manifestó" },
+            { tiempo: "centenares de",                correcto: "solicitaron",     error: "solicitó" },
+            { tiempo: "una cantidad considerable de", correcto: "fueron destinados", error: "fue destinada" }
+          ]
+        },
+        {
+          tipo: "par",
+          etiqueta: "un gran número de — concordancia de sentido",
           correcto: "Un gran número de investigadores presentaron sus hallazgos en el congreso anual.",
-          incorrecto: "Un gran número de investigadores presentó sus hallazgos. (singular forzado)"
+          incorrecto: "Un gran número de investigadores presentó sus hallazgos en el congreso."
         },
         {
-          categoria: "«una infinidad de»",
-          correcto: "Una infinidad de problemas surgieron durante la implementación del nuevo sistema.",
-          incorrecto: "Una infinidad de problemas surgió durante la implementación. (muy forzado)"
-        },
-        {
-          categoria: "«miles de»",
+          tipo: "par",
+          etiqueta: "miles de — concordancia de sentido",
           correcto: "Miles de personas se manifestaron frente al palacio de gobierno el fin de semana.",
           incorrecto: "Miles de personas se manifestó frente al palacio de gobierno."
         },
         {
-          categoria: "«una cantidad considerable de»",
-          correcto: "Una cantidad considerable de recursos fueron destinados al programa de becas.",
-          incorrecto: "Una cantidad considerable de recursos fue destinada. (inusual en este contexto)"
-        },
-        {
-          categoria: "«centenares de»",
-          correcto: "Centenares de estudiantes solicitaron cambio de carrera al inicio del semestre.",
-          incorrecto: "Centenares de estudiantes solicitó cambio de carrera al inicio del semestre."
-        },
-        {
-          categoria: "contraste definitivo vs indefinido",
-          correcto: "El número de propuestas fue revisado. / Un gran número de propuestas fueron revisadas.",
-          incorrecto: "El número de propuestas fueron revisadas. / Un gran número de propuestas fue revisado."
+          tipo: "trampa",
+          letra: "A",
+          titulo: "Regla definitiva: artículo definido «el» → singular / indefinido «un» → plural",
+          correcto: "El número de errores fue corregido. / Un gran número de errores fueron corregidos.",
+          incorrecto: "El número de errores fueron corregidos. / Un gran número de errores fue corregido."
         }
       ]
     },
@@ -1092,40 +1118,38 @@ export const PRESENTACION = {
     // ── Regla 15: Sujetos coordinados con «o» ────────────────────────────────
     {
       id: 57,
-      tipo: "regla",
+      tipo: "regla_rica",
       etiqueta: "Regla 15 / 24",
       titulo: "Sujetos coordinados con «o» (disyuntiva exclusiva)",
-      descripcion: "«O» exclusiva: solo uno de los sujetos realizará la acción → verbo en singular. Clave: si ambos pueden realizar la acción simultáneamente, «o» es inclusiva y el verbo puede ir en plural. En el EXANI-I, «o» casi siempre se evalúa como exclusiva → singular.",
-      ejemplos: [
+      bloques: [
         {
-          categoria: "exclusiva básica",
+          tipo: "texto",
+          texto: "«O» exclusiva: solo uno de los sujetos realizará la acción → verbo en singular. En el EXANI-I, «o» casi siempre se evalúa como exclusiva. Si ambos pudieran actuar simultáneamente («o» inclusiva), el plural sería posible, pero esta interpretación es rara en el examen."
+        },
+        {
+          tipo: "par",
+          etiqueta: "o exclusiva básica — terceras personas",
           correcto: "El rector o la secretaria firmará el comunicado. (uno solo firmará)",
           incorrecto: "El rector o la secretaria firmarán el comunicado. (implica que ambos firman)"
         },
         {
-          categoria: "«o» reforzada",
+          tipo: "par",
+          etiqueta: "o reforzada — o…o",
           correcto: "O el coordinador o su representante asistirá a la junta directiva de mañana.",
           incorrecto: "O el coordinador o su representante asistirán a la junta directiva."
         },
         {
-          categoria: "nombres propios",
+          tipo: "par",
+          etiqueta: "nombres propios",
           correcto: "Juan o María entregará el informe mañana, según quien termine primero.",
           incorrecto: "Juan o María entregarán el informe mañana."
         },
         {
-          categoria: "opción con consecuencia",
-          correcto: "El comité o la junta directiva resolverá la apelación en los próximos días.",
-          incorrecto: "El comité o la junta directiva resolverán la apelación en los próximos días."
-        },
-        {
-          categoria: "sujetos de distinta persona (concuerda con el más próximo)",
-          correcto: "Tú o yo presentaremos el proyecto si nadie más se ofrece voluntariamente.",
-          incorrecto: "Tú o yo presentará el proyecto si nadie más se ofrece voluntariamente."
-        },
-        {
-          categoria: "«o» al final de la oración",
-          correcto: "Resolverá el problema el director o el coordinador de área, según disponibilidad.",
-          incorrecto: "Resolverán el problema el director o el coordinador de área."
+          tipo: "trampa",
+          letra: "A",
+          titulo: "Sujetos de distinta persona → concuerda con el más próximo al verbo",
+          correcto: "Tú o yo presentaremos el proyecto si nadie más se ofrece. (yo → 1ª pl.)",
+          incorrecto: "Tú o yo presentará el proyecto. (3ª persona incorrecta)"
         }
       ]
     },
@@ -1163,35 +1187,38 @@ export const PRESENTACION = {
     // ── Regla 16: O bien... o bien ────────────────────────────────────────────
     {
       id: 61,
-      tipo: "regla",
+      tipo: "regla_rica",
       etiqueta: "Regla 16 / 24",
       titulo: "Construcción «o bien... o bien»",
-      descripcion: "«O bien... o bien» refuerza la disyunción exclusiva: de las dos opciones, solo una ocurrirá. El verbo va en singular. Es una variante más formal de la Regla 15. En el EXANI-I esta construcción aparece con frecuencia para evaluar si el alumno mantiene la concordancia en singular a lo largo de una oración compleja.",
-      ejemplos: [
+      bloques: [
         {
-          categoria: "terceras personas",
+          tipo: "texto",
+          texto: "«O bien... o bien» refuerza la disyunción exclusiva: de las dos opciones, solo una ocurrirá → verbo en singular. Es la variante formal de la Regla 15. No confundir con «y»: «y» siempre coordina y exige plural."
+        },
+        {
+          tipo: "par",
+          etiqueta: "o bien...o bien — terceras personas",
           correcto: "O bien el director o bien su representante asistirá a la junta mensual.",
           incorrecto: "O bien el director o bien su representante asistirán a la junta mensual."
         },
         {
-          categoria: "segunda persona (tú)",
+          tipo: "par",
+          etiqueta: "o bien — segunda persona (sujeto tácito coherente)",
           correcto: "O bien apruebas el examen o bien repites el curso el próximo ciclo escolar.",
           incorrecto: "O bien apruebas el examen o bien repiten el curso. (persona incorrecta)"
         },
         {
-          categoria: "colectivo singular",
+          tipo: "par",
+          etiqueta: "o bien — colectivo singular",
           correcto: "O bien el comité acepta la propuesta o bien la rechaza en su totalidad.",
           incorrecto: "O bien el comité acepta la propuesta o bien la rechazan."
         },
         {
-          categoria: "verbo ser",
-          correcto: "O bien el proyecto es viable o bien es necesario descartarlo completamente.",
-          incorrecto: "O bien el proyecto es viable o bien son necesario descartarlo."
-        },
-        {
-          categoria: "sustantivos abstractos",
-          correcto: "O bien la propuesta prospera o bien queda archivada hasta el siguiente ciclo.",
-          incorrecto: "O bien la propuesta prospera o bien quedan archivadas hasta el siguiente ciclo."
+          tipo: "trampa",
+          letra: "A",
+          titulo: "Contraste: «o bien» (singular) vs «y» (siempre plural)",
+          correcto: "O bien el rector o bien el secretario firmará el acuerdo. (uno solo)",
+          incorrecto: "El rector y el secretario firmará el acuerdo. (con «y» → «firmaron»)"
         }
       ]
     },
@@ -1229,39 +1256,42 @@ export const PRESENTACION = {
     // ── Regla 17: Relativo «que» con «ser» + yo/tú ────────────────────────────
     {
       id: 65,
-      tipo: "regla",
+      tipo: "regla_rica",
       etiqueta: "Regla 17 / 24",
       titulo: "Relativo «que» con «ser» + yo/tú (1ª/2ª persona)",
-      descripcion: "En «ser + pronombre personal + quien/que + verbo», la norma culta exige que el verbo de la relativa concuerde con el pronombre antecedente: yo → 1ª sing., tú → 2ª sing., nosotros → 1ª pl. La 3ª persona también es aceptable, pero en el EXANI-I se evalúa la concordancia culta.",
-      ejemplos: [
+      bloques: [
         {
-          categoria: "yo → 1ª singular",
-          correcto: "Fui yo quien presenté la propuesta ante el consejo directivo. (norma culta)",
-          incorrecto: "Fui yo quien presentó la propuesta. (3ª persona, aceptable pero no preferida)"
+          tipo: "texto",
+          texto: "En «ser + pronombre personal + quien/que + verbo», la norma culta exige que el verbo de la relativa concuerde con el pronombre antecedente. El EXANI-I evalúa la concordancia culta, aunque la 3ª persona sea aceptable coloquialmente."
         },
         {
-          categoria: "tú → 2ª singular",
+          tipo: "tabla",
+          titulo: "Concordancia culta: ser + pronombre + relativa",
+          columnas: ["Pronombre", "✓ Norma culta", "Aceptable (no preferida)"],
+          filas: [
+            { tiempo: "yo",       correcto: "presenté / fui yo quien presenté",     error: "presentó" },
+            { tiempo: "tú",       correcto: "cometiste / fuiste tú quien cometiste", error: "cometió" },
+            { tiempo: "nosotros", correcto: "debemos / somos quienes debemos",       error: "deben" },
+            { tiempo: "ustedes",  correcto: "deben / son quienes deben",             error: "debemos" }
+          ]
+        },
+        {
+          tipo: "par",
+          etiqueta: "yo → 1ª singular",
+          correcto: "Fui yo quien presenté la propuesta ante el consejo directivo.",
+          incorrecto: "Fui yo quien presentó la propuesta. (3ª persona, no preferida)"
+        },
+        {
+          tipo: "par",
+          etiqueta: "tú → 2ª singular",
           correcto: "Fuiste tú quien cometiste el error en la última sesión del semestre.",
-          incorrecto: "Fuiste tú quien cometió el error. (aceptable, pero no es la norma culta)"
+          incorrecto: "Fuiste tú quien cometió el error. (aceptable, no es la norma culta)"
         },
         {
-          categoria: "nosotros → 1ª plural",
-          correcto: "Somos nosotros quienes debemos resolver el problema antes de la auditoría.",
-          incorrecto: "Somos nosotros quienes deben resolver el problema. (3ª persona)"
-        },
-        {
-          categoria: "yo + verbo haber",
-          correcto: "Soy yo quien ha cometido el error; asumiré la responsabilidad ante el comité.",
-          incorrecto: "Soy yo quien han cometido el error. (plural incorrecto)"
-        },
-        {
-          categoria: "tú + negación",
-          correcto: "Eres tú quien no entregaste el informe a tiempo, no tu compañero de equipo.",
-          incorrecto: "Eres tú quien no entregó el informe a tiempo. (no preferida)"
-        },
-        {
-          categoria: "ustedes → 3ª plural",
-          correcto: "Son ustedes quienes deben aprobar el presupuesto en la próxima sesión ordinaria.",
+          tipo: "trampa",
+          letra: "A",
+          titulo: "ustedes → 3ª plural (no 1ª plural)",
+          correcto: "Son ustedes quienes deben aprobar el presupuesto en la próxima sesión.",
           incorrecto: "Son ustedes quienes debemos aprobar el presupuesto. (1ª persona incorrecta)"
         }
       ]
@@ -1300,38 +1330,46 @@ export const PRESENTACION = {
     // ── Regla 18: Relativo «quien / quienes» ──────────────────────────────────
     {
       id: 69,
-      tipo: "regla",
+      tipo: "regla_rica",
       etiqueta: "Regla 18 / 24",
       titulo: "Relativo «quien / quienes»",
-      descripcion: "«Quien» (singular) y «quienes» (plural) solo se usan con antecedentes de persona. El verbo de la relativa concuerda con el relativo y, en consecuencia, con el antecedente. Nota: para cosas o hechos se usa «que» o «el cual / la cual», nunca «quien».",
-      ejemplos: [
+      bloques: [
         {
-          categoria: "quien → antecedente singular",
+          tipo: "texto",
+          texto: "«Quien» y «quienes» solo se usan con antecedentes de persona. El verbo de la relativa concuerda con el relativo y su antecedente. Para cosas o hechos se usa «que» o «el cual / la cual», nunca «quien»."
+        },
+        {
+          tipo: "tabla",
+          titulo: "Selección del relativo según el antecedente",
+          columnas: ["Antecedente", "✓ Relativo correcto", "✗ Error"],
+          filas: [
+            { tiempo: "persona singular",  correcto: "quien",        error: "quienes" },
+            { tiempo: "persona plural",    correcto: "quienes",      error: "quien" },
+            { tiempo: "cosa / hecho",      correcto: "que / el cual", error: "quien" }
+          ]
+        },
+        {
+          tipo: "par",
+          etiqueta: "quien — antecedente singular de persona",
           correcto: "La investigadora, quien publicó el artículo, ganó el premio nacional de ciencias.",
           incorrecto: "La investigadora, quienes publicó el artículo, ganó el premio."
         },
         {
-          categoria: "quienes → antecedente plural",
-          correcto: "Los investigadores, quienes publicaron el artículo, ganaron el premio de ciencias.",
+          tipo: "par",
+          etiqueta: "quienes — antecedente plural de persona",
+          correcto: "Los investigadores, quienes publicaron el artículo, ganaron el premio.",
           incorrecto: "Los investigadores, quien publicaron el artículo, ganaron el premio."
         },
         {
-          categoria: "quien → colectivo singular",
-          correcto: "Fue el comité quien aprobó las nuevas medidas de evaluación institucional.",
-          incorrecto: "Fue el comité quienes aprobó las nuevas medidas de evaluación."
-        },
-        {
-          categoria: "quienes sin antecedente expreso (libre)",
+          tipo: "par",
+          etiqueta: "quienes libre — sin antecedente expreso",
           correcto: "Quienes no entreguen el formulario a tiempo quedarán fuera del proceso.",
           incorrecto: "Quien no entreguen el formulario a tiempo quedarán fuera del proceso."
         },
         {
-          categoria: "quien libre con verbo singular",
-          correcto: "Quien estudia con constancia obtiene mejores resultados en el examen.",
-          incorrecto: "Quien estudia con constancia obtienen mejores resultados en el examen."
-        },
-        {
-          categoria: "NO usar «quien» con cosas",
+          tipo: "trampa",
+          letra: "A",
+          titulo: "NO usar «quien» con antecedentes de cosa",
           correcto: "El proyecto, que fue aprobado por unanimidad, comenzará en enero.",
           incorrecto: "El proyecto, quien fue aprobado por unanimidad, comenzará en enero."
         }
@@ -1371,40 +1409,43 @@ export const PRESENTACION = {
     // ── Regla 19: Pasiva refleja ──────────────────────────────────────────────
     {
       id: 73,
-      tipo: "regla",
+      tipo: "regla_rica",
       etiqueta: "Regla 19 / 24",
       titulo: "Pasiva refleja («se» + verbo transitivo)",
-      descripcion: "Pasiva refleja: «se + verbo transitivo + sujeto paciente». El verbo concuerda con el sujeto paciente (lo que recibe la acción). Diferencia clave con la Regla 20: si puedes identificar QUÉ recibe la acción (sujeto paciente), es pasiva refleja y el verbo concuerda con ese elemento. Si no hay sujeto paciente identificable, es impersonal y el verbo va en singular.",
-      ejemplos: [
+      bloques: [
         {
-          categoria: "paciente singular",
+          tipo: "texto",
+          texto: "Pasiva refleja: «se + verbo transitivo + sujeto paciente». El verbo concuerda con el sujeto paciente (lo que recibe la acción). Prueba: si puedes preguntar «¿qué se [verbo]?» y un sustantivo responde → pasiva refleja; el verbo concuerda con ese sustantivo."
+        },
+        {
+          tipo: "tabla",
+          titulo: "Concordancia con el sujeto paciente",
+          columnas: ["Sujeto paciente", "✓ Verbo", "✗ Error"],
+          filas: [
+            { tiempo: "singular (el premio)",     correcto: "se entregó",    error: "se entregaron" },
+            { tiempo: "plural (los premios)",      correcto: "se entregaron", error: "se entregó" },
+            { tiempo: "singular (el informe)",     correcto: "se publicó",    error: "se publicaron" },
+            { tiempo: "plural (los resultados)",   correcto: "se publicaron", error: "se publicó" }
+          ]
+        },
+        {
+          tipo: "par",
+          etiqueta: "paciente singular",
           correcto: "Se entregó el premio al estudiante con mayor promedio del ciclo escolar.",
           incorrecto: "Se entregaron el premio al estudiante con mayor promedio del ciclo."
         },
         {
-          categoria: "paciente plural",
-          correcto: "Se entregaron los premios a todos los ganadores de la convocatoria anual.",
-          incorrecto: "Se entregó los premios a todos los ganadores de la convocatoria."
-        },
-        {
-          categoria: "paciente pospuesto singular",
-          correcto: "Se publicó la semana pasada el informe final de la investigación.",
-          incorrecto: "Se publicaron la semana pasada el informe final de la investigación."
-        },
-        {
-          categoria: "paciente pospuesto plural",
+          tipo: "par",
+          etiqueta: "paciente plural pospuesto",
           correcto: "Se aprobaron en la sesión extraordinaria tres nuevas medidas de seguridad.",
           incorrecto: "Se aprobó en la sesión extraordinaria tres nuevas medidas de seguridad."
         },
         {
-          categoria: "pasiva vs impersonal: verbo transitivo",
-          correcto: "Se buscan investigadores especializados en lingüística computacional. (paciente = investigadores)",
-          incorrecto: "Se busca investigadores especializados en lingüística computacional."
-        },
-        {
-          categoria: "pasiva vs impersonal: verbo intransitivo",
-          correcto: "Se viajó con precaución por las carreteras en mal estado durante el invierno. (impersonal, no pasiva)",
-          incorrecto: "Se viajaron con precaución por las carreteras. (intransitivo no tiene pasiva refleja)"
+          tipo: "trampa",
+          letra: "A",
+          titulo: "Verbo intransitivo → impersonal (no pasiva refleja)",
+          correcto: "Se viajó con precaución por las carreteras en mal estado durante el invierno.",
+          incorrecto: "Se viajaron con precaución por las carreteras. (intransitivo no tiene pasiva)"
         }
       ]
     },
@@ -1442,40 +1483,42 @@ export const PRESENTACION = {
     // ── Regla 20: Impersonales con «se» ──────────────────────────────────────
     {
       id: 77,
-      tipo: "regla",
+      tipo: "regla_rica",
       etiqueta: "Regla 20 / 24",
       titulo: "Impersonales con «se» (sin sujeto gramatical)",
-      descripcion: "Impersonal con «se»: el verbo va siempre en 3ª singular porque no existe sujeto gramatical. Ocurre con verbos intransitivos («se vive», «se trabaja», «se duerme») o con verbos usados sin objeto directo. Prueba para distinguirlo de la pasiva refleja: si no puedes preguntar «¿qué se…?» con un sustantivo que concuerde, es impersonal.",
-      ejemplos: [
+      bloques: [
         {
-          categoria: "verbo intransitivo",
+          tipo: "texto",
+          texto: "Impersonal con «se»: el verbo va siempre en 3ª singular porque no existe sujeto gramatical. Ocurre con verbos intransitivos o usados sin objeto directo. Prueba: si no puedes preguntar «¿qué se [verbo]?» con un sustantivo que lo responda → es impersonal."
+        },
+        {
+          tipo: "par",
+          etiqueta: "verbo intransitivo → siempre impersonal",
           correcto: "Se trabaja mucho en esta institución educativa de alto rendimiento.",
           incorrecto: "Se trabajan mucho en esta institución educativa de alto rendimiento."
         },
         {
-          categoria: "lengua / actividad general",
+          tipo: "par",
+          etiqueta: "lengua / actividad general",
           correcto: "Se habla español en esta conferencia internacional de lingüística aplicada.",
           incorrecto: "Se hablan español en esta conferencia internacional de lingüística."
         },
         {
-          categoria: "«necesitar» impersonal",
-          correcto: "Se necesita personal capacitado en tecnología para el nuevo proyecto.",
-          incorrecto: "Se necesitan personal capacitado. (si «personal» no es sujeto paciente contable)"
-        },
-        {
-          categoria: "«vivir» impersonal",
-          correcto: "Se vive bien en esta ciudad gracias a los servicios públicos de calidad.",
-          incorrecto: "Se viven bien en esta ciudad gracias a los servicios públicos."
-        },
-        {
-          categoria: "«poder» + infinitivo impersonal",
+          tipo: "par",
+          etiqueta: "«poder» + infinitivo — impersonal",
           correcto: "Se puede mejorar el rendimiento con práctica constante y retroalimentación.",
           incorrecto: "Se pueden mejorar el rendimiento con práctica constante."
         },
         {
-          categoria: "contraste: impersonal vs pasiva refleja",
-          correcto: "Se come bien aquí. (impersonal) / Se comen tamales todos los domingos. (pasiva: tamales = paciente)",
+          tipo: "trampa",
+          letra: "A",
+          titulo: "Contraste: impersonal vs pasiva refleja",
+          correcto: "Se come bien aquí. (impersonal: intransitivo) / Se comen tamales. (pasiva: tamales = paciente)",
           incorrecto: "Se comen bien aquí. / Se come tamales todos los domingos."
+        },
+        {
+          tipo: "texto",
+          texto: "Regla definitiva: verbo intransitivo o sin OD identificable → impersonal → singular fijo. Verbo transitivo + sustantivo como sujeto paciente → pasiva refleja → concuerda con el paciente."
         }
       ]
     },
@@ -1513,40 +1556,38 @@ export const PRESENTACION = {
     // ── Regla 21: Sujeto en infinitivo o cláusula sustantiva ──────────────────
     {
       id: 81,
-      tipo: "regla",
+      tipo: "regla_rica",
       etiqueta: "Regla 21 / 24",
       titulo: "Sujeto en infinitivo o cláusula sustantiva (singular)",
-      descripcion: "Un infinitivo o una cláusula sustantiva («que + oración») en función de sujeto equivale a un sustantivo singular → verbo en 3ª persona singular. No importa cuántos elementos haya dentro del infinitivo o la cláusula; como unidad, cuenta como uno solo. Contraste con Regla 22: dos infinitivos o cláusulas coordinados con «y» → plural.",
-      ejemplos: [
+      bloques: [
         {
-          categoria: "infinitivo simple",
-          correcto: "Estudiar todos los días es fundamental para el éxito en el EXANI-I.",
-          incorrecto: "Estudiar todos los días son fundamentales para el éxito en el EXANI-I."
+          tipo: "texto",
+          texto: "Un infinitivo o una cláusula sustantiva («que + oración») en función de sujeto equivale a un sustantivo singular → verbo en 3ª persona singular. No importa cuántos elementos haya dentro; como unidad, cuenta como uno solo."
         },
         {
-          categoria: "infinitivo con complementos",
+          tipo: "par",
+          etiqueta: "infinitivo como sujeto",
           correcto: "Prepararse adecuadamente para el examen requiere tiempo, disciplina y constancia.",
           incorrecto: "Prepararse adecuadamente para el examen requieren tiempo, disciplina y constancia."
         },
         {
-          categoria: "cláusula «que» simple",
-          correcto: "Que lleguen tarde me molesta mucho porque interrumpe la clase.",
-          incorrecto: "Que lleguen tarde me molestan mucho porque interrumpen la clase."
-        },
-        {
-          categoria: "cláusula «que» compleja",
+          tipo: "par",
+          etiqueta: "cláusula «que» como sujeto",
           correcto: "Que el comité no haya tomado una decisión todavía resulta preocupante para todos.",
           incorrecto: "Que el comité no haya tomado una decisión todavía resultan preocupantes."
         },
         {
-          categoria: "cláusula «que» como atributo",
+          tipo: "par",
+          etiqueta: "cláusula «que» compleja como sujeto",
           correcto: "Que los alumnos practiquen a diario es lo más recomendable según los especialistas.",
           incorrecto: "Que los alumnos practiquen a diario son lo más recomendable."
         },
         {
-          categoria: "contraste: UN infinitivo vs DOS (Regla 22)",
-          correcto: "Leer es enriquecedor. (singular) / Leer y escribir son enriquecedores. (plural)",
-          incorrecto: "Leer son enriquecedores. / Leer y escribir es enriquecedor."
+          tipo: "trampa",
+          letra: "A",
+          titulo: "Un infinitivo → singular / Dos infinitivos con «y» → plural (Regla 22)",
+          correcto: "Leer es enriquecedor. (uno → singular)",
+          incorrecto: "Leer y escribir es enriquecedor. (dos con «y» → «son enriquecedores»)"
         }
       ]
     },
@@ -1584,35 +1625,38 @@ export const PRESENTACION = {
     // ── Regla 22: Sujeto oracional coordinado ────────────────────────────────
     {
       id: 85,
-      tipo: "regla",
+      tipo: "regla_rica",
       etiqueta: "Regla 22 / 24",
       titulo: "Sujeto oracional coordinado (plural)",
-      descripcion: "Dos o más infinitivos o cláusulas sustantivas unidos por «y» forman un sujeto compuesto → verbo en plural. Es el mismo principio de la Regla 2 aplicado a sujetos oracionales. Si solo uno realiza la acción (disyunción con «o»), aplica la Regla 15.",
-      ejemplos: [
+      bloques: [
         {
-          categoria: "dos infinitivos",
+          tipo: "texto",
+          texto: "Dos o más infinitivos o cláusulas sustantivas unidos por «y» forman un sujeto compuesto → verbo en plural. Es el mismo principio de la Regla 2 (sujeto nominal con «y») aplicado a sujetos oracionales."
+        },
+        {
+          tipo: "par",
+          etiqueta: "dos infinitivos con «y»",
           correcto: "Estudiar y practicar son las claves del éxito en cualquier examen nacional.",
           incorrecto: "Estudiar y practicar es la clave del éxito en cualquier examen."
         },
         {
-          categoria: "dos cláusulas «que»",
+          tipo: "par",
+          etiqueta: "dos cláusulas «que» con «y»",
           correcto: "Que llueva y que haga frío impiden la realización de la actividad al aire libre.",
           incorrecto: "Que llueva y que haga frío impide la realización de la actividad al aire libre."
         },
         {
-          categoria: "infinitivos con complementos",
-          correcto: "Preparar los materiales y repasar los contenidos son pasos fundamentales para el examen.",
-          incorrecto: "Preparar los materiales y repasar los contenidos es un paso fundamental."
-        },
-        {
-          categoria: "tres infinitivos",
+          tipo: "par",
+          etiqueta: "tres infinitivos",
           correcto: "Leer, escribir y argumentar correctamente son habilidades esenciales para la vida universitaria.",
           incorrecto: "Leer, escribir y argumentar correctamente es una habilidad esencial."
         },
         {
-          categoria: "cláusula + infinitivo",
-          correcto: "Que el equipo trabaje unido y cumplir los plazos son condiciones del éxito.",
-          incorrecto: "Que el equipo trabaje unido y cumplir los plazos es condición del éxito."
+          tipo: "trampa",
+          letra: "A",
+          titulo: "Contraste con Regla 21: uno solo → singular / dos con «y» → plural",
+          correcto: "Prepararse es fundamental. (uno → singular) / Prepararse y repasar son fundamentales. (dos → plural)",
+          incorrecto: "Prepararse son fundamentales. / Prepararse y repasar es fundamental."
         }
       ]
     },
@@ -1650,38 +1694,46 @@ export const PRESENTACION = {
     // ── Regla 23: Vocativos ───────────────────────────────────────────────────
     {
       id: 89,
-      tipo: "regla",
+      tipo: "regla_rica",
       etiqueta: "Regla 23 / 24",
       titulo: "Vocativos — no afectan la concordancia",
-      descripcion: "El vocativo es el nombre o título con que el hablante interpela al interlocutor. Va separado por comas y no es sujeto gramatical. El verbo concuerda con el sujeto tácito (la persona a quien se habla). Claves: nombre propio en vocativo → sujeto tácito «tú»; título formal («doctor», «señor») → sujeto tácito «usted»; grupo («estudiantes», «señores») → sujeto tácito «ustedes».",
-      ejemplos: [
+      bloques: [
         {
-          categoria: "nombre propio → tú",
-          correcto: "Juan, ¿viniste al examen de ayer por la mañana? (sujeto tácito = tú)",
+          tipo: "texto",
+          texto: "El vocativo es el nombre o título con que el hablante interpela al interlocutor. Va separado por comas y no es sujeto gramatical. El verbo concuerda con el sujeto tácito: la persona a quien se habla."
+        },
+        {
+          tipo: "tabla",
+          titulo: "Tipo de vocativo → sujeto tácito → tratamiento",
+          columnas: ["Tipo de vocativo", "Sujeto tácito", "Tratamiento verbal"],
+          filas: [
+            { tiempo: "nombre propio (Juan, María)",  correcto: "tú",      error: "usted / ellos" },
+            { tiempo: "título formal (doctor/a)",     correcto: "usted",   error: "tú / ellos" },
+            { tiempo: "grupo (señores, estudiantes)", correcto: "ustedes", error: "usted / tú" }
+          ]
+        },
+        {
+          tipo: "par",
+          etiqueta: "nombre propio → sujeto tácito «tú»",
+          correcto: "Juan, ¿viniste al examen de ayer por la mañana?",
           incorrecto: "Juan, ¿vino al examen de ayer? (3ª persona incorrecta)"
         },
         {
-          categoria: "grupo → ustedes",
-          correcto: "Señores, ¿llegaron a tiempo a la conferencia inaugural del congreso?",
-          incorrecto: "Señores, ¿llegó a tiempo a la conferencia inaugural?"
-        },
-        {
-          categoria: "nombre → tú (imperativo)",
-          correcto: "María, recuerda entregar el formulario antes del viernes sin falta.",
-          incorrecto: "María, recuerde entregar el formulario. (usted: solo si el trato es formal)"
-        },
-        {
-          categoria: "título formal → usted",
+          tipo: "par",
+          etiqueta: "título formal → sujeto tácito «usted»",
           correcto: "Doctora, ¿podría revisar el informe antes de la sesión del comité?",
           incorrecto: "Doctora, ¿podrías revisar el informe antes de la sesión? (tuteo inadecuado)"
         },
         {
-          categoria: "vocativo al final",
-          correcto: "¿Entregaste el proyecto a tiempo, Carlos?",
-          incorrecto: "¿Entregó el proyecto a tiempo, Carlos?"
+          tipo: "par",
+          etiqueta: "grupo → sujeto tácito «ustedes»",
+          correcto: "Señores, ¿llegaron a tiempo a la conferencia inaugural del congreso?",
+          incorrecto: "Señores, ¿llegó a tiempo a la conferencia inaugural?"
         },
         {
-          categoria: "vocativo en medio",
+          tipo: "trampa",
+          letra: "A",
+          titulo: "Vocativo intercalado — la estructura del verbo no cambia",
           correcto: "Espero, estudiantes, que hayan preparado bien el tema para la presentación.",
           incorrecto: "Espero, estudiantes, que haya preparado bien el tema para la presentación."
         }
@@ -1721,40 +1773,49 @@ export const PRESENTACION = {
     // ── Regla 24: Construcciones enfáticas ───────────────────────────────────
     {
       id: 93,
-      tipo: "regla",
+      tipo: "regla_rica",
       etiqueta: "Regla 24 / 24",
       titulo: "Construcciones enfáticas «es que» / «fue que»",
-      descripcion: "Las construcciones de relieve o enfáticas («es/fue + elemento enfatizado + lo que / quien / donde / cuando») usan siempre el verbo copulativo en 3ª persona singular. El error más frecuente es concordar el copulativo con el elemento enfatizado cuando este es plural. Recuerda: el verbo copulativo en estas estructuras no varía.",
-      ejemplos: [
+      bloques: [
         {
-          categoria: "«es... lo que» (singular enfatizado)",
-          correcto: "Es la propuesta lo que importa ahora para resolver el conflicto institucional.",
-          incorrecto: "Son la propuesta lo que importan ahora para resolver el conflicto."
+          tipo: "texto",
+          texto: "Las construcciones de relieve («es/fue + elemento enfatizado + lo que/quien/donde/cuando») usan el verbo copulativo en 3ª persona singular invariable. El error más frecuente: concordar el copulativo con el elemento enfatizado cuando este es plural."
         },
         {
-          categoria: "«es... lo que» (plural enfatizado — error frecuente)",
+          tipo: "tabla",
+          titulo: "Patrones de construcción enfática",
+          columnas: ["Construcción", "✓ Copulativo sing.", "✗ Error plural"],
+          filas: [
+            { tiempo: "es / son… lo que",     correcto: "es",  error: "son" },
+            { tiempo: "fue / fueron… quien",   correcto: "fue", error: "fueron" },
+            { tiempo: "es / son… donde",       correcto: "es",  error: "son" },
+            { tiempo: "fue / fueron… cuando",  correcto: "fue", error: "fueron" }
+          ]
+        },
+        {
+          tipo: "par",
+          etiqueta: "es...lo que — elemento plural (trampa frecuente)",
           correcto: "Es la concordancia verbal lo que más se evalúa en el EXANI-I de Redacción.",
           incorrecto: "Son las concordancias verbales lo que más se evalúan en el EXANI-I."
         },
         {
-          categoria: "«fue... quien»",
+          tipo: "par",
+          etiqueta: "fue...quien — colectivo singular",
           correcto: "Fue el equipo quien ganó el campeonato regional de matemáticas aplicadas.",
           incorrecto: "Fueron el equipo quienes ganaron el campeonato regional de matemáticas."
         },
         {
-          categoria: "«es... donde»",
+          tipo: "par",
+          etiqueta: "es...donde",
           correcto: "Es en el aula donde se construye el conocimiento más significativo.",
           incorrecto: "Son en el aula donde se construyen los conocimientos más significativos."
         },
         {
-          categoria: "«fue... cuando»",
-          correcto: "Fue entonces cuando el comité tomó la decisión más importante del año.",
-          incorrecto: "Fueron entonces cuando el comité tomaron la decisión más importante."
-        },
-        {
-          categoria: "«es... lo que» (sujeto complejo)",
-          correcto: "Es la falta de práctica constante lo que genera errores en el examen final.",
-          incorrecto: "Son la falta de práctica constante lo que generan errores en el examen."
+          tipo: "trampa",
+          letra: "A",
+          titulo: "Complemento plural no cambia el copulativo",
+          correcto: "Es los errores de concordancia lo que más perjudica a los estudiantes en el EXANI-I.",
+          incorrecto: "Son los errores de concordancia lo que más perjudican a los estudiantes."
         }
       ]
     },

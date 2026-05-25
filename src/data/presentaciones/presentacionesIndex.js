@@ -5,11 +5,13 @@
 import { PRESENTACION as SEMEJANZA_TRIANGULOS } from "./semejanza-triangulos.js";
 import { PRESENTACION as CONCORDANCIA_VERBAL } from "./concordancia-verbal.js";
 import { PRESENTACION as ACENTUACION } from "./acentuacion.js";
+import { PRESENTACION as SIGNOS_PUNTUACION } from "./signos-puntuacion.js";
 
 export const PRESENTACIONES_INDEX = {
   "semejanza-triangulos": SEMEJANZA_TRIANGULOS,
   "concordancia-verbal": CONCORDANCIA_VERBAL,
   "acentuacion": ACENTUACION,
+  "signos-puntuacion": SIGNOS_PUNTUACION,
 };
 
 export function buscarPresentacion(id) {

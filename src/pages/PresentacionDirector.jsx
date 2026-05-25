@@ -254,6 +254,25 @@ export default function PresentacionDirector() {
           >
             {cargando ? "Iniciando…" : "Iniciar sesión"}
           </button>
+
+          <div style={{ marginTop: 24 }}>
+            <Link
+              to="/admin"
+              style={{
+                fontFamily: tema.mono,
+                fontSize: 12,
+                color: tema.muted,
+                textDecoration: "none",
+                letterSpacing: "0.08em",
+                opacity: 0.7,
+                transition: "opacity 0.15s"
+              }}
+              onMouseEnter={e => e.currentTarget.style.opacity = "1"}
+              onMouseLeave={e => e.currentTarget.style.opacity = "0.7"}
+            >
+              ← Panel de administrador
+            </Link>
+          </div>
         </div>
       </div>
     );

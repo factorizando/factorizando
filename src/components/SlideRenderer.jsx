@@ -1300,6 +1300,229 @@ function SlideResumen({ slide, tema }) {
   );
 }
 
+function SlideReglaRica({ slide, tema }) {
+  return (
+    <div
+      style={{
+        padding: "20px 24px",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        gap: 10,
+        boxSizing: "border-box",
+        overflowY: "auto"
+      }}
+    >
+      <div>
+        <div
+          style={{
+            fontFamily: tema.mono,
+            fontSize: 10,
+            letterSpacing: "0.2em",
+            color: tema.acento,
+            textTransform: "uppercase",
+            marginBottom: 6,
+            opacity: 0.75
+          }}
+        >
+          {slide.etiqueta}
+        </div>
+        <h2
+          style={{
+            fontFamily: "'Playfair Display', serif",
+            fontSize: "clamp(18px, 2.4vw, 28px)",
+            fontWeight: 700,
+            color: tema.texto,
+            letterSpacing: "-0.01em",
+            margin: 0,
+            lineHeight: 1.2
+          }}
+        >
+          {slide.titulo}
+        </h2>
+      </div>
+
+      {slide.bloques.map((bloque, i) => {
+        if (bloque.tipo === "texto") {
+          return (
+            <div
+              key={i}
+              style={{
+                background: tema.acentoSuave,
+                border: `1px solid ${tema.acentoBorde}`,
+                borderRadius: 8,
+                padding: "10px 18px",
+                flexShrink: 0
+              }}
+            >
+              <p style={{ fontSize: 13.5, color: tema.texto, lineHeight: 1.65, margin: 0, fontWeight: 300 }}>
+                {bloque.texto}
+              </p>
+            </div>
+          );
+        }
+
+        if (bloque.tipo === "par") {
+          return (
+            <div
+              key={i}
+              style={{
+                background: tema.card,
+                border: `1px solid ${tema.border}`,
+                borderRadius: 8,
+                padding: "10px 14px",
+                flexShrink: 0
+              }}
+            >
+              {bloque.etiqueta && (
+                <div
+                  style={{
+                    fontFamily: tema.mono,
+                    fontSize: 8.5,
+                    color: tema.muted,
+                    letterSpacing: "0.2em",
+                    textTransform: "uppercase",
+                    marginBottom: 8
+                  }}
+                >
+                  {bloque.etiqueta}
+                </div>
+              )}
+              <div style={{ fontSize: 13, color: tema.texto, lineHeight: 1.55, marginBottom: 5 }}>
+                <span style={{ color: tema.verde, marginRight: 6, fontWeight: 700 }}>✓</span>
+                {bloque.correcto}
+              </div>
+              <div style={{ height: 1, background: tema.border, margin: "5px 0" }} />
+              <div style={{ fontSize: 13, color: tema.muted, lineHeight: 1.55 }}>
+                <span style={{ color: "#f5c842", marginRight: 6, fontWeight: 700 }}>✗</span>
+                {bloque.incorrecto}
+              </div>
+            </div>
+          );
+        }
+
+        if (bloque.tipo === "tabla") {
+          return (
+            <div
+              key={i}
+              style={{
+                background: "rgba(0,0,0,0.35)",
+                border: `1px solid ${tema.border}`,
+                borderRadius: 8,
+                overflow: "hidden",
+                flexShrink: 0
+              }}
+            >
+              {bloque.titulo && (
+                <div
+                  style={{
+                    fontFamily: tema.mono,
+                    fontSize: 9,
+                    letterSpacing: "0.18em",
+                    color: tema.acento,
+                    textTransform: "uppercase",
+                    padding: "7px 14px 5px",
+                    borderBottom: `1px solid ${tema.border}`,
+                    opacity: 0.8
+                  }}
+                >
+                  {bloque.titulo}
+                </div>
+              )}
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12.5 }}>
+                <thead>
+                  <tr style={{ borderBottom: `1px solid ${tema.border}` }}>
+                    <th style={{ padding: "5px 14px", textAlign: "left", color: tema.muted, fontFamily: tema.mono, fontSize: 9, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 400 }}>Tiempo</th>
+                    <th style={{ padding: "5px 14px", textAlign: "left", color: tema.verde, fontFamily: tema.mono, fontSize: 9, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 400 }}>✓ Correcto</th>
+                    <th style={{ padding: "5px 14px", textAlign: "left", color: "#f5c842", fontFamily: tema.mono, fontSize: 9, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 400 }}>✗ Error</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {bloque.filas.map((fila, j) => (
+                    <tr
+                      key={j}
+                      style={{ borderBottom: j < bloque.filas.length - 1 ? `1px solid rgba(255,255,255,0.05)` : "none" }}
+                    >
+                      <td style={{ padding: "5px 14px", color: tema.sub, fontStyle: "italic" }}>{fila.tiempo}</td>
+                      <td style={{ padding: "5px 14px", color: tema.verde, fontFamily: tema.mono, fontWeight: 600 }}>{fila.correcto}</td>
+                      <td style={{ padding: "5px 14px", color: tema.muted, fontFamily: tema.mono, textDecoration: "line-through" }}>{fila.error}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          );
+        }
+
+        if (bloque.tipo === "trampa") {
+          const colorMap = { A: tema.acento, B: tema.azul, C: tema.verde };
+          const color = colorMap[bloque.letra] || tema.acento;
+          return (
+            <div
+              key={i}
+              style={{
+                display: "flex",
+                gap: 12,
+                alignItems: "flex-start",
+                background: tema.card,
+                border: `1px solid ${color}44`,
+                borderRadius: 8,
+                padding: "10px 14px",
+                flexShrink: 0
+              }}
+            >
+              <div
+                style={{
+                  minWidth: 28,
+                  height: 28,
+                  borderRadius: 6,
+                  background: `${color}20`,
+                  border: `1.5px solid ${color}`,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontFamily: tema.mono,
+                  fontSize: 11,
+                  fontWeight: 700,
+                  color,
+                  flexShrink: 0,
+                  marginTop: 2
+                }}
+              >
+                {bloque.letra}
+              </div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div
+                  style={{
+                    fontFamily: tema.mono,
+                    fontSize: 9,
+                    color,
+                    letterSpacing: "0.15em",
+                    textTransform: "uppercase",
+                    marginBottom: 7
+                  }}
+                >
+                  Trampa {bloque.letra} — {bloque.titulo}
+                </div>
+                <div style={{ fontSize: 12.5, color: tema.texto, lineHeight: 1.5, marginBottom: 5 }}>
+                  <span style={{ color: tema.verde, marginRight: 5, fontWeight: 700 }}>✓</span>
+                  {bloque.correcto}
+                </div>
+                <div style={{ fontSize: 12.5, color: tema.muted, lineHeight: 1.5 }}>
+                  <span style={{ color: "#f5c842", marginRight: 5, fontWeight: 700 }}>✗</span>
+                  {bloque.incorrecto}
+                </div>
+              </div>
+            </div>
+          );
+        }
+
+        return null;
+      })}
+    </div>
+  );
+}
+
 function SlideRegla({ slide, tema, modo, resaltadoIdx, onResaltar }) {
   const width = useWindowWidth();
   const gridCols = width < 560 ? "1fr" : "1fr 1fr";
@@ -1449,6 +1672,8 @@ export default function SlideRenderer({
       return <SlideEjercicio {...props} />;
     case "resumen":
       return <SlideResumen {...props} />;
+    case "regla_rica":
+      return <SlideReglaRica {...props} />;
     case "regla":
       return <SlideRegla {...props} />;
     default:

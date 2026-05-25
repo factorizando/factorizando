@@ -515,40 +515,100 @@ export const PRESENTACION = {
     // ── Regla 8: Hay, hace, hubo ─────────────────────────────────────────────
     {
       id: 29,
-      tipo: "regla",
-      etiqueta: "Regla 8 / 24",
-      titulo: "«Hay», «hace», «hubo» — verbos impersonales",
-      descripcion: "Concepto clave — impersonalidad gramatical: cuando «haber» expresa existencia (hay, hubo, había, habrá, haya) y «hacer» expresa tiempo transcurrido (hace días, hace años), estos verbos carecen de sujeto gramatical. El sustantivo que los acompaña NO es el sujeto: es un Complemento Directo (CD). Sin sujeto con quien concordar, el verbo queda fijo en 3ª persona singular. Prueba del CD: si puedes sustituir el sustantivo por «lo/la/los/las» (pronombres de objeto), confirmas que es CD y no sujeto — «¿Había muchas personas? Sí, las había» (no «ellas habían»). ¿Por qué erramos? El cerebro ve un sustantivo plural junto al verbo y lo pluraliza por inercia. Recordar que «lo que hay» o «lo que hace» es el objeto y no el sujeto es el truco definitivo para mantener el singular.",
-      ejemplos: [
+      tipo: "regla_rica",
+      etiqueta: "Regla 8a / 24",
+      titulo: "«Haber» impersonal",
+      bloques: [
         {
-          categoria: "hay (presente)",
+          tipo: "texto",
+          texto: "Cuando «haber» expresa existencia, la oración no tiene sujeto gramatical. El sustantivo que lo acompaña es Complemento Directo (CD), no sujeto. Por eso el verbo queda fijo en 3ª persona singular sin importar la cantidad de lo que se nombra."
+        },
+        {
+          tipo: "par",
+          etiqueta: "hay · presente",
           correcto: "Hay muchos factores que considerar antes de tomar esa decisión.",
           incorrecto: "Han muchos factores que considerar antes de tomar esa decisión."
         },
         {
-          categoria: "hubo (pretérito) — error frecuente",
-          correcto: "Hubo varios accidentes en la autopista durante el fin de semana.",
-          incorrecto: "Hubieron varios accidentes en la autopista durante el fin de semana."
+          tipo: "tabla",
+          titulo: "Formas de haber impersonal",
+          filas: [
+            { tiempo: "Presente",        correcto: "hay",       error: "han" },
+            { tiempo: "Pret. indefinido", correcto: "hubo",      error: "hubieron" },
+            { tiempo: "Pret. imperfecto", correcto: "había",     error: "habían" },
+            { tiempo: "Futuro",           correcto: "habrá",     error: "habrán" },
+            { tiempo: "Condicional",      correcto: "habría",    error: "habrían" },
+            { tiempo: "Pret. perfecto",   correcto: "ha habido", error: "han habido" },
+            { tiempo: "Subjuntivo",       correcto: "haya",      error: "hayan" }
+          ]
         },
         {
-          categoria: "había (copretérito)",
-          correcto: "Había decenas de personas esperando en el vestíbulo del edificio.",
-          incorrecto: "Habían decenas de personas esperando en el vestíbulo."
+          tipo: "texto",
+          texto: "Prueba del CD: sustituye el sustantivo por «lo/la/los/las». Si funciona, es CD y nunca sujeto. «¿Había muchas personas? Sí, las había.» (no: «ellas habían»)."
         },
         {
-          categoria: "habrá (futuro)",
-          correcto: "Habrá cambios importantes en el plan de estudios el próximo ciclo.",
-          incorrecto: "Habrán cambios importantes en el plan de estudios el próximo ciclo."
+          tipo: "par",
+          etiqueta: "hubo · trampa A — CD plural atrae al verbo",
+          correcto: "Hubo varias quejas durante la reunión de evaluación.",
+          incorrecto: "Hubieron varias quejas durante la reunión de evaluación."
         },
         {
-          categoria: "hace + tiempo",
+          tipo: "par",
+          etiqueta: "ha habido · trampa B — perífrasis en plural",
+          correcto: "Ha habido cambios importantes en el plan de estudios.",
+          incorrecto: "Han habido cambios importantes en el plan de estudios."
+        }
+      ]
+    },
+    {
+      id: 292,
+      tipo: "regla_rica",
+      etiqueta: "Regla 8b / 24",
+      titulo: "«Hacer» temporal y trampas del EXANI-I",
+      bloques: [
+        {
+          tipo: "texto",
+          texto: "«Hacer» expresa tiempo transcurrido o condiciones climáticas. Como carece de sujeto gramatical, es invariable: siempre 3ª persona singular, sin importar el número del sustantivo que lo acompaña."
+        },
+        {
+          tipo: "tabla",
+          titulo: "Formas de hacer temporal",
+          filas: [
+            { tiempo: "Presente",         correcto: "hace",   error: "hacen" },
+            { tiempo: "Pret. imperfecto",  correcto: "hacía",  error: "hacían" },
+            { tiempo: "Futuro",            correcto: "hará",   error: "harán" }
+          ]
+        },
+        {
+          tipo: "par",
+          etiqueta: "hace · trampa C — hacer temporal",
           correcto: "Hace varios días que no recibimos noticias sobre los resultados.",
           incorrecto: "Hacen varios días que no recibimos noticias sobre los resultados."
         },
         {
-          categoria: "haber en subjuntivo",
-          correcto: "Es posible que haya errores en el informe que se entregó ayer.",
-          incorrecto: "Es posible que hayan errores en el informe que se entregó ayer."
+          tipo: "trampa",
+          letra: "A",
+          titulo: "CD plural atrae al verbo",
+          correcto: "Hubo 200 personas en el evento.",
+          incorrecto: "Hubieron 200 personas en el evento."
+        },
+        {
+          tipo: "trampa",
+          letra: "B",
+          titulo: "Perífrasis en plural",
+          correcto: "Ha habido cambios en el reglamento.",
+          incorrecto: "Han habido cambios en el reglamento."
+        },
+        {
+          tipo: "trampa",
+          letra: "C",
+          titulo: "Hacer temporal",
+          correcto: "Hace semanas que no se reúne el comité.",
+          incorrecto: "Hacen semanas que no se reúne el comité."
+        },
+        {
+          tipo: "texto",
+          texto: "Regla de identificación rápida: ¿puedes preguntarle «¿quién?» al verbo? Si no hay respuesta posible → impersonal → singular. La cantidad no cambia nada: hay uno, hay mil → el verbo no varía."
         }
       ]
     },

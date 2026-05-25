@@ -615,7 +615,7 @@ export const PRESENTACION = {
     {
       id: 30,
       tipo: "ejercicio",
-      etiqueta: "Reactivo 1 — Regla 8",
+      etiqueta: "Reactivo 1 — Regla 8 · haber",
       pregunta: "«__ más de cien personas en el auditorio cuando comenzó el evento cultural.»",
       opciones: ["Hubieron", "Habían", "Hubo"],
       correcta: 2,
@@ -625,7 +625,7 @@ export const PRESENTACION = {
     {
       id: 31,
       tipo: "ejercicio",
-      etiqueta: "Reactivo 2 — Regla 8",
+      etiqueta: "Reactivo 2 — Regla 8 · haber",
       pregunta: "«__ muchos factores que considerar antes de tomar una decisión tan importante.»",
       opciones: ["Han", "Habrán", "Hay"],
       correcta: 2,
@@ -633,13 +633,33 @@ export const PRESENTACION = {
       pasos: []
     },
     {
+      id: 301,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 3 — Regla 8 · haber",
+      pregunta: "«Es posible que __ errores en el informe final que se entregó ayer al comité.»",
+      opciones: ["hayan", "habrán", "haya"],
+      correcta: 2,
+      explicacion: "«haya» — subjuntivo de «haber» impersonal, siempre en singular. «Hayan» es el error más frecuente en esta forma: el subjuntivo impersonal no tiene plural.",
+      pasos: []
+    },
+    {
       id: 32,
       tipo: "ejercicio",
-      etiqueta: "Reactivo 3 — Regla 8",
+      etiqueta: "Reactivo 1 — Regla 8 · hacer",
       pregunta: "«__ varios días desde que se publicaron los resultados del examen nacional.»",
       opciones: ["Hacen", "Hicieron", "Hace"],
       correcta: 2,
-      explicacion: "«Hace» — impersonal de tiempo, siempre en singular. «Hacen días» es un error frecuente; el verbo «hacer» en expresiones temporales es impersonal y siempre va en singular.",
+      explicacion: "«Hace» — impersonal de tiempo, siempre en singular. «Hacen días» es un error frecuente; «hacer» en expresiones temporales es impersonal y no varía.",
+      pasos: []
+    },
+    {
+      id: 321,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 2 — Regla 8 · hacer",
+      pregunta: "«__ más de dos años cuando por fin se anunció el resultado del proceso de selección.»",
+      opciones: ["Hacían", "Harán", "Hacía"],
+      correcta: 2,
+      explicacion: "«Hacía» — impersonal de tiempo en pretérito imperfecto, siempre singular. «Hacían» es el error por atracción del complemento temporal: el verbo no concuerda con «dos años» porque no hay sujeto.",
       pasos: []
     },
 

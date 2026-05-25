@@ -1300,7 +1300,7 @@ function SlideResumen({ slide, tema }) {
   );
 }
 
-function SlideReglaRica({ slide, tema }) {
+function SlideReglaRica({ slide, tema, modo, resaltadoIdx, onResaltar }) {
   return (
     <div
       style={{
@@ -1343,16 +1343,28 @@ function SlideReglaRica({ slide, tema }) {
       </div>
 
       {slide.bloques.map((bloque, i) => {
+        const activo = resaltadoIdx === i;
+        const clickable = !!onResaltar;
+        const handleClick = () => onResaltar && onResaltar(i);
+        const sharedActive = {
+          boxShadow: activo ? `0 0 0 2px ${tema.acentoBorde}, 0 0 18px ${tema.acentoBorde}` : "none",
+          transform: activo ? "scale(1.01)" : "scale(1)",
+          transition: "all 0.2s",
+          cursor: clickable ? "pointer" : "default",
+        };
+
         if (bloque.tipo === "texto") {
           return (
             <div
               key={i}
+              onClick={handleClick}
               style={{
                 background: tema.acentoSuave,
-                border: `1px solid ${tema.acentoBorde}`,
+                border: activo ? `2px solid ${tema.acento}` : `1px solid ${tema.acentoBorde}`,
                 borderRadius: 8,
                 padding: "10px 18px",
-                flexShrink: 0
+                flexShrink: 0,
+                ...sharedActive
               }}
             >
               <p style={{ fontSize: 13.5, color: tema.texto, lineHeight: 1.65, margin: 0, fontWeight: 300 }}>
@@ -1366,12 +1378,14 @@ function SlideReglaRica({ slide, tema }) {
           return (
             <div
               key={i}
+              onClick={handleClick}
               style={{
-                background: tema.card,
-                border: `1px solid ${tema.border}`,
+                background: activo ? tema.acentoSuave : tema.card,
+                border: activo ? `2px solid ${tema.acento}` : `1px solid ${tema.border}`,
                 borderRadius: 8,
                 padding: "10px 14px",
-                flexShrink: 0
+                flexShrink: 0,
+                ...sharedActive
               }}
             >
               {bloque.etiqueta && (
@@ -1405,12 +1419,14 @@ function SlideReglaRica({ slide, tema }) {
           return (
             <div
               key={i}
+              onClick={handleClick}
               style={{
                 background: "rgba(0,0,0,0.35)",
-                border: `1px solid ${tema.border}`,
+                border: activo ? `2px solid ${tema.acento}` : `1px solid ${tema.border}`,
                 borderRadius: 8,
                 overflow: "hidden",
-                flexShrink: 0
+                flexShrink: 0,
+                ...sharedActive
               }}
             >
               {bloque.titulo && (
@@ -1419,7 +1435,7 @@ function SlideReglaRica({ slide, tema }) {
                     fontFamily: tema.mono,
                     fontSize: 9,
                     letterSpacing: "0.18em",
-                    color: tema.acento,
+                    color: activo ? tema.acento : tema.acento,
                     textTransform: "uppercase",
                     padding: "7px 14px 5px",
                     borderBottom: `1px solid ${tema.border}`,
@@ -1460,15 +1476,17 @@ function SlideReglaRica({ slide, tema }) {
           return (
             <div
               key={i}
+              onClick={handleClick}
               style={{
                 display: "flex",
                 gap: 12,
                 alignItems: "flex-start",
-                background: tema.card,
-                border: `1px solid ${color}44`,
+                background: activo ? tema.acentoSuave : tema.card,
+                border: activo ? `2px solid ${tema.acento}` : `1px solid ${color}44`,
                 borderRadius: 8,
                 padding: "10px 14px",
-                flexShrink: 0
+                flexShrink: 0,
+                ...sharedActive
               }}
             >
               <div

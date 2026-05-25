@@ -15,6 +15,145 @@ export const PRESENTACION = {
       etiqueta: "Español · Ortografía"
     },
 
+    // ── Intro 1: Cómo silabear ────────────────────────────────────────────────
+    {
+      id: 49,
+      tipo: "regla_rica",
+      etiqueta: "Introducción · Silabeo",
+      titulo: "Cómo dividir una palabra en sílabas",
+      bloques: [
+        {
+          tipo: "texto",
+          texto: "La sílaba es la unidad mínima de pronunciación: cada una contiene al menos una vocal. Silabear correctamente es el paso previo a clasificar una palabra y aplicar cualquier regla de acentuación. Seis reglas cubren la mayoría de los casos del español."
+        },
+        {
+          tipo: "tabla",
+          titulo: "Reglas de silabeo",
+          columnas: ["Situación", "Regla", "Ejemplos"],
+          filas: [
+            { tiempo: "1 consonante entre vocales",            correcto: "Va con la sílaba siguiente",               error: "ma-no · ca-sa · li-bro · pa-lo" },
+            { tiempo: "2 consonantes entre vocales",           correcto: "Se separan (una para cada lado)",           error: "car-ta · es-ta · per-so-na · tam-bién" },
+            { tiempo: "Grupos inseparables (pr br tr dr fr gr cr pl bl fl gl cl)", correcto: "Van juntos con la vocal siguiente", error: "pa-dre · o-bra · a-gua · re-fres-co · a-brir" },
+            { tiempo: "rr · ll · ch (fonema único)",           correcto: "Nunca se separan",                         error: "pe-rro · ca-lle · mu-cho · ha-cha" },
+            { tiempo: "Diptongo (cerrada átona + abierta)",    correcto: "Una sola sílaba",                          error: "ai-re · bue-no · viu-da · cau-sa" },
+            { tiempo: "Hiato (cerrada tónica + vocal)",        correcto: "Sílabas separadas; tilde en la cerrada",   error: "pa-ís · Ma-rí-a · ba-úl · pro-hí-be" }
+          ]
+        },
+        {
+          tipo: "par",
+          etiqueta: "diptongo vs. hiato — la tonicidad de la cerrada decide",
+          correcto: "«bueno» → bue-no (2 sílabas): u es átona → diptongo → una sola sílaba.",
+          incorrecto: "«bu-e-no» (3 sílabas) — error: la u es átona, no rompe el diptongo."
+        },
+        {
+          tipo: "trampa",
+          letra: "A",
+          titulo: "La h entre vocales es muda — las vocales interactúan como si la h no existiera",
+          correcto: "pro-hí-be (3 sílabas): la í tónica forma hiato con la e; lleva tilde por hiato.",
+          incorrecto: "pro-hi-be sin tilde — error: ignorar que la í es tónica porque la h «separa» visualmente las vocales."
+        }
+      ]
+    },
+    {
+      id: 50,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 1 — Silabeo",
+      pregunta: "¿Cuántas sílabas tiene la palabra «establecimiento»?",
+      opciones: ["5 sílabas", "6 sílabas", "7 sílabas"],
+      correcta: 1,
+      explicacion: "«es-ta-ble-ci-mien-to» — 6 sílabas. El grupo «bl» es inseparable (va junto) y «mien» es diptongo (ie átono), por lo que ambos cuentan como una sola sílaba cada uno.",
+      pasos: []
+    },
+    {
+      id: 51,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 2 — Silabeo",
+      pregunta: "¿Cuál de los siguientes silabeos es correcto?",
+      opciones: ["prob-le-ma", "pro-ble-ma", "pro-bl-e-ma"],
+      correcta: 1,
+      explicacion: "«pro-ble-ma» — el grupo «bl» es inseparable: nunca se divide entre dos sílabas. Siempre va junto con la vocal que sigue.",
+      pasos: []
+    },
+    {
+      id: 52,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 3 — Silabeo",
+      pregunta: "¿Cuál de los siguientes silabeos es correcto para la palabra «prohíbe»?",
+      opciones: ["proh-í-be", "pro-hí-be", "pro-hi-be"],
+      correcta: 1,
+      explicacion: "«pro-hí-be» — la h es muda; la í es tónica y forma hiato con la e. La tilde en la í marca ese hiato. «Pro-hi-be» sin tilde y «proh-í-be» (la h no separa sílabas así) son incorrectos.",
+      pasos: []
+    },
+
+    // ── Intro 2: Cómo encontrar la sílaba tónica ─────────────────────────────
+    {
+      id: 53,
+      tipo: "regla_rica",
+      etiqueta: "Introducción · Sílaba tónica",
+      titulo: "Cómo encontrar la sílaba tónica",
+      bloques: [
+        {
+          tipo: "texto",
+          texto: "La sílaba tónica es la que se pronuncia con mayor fuerza. Si la palabra lleva tilde, la tónica ya está señalada. Si no la lleva, pronúnciala en voz alta cambiando el acento de sílaba en sílaba: la versión que suena natural revela la tónica. En español, la mayoría de las palabras sin tilde son llanas (tónica en la penúltima sílaba)."
+        },
+        {
+          tipo: "tabla",
+          titulo: "Pistas para identificar la sílaba tónica",
+          columnas: ["Pista", "Explicación", "Ejemplo"],
+          filas: [
+            { tiempo: "Lleva tilde",                correcto: "La tilde señala directamente la tónica",        error: "te-lé-fo-no → tónica en «lé»" },
+            { tiempo: "Sin tilde, termina en vocal/n/s", correcto: "Casi siempre llana: tónica en penúltima", error: "CA-sa · LI-bro · JO-ven · ór-de-nes" },
+            { tiempo: "Sin tilde, otra consonante final", correcto: "Puede ser aguda o llana — prueba ambas",  error: "ciu-DAD (aguda) · ár-bol (llana)" },
+            { tiempo: "Prueba oral",                 correcto: "Mueve el acento de sílaba en sílaba hasta que suene natural", error: "ma-NO vs. MA-no → MA-no ✓ (llana)" },
+            { tiempo: "Prefijos (des-, in-, pre-, re-…)", correcto: "Siempre átonos — la tónica está en la raíz", error: "des-cu-BRIR · in-com-PLE-to" }
+          ]
+        },
+        {
+          tipo: "par",
+          etiqueta: "leer la tónica sin tilde — prueba oral",
+          correcto: "«examen» → e-XA-men: la sílaba «xa» suena más fuerte → penúltima → llana → termina en n → sin tilde.",
+          incorrecto: "«éxamen» — error: la tónica está en «-xa-», no en «e-»; escribir tilde en la primera sílaba es incorrecto."
+        },
+        {
+          tipo: "trampa",
+          letra: "A",
+          titulo: "Los prefijos (des-, in-, pre-, re-, sub-) son siempre átonos — nunca cargues el acento en ellos",
+          correcto: "des-cu-BRIR (aguda: -brir tónica, termina en r → sin tilde) · in-com-PLE-to (llana: -ple- tónica, termina en o → sin tilde)",
+          incorrecto: "DES-cubrir o ÍN-completo — error: el prefijo nunca es la sílaba tónica en español."
+        }
+      ]
+    },
+    {
+      id: 54,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 1 — Sílaba tónica",
+      pregunta: "¿Cuál es la sílaba tónica de «teléfono»?",
+      opciones: ["«te-» (primera)", "«-lé-» (segunda)", "«-fo-» (tercera)"],
+      correcta: 1,
+      explicacion: "«te-LÉ-fo-no» — la tilde sobre la é indica directamente que «-lé-» es la sílaba tónica. Es la antepenúltima → la palabra es esdrújula.",
+      pasos: []
+    },
+    {
+      id: 55,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 2 — Sílaba tónica",
+      pregunta: "«computadora» no lleva tilde. ¿Cuál es su sílaba tónica?",
+      opciones: ["«-pu-» (segunda sílaba)", "«-do-» (penúltima sílaba)", "«-ra» (última sílaba)"],
+      correcta: 1,
+      explicacion: "«com-pu-ta-DO-ra» — pronúnciala en voz alta: la sílaba «-do-» suena más fuerte. Es la penúltima → llana → termina en a → no lleva tilde.",
+      pasos: []
+    },
+    {
+      id: 56,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 3 — Sílaba tónica",
+      pregunta: "La palabra «incompleto» lleva el acento en:",
+      opciones: ["«in-» (prefijo, primera sílaba)", "«-com-» (segunda sílaba)", "«-ple-» (penúltima sílaba)"],
+      correcta: 2,
+      explicacion: "«in-com-PLE-to» — el prefijo «in-» es átono. La tónica está en «-ple-» (penúltima sílaba). Llana terminada en o → sin tilde.",
+      pasos: []
+    },
+
     // ── Regla 1: Clasificación ────────────────────────────────────────────────
     {
       id: 1,

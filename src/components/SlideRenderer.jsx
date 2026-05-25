@@ -1466,7 +1466,7 @@ function SlideReglaRica({ slide, tema, modo, resaltadoIdx, onResaltar }) {
                     >
                       <td style={{ padding: "5px 14px", color: tema.sub, fontStyle: "italic" }}>{fila.tiempo}</td>
                       <td style={{ padding: "5px 14px", color: tema.verde, fontFamily: tema.mono, fontWeight: 600 }}>{fila.correcto}</td>
-                      <td style={{ padding: "5px 14px", color: tema.muted, fontFamily: tema.mono, textDecoration: "line-through" }}>{fila.error}</td>
+                      <td style={{ padding: "5px 14px", color: tema.muted, fontFamily: tema.mono }}>{fila.error}</td>
                     </tr>
                   ))}
                 </tbody>

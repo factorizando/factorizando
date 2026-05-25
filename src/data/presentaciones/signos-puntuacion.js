@@ -688,7 +688,7 @@ export const PRESENTACION = {
         {
           tipo: "par",
           etiqueta: "cita dentro de cita — jerarquía de comillas",
-          correcto: "El informe señala: «El documento dice "aprobado por unanimidad" en la última sección».",
+          correcto: 'El informe señala: «El documento dice "aprobado por unanimidad" en la última sección».',
           incorrecto: "El informe señala: «El documento dice «aprobado por unanimidad» en la última sección»."
         },
         {
@@ -718,7 +718,7 @@ export const PRESENTACION = {
       id: 35,
       tipo: "ejercicio",
       etiqueta: "Reactivo 2 — Regla 8",
-      pregunta: "«La palabra __ ortografía __ proviene del griego y significa "escritura correcta".» ¿Qué signos enmarcan la palabra estudiada?",
+      pregunta: '«La palabra __ ortografía __ proviene del griego y significa "escritura correcta".» ¿Qué signos enmarcan la palabra estudiada?',
       opciones: ["Comillas: «ortografía»", "Paréntesis: (ortografía)", "Sin signos: ortografía"],
       correcta: 0,
       explicacion: "Comillas (uso metalingüístico) — cuando se habla de una palabra como objeto de estudio lingüístico, se escribe entre comillas: «ortografía». En textos académicos también es válida la cursiva.",

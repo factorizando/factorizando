@@ -18,40 +18,43 @@ export const PRESENTACION = {
     // ── Regla 1: Sujeto simple ────────────────────────────────────────────────
     {
       id: 1,
-      tipo: "regla",
+      tipo: "regla_rica",
       etiqueta: "Regla 1 / 24",
       titulo: "Sujeto simple — concordancia directa",
-      descripcion: "El verbo concuerda en número (singular/plural) y persona (1ª, 2ª, 3ª) con el núcleo del sujeto. Clave: identifica el núcleo ignorando los complementos que lo rodean; el verbo responde a ese núcleo, no a las palabras que lo modifican.",
-      ejemplos: [
+      bloques: [
         {
-          categoria: "Singular básico",
-          correcto: "La maestra explicó el tema con claridad.",
-          incorrecto: "La maestra explicaron el tema con claridad."
+          tipo: "texto",
+          texto: "El verbo concuerda en número (singular/plural) y persona (1ª, 2ª, 3ª) con el núcleo del sujeto. Clave: identifica el núcleo ignorando todos los complementos que lo rodean; el verbo responde a ese núcleo, no a las palabras que lo modifican."
         },
         {
-          categoria: "Plural básico",
-          correcto: "Los alumnos entregaron su tarea antes del plazo.",
-          incorrecto: "Los alumnos entregó su tarea antes del plazo."
+          tipo: "tabla",
+          titulo: "Tipos de sujeto y su concordancia",
+          columnas: ["Tipo de sujeto", "✓ Verbo concuerda con…", "Ejemplo de núcleo"],
+          filas: [
+            { tiempo: "simple singular",       correcto: "el núcleo singular",  error: "La maestra → explicó" },
+            { tiempo: "simple plural",          correcto: "el núcleo plural",    error: "Los alumnos → entregaron" },
+            { tiempo: "núcleo + complemento",  correcto: "el núcleo, no el compl.", error: "El director [del plantel] → aprobó" },
+            { tiempo: "colectivo singular",     correcto: "el colectivo (sing.)", error: "La delegación → asistió" }
+          ]
         },
         {
-          categoria: "Núcleo + complemento",
+          tipo: "par",
+          etiqueta: "núcleo + complemento — el error más frecuente",
           correcto: "El director del plantel aprobó el nuevo reglamento.",
           incorrecto: "El director del plantel aprobaron el nuevo reglamento."
         },
         {
-          categoria: "Sujeto pospuesto",
-          correcto: "Llegaron los delegados internacionales al foro.",
-          incorrecto: "Llegó los delegados internacionales al foro."
-        },
-        {
-          categoria: "Colectivo singular",
-          correcto: "La delegación mexicana asistió a la conferencia en Ginebra.",
-          incorrecto: "La delegación mexicana asistieron a la conferencia en Ginebra."
-        },
-        {
-          categoria: "Frase nominal compleja",
+          tipo: "par",
+          etiqueta: "frase nominal compleja",
           correcto: "El conjunto de datos recopilados durante el estudio demostró la hipótesis.",
           incorrecto: "El conjunto de datos recopilados durante el estudio demostraron la hipótesis."
+        },
+        {
+          tipo: "trampa",
+          letra: "A",
+          titulo: "Colectivo singular: la idea de «muchos» no cambia el número gramatical",
+          correcto: "La delegación mexicana asistió a la conferencia en Ginebra.",
+          incorrecto: "La delegación mexicana asistieron a la conferencia en Ginebra."
         }
       ]
     },
@@ -89,40 +92,44 @@ export const PRESENTACION = {
     // ── Regla 2: Sujeto compuesto con «y» ────────────────────────────────────
     {
       id: 5,
-      tipo: "regla",
+      tipo: "regla_rica",
       etiqueta: "Regla 2 / 24",
       titulo: "Sujeto compuesto con «y»",
-      descripcion: "Cuando dos o más sujetos se unen con «y» (o «e» ante palabras que empiezan con i-/hi-), el verbo va siempre en plural. Esto aplica sin importar el género de los sujetos ni si uno de ellos es singular; la suma de dos elementos obliga el plural.",
-      ejemplos: [
+      bloques: [
         {
-          categoria: "Masc. + Fem.",
+          tipo: "texto",
+          texto: "Cuando dos o más sujetos se unen con «y» (o «e» ante palabras que empiezan con i-/hi-), el verbo va siempre en plural. Esto aplica sin importar el género de los sujetos ni si uno de ellos es singular; la suma de dos elementos obliga el plural."
+        },
+        {
+          tipo: "tabla",
+          titulo: "Combinaciones de sujeto compuesto",
+          columnas: ["Combinación", "✓ Plural obligatorio", "✗ Error frecuente"],
+          filas: [
+            { tiempo: "Masc. + Fem.",      correcto: "El rector y la decana firmaron.", error: "El rector y la decana firmó." },
+            { tiempo: "Fem. + Fem.",        correcto: "La propuesta y la iniciativa fueron aprobadas.", error: "…fue aprobada." },
+            { tiempo: "Tres o más",         correcto: "El director, la subdirectora y el coordinador aprobaron.", error: "…aprobó." },
+            { tiempo: "Persona + equipo",   correcto: "La investigadora y su equipo presentaron.", error: "…presentó." },
+            { tiempo: "«e» ante i-/hi-",   correcto: "El alumno e Ignacio entregaron.", error: "…entregó." }
+          ]
+        },
+        {
+          tipo: "par",
+          etiqueta: "Masc. + Fem. — caso más frecuente en el EXANI-I",
           correcto: "El coordinador y la jefa presentaron el informe ante el consejo.",
           incorrecto: "El coordinador y la jefa presentó el informe ante el consejo."
         },
         {
-          categoria: "Fem. + Fem.",
-          correcto: "La propuesta y la iniciativa fueron aprobadas por unanimidad.",
-          incorrecto: "La propuesta y la iniciativa fue aprobada por unanimidad."
+          tipo: "par",
+          etiqueta: "Tres sujetos coordinados",
+          correcto: "El director, la subdirectora y el coordinador aprobaron el plan de trabajo.",
+          incorrecto: "El director, la subdirectora y el coordinador aprobó el plan de trabajo."
         },
         {
-          categoria: "Masc. + Masc.",
-          correcto: "El rector y el secretario firmaron el convenio de colaboración.",
-          incorrecto: "El rector y el secretario firmó el convenio de colaboración."
-        },
-        {
-          categoria: "Tres o más sujetos",
-          correcto: "El director, la subdirectora y el coordinador aprobaron el plan.",
-          incorrecto: "El director, la subdirectora y el coordinador aprobó el plan."
-        },
-        {
-          categoria: "Persona + equipo",
-          correcto: "La investigadora y su equipo presentaron los resultados en el congreso.",
-          incorrecto: "La investigadora y su equipo presentó los resultados en el congreso."
-        },
-        {
-          categoria: "«e» ante i-/hi-",
-          correcto: "El alumno e Ignacio entregaron el proyecto a tiempo.",
-          incorrecto: "El alumno e Ignacio entregó el proyecto a tiempo."
+          tipo: "trampa",
+          letra: "A",
+          titulo: "No confundir «y» con incisos — «además de», «junto con» no coordinan sujetos",
+          correcto: "El rector y la decana firmaron el acuerdo. (coordinación → plural)",
+          incorrecto: "El rector, además de la decana, firmaron el acuerdo. (inciso → singular: firmó)"
         }
       ]
     },
@@ -160,40 +167,45 @@ export const PRESENTACION = {
     // ── Regla 3: Sujeto con núcleo colectivo ─────────────────────────────────
     {
       id: 9,
-      tipo: "regla",
+      tipo: "regla_rica",
       etiqueta: "Regla 3 / 24",
       titulo: "Sujeto con núcleo colectivo",
-      descripcion: "Un sustantivo colectivo (equipo, comité, mayoría, delegación, junta, multitud, grupo…) es gramaticalmente singular aunque nombre a muchos. El verbo va en singular. El error típico es dejarse llevar por la idea de «muchos» e ir al plural.",
-      ejemplos: [
+      bloques: [
         {
-          categoria: "mayoría",
+          tipo: "texto",
+          texto: "Un sustantivo colectivo (equipo, comité, mayoría, delegación, junta, multitud, grupo…) es gramaticalmente singular aunque nombre a muchos. El verbo va en singular. El error típico es dejarse llevar por la idea de «muchos» e ir al plural."
+        },
+        {
+          tipo: "tabla",
+          titulo: "Colectivos frecuentes y su concordancia",
+          columnas: ["Colectivo", "✓ Singular", "✗ Plural (error)"],
+          filas: [
+            { tiempo: "equipo",      correcto: "El equipo ganó el campeonato.", error: "El equipo ganaron…" },
+            { tiempo: "comité",      correcto: "El comité emitió el dictamen.", error: "El comité emitieron…" },
+            { tiempo: "mayoría",     correcto: "La mayoría votó a favor.", error: "La mayoría votaron…" },
+            { tiempo: "delegación",  correcto: "La delegación asistió a la cumbre.", error: "La delegación asistieron…" },
+            { tiempo: "junta",       correcto: "La junta resolvió suspender la sesión.", error: "La junta resolvieron…" },
+            { tiempo: "multitud",    correcto: "La multitud aplaudió al orador.", error: "La multitud aplaudieron…" }
+          ]
+        },
+        {
+          tipo: "par",
+          etiqueta: "colectivo simple — mayoría",
           correcto: "La mayoría votó a favor de la propuesta en la sesión plenaria.",
           incorrecto: "La mayoría votaron a favor de la propuesta en la sesión."
         },
         {
-          categoria: "equipo",
-          correcto: "El equipo ganó el campeonato nacional tras meses de entrenamiento.",
-          incorrecto: "El equipo ganaron el campeonato nacional."
-        },
-        {
-          categoria: "comité",
-          correcto: "El comité emitió un dictamen unánime sobre el caso presentado.",
-          incorrecto: "El comité emitieron un dictamen unánime sobre el caso."
-        },
-        {
-          categoria: "colectivo + complemento",
+          tipo: "par",
+          etiqueta: "colectivo + complemento — trampa doble",
           correcto: "La mayoría de los estudiantes aprobó el examen sin dificultad.",
-          incorrecto: "La mayoría de los estudiantes aprobaron el examen."
+          incorrecto: "La mayoría de los estudiantes aprobaron el examen sin dificultad."
         },
         {
-          categoria: "multitud",
-          correcto: "La multitud congregada en la plaza aplaudió al orador.",
-          incorrecto: "La multitud congregada en la plaza aplaudieron al orador."
-        },
-        {
-          categoria: "junta directiva",
-          correcto: "La junta directiva resolvió suspender la sesión por falta de quórum.",
-          incorrecto: "La junta directiva resolvieron suspender la sesión."
+          tipo: "trampa",
+          letra: "A",
+          titulo: "La idea de «muchos» atrae al plural — el verbo no debe seguirla",
+          correcto: "El comité emitió un dictamen unánime sobre el caso presentado.",
+          incorrecto: "El comité emitieron un dictamen unánime sobre el caso presentado."
         }
       ]
     },
@@ -231,40 +243,44 @@ export const PRESENTACION = {
     // ── Regla 4: Sujeto tácito ────────────────────────────────────────────────
     {
       id: 13,
-      tipo: "regla",
+      tipo: "regla_rica",
       etiqueta: "Regla 4 / 24",
       titulo: "Sujeto tácito (elíptico)",
-      descripcion: "El sujeto tácito no aparece en la oración, pero la desinencia verbal lo revela: -o/a (3ª sing.), -mos (1ª pl.), -ste (2ª sing.), -ron (3ª pl.). Identificarlo correctamente es clave para elegir la forma verbal adecuada en preguntas de opción múltiple.",
-      ejemplos: [
+      bloques: [
         {
-          categoria: "1ª singular (-o)",
-          correcto: "[Yo] Presenté el proyecto ante el jurado universitario.",
-          incorrecto: "[Yo] Presentaron el proyecto ante el jurado. (desinencia incorrecta)"
+          tipo: "texto",
+          texto: "El sujeto tácito no aparece en la oración, pero la desinencia verbal lo revela con precisión. Identificarlo es clave para elegir la forma verbal correcta en el EXANI-I."
         },
         {
-          categoria: "2ª singular (-ste)",
-          correcto: "[Tú] ¿Entregaste el informe a tiempo al coordinador?",
-          incorrecto: "[Tú] ¿Entregaron el informe a tiempo al coordinador?"
+          tipo: "tabla",
+          titulo: "Desinencias del pretérito → sujeto implícito",
+          columnas: ["Desinencia (pretérito)", "Pronombre", "Ejemplo"],
+          filas: [
+            { tiempo: "-é / -í (1ª sing.)",   correcto: "Yo",          error: "[Yo] Presenté el proyecto ante el jurado." },
+            { tiempo: "-ste (2ª sing.)",        correcto: "Tú",          error: "[Tú] Entregaste el informe a tiempo." },
+            { tiempo: "-ó / -ió (3ª sing.)",   correcto: "Él/Ella",     error: "[Ella] Llegó tarde a la reunión." },
+            { tiempo: "-mos (1ª pl.)",          correcto: "Nosotros",    error: "[Nosotros] Llegamos tarde al evento." },
+            { tiempo: "-ron (3ª pl.)",          correcto: "Ellos/Ellas", error: "[Ellos] Informaron sobre la cancelación." }
+          ]
         },
         {
-          categoria: "1ª plural (-mos)",
+          tipo: "par",
+          etiqueta: "-mos → nosotros",
           correcto: "[Nosotros] Llegamos tarde a la reunión del consejo directivo.",
-          incorrecto: "[Nosotros] Llegaron tarde a la reunión del consejo."
+          incorrecto: "[Nosotros] Llegaron tarde a la reunión del consejo directivo."
         },
         {
-          categoria: "3ª plural (-ron)",
-          correcto: "[Ellos] Informaron que el evento se canceló por las lluvias.",
-          incorrecto: "[Ellos] Informó que el evento se canceló por las lluvias."
+          tipo: "par",
+          etiqueta: "sujeto recuperable por contexto — no cambiar sujeto tácito sin marcarlo",
+          correcto: "Ana llegó al auditorio. Saludó a todos y tomó la palabra. [ella sigue siendo sujeto]",
+          incorrecto: "Ana llegó al auditorio. Saludaron a todos. [cambio de sujeto sin razón gramatical]"
         },
         {
-          categoria: "2ª plural (-ron / -steis)",
-          correcto: "[Ustedes] Aprobaron el reglamento en la sesión extraordinaria.",
-          incorrecto: "[Ustedes] Aprobó el reglamento en la sesión extraordinaria."
-        },
-        {
-          categoria: "sujeto recuperable por contexto",
-          correcto: "Ana llegó al auditorio. Saludó a todos y tomó la palabra. [ella]",
-          incorrecto: "Ana llegó al auditorio. Saludaron a todos. (cambia de sujeto sin razón)"
+          tipo: "trampa",
+          letra: "A",
+          titulo: "Cambio de sujeto tácito sin aviso — error de coherencia",
+          correcto: "El director llegó temprano. Revisó los documentos y firmó el acta.",
+          incorrecto: "El director llegó temprano. Revisaron los documentos y firmaron el acta."
         }
       ]
     },
@@ -302,40 +318,44 @@ export const PRESENTACION = {
     // ── Regla 5: Inciso intercalado ───────────────────────────────────────────
     {
       id: 17,
-      tipo: "regla",
+      tipo: "regla_rica",
       etiqueta: "Regla 5 / 24",
       titulo: "Inciso intercalado entre sujeto y verbo",
-      descripcion: "Un inciso es un complemento entre comas que se intercala entre el sujeto y el verbo. La clave: elimina el inciso mentalmente y el verbo sigue concordando con el núcleo del sujeto. Conectores frecuentes de inciso: «así como», «junto con», «además de», «acompañado de», «incluyendo».",
-      ejemplos: [
+      bloques: [
         {
-          categoria: "«así como»",
+          tipo: "texto",
+          texto: "Un inciso es un complemento entre comas que se intercala entre el sujeto y el verbo. Prueba infalible: elimina el inciso mentalmente y el verbo debe seguir concordando con el núcleo del sujeto. El inciso no suma sujetos."
+        },
+        {
+          tipo: "tabla",
+          titulo: "Conectores frecuentes de inciso",
+          columnas: ["Conector", "Ejemplo correcto (verbo singular)", "Error frecuente"],
+          filas: [
+            { tiempo: "así como",       correcto: "El director, así como los docentes, asistió.", error: "…asistieron." },
+            { tiempo: "junto con",      correcto: "La propuesta, junto con sus anexos, fue entregada.", error: "…fueron entregadas." },
+            { tiempo: "además de",      correcto: "La rectora, además de los coordinadores, firmó.", error: "…firmaron." },
+            { tiempo: "acompañado de",  correcto: "El informe, acompañado de tres apéndices, fue revisado.", error: "…fueron revisados." },
+            { tiempo: "incluyendo",     correcto: "El presupuesto, incluyendo viáticos, fue aprobado.", error: "…fueron aprobados." }
+          ]
+        },
+        {
+          tipo: "par",
+          etiqueta: "«así como» — prueba: elimina el inciso",
           correcto: "El director, así como todos los docentes, asistió a la ceremonia.",
           incorrecto: "El director, así como todos los docentes, asistieron a la ceremonia."
         },
         {
-          categoria: "«junto con»",
-          correcto: "La propuesta, junto con sus anexos técnicos, fue entregada a tiempo.",
-          incorrecto: "La propuesta, junto con sus anexos técnicos, fueron entregadas a tiempo."
-        },
-        {
-          categoria: "«acompañado de»",
+          tipo: "par",
+          etiqueta: "«acompañado de» — inciso adjetival",
           correcto: "El informe, acompañado de tres apéndices, fue revisado por el comité.",
           incorrecto: "El informe, acompañado de tres apéndices, fueron revisados por el comité."
         },
         {
-          categoria: "«además de»",
-          correcto: "La rectora, además de varios coordinadores, firmó el convenio.",
-          incorrecto: "La rectora, además de varios coordinadores, firmaron el convenio."
-        },
-        {
-          categoria: "inciso adjetival",
-          correcto: "El equipo ganador, conformado por diez estudiantes, recibió el premio.",
-          incorrecto: "El equipo ganador, conformado por diez estudiantes, recibieron el premio."
-        },
-        {
-          categoria: "«incluyendo»",
-          correcto: "El presupuesto, incluyendo viáticos y materiales, fue aprobado por unanimidad.",
-          incorrecto: "El presupuesto, incluyendo viáticos y materiales, fueron aprobados por unanimidad."
+          tipo: "trampa",
+          letra: "A",
+          titulo: "No confundir inciso con coordinación: solo «y» obliga el plural",
+          correcto: "El rector y la decana firmaron el acuerdo. (y → coordinación → plural)",
+          incorrecto: "El rector, así como la decana, firmaron el acuerdo. (inciso → singular: firmó)"
         }
       ]
     },
@@ -373,40 +393,45 @@ export const PRESENTACION = {
     // ── Regla 6: Conectores que forman inciso ────────────────────────────────
     {
       id: 21,
-      tipo: "regla",
+      tipo: "regla_rica",
       etiqueta: "Regla 6 / 24",
       titulo: "Conectores que forman inciso (no coordinan sujetos)",
-      descripcion: "Diferencia clave: «y» coordina sujetos → verbo en plural. Los conectores «además de», «al igual que», «incluyendo a», «seguido de», «acompañado de» y «junto con» introducen incisos → verbo en singular (concuerda con el núcleo principal). Si puedes sustituir el conector por «y», tendrás que ir al plural; si no, el sujeto sigue siendo singular.",
-      ejemplos: [
+      bloques: [
         {
-          categoria: "«además de»",
+          tipo: "texto",
+          texto: "Diferencia clave: «y» coordina sujetos → verbo en plural. Los conectores «además de», «al igual que», «incluyendo a», «seguido de», «acompañado de» y «junto con» introducen incisos → verbo en singular. Prueba de sustitución: si puedes reemplazar el conector por «y» sin cambiar el sentido, el plural está justificado; si no, el verbo va en singular."
+        },
+        {
+          tipo: "tabla",
+          titulo: "Coordinantes vs. conectores de inciso",
+          columnas: ["Tipo", "Conector", "Efecto en el verbo"],
+          filas: [
+            { tiempo: "Coordinación",  correcto: "y / e",          error: "→ plural obligatorio" },
+            { tiempo: "Inciso",        correcto: "además de",       error: "→ singular (núcleo)" },
+            { tiempo: "Inciso",        correcto: "al igual que",    error: "→ singular (núcleo)" },
+            { tiempo: "Inciso",        correcto: "junto con",       error: "→ singular (núcleo)" },
+            { tiempo: "Inciso",        correcto: "seguido de",      error: "→ singular (núcleo)" },
+            { tiempo: "Inciso",        correcto: "acompañado de",   error: "→ singular (núcleo)" }
+          ]
+        },
+        {
+          tipo: "par",
+          etiqueta: "«además de» — inciso, no coordinación",
           correcto: "El comité, además de los asesores externos, revisó el documento final.",
           incorrecto: "El comité, además de los asesores externos, revisaron el documento final."
         },
         {
-          categoria: "«al igual que»",
+          tipo: "par",
+          etiqueta: "«al igual que» — comparativo, no coordinación",
           correcto: "La directora, al igual que sus colaboradores, firmó el acuerdo institucional.",
           incorrecto: "La directora, al igual que sus colaboradores, firmaron el acuerdo."
         },
         {
-          categoria: "«incluyendo a»",
-          correcto: "El rector, incluyendo a los decanos, aprobó la resolución del consejo.",
-          incorrecto: "El rector, incluyendo a los decanos, aprobaron la resolución del consejo."
-        },
-        {
-          categoria: "«seguido de»",
-          correcto: "El presidente, seguido de todo su gabinete, llegó al recinto oficial.",
-          incorrecto: "El presidente, seguido de todo su gabinete, llegaron al recinto oficial."
-        },
-        {
-          categoria: "«junto con» (inciso) vs «y» (coordinación)",
-          correcto: "El rector junto con los decanos aprobó la propuesta. (singular)",
-          incorrecto: "El rector junto con los decanos aprobaron la propuesta. (reserva el plural para «y»)"
-        },
-        {
-          categoria: "«acompañado de» + oración larga",
-          correcto: "La investigadora, acompañada de los miembros de su laboratorio, presentó los hallazgos ante el comité.",
-          incorrecto: "La investigadora, acompañada de los miembros de su laboratorio, presentaron los hallazgos ante el comité."
+          tipo: "trampa",
+          letra: "A",
+          titulo: "Prueba de sustitución: reemplaza el conector por «y»; si el sentido cambia, es inciso",
+          correcto: "El rector, junto con los decanos, aprobó la propuesta. (→ singular)",
+          incorrecto: "El rector, junto con los decanos, aprobaron la propuesta. (reserva plural solo para «y»)"
         }
       ]
     },
@@ -444,40 +469,43 @@ export const PRESENTACION = {
     // ── Regla 7: Sujeto pospuesto ────────────────────────────────────────────
     {
       id: 25,
-      tipo: "regla",
+      tipo: "regla_rica",
       etiqueta: "Regla 7 / 24",
       titulo: "Sujeto pospuesto al verbo",
-      descripcion: "El sujeto puede ir después del verbo, especialmente en oraciones que empiezan con complemento circunstancial, en interrogativas y en estructuras pasivas. El verbo siempre concuerda con el sujeto real, sin importar su posición. Truco: localiza el sujeto real antes de elegir la forma verbal.",
-      ejemplos: [
+      bloques: [
         {
-          categoria: "Circunstancial + V + sujeto",
-          correcto: "En el aula faltaron tres estudiantes el día del examen.",
-          incorrecto: "En el aula faltó tres estudiantes el día del examen."
+          tipo: "texto",
+          texto: "El sujeto puede ir después del verbo, especialmente en oraciones que empiezan con complemento circunstancial, en interrogativas y en estructuras pasivas. El verbo siempre concuerda con el sujeto real, sin importar su posición. Truco: localiza el sujeto real antes de elegir la forma verbal."
         },
         {
-          categoria: "Circunstancial largo + V + sujeto",
+          tipo: "tabla",
+          titulo: "Contextos donde el sujeto va pospuesto",
+          columnas: ["Estructura", "Ejemplo correcto", "Error frecuente"],
+          filas: [
+            { tiempo: "CC + V + sujeto",        correcto: "En el aula faltaron tres estudiantes.", error: "…faltó tres estudiantes." },
+            { tiempo: "Interrogativa directa",   correcto: "¿Cuándo llegaron los invitados?", error: "¿Cuándo llegó los invitados?" },
+            { tiempo: "Pasiva con sujeto al final", correcto: "Fueron publicadas las conclusiones.", error: "Fue publicadas las conclusiones." },
+            { tiempo: "Sujeto singular pospuesto", correcto: "Durante la gala se entregó el premio.", error: "…se entregaron el premio." }
+          ]
+        },
+        {
+          tipo: "par",
+          etiqueta: "complemento circunstancial + V + sujeto plural",
           correcto: "Al final de la cumbre firmaron el tratado todas las naciones representadas.",
           incorrecto: "Al final de la cumbre firmó el tratado todas las naciones representadas."
         },
         {
-          categoria: "Interrogativa directa",
-          correcto: "¿Cuándo llegaron los invitados internacionales al aeropuerto?",
-          incorrecto: "¿Cuándo llegó los invitados internacionales al aeropuerto?"
-        },
-        {
-          categoria: "Pasiva con sujeto pospuesto",
-          correcto: "Fueron publicadas las conclusiones del estudio por el comité editorial.",
-          incorrecto: "Fue publicadas las conclusiones del estudio por el comité editorial."
-        },
-        {
-          categoria: "Sujeto pospuesto singular",
-          correcto: "Durante la gala se entregó el premio al investigador más destacado.",
-          incorrecto: "Durante la gala se entregaron el premio al investigador más destacado."
-        },
-        {
-          categoria: "Interrogativa indirecta",
+          tipo: "par",
+          etiqueta: "interrogativa indirecta — sujeto al final",
           correcto: "No sé cuándo llegaron los documentos solicitados a la secretaría.",
           incorrecto: "No sé cuándo llegó los documentos solicitados a la secretaría."
+        },
+        {
+          tipo: "trampa",
+          letra: "A",
+          titulo: "Que el verbo vaya primero no significa que no haya sujeto — siempre búscalo",
+          correcto: "¿Cuándo llegaron los invitados internacionales al aeropuerto? (sujeto pospuesto: «los invitados»)",
+          incorrecto: "¿Cuándo llegó los invitados internacionales al aeropuerto? (verbo en singular sin concordar con el sujeto)"
         }
       ]
     },

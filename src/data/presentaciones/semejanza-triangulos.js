@@ -1,22 +1,206 @@
-// Datos de la presentación: Semejanza de Triángulos
-// Cada slide tiene un `tipo` que determina cómo se renderiza.
+// Datos de la presentación: Congruencia y Semejanza de Triángulos
 
 export const PRESENTACION = {
   id: "semejanza-triangulos",
-  titulo: "Semejanza de Triángulos",
+  titulo: "Congruencia y Semejanza de Triángulos",
   materia: "Matemáticas",
   slides: [
+    // ── PORTADA ───────────────────────────────────────────────────────────────
     {
       id: 0,
       tipo: "portada",
-      titulo: "Semejanza de Triángulos",
-      subtitulo: "Criterios de semejanza y razón de proporcionalidad",
+      titulo: "Congruencia y Semejanza",
+      subtitulo: "Criterios de congruencia y semejanza de triángulos",
       etiqueta: "Geometría · Preparatoria"
     },
+
+    // ── CONGRUENCIA ───────────────────────────────────────────────────────────
+
     {
       id: 1,
       tipo: "definicion",
-      titulo: "Definición",
+      titulo: "Congruencia de Triángulos",
+      simbolo: "\\triangle ABC \\cong \\triangle DEF",
+      cuerpo: "Dos triángulos son congruentes si tienen exactamente la misma forma y el mismo tamaño: todos sus lados y ángulos correspondientes son iguales.",
+      svgDiagram: "triangulos-congruentes",
+      condiciones: [
+        {
+          texto: "① Lados correspondientes iguales",
+          math: "AB = DE,\\quad BC = EF,\\quad CA = FD"
+        },
+        {
+          texto: "② Ángulos correspondientes iguales",
+          math: "\\angle A = \\angle D,\\quad \\angle B = \\angle E,\\quad \\angle C = \\angle F"
+        }
+      ]
+    },
+
+    {
+      id: 2,
+      tipo: "lista_criterios",
+      titulo: "Criterios de Congruencia",
+      etiqueta: "Cuatro formas de demostrar congruencia",
+      variante: "congruencia",
+      criterios: [
+        {
+          sigla: "LLL",
+          nombre: "Lado–Lado–Lado",
+          desc: "Los tres pares de lados correspondientes son iguales."
+        },
+        {
+          sigla: "LAL",
+          nombre: "Lado–Ángulo–Lado",
+          desc: "Dos pares de lados iguales y el ángulo comprendido entre ellos igual."
+        },
+        {
+          sigla: "ALA",
+          nombre: "Ángulo–Lado–Ángulo",
+          desc: "Dos pares de ángulos iguales y el lado comprendido entre ellos igual."
+        },
+        {
+          sigla: "LAA",
+          nombre: "Lado–Ángulo–Ángulo",
+          desc: "Un par de lados y dos pares de ángulos iguales (el lado no está entre los dos ángulos)."
+        }
+      ]
+    },
+
+    {
+      id: 3,
+      tipo: "criterio_detalle",
+      titulo: "Criterio LLL",
+      etiqueta: "Lado–Lado–Lado",
+      svgDiagram: "lll-cong-detalle",
+      enunciado: "Si los tres pares de lados correspondientes son iguales, los triángulos son congruentes.",
+      math: "AB = DE,\\; BC = EF,\\; CA = FD \\implies \\triangle ABC \\cong \\triangle DEF",
+      por_que:
+        "Si los tres lados coinciden en longitud, la figura queda completamente determinada: no puede tener diferente forma ni diferente tamaño.",
+      math_razon: null
+    },
+
+    {
+      id: 4,
+      tipo: "ejemplo",
+      titulo: "Ejemplo — Criterio LLL",
+      etiqueta: "Verificar congruencia con tres lados",
+      svgDiagram: null,
+      enunciado: "Determina si △ABC y △DEF son congruentes.",
+      datos: [
+        { label: "△ ABC", math: "AB = 5,\\; BC = 6,\\; CA = 7" },
+        { label: "△ DEF", math: "DE = 5,\\; EF = 6,\\; FD = 7" }
+      ],
+      pasos: [
+        { pre: "Primer par de lados: ", math: "AB = DE = 5 \\checkmark" },
+        { pre: "Segundo par: ", math: "BC = EF = 6 \\checkmark" },
+        { pre: "Tercer par: ", math: "CA = FD = 7 \\checkmark" },
+        { pre: "Los tres pares de lados son iguales → ", math: "\\triangle ABC \\cong \\triangle DEF \\;(\\text{LLL})" }
+      ]
+    },
+
+    {
+      id: 5,
+      tipo: "criterio_detalle",
+      titulo: "Criterio LAL",
+      etiqueta: "Lado–Ángulo–Lado",
+      svgDiagram: "lal-cong-detalle",
+      enunciado: "Si dos pares de lados correspondientes son iguales y el ángulo comprendido entre ellos es igual, los triángulos son congruentes.",
+      math: "AB = DE,\\; \\angle A = \\angle D,\\; AC = DF \\implies \\triangle ABC \\cong \\triangle DEF",
+      por_que:
+        "El ángulo comprendido fija la apertura entre los dos lados. Con esa apertura y esas longitudes, el tercer lado y los demás ángulos quedan completamente determinados.",
+      math_razon: null
+    },
+
+    {
+      id: 6,
+      tipo: "ejemplo",
+      titulo: "Ejemplo — Criterio LAL",
+      etiqueta: "Verificar congruencia con dos lados y ángulo comprendido",
+      svgDiagram: null,
+      enunciado: "¿Son congruentes △ABC y △DEF?",
+      datos: [
+        { label: "△ ABC", math: "AB = 4,\\; \\angle A = 60^\\circ,\\; AC = 6" },
+        { label: "△ DEF", math: "DE = 4,\\; \\angle D = 60^\\circ,\\; DF = 6" }
+      ],
+      pasos: [
+        { pre: "Primer lado: ", math: "AB = DE = 4 \\checkmark" },
+        { pre: "Ángulo comprendido: ", math: "\\angle A = \\angle D = 60^\\circ \\checkmark" },
+        { pre: "Segundo lado: ", math: "AC = DF = 6 \\checkmark" },
+        { pre: "El ángulo está entre los dos lados dados → ", math: "\\triangle ABC \\cong \\triangle DEF \\;(\\text{LAL})" }
+      ]
+    },
+
+    {
+      id: 7,
+      tipo: "criterio_detalle",
+      titulo: "Criterio ALA",
+      etiqueta: "Ángulo–Lado–Ángulo",
+      svgDiagram: "ala-cong-detalle",
+      enunciado: "Si dos pares de ángulos son iguales y el lado comprendido entre ellos es igual, los triángulos son congruentes.",
+      math: "\\angle A = \\angle D,\\; AB = DE,\\; \\angle B = \\angle E \\implies \\triangle ABC \\cong \\triangle DEF",
+      por_que:
+        "El lado fija la escala. Los dos ángulos adyacentes a ese lado dirigen los otros dos lados, que se encuentran en un único punto, determinando el triángulo por completo.",
+      math_razon: "\\angle C = 180^\\circ - \\angle A - \\angle B = \\angle F \\;(\\text{queda determinado})"
+    },
+
+    {
+      id: 8,
+      tipo: "ejemplo",
+      titulo: "Ejemplo — Criterio ALA",
+      etiqueta: "Verificar congruencia con ángulo-lado-ángulo",
+      svgDiagram: null,
+      enunciado: "¿Son congruentes △ABC y △DEF?",
+      datos: [
+        { label: "△ ABC", math: "\\angle A = 45^\\circ,\\; AB = 8,\\; \\angle B = 75^\\circ" },
+        { label: "△ DEF", math: "\\angle D = 45^\\circ,\\; DE = 8,\\; \\angle E = 75^\\circ" }
+      ],
+      pasos: [
+        { pre: "Primer ángulo: ", math: "\\angle A = \\angle D = 45^\\circ \\checkmark" },
+        { pre: "Lado comprendido: ", math: "AB = DE = 8 \\checkmark" },
+        { pre: "Segundo ángulo: ", math: "\\angle B = \\angle E = 75^\\circ \\checkmark" },
+        { pre: "Tercer ángulo deducido: ", math: "\\angle C = \\angle F = 180^\\circ - 45^\\circ - 75^\\circ = 60^\\circ" },
+        { pre: "El lado AB está entre los dos ángulos dados → ", math: "\\triangle ABC \\cong \\triangle DEF \\;(\\text{ALA})" }
+      ]
+    },
+
+    {
+      id: 9,
+      tipo: "criterio_detalle",
+      titulo: "Criterio LAA",
+      etiqueta: "Lado–Ángulo–Ángulo",
+      svgDiagram: "laa-cong-detalle",
+      enunciado: "Si un par de lados correspondientes son iguales y dos pares de ángulos son iguales (el lado no está entre los dos ángulos), los triángulos son congruentes.",
+      math: "\\angle A = \\angle D,\\; \\angle B = \\angle E,\\; BC = EF \\implies \\triangle ABC \\cong \\triangle DEF",
+      por_que:
+        "Con dos ángulos conocidos, el tercero queda determinado (suma 180°). Eso convierte a LAA en un caso de ALA, que ya garantiza la congruencia.",
+      math_razon: "\\angle C = 180^\\circ - \\angle A - \\angle B = \\angle F \\implies \\text{equivalente a ALA}"
+    },
+
+    {
+      id: 10,
+      tipo: "ejemplo",
+      titulo: "Ejemplo — Criterio LAA",
+      etiqueta: "Verificar congruencia con lado-ángulo-ángulo",
+      svgDiagram: null,
+      enunciado: "¿Son congruentes △ABC y △DEF? (BC no está entre los ángulos dados)",
+      datos: [
+        { label: "△ ABC", math: "\\angle A = 50^\\circ,\\; \\angle B = 70^\\circ,\\; BC = 5" },
+        { label: "△ DEF", math: "\\angle D = 50^\\circ,\\; \\angle E = 70^\\circ,\\; EF = 5" }
+      ],
+      pasos: [
+        { pre: "Primer ángulo: ", math: "\\angle A = \\angle D = 50^\\circ \\checkmark" },
+        { pre: "Segundo ángulo: ", math: "\\angle B = \\angle E = 70^\\circ \\checkmark" },
+        { pre: "Tercer ángulo deducido: ", math: "\\angle C = \\angle F = 180^\\circ - 50^\\circ - 70^\\circ = 60^\\circ" },
+        { pre: "Lado (no comprendido entre los ángulos dados): ", math: "BC = EF = 5 \\checkmark" },
+        { pre: "Se cumplen las condiciones LAA → ", math: "\\triangle ABC \\cong \\triangle DEF \\;(\\text{LAA})" }
+      ]
+    },
+
+    // ── SEMEJANZA ─────────────────────────────────────────────────────────────
+
+    {
+      id: 11,
+      tipo: "definicion",
+      titulo: "Semejanza de Triángulos",
       simbolo: "\\triangle ABC \\sim \\triangle DEF",
       cuerpo: "Dos triángulos son semejantes si tienen la misma forma pero no necesariamente el mismo tamaño.",
       svgDiagram: "triangulos-semejantes",
@@ -31,8 +215,9 @@ export const PRESENTACION = {
         }
       ]
     },
+
     {
-      id: 2,
+      id: 12,
       tipo: "concepto",
       titulo: "Razón de Semejanza",
       etiqueta: "Factor de escala k",
@@ -45,8 +230,9 @@ export const PRESENTACION = {
       ],
       nota: "Las áreas se relacionan como k², no como k."
     },
+
     {
-      id: 3,
+      id: 13,
       tipo: "lista_criterios",
       titulo: "Criterios de Semejanza",
       etiqueta: "Tres formas de demostrar semejanza",
@@ -68,8 +254,9 @@ export const PRESENTACION = {
         }
       ]
     },
+
     {
-      id: 4,
+      id: 14,
       tipo: "criterio_detalle",
       titulo: "Criterio AA",
       etiqueta: "Ángulo–Ángulo",
@@ -82,8 +269,9 @@ export const PRESENTACION = {
       math_razon:
         "\\angle C = 180^\\circ - \\angle A - \\angle B = 180^\\circ - \\angle D - \\angle E = \\angle F"
     },
+
     {
-      id: 5,
+      id: 15,
       tipo: "criterio_detalle",
       titulo: "Criterio LLL",
       etiqueta: "Lado–Lado–Lado",
@@ -95,8 +283,9 @@ export const PRESENTACION = {
         "La proporcionalidad de los tres lados obliga a que la forma se conserve, lo que implica que los ángulos son necesariamente iguales.",
       math_razon: null
     },
+
     {
-      id: 6,
+      id: 16,
       tipo: "criterio_detalle",
       titulo: "Criterio LAL",
       etiqueta: "Lado–Ángulo–Lado",
@@ -108,8 +297,9 @@ export const PRESENTACION = {
         "El ángulo debe ser el comprendido entre los dos lados (el que queda entre ellos). Si el ángulo fuera otro, el criterio no aplica.",
       math_razon: null
     },
+
     {
-      id: 7,
+      id: 17,
       tipo: "ejemplo",
       titulo: "Ejemplo 1",
       etiqueta: "Verificar semejanza — criterio LLL",
@@ -129,8 +319,9 @@ export const PRESENTACION = {
         }
       ]
     },
+
     {
-      id: 8,
+      id: 18,
       tipo: "ejemplo",
       titulo: "Ejemplo 2",
       etiqueta: "Encontrar un lado desconocido",
@@ -150,8 +341,9 @@ export const PRESENTACION = {
         { pre: "Resultado: ", math: "XY = 8" }
       ]
     },
+
     {
-      id: 9,
+      id: 19,
       tipo: "ejercicio",
       etiqueta: "Ejercicio 1 / 3",
       pregunta: "Si △ABC ~ △DEF con k = 3 y AB = 15, ¿cuánto mide DE?",
@@ -167,8 +359,9 @@ export const PRESENTACION = {
         }
       ]
     },
+
     {
-      id: 10,
+      id: 20,
       tipo: "ejercicio",
       etiqueta: "Ejercicio 2 / 3",
       pregunta:
@@ -180,8 +373,9 @@ export const PRESENTACION = {
         "El criterio AA establece que basta con que dos ángulos sean iguales para garantizar la semejanza (el tercero se deduce de la suma 180°).",
       pasos: []
     },
+
     {
-      id: 11,
+      id: 21,
       tipo: "ejercicio",
       etiqueta: "Ejercicio 3 / 3",
       pregunta:
@@ -199,16 +393,17 @@ export const PRESENTACION = {
         { pre: "Por lo tanto: ", math: "A_{\\text{mayor}} = 9 \\times 4 = 36 \\text{ cm}^2" }
       ]
     },
+
     {
-      id: 12,
+      id: 22,
       tipo: "resumen",
       titulo: "Resumen",
       etiqueta: "Lo que aprendimos hoy",
       puntos: [
-        { math: "\\triangle ABC \\sim \\triangle DEF", texto: "misma forma, distinto tamaño" },
-        { titulo: "Criterio AA", texto: "dos ángulos iguales son suficientes" },
-        { titulo: "Criterio LLL", texto: "los tres pares de lados proporcionales" },
-        { titulo: "Criterio LAL", texto: "dos lados proporcionales + ángulo comprendido igual" },
+        { math: "\\triangle ABC \\cong \\triangle DEF", texto: "misma forma y mismo tamaño (congruencia)" },
+        { titulo: "Criterios LLL, LAL, ALA, LAA", texto: "cuatro formas de probar congruencia" },
+        { math: "\\triangle ABC \\sim \\triangle DEF", texto: "misma forma, distinto tamaño (semejanza)" },
+        { titulo: "Criterio AA", texto: "dos ángulos iguales son suficientes para semejanza" },
         { math: "k = \\dfrac{l_1}{l_2}", texto: "razón de semejanza (factor de escala)" },
         { math: "\\dfrac{A_1}{A_2} = k^2", texto: "relación de áreas entre triángulos semejantes" }
       ]

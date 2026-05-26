@@ -223,7 +223,7 @@ function TriangulosSemejantesSVG({ tema }) {
   const pts = ps => ps.map(fmt).join(" ");
 
   return (
-    <svg viewBox="0 0 510 200" width="100%" style={{ maxHeight: 168, display: "block" }}>
+    <svg viewBox="0 0 510 200" width="100%" style={{ maxHeight: 200, display: "block" }}>
       <polygon points={pts([A,B,C])} fill={tema.azulSuave} stroke="none"/>
       <polygon points={pts([D,E,F])} fill={tema.azulSuave} stroke="none"/>
 
@@ -278,7 +278,7 @@ function TriangulosCongruentesSVG({ tema }) {
   const pts = ps => ps.map(fmt).join(" ");
 
   return (
-    <svg viewBox="0 0 420 200" width="100%" style={{ maxHeight: 168, display: "block" }}>
+    <svg viewBox="0 0 420 200" width="100%" style={{ maxHeight: 200, display: "block" }}>
       <polygon points={pts([A,B,C])} fill={tema.azulSuave} stroke="none"/>
       <polygon points={pts([D,E,F])} fill={tema.azulSuave} stroke="none"/>
       <line x1={A[0]} y1={A[1]} x2={B[0]} y2={B[1]} stroke={tema.azul}   strokeWidth="2" opacity="0.85"/>
@@ -399,7 +399,7 @@ function RazonSemejanzaSVG({ tema }) {
   // Small: D(310,95) E(273,170) F(353,170) →  base EF = 80, height = 75
 
   return (
-    <svg viewBox="0 0 490 200" width="100%" style={{ maxHeight: 135, display: "block" }}>
+    <svg viewBox="0 0 490 200" width="100%" style={{ maxHeight: 180, display: "block" }}>
       {/* Triangle fills */}
       <polygon points="85,20 10,170 170,170" fill={tema.azulSuave} stroke="none"/>
       <polygon points="310,95 273,170 353,170" fill={tema.azulSuave} stroke="none"/>
@@ -439,15 +439,18 @@ function RazonSemejanzaSVG({ tema }) {
 
 function SlideConcepto({ slide, tema }) {
   const compact = !!slide.svgDiagram;
+  const winW = useWindowWidth();
+  const narrow = winW < 500;
   return (
     <div
       style={{
-        padding: compact ? "18px 28px" : "36px 44px",
+        padding: narrow ? "14px 14px" : compact ? "18px 28px" : "36px 44px",
         height: "100%",
         display: "flex",
         flexDirection: "column",
-        gap: compact ? 14 : 26,
-        boxSizing: "border-box"
+        gap: narrow ? 10 : compact ? 14 : 26,
+        boxSizing: "border-box",
+        overflowY: "auto"
       }}
     >
       <Encabezado titulo={slide.titulo} etiqueta={slide.etiqueta} tema={tema} />
@@ -767,7 +770,7 @@ function SlideListaCriterios({ slide, tema }) {
 
             {/* SVG debajo de la tarjeta */}
             <div style={{ display: "flex", justifyContent: "center" }}>
-              <div style={{ width: cols === 1 ? "55%" : "85%", maxWidth: 180 }}>
+              <div style={{ width: "100%", maxWidth: slide.criterios.length <= 2 ? 300 : 175 }}>
                 {criterioSVGs[c.sigla]}
               </div>
             </div>
@@ -783,7 +786,7 @@ function SlideListaCriterios({ slide, tema }) {
 // Left: A(100,18) B(12,162) C(210,162)   Right: D(322,18) E(234,162) F(432,162)  [shift +222]
 function CongLLLDetalleSVG({ tema }) {
   return (
-    <svg viewBox="0 0 450 200" width="100%" style={{ display: "block", maxHeight: 144 }}>
+    <svg viewBox="0 0 450 200" width="100%" style={{ display: "block", maxHeight: 200 }}>
       <polygon points="100,18 12,162 210,162" fill={tema.azulSuave} stroke="none"/>
       <polygon points="322,18 234,162 432,162" fill={tema.azulSuave} stroke="none"/>
       <line x1="100" y1="18"  x2="12"  y2="162" stroke={tema.azul}   strokeWidth="2.5" opacity="0.9"/>
@@ -811,7 +814,7 @@ function CongLLLDetalleSVG({ tema }) {
 
 function CongLALDetalleSVG({ tema }) {
   return (
-    <svg viewBox="0 0 450 200" width="100%" style={{ display: "block", maxHeight: 144 }}>
+    <svg viewBox="0 0 450 200" width="100%" style={{ display: "block", maxHeight: 200 }}>
       <polygon points="100,18 12,162 210,162" fill={tema.azulSuave} stroke="none"/>
       <polygon points="322,18 234,162 432,162" fill={tema.azulSuave} stroke="none"/>
       <line x1="12"  y1="162" x2="210" y2="162" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5"/>
@@ -842,7 +845,7 @@ function CongLALDetalleSVG({ tema }) {
 
 function CongALADetalleSVG({ tema }) {
   return (
-    <svg viewBox="0 0 450 200" width="100%" style={{ display: "block", maxHeight: 144 }}>
+    <svg viewBox="0 0 450 200" width="100%" style={{ display: "block", maxHeight: 200 }}>
       <polygon points="100,18 12,162 210,162" fill={tema.azulSuave} stroke="none"/>
       <polygon points="322,18 234,162 432,162" fill={tema.azulSuave} stroke="none"/>
       <line x1="12"  y1="162" x2="210" y2="162" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5"/>
@@ -877,7 +880,7 @@ function CongALADetalleSVG({ tema }) {
 
 function CongLAADetalleSVG({ tema }) {
   return (
-    <svg viewBox="0 0 450 200" width="100%" style={{ display: "block", maxHeight: 144 }}>
+    <svg viewBox="0 0 450 200" width="100%" style={{ display: "block", maxHeight: 200 }}>
       <polygon points="100,18 12,162 210,162" fill={tema.azulSuave} stroke="none"/>
       <polygon points="322,18 234,162 432,162" fill={tema.azulSuave} stroke="none"/>
       <line x1="100" y1="18"  x2="12"  y2="162" stroke="rgba(255,255,255,0.18)" strokeWidth="1.5"/>
@@ -911,7 +914,7 @@ function CongLAADetalleSVG({ tema }) {
 // △ABC: A(100,18) B(12,162) C(210,162)  △DEF: D(341,78) E(290,162) F(405,162)  k≈1.72
 function CriterioAADetalleSVG({ tema }) {
   return (
-    <svg viewBox="0 0 480 182" width="100%" style={{ display: "block", maxHeight: 138 }}>
+    <svg viewBox="0 0 480 182" width="100%" style={{ display: "block", maxHeight: 170 }}>
       {/* Triangle fills */}
       <polygon points="100,18 12,162 210,162" fill={tema.azulSuave} stroke="none"/>
       <polygon points="341,78 290,162 405,162" fill={tema.azulSuave} stroke="none"/>
@@ -958,7 +961,7 @@ function CriterioAADetalleSVG({ tema }) {
 // △ABC: A(100,18) B(12,162) C(210,162)  △DEF: D(341,78) E(290,162) F(405,162)  k≈1.72
 function CriterioLLLDetalleSVG({ tema }) {
   return (
-    <svg viewBox="0 0 480 182" width="100%" style={{ display: "block", maxHeight: 138 }}>
+    <svg viewBox="0 0 480 182" width="100%" style={{ display: "block", maxHeight: 170 }}>
       <polygon points="100,18 12,162 210,162" fill={tema.azulSuave} stroke="none"/>
       <polygon points="341,78 290,162 405,162" fill={tema.azulSuave} stroke="none"/>
 
@@ -1005,7 +1008,7 @@ function CriterioLLLDetalleSVG({ tema }) {
 // △ABC: A(100,18) B(12,162) C(210,162)  △DEF: D(341,78) E(290,162) F(405,162)  k≈1.72
 function CriterioLALDetalleSVG({ tema }) {
   return (
-    <svg viewBox="0 0 480 182" width="100%" style={{ display: "block", maxHeight: 138 }}>
+    <svg viewBox="0 0 480 182" width="100%" style={{ display: "block", maxHeight: 170 }}>
       <polygon points="100,18 12,162 210,162" fill={tema.azulSuave} stroke="none"/>
       <polygon points="341,78 290,162 405,162" fill={tema.azulSuave} stroke="none"/>
 
@@ -1058,7 +1061,7 @@ function CriterioLALDetalleSVG({ tema }) {
 // Small right △DEF: E(188,132) D(188,96) F(236,132) — sides 3,4,5
 function Ej1LLLSVG({ tema }) {
   return (
-    <svg viewBox="0 0 265 172" width="100%" style={{ display: "block", maxHeight: 115 }}>
+    <svg viewBox="0 0 265 172" width="100%" style={{ display: "block", maxHeight: 160 }}>
       {/* Fills */}
       <polygon points="28,78 28,150 124,150" fill={tema.azulSuave} stroke="none"/>
       <polygon points="188,96 188,132 236,132" fill={tema.azulSuave} stroke="none"/>
@@ -1118,7 +1121,7 @@ function Ej1LLLSVG({ tema }) {
 // Small △XYZ: X(296,42) Y(240,136) Z(364,136) — labeled XY=8, k=3/2
 function Ej2K32SVG({ tema }) {
   return (
-    <svg viewBox="0 0 388 170" width="100%" style={{ display: "block", maxHeight: 115 }}>
+    <svg viewBox="0 0 388 170" width="100%" style={{ display: "block", maxHeight: 160 }}>
       {/* Fills */}
       <polygon points="95,14 12,155 198,155" fill={tema.azulSuave} stroke="none"/>
       <polygon points="296,42 240,136 364,136" fill={tema.azulSuave} stroke="none"/>
@@ -1250,7 +1253,7 @@ function SlideCriterioDetalle({ slide, tema }) {
 
 function EjCongLLLSVG({ tema }) {
   return (
-    <svg viewBox="0 0 330 138" width="100%" style={{ display: "block", maxHeight: 118 }}>
+    <svg viewBox="0 0 330 138" width="100%" style={{ display: "block", maxHeight: 160 }}>
       <polygon points="70,15 10,112 155,112"  fill={tema.azulSuave} stroke="none"/>
       <polygon points="230,15 170,112 315,112" fill={tema.azulSuave} stroke="none"/>
       <line x1="70"  y1="15"  x2="10"  y2="112" stroke={tema.azul}   strokeWidth="2.5"/>
@@ -1284,7 +1287,7 @@ function EjCongLLLSVG({ tema }) {
 
 function EjCongLALSVG({ tema }) {
   return (
-    <svg viewBox="0 0 330 138" width="100%" style={{ display: "block", maxHeight: 118 }}>
+    <svg viewBox="0 0 330 138" width="100%" style={{ display: "block", maxHeight: 160 }}>
       <polygon points="70,15 10,112 155,112"  fill={tema.azulSuave} stroke="none"/>
       <polygon points="230,15 170,112 315,112" fill={tema.azulSuave} stroke="none"/>
       <line x1="10"  y1="112" x2="155" y2="112" stroke="rgba(255,255,255,0.18)" strokeWidth="1.5"/>
@@ -1318,7 +1321,7 @@ function EjCongLALSVG({ tema }) {
 
 function EjCongALASVG({ tema }) {
   return (
-    <svg viewBox="0 0 330 138" width="100%" style={{ display: "block", maxHeight: 118 }}>
+    <svg viewBox="0 0 330 138" width="100%" style={{ display: "block", maxHeight: 160 }}>
       <polygon points="70,15 10,112 155,112"  fill={tema.azulSuave} stroke="none"/>
       <polygon points="230,15 170,112 315,112" fill={tema.azulSuave} stroke="none"/>
       <line x1="10"  y1="112" x2="155" y2="112" stroke="rgba(255,255,255,0.18)" strokeWidth="1.5"/>
@@ -1352,7 +1355,7 @@ function EjCongALASVG({ tema }) {
 
 function EjCongLAASVG({ tema }) {
   return (
-    <svg viewBox="0 0 330 138" width="100%" style={{ display: "block", maxHeight: 118 }}>
+    <svg viewBox="0 0 330 138" width="100%" style={{ display: "block", maxHeight: 160 }}>
       <polygon points="70,15 10,112 155,112"  fill={tema.azulSuave} stroke="none"/>
       <polygon points="230,15 170,112 315,112" fill={tema.azulSuave} stroke="none"/>
       <line x1="70"  y1="15"  x2="10"  y2="112" stroke="rgba(255,255,255,0.18)" strokeWidth="1.5"/>

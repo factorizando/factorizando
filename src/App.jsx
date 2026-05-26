@@ -87,8 +87,15 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-        {/* Alumno (público): /clase */}
-        <Route path="/clase" element={<PresentacionAlumno />} />
+        {/* Alumno (requiere auth): /clase */}
+        <Route
+          path="/clase"
+          element={
+            <ProtectedRoute>
+              <PresentacionAlumno />
+            </ProtectedRoute>
+          }
+        />
         {/* Preview temporal de temas */}
         <Route path="/tema-preview" element={<TemaPreview />} />
 

@@ -1,5 +1,5 @@
 // Vista del alumno: entra un código de 4 caracteres y sigue la presentación
-// en tiempo real. No requiere autenticación.
+// en tiempo real. Requiere autenticación.
 import { useState, useEffect, useRef } from "react";
 import { supabase } from "../lib/supabase.js";
 import { buscarPresentacion } from "../data/presentaciones/presentacionesIndex.js";
@@ -17,11 +17,40 @@ export default function PresentacionAlumno() {
   // Respuestas dadas: { [slideId]: opcionIdx }
   const [respuestas, setRespuestas] = useState({});
   const [resaltado, setResaltado] = useState(null);
+  const [user, setUser] = useState(null);
+  const [puntajeFinal, setPuntajeFinal] = useState(null);
   const canalRef = useRef(null);
+  const savedRef = useRef(false);
 
   const tema = obtenerTema(presentacion?.materia);
   const slides = presentacion?.slides ?? [];
   const slide = slides[slideIdx] ?? slides[0];
+
+  // Obtener usuario autenticado (ProtectedRoute ya garantiza que existe)
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user: u } }) => setUser(u));
+  }, []);
+
+  // Guardar puntaje en `resultados` al terminar la sesión
+  useEffect(() => {
+    if (!sesionTerminada || !user || !presentacion || savedRef.current) return;
+    savedRef.current = true;
+
+    const ejercicios = presentacion.slides.filter(s => s.tipo === "ejercicio");
+    if (ejercicios.length === 0) return;
+
+    const puntaje = ejercicios.filter(s => respuestas[s.id] === s.correcta).length;
+    const total = ejercicios.length;
+    setPuntajeFinal({ puntaje, total });
+
+    supabase.from("resultados").insert({
+      user_id: user.id,
+      cuestionario_id: "presentacion-" + presentacion.id,
+      cuestionario_titulo: presentacion.titulo,
+      puntaje,
+      total,
+    }).catch(() => {});
+  }, [sesionTerminada]); // eslint-disable-line react-hooks/exhaustive-deps
 
   async function unirse() {
     if (codigo.length !== 4) {
@@ -258,9 +287,33 @@ export default function PresentacionAlumno() {
           >
             Clase terminada
           </h2>
-          <p style={{ color: tema.muted, fontSize: 15, lineHeight: 1.6 }}>
+          <p style={{ color: tema.muted, fontSize: 15, lineHeight: 1.6, marginBottom: 24 }}>
             El maestro terminó la sesión. ¡Hasta la próxima!
           </p>
+          {puntajeFinal && (
+            <div
+              style={{
+                background: "rgba(0,0,0,0.35)",
+                border: `1px solid ${tema.border}`,
+                borderRadius: 14,
+                padding: "22px 32px",
+                display: "inline-block"
+              }}
+            >
+              <div style={{ fontFamily: tema.mono, fontSize: 11, color: tema.acento, letterSpacing: "0.18em", textTransform: "uppercase", marginBottom: 10 }}>
+                Tu resultado
+              </div>
+              <div style={{ fontSize: 48, fontWeight: 700, color: tema.texto, lineHeight: 1, marginBottom: 6 }}>
+                {puntajeFinal.puntaje}
+                <span style={{ fontSize: 24, color: tema.muted, fontWeight: 400 }}>
+                  /{puntajeFinal.total}
+                </span>
+              </div>
+              <div style={{ fontSize: 22, color: puntajeFinal.puntaje / puntajeFinal.total >= 0.6 ? tema.verde : tema.rojo, fontWeight: 700 }}>
+                {Math.round((puntajeFinal.puntaje / puntajeFinal.total) * 100)}%
+              </div>
+            </div>
+          )}
         </div>
       </div>
     );

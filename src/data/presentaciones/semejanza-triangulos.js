@@ -39,7 +39,7 @@ export const PRESENTACION = {
       id: 2,
       tipo: "lista_criterios",
       titulo: "Criterios de Congruencia",
-      etiqueta: "Cuatro formas de demostrar congruencia",
+      etiqueta: "Criterios LLL y LAL",
       variante: "congruencia",
       criterios: [
         {
@@ -51,7 +51,17 @@ export const PRESENTACION = {
           sigla: "LAL",
           nombre: "Lado–Ángulo–Lado",
           desc: "Dos pares de lados iguales y el ángulo comprendido entre ellos igual."
-        },
+        }
+      ]
+    },
+
+    {
+      id: "2b",
+      tipo: "lista_criterios",
+      titulo: "Criterios de Congruencia",
+      etiqueta: "Criterios ALA y LAA",
+      variante: "congruencia",
+      criterios: [
         {
           sigla: "ALA",
           nombre: "Ángulo–Lado–Ángulo",

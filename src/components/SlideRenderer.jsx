@@ -300,10 +300,10 @@ function TriangulosCongruentesSVG({ tema }) {
       <path d={arcPath(C,B,A,22)} stroke={tema.acento} strokeWidth="1.5" fill="none" opacity="0.8"/>
       <path d={arcPath(F,E,D,22)} stroke={tema.acento} strokeWidth="1.5" fill="none" opacity="0.8"/>
       <text x={A[0]-5} y={A[1]-10} fill={tema.azul}   fontSize="15" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
-      <text x={B[0]-14} y={B[1]+4} fill={tema.verde}  fontSize="15" fontFamily="Georgia,serif" fontStyle="italic">B</text>
-      <text x={C[0]-3}  y={C[1]+4} fill={tema.acento} fontSize="15" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">C</text>
+      <text x="2"       y={B[1]+18} fill={tema.verde}  fontSize="15" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x={C[0]-3}  y={C[1]+18} fill={tema.acento} fontSize="15" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">C</text>
       <text x={D[0]-5} y={D[1]-10} fill={tema.azul}   fontSize="15" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
-      <text x={E[0]+6} y={E[1]+4} fill={tema.verde}  fontSize="15" fontFamily="Georgia,serif" fontStyle="italic">E</text>
+      <text x={E[0]+6} y={E[1]+18} fill={tema.verde}  fontSize="15" fontFamily="Georgia,serif" fontStyle="italic">E</text>
       <text x={F[0]+7}  y={F[1]+4} fill={tema.acento} fontSize="15" fontFamily="Georgia,serif" fontStyle="italic">F</text>
       <text x="207" y="120" fill="rgba(240,236,227,0.32)" fontSize="34" fontFamily="Georgia,serif" textAnchor="middle">≅</text>
     </svg>
@@ -783,7 +783,7 @@ function SlideListaCriterios({ slide, tema }) {
 // Left: A(100,18) B(12,162) C(210,162)   Right: D(322,18) E(234,162) F(432,162)  [shift +222]
 function CongLLLDetalleSVG({ tema }) {
   return (
-    <svg viewBox="0 0 450 182" width="100%" style={{ display: "block", maxHeight: 138 }}>
+    <svg viewBox="0 0 450 200" width="100%" style={{ display: "block", maxHeight: 144 }}>
       <polygon points="100,18 12,162 210,162" fill={tema.azulSuave} stroke="none"/>
       <polygon points="322,18 234,162 432,162" fill={tema.azulSuave} stroke="none"/>
       <line x1="100" y1="18"  x2="12"  y2="162" stroke={tema.azul}   strokeWidth="2.5" opacity="0.9"/>
@@ -799,11 +799,11 @@ function CongLLLDetalleSVG({ tema }) {
       <path d="M 154,81 L 146,87 M 159,87 L 151,93 M 164,93 L 156,99"     stroke={tema.acento} strokeWidth="2" fill="none"/>
       <path d="M 376,81 L 368,87 M 381,87 L 373,93 M 386,93 L 378,99"     stroke={tema.acento} strokeWidth="2" fill="none"/>
       <text x="100" y="10"  fill={tema.azul}   fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
-      <text x="4"   y="170" fill={tema.verde}  fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">B</text>
-      <text x="215" y="170" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">C</text>
+      <text x="4"   y="178" fill={tema.verde}  fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="210" y="178" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">C</text>
       <text x="322" y="10"  fill={tema.azul}   fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
-      <text x="241" y="170" fill={tema.verde}  fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">E</text>
-      <text x="436" y="170" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">F</text>
+      <text x="234" y="178" fill={tema.verde}  fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">E</text>
+      <text x="436" y="178" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">F</text>
       <text x="222" y="102" fill="rgba(240,236,227,0.30)" fontSize="28" fontFamily="Georgia,serif" textAnchor="middle">≅</text>
     </svg>
   );
@@ -811,7 +811,7 @@ function CongLLLDetalleSVG({ tema }) {
 
 function CongLALDetalleSVG({ tema }) {
   return (
-    <svg viewBox="0 0 450 182" width="100%" style={{ display: "block", maxHeight: 138 }}>
+    <svg viewBox="0 0 450 200" width="100%" style={{ display: "block", maxHeight: 144 }}>
       <polygon points="100,18 12,162 210,162" fill={tema.azulSuave} stroke="none"/>
       <polygon points="322,18 234,162 432,162" fill={tema.azulSuave} stroke="none"/>
       <line x1="12"  y1="162" x2="210" y2="162" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5"/>
@@ -829,20 +829,20 @@ function CongLALDetalleSVG({ tema }) {
       <text x="104" y="54"  fill={tema.verde} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">∠A</text>
       <text x="326" y="54"  fill={tema.verde} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">∠D</text>
       <text x="100" y="10"  fill={tema.azul}   fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
-      <text x="4"   y="170" fill="rgba(240,236,227,0.45)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">B</text>
-      <text x="215" y="170" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">C</text>
+      <text x="4"   y="178" fill="rgba(240,236,227,0.45)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="210" y="178" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">C</text>
       <text x="322" y="10"  fill={tema.azul}   fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
-      <text x="241" y="170" fill="rgba(240,236,227,0.45)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">E</text>
-      <text x="436" y="170" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">F</text>
+      <text x="234" y="178" fill="rgba(240,236,227,0.45)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">E</text>
+      <text x="436" y="178" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">F</text>
       <text x="222" y="95"  fill="rgba(240,236,227,0.26)" fontSize="24" fontFamily="Georgia,serif" textAnchor="middle">≅</text>
-      <text x="222" y="112" fill={tema.verde} fontSize="9.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.03em">∠A = ∠D  (ángulo comprendido)</text>
+      <text x="222" y="194" fill={tema.verde} fontSize="9.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.03em">∠A = ∠D  (ángulo comprendido)</text>
     </svg>
   );
 }
 
 function CongALADetalleSVG({ tema }) {
   return (
-    <svg viewBox="0 0 450 182" width="100%" style={{ display: "block", maxHeight: 138 }}>
+    <svg viewBox="0 0 450 200" width="100%" style={{ display: "block", maxHeight: 144 }}>
       <polygon points="100,18 12,162 210,162" fill={tema.azulSuave} stroke="none"/>
       <polygon points="322,18 234,162 432,162" fill={tema.azulSuave} stroke="none"/>
       <line x1="12"  y1="162" x2="210" y2="162" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5"/>
@@ -864,20 +864,20 @@ function CongALADetalleSVG({ tema }) {
       <text x="38"  y="152" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">β</text>
       <text x="260" y="152" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">β</text>
       <text x="100" y="10"  fill={tema.azul}   fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
-      <text x="4"   y="170" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">B</text>
-      <text x="215" y="170" fill="rgba(240,236,227,0.45)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">C</text>
+      <text x="4"   y="178" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="210" y="178" fill="rgba(240,236,227,0.45)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">C</text>
       <text x="322" y="10"  fill={tema.azul}   fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
-      <text x="241" y="170" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">E</text>
-      <text x="436" y="170" fill="rgba(240,236,227,0.45)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">F</text>
+      <text x="234" y="178" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">E</text>
+      <text x="436" y="178" fill="rgba(240,236,227,0.45)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">F</text>
       <text x="222" y="90"  fill="rgba(240,236,227,0.26)" fontSize="24" fontFamily="Georgia,serif" textAnchor="middle">≅</text>
-      <text x="222" y="115" fill="rgba(240,236,227,0.22)" fontSize="9.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">γ = 180° − α − β  (se determina solo)</text>
+      <text x="222" y="194" fill="rgba(240,236,227,0.55)" fontSize="9.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">γ = 180° − α − β  (se determina solo)</text>
     </svg>
   );
 }
 
 function CongLAADetalleSVG({ tema }) {
   return (
-    <svg viewBox="0 0 450 182" width="100%" style={{ display: "block", maxHeight: 138 }}>
+    <svg viewBox="0 0 450 200" width="100%" style={{ display: "block", maxHeight: 144 }}>
       <polygon points="100,18 12,162 210,162" fill={tema.azulSuave} stroke="none"/>
       <polygon points="322,18 234,162 432,162" fill={tema.azulSuave} stroke="none"/>
       <line x1="100" y1="18"  x2="12"  y2="162" stroke="rgba(255,255,255,0.18)" strokeWidth="1.5"/>
@@ -893,17 +893,17 @@ function CongLAADetalleSVG({ tema }) {
       <path d="M 107,157 L 107,167"   stroke={tema.azul} strokeWidth="2" fill="none"/>
       <path d="M 329,157 L 329,167"   stroke={tema.azul} strokeWidth="2" fill="none"/>
       <text x="100" y="10"  fill={tema.verde}  fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
-      <text x="4"   y="170" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">B</text>
-      <text x="215" y="170" fill="rgba(240,236,227,0.45)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">C</text>
+      <text x="4"   y="178" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="210" y="178" fill="rgba(240,236,227,0.45)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">C</text>
       <text x="322" y="10"  fill={tema.verde}  fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
-      <text x="241" y="170" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">E</text>
-      <text x="436" y="170" fill="rgba(240,236,227,0.45)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">F</text>
+      <text x="234" y="178" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">E</text>
+      <text x="436" y="178" fill="rgba(240,236,227,0.45)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">F</text>
       <text x="100" y="50"  fill={tema.verde}  fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">α</text>
       <text x="322" y="50"  fill={tema.verde}  fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">α</text>
       <text x="37"  y="152" fill={tema.acento} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">β</text>
       <text x="259" y="152" fill={tema.acento} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">β</text>
       <text x="222" y="90"  fill="rgba(240,236,227,0.28)" fontSize="26" fontFamily="Georgia,serif" textAnchor="middle">≅</text>
-      <text x="222" y="112" fill={tema.azul} fontSize="9.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.03em">BC = EF  (lado no comprendido)</text>
+      <text x="222" y="194" fill={tema.azul} fontSize="9.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.03em">BC = EF  (lado no comprendido)</text>
     </svg>
   );
 }
@@ -940,8 +940,8 @@ function CriterioAADetalleSVG({ tema }) {
 
       {/* Vertex labels */}
       <text x="100" y="10"  fill={tema.azul}   fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
-      <text x="4"   y="170" fill={tema.verde}  fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">B</text>
-      <text x="215" y="170" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">C</text>
+      <text x="4"   y="178" fill={tema.verde}  fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="210" y="178" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">C</text>
       <text x="341" y="72"  fill={tema.azul}   fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
       <text x="282" y="172" fill={tema.verde}  fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">E</text>
       <text x="409" y="172" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">F</text>
@@ -988,8 +988,8 @@ function CriterioLLLDetalleSVG({ tema }) {
 
       {/* Vertex labels */}
       <text x="100" y="10"  fill={tema.azul}   fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
-      <text x="4"   y="170" fill={tema.verde}  fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">B</text>
-      <text x="215" y="170" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">C</text>
+      <text x="4"   y="178" fill={tema.verde}  fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="210" y="178" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">C</text>
       <text x="341" y="72"  fill={tema.azul}   fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
       <text x="282" y="172" fill={tema.verde}  fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">E</text>
       <text x="409" y="172" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">F</text>
@@ -1041,8 +1041,8 @@ function CriterioLALDetalleSVG({ tema }) {
 
       {/* Vertex labels */}
       <text x="100" y="10"  fill={tema.azul}   fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
-      <text x="4"   y="170" fill="rgba(240,236,227,0.45)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">B</text>
-      <text x="215" y="170" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">C</text>
+      <text x="4"   y="178" fill="rgba(240,236,227,0.45)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="210" y="178" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">C</text>
       <text x="341" y="72"  fill={tema.azul}   fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
       <text x="282" y="172" fill="rgba(240,236,227,0.45)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">E</text>
       <text x="409" y="172" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">F</text>
@@ -1250,7 +1250,7 @@ function SlideCriterioDetalle({ slide, tema }) {
 
 function EjCongLLLSVG({ tema }) {
   return (
-    <svg viewBox="0 0 330 130" width="100%" style={{ display: "block", maxHeight: 112 }}>
+    <svg viewBox="0 0 330 138" width="100%" style={{ display: "block", maxHeight: 118 }}>
       <polygon points="70,15 10,112 155,112"  fill={tema.azulSuave} stroke="none"/>
       <polygon points="230,15 170,112 315,112" fill={tema.azulSuave} stroke="none"/>
       <line x1="70"  y1="15"  x2="10"  y2="112" stroke={tema.azul}   strokeWidth="2.5"/>
@@ -1272,10 +1272,10 @@ function EjCongLLLSVG({ tema }) {
       <text x="242" y="127" fill={tema.verde}  fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">6</text>
       <text x="288" y="57"  fill={tema.acento} fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700">7</text>
       <text x="70"  y="8"   fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
-      <text x="2"   y="120" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">B</text>
-      <text x="151" y="120" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">C</text>
+      <text x="3"   y="128" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="155" y="128" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">C</text>
       <text x="230" y="8"   fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
-      <text x="173" y="120" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">E</text>
+      <text x="170" y="128" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">E</text>
       <text x="318" y="120" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">F</text>
       <text x="163" y="70" fill="rgba(240,236,227,0.45)" fontSize="22" fontFamily="Georgia,serif" textAnchor="middle">≅</text>
     </svg>
@@ -1284,7 +1284,7 @@ function EjCongLLLSVG({ tema }) {
 
 function EjCongLALSVG({ tema }) {
   return (
-    <svg viewBox="0 0 330 130" width="100%" style={{ display: "block", maxHeight: 112 }}>
+    <svg viewBox="0 0 330 138" width="100%" style={{ display: "block", maxHeight: 118 }}>
       <polygon points="70,15 10,112 155,112"  fill={tema.azulSuave} stroke="none"/>
       <polygon points="230,15 170,112 315,112" fill={tema.azulSuave} stroke="none"/>
       <line x1="10"  y1="112" x2="155" y2="112" stroke="rgba(255,255,255,0.18)" strokeWidth="1.5"/>
@@ -1306,10 +1306,10 @@ function EjCongLALSVG({ tema }) {
       <text x="76"  y="48"  fill={tema.verde} fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">60°</text>
       <text x="236" y="48"  fill={tema.verde} fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">60°</text>
       <text x="70"  y="8"   fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
-      <text x="2"   y="120" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">B</text>
-      <text x="151" y="120" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">C</text>
+      <text x="3"   y="128" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="155" y="128" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">C</text>
       <text x="230" y="8"   fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
-      <text x="173" y="120" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">E</text>
+      <text x="170" y="128" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">E</text>
       <text x="318" y="120" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">F</text>
       <text x="163" y="70" fill="rgba(240,236,227,0.45)" fontSize="22" fontFamily="Georgia,serif" textAnchor="middle">≅</text>
     </svg>
@@ -1318,7 +1318,7 @@ function EjCongLALSVG({ tema }) {
 
 function EjCongALASVG({ tema }) {
   return (
-    <svg viewBox="0 0 330 130" width="100%" style={{ display: "block", maxHeight: 112 }}>
+    <svg viewBox="0 0 330 138" width="100%" style={{ display: "block", maxHeight: 118 }}>
       <polygon points="70,15 10,112 155,112"  fill={tema.azulSuave} stroke="none"/>
       <polygon points="230,15 170,112 315,112" fill={tema.azulSuave} stroke="none"/>
       <line x1="10"  y1="112" x2="155" y2="112" stroke="rgba(255,255,255,0.18)" strokeWidth="1.5"/>
@@ -1340,10 +1340,10 @@ function EjCongALASVG({ tema }) {
       <text x="29"  y="99"  fill={tema.acento} fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="600">75°</text>
       <text x="189" y="99"  fill={tema.acento} fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="600">75°</text>
       <text x="70"  y="8"   fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
-      <text x="2"   y="120" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">B</text>
-      <text x="151" y="120" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">C</text>
+      <text x="3"   y="128" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="155" y="128" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">C</text>
       <text x="230" y="8"   fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
-      <text x="173" y="120" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">E</text>
+      <text x="170" y="128" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">E</text>
       <text x="318" y="120" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">F</text>
       <text x="163" y="70" fill="rgba(240,236,227,0.45)" fontSize="22" fontFamily="Georgia,serif" textAnchor="middle">≅</text>
     </svg>
@@ -1352,7 +1352,7 @@ function EjCongALASVG({ tema }) {
 
 function EjCongLAASVG({ tema }) {
   return (
-    <svg viewBox="0 0 330 130" width="100%" style={{ display: "block", maxHeight: 112 }}>
+    <svg viewBox="0 0 330 138" width="100%" style={{ display: "block", maxHeight: 118 }}>
       <polygon points="70,15 10,112 155,112"  fill={tema.azulSuave} stroke="none"/>
       <polygon points="230,15 170,112 315,112" fill={tema.azulSuave} stroke="none"/>
       <line x1="70"  y1="15"  x2="10"  y2="112" stroke="rgba(255,255,255,0.18)" strokeWidth="1.5"/>
@@ -1374,10 +1374,10 @@ function EjCongLAASVG({ tema }) {
       <text x="29"  y="99"  fill={tema.acento} fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="600">70°</text>
       <text x="189" y="99"  fill={tema.acento} fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="600">70°</text>
       <text x="70"  y="8"   fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
-      <text x="2"   y="120" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">B</text>
-      <text x="151" y="120" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">C</text>
+      <text x="3"   y="128" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="155" y="128" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">C</text>
       <text x="230" y="8"   fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
-      <text x="173" y="120" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">E</text>
+      <text x="170" y="128" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">E</text>
       <text x="318" y="120" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">F</text>
       <text x="163" y="70" fill="rgba(240,236,227,0.45)" fontSize="22" fontFamily="Georgia,serif" textAnchor="middle">≅</text>
     </svg>

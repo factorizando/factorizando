@@ -1,6 +1,7 @@
 // Vista del alumno: entra un código de 4 caracteres y sigue la presentación
 // en tiempo real. Requiere autenticación.
 import { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { supabase } from "../lib/supabase.js";
 import { buscarPresentacion } from "../data/presentaciones/presentacionesIndex.js";
 import { obtenerTema } from "../data/presentaciones/temas.jsx";
@@ -255,6 +256,25 @@ export default function PresentacionAlumno() {
           >
             {cargando ? "Buscando…" : "Unirme →"}
           </button>
+
+          <div style={{ marginTop: 24 }}>
+            <Link
+              to="/"
+              style={{
+                fontFamily: tema.mono,
+                fontSize: 12,
+                color: tema.muted,
+                textDecoration: "none",
+                letterSpacing: "0.08em",
+                opacity: 0.7,
+                transition: "opacity 0.15s"
+              }}
+              onMouseEnter={e => e.currentTarget.style.opacity = "1"}
+              onMouseLeave={e => e.currentTarget.style.opacity = "0.7"}
+            >
+              ← Página principal
+            </Link>
+          </div>
         </div>
       </div>
     );

@@ -210,6 +210,7 @@ export const PRESENTACION = {
     {
       id: "ce1",
       tipo: "ejercicio",
+      svgDiagram: "ce1-lll",
       etiqueta: "Congruencia · Ejercicio 1 / 5",
       pregunta: "Dos triángulos tienen sus tres pares de lados correspondientes iguales: AB = DE, BC = EF y CA = FD. ¿Qué criterio garantiza su congruencia?",
       math_pregunta: "AB = DE,\\quad BC = EF,\\quad CA = FD",
@@ -222,6 +223,7 @@ export const PRESENTACION = {
     {
       id: "ce2",
       tipo: "ejercicio",
+      svgDiagram: "ce2-medidas",
       etiqueta: "Congruencia · Ejercicio 2 / 5",
       pregunta: "△ABC ≅ △DEF. Si AB = 7, BC = 10 y CA = 8, ¿cuánto mide EF?",
       math_pregunta: "\\triangle ABC \\cong \\triangle DEF,\\quad AB = 7,\\; BC = 10,\\; CA = 8",
@@ -236,6 +238,7 @@ export const PRESENTACION = {
     {
       id: "ce3",
       tipo: "ejercicio",
+      svgDiagram: "ce3-ala",
       etiqueta: "Congruencia · Ejercicio 3 / 5",
       pregunta: "En △ABC y △DEF se cumple que ∠A = ∠D = 60°, AB = DE = 8 y ∠B = ∠E = 50°. ¿Qué criterio de congruencia aplica?",
       math_pregunta: "\\angle A = \\angle D = 60^\\circ,\\quad AB = DE = 8,\\quad \\angle B = \\angle E = 50^\\circ",
@@ -248,6 +251,7 @@ export const PRESENTACION = {
     {
       id: "ce4",
       tipo: "ejercicio",
+      svgDiagram: "ce4-aaa",
       etiqueta: "Congruencia · Ejercicio 4 / 5",
       pregunta: "Dos triángulos tienen sus tres ángulos iguales: ∠A = ∠D, ∠B = ∠E, ∠C = ∠F. ¿Se puede concluir que son congruentes?",
       math_pregunta: "\\angle A = \\angle D,\\quad \\angle B = \\angle E,\\quad \\angle C = \\angle F",
@@ -264,6 +268,7 @@ export const PRESENTACION = {
     {
       id: "ce5",
       tipo: "ejercicio",
+      svgDiagram: "ce5-angulo",
       etiqueta: "Congruencia · Ejercicio 5 / 5",
       pregunta: "Si △PQR ≅ △XYZ, ∠P = 55° y ∠Q = 75°, ¿cuánto mide ∠Z?",
       math_pregunta: "\\triangle PQR \\cong \\triangle XYZ,\\quad \\angle P = 55^\\circ,\\quad \\angle Q = 75^\\circ",

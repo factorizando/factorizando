@@ -83,7 +83,7 @@ export const PRESENTACION = {
       tipo: "ejemplo",
       titulo: "Ejemplo — Criterio LLL",
       etiqueta: "Verificar congruencia con tres lados",
-      svgDiagram: null,
+      svgDiagram: "ej-cong-lll",
       enunciado: "Determina si △ABC y △DEF son congruentes.",
       datos: [
         { label: "△ ABC", math: "AB = 5,\\; BC = 6,\\; CA = 7" },
@@ -115,7 +115,7 @@ export const PRESENTACION = {
       tipo: "ejemplo",
       titulo: "Ejemplo — Criterio LAL",
       etiqueta: "Verificar congruencia con dos lados y ángulo comprendido",
-      svgDiagram: null,
+      svgDiagram: "ej-cong-lal",
       enunciado: "¿Son congruentes △ABC y △DEF?",
       datos: [
         { label: "△ ABC", math: "AB = 4,\\; \\angle A = 60^\\circ,\\; AC = 6" },
@@ -147,7 +147,7 @@ export const PRESENTACION = {
       tipo: "ejemplo",
       titulo: "Ejemplo — Criterio ALA",
       etiqueta: "Verificar congruencia con ángulo-lado-ángulo",
-      svgDiagram: null,
+      svgDiagram: "ej-cong-ala",
       enunciado: "¿Son congruentes △ABC y △DEF?",
       datos: [
         { label: "△ ABC", math: "\\angle A = 45^\\circ,\\; AB = 8,\\; \\angle B = 75^\\circ" },
@@ -180,7 +180,7 @@ export const PRESENTACION = {
       tipo: "ejemplo",
       titulo: "Ejemplo — Criterio LAA",
       etiqueta: "Verificar congruencia con lado-ángulo-ángulo",
-      svgDiagram: null,
+      svgDiagram: "ej-cong-laa",
       enunciado: "¿Son congruentes △ABC y △DEF? (BC no está entre los ángulos dados)",
       datos: [
         { label: "△ ABC", math: "\\angle A = 50^\\circ,\\; \\angle B = 70^\\circ,\\; BC = 5" },

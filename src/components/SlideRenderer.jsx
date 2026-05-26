@@ -1228,6 +1228,146 @@ function SlideCriterioDetalle({ slide, tema }) {
   );
 }
 
+// Congruence example SVGs — same base triangle for all four
+// Left: A(70,15) B(10,112) C(155,112)   Right: D(230,15) E(170,112) F(315,112)  [shift +160]
+// Arc at A: M 82,29 A 18,18 0 0,1 61,30   Arc at B: M 17,100 A 14,14 0 0,1 24,112
+
+function EjCongLLLSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 330 130" width="100%" style={{ display: "block", maxHeight: 112 }}>
+      <polygon points="70,15 10,112 155,112"  fill={tema.azulSuave} stroke="none"/>
+      <polygon points="230,15 170,112 315,112" fill={tema.azulSuave} stroke="none"/>
+      <line x1="70"  y1="15"  x2="10"  y2="112" stroke={tema.azul}   strokeWidth="2.5"/>
+      <line x1="230" y1="15"  x2="170" y2="112" stroke={tema.azul}   strokeWidth="2.5"/>
+      <line x1="10"  y1="112" x2="155" y2="112" stroke={tema.verde}  strokeWidth="2.5"/>
+      <line x1="170" y1="112" x2="315" y2="112" stroke={tema.verde}  strokeWidth="2.5"/>
+      <line x1="155" y1="112" x2="70"  y2="15"  stroke={tema.acento} strokeWidth="2.5"/>
+      <line x1="315" y1="112" x2="230" y2="15"  stroke={tema.acento} strokeWidth="2.5"/>
+      <path d="M 35,67 L 45,60"   stroke={tema.azul}   strokeWidth="2" fill="none"/>
+      <path d="M 195,67 L 205,60" stroke={tema.azul}   strokeWidth="2" fill="none"/>
+      <path d="M 78,106 L 78,118 M 87,106 L 87,118"    stroke={tema.verde}  strokeWidth="2" fill="none"/>
+      <path d="M 238,106 L 238,118 M 247,106 L 247,118" stroke={tema.verde}  strokeWidth="2" fill="none"/>
+      <path d="M 103,62 L 112,54 M 108,68 L 117,60 M 113,73 L 122,65"  stroke={tema.acento} strokeWidth="2" fill="none"/>
+      <path d="M 263,62 L 272,54 M 268,68 L 277,60 M 273,73 L 282,65"  stroke={tema.acento} strokeWidth="2" fill="none"/>
+      <text x="30"  y="60"  fill={tema.azul}   fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">5</text>
+      <text x="82"  y="127" fill={tema.verde}  fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">6</text>
+      <text x="128" y="57"  fill={tema.acento} fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700">7</text>
+      <text x="190" y="60"  fill={tema.azul}   fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">5</text>
+      <text x="242" y="127" fill={tema.verde}  fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">6</text>
+      <text x="288" y="57"  fill={tema.acento} fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700">7</text>
+      <text x="70"  y="8"   fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
+      <text x="2"   y="120" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="158" y="120" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">C</text>
+      <text x="230" y="8"   fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
+      <text x="162" y="120" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">E</text>
+      <text x="318" y="120" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">F</text>
+      <text x="163" y="70" fill="rgba(240,236,227,0.45)" fontSize="22" fontFamily="Georgia,serif" textAnchor="middle">≅</text>
+    </svg>
+  );
+}
+
+function EjCongLALSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 330 130" width="100%" style={{ display: "block", maxHeight: 112 }}>
+      <polygon points="70,15 10,112 155,112"  fill={tema.azulSuave} stroke="none"/>
+      <polygon points="230,15 170,112 315,112" fill={tema.azulSuave} stroke="none"/>
+      <line x1="10"  y1="112" x2="155" y2="112" stroke="rgba(255,255,255,0.18)" strokeWidth="1.5"/>
+      <line x1="170" y1="112" x2="315" y2="112" stroke="rgba(255,255,255,0.18)" strokeWidth="1.5"/>
+      <line x1="70"  y1="15"  x2="10"  y2="112" stroke={tema.azul}   strokeWidth="2.5"/>
+      <line x1="230" y1="15"  x2="170" y2="112" stroke={tema.azul}   strokeWidth="2.5"/>
+      <line x1="155" y1="112" x2="70"  y2="15"  stroke={tema.acento} strokeWidth="2.5"/>
+      <line x1="315" y1="112" x2="230" y2="15"  stroke={tema.acento} strokeWidth="2.5"/>
+      <path d="M 82,29 A 18,18 0 0,1 61,30"   stroke={tema.verde} strokeWidth="2.2" fill="none"/>
+      <path d="M 242,29 A 18,18 0 0,1 221,30"  stroke={tema.verde} strokeWidth="2.2" fill="none"/>
+      <path d="M 35,67 L 45,60"   stroke={tema.azul}   strokeWidth="2" fill="none"/>
+      <path d="M 195,67 L 205,60" stroke={tema.azul}   strokeWidth="2" fill="none"/>
+      <path d="M 103,62 L 112,54 M 108,68 L 117,60"  stroke={tema.acento} strokeWidth="2" fill="none"/>
+      <path d="M 263,62 L 272,54 M 268,68 L 277,60"  stroke={tema.acento} strokeWidth="2" fill="none"/>
+      <text x="30"  y="60"  fill={tema.azul}   fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">4</text>
+      <text x="128" y="57"  fill={tema.acento} fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700">6</text>
+      <text x="190" y="60"  fill={tema.azul}   fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">4</text>
+      <text x="288" y="57"  fill={tema.acento} fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700">6</text>
+      <text x="76"  y="48"  fill={tema.verde} fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">60°</text>
+      <text x="236" y="48"  fill={tema.verde} fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">60°</text>
+      <text x="70"  y="8"   fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
+      <text x="2"   y="120" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="158" y="120" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">C</text>
+      <text x="230" y="8"   fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
+      <text x="162" y="120" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">E</text>
+      <text x="318" y="120" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">F</text>
+      <text x="163" y="70" fill="rgba(240,236,227,0.45)" fontSize="22" fontFamily="Georgia,serif" textAnchor="middle">≅</text>
+    </svg>
+  );
+}
+
+function EjCongALASVG({ tema }) {
+  return (
+    <svg viewBox="0 0 330 130" width="100%" style={{ display: "block", maxHeight: 112 }}>
+      <polygon points="70,15 10,112 155,112"  fill={tema.azulSuave} stroke="none"/>
+      <polygon points="230,15 170,112 315,112" fill={tema.azulSuave} stroke="none"/>
+      <line x1="10"  y1="112" x2="155" y2="112" stroke="rgba(255,255,255,0.18)" strokeWidth="1.5"/>
+      <line x1="170" y1="112" x2="315" y2="112" stroke="rgba(255,255,255,0.18)" strokeWidth="1.5"/>
+      <line x1="155" y1="112" x2="70"  y2="15"  stroke="rgba(255,255,255,0.18)" strokeWidth="1.5"/>
+      <line x1="315" y1="112" x2="230" y2="15"  stroke="rgba(255,255,255,0.18)" strokeWidth="1.5"/>
+      <line x1="70"  y1="15"  x2="10"  y2="112" stroke={tema.azul} strokeWidth="2.5"/>
+      <line x1="230" y1="15"  x2="170" y2="112" stroke={tema.azul} strokeWidth="2.5"/>
+      <path d="M 82,29 A 18,18 0 0,1 61,30"   stroke={tema.verde}  strokeWidth="2.2" fill="none"/>
+      <path d="M 242,29 A 18,18 0 0,1 221,30"  stroke={tema.verde}  strokeWidth="2.2" fill="none"/>
+      <path d="M 17,100 A 14,14 0 0,1 24,112"  stroke={tema.acento} strokeWidth="2.2" fill="none"/>
+      <path d="M 177,100 A 14,14 0 0,1 184,112" stroke={tema.acento} strokeWidth="2.2" fill="none"/>
+      <path d="M 35,67 L 45,60"   stroke={tema.azul} strokeWidth="2" fill="none"/>
+      <path d="M 195,67 L 205,60" stroke={tema.azul} strokeWidth="2" fill="none"/>
+      <text x="30"  y="60"  fill={tema.azul} fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">8</text>
+      <text x="190" y="60"  fill={tema.azul} fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">8</text>
+      <text x="76"  y="48"  fill={tema.verde}  fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">45°</text>
+      <text x="236" y="48"  fill={tema.verde}  fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">45°</text>
+      <text x="29"  y="99"  fill={tema.acento} fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="600">75°</text>
+      <text x="189" y="99"  fill={tema.acento} fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="600">75°</text>
+      <text x="70"  y="8"   fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
+      <text x="2"   y="120" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="158" y="120" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">C</text>
+      <text x="230" y="8"   fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
+      <text x="162" y="120" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">E</text>
+      <text x="318" y="120" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">F</text>
+      <text x="163" y="70" fill="rgba(240,236,227,0.45)" fontSize="22" fontFamily="Georgia,serif" textAnchor="middle">≅</text>
+    </svg>
+  );
+}
+
+function EjCongLAASVG({ tema }) {
+  return (
+    <svg viewBox="0 0 330 130" width="100%" style={{ display: "block", maxHeight: 112 }}>
+      <polygon points="70,15 10,112 155,112"  fill={tema.azulSuave} stroke="none"/>
+      <polygon points="230,15 170,112 315,112" fill={tema.azulSuave} stroke="none"/>
+      <line x1="70"  y1="15"  x2="10"  y2="112" stroke="rgba(255,255,255,0.18)" strokeWidth="1.5"/>
+      <line x1="230" y1="15"  x2="170" y2="112" stroke="rgba(255,255,255,0.18)" strokeWidth="1.5"/>
+      <line x1="155" y1="112" x2="70"  y2="15"  stroke="rgba(255,255,255,0.18)" strokeWidth="1.5"/>
+      <line x1="315" y1="112" x2="230" y2="15"  stroke="rgba(255,255,255,0.18)" strokeWidth="1.5"/>
+      <line x1="10"  y1="112" x2="155" y2="112" stroke={tema.azul} strokeWidth="2.5"/>
+      <line x1="170" y1="112" x2="315" y2="112" stroke={tema.azul} strokeWidth="2.5"/>
+      <path d="M 82,29 A 18,18 0 0,1 61,30"   stroke={tema.verde}  strokeWidth="2.2" fill="none"/>
+      <path d="M 242,29 A 18,18 0 0,1 221,30"  stroke={tema.verde}  strokeWidth="2.2" fill="none"/>
+      <path d="M 17,100 A 14,14 0 0,1 24,112"  stroke={tema.acento} strokeWidth="2.2" fill="none"/>
+      <path d="M 177,100 A 14,14 0 0,1 184,112" stroke={tema.acento} strokeWidth="2.2" fill="none"/>
+      <path d="M 78,106 L 78,118"   stroke={tema.azul} strokeWidth="2" fill="none"/>
+      <path d="M 238,106 L 238,118" stroke={tema.azul} strokeWidth="2" fill="none"/>
+      <text x="82"  y="127" fill={tema.azul} fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">5</text>
+      <text x="242" y="127" fill={tema.azul} fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">5</text>
+      <text x="76"  y="48"  fill={tema.verde}  fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">50°</text>
+      <text x="236" y="48"  fill={tema.verde}  fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">50°</text>
+      <text x="29"  y="99"  fill={tema.acento} fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="600">70°</text>
+      <text x="189" y="99"  fill={tema.acento} fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="600">70°</text>
+      <text x="70"  y="8"   fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
+      <text x="2"   y="120" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="158" y="120" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">C</text>
+      <text x="230" y="8"   fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
+      <text x="162" y="120" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">E</text>
+      <text x="318" y="120" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">F</text>
+      <text x="163" y="70" fill="rgba(240,236,227,0.45)" fontSize="22" fontFamily="Georgia,serif" textAnchor="middle">≅</text>
+    </svg>
+  );
+}
+
 function SlideEjemplo({ slide, tema }) {
   const compact = !!slide.svgDiagram;
   return (
@@ -1287,8 +1427,12 @@ function SlideEjemplo({ slide, tema }) {
         </div>
       )}
 
-      {slide.svgDiagram === "ej1-lll" && <Ej1LLLSVG tema={tema} />}
-      {slide.svgDiagram === "ej2-k32" && <Ej2K32SVG tema={tema} />}
+      {slide.svgDiagram === "ej1-lll"     && <Ej1LLLSVG     tema={tema} />}
+      {slide.svgDiagram === "ej2-k32"     && <Ej2K32SVG     tema={tema} />}
+      {slide.svgDiagram === "ej-cong-lll" && <EjCongLLLSVG  tema={tema} />}
+      {slide.svgDiagram === "ej-cong-lal" && <EjCongLALSVG  tema={tema} />}
+      {slide.svgDiagram === "ej-cong-ala" && <EjCongALASVG  tema={tema} />}
+      {slide.svgDiagram === "ej-cong-laa" && <EjCongLAASVG  tema={tema} />}
 
       <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
         {slide.pasos.map((p, i) => (

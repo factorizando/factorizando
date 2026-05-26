@@ -311,15 +311,18 @@ function TriangulosCongruentesSVG({ tema }) {
 }
 
 function SlideDefinicion({ slide, tema }) {
+  const winW = useWindowWidth();
+  const narrow = winW < 500;
   return (
     <div
       style={{
-        padding: "24px 32px",
+        padding: narrow ? "16px 16px" : "24px 32px",
         height: "100%",
         display: "flex",
         flexDirection: "column",
-        gap: 14,
-        boxSizing: "border-box"
+        gap: narrow ? 10 : 14,
+        boxSizing: "border-box",
+        overflowY: "auto"
       }}
     >
       <Encabezado titulo={slide.titulo} tema={tema} />
@@ -356,7 +359,7 @@ function SlideDefinicion({ slide, tema }) {
         <TriangulosCongruentesSVG tema={tema} />
       )}
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+      <div style={{ display: "grid", gridTemplateColumns: narrow ? "1fr" : "1fr 1fr", gap: 12 }}>
         {slide.condiciones.map((c, i) => (
           <div
             key={i}
@@ -364,7 +367,7 @@ function SlideDefinicion({ slide, tema }) {
               background: tema.card,
               border: `1px solid ${tema.border}`,
               borderRadius: 10,
-              padding: "14px 18px"
+              padding: narrow ? "10px 14px" : "14px 18px"
             }}
           >
             <div
@@ -681,8 +684,7 @@ function SlideListaCriterios({ slide, tema }) {
   const coloresAll = [tema.acento, tema.azul, tema.verde, tema.rojo];
   const bgColoresAll = [tema.acentoMed, tema.azulMed, "rgba(74,222,128,0.1)", "rgba(248,113,113,0.10)"];
   const winW = useWindowWidth();
-  // SVG lives outside the card; width scales with screen but stays bounded
-  const svgW = Math.min(185, Math.max(110, Math.floor(winW * 0.30)));
+  const narrow = winW < 500;
   const criterioSVGsSemejanza = {
     "AA":  <CriterioAA_SVG  tema={tema} />,
     "LLL": <CriterioLLL_SVG tema={tema} />,
@@ -695,41 +697,50 @@ function SlideListaCriterios({ slide, tema }) {
     "LAA": <CongLAA_SVG tema={tema} />,
   };
   const criterioSVGs = slide.variante === "congruencia" ? criterioSVGsCongruencia : criterioSVGsSemejanza;
+  // 4 criteria → 2-column grid; 3 criteria → single column
+  const cols = slide.criterios.length >= 4 ? 2 : 1;
   return (
     <div
       style={{
-        padding: "22px 28px",
+        padding: narrow ? "14px 14px" : "22px 28px",
         height: "100%",
         display: "flex",
         flexDirection: "column",
-        gap: 16,
+        gap: narrow ? 10 : 16,
         boxSizing: "border-box"
       }}
     >
       <Encabezado titulo={slide.titulo} etiqueta={slide.etiqueta} tema={tema} />
-      <div style={{ display: "flex", flexDirection: "column", gap: 12, flex: 1, justifyContent: "center" }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: `repeat(${cols}, 1fr)`,
+          gap: narrow ? 10 : 14,
+          flex: 1,
+          overflowY: "auto",
+          alignContent: "center"
+        }}
+      >
         {slide.criterios.map((c, i) => (
-          <div key={i} style={{ display: "flex", gap: 14, alignItems: "center" }}>
+          <div key={i} style={{ display: "flex", flexDirection: "column", gap: 6 }}>
 
-            {/* Card box — badge + text only, no SVG inside */}
+            {/* Card: badge + text */}
             <div
               style={{
-                flex: 1,
-                minWidth: 0,
                 display: "flex",
                 alignItems: "center",
-                gap: 16,
+                gap: narrow ? 10 : 14,
                 background: tema.card,
                 border: `1px solid ${tema.border}`,
-                borderRadius: 12,
-                padding: "14px 20px"
+                borderRadius: narrow ? 8 : 10,
+                padding: narrow ? "8px 12px" : "12px 18px"
               }}
             >
               <div
                 style={{
-                  minWidth: 54,
-                  height: 54,
-                  borderRadius: 10,
+                  minWidth: narrow ? 38 : 48,
+                  height: narrow ? 38 : 48,
+                  borderRadius: 8,
                   background: bgColoresAll[i],
                   border: `2px solid ${coloresAll[i]}`,
                   display: "flex",
@@ -737,7 +748,7 @@ function SlideListaCriterios({ slide, tema }) {
                   justifyContent: "center",
                   fontFamily: tema.mono,
                   fontWeight: 700,
-                  fontSize: 14,
+                  fontSize: narrow ? 11 : 13,
                   color: coloresAll[i],
                   flexShrink: 0
                 }}
@@ -745,18 +756,20 @@ function SlideListaCriterios({ slide, tema }) {
                 {c.sigla}
               </div>
               <div style={{ minWidth: 0 }}>
-                <div style={{ fontSize: 16, fontWeight: 600, color: tema.texto, marginBottom: 3 }}>
+                <div style={{ fontSize: narrow ? 12 : 15, fontWeight: 600, color: tema.texto, marginBottom: 2, lineHeight: 1.3 }}>
                   {c.nombre}
                 </div>
-                <div style={{ fontSize: 13, color: tema.sub, lineHeight: 1.5 }}>
+                <div style={{ fontSize: narrow ? 10 : 12, color: tema.sub, lineHeight: 1.4 }}>
                   {c.desc}
                 </div>
               </div>
             </div>
 
-            {/* SVG fuera de la caja, más grande */}
-            <div style={{ width: svgW, flexShrink: 0 }}>
-              {criterioSVGs[c.sigla]}
+            {/* SVG debajo de la tarjeta */}
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <div style={{ width: cols === 1 ? "55%" : "85%", maxWidth: 180 }}>
+                {criterioSVGs[c.sigla]}
+              </div>
             </div>
 
           </div>
@@ -1142,15 +1155,18 @@ function Ej2K32SVG({ tema }) {
 
 function SlideCriterioDetalle({ slide, tema }) {
   const compact = !!slide.svgDiagram;
+  const winW = useWindowWidth();
+  const narrow = winW < 500;
   return (
     <div
       style={{
-        padding: compact ? "20px 32px" : "36px 44px",
+        padding: narrow ? "14px 14px" : compact ? "20px 32px" : "36px 44px",
         height: "100%",
         display: "flex",
         flexDirection: "column",
-        gap: compact ? 14 : 22,
-        boxSizing: "border-box"
+        gap: narrow ? 10 : compact ? 14 : 22,
+        boxSizing: "border-box",
+        overflowY: "auto"
       }}
     >
       <Encabezado titulo={slide.titulo} etiqueta={slide.etiqueta} tema={tema} />
@@ -1370,14 +1386,16 @@ function EjCongLAASVG({ tema }) {
 
 function SlideEjemplo({ slide, tema }) {
   const compact = !!slide.svgDiagram;
+  const winW = useWindowWidth();
+  const narrow = winW < 500;
   return (
     <div
       style={{
-        padding: compact ? "20px 28px" : "36px 44px",
+        padding: narrow ? "14px 14px" : compact ? "20px 28px" : "36px 44px",
         height: "100%",
         display: "flex",
         flexDirection: "column",
-        gap: compact ? 14 : 22,
+        gap: narrow ? 10 : compact ? 14 : 22,
         boxSizing: "border-box",
         overflowY: "auto"
       }}

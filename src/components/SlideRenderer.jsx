@@ -310,7 +310,7 @@ function TriangulosCongruentesSVG({ tema }) {
   );
 }
 
-function SlideDefinicion({ slide, tema }) {
+function SlideDefinicion({ slide, tema, resaltadoIdx, onResaltar }) {
   const winW = useWindowWidth();
   const narrow = winW < 500;
   return (
@@ -360,14 +360,21 @@ function SlideDefinicion({ slide, tema }) {
       )}
 
       <div style={{ display: "grid", gridTemplateColumns: narrow ? "1fr" : "1fr 1fr", gap: 12 }}>
-        {slide.condiciones.map((c, i) => (
+        {slide.condiciones.map((c, i) => {
+          const activo = resaltadoIdx === i;
+          return (
           <div
             key={i}
+            onClick={() => onResaltar && onResaltar(i)}
             style={{
-              background: tema.card,
-              border: `1px solid ${tema.border}`,
+              background: activo ? tema.acentoSuave : tema.card,
+              border: `1px solid ${activo ? tema.acento : tema.border}`,
               borderRadius: 10,
-              padding: narrow ? "10px 14px" : "14px 18px"
+              padding: narrow ? "10px 14px" : "14px 18px",
+              boxShadow: activo ? `0 0 0 2px ${tema.acentoBorde}, 0 0 16px ${tema.acentoBorde}` : "none",
+              transform: activo ? "scale(1.01)" : "scale(1)",
+              transition: "all 0.2s",
+              cursor: onResaltar ? "pointer" : "default"
             }}
           >
             <div
@@ -386,7 +393,8 @@ function SlideDefinicion({ slide, tema }) {
               <M>{c.math}</M>
             </div>
           </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
@@ -437,7 +445,7 @@ function RazonSemejanzaSVG({ tema }) {
   );
 }
 
-function SlideConcepto({ slide, tema }) {
+function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar }) {
   const compact = !!slide.svgDiagram;
   const winW = useWindowWidth();
   const narrow = winW < 500;
@@ -473,17 +481,24 @@ function SlideConcepto({ slide, tema }) {
       )}
 
       <div style={{ display: "flex", flexDirection: "column", gap: compact ? 8 : 10 }}>
-        {slide.items.map((item, i) => (
+        {slide.items.map((item, i) => {
+          const activo = resaltadoIdx === i;
+          return (
           <div
             key={i}
+            onClick={() => onResaltar && onResaltar(i)}
             style={{
               display: "flex",
               alignItems: "center",
               gap: 18,
-              background: tema.card,
-              border: `1px solid ${tema.border}`,
+              background: activo ? tema.acentoSuave : tema.card,
+              border: `1px solid ${activo ? tema.acento : tema.border}`,
               borderRadius: 8,
-              padding: compact ? "9px 18px" : "13px 22px"
+              padding: compact ? "9px 18px" : "13px 22px",
+              boxShadow: activo ? `0 0 0 2px ${tema.acentoBorde}, 0 0 16px ${tema.acentoBorde}` : "none",
+              transform: activo ? "scale(1.01)" : "scale(1)",
+              transition: "all 0.2s",
+              cursor: onResaltar ? "pointer" : "default"
             }}
           >
             <span style={{ fontSize: "1.1em", minWidth: 52 }}>
@@ -492,7 +507,8 @@ function SlideConcepto({ slide, tema }) {
             <span style={{ color: "#4a4640", fontSize: 17 }}>→</span>
             <span style={{ fontSize: 15, color: "#c4bfb3" }}>{item.texto}</span>
           </div>
-        ))}
+          );
+        })}
       </div>
 
       {slide.nota && (
@@ -683,7 +699,7 @@ function CongLAA_SVG({ tema }) {
   );
 }
 
-function SlideListaCriterios({ slide, tema }) {
+function SlideListaCriterios({ slide, tema, resaltadoIdx, onResaltar }) {
   const coloresAll = [tema.acento, tema.azul, tema.verde, tema.rojo];
   const bgColoresAll = [tema.acentoMed, tema.azulMed, "rgba(74,222,128,0.1)", "rgba(248,113,113,0.10)"];
   const winW = useWindowWidth();
@@ -724,8 +740,21 @@ function SlideListaCriterios({ slide, tema }) {
           alignContent: "center"
         }}
       >
-        {slide.criterios.map((c, i) => (
-          <div key={i} style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+        {slide.criterios.map((c, i) => {
+          const activo = resaltadoIdx === i;
+          return (
+          <div
+            key={i}
+            onClick={() => onResaltar && onResaltar(i)}
+            style={{
+              display: "flex", flexDirection: "column", gap: 6,
+              borderRadius: narrow ? 8 : 10,
+              boxShadow: activo ? `0 0 0 2px ${tema.acentoBorde}, 0 0 16px ${tema.acentoBorde}` : "none",
+              transform: activo ? "scale(1.01)" : "scale(1)",
+              transition: "all 0.2s",
+              cursor: onResaltar ? "pointer" : "default"
+            }}
+          >
 
             {/* Card: badge + text */}
             <div
@@ -733,8 +762,8 @@ function SlideListaCriterios({ slide, tema }) {
                 display: "flex",
                 alignItems: "center",
                 gap: narrow ? 10 : 14,
-                background: tema.card,
-                border: `1px solid ${tema.border}`,
+                background: activo ? tema.acentoSuave : tema.card,
+                border: `1px solid ${activo ? tema.acento : tema.border}`,
                 borderRadius: narrow ? 8 : 10,
                 padding: narrow ? "8px 12px" : "12px 18px"
               }}
@@ -776,7 +805,8 @@ function SlideListaCriterios({ slide, tema }) {
             </div>
 
           </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
@@ -1285,7 +1315,7 @@ function Ce3AlaSVG({ tema }) {
   );
 }
 
-function SlideCriterioDetalle({ slide, tema }) {
+function SlideCriterioDetalle({ slide, tema, resaltadoIdx, onResaltar }) {
   const compact = !!slide.svgDiagram;
   const winW = useWindowWidth();
   const narrow = winW < 500;
@@ -1304,11 +1334,16 @@ function SlideCriterioDetalle({ slide, tema }) {
       <Encabezado titulo={slide.titulo} etiqueta={slide.etiqueta} tema={tema} />
 
       <div
+        onClick={() => onResaltar && onResaltar(0)}
         style={{
           background: tema.acentoSuave,
-          border: `1px solid ${tema.acentoBorde}`,
+          border: `1px solid ${resaltadoIdx === 0 ? tema.acento : tema.acentoBorde}`,
           borderRadius: 10,
-          padding: compact ? "14px 22px" : "20px 28px"
+          padding: compact ? "14px 22px" : "20px 28px",
+          boxShadow: resaltadoIdx === 0 ? `0 0 0 2px ${tema.acentoBorde}, 0 0 16px ${tema.acentoBorde}` : "none",
+          transform: resaltadoIdx === 0 ? "scale(1.01)" : "scale(1)",
+          transition: "all 0.2s",
+          cursor: onResaltar ? "pointer" : "default"
         }}
       >
         <p
@@ -1336,11 +1371,16 @@ function SlideCriterioDetalle({ slide, tema }) {
       {slide.svgDiagram === "laa-cong-detalle" && <CongLAADetalleSVG tema={tema} />}
 
       <div
+        onClick={() => onResaltar && onResaltar(1)}
         style={{
           background: tema.azulSuave,
-          border: `1px solid ${tema.azulBorde}`,
+          border: `1px solid ${resaltadoIdx === 1 ? tema.azul : tema.azulBorde}`,
           borderRadius: 10,
-          padding: compact ? "12px 20px" : "18px 24px"
+          padding: compact ? "12px 20px" : "18px 24px",
+          boxShadow: resaltadoIdx === 1 ? `0 0 0 2px ${tema.azulBorde}, 0 0 16px ${tema.azulBorde}` : "none",
+          transform: resaltadoIdx === 1 ? "scale(1.01)" : "scale(1)",
+          transition: "all 0.2s",
+          cursor: onResaltar ? "pointer" : "default"
         }}
       >
         <div
@@ -1516,7 +1556,7 @@ function EjCongLAASVG({ tema }) {
   );
 }
 
-function SlideEjemplo({ slide, tema }) {
+function SlideEjemplo({ slide, tema, resaltadoIdx, onResaltar }) {
   const compact = !!slide.svgDiagram;
   const winW = useWindowWidth();
   const narrow = winW < 500;
@@ -1585,8 +1625,24 @@ function SlideEjemplo({ slide, tema }) {
       {slide.svgDiagram === "ej-cong-laa" && <EjCongLAASVG  tema={tema} />}
 
       <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-        {slide.pasos.map((p, i) => (
-          <div key={i} style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
+        {slide.pasos.map((p, i) => {
+          const activo = resaltadoIdx === i;
+          return (
+          <div
+            key={i}
+            onClick={() => onResaltar && onResaltar(i)}
+            style={{
+              display: "flex", gap: 14, alignItems: "flex-start",
+              background: activo ? tema.acentoSuave : "transparent",
+              border: `1px solid ${activo ? tema.acento : "transparent"}`,
+              borderRadius: 8,
+              padding: activo ? "8px 12px" : "0",
+              boxShadow: activo ? `0 0 0 2px ${tema.acentoBorde}, 0 0 16px ${tema.acentoBorde}` : "none",
+              transform: activo ? "scale(1.01)" : "scale(1)",
+              transition: "all 0.2s",
+              cursor: onResaltar ? "pointer" : "default"
+            }}
+          >
             <div
               style={{
                 minWidth: 26,
@@ -1611,7 +1667,8 @@ function SlideEjemplo({ slide, tema }) {
               <M>{p.math}</M>
             </div>
           </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
@@ -1903,7 +1960,7 @@ function SlideEjercicio({ slide, modo, votos, totalVotos, respuestaDada, onRespo
   );
 }
 
-function SlideResumen({ slide, tema }) {
+function SlideResumen({ slide, tema, resaltadoIdx, onResaltar }) {
   return (
     <div
       style={{
@@ -1917,17 +1974,24 @@ function SlideResumen({ slide, tema }) {
     >
       <Encabezado titulo={slide.titulo} etiqueta={slide.etiqueta} tema={tema} />
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-        {slide.puntos.map((p, i) => (
+        {slide.puntos.map((p, i) => {
+          const activo = resaltadoIdx === i;
+          return (
           <div
             key={i}
+            onClick={() => onResaltar && onResaltar(i)}
             style={{
-              background: tema.card,
-              border: `1px solid ${tema.border}`,
+              background: activo ? tema.acentoSuave : tema.card,
+              border: `1px solid ${activo ? tema.acento : tema.border}`,
               borderRadius: 10,
               padding: "14px 18px",
               display: "flex",
               gap: 12,
-              alignItems: "flex-start"
+              alignItems: "flex-start",
+              boxShadow: activo ? `0 0 0 2px ${tema.acentoBorde}, 0 0 16px ${tema.acentoBorde}` : "none",
+              transform: activo ? "scale(1.01)" : "scale(1)",
+              transition: "all 0.2s",
+              cursor: onResaltar ? "pointer" : "default"
             }}
           >
             <div
@@ -1963,7 +2027,8 @@ function SlideResumen({ slide, tema }) {
               </div>
             </div>
           </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

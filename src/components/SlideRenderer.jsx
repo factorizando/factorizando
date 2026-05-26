@@ -372,7 +372,7 @@ function SlideDefinicion({ slide, tema, resaltadoIdx, onResaltar }) {
               borderRadius: 10,
               padding: narrow ? "10px 14px" : "14px 18px",
               boxShadow: activo ? `0 0 0 2px ${tema.acentoBorde}, 0 0 16px ${tema.acentoBorde}` : "none",
-              transform: activo ? "scale(1.01)" : "scale(1)",
+              transform: "none",
               transition: "all 0.2s",
               cursor: onResaltar ? "pointer" : "default"
             }}
@@ -496,7 +496,7 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar }) {
               borderRadius: 8,
               padding: compact ? "9px 18px" : "13px 22px",
               boxShadow: activo ? `0 0 0 2px ${tema.acentoBorde}, 0 0 16px ${tema.acentoBorde}` : "none",
-              transform: activo ? "scale(1.01)" : "scale(1)",
+              transform: "none",
               transition: "all 0.2s",
               cursor: onResaltar ? "pointer" : "default"
             }}
@@ -750,7 +750,7 @@ function SlideListaCriterios({ slide, tema, resaltadoIdx, onResaltar }) {
               display: "flex", flexDirection: "column", gap: 6,
               borderRadius: narrow ? 8 : 10,
               boxShadow: activo ? `0 0 0 2px ${tema.acentoBorde}, 0 0 16px ${tema.acentoBorde}` : "none",
-              transform: activo ? "scale(1.01)" : "scale(1)",
+              transform: "none",
               transition: "all 0.2s",
               cursor: onResaltar ? "pointer" : "default"
             }}
@@ -1341,7 +1341,7 @@ function SlideCriterioDetalle({ slide, tema, resaltadoIdx, onResaltar }) {
           borderRadius: 10,
           padding: compact ? "14px 22px" : "20px 28px",
           boxShadow: resaltadoIdx === 0 ? `0 0 0 2px ${tema.acentoBorde}, 0 0 16px ${tema.acentoBorde}` : "none",
-          transform: resaltadoIdx === 0 ? "scale(1.01)" : "scale(1)",
+          transform: "none",
           transition: "all 0.2s",
           cursor: onResaltar ? "pointer" : "default"
         }}
@@ -1378,7 +1378,7 @@ function SlideCriterioDetalle({ slide, tema, resaltadoIdx, onResaltar }) {
           borderRadius: 10,
           padding: compact ? "12px 20px" : "18px 24px",
           boxShadow: resaltadoIdx === 1 ? `0 0 0 2px ${tema.azulBorde}, 0 0 16px ${tema.azulBorde}` : "none",
-          transform: resaltadoIdx === 1 ? "scale(1.01)" : "scale(1)",
+          transform: "none",
           transition: "all 0.2s",
           cursor: onResaltar ? "pointer" : "default"
         }}
@@ -1638,7 +1638,7 @@ function SlideEjemplo({ slide, tema, resaltadoIdx, onResaltar }) {
               borderRadius: 8,
               padding: activo ? "8px 12px" : "0",
               boxShadow: activo ? `0 0 0 2px ${tema.acentoBorde}, 0 0 16px ${tema.acentoBorde}` : "none",
-              transform: activo ? "scale(1.01)" : "scale(1)",
+              transform: "none",
               transition: "all 0.2s",
               cursor: onResaltar ? "pointer" : "default"
             }}
@@ -1889,7 +1889,7 @@ function SlideEjercicio({ slide, modo, votos, totalVotos, respuestaDada, onRespo
                   gap: 8,
                   minHeight: 60,
                   boxShadow: resaltado ? `0 0 0 2px ${tema.acentoBorde}, 0 0 18px ${tema.acentoBorde}` : "none",
-                  transform: resaltado ? "scale(1.01)" : "scale(1)",
+                  transform: "none",
                 }}
               >
                 <span
@@ -1989,7 +1989,7 @@ function SlideResumen({ slide, tema, resaltadoIdx, onResaltar }) {
               gap: 12,
               alignItems: "flex-start",
               boxShadow: activo ? `0 0 0 2px ${tema.acentoBorde}, 0 0 16px ${tema.acentoBorde}` : "none",
-              transform: activo ? "scale(1.01)" : "scale(1)",
+              transform: "none",
               transition: "all 0.2s",
               cursor: onResaltar ? "pointer" : "default"
             }}
@@ -2082,7 +2082,7 @@ function SlideReglaRica({ slide, tema, modo, resaltadoIdx, onResaltar }) {
         const handleClick = () => onResaltar && onResaltar(i);
         const sharedActive = {
           boxShadow: activo ? `0 0 0 2px ${tema.acentoBorde}, 0 0 18px ${tema.acentoBorde}` : "none",
-          transform: activo ? "scale(1.01)" : "scale(1)",
+          transform: "none",
           transition: "all 0.2s",
           cursor: clickable ? "pointer" : "default",
         };
@@ -2361,7 +2361,7 @@ function SlideRegla({ slide, tema, modo, resaltadoIdx, onResaltar }) {
               flexDirection: "column",
               cursor: modo === "director" ? "pointer" : "default",
               boxShadow: activo ? `0 0 0 2px ${tema.acentoBorde}, 0 0 18px ${tema.acentoBorde}` : "none",
-              transform: activo ? "scale(1.015)" : "scale(1)",
+              transform: "none",
               transition: "all 0.2s",
             }}
           >

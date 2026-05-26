@@ -205,6 +205,78 @@ export const PRESENTACION = {
       ]
     },
 
+    // ── EJERCICIOS DE CONGRUENCIA ─────────────────────────────────────────────
+
+    {
+      id: "ce1",
+      tipo: "ejercicio",
+      etiqueta: "Congruencia · Ejercicio 1 / 5",
+      pregunta: "Dos triángulos tienen sus tres pares de lados correspondientes iguales: AB = DE, BC = EF y CA = FD. ¿Qué criterio garantiza su congruencia?",
+      math_pregunta: "AB = DE,\\quad BC = EF,\\quad CA = FD",
+      opciones: ["AA", "LAL", "LLL", "LAA"],
+      correcta: 2,
+      explicacion: "LLL (Lado-Lado-Lado): si los tres pares de lados correspondientes son iguales, los triángulos son necesariamente congruentes.",
+      pasos: []
+    },
+
+    {
+      id: "ce2",
+      tipo: "ejercicio",
+      etiqueta: "Congruencia · Ejercicio 2 / 5",
+      pregunta: "△ABC ≅ △DEF. Si AB = 7, BC = 10 y CA = 8, ¿cuánto mide EF?",
+      math_pregunta: "\\triangle ABC \\cong \\triangle DEF,\\quad AB = 7,\\; BC = 10,\\; CA = 8",
+      opciones: ["7", "8", "10", "No se puede determinar"],
+      correcta: 2,
+      explicacion: "En triángulos congruentes los lados correspondientes son iguales. EF corresponde a BC, por lo tanto EF = BC = 10.",
+      pasos: [
+        { pre: "Correspondencia de lados: ", math: "BC \\leftrightarrow EF \\implies EF = BC = 10" }
+      ]
+    },
+
+    {
+      id: "ce3",
+      tipo: "ejercicio",
+      etiqueta: "Congruencia · Ejercicio 3 / 5",
+      pregunta: "En △ABC y △DEF se cumple que ∠A = ∠D = 60°, AB = DE = 8 y ∠B = ∠E = 50°. ¿Qué criterio de congruencia aplica?",
+      math_pregunta: "\\angle A = \\angle D = 60^\\circ,\\quad AB = DE = 8,\\quad \\angle B = \\angle E = 50^\\circ",
+      opciones: ["LLL", "LAL", "LAA", "ALA"],
+      correcta: 3,
+      explicacion: "El lado AB = DE está comprendido entre los ángulos ∠A = ∠D y ∠B = ∠E. Eso es exactamente el criterio ALA: Ángulo–Lado–Ángulo.",
+      pasos: []
+    },
+
+    {
+      id: "ce4",
+      tipo: "ejercicio",
+      etiqueta: "Congruencia · Ejercicio 4 / 5",
+      pregunta: "Dos triángulos tienen sus tres ángulos iguales: ∠A = ∠D, ∠B = ∠E, ∠C = ∠F. ¿Se puede concluir que son congruentes?",
+      math_pregunta: "\\angle A = \\angle D,\\quad \\angle B = \\angle E,\\quad \\angle C = \\angle F",
+      opciones: [
+        "Sí, por el criterio ALA",
+        "Sí, ángulos iguales siempre implican congruencia",
+        "No, pueden ser semejantes pero de distinto tamaño",
+        "No, se necesitan al menos cuatro datos iguales"
+      ],
+      correcta: 2,
+      explicacion: "AAA garantiza semejanza, no congruencia. Dos triángulos pueden tener los mismos ángulos y ser de distinto tamaño: uno es simplemente una ampliación del otro.",
+      pasos: []
+    },
+
+    {
+      id: "ce5",
+      tipo: "ejercicio",
+      etiqueta: "Congruencia · Ejercicio 5 / 5",
+      pregunta: "Si △PQR ≅ △XYZ, ∠P = 55° y ∠Q = 75°, ¿cuánto mide ∠Z?",
+      math_pregunta: "\\triangle PQR \\cong \\triangle XYZ,\\quad \\angle P = 55^\\circ,\\quad \\angle Q = 75^\\circ",
+      opciones: ["55°", "75°", "50°", "60°"],
+      correcta: 2,
+      explicacion: "Primero se calcula ∠R = 180° − 55° − 75° = 50°. Por congruencia △PQR ≅ △XYZ, el vértice Z corresponde al vértice R, por lo que ∠Z = ∠R = 50°.",
+      pasos: [
+        { pre: "Tercer ángulo de △PQR: ", math: "\\angle R = 180^\\circ - 55^\\circ - 75^\\circ = 50^\\circ" },
+        { pre: "Por congruencia (Z ↔ R): ", math: "\\angle Z = \\angle R = 50^\\circ" }
+      ]
+    },
+
     // ── SEMEJANZA ─────────────────────────────────────────────────────────────
 
     {

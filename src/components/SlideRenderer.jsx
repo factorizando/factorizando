@@ -1556,6 +1556,221 @@ function EjCongLAASVG({ tema }) {
   );
 }
 
+// ── Semejanza example SVGs ────────────────────────────────────────────────────
+
+function SeAaEj1SVG({ tema }) {
+  const A=[86,14],B=[8,122],C=[178,122],D=[264,14],E=[194,122],F=[354,122];
+  const {vadd,vsub,vscale,vunit,fmt}=_svgH();
+  function arcPath(V,P1,P2,r){const s=vadd(V,vscale(vunit(vsub(P1,V)),r)),e=vadd(V,vscale(vunit(vsub(P2,V)),r));return`M ${fmt(s)} A ${r},${r} 0 0,1 ${fmt(e)}`;}
+  const pts=ps=>ps.map(([x,y])=>`${x},${y}`).join(" ");
+  const st="rgba(240,236,227,0.72)";
+  return (
+    <svg viewBox="0 0 370 145" width="100%" style={{display:"block",maxHeight:145}}>
+      <polygon points={pts([A,B,C])} fill={tema.azulSuave} stroke="none"/>
+      <polygon points={pts([D,E,F])} fill={tema.azulSuave} stroke="none"/>
+      <line x1={A[0]} y1={A[1]} x2={B[0]} y2={B[1]} stroke={st} strokeWidth="2"/>
+      <line x1={B[0]} y1={B[1]} x2={C[0]} y2={C[1]} stroke={st} strokeWidth="2"/>
+      <line x1={C[0]} y1={C[1]} x2={A[0]} y2={A[1]} stroke={st} strokeWidth="2"/>
+      <line x1={D[0]} y1={D[1]} x2={E[0]} y2={E[1]} stroke={st} strokeWidth="2"/>
+      <line x1={E[0]} y1={E[1]} x2={F[0]} y2={F[1]} stroke={st} strokeWidth="2"/>
+      <line x1={F[0]} y1={F[1]} x2={D[0]} y2={D[1]} stroke={st} strokeWidth="2"/>
+      <path d={arcPath(A,C,B,22)} stroke={tema.verde} strokeWidth="1.8" fill="none"/>
+      <path d={arcPath(D,F,E,22)} stroke={tema.verde} strokeWidth="1.8" fill="none"/>
+      <path d={arcPath(B,A,C,22)} stroke={tema.azul}  strokeWidth="1.8" fill="none"/>
+      <path d={arcPath(E,D,F,22)} stroke={tema.azul}  strokeWidth="1.8" fill="none"/>
+      <text x="86"  y="48"  fill={tema.verde} fontSize="10" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">70°</text>
+      <text x="264" y="48"  fill={tema.verde} fontSize="10" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">70°</text>
+      <text x="36"  y="110" fill={tema.azul}  fontSize="10" fontFamily="'DM Sans',sans-serif" fontWeight="600">60°</text>
+      <text x="214" y="110" fill={tema.azul}  fontSize="10" fontFamily="'DM Sans',sans-serif" fontWeight="600">60°</text>
+      <text x="186" y="74"  fill="rgba(240,236,227,0.30)" fontSize="26" fontFamily="Georgia,serif" textAnchor="middle">∼</text>
+      <text x="86"  y="5"   fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
+      <text x="4"   y="138" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="178" y="138" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">C</text>
+      <text x="264" y="5"   fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
+      <text x="194" y="138" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">E</text>
+      <text x="360" y="129" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">F</text>
+    </svg>
+  );
+}
+
+function SeAaEj2SVG({ tema }) {
+  // Big △ABC AB=6,BC=9; Small △DEF DE=4,EF=6 (k=3/2 — same angles, different sizes)
+  const A=[86,14],B=[8,122],C=[178,122];
+  const D=[274,50],E=[218,122],F=[330,122];
+  const pts=ps=>ps.map(([x,y])=>`${x},${y}`).join(" ");
+  const dim="rgba(240,236,227,0.28)";
+  return (
+    <svg viewBox="0 0 370 145" width="100%" style={{display:"block",maxHeight:145}}>
+      <polygon points={pts([A,B,C])} fill={tema.azulSuave} stroke="none"/>
+      <polygon points={pts([D,E,F])} fill={tema.azulSuave} stroke="none"/>
+      <line x1={A[0]} y1={A[1]} x2={B[0]} y2={B[1]} stroke={tema.azul}  strokeWidth="2.4"/>
+      <line x1={B[0]} y1={B[1]} x2={C[0]} y2={C[1]} stroke={tema.verde} strokeWidth="2.4"/>
+      <line x1={C[0]} y1={C[1]} x2={A[0]} y2={A[1]} stroke={dim}        strokeWidth="1.5"/>
+      <line x1={D[0]} y1={D[1]} x2={E[0]} y2={E[1]} stroke={tema.azul}  strokeWidth="2.4"/>
+      <line x1={E[0]} y1={E[1]} x2={F[0]} y2={F[1]} stroke={tema.verde} strokeWidth="2.4"/>
+      <line x1={F[0]} y1={F[1]} x2={D[0]} y2={D[1]} stroke={dim}        strokeWidth="1.5"/>
+      <text x="29"  y="62"  fill={tema.azul}  fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">6</text>
+      <text x="93"  y="136" fill={tema.verde} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">9</text>
+      <text x="214" y="82"  fill={tema.azul}  fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">4</text>
+      <text x="274" y="136" fill={tema.verde} fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">6</text>
+      <text x="194" y="96"  fill="rgba(240,236,227,0.50)" fontSize="13" fontWeight="700" fontFamily="'DM Sans',sans-serif" textAnchor="middle">k=3/2</text>
+      <text x="186" y="78"  fill="rgba(240,236,227,0.28)" fontSize="22" fontFamily="Georgia,serif" textAnchor="middle">∼</text>
+      <text x="86"  y="5"   fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
+      <text x="4"   y="138" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="178" y="138" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">C</text>
+      <text x="274" y="43"  fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
+      <text x="210" y="134" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">E</text>
+      <text x="334" y="134" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">F</text>
+    </svg>
+  );
+}
+
+function SeLllEj1SVG({ tema }) {
+  // Sides AB=4(azul),BC=8(verde),CA=6(acento) | DE=6,EF=12,FD=9 — k=2/3
+  const A=[86,14],B=[8,122],C=[178,122],D=[264,14],E=[194,122],F=[354,122];
+  const {mid,vsub,vadd,vscale,vunit,vperp,fmt}=_svgH();
+  function tp(P1,P2){const m=mid(P1,P2),p=vperp(vunit(vsub(P2,P1)));return`M ${fmt(vadd(m,vscale(p,6)))} L ${fmt(vadd(m,vscale(p,-6)))}`;}
+  function t2p(P1,P2){const m=mid(P1,P2),d=vunit(vsub(P2,P1)),p=vperp(d);return[-4,4].map(o=>{const c=vadd(m,vscale(d,o));return`M ${fmt(vadd(c,vscale(p,6)))} L ${fmt(vadd(c,vscale(p,-6)))}`;}).join(" ");}
+  function t3p(P1,P2){const m=mid(P1,P2),d=vunit(vsub(P2,P1)),p=vperp(d);return[-7,0,7].map(o=>{const c=vadd(m,vscale(d,o));return`M ${fmt(vadd(c,vscale(p,6)))} L ${fmt(vadd(c,vscale(p,-6)))}`;}).join(" ");}
+  const pts=ps=>ps.map(fmt).join(" ");
+  return (
+    <svg viewBox="0 0 370 145" width="100%" style={{display:"block",maxHeight:145}}>
+      <polygon points={pts([A,B,C])} fill={tema.azulSuave} stroke="none"/>
+      <polygon points={pts([D,E,F])} fill={tema.azulSuave} stroke="none"/>
+      <line x1={A[0]} y1={A[1]} x2={B[0]} y2={B[1]} stroke={tema.azul}   strokeWidth="2.2"/>
+      <line x1={B[0]} y1={B[1]} x2={C[0]} y2={C[1]} stroke={tema.verde}  strokeWidth="2.2"/>
+      <line x1={C[0]} y1={C[1]} x2={A[0]} y2={A[1]} stroke={tema.acento} strokeWidth="2.2"/>
+      <line x1={D[0]} y1={D[1]} x2={E[0]} y2={E[1]} stroke={tema.azul}   strokeWidth="2.2"/>
+      <line x1={E[0]} y1={E[1]} x2={F[0]} y2={F[1]} stroke={tema.verde}  strokeWidth="2.2"/>
+      <line x1={F[0]} y1={F[1]} x2={D[0]} y2={D[1]} stroke={tema.acento} strokeWidth="2.2"/>
+      <path d={tp(A,B)}  stroke={tema.azul}   strokeWidth="1.8" fill="none"/>
+      <path d={tp(D,E)}  stroke={tema.azul}   strokeWidth="1.8" fill="none"/>
+      <path d={t2p(B,C)} stroke={tema.verde}  strokeWidth="1.8" fill="none"/>
+      <path d={t2p(E,F)} stroke={tema.verde}  strokeWidth="1.8" fill="none"/>
+      <path d={t3p(C,A)} stroke={tema.acento} strokeWidth="1.8" fill="none"/>
+      <path d={t3p(F,D)} stroke={tema.acento} strokeWidth="1.8" fill="none"/>
+      <text x="29"  y="62"  fill={tema.azul}   fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">4</text>
+      <text x="93"  y="136" fill={tema.verde}  fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">8</text>
+      <text x="148" y="61"  fill={tema.acento} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700">6</text>
+      <text x="207" y="62"  fill={tema.azul}   fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">6</text>
+      <text x="274" y="136" fill={tema.verde}  fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">12</text>
+      <text x="327" y="61"  fill={tema.acento} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700">9</text>
+      <text x="186" y="74"  fill="rgba(240,236,227,0.30)" fontSize="26" fontFamily="Georgia,serif" textAnchor="middle">∼</text>
+      <text x="86"  y="5"   fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
+      <text x="4"   y="138" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="178" y="138" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">C</text>
+      <text x="264" y="5"   fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
+      <text x="194" y="138" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">E</text>
+      <text x="360" y="129" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">F</text>
+    </svg>
+  );
+}
+
+function SeLllEj2SVG({ tema }) {
+  // Sides AB=10(azul),BC=20(verde),CA=15(acento) | DE=6,EF=12,FD=9 — k=5/3
+  const A=[86,14],B=[8,122],C=[178,122],D=[264,14],E=[194,122],F=[354,122];
+  const pts=ps=>ps.map(([x,y])=>`${x},${y}`).join(" ");
+  return (
+    <svg viewBox="0 0 370 145" width="100%" style={{display:"block",maxHeight:145}}>
+      <polygon points={pts([A,B,C])} fill={tema.azulSuave} stroke="none"/>
+      <polygon points={pts([D,E,F])} fill={tema.azulSuave} stroke="none"/>
+      <line x1={A[0]} y1={A[1]} x2={B[0]} y2={B[1]} stroke={tema.azul}   strokeWidth="2.2"/>
+      <line x1={B[0]} y1={B[1]} x2={C[0]} y2={C[1]} stroke={tema.verde}  strokeWidth="2.2"/>
+      <line x1={C[0]} y1={C[1]} x2={A[0]} y2={A[1]} stroke={tema.acento} strokeWidth="2.2"/>
+      <line x1={D[0]} y1={D[1]} x2={E[0]} y2={E[1]} stroke={tema.azul}   strokeWidth="2.2"/>
+      <line x1={E[0]} y1={E[1]} x2={F[0]} y2={F[1]} stroke={tema.verde}  strokeWidth="2.2"/>
+      <line x1={F[0]} y1={F[1]} x2={D[0]} y2={D[1]} stroke={tema.acento} strokeWidth="2.2"/>
+      <text x="29"  y="62"  fill={tema.azul}   fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">10</text>
+      <text x="93"  y="136" fill={tema.verde}  fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">20</text>
+      <text x="148" y="61"  fill={tema.acento} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700">15</text>
+      <text x="207" y="62"  fill={tema.azul}   fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">6</text>
+      <text x="274" y="136" fill={tema.verde}  fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">12</text>
+      <text x="327" y="61"  fill={tema.acento} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700">9</text>
+      <text x="186" y="74"  fill="rgba(240,236,227,0.30)" fontSize="26" fontFamily="Georgia,serif" textAnchor="middle">∼</text>
+      <text x="86"  y="5"   fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
+      <text x="4"   y="138" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="178" y="138" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">C</text>
+      <text x="264" y="5"   fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
+      <text x="194" y="138" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">E</text>
+      <text x="360" y="129" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">F</text>
+    </svg>
+  );
+}
+
+function SeLalEj1SVG({ tema }) {
+  // LAL: ∠A=∠D=55° (verde), AB/DE (azul 1 tick), AC/FD... wait CA/FD (acento 2 ticks)
+  const A=[86,14],B=[8,122],C=[178,122],D=[264,14],E=[194,122],F=[354,122];
+  const {mid,vsub,vadd,vscale,vunit,vperp,fmt}=_svgH();
+  function tp(P1,P2){const m=mid(P1,P2),p=vperp(vunit(vsub(P2,P1)));return`M ${fmt(vadd(m,vscale(p,6)))} L ${fmt(vadd(m,vscale(p,-6)))}`;}
+  function t2p(P1,P2){const m=mid(P1,P2),d=vunit(vsub(P2,P1)),p=vperp(d);return[-4,4].map(o=>{const c=vadd(m,vscale(d,o));return`M ${fmt(vadd(c,vscale(p,6)))} L ${fmt(vadd(c,vscale(p,-6)))}`;}).join(" ");}
+  function arcPath(V,P1,P2,r){const s=vadd(V,vscale(vunit(vsub(P1,V)),r)),e=vadd(V,vscale(vunit(vsub(P2,V)),r));return`M ${fmt(s)} A ${r},${r} 0 0,1 ${fmt(e)}`;}
+  const pts=ps=>ps.map(fmt).join(" ");
+  const dim="rgba(240,236,227,0.25)";
+  return (
+    <svg viewBox="0 0 370 145" width="100%" style={{display:"block",maxHeight:145}}>
+      <polygon points={pts([A,B,C])} fill={tema.azulSuave} stroke="none"/>
+      <polygon points={pts([D,E,F])} fill={tema.azulSuave} stroke="none"/>
+      <line x1={A[0]} y1={A[1]} x2={B[0]} y2={B[1]} stroke={tema.azul}   strokeWidth="2.2"/>
+      <line x1={B[0]} y1={B[1]} x2={C[0]} y2={C[1]} stroke={dim}          strokeWidth="1.5"/>
+      <line x1={C[0]} y1={C[1]} x2={A[0]} y2={A[1]} stroke={tema.acento} strokeWidth="2.2"/>
+      <line x1={D[0]} y1={D[1]} x2={E[0]} y2={E[1]} stroke={tema.azul}   strokeWidth="2.2"/>
+      <line x1={E[0]} y1={E[1]} x2={F[0]} y2={F[1]} stroke={dim}          strokeWidth="1.5"/>
+      <line x1={F[0]} y1={F[1]} x2={D[0]} y2={D[1]} stroke={tema.acento} strokeWidth="2.2"/>
+      <path d={tp(A,B)}  stroke={tema.azul}   strokeWidth="1.8" fill="none"/>
+      <path d={tp(D,E)}  stroke={tema.azul}   strokeWidth="1.8" fill="none"/>
+      <path d={t2p(C,A)} stroke={tema.acento} strokeWidth="1.8" fill="none"/>
+      <path d={t2p(F,D)} stroke={tema.acento} strokeWidth="1.8" fill="none"/>
+      <path d={arcPath(A,C,B,22)} stroke={tema.verde} strokeWidth="1.8" fill="none"/>
+      <path d={arcPath(D,F,E,22)} stroke={tema.verde} strokeWidth="1.8" fill="none"/>
+      <text x="86"  y="48"  fill={tema.verde} fontSize="10" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">55°</text>
+      <text x="264" y="48"  fill={tema.verde} fontSize="10" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">55°</text>
+      <text x="186" y="74"  fill="rgba(240,236,227,0.30)" fontSize="26" fontFamily="Georgia,serif" textAnchor="middle">∼</text>
+      <text x="86"  y="5"   fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
+      <text x="4"   y="138" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="178" y="138" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">C</text>
+      <text x="264" y="5"   fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
+      <text x="194" y="138" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">E</text>
+      <text x="360" y="129" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">F</text>
+    </svg>
+  );
+}
+
+function SeLalEj2SVG({ tema }) {
+  // LAL: ∠A=∠D=40°, AB=8, AC=12, DE=4, DF=?
+  const A=[86,14],B=[8,122],C=[178,122],D=[264,14],E=[194,122],F=[354,122];
+  const {vadd,vsub,vscale,vunit,fmt}=_svgH();
+  function arcPath(V,P1,P2,r){const s=vadd(V,vscale(vunit(vsub(P1,V)),r)),e=vadd(V,vscale(vunit(vsub(P2,V)),r));return`M ${fmt(s)} A ${r},${r} 0 0,1 ${fmt(e)}`;}
+  const pts=ps=>ps.map(([x,y])=>`${x},${y}`).join(" ");
+  const dim="rgba(240,236,227,0.25)";
+  return (
+    <svg viewBox="0 0 370 145" width="100%" style={{display:"block",maxHeight:145}}>
+      <polygon points={pts([A,B,C])} fill={tema.azulSuave} stroke="none"/>
+      <polygon points={pts([D,E,F])} fill={tema.azulSuave} stroke="none"/>
+      <line x1={A[0]} y1={A[1]} x2={B[0]} y2={B[1]} stroke={tema.azul}   strokeWidth="2.4"/>
+      <line x1={B[0]} y1={B[1]} x2={C[0]} y2={C[1]} stroke={dim}          strokeWidth="1.5"/>
+      <line x1={C[0]} y1={C[1]} x2={A[0]} y2={A[1]} stroke={tema.acento} strokeWidth="2.4"/>
+      <line x1={D[0]} y1={D[1]} x2={E[0]} y2={E[1]} stroke={tema.azul}   strokeWidth="2.4"/>
+      <line x1={E[0]} y1={E[1]} x2={F[0]} y2={F[1]} stroke={dim}          strokeWidth="1.5"/>
+      <line x1={F[0]} y1={F[1]} x2={D[0]} y2={D[1]} stroke={tema.acento} strokeWidth="2.4"/>
+      <path d={arcPath(A,C,B,22)} stroke={tema.verde} strokeWidth="1.8" fill="none"/>
+      <path d={arcPath(D,F,E,22)} stroke={tema.verde} strokeWidth="1.8" fill="none"/>
+      <text x="86"  y="48"  fill={tema.verde} fontSize="10" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">40°</text>
+      <text x="264" y="48"  fill={tema.verde} fontSize="10" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">40°</text>
+      <text x="29"  y="62"  fill={tema.azul}   fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">8</text>
+      <text x="148" y="61"  fill={tema.acento} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700">12</text>
+      <text x="207" y="62"  fill={tema.azul}   fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">4</text>
+      <text x="327" y="61"  fill={tema.acento} fontSize="14" fontFamily="'DM Sans',sans-serif" fontWeight="700">?</text>
+      <text x="186" y="74"  fill="rgba(240,236,227,0.30)" fontSize="26" fontFamily="Georgia,serif" textAnchor="middle">∼</text>
+      <text x="86"  y="5"   fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
+      <text x="4"   y="138" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="178" y="138" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">C</text>
+      <text x="264" y="5"   fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
+      <text x="194" y="138" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">E</text>
+      <text x="360" y="129" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">F</text>
+    </svg>
+  );
+}
+
 function SlideEjemplo({ slide, tema, resaltadoIdx, onResaltar }) {
   const compact = !!slide.svgDiagram;
   const winW = useWindowWidth();
@@ -1623,6 +1838,12 @@ function SlideEjemplo({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "ej-cong-lal" && <EjCongLALSVG  tema={tema} />}
       {slide.svgDiagram === "ej-cong-ala" && <EjCongALASVG  tema={tema} />}
       {slide.svgDiagram === "ej-cong-laa" && <EjCongLAASVG  tema={tema} />}
+      {slide.svgDiagram === "se-aa-ej1"   && <SeAaEj1SVG    tema={tema} />}
+      {slide.svgDiagram === "se-aa-ej2"   && <SeAaEj2SVG    tema={tema} />}
+      {slide.svgDiagram === "se-lll-ej1"  && <SeLllEj1SVG   tema={tema} />}
+      {slide.svgDiagram === "se-lll-ej2"  && <SeLllEj2SVG   tema={tema} />}
+      {slide.svgDiagram === "se-lal-ej1"  && <SeLalEj1SVG   tema={tema} />}
+      {slide.svgDiagram === "se-lal-ej2"  && <SeLalEj2SVG   tema={tema} />}
 
       <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
         {slide.pasos.map((p, i) => {
@@ -1756,12 +1977,129 @@ function Ce5AngleSVG({ tema }) {
   );
 }
 
+// ── Semejanza advanced exercise SVGs ─────────────────────────────────────────
+
+function SeAreasSVG({ tema }) {
+  // Big △ABC and small △DEF — shows k=4, ask for area of big given area of small=7 cm²
+  const pts=ps=>ps.map(([x,y])=>`${x},${y}`).join(" ");
+  const dim="rgba(240,236,227,0.35)";
+  return (
+    <svg viewBox="0 0 388 175" width="100%" style={{display:"block",maxHeight:160}}>
+      <polygon points={pts([[95,14],[12,155],[198,155]])} fill={tema.azulSuave} stroke="none"/>
+      <polygon points={pts([[296,90],[262,155],[340,155]])} fill={tema.acentoSuave} stroke="none"/>
+      <line x1="95"  y1="14"  x2="12"  y2="155" stroke={dim} strokeWidth="1.8"/>
+      <line x1="12"  y1="155" x2="198" y2="155" stroke={dim} strokeWidth="1.8"/>
+      <line x1="198" y1="155" x2="95"  y2="14"  stroke={dim} strokeWidth="1.8"/>
+      <line x1="296" y1="90"  x2="262" y2="155" stroke={dim} strokeWidth="1.8"/>
+      <line x1="262" y1="155" x2="340" y2="155" stroke={dim} strokeWidth="1.8"/>
+      <line x1="340" y1="155" x2="296" y2="90"  stroke={dim} strokeWidth="1.8"/>
+      <text x="105" y="108" fill={tema.acento} fontSize="15" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">?</text>
+      <text x="301" y="136" fill={tema.verde}  fontSize="10" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">7 cm²</text>
+      <text x="228" y="82"  fill="rgba(240,236,227,0.28)" fontSize="20" fontFamily="Georgia,serif" textAnchor="middle">∼</text>
+      <text x="228" y="104" fill="rgba(240,236,227,0.55)" fontSize="15" fontWeight="700" fontFamily="'DM Sans',sans-serif" textAnchor="middle">k = 4</text>
+      <text x="95"  y="7"   fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
+      <text x="4"   y="165" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="202" y="165" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">C</text>
+      <text x="296" y="83"  fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
+      <text x="254" y="168" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">E</text>
+      <text x="344" y="168" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">F</text>
+    </svg>
+  );
+}
+
+function SePitSVG({ tema }) {
+  // Right △ with altitude: A left, B right (both top), C bottom (right angle at C)
+  // H = foot of altitude on AB; AH=4, HB=9, CH=h=6
+  const A=[14,14],B=[248,14],H=[86,14],C=[86,122];
+  const pts=ps=>ps.map(([x,y])=>`${x},${y}`).join(" ");
+  return (
+    <svg viewBox="0 0 270 140" width="100%" style={{display:"block",maxHeight:140}}>
+      <polygon points={pts([A,H,C])} fill={tema.azulSuave} stroke="none"/>
+      <polygon points={pts([H,B,C])} fill={tema.acentoSuave} stroke="none"/>
+      <line x1={A[0]} y1={A[1]} x2={B[0]} y2={B[1]} stroke="rgba(240,236,227,0.60)" strokeWidth="2"/>
+      <line x1={A[0]} y1={A[1]} x2={C[0]} y2={C[1]} stroke={tema.azul}   strokeWidth="2.2"/>
+      <line x1={B[0]} y1={B[1]} x2={C[0]} y2={C[1]} stroke={tema.acento} strokeWidth="2.2"/>
+      <line x1={H[0]} y1={H[1]} x2={C[0]} y2={C[1]} stroke={tema.verde}  strokeWidth="2" strokeDasharray="5,3"/>
+      {/* Right angle square at H */}
+      <path d="M 86,22 L 94,22 L 94,14" fill="none" stroke="rgba(240,236,227,0.50)" strokeWidth="1.2"/>
+      <text x="50"  y="10"  fill={tema.azul}   fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">4</text>
+      <text x="167" y="10"  fill={tema.acento} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">9</text>
+      <text x="96"  y="72"  fill={tema.verde}  fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700">h</text>
+      <text x="14"  y="27"  fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
+      <text x="248" y="27"  fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">B</text>
+      <text x="86"  y="135" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">C</text>
+      <text x="86"  y="27"  fill={tema.verde}  fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">H</text>
+    </svg>
+  );
+}
+
+function SeParalelaSVG({ tema }) {
+  // Big △ ABC with parallel line DE∥BC; labels AD=4,DB=8,AE=3,EC=?
+  const A=[130,14],B=[8,148],C=[252,148],D=[89,59],E=[171,59];
+  const pts=ps=>ps.map(([x,y])=>`${x},${y}`).join(" ");
+  return (
+    <svg viewBox="0 0 270 162" width="100%" style={{display:"block",maxHeight:155}}>
+      <polygon points={pts([A,B,C])} fill={tema.azulSuave} stroke="none"/>
+      <polygon points={pts([A,D,E])} fill={tema.acentoSuave} stroke="none"/>
+      <line x1={A[0]} y1={A[1]} x2={B[0]} y2={B[1]} stroke="rgba(240,236,227,0.60)" strokeWidth="2"/>
+      <line x1={A[0]} y1={A[1]} x2={C[0]} y2={C[1]} stroke="rgba(240,236,227,0.60)" strokeWidth="2"/>
+      <line x1={B[0]} y1={B[1]} x2={C[0]} y2={C[1]} stroke={tema.verde}  strokeWidth="2.2"/>
+      <line x1={D[0]} y1={D[1]} x2={E[0]} y2={E[1]} stroke={tema.acento} strokeWidth="2.2"/>
+      <text x="97"  y="40"  fill={tema.azul}   fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="700">AD=4</text>
+      <text x="44"  y="108" fill="rgba(240,236,227,0.65)" fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="600">DB=8</text>
+      <text x="164" y="40"  fill={tema.acento} fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="700">AE=3</text>
+      <text x="204" y="108" fill={tema.acento} fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700">EC=?</text>
+      <text x="130" y="56"  fill={tema.acento} fontSize="9"  fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.1em">DE ∥ BC</text>
+      <text x="130" y="7"   fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
+      <text x="3"   y="158" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="256" y="158" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">C</text>
+      <text x="84"  y="58"  fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">D</text>
+      <text x="175" y="58"  fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">E</text>
+    </svg>
+  );
+}
+
+function SeSombraSVG({ tema }) {
+  // Two similar right triangles: tree 4m shadow 6m; pole shadow 9m height ?
+  const pts=ps=>ps.map(([x,y])=>`${x},${y}`).join(" ");
+  const dim="rgba(240,236,227,0.65)";
+  return (
+    <svg viewBox="0 0 380 138" width="100%" style={{display:"block",maxHeight:138}}>
+      <polygon points={pts([[50,42],[50,122],[170,122]])} fill={tema.azulSuave} stroke="none"/>
+      <polygon points={pts([[210,12],[210,122],[350,122]])} fill={tema.azulSuave} stroke="none"/>
+      <path d="M 50,114 L 58,114 L 58,122" fill="none" stroke="rgba(240,236,227,0.50)" strokeWidth="1.2"/>
+      <path d="M 210,114 L 218,114 L 218,122" fill="none" stroke="rgba(240,236,227,0.50)" strokeWidth="1.2"/>
+      <line x1="50"  y1="42"  x2="50"  y2="122" stroke={tema.verde}  strokeWidth="2.2"/>
+      <line x1="50"  y1="122" x2="170" y2="122" stroke={tema.acento} strokeWidth="2.2"/>
+      <line x1="170" y1="122" x2="50"  y2="42"  stroke={dim}          strokeWidth="1.8"/>
+      <line x1="210" y1="12"  x2="210" y2="122" stroke={tema.verde}  strokeWidth="2.2"/>
+      <line x1="210" y1="122" x2="350" y2="122" stroke={tema.acento} strokeWidth="2.2"/>
+      <line x1="350" y1="122" x2="210" y2="12"  stroke={dim}          strokeWidth="1.8"/>
+      <text x="40"  y="82"  fill={tema.verde}  fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">4 m</text>
+      <text x="110" y="136" fill={tema.acento} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">6 m</text>
+      <text x="200" y="67"  fill={tema.verde}  fontSize="14" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">?</text>
+      <text x="280" y="136" fill={tema.acento} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">9 m</text>
+      <text x="192" y="80"  fill="rgba(240,236,227,0.30)" fontSize="26" fontFamily="Georgia,serif" textAnchor="middle">∼</text>
+    </svg>
+  );
+}
+
 function renderEjercicioSVG(svgDiagram, tema) {
   if (svgDiagram === "ce1-lll")      return <Ce1LllSVG     tema={tema} />;
   if (svgDiagram === "ce2-medidas")  return <Ce2CondMedSVG tema={tema} />;
   if (svgDiagram === "ce3-ala")      return <Ce3AlaSVG     tema={tema} />;
   if (svgDiagram === "ce4-aaa")      return <Ce4AaaSVG     tema={tema} />;
   if (svgDiagram === "ce5-angulo")   return <Ce5AngleSVG   tema={tema} />;
+  if (svgDiagram === "se-aa-ej1")    return <SeAaEj1SVG    tema={tema} />;
+  if (svgDiagram === "se-aa-ej2")    return <SeAaEj2SVG    tema={tema} />;
+  if (svgDiagram === "se-lll-ej1")   return <SeLllEj1SVG   tema={tema} />;
+  if (svgDiagram === "se-lll-ej2")   return <SeLllEj2SVG   tema={tema} />;
+  if (svgDiagram === "se-lal-ej1")   return <SeLalEj1SVG   tema={tema} />;
+  if (svgDiagram === "se-lal-ej2")   return <SeLalEj2SVG   tema={tema} />;
+  if (svgDiagram === "se-areas")     return <SeAreasSVG     tema={tema} />;
+  if (svgDiagram === "se-pitagoras") return <SePitSVG       tema={tema} />;
+  if (svgDiagram === "se-paralela")  return <SeParalelaSVG  tema={tema} />;
+  if (svgDiagram === "se-sombra")    return <SeSombraSVG    tema={tema} />;
   return null;
 }
 

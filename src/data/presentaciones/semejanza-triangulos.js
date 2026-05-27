@@ -356,6 +356,78 @@ export const PRESENTACION = {
         "\\angle C = 180^\\circ - \\angle A - \\angle B = 180^\\circ - \\angle D - \\angle E = \\angle F"
     },
 
+    // ── Ejemplos y ejercicios AA ───────────────────────────────────────────────
+    {
+      id: "e14a",
+      tipo: "ejemplo",
+      titulo: "Ejemplo AA — 1",
+      etiqueta: "Criterio Ángulo–Ángulo en acción",
+      svgDiagram: "se-aa-ej1",
+      enunciado: "¿Son semejantes △ABC y △DEF si ∠A = ∠D = 70° y ∠B = ∠E = 60°?",
+      datos: [],
+      pasos: [
+        { pre: "Dos ángulos coinciden: ", math: "\\angle A = \\angle D = 70^\\circ \\checkmark" },
+        { pre: "Segundo par: ", math: "\\angle B = \\angle E = 60^\\circ \\checkmark" },
+        { pre: "Tercer ángulo se deduce: ", math: "\\angle C = \\angle F = 180^\\circ - 70^\\circ - 60^\\circ = 50^\\circ" },
+        { pre: "Conclusión (AA): ", math: "\\triangle ABC \\sim \\triangle DEF" }
+      ]
+    },
+    {
+      id: "e14b",
+      tipo: "ejemplo",
+      titulo: "Ejemplo AA — 2",
+      etiqueta: "Encontrar la razón de semejanza",
+      svgDiagram: "se-aa-ej2",
+      enunciado: "△ABC ~ △DEF por AA. Si AB = 6 y DE = 4, ¿cuál es la razón de semejanza?",
+      datos: [],
+      pasos: [
+        { pre: "Razón de semejanza: ", math: "k = \\dfrac{AB}{DE} = \\dfrac{6}{4} = \\dfrac{3}{2}" },
+        { pre: "Lados correspondientes: ", math: "\\dfrac{BC}{EF} = \\dfrac{CA}{FD} = \\dfrac{3}{2}" },
+        { pre: "Si BC = 9, entonces: ", math: "EF = \\dfrac{9}{\\;3/2\\;} = 6" }
+      ]
+    },
+    {
+      id: "s14a",
+      tipo: "ejercicio",
+      svgDiagram: "se-aa-ej1",
+      etiqueta: "AA · Ejercicio 1 / 3",
+      pregunta: "En △ABC y △DEF se sabe que ∠A = ∠D = 50° y ∠B = ∠E = 70°. ¿Son semejantes?",
+      math_pregunta: "\\angle A = \\angle D = 50^\\circ,\\quad \\angle B = \\angle E = 70^\\circ",
+      opciones: ["No, faltan datos de lados", "Sí, por criterio AA", "Solo si sus lados son iguales"],
+      correcta: 1,
+      explicacion: "Con dos pares de ángulos iguales se aplica AA. El tercer ángulo (60°) queda determinado automáticamente. No se necesitan datos de lados.",
+      pasos: []
+    },
+    {
+      id: "s14b",
+      tipo: "ejercicio",
+      svgDiagram: "se-aa-ej2",
+      etiqueta: "AA · Ejercicio 2 / 3",
+      pregunta: "△ABC ~ △DEF con k = 3/2. Si AB = 6 y BC = 9, ¿cuánto mide EF?",
+      math_pregunta: "k = \\tfrac{3}{2},\\quad AB = 6,\\quad BC = 9",
+      opciones: ["4", "6", "8"],
+      correcta: 1,
+      explicacion: "EF corresponde a BC. Como k = BC/EF = 3/2, despejamos: EF = BC·(2/3) = 9·(2/3) = 6.",
+      pasos: [
+        { pre: "Despejar EF: ", math: "EF = BC \\cdot \\dfrac{2}{3} = 9 \\cdot \\dfrac{2}{3} = 6" }
+      ]
+    },
+    {
+      id: "s14c",
+      tipo: "ejercicio",
+      svgDiagram: "se-aa-ej1",
+      etiqueta: "AA · Ejercicio 3 / 3",
+      pregunta: "En △PQR, ∠P = 65° y ∠Q = 80°. En △XYZ, ∠X = 65° y ∠Z = 35°. ¿Son semejantes?",
+      math_pregunta: "\\triangle PQR\\!:\\; \\angle P = 65^\\circ,\\; \\angle Q = 80^\\circ \\quad \\triangle XYZ\\!:\\; \\angle X = 65^\\circ,\\; \\angle Z = 35^\\circ",
+      opciones: ["No, ∠Q ≠ ∠Y", "Sí, ∠P = ∠X y ∠R = ∠Z (AA)", "Solo si también tienen un lado igual"],
+      correcta: 1,
+      explicacion: "∠R = 180°−65°−80° = 35° = ∠Z. Con ∠P = ∠X y ∠R = ∠Z se cumple AA: △PQR ~ △XYZ.",
+      pasos: [
+        { pre: "Tercer ángulo: ", math: "\\angle R = 180^\\circ - 65^\\circ - 80^\\circ = 35^\\circ = \\angle Z \\checkmark" },
+        { pre: "AA: ", math: "\\triangle PQR \\sim \\triangle XYZ" }
+      ]
+    },
+
     {
       id: 15,
       tipo: "criterio_detalle",
@@ -370,6 +442,80 @@ export const PRESENTACION = {
       math_razon: null
     },
 
+    // ── Ejemplos y ejercicios LLL ─────────────────────────────────────────────
+    {
+      id: "e15a",
+      tipo: "ejemplo",
+      titulo: "Ejemplo LLL — 1",
+      etiqueta: "Verificar proporcionalidad de los tres lados",
+      svgDiagram: "se-lll-ej1",
+      enunciado: "¿Son semejantes △ABC con lados 4, 8, 6 y △DEF con lados 6, 12, 9?",
+      datos: [],
+      pasos: [
+        { pre: "Par azul: ", math: "\\dfrac{AB}{DE} = \\dfrac{4}{6} = \\dfrac{2}{3}" },
+        { pre: "Par verde: ", math: "\\dfrac{BC}{EF} = \\dfrac{8}{12} = \\dfrac{2}{3}" },
+        { pre: "Par acento: ", math: "\\dfrac{CA}{FD} = \\dfrac{6}{9} = \\dfrac{2}{3}" },
+        { pre: "Los tres cocientes iguales → ", math: "\\triangle ABC \\sim \\triangle DEF \\;(\\text{LLL}),\\; k = \\dfrac{3}{2}" }
+      ]
+    },
+    {
+      id: "e15b",
+      tipo: "ejemplo",
+      titulo: "Ejemplo LLL — 2",
+      etiqueta: "Identificar la razón de semejanza",
+      svgDiagram: "se-lll-ej2",
+      enunciado: "△ABC tiene lados 10, 20, 15. △DEF tiene lados 6, 12, 9. ¿Son semejantes? ¿Cuál es k?",
+      datos: [],
+      pasos: [
+        { pre: "Dividir lados correspondientes: ", math: "\\dfrac{10}{6} = \\dfrac{20}{12} = \\dfrac{15}{9} = \\dfrac{5}{3}" },
+        { pre: "Razón de semejanza: ", math: "k = \\dfrac{5}{3}" },
+        { pre: "Conclusión (LLL): ", math: "\\triangle ABC \\sim \\triangle DEF" }
+      ]
+    },
+    {
+      id: "s15a",
+      tipo: "ejercicio",
+      svgDiagram: "se-lll-ej1",
+      etiqueta: "LLL · Ejercicio 1 / 3",
+      pregunta: "Un triángulo tiene lados 3, 5, 7 y otro tiene lados 6, 10, 14. ¿Son semejantes? ¿Cuál es k?",
+      math_pregunta: "\\triangle_1\\!: 3,5,7 \\quad \\triangle_2\\!: 6,10,14",
+      opciones: ["No son semejantes", "Sí, k = 2", "Sí, k = 3"],
+      correcta: 1,
+      explicacion: "6/3 = 10/5 = 14/7 = 2. Los tres cocientes son iguales, se cumple LLL con k = 2.",
+      pasos: [
+        { pre: "Cocientes: ", math: "\\dfrac{6}{3} = \\dfrac{10}{5} = \\dfrac{14}{7} = 2 \\implies k = 2" }
+      ]
+    },
+    {
+      id: "s15b",
+      tipo: "ejercicio",
+      svgDiagram: "se-lll-ej2",
+      etiqueta: "LLL · Ejercicio 2 / 3",
+      pregunta: "△ABC ~ △DEF (LLL). AB = 8, BC = 10, DE = 4. ¿Cuánto mide EF?",
+      math_pregunta: "AB = 8,\\; BC = 10,\\; DE = 4",
+      opciones: ["4", "5", "6"],
+      correcta: 1,
+      explicacion: "k = AB/DE = 8/4 = 2. Entonces EF = BC/k = 10/2 = 5.",
+      pasos: [
+        { pre: "k = AB/DE = ", math: "\\dfrac{8}{4} = 2" },
+        { pre: "EF = BC/k = ", math: "\\dfrac{10}{2} = 5" }
+      ]
+    },
+    {
+      id: "s15c",
+      tipo: "ejercicio",
+      svgDiagram: "se-lll-ej1",
+      etiqueta: "LLL · Ejercicio 3 / 3",
+      pregunta: "Triángulos con lados 12, 16, 20 y 3, 4, 5. ¿Cuál es la razón de semejanza del mayor al menor?",
+      math_pregunta: "\\triangle_1\\!: 12,16,20 \\quad \\triangle_2\\!: 3,4,5",
+      opciones: ["k = 3", "k = 4", "k = 5"],
+      correcta: 1,
+      explicacion: "12/3 = 16/4 = 20/5 = 4. La razón de semejanza del triángulo mayor al menor es k = 4.",
+      pasos: [
+        { pre: "Cocientes: ", math: "\\dfrac{12}{3} = \\dfrac{16}{4} = \\dfrac{20}{5} = 4" }
+      ]
+    },
+
     {
       id: 16,
       tipo: "criterio_detalle",
@@ -382,6 +528,79 @@ export const PRESENTACION = {
       por_que:
         "El ángulo debe ser el comprendido entre los dos lados (el que queda entre ellos). Si el ángulo fuera otro, el criterio no aplica.",
       math_razon: null
+    },
+
+    // ── Ejemplos y ejercicios LAL ─────────────────────────────────────────────
+    {
+      id: "e16a",
+      tipo: "ejemplo",
+      titulo: "Ejemplo LAL — 1",
+      etiqueta: "Ángulo comprendido entre dos lados proporcionales",
+      svgDiagram: "se-lal-ej1",
+      enunciado: "△ABC y △DEF tienen AB/DE = AC/DF = 2 y ∠A = ∠D = 55°. ¿Son semejantes?",
+      datos: [],
+      pasos: [
+        { pre: "Primer par de lados proporcionales: ", math: "\\dfrac{AB}{DE} = 2 \\checkmark" },
+        { pre: "Ángulo comprendido entre ellos: ", math: "\\angle A = \\angle D = 55^\\circ \\checkmark" },
+        { pre: "Segundo par de lados proporcionales: ", math: "\\dfrac{AC}{DF} = 2 \\checkmark" },
+        { pre: "El ángulo está entre los dos lados → ", math: "\\triangle ABC \\sim \\triangle DEF \\;(\\text{LAL})" }
+      ]
+    },
+    {
+      id: "e16b",
+      tipo: "ejemplo",
+      titulo: "Ejemplo LAL — 2",
+      etiqueta: "Encontrar un lado desconocido con LAL",
+      svgDiagram: "se-lal-ej2",
+      enunciado: "△ABC ~ △DEF (LAL). AB = 8, AC = 12, ∠A = ∠D = 40°, DE = 4. ¿Cuánto mide DF?",
+      datos: [],
+      pasos: [
+        { pre: "Razón de semejanza: ", math: "k = \\dfrac{AB}{DE} = \\dfrac{8}{4} = 2" },
+        { pre: "Ángulo comprendido coincide: ", math: "\\angle A = \\angle D = 40^\\circ \\checkmark" },
+        { pre: "Despejar DF: ", math: "DF = \\dfrac{AC}{k} = \\dfrac{12}{2} = 6" }
+      ]
+    },
+    {
+      id: "s16a",
+      tipo: "ejercicio",
+      svgDiagram: "se-lal-ej1",
+      etiqueta: "LAL · Ejercicio 1 / 3",
+      pregunta: "△ABC tiene AB = 6, AC = 10, ∠A = 45°. △DEF tiene DE = 3, DF = 5, ∠D = 45°. ¿Son semejantes?",
+      math_pregunta: "AB = 6,\\; AC = 10,\\; \\angle A = 45^\\circ \\quad DE = 3,\\; DF = 5,\\; \\angle D = 45^\\circ",
+      opciones: ["No, el ángulo es incorrecto", "Sí, por criterio LAL", "Solo si BC = EF también"],
+      correcta: 1,
+      explicacion: "AB/DE = 6/3 = 2, AC/DF = 10/5 = 2, y ∠A = ∠D = 45° (ángulo comprendido). Se cumple LAL.",
+      pasos: []
+    },
+    {
+      id: "s16b",
+      tipo: "ejercicio",
+      svgDiagram: "se-lal-ej2",
+      etiqueta: "LAL · Ejercicio 2 / 3",
+      pregunta: "△ABC ~ △DEF (LAL). AB = 9, AC = 15, DE = 6, ∠A = ∠D. ¿Cuánto mide DF?",
+      math_pregunta: "AB = 9,\\; AC = 15,\\; DE = 6",
+      opciones: ["8", "9", "10"],
+      correcta: 2,
+      explicacion: "k = AB/DE = 9/6 = 3/2. DF = AC/k = 15/(3/2) = 15 × 2/3 = 10.",
+      pasos: [
+        { pre: "k = AB/DE = ", math: "\\dfrac{9}{6} = \\dfrac{3}{2}" },
+        { pre: "DF = AC/k = ", math: "\\dfrac{15}{\\;3/2\\;} = 10" }
+      ]
+    },
+    {
+      id: "s16c",
+      tipo: "ejercicio",
+      svgDiagram: "se-lal-ej1",
+      etiqueta: "LAL · Ejercicio 3 / 3",
+      pregunta: "△PQR ~ △XYZ (LAL) con k = 3 y ∠P = ∠X. Si el área de △XYZ es 8 cm², ¿cuál es el área de △PQR?",
+      math_pregunta: "k = 3,\\quad A_{\\triangle XYZ} = 8\\text{ cm}^2",
+      opciones: ["24 cm²", "48 cm²", "72 cm²"],
+      correcta: 2,
+      explicacion: "Las áreas se relacionan como k². Área_PQR = k² × Área_XYZ = 9 × 8 = 72 cm².",
+      pasos: [
+        { pre: "Razón de áreas = k² = ", math: "3^2 = 9" },
+        { pre: "Área PQR = ", math: "9 \\times 8 = 72 \\text{ cm}^2" }
+      ]
     },
 
     {
@@ -477,6 +696,82 @@ export const PRESENTACION = {
           math: "\\dfrac{A_{\\text{mayor}}}{A_{\\text{menor}}} = k^2 = 2^2 = 4"
         },
         { pre: "Por lo tanto: ", math: "A_{\\text{mayor}} = 9 \\times 4 = 36 \\text{ cm}^2" }
+      ]
+    },
+
+    // ── Ejercicios avanzados: áreas, Pitágoras, Thales, sombras ──────────────
+    {
+      id: "se1",
+      tipo: "ejercicio",
+      svgDiagram: "se-areas",
+      etiqueta: "Áreas · Ejercicio 1 / 5",
+      pregunta: "△ABC ~ △DEF con k = 4. Si el área de △DEF es 7 cm², ¿cuál es el área de △ABC?",
+      math_pregunta: "k = 4,\\quad A_{\\triangle DEF} = 7\\text{ cm}^2",
+      opciones: ["28 cm²", "56 cm²", "112 cm²"],
+      correcta: 2,
+      explicacion: "Las áreas se relacionan como k². Área_ABC = k² × Área_DEF = 16 × 7 = 112 cm².",
+      pasos: [
+        { pre: "Razón de áreas: ", math: "k^2 = 4^2 = 16" },
+        { pre: "Área ABC: ", math: "16 \\times 7 = 112 \\text{ cm}^2" }
+      ]
+    },
+    {
+      id: "se2",
+      tipo: "ejercicio",
+      svgDiagram: "se-areas",
+      etiqueta: "Áreas · Ejercicio 2 / 5",
+      pregunta: "Dos triángulos semejantes tienen áreas en razón 25:4. ¿Cuál es la razón de sus lados correspondientes?",
+      math_pregunta: "\\dfrac{A_1}{A_2} = \\dfrac{25}{4}",
+      opciones: ["5:2", "25:4", "√5:2"],
+      correcta: 0,
+      explicacion: "Si la razón de áreas es k², entonces k = √(25/4) = 5/2. La razón de lados es 5:2.",
+      pasos: [
+        { pre: "Razón de lados: ", math: "k = \\sqrt{\\dfrac{25}{4}} = \\dfrac{5}{2}" }
+      ]
+    },
+    {
+      id: "se3",
+      tipo: "ejercicio",
+      svgDiagram: "se-pitagoras",
+      etiqueta: "Pitágoras · Ejercicio 3 / 5",
+      pregunta: "En el triángulo rectángulo, la altura h divide a la hipotenusa en segmentos AH = 4 y HB = 9. ¿Cuánto mide h?",
+      math_pregunta: "AH = 4,\\quad HB = 9,\\quad h = CH = ?",
+      opciones: ["3", "6", "√13"],
+      correcta: 1,
+      explicacion: "Por el teorema de la altura (media geométrica): h² = AH · HB = 4 · 9 = 36, por lo tanto h = 6.",
+      pasos: [
+        { pre: "Teorema de la altura: ", math: "h^2 = AH \\cdot HB = 4 \\cdot 9 = 36" },
+        { pre: "Resultado: ", math: "h = 6" }
+      ]
+    },
+    {
+      id: "se4",
+      tipo: "ejercicio",
+      svgDiagram: "se-paralela",
+      etiqueta: "Thales · Ejercicio 4 / 5",
+      pregunta: "DE ∥ BC en △ABC. Si AD = 4, DB = 8 y AE = 3, ¿cuánto mide EC?",
+      math_pregunta: "DE \\parallel BC,\\quad AD = 4,\\; DB = 8,\\; AE = 3,\\; EC = ?",
+      opciones: ["4", "6", "8"],
+      correcta: 1,
+      explicacion: "Por el teorema de Tales (proporcionalidad): AD/DB = AE/EC → 4/8 = 3/EC → EC = 3·8/4 = 6.",
+      pasos: [
+        { pre: "Teorema de Tales: ", math: "\\dfrac{AD}{DB} = \\dfrac{AE}{EC} \\implies \\dfrac{4}{8} = \\dfrac{3}{EC}" },
+        { pre: "Despejar EC: ", math: "EC = \\dfrac{3 \\times 8}{4} = 6" }
+      ]
+    },
+    {
+      id: "se5",
+      tipo: "ejercicio",
+      svgDiagram: "se-sombra",
+      etiqueta: "Sombras · Ejercicio 5 / 5",
+      pregunta: "Un árbol de 4 m proyecta una sombra de 6 m. Un poste proyecta una sombra de 9 m. ¿Cuánto mide el poste?",
+      math_pregunta: "\\dfrac{\\text{altura árbol}}{\\text{sombra árbol}} = \\dfrac{\\text{altura poste}}{\\text{sombra poste}}",
+      opciones: ["5 m", "6 m", "7 m"],
+      correcta: 1,
+      explicacion: "Por semejanza de triángulos: altura/sombra es constante. x/9 = 4/6 → x = 9·4/6 = 6 m.",
+      pasos: [
+        { pre: "Planteamiento: ", math: "\\dfrac{x}{9} = \\dfrac{4}{6}" },
+        { pre: "Despejar x: ", math: "x = \\dfrac{9 \\times 4}{6} = 6 \\text{ m}" }
       ]
     },
 

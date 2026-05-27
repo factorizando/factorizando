@@ -44,13 +44,16 @@ export default function PresentacionAlumno() {
     const total = ejercicios.length;
     setPuntajeFinal({ puntaje, total });
 
-    supabase.from("resultados").insert({
-      user_id: user.id,
-      cuestionario_id: "presentacion-" + presentacion.id,
-      cuestionario_titulo: presentacion.titulo,
-      puntaje,
-      total,
-    }).catch(() => {});
+    // PostgrestFilterBuilder solo implementa .then(), no .catch(); usar async IIFE
+    (async () => {
+      await supabase.from("resultados").insert({
+        user_id: user.id,
+        cuestionario_id: "presentacion-" + presentacion.id,
+        cuestionario_titulo: presentacion.titulo,
+        puntaje,
+        total,
+      });
+    })();
   }, [sesionTerminada]); // eslint-disable-line react-hooks/exhaustive-deps
 
   async function unirse() {

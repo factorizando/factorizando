@@ -37,7 +37,9 @@ export default function PresentacionAlumno() {
     if (!sesionTerminada || !user || !presentacion || savedRef.current) return;
     savedRef.current = true;
 
-    const ejercicios = presentacion.slides.filter(s => s.tipo === "ejercicio");
+    const ejercicios = presentacion.slides
+      .slice(0, slideIdx + 1)
+      .filter(s => s.tipo === "ejercicio");
     if (ejercicios.length === 0) return;
 
     const puntaje = ejercicios.filter(s => respuestas[s.id] === s.correcta).length;

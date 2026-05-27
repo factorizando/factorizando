@@ -233,6 +233,120 @@ function PresentacionCard({ id, titulo, materia }) {
   );
 }
 
+// ── Resultados de una presentación ───────────────────────────────────────────
+function ResultadosPresentacion({ presentacion, resultados, profiles }) {
+  const [open, setOpen] = useState(false);
+  const propios = resultados
+    .filter((r) => r.cuestionario_id === "presentacion-" + presentacion.id)
+    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+  const promedio = propios.length
+    ? Math.round(propios.reduce((s, r) => s + Math.round((r.puntaje / r.total) * 100), 0) / propios.length)
+    : 0;
+
+  return (
+    <div style={{ border: `1px solid ${C.border}`, borderRadius: 12, overflow: "hidden", marginBottom: 10 }}>
+      <button
+        onClick={() => setOpen((o) => !o)}
+        style={{
+          width: "100%",
+          background: open ? C.card : C.surface,
+          border: "none",
+          cursor: "pointer",
+          padding: "14px 18px",
+          display: "flex",
+          alignItems: "center",
+          gap: 12,
+          textAlign: "left",
+        }}
+      >
+        <div style={{
+          width: 36, height: 36, borderRadius: 8,
+          background: C.purple + "22",
+          border: `1px solid ${C.purple}44`,
+          display: "flex", alignItems: "center", justifyContent: "center",
+          fontSize: 18, flexShrink: 0,
+        }}>
+          📽
+        </div>
+
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ color: C.text, fontWeight: 700, fontSize: 14, fontFamily: font }}>
+            {presentacion.titulo}
+          </div>
+          <div style={{ color: C.muted, fontSize: 11, marginTop: 2, fontFamily: font }}>
+            {presentacion.materia}
+          </div>
+        </div>
+
+        <div style={{ textAlign: "center", minWidth: 64 }}>
+          <div style={{ color: C.dim, fontSize: 10, fontFamily: font, textTransform: "uppercase", letterSpacing: 1 }}>Sesiones</div>
+          <div style={{ color: C.text, fontWeight: 700, fontSize: 17, fontFamily: font }}>{propios.length}</div>
+        </div>
+        {propios.length > 0 && (
+          <div style={{ textAlign: "center", minWidth: 66 }}>
+            <div style={{ color: C.dim, fontSize: 10, fontFamily: font, textTransform: "uppercase", letterSpacing: 1 }}>Promedio</div>
+            <div style={{ color: pctColor(promedio), fontWeight: 700, fontSize: 17, fontFamily: font }}>{promedio}%</div>
+          </div>
+        )}
+        <div style={{ color: C.muted, fontSize: 18, marginLeft: 4 }}>{open ? "▲" : "▼"}</div>
+      </button>
+
+      {open && (
+        <div style={{ background: C.card, borderTop: `1px solid ${C.border}`, padding: "14px 18px" }}>
+          {propios.length === 0 ? (
+            <p style={{ color: C.muted, fontSize: 13, fontFamily: font }}>
+              Ningún alumno ha completado esta presentación aún.
+            </p>
+          ) : (
+            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, fontFamily: font }}>
+              <thead>
+                <tr>
+                  {["Alumno", "Puntaje", "%", "Fecha"].map((h) => (
+                    <th key={h} style={{
+                      color: C.dim, fontWeight: 600, textAlign: "left",
+                      padding: "4px 8px", fontSize: 11,
+                      textTransform: "uppercase", letterSpacing: 1,
+                    }}>{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {propios.map((r) => {
+                  const profile = profiles[r.user_id] || {};
+                  const nombre = profile.nombre || profile.email || r.user_id.slice(0, 8);
+                  const pct = Math.round((r.puntaje / r.total) * 100);
+                  return (
+                    <tr key={r.id} style={{ borderTop: `1px solid ${C.border}` }}>
+                      <td style={{ padding: "8px 8px", color: C.text }}>{nombre}</td>
+                      <td style={{ padding: "8px 8px", color: C.dim }}>{r.puntaje}/{r.total}</td>
+                      <td style={{ padding: "8px 8px" }}>
+                        <span style={{
+                          background: pctColor(pct) + "22",
+                          color: pctColor(pct),
+                          borderRadius: 6,
+                          padding: "2px 10px",
+                          fontWeight: 700,
+                          fontSize: 12,
+                        }}>
+                          {pct}%
+                        </span>
+                      </td>
+                      <td style={{ padding: "8px 8px", color: C.muted, fontSize: 12, whiteSpace: "nowrap" }}>
+                        {fmtDate(r.created_at)}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ── Resumen por alumno (Cuestionarios) ───────────────────────────────────────
 function ResumenAlumno({ nombre, nivel, resultados }) {
   const [open, setOpen] = useState(false);
@@ -620,20 +734,54 @@ export default function Admin() {
                 No hay presentaciones registradas aún.
               </div>
             ) : (
-              <div style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-                gap: 20,
-              }}>
-                {presentaciones.map((p) => (
-                  <PresentacionCard
-                    key={p.id}
-                    id={p.id}
-                    titulo={p.titulo}
-                    materia={p.materia}
-                  />
-                ))}
-              </div>
+              <>
+                <div style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+                  gap: 20,
+                }}>
+                  {presentaciones.map((p) => (
+                    <PresentacionCard
+                      key={p.id}
+                      id={p.id}
+                      titulo={p.titulo}
+                      materia={p.materia}
+                    />
+                  ))}
+                </div>
+
+                {/* Historial de puntuaciones */}
+                <div style={{ marginTop: 40 }}>
+                  <div style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 10,
+                    marginBottom: 18,
+                  }}>
+                    <div style={{ flex: 1, height: 1, background: C.border }} />
+                    <span style={{
+                      color: C.dim,
+                      fontSize: 11,
+                      fontWeight: 700,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.12em",
+                      fontFamily: font,
+                      whiteSpace: "nowrap",
+                    }}>
+                      Puntuaciones por presentación
+                    </span>
+                    <div style={{ flex: 1, height: 1, background: C.border }} />
+                  </div>
+                  {presentaciones.map((p) => (
+                    <ResultadosPresentacion
+                      key={p.id}
+                      presentacion={p}
+                      resultados={resultados}
+                      profiles={profiles}
+                    />
+                  ))}
+                </div>
+              </>
             )}
           </>
         )}

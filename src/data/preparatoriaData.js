@@ -356,6 +356,16 @@ export const SUBJECTS_PREP = [
                 name: "Sesión 1 - Conceptos Básicos de Geometría",
                 video: "https://youtu.be/KwPBfASCQeQ",
               },
+              {
+                id: "sesion-2",
+                name: "Sesión 2 - El quinto postulado de Euclides, Triángulos y Teorema de Pitágoras",
+                video: "https://youtu.be/NR1MGb6fYTQ",
+              },
+              {
+                id: "sesion-3",
+                name: "Sesión 3 - Congruencia y Semejanza de Triángulos",
+                video: "https://youtu.be/D9htJ6_gxxE",
+              },
             ],
           },
         ],

@@ -42,9 +42,10 @@ export default function PresentacionDirector() {
 
   const slides = PRESENTACION.slides;
   const slide = slides[slideIdx];
+  const slideKey = String(slide.id);
   const totalVotosSlide =
     slide.tipo === "ejercicio"
-      ? Object.values(votos[slide.id] || {}).reduce((a, b) => a + b, 0)
+      ? Object.values(votos[slideKey] || {}).reduce((a, b) => a + b, 0)
       : 0;
 
   // Suscripción a votos cuando hay sesión activa
@@ -56,13 +57,18 @@ export default function PresentacionDirector() {
       .from("respuestas_presentacion")
       .select("slide_id, opcion_elegida")
       .eq("sesion_id", sesion.id)
-      .then(({ data }) => {
+      .then(({ data, error }) => {
+        if (error) {
+          console.error("[Director] Error cargando votos:", error);
+          return;
+        }
         if (!data) return;
         const agg = {};
         data.forEach(({ slide_id, opcion_elegida }) => {
-          if (!agg[slide_id]) agg[slide_id] = {};
-          agg[slide_id][opcion_elegida] =
-            (agg[slide_id][opcion_elegida] || 0) + 1;
+          const key = String(slide_id);
+          if (!agg[key]) agg[key] = {};
+          agg[key][opcion_elegida] =
+            (agg[key][opcion_elegida] || 0) + 1;
         });
         setVotos(agg);
       });
@@ -79,13 +85,13 @@ export default function PresentacionDirector() {
           filter: `sesion_id=eq.${sesion.id}`
         },
         (payload) => {
-          const { slide_id, opcion_elegida } = payload.new;
+          const key = String(payload.new.slide_id);
+          const opcion = payload.new.opcion_elegida;
           setVotos((prev) => ({
             ...prev,
-            [slide_id]: {
-              ...(prev[slide_id] || {}),
-              [opcion_elegida]:
-                ((prev[slide_id] || {})[opcion_elegida] || 0) + 1
+            [key]: {
+              ...(prev[key] || {}),
+              [opcion]: ((prev[key] || {})[opcion] || 0) + 1
             }
           }));
         }
@@ -378,7 +384,7 @@ export default function PresentacionDirector() {
           slide={slide}
           tema={tema}
           modo="director"
-          votos={votos[slide.id]}
+          votos={votos[slideKey]}
           totalVotos={totalVotosSlide}
           resaltadoIdx={resaltado}
           onResaltar={resaltar}

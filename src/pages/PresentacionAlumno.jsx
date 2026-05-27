@@ -131,11 +131,12 @@ export default function PresentacionAlumno() {
     // Actualización optimista para respuesta inmediata en UI
     setRespuestas((prev) => ({ ...prev, [slide.id]: opcionIdx }));
 
-    await supabase.from("respuestas_presentacion").insert({
+    const { error } = await supabase.from("respuestas_presentacion").insert({
       sesion_id: sesion.id,
-      slide_id: slide.id,
+      slide_id: String(slide.id),
       opcion_elegida: opcionIdx
     });
+    if (error) console.error("[Alumno] Error guardando respuesta:", error);
   }
 
   // ── Pantalla de ingreso de código ─────────────────────────────────────────

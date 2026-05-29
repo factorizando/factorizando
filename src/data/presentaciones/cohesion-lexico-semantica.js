@@ -377,8 +377,8 @@ export const PRESENTACION = {
         {
           tipo: "par",
           etiqueta: "hiperónimo como sustituto léxico — cohipónimo como error de cohesión",
-          correcto: "Vi un cocker. El perro menó la cola. (perro = hiperónimo de cocker → sustitución válida, mismo referente)",
-          incorrecto: "Vi un cocker. El labrador menó la cola. (labrador = cohipónimo de cocker → referente distinto, no el mismo animal)",
+          correcto: "Vi un cocker. El perro meneó la cola. (perro = hiperónimo de cocker → sustitución válida, mismo referente)",
+          incorrecto: "Vi un cocker. El labrador meneó la cola. (labrador = cohipónimo de cocker → referente distinto, no el mismo animal)",
         },
         {
           tipo: "trampa",

@@ -3374,8 +3374,11 @@ function SlideReglaRica({ slide, tema, modo, resaltadoIdx, onResaltar }) {
 
         if (bloque.tipo === "diagrama") {
           const svgMap = {
-            "acento-clasificacion": <AcentoClasificacionSVG tema={tema} />,
-            "diptongo-hiato":       <DiptongoHiatoSVG       tema={tema} />,
+            "acento-clasificacion":   <AcentoClasificacionSVG    tema={tema} />,
+            "diptongo-hiato":         <DiptongoHiatoSVG          tema={tema} />,
+            "cohesion-panorama":      <CohesionPanoramaSVG       tema={tema} />,
+            "correferencia-personal": <CorrreferenciaPersonalSVG tema={tema} />,
+            "elipsis-nominal":        <ElipsisNominalSVG         tema={tema} />,
           };
           return (
             <div key={i} onClick={handleClick}
@@ -3762,6 +3765,124 @@ function DiptongoHiatoSVG({ tema }) {
       <text x="480" y="115" fill={tema.acento} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle">pa-ís → 2 sílabas distintas</text>
       <text x="480" y="130" fill={tema.acento} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle" fontWeight="700">tilde en la í SIEMPRE</text>
       <text x="480" y="145" fill={tema.muted} fontSize="9" fontFamily="'DM Sans',sans-serif" textAnchor="middle">aunque sea llana terminada en s</text>
+    </svg>
+  );
+}
+
+// ─── Cohesión Gramatical: Panorama ────────────────────────────────────────────
+function CohesionPanoramaSVG({ tema }) {
+  const leftItems = ["Pron. personales", "Pron. demostrativos", "Pron. relativos", "Sustitución léxica"];
+  const rightItems = ["Elipsis nominal", "Elipsis verbal", "Elipsis oracional"];
+  return (
+    <svg viewBox="0 0 520 155" width="100%" style={{ display: "block" }}>
+      <rect x="135" y="3" width="250" height="28" rx="7" fill={`${tema.acento}18`} stroke={tema.acento} strokeWidth="1.5"/>
+      <text x="260" y="21" fill={tema.acento} fontSize="10.5" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.1em">COHESIÓN GRAMATICAL</text>
+      <line x1="192" y1="31" x2="115" y2="54" stroke={`${tema.azul}88`} strokeWidth="1.5" strokeDasharray="4,2"/>
+      <line x1="328" y1="31" x2="405" y2="54" stroke={`${tema.verde}88`} strokeWidth="1.5" strokeDasharray="4,2"/>
+      <rect x="50" y="54" width="130" height="26" rx="6" fill={`${tema.azul}18`} stroke={tema.azul} strokeWidth="1.5"/>
+      <text x="115" y="71" fill={tema.azul} fontSize="10" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.06em">CORREFERENCIA</text>
+      <rect x="340" y="54" width="130" height="26" rx="6" fill={`${tema.verde}18`} stroke={tema.verde} strokeWidth="1.5"/>
+      <text x="405" y="71" fill={tema.verde} fontSize="10" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.06em">REL. ELÍPTICAS</text>
+      <line x1="66" y1="80" x2="66" y2="148" stroke={`${tema.azul}50`} strokeWidth="1.2"/>
+      {leftItems.map((item, i) => (
+        <g key={i}>
+          <line x1="66" y1={91 + i * 19} x2="76" y2={91 + i * 19} stroke={`${tema.azul}50`} strokeWidth="1.2"/>
+          <circle cx="81" cy={91 + i * 19} r="2.5" fill={tema.azul} opacity="0.6"/>
+          <text x="88" y={95 + i * 19} fill={tema.sub} fontSize="9" fontFamily="'DM Sans',sans-serif">{item}</text>
+        </g>
+      ))}
+      <line x1="356" y1="80" x2="356" y2="130" stroke={`${tema.verde}50`} strokeWidth="1.2"/>
+      {rightItems.map((item, i) => (
+        <g key={i}>
+          <line x1="356" y1={91 + i * 19} x2="366" y2={91 + i * 19} stroke={`${tema.verde}50`} strokeWidth="1.2"/>
+          <circle cx="371" cy={91 + i * 19} r="2.5" fill={tema.verde} opacity="0.6"/>
+          <text x="378" y={95 + i * 19} fill={tema.sub} fontSize="9" fontFamily="'DM Sans',sans-serif">{item}</text>
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+// ─── Cohesión Gramatical: Correferencia Personal ──────────────────────────────
+function CorrreferenciaPersonalSVG({ tema }) {
+  const az = tema.azul, vd = tema.verde;
+  return (
+    <svg viewBox="0 0 510 125" width="100%" style={{ display: "block" }}>
+      <text x="96"  y="13" fill={tema.muted} fontSize="8" fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.16em" fontWeight="600">ANTECEDENTE</text>
+      <text x="256" y="13" fill={tema.muted} fontSize="8" fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.16em" fontWeight="600">PRONOMBRE</text>
+      <text x="408" y="13" fill={tema.muted} fontSize="8" fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.16em" fontWeight="600">CONCORDANCIA</text>
+      <line x1="8" y1="18" x2="502" y2="18" stroke="rgba(255,255,255,0.1)" strokeWidth="1"/>
+      {/* Row 1: la directora → ella */}
+      <rect x="8" y="26" width="176" height="26" rx="6" fill={`${az}20`} stroke={`${az}88`} strokeWidth="1.5"/>
+      <text x="96" y="43" fill={az} fontSize="14" fontFamily="Georgia,serif" textAnchor="middle" fontStyle="italic">la directora</text>
+      <line x1="186" y1="39" x2="208" y2="39" stroke={az} strokeWidth="1.5"/>
+      <polygon points="208,35 216,39 208,43" fill={az}/>
+      <rect x="220" y="26" width="72" height="26" rx="6" fill={`${az}20`} stroke={`${az}88`} strokeWidth="1.5"/>
+      <text x="256" y="43" fill={az} fontSize="14" fontFamily="Georgia,serif" textAnchor="middle" fontStyle="italic">ella</text>
+      <text x="306" y="35" fill={tema.sub} fontSize="8.5" fontFamily="'DM Sans',sans-serif">fem. sing. · 3ª persona</text>
+      <text x="306" y="47" fill={tema.sub} fontSize="8.5" fontFamily="'DM Sans',sans-serif">= sujeto de la 2ª oración</text>
+      {/* Row 2: el informe → lo */}
+      <rect x="8" y="68" width="176" height="26" rx="6" fill={`${vd}20`} stroke={`${vd}88`} strokeWidth="1.5"/>
+      <text x="96" y="85" fill={vd} fontSize="14" fontFamily="Georgia,serif" textAnchor="middle" fontStyle="italic">el informe</text>
+      <line x1="186" y1="81" x2="208" y2="81" stroke={vd} strokeWidth="1.5"/>
+      <polygon points="208,77 216,81 208,85" fill={vd}/>
+      <rect x="220" y="68" width="72" height="26" rx="6" fill={`${vd}20`} stroke={`${vd}88`} strokeWidth="1.5"/>
+      <text x="256" y="85" fill={vd} fontSize="14" fontFamily="Georgia,serif" textAnchor="middle" fontStyle="italic">lo</text>
+      <text x="306" y="77" fill={tema.sub} fontSize="8.5" fontFamily="'DM Sans',sans-serif">masc. sing. · OD átono</text>
+      <text x="306" y="89" fill={tema.sub} fontSize="8.5" fontFamily="'DM Sans',sans-serif">= OD de la 2ª oración</text>
+      <text x="8" y="114" fill={tema.muted} fontSize="8.5" fontFamily="Georgia,serif" fontStyle="italic">«La directora presentó el informe. Ella lo revisó con cuidado.»</text>
+    </svg>
+  );
+}
+
+// ─── Cohesión Gramatical: Elipsis Nominal ─────────────────────────────────────
+function ElipsisNominalSVG({ tema }) {
+  const az = tema.azul;
+  const tokens  = [
+    { x: 8,   w: 80, label: "Quiero el", hi: false, gap: false },
+    { x: 96,  w: 50, label: "libro",     hi: true,  gap: false },
+    { x: 154, w: 40, label: "azul",      hi: false, gap: false },
+    { x: 202, w: 40, label: "y el",      hi: false, gap: false },
+    { x: 250, w: 50, label: "libro",     hi: true,  gap: false },
+    { x: 308, w: 46, label: "rojo.",     hi: false, gap: false },
+  ];
+  const tokensE = tokens.map((t, i) => i === 4 ? { ...t, label: "∅", hi: false, gap: true } : t);
+  const ry = [26, 72];
+  const h  = 22;
+  return (
+    <svg viewBox="0 0 520 105" width="100%" style={{ display: "block" }}>
+      <text x="8" y="14" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" letterSpacing="0.15em" fontWeight="600">ORACIÓN ORIGINAL</text>
+      <text x="8" y="60" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" letterSpacing="0.15em" fontWeight="600">CON ELIPSIS NOMINAL</text>
+      {tokens.map((tok, i) => (
+        <g key={i}>
+          <rect x={tok.x} y={ry[0]} width={tok.w} height={h} rx="4"
+            fill={tok.hi ? `${az}22` : "rgba(255,255,255,0.04)"}
+            stroke={tok.hi ? `${az}88` : "rgba(255,255,255,0.1)"}
+            strokeWidth={tok.hi ? 1.5 : 1}/>
+          <text x={tok.x + tok.w / 2} y={ry[0] + 15} textAnchor="middle"
+            fill={tok.hi ? az : tema.sub} fontSize="11" fontFamily="Georgia,serif"
+            fontStyle="italic" fontWeight={tok.hi ? "700" : "400"}>{tok.label}</text>
+        </g>
+      ))}
+      {tokensE.map((tok, i) => (
+        <g key={i}>
+          <rect x={tok.x} y={ry[1]} width={tok.w} height={h} rx="4"
+            fill={tok.gap ? "none" : tok.hi ? `${az}22` : "rgba(255,255,255,0.04)"}
+            stroke={tok.gap ? az : tok.hi ? `${az}88` : "rgba(255,255,255,0.1)"}
+            strokeWidth={tok.gap || tok.hi ? 1.5 : 1}
+            strokeDasharray={tok.gap ? "5,3" : undefined}/>
+          <text x={tok.x + tok.w / 2} y={ry[1] + 15} textAnchor="middle"
+            fill={tok.gap ? `${az}99` : tok.hi ? az : tema.sub}
+            fontSize="11" fontFamily="Georgia,serif"
+            fontStyle="italic" fontWeight={tok.hi ? "700" : "400"}>{tok.label}</text>
+        </g>
+      ))}
+      {/* Recovery arc from first "libro" (cx=121, top y=26) to gap (cx=275, top y=72) */}
+      <path d="M 121,26 C 121,6 275,6 275,72" fill="none"
+        stroke={`${az}88`} strokeWidth="1.3" strokeDasharray="5,3"/>
+      <polygon points="270,68 275,76 280,68" fill={`${az}88`}/>
+      <text x="200" y="10" fill={az} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">elemento recuperado del contexto</text>
+      <text x="8" y="100" fill={tema.muted} fontSize="8" fontFamily="Georgia,serif" fontStyle="italic">Forma completa: «Quiero el libro azul y el libro rojo.»</text>
     </svg>
   );
 }

@@ -3370,6 +3370,28 @@ function SlideReglaRica({ slide, tema, modo, resaltadoIdx, onResaltar }) {
           );
         }
 
+        if (bloque.tipo === "diagrama") {
+          const svgMap = {
+            "acento-clasificacion": <AcentoClasificacionSVG tema={tema} />,
+            "diptongo-hiato":       <DiptongoHiatoSVG       tema={tema} />,
+          };
+          return (
+            <div key={i} onClick={handleClick}
+              style={{
+                background: "rgba(0,0,0,0.25)",
+                border: activo ? `2px solid ${tema.acento}` : `1px solid ${tema.border}`,
+                borderRadius: 8, padding: "8px 10px", flexShrink: 0, ...sharedActive,
+              }}>
+              {bloque.titulo && (
+                <div style={{ fontFamily: tema.mono, fontSize: 8.5, color: tema.acento, letterSpacing: "0.18em", textTransform: "uppercase", marginBottom: 6, opacity: 0.8 }}>
+                  {bloque.titulo}
+                </div>
+              )}
+              {svgMap[bloque.id] || null}
+            </div>
+          );
+        }
+
         if (bloque.tipo === "trampa") {
           const colorMap = { A: tema.acento, B: tema.azul, C: tema.verde };
           const color = colorMap[bloque.letra] || tema.acento;
@@ -3437,6 +3459,265 @@ function SlideReglaRica({ slide, tema, modo, resaltadoIdx, onResaltar }) {
 
         return null;
       })}
+    </div>
+  );
+}
+
+// ─── Acentuación: diagrama de posición del acento ────────────────────────────
+function AcentoClasificacionSVG({ tema }) {
+  const tipos = [
+    { nombre: "Aguda",        subname: "oxítona",        silabas: ["__","__","__","TÓN"], ejemplo: "ca-FÉ",    color: tema.acento },
+    { nombre: "Llana",        subname: "paroxítona",     silabas: ["__","__","TÓN","__"], ejemplo: "CA-sa",   color: tema.azul   },
+    { nombre: "Esdrújula",    subname: "proparoxítona",  silabas: ["__","TÓN","__","__"], ejemplo: "MÉ-di-co", color: tema.verde  },
+    { nombre: "Sobreesdrúj.", subname: "",               silabas: ["TÓN","__","__","__"], ejemplo: "DÍ-ga-me-lo", color: "#c084fc" },
+  ];
+  const W = 680, H = 130, col = W / 4;
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ display: "block" }}>
+      {tipos.map(({ nombre, subname, silabas, ejemplo, color }, ci) => {
+        const cx = ci * col + col / 2;
+        return (
+          <g key={ci}>
+            <text x={cx} y={16} fill={color} fontSize="11.5" fontFamily="'DM Sans',sans-serif"
+              fontWeight="700" textAnchor="middle" letterSpacing="0.04em">
+              {nombre.toUpperCase()}
+            </text>
+            {subname && (
+              <text x={cx} y={28} fill={tema.muted} fontSize="9" fontFamily="'DM Sans',sans-serif"
+                textAnchor="middle" opacity="0.65">{subname}</text>
+            )}
+            {silabas.map((s, si) => {
+              const bw = 32, bh = 26, gap = 6;
+              const totalW = silabas.length * bw + (silabas.length - 1) * gap;
+              const bx = cx - totalW / 2 + si * (bw + gap);
+              const isTon = s === "TÓN";
+              return (
+                <g key={si}>
+                  <rect x={bx} y={36} width={bw} height={bh} rx="5"
+                    fill={isTon ? `${color}28` : "rgba(255,255,255,0.04)"}
+                    stroke={isTon ? color : "rgba(255,255,255,0.12)"}
+                    strokeWidth={isTon ? 1.8 : 1} />
+                  {isTon && (
+                    <text x={bx + bw / 2} y={54} fill={color} fontSize="9.5"
+                      fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">●</text>
+                  )}
+                </g>
+              );
+            })}
+            <text x={cx} y={84} fill={tema.texto} fontSize="11" fontFamily="Georgia,serif"
+              fontStyle="italic" textAnchor="middle" opacity="0.85">{ejemplo}</text>
+            {/* Regla de tilde */}
+            <text x={cx} y={102} fill={tema.muted} fontSize="9" fontFamily="'DM Sans',sans-serif"
+              textAnchor="middle">
+              {ci === 0 ? "tilde si termina en V/N/S" :
+               ci === 1 ? "tilde si NO termina en V/N/S" :
+               "siempre tilde"}
+            </text>
+          </g>
+        );
+      })}
+      {/* Divisores */}
+      {[1,2,3].map(i => (
+        <line key={i} x1={i * col} y1={8} x2={i * col} y2={H - 10}
+          stroke="rgba(255,255,255,0.07)" strokeWidth="1" />
+      ))}
+    </svg>
+  );
+}
+
+// ─── Acentuación: diptongo vs. hiato ─────────────────────────────────────────
+function DiptongoHiatoSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 640 160" width="100%" style={{ display: "block" }}>
+      {/* DIPTONGO */}
+      <text x="155" y="20" fill={tema.azul} fontSize="12" fontFamily="'DM Sans',sans-serif"
+        fontWeight="700" letterSpacing="0.12em" textAnchor="middle">DIPTONGO</text>
+      <text x="155" y="34" fill={tema.muted} fontSize="9" fontFamily="'DM Sans',sans-serif"
+        textAnchor="middle">vocal cerrada ÁTONA + vocal</text>
+      {/* Ejemplo: bue-no */}
+      {[["b",""], ["u","cerrada\nátona"], ["e","abierta"], ["-",""], ["n",""], ["o",""]].map(([ch, lbl], i) => {
+        const x = 55 + i * 28;
+        const isVowel = ["u","e","o"].includes(ch);
+        const isSpecial = ch === "u";
+        return (
+          <g key={i}>
+            <text x={x} y={65} fill={isSpecial ? tema.azul : isVowel ? tema.verde : tema.muted}
+              fontSize="22" fontFamily="Georgia,serif" textAnchor="middle" fontWeight={isVowel ? "700" : "400"}>
+              {ch}
+            </text>
+          </g>
+        );
+      })}
+      {/* Bracket bajo ue */}
+      <path d="M 70,72 Q 70,82 83,82 Q 97,82 97,72" fill="none" stroke={tema.azul} strokeWidth="1.5"/>
+      <text x="83" y="95" fill={tema.azul} fontSize="9" fontFamily="'DM Sans',sans-serif" textAnchor="middle">1 sílaba</text>
+      <text x="83" y="107" fill={tema.azul} fontSize="9" fontFamily="'DM Sans',sans-serif" textAnchor="middle">«bue»</text>
+      {/* bracket de toda la sílaba bue */}
+      <text x="155" y="130" fill={tema.verde} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle">bue-no → 2 sílabas</text>
+      <text x="155" y="145" fill={tema.muted} fontSize="9" fontFamily="'DM Sans',sans-serif" textAnchor="middle">tilde sobre vocal abierta: huésped</text>
+
+      {/* Divisor */}
+      <line x1="310" y1="10" x2="310" y2="155" stroke="rgba(255,255,255,0.1)" strokeWidth="1" strokeDasharray="4,3"/>
+
+      {/* HIATO */}
+      <text x="480" y="20" fill={tema.acento} fontSize="12" fontFamily="'DM Sans',sans-serif"
+        fontWeight="700" letterSpacing="0.12em" textAnchor="middle">HIATO</text>
+      <text x="480" y="34" fill={tema.muted} fontSize="9" fontFamily="'DM Sans',sans-serif"
+        textAnchor="middle">vocal cerrada TÓNICA + vocal</text>
+      {/* Ejemplo: pa-ís */}
+      {[["p",""], ["a","abierta"], ["-",""], ["í","cerrada\ntónica"], ["s",""]].map(([ch, lbl], i) => {
+        const x = 380 + i * 32;
+        const isA = ch === "a";
+        const isI = ch === "í";
+        return (
+          <g key={i}>
+            <text x={x} y={65}
+              fill={isI ? tema.acento : isA ? tema.verde : tema.muted}
+              fontSize="22" fontFamily="Georgia,serif" textAnchor="middle"
+              fontWeight={(isA || isI) ? "700" : "400"}>
+              {ch}
+            </text>
+            {isI && (
+              <text x={x} y={82} fill={tema.acento} fontSize="8"
+                fontFamily="'DM Sans',sans-serif" textAnchor="middle">TÓNICA</text>
+            )}
+          </g>
+        );
+      })}
+      {/* Separate brackets */}
+      <path d="M 374,72 Q 374,82 381,82 Q 388,82 388,72" fill="none" stroke={tema.verde} strokeWidth="1.5"/>
+      <path d="M 405,72 Q 405,82 412,82 Q 419,82 419,72" fill="none" stroke={tema.acento} strokeWidth="1.5"/>
+      <text x="380" y="95" fill={tema.verde} fontSize="9" fontFamily="'DM Sans',sans-serif" textAnchor="middle">«pa»</text>
+      <text x="412" y="95" fill={tema.acento} fontSize="9" fontFamily="'DM Sans',sans-serif" textAnchor="middle">«ís»</text>
+      <text x="480" y="115" fill={tema.acento} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle">pa-ís → 2 sílabas distintas</text>
+      <text x="480" y="130" fill={tema.acento} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle" fontWeight="700">tilde en la í SIEMPRE</text>
+      <text x="480" y="145" fill={tema.muted} fontSize="9" fontFamily="'DM Sans',sans-serif" textAnchor="middle">aunque sea llana terminada en s</text>
+    </svg>
+  );
+}
+
+// ─── Acentuación: árbol de decisión ──────────────────────────────────────────
+function SlideResumenAcentuacion({ slide, tema }) {
+  const C = {
+    tilde:   "#4ade80",
+    noTilde: "#f5c842",
+    aguda:   tema.acento,
+    llana:   tema.azul,
+    esdruj:  tema.verde,
+    sobr:    "#c084fc",
+    mono:    "#94a3b8",
+  };
+  const Cell = ({ label, sub, tilde, cond, ejemplo, color }) => (
+    <div style={{
+      flex: 1, minWidth: 0,
+      display: "flex", flexDirection: "column", alignItems: "center",
+      gap: 5, padding: "10px 8px",
+      borderRight: "1px solid rgba(255,255,255,0.07)",
+    }}>
+      <div style={{ fontFamily: tema.mono, fontSize: 10, fontWeight: 700, color, letterSpacing: "0.1em", textAlign: "center" }}>{label}</div>
+      {sub && <div style={{ fontFamily: tema.mono, fontSize: 8, color: tema.muted, textAlign: "center" }}>{sub}</div>}
+      <div style={{ fontSize: 11, color: tema.muted, textAlign: "center", lineHeight: 1.4, minHeight: 30 }}>{cond}</div>
+      <div style={{
+        padding: "4px 10px", borderRadius: 5,
+        background: `${tilde ? C.tilde : C.noTilde}18`,
+        border: `1px solid ${tilde ? C.tilde : C.noTilde}55`,
+        color: tilde ? C.tilde : C.noTilde,
+        fontSize: 10, fontFamily: tema.mono, fontWeight: 700,
+      }}>{tilde ? "CON TILDE" : "SIN TILDE"}</div>
+      <div style={{ fontSize: 10, color: tema.muted, fontStyle: "italic", textAlign: "center" }}>{ejemplo}</div>
+    </div>
+  );
+
+  return (
+    <div style={{ padding: "16px 20px", height: "100%", display: "flex", flexDirection: "column", gap: 10, boxSizing: "border-box" }}>
+      <div>
+        <div style={{ fontFamily: tema.mono, fontSize: 10, letterSpacing: "0.2em", color: tema.acento, textTransform: "uppercase", marginBottom: 4, opacity: 0.75 }}>
+          {slide.etiqueta}
+        </div>
+        <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(16px, 2.2vw, 24px)", fontWeight: 700, color: tema.texto, margin: 0 }}>
+          {slide.titulo}
+        </h2>
+      </div>
+
+      {/* Fila principal: 6 columnas de tipos */}
+      <div style={{ display: "flex", background: "rgba(0,0,0,0.3)", border: `1px solid rgba(255,255,255,0.1)`, borderRadius: 10, overflow: "hidden", flex: 1 }}>
+        {/* Monosílabas */}
+        <div style={{ flex: 1.2, minWidth: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: 5, padding: "10px 8px", borderRight: "1px solid rgba(255,255,255,0.07)", background: "rgba(148,163,184,0.04)" }}>
+          <div style={{ fontFamily: tema.mono, fontSize: 10, fontWeight: 700, color: C.mono, letterSpacing: "0.1em", textAlign: "center" }}>MONOSÍLABAS</div>
+          <div style={{ fontSize: 10, color: tema.muted, textAlign: "center", lineHeight: 1.45 }}>
+            Sin tilde por regla general
+          </div>
+          <div style={{ padding: "4px 8px", borderRadius: 5, background: `${C.noTilde}18`, border: `1px solid ${C.noTilde}55`, color: C.noTilde, fontSize: 10, fontFamily: tema.mono, fontWeight: 700 }}>
+            SIN TILDE
+          </div>
+          <div style={{ fontSize: 9, color: tema.muted, textAlign: "center", lineHeight: 1.45, marginTop: 2 }}>
+            fue · vio · dio · pie · bien
+          </div>
+          <div style={{ width: "100%", height: 1, background: "rgba(255,255,255,0.08)", margin: "4px 0" }} />
+          <div style={{ fontSize: 9, color: C.tilde, textAlign: "center", lineHeight: 1.45 }}>
+            Excepción: par diacrítico
+          </div>
+          <div style={{ fontSize: 9, color: tema.muted, fontStyle: "italic", textAlign: "center" }}>
+            él·mí·tú·sí·sé·dé·más·té·aún
+          </div>
+        </div>
+
+        {/* AGUDA */}
+        <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: 5, padding: "10px 8px", borderRight: "1px solid rgba(255,255,255,0.07)" }}>
+          <div style={{ fontFamily: tema.mono, fontSize: 10, fontWeight: 700, color: C.aguda, letterSpacing: "0.08em", textAlign: "center" }}>AGUDA</div>
+          <div style={{ fontSize: 9, color: tema.muted, textAlign: "center" }}>tónica en la última</div>
+          <div style={{ height: 1, width: "100%", background: "rgba(255,255,255,0.06)" }}/>
+          <div style={{ fontSize: 10, color: tema.texto, textAlign: "center", lineHeight: 1.5 }}>Termina en<br/><b>vocal · N · S</b></div>
+          <div style={{ padding: "3px 8px", borderRadius: 4, background: `${C.tilde}18`, border: `1px solid ${C.tilde}55`, color: C.tilde, fontSize: 10, fontFamily: tema.mono }}>CON TILDE</div>
+          <div style={{ fontSize: 9, color: tema.muted, fontStyle: "italic", textAlign: "center" }}>café · jardín · cortés</div>
+          <div style={{ height: 1, width: "100%", background: "rgba(255,255,255,0.06)" }}/>
+          <div style={{ fontSize: 10, color: tema.texto, textAlign: "center", lineHeight: 1.5 }}>Otra<br/>consonante</div>
+          <div style={{ padding: "3px 8px", borderRadius: 4, background: `${C.noTilde}18`, border: `1px solid ${C.noTilde}55`, color: C.noTilde, fontSize: 10, fontFamily: tema.mono }}>SIN TILDE</div>
+          <div style={{ fontSize: 9, color: tema.muted, fontStyle: "italic", textAlign: "center" }}>reloj · papel · verdad</div>
+        </div>
+
+        {/* LLANA */}
+        <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: 5, padding: "10px 8px", borderRight: "1px solid rgba(255,255,255,0.07)" }}>
+          <div style={{ fontFamily: tema.mono, fontSize: 10, fontWeight: 700, color: C.llana, letterSpacing: "0.08em", textAlign: "center" }}>LLANA</div>
+          <div style={{ fontSize: 9, color: tema.muted, textAlign: "center" }}>tónica en penúltima</div>
+          <div style={{ height: 1, width: "100%", background: "rgba(255,255,255,0.06)" }}/>
+          <div style={{ fontSize: 10, color: tema.texto, textAlign: "center", lineHeight: 1.5 }}>Termina en<br/><b>vocal · N · S</b></div>
+          <div style={{ padding: "3px 8px", borderRadius: 4, background: `${C.noTilde}18`, border: `1px solid ${C.noTilde}55`, color: C.noTilde, fontSize: 10, fontFamily: tema.mono }}>SIN TILDE</div>
+          <div style={{ fontSize: 9, color: tema.muted, fontStyle: "italic", textAlign: "center" }}>casa · examen · crisis</div>
+          <div style={{ height: 1, width: "100%", background: "rgba(255,255,255,0.06)" }}/>
+          <div style={{ fontSize: 10, color: tema.texto, textAlign: "center", lineHeight: 1.5 }}>Otra<br/>consonante</div>
+          <div style={{ padding: "3px 8px", borderRadius: 4, background: `${C.tilde}18`, border: `1px solid ${C.tilde}55`, color: C.tilde, fontSize: 10, fontFamily: tema.mono }}>CON TILDE</div>
+          <div style={{ fontSize: 9, color: tema.muted, fontStyle: "italic", textAlign: "center" }}>árbol · fácil · lápiz</div>
+        </div>
+
+        {/* ESDRÚJULA */}
+        <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: 5, padding: "10px 8px", borderRight: "1px solid rgba(255,255,255,0.07)" }}>
+          <div style={{ fontFamily: tema.mono, fontSize: 10, fontWeight: 700, color: C.esdruj, letterSpacing: "0.08em", textAlign: "center" }}>ESDRÚJULA</div>
+          <div style={{ fontSize: 9, color: tema.muted, textAlign: "center" }}>tónica en antepenúltima</div>
+          <div style={{ height: 1, width: "100%", background: "rgba(255,255,255,0.06)" }}/>
+          <div style={{ padding: "5px 8px", borderRadius: 4, background: `${C.tilde}18`, border: `1.5px solid ${C.tilde}`, color: C.tilde, fontSize: 11, fontFamily: tema.mono, fontWeight: 700, marginTop: 6 }}>SIEMPRE TILDE</div>
+          <div style={{ fontSize: 9, color: tema.muted, fontStyle: "italic", textAlign: "center" }}>médico · sílaba · rápido</div>
+        </div>
+
+        {/* SOBREESDRÚJULA */}
+        <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: 5, padding: "10px 8px" }}>
+          <div style={{ fontFamily: tema.mono, fontSize: 9, fontWeight: 700, color: C.sobr, letterSpacing: "0.06em", textAlign: "center" }}>SOBREESD.</div>
+          <div style={{ fontSize: 9, color: tema.muted, textAlign: "center" }}>antes de antepenúltima</div>
+          <div style={{ height: 1, width: "100%", background: "rgba(255,255,255,0.06)" }}/>
+          <div style={{ padding: "5px 8px", borderRadius: 4, background: `${C.tilde}18`, border: `1.5px solid ${C.tilde}`, color: C.tilde, fontSize: 11, fontFamily: tema.mono, fontWeight: 700, marginTop: 6 }}>SIEMPRE TILDE</div>
+          <div style={{ fontSize: 9, color: tema.muted, fontStyle: "italic", textAlign: "center" }}>dígamelo · cómpratelo</div>
+        </div>
+      </div>
+
+      {/* Nota hiato */}
+      <div style={{
+        background: `${tema.acento}12`, border: `1px solid ${tema.acento}40`,
+        borderRadius: 8, padding: "8px 14px", display: "flex", alignItems: "center", gap: 10, flexShrink: 0,
+      }}>
+        <span style={{ fontFamily: tema.mono, fontSize: 9, fontWeight: 700, color: tema.acento, letterSpacing: "0.12em", whiteSpace: "nowrap" }}>HIATO ESPECIAL</span>
+        <span style={{ fontSize: 11, color: tema.texto }}>Vocal cerrada <b>tónica</b> junto a otra vocal → <span style={{ color: "#4ade80", fontWeight: 700 }}>tilde siempre</span>, aunque la regla general no la pida.</span>
+        <span style={{ fontSize: 10, color: tema.muted, fontStyle: "italic", whiteSpace: "nowrap" }}>pa-ís · Ma-rí-a · ba-úl</span>
+      </div>
     </div>
   );
 }
@@ -3594,6 +3875,8 @@ export default function SlideRenderer({
       return <SlideReglaRica {...props} />;
     case "regla":
       return <SlideRegla {...props} />;
+    case "resumen_acentuacion":
+      return <SlideResumenAcentuacion {...props} />;
     default:
       return (
         <div style={{ padding: 40, color: "#888" }}>

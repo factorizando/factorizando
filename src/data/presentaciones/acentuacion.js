@@ -15,6 +15,14 @@ export const PRESENTACION = {
       etiqueta: "Español · Ortografía"
     },
 
+    // ── Resumen visual completo de tildes ─────────────────────────────────────
+    {
+      id: "resumen-visual",
+      tipo: "resumen_acentuacion",
+      etiqueta: "Mapa de referencia",
+      titulo: "¿Cuándo lleva tilde? — Guía rápida",
+    },
+
     // ── Intro 1: Cómo silabear ────────────────────────────────────────────────
     {
       id: 49,
@@ -164,6 +172,11 @@ export const PRESENTACION = {
         {
           tipo: "texto",
           texto: "Toda palabra tiene una sílaba que se pronuncia con mayor intensidad: la sílaba tónica. Según dónde recaiga esa sílaba, la palabra se clasifica en uno de cuatro tipos. Identificar el tipo es el primer paso para saber si la palabra lleva tilde o no."
+        },
+        {
+          tipo: "diagrama",
+          id: "acento-clasificacion",
+          titulo: "Posición de la sílaba tónica (●) en cada tipo",
         },
         {
           tipo: "tabla",
@@ -451,6 +464,11 @@ export const PRESENTACION = {
       etiqueta: "Regla 5 / 12",
       titulo: "Diptongo — dos vocales en una sola sílaba",
       bloques: [
+        {
+          tipo: "diagrama",
+          id: "diptongo-hiato",
+          titulo: "Diptongo vs. Hiato — la tonicidad de la cerrada decide",
+        },
         {
           tipo: "texto",
           texto: "Un diptongo es la unión de dos vocales en una sola sílaba. Se forma cuando se combinan una vocal abierta (a, e, o) con una vocal cerrada ÁTONA (i, u) en cualquier orden, o cuando se unen dos vocales cerradas (i+u / u+i). Si la vocal cerrada es TÓNICA, no hay diptongo, sino hiato (ver Regla 6)."

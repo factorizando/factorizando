@@ -3050,7 +3050,7 @@ function SlideEjercicio({ slide, modo, votos, totalVotos, respuestaDada, onRespo
                 >
                   {String.fromCharCode(65 + displayIdx)}.
                 </span>
-                <span style={{ flex: 1 }}>{op}</span>
+                <span style={{ flex: 1 }}>{op.includes('\\') ? <M>{op}</M> : op}</span>
                 {modo === "director" && votos !== undefined && (
                   <span
                     style={{

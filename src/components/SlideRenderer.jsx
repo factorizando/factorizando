@@ -3384,7 +3384,13 @@ function SlideReglaRica({ slide, tema, modo, resaltadoIdx, onResaltar }) {
             "sinonimia-contextual":        <SinonimiaContextualSVG       tema={tema} />,
             "antonimia-tipos":             <AntonimiasTiposSVG           tema={tema} />,
             "antonimia-contextual":        <AntonimiaContextualSVG       tema={tema} />,
-            "campo-semantico":             <CampoSemanticoSVG            tema={tema} />,
+            "campo-semantico":                  <CampoSemanticoSVG                 tema={tema} />,
+            "marcadores-panorama":             <MarcadoresPanoramaSVG             tema={tema} />,
+            "marcadores-adicion":              <MarcadoresAdicionSVG              tema={tema} />,
+            "marcadores-adversativos":         <MarcadoresAdversativosSVG         tema={tema} />,
+            "marcadores-causa-consecuencia":   <MarcadoresCausaConsecuenciaSVG    tema={tema} />,
+            "marcadores-temporales":           <MarcadoresTemporalesSVG           tema={tema} />,
+            "marcadores-reformulacion":        <MarcadoresReformulacionSVG        tema={tema} />,
           };
           return (
             <div key={i} onClick={handleClick}
@@ -4144,6 +4150,246 @@ function CampoSemanticoSVG({ tema }) {
         </g>
       ))}
       <text x="260" y="143" fill={ac} fontSize="7" fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.1em" opacity="0.7">HIPÓNIMOS (más específicos)</text>
+    </svg>
+  );
+}
+
+// ─── Marcadores Textuales: Panorama ──────────────────────────────────────────
+function MarcadoresPanoramaSVG({ tema }) {
+  const cats = [
+    { col: 0, row: 0, label: "ADICIÓN",       color: tema.azul,   items: ["además, también", "es más, incluso"] },
+    { col: 1, row: 0, label: "ADVERSATIVOS",  color: tema.acento, items: ["pero, sin embargo", "aunque, no obstante"] },
+    { col: 2, row: 0, label: "CAUSALES",      color: tema.verde,  items: ["porque, ya que", "puesto que, dado que"] },
+    { col: 0, row: 1, label: "CONSECUTIVOS",  color: "#c084fc",   items: ["por lo tanto", "en consecuencia, por ende"] },
+    { col: 1, row: 1, label: "TEMPORALES",    color: "#fb923c",   items: ["primero, luego", "después, finalmente"] },
+    { col: 2, row: 1, label: "REFORMULACIÓN", color: "#94a3b8",   items: ["es decir, o sea", "en resumen, por ejemplo"] },
+  ];
+  const startX = 10, colW = 160, colGap = 5;
+  const rowY = [38, 100];
+  return (
+    <svg viewBox="0 0 520 158" width="100%" style={{ display: "block" }}>
+      <rect x="135" y="3" width="250" height="27" rx="6" fill={`${tema.acento}18`} stroke={tema.acento} strokeWidth="1.5"/>
+      <text x="260" y="21" fill={tema.acento} fontSize="10" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.1em">MARCADORES TEXTUALES</text>
+      <text x="260" y="32" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">guían al lector en las relaciones lógicas entre las ideas</text>
+      {cats.map(({ col, row, label, color, items }) => {
+        const x = startX + col * (colW + colGap);
+        const y = rowY[row];
+        return (
+          <g key={label}>
+            <rect x={x} y={y} width={colW} height={56} rx="5" fill={`${color}10`} stroke={`${color}50`} strokeWidth="1.3"/>
+            <rect x={x} y={y} width={colW} height="18" rx="5" fill={`${color}22`}/>
+            <rect x={x} y={y + 12} width={colW} height="6" fill={`${color}22`}/>
+            <text x={x + colW / 2} y={y + 13} fill={color} fontSize="8" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.12em">{label}</text>
+            {items.map((item, j) => (
+              <text key={j} x={x + colW / 2} y={y + 31 + j * 15} fill={tema.sub} fontSize="8.5" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">{item}</text>
+            ))}
+            {row === 0 && (
+              <line x1={x + colW / 2} y1="30" x2={x + colW / 2} y2={y} stroke={`${color}44`} strokeWidth="1" strokeDasharray="3,2"/>
+            )}
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+// ─── Marcadores Textuales: Adición ───────────────────────────────────────────
+function MarcadoresAdicionSVG({ tema }) {
+  const cols = [
+    { label: "SIMPLE",    color: tema.azul,   markers: ["además", "también", "igualmente"],    caption: "Suma información de igual peso" },
+    { label: "ESCALADA",  color: tema.acento, markers: ["es más", "incluso", "hasta"],          caption: "B tiene más fuerza o peso que A" },
+    { label: "PARALELA",  color: tema.verde,  markers: ["asimismo", "del mismo modo", "paralelamente"], caption: "B va en el mismo sentido que A" },
+  ];
+  return (
+    <svg viewBox="0 0 520 118" width="100%" style={{ display: "block" }}>
+      {cols.map(({ label, color, markers, caption }, i) => {
+        const x = 5 + i * 172;
+        const cw = 162;
+        return (
+          <g key={i}>
+            <rect x={x} y="3" width={cw} height="112" rx="6" fill={`${color}10`} stroke={`${color}50`} strokeWidth="1.3"/>
+            <rect x={x} y="3" width={cw} height="20" rx="6" fill={`${color}25`}/>
+            <rect x={x} y="15" width={cw} height="8" fill={`${color}25`}/>
+            <text x={x + cw / 2} y="17" fill={color} fontSize="8.5" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.12em">{label}</text>
+            {markers.map((m, j) => (
+              <text key={j} x={x + cw / 2} y={36 + j * 15} fill={color} fontSize="10" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">{m}</text>
+            ))}
+            {i === 0 && (
+              <g>
+                <rect x={x + cw / 2 - 20} y="82" width="40" height="13" rx="3" fill={`${color}22`} stroke={`${color}60`} strokeWidth="1"/>
+                <text x={x + cw / 2} y="92" fill={color} fontSize="8" fontFamily="'DM Sans',sans-serif" textAnchor="middle">A</text>
+                <rect x={x + cw / 2 - 20} y="97" width="40" height="13" rx="3" fill={`${color}22`} stroke={`${color}60`} strokeWidth="1"/>
+                <text x={x + cw / 2} y="107" fill={color} fontSize="8" fontFamily="'DM Sans',sans-serif" textAnchor="middle">+ B</text>
+              </g>
+            )}
+            {i === 1 && (
+              <g>
+                <rect x={x + cw / 2 - 24} y="80" width="48" height="16" rx="3" fill={`${color}28`} stroke={`${color}70`} strokeWidth="1.5"/>
+                <text x={x + cw / 2} y="92" fill={color} fontSize="9" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">B  ↑↑↑</text>
+                <rect x={x + cw / 2 - 18} y="98" width="36" height="12" rx="3" fill={`${color}15`} stroke={`${color}40`} strokeWidth="1"/>
+                <text x={x + cw / 2} y="107" fill={color} fontSize="8" fontFamily="'DM Sans',sans-serif" textAnchor="middle">A</text>
+              </g>
+            )}
+            {i === 2 && (
+              <g>
+                <rect x={x + cw / 2 - 24} y="82" width="22" height="22" rx="3" fill={`${color}22`} stroke={`${color}60`} strokeWidth="1"/>
+                <text x={x + cw / 2 - 13} y="97" fill={color} fontSize="8" fontFamily="'DM Sans',sans-serif" textAnchor="middle">A</text>
+                <rect x={x + cw / 2 + 2} y="82" width="22" height="22" rx="3" fill={`${color}22`} stroke={`${color}60`} strokeWidth="1"/>
+                <text x={x + cw / 2 + 13} y="97" fill={color} fontSize="8" fontFamily="'DM Sans',sans-serif" textAnchor="middle">B</text>
+              </g>
+            )}
+            <text x={x + cw / 2} y="113" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{caption}</text>
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+// ─── Marcadores Textuales: Adversativos ──────────────────────────────────────
+function MarcadoresAdversativosSVG({ tema }) {
+  const rows = [
+    { marker: "pero",              color: tema.azul,   desc: "Contraste parcial — limita la primera cláusula",    force: 55 },
+    { marker: "sin embargo · no obstante", color: tema.acento, desc: "Concesión fuerte (formal) — resultado inesperado", force: 100 },
+    { marker: "aunque",            color: tema.verde,  desc: "Concesión: A es real pero no impide B",              force: 72 },
+    { marker: "por el contrario",  color: "#c084fc",   desc: "Oposición total — niega o invierte lo anterior",     force: 140 },
+  ];
+  return (
+    <svg viewBox="0 0 520 132" width="100%" style={{ display: "block" }}>
+      <text x="5"   y="12" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" fontWeight="600" letterSpacing="0.12em">MARCADOR</text>
+      <text x="140" y="12" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" fontWeight="600" letterSpacing="0.12em">FUNCIÓN</text>
+      <text x="382" y="12" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" fontWeight="600" letterSpacing="0.12em">FUERZA DE OPOSICIÓN</text>
+      <line x1="0" y1="15" x2="520" y2="15" stroke="rgba(255,255,255,0.08)" strokeWidth="1"/>
+      {rows.map(({ marker, color, desc, force }, i) => {
+        const y = 20 + i * 28;
+        return (
+          <g key={i}>
+            <rect x="5" y={y} width="128" height="22" rx="5" fill={`${color}18`} stroke={`${color}55`} strokeWidth="1.3"/>
+            <text x="69" y={y + 14} fill={color} fontSize="10" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">{marker}</text>
+            <text x="140" y={y + 14} fill={tema.sub} fontSize="8" fontFamily="'DM Sans',sans-serif">{desc}</text>
+            <rect x="382" y={y + 5} width="132" height="12" rx="3" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" strokeWidth="1"/>
+            <rect x="382" y={y + 5} width={force} height="12" rx="3" fill={`${color}40`} stroke="none"/>
+          </g>
+        );
+      })}
+      <text x="382" y="129" fill={tema.muted} fontSize="7" fontFamily="'DM Sans',sans-serif">Débil</text>
+      <text x="514" y="129" fill={tema.muted} fontSize="7" fontFamily="'DM Sans',sans-serif" textAnchor="end">Fuerte</text>
+    </svg>
+  );
+}
+
+// ─── Marcadores Textuales: Causa / Consecuencia ───────────────────────────────
+function MarcadoresCausaConsecuenciaSVG({ tema }) {
+  const az = tema.azul, ac = tema.acento;
+  return (
+    <svg viewBox="0 0 520 130" width="100%" style={{ display: "block" }}>
+      {/* Background halves */}
+      <rect x="0" y="0" width="520" height="64" fill={`${az}06`}/>
+      <rect x="0" y="64" width="520" height="66" fill={`${ac}06`}/>
+      <line x1="0" y1="64" x2="520" y2="64" stroke="rgba(255,255,255,0.1)" strokeWidth="1"/>
+
+      {/* ── CAUSALES ── */}
+      <text x="8" y="14" fill={az} fontSize="8.5" fontFamily="'DM Sans',sans-serif" fontWeight="700" letterSpacing="0.12em">CAUSALES</text>
+      <text x="8" y="25" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif">porque · ya que · puesto que · dado que · a causa de</text>
+      <rect x="8"   y="31" width="88" height="22" rx="5" fill="rgba(0,0,0,0.25)" stroke="rgba(255,255,255,0.13)" strokeWidth="1"/>
+      <text x="52"  y="45" fill={tema.sub} fontSize="8.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">Resultado</text>
+      <line x1="98" y1="42" x2="148" y2="42" stroke={az} strokeWidth="1.8"/>
+      <polygon points="98,38 90,42 98,46" fill={az}/>
+      <text x="123" y="37" fill={az} fontSize="8.5" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">porque</text>
+      <rect x="152" y="31" width="88" height="22" rx="5" fill={`${az}22`} stroke={az} strokeWidth="1.5"/>
+      <text x="196" y="45" fill={az} fontSize="9" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">CAUSA</text>
+      <text x="8" y="61" fill={tema.muted} fontSize="7.5" fontFamily="Georgia,serif" fontStyle="italic">«Llegó tarde porque perdió el autobús.»</text>
+
+      {/* Right panel */}
+      <rect x="274" y="3" width="242" height="58" rx="6" fill="rgba(0,0,0,0.2)" stroke="rgba(255,255,255,0.08)" strokeWidth="1"/>
+      <text x="395" y="16" fill={az} fontSize="8" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">¿por qué ocurrió X?  →  lo nuevo = CAUSA</text>
+      <text x="285" y="32" fill={tema.sub} fontSize="8" fontFamily="'DM Sans',sans-serif">«No vino,  »  +  «ya que estaba enfermo.»</text>
+      <text x="285" y="46" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" fontStyle="italic">el marcador precede a la causa en la oración</text>
+
+      {/* ── CONSECUTIVOS ── */}
+      <text x="8" y="78" fill={ac} fontSize="8.5" fontFamily="'DM Sans',sans-serif" fontWeight="700" letterSpacing="0.12em">CONSECUTIVOS</text>
+      <text x="8" y="89" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif">por lo tanto · en consecuencia · por ende · de ahí que · así pues</text>
+      <rect x="8"   y="95" width="88" height="22" rx="5" fill="rgba(0,0,0,0.25)" stroke="rgba(255,255,255,0.13)" strokeWidth="1"/>
+      <text x="52"  y="109" fill={tema.sub} fontSize="8.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">Causa</text>
+      <line x1="98" y1="106" x2="148" y2="106" stroke={ac} strokeWidth="1.8"/>
+      <polygon points="148,102 156,106 148,110" fill={ac}/>
+      <text x="123" y="101" fill={ac} fontSize="7.5" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">por lo tanto</text>
+      <rect x="152" y="95" width="110" height="22" rx="5" fill={`${ac}22`} stroke={ac} strokeWidth="1.5"/>
+      <text x="207" y="109" fill={ac} fontSize="9" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">CONSECUENCIA</text>
+      <text x="8" y="126" fill={tema.muted} fontSize="7.5" fontFamily="Georgia,serif" fontStyle="italic">«Perdió el autobús. Por lo tanto, llegó tarde.»</text>
+
+      {/* Right panel */}
+      <rect x="274" y="67" width="242" height="58" rx="6" fill="rgba(0,0,0,0.2)" stroke="rgba(255,255,255,0.08)" strokeWidth="1"/>
+      <text x="395" y="80" fill={ac} fontSize="8" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">¿qué resulta de X?  →  lo nuevo = EFECTO</text>
+      <text x="285" y="96" fill={tema.sub} fontSize="8" fontFamily="'DM Sans',sans-serif">«Perdió el autobús.  »  +  «En consecuencia, llegó tarde.»</text>
+      <text x="285" y="110" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" fontStyle="italic">el marcador precede a la consecuencia en la oración</text>
+    </svg>
+  );
+}
+
+// ─── Marcadores Textuales: Temporales ────────────────────────────────────────
+function MarcadoresTemporalesSVG({ tema }) {
+  const vd = tema.verde, az = tema.azul, ac = tema.acento;
+  const TY = 50;
+  const pts = [
+    { x: 28,  label: "primero",    sub: "en primer lugar",   color: vd  },
+    { x: 180, label: "luego",      sub: "a continuación",    color: az  },
+    { x: 332, label: "después",    sub: "posteriormente",    color: az  },
+    { x: 480, label: "finalmente", sub: "por último",        color: ac  },
+  ];
+  return (
+    <svg viewBox="0 0 520 100" width="100%" style={{ display: "block" }}>
+      <text x="28"  y="11" fill={vd} fontSize="7.5" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.1em">INICIO</text>
+      <text x="256" y="11" fill={az} fontSize="7.5" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.1em">DESARROLLO</text>
+      <text x="480" y="11" fill={ac} fontSize="7.5" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.1em">CIERRE</text>
+      {/* Timeline */}
+      <line x1="28" y1={TY} x2="494" y2={TY} stroke="rgba(255,255,255,0.22)" strokeWidth="2.5"/>
+      <polygon points={`488,${TY - 4} 498,${TY} 488,${TY + 4}`} fill="rgba(255,255,255,0.22)"/>
+      {pts.map(({ x, label, sub, color }) => (
+        <g key={x}>
+          <circle cx={x} cy={TY} r="5.5" fill={color} opacity="0.9"/>
+          <line x1={x} y1={TY - 6} x2={x} y2={TY - 19} stroke={color} strokeWidth="1.2" opacity="0.7"/>
+          <text x={x} y={TY - 23} fill={color} fontSize="10" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">{label}</text>
+          <text x={x} y={TY + 18} fill={tema.sub} fontSize="8" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{sub}</text>
+        </g>
+      ))}
+      {/* Simultaneous track */}
+      <rect x="100" y="74" width="244" height="14" rx="3" fill={`${az}15`} stroke={`${az}40`} strokeWidth="1" strokeDasharray="5,3"/>
+      <text x="222" y="84" fill={az} fontSize="8.5" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">mientras tanto · al mismo tiempo</text>
+      <text x="8" y="98" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif">simultaneidad</text>
+    </svg>
+  );
+}
+
+// ─── Marcadores Textuales: Reformulación ─────────────────────────────────────
+function MarcadoresReformulacionSVG({ tema }) {
+  const rows = [
+    { type: "EXPLICATIVA",   color: tema.azul,   marker: "es decir · o sea",          src: "Idea original",    dst: "Misma idea, otras palabras",  desc: "= equivalencia" },
+    { type: "SÍNTESIS",      color: tema.verde,  marker: "en resumen · en síntesis",  src: "Ideas A + B + C",  dst: "Idea condensada",              desc: "∑ condensación" },
+    { type: "EJEMPLIFICACIÓN", color: tema.acento, marker: "por ejemplo · tal como",  src: "Idea general",     dst: "Caso específico concreto",     desc: "∈ instancia" },
+  ];
+  return (
+    <svg viewBox="0 0 520 100" width="100%" style={{ display: "block" }}>
+      <text x="88"  y="10" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle" fontWeight="600" letterSpacing="0.1em">FUENTE</text>
+      <text x="222" y="10" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle" fontWeight="600" letterSpacing="0.1em">MARCADOR</text>
+      <text x="340" y="10" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle" fontWeight="600" letterSpacing="0.1em">REFORMULACIÓN</text>
+      <line x1="5" y1="13" x2="515" y2="13" stroke="rgba(255,255,255,0.08)" strokeWidth="1"/>
+      {rows.map(({ type, color, marker, src, dst, desc }, i) => {
+        const y = 19 + i * 27;
+        return (
+          <g key={i}>
+            <text x="5" y={y + 14} fill={color} fontSize="8" fontFamily="'DM Sans',sans-serif" fontWeight="700" letterSpacing="0.06em">{type}</text>
+            <rect x="82" y={y} width="92" height="22" rx="5" fill="rgba(0,0,0,0.25)" stroke="rgba(255,255,255,0.12)" strokeWidth="1"/>
+            <text x="128" y={y + 14} fill={tema.sub} fontSize="8" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{src}</text>
+            <line x1="176" y1={y + 11} x2="210" y2={y + 11} stroke={color} strokeWidth="1.5"/>
+            <polygon points={`210,${y + 7} 218,${y + 11} 210,${y + 15}`} fill={color}/>
+            <text x="193" y={y + 8} fill={color} fontSize="7.5" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">{marker}</text>
+            <rect x="220" y={y} width="170" height="22" rx="5" fill={`${color}15`} stroke={`${color}55`} strokeWidth="1.3"/>
+            <text x="305" y={y + 14} fill={color} fontSize="8" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{dst}</text>
+            <text x="408" y={y + 14} fill={tema.muted} fontSize="8.5" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">{desc}</text>
+          </g>
+        );
+      })}
     </svg>
   );
 }

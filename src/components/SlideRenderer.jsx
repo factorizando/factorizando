@@ -3561,22 +3561,22 @@ function SlideArbolDecision({ slide, tema }) {
 
   const T = tema.texto;
   const nodes = useMemo(() => [
-    { id: 'start',  type: 'start',    position: { x: 218, y:   0 }, data: { label: 'PALABRA', t: T, dim: nDim('start') } },
-    { id: 'nmono',  type: 'question', position: { x: 175, y:  44 }, data: { label: '¿Es monosílabo?', col: '#94a3b8', t: T, dim: nDim('nmono'), glow: nGlow('nmono') } },
+    { id: 'start',  type: 'start',    position: { x: 247, y:   0 }, data: { label: 'PALABRA', t: T, dim: nDim('start') } },
+    { id: 'nmono',  type: 'question', position: { x: 215, y:  44 }, data: { label: '¿Es monosílabo?', col: '#94a3b8', t: T, dim: nDim('nmono'), glow: nGlow('nmono') } },
     { id: 'ndiac',  type: 'question', position: { x:   8, y: 132 }, data: { label: '¿Tiene par\ndiacrítico?', col: '#94a3b8', t: T, dim: nDim('ndiac'), glow: nGlow('ndiac') } },
-    { id: 'npos',   type: 'question', position: { x: 238, y: 132 }, data: { label: '¿Dónde cae\nla tónica?', col: '#94a3b8', t: T, dim: nDim('npos'), glow: nGlow('npos') } },
+    { id: 'npos',   type: 'question', position: { x: 446, y: 132 }, data: { label: '¿Dónde cae\nla tónica?', col: '#94a3b8', t: T, dim: nDim('npos'), glow: nGlow('npos') } },
     { id: 'r1',     type: 'result',   position: { x:   4, y: 222 }, data: { label: 'TILDE', sub: 'él·mí·tú·sé·sí…', result: 'si', active: activeResult === 'r1', dim: nDim('r1'), onClick: () => toggle('r1') } },
     { id: 'r2',     type: 'result',   position: { x: 116, y: 222 }, data: { label: 'SIN TILDE', sub: 'fue·vio·pie…', result: 'no', active: activeResult === 'r2', dim: nDim('r2'), onClick: () => toggle('r2') } },
-    { id: 'naguda', type: 'type',     position: { x: 222, y: 222 }, data: { label: 'AGUDA\núltima', col: tema.acento, dim: nDim('naguda') } },
-    { id: 'nllana', type: 'type',     position: { x: 342, y: 222 }, data: { label: 'LLANA\npenúltima', col: tema.azul, dim: nDim('nllana') } },
-    { id: 'nesdruj',type: 'type',     position: { x: 462, y: 222 }, data: { label: 'ESDRÚJ./SOBR.\nante-penúlt.+', col: tema.verde, dim: nDim('nesdruj') } },
-    { id: 'nagc',   type: 'question', position: { x: 198, y: 302 }, data: { label: '¿Termina en\nvocal, N o S?', col: tema.acento, t: T, dim: nDim('nagc'), glow: nGlow('nagc') } },
-    { id: 'nllc',   type: 'question', position: { x: 320, y: 302 }, data: { label: '¿Termina en\nvocal, N o S?', col: tema.azul, t: T, dim: nDim('nllc'), glow: nGlow('nllc') } },
-    { id: 'r7',     type: 'result',   position: { x: 462, y: 302 }, data: { label: 'SIEMPRE\nTILDE', sub: 'médico·sílaba…', result: 'si', active: activeResult === 'r7', dim: nDim('r7'), onClick: () => toggle('r7') } },
-    { id: 'r3',     type: 'result',   position: { x: 150, y: 396 }, data: { label: 'TILDE', sub: 'café·jardín…', result: 'si', active: activeResult === 'r3', dim: nDim('r3'), onClick: () => toggle('r3') } },
+    { id: 'naguda', type: 'type',     position: { x: 242, y: 222 }, data: { label: 'AGUDA\núltima', col: tema.acento, dim: nDim('naguda') } },
+    { id: 'nllana', type: 'type',     position: { x: 518, y: 222 }, data: { label: 'LLANA\npenúltima', col: tema.azul, dim: nDim('nllana') } },
+    { id: 'nesdruj',type: 'type',     position: { x: 652, y: 222 }, data: { label: 'ESDRÚJ./SOBR.\nante-penúlt.+', col: tema.verde, dim: nDim('nesdruj') } },
+    { id: 'nagc',   type: 'question', position: { x: 214, y: 302 }, data: { label: '¿Termina en\nvocal, N o S?', col: tema.acento, t: T, dim: nDim('nagc'), glow: nGlow('nagc') } },
+    { id: 'nllc',   type: 'question', position: { x: 491, y: 302 }, data: { label: '¿Termina en\nvocal, N o S?', col: tema.azul, t: T, dim: nDim('nllc'), glow: nGlow('nllc') } },
+    { id: 'r7',     type: 'result',   position: { x: 665, y: 302 }, data: { label: 'SIEMPRE\nTILDE', sub: 'médico·sílaba…', result: 'si', active: activeResult === 'r7', dim: nDim('r7'), onClick: () => toggle('r7') } },
+    { id: 'r3',     type: 'result',   position: { x: 148, y: 396 }, data: { label: 'TILDE', sub: 'café·jardín…', result: 'si', active: activeResult === 'r3', dim: nDim('r3'), onClick: () => toggle('r3') } },
     { id: 'r4',     type: 'result',   position: { x: 262, y: 396 }, data: { label: 'SIN TILDE', sub: 'reloj·verdad…', result: 'no', active: activeResult === 'r4', dim: nDim('r4'), onClick: () => toggle('r4') } },
-    { id: 'r5',     type: 'result',   position: { x: 320, y: 396 }, data: { label: 'SIN TILDE', sub: 'casa·examen…', result: 'no', active: activeResult === 'r5', dim: nDim('r5'), onClick: () => toggle('r5') } },
-    { id: 'r6',     type: 'result',   position: { x: 432, y: 396 }, data: { label: 'TILDE', sub: 'árbol·fácil…', result: 'si', active: activeResult === 'r6', dim: nDim('r6'), onClick: () => toggle('r6') } },
+    { id: 'r5',     type: 'result',   position: { x: 438, y: 396 }, data: { label: 'SIN TILDE', sub: 'casa·examen…', result: 'no', active: activeResult === 'r5', dim: nDim('r5'), onClick: () => toggle('r5') } },
+    { id: 'r6',     type: 'result',   position: { x: 556, y: 396 }, data: { label: 'TILDE', sub: 'árbol·fácil…', result: 'si', active: activeResult === 'r6', dim: nDim('r6'), onClick: () => toggle('r6') } },
   // eslint-disable-next-line react-hooks/exhaustive-deps
   ], [activeResult, tema]);
 

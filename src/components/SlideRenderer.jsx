@@ -1700,110 +1700,33 @@ function RomboDetalleSVG({ tema }) {
   );
 }
 function CuadradoDetalleSVG({ tema }) {
-  const divRef = useRef(null);
-  const boardRef = useRef(null);
-  const idRef = useRef(null);
-  if (!idRef.current) {
-    idRef.current = `jxg-cdet-${Math.random().toString(36).slice(2, 8)}`;
-  }
-
-  useEffect(() => {
-    const div = divRef.current;
-    if (!div) return;
-    div.id = idRef.current;
-
-    if (JXG.JSXGraph.boards && JXG.JSXGraph.boards[idRef.current]) {
-      JXG.JSXGraph.freeBoard(JXG.JSXGraph.boards[idRef.current]);
-    }
-
-    const board = JXG.JSXGraph.initBoard(idRef.current, {
-      boundingbox: [-1.65, 1.65, 1.65, -1.65],
-      keepaspectratio: true,
-      showNavigation: false,
-      showCopyright: false,
-      pan: { enabled: false, needTwoFingers: false },
-      zoom: { wheel: false, enabled: false, pinch: false },
-      axis: false,
-      grid: false,
-    });
-
-    board.containerObj.style.background = 'transparent';
-    board.containerObj.style.border = 'none';
-    board.containerObj.style.borderRadius = '0';
-
-    const pt = (x, y) => board.create('point', [x, y], {
-      name: '', visible: false, fixed: true, withLabel: false, highlight: false,
-    });
-
-    // A=bottom-left, B=bottom-right, C=top-right, D=top-left
-    const A = pt(-1, -1);
-    const B = pt(1, -1);
-    const C = pt(1, 1);
-    const D = pt(-1, 1);
-
-    board.create('polygon', [A, B, C, D], {
-      fillColor: tema.azulSuave,
-      fillOpacity: 1,
-      highlight: false,
-      hasInnerPoints: false,
-      vertices: { visible: false, withLabel: false },
-      borders: {
-        strokeColor: tema.azul, strokeWidth: 2.2, strokeOpacity: 0.9,
-        highlight: false, lastArrow: false, firstArrow: false,
-      },
-      highlightFillColor: tema.azulSuave,
-      highlightFillOpacity: 1,
-    });
-
-    // Diagonal A→C punteada
-    board.create('segment', [A, C], {
-      strokeColor: tema.azul, strokeWidth: 1.5,
-      dash: 2, strokeOpacity: 0.4, highlight: false,
-    });
-
-    // Marcadores de ángulo recto en las cuatro esquinas
-    const raStyle = {
-      radius: 0.13, type: 'square',
-      strokeColor: tema.acento, strokeWidth: 1.8,
-      fillColor: 'none', fillOpacity: 0,
-      withLabel: false, highlight: false,
-    };
-    board.create('angle', [B, A, D], raStyle); // esquina A
-    board.create('angle', [C, B, A], raStyle); // esquina B
-    board.create('angle', [D, C, B], raStyle); // esquina C
-    board.create('angle', [A, D, C], raStyle); // esquina D
-
-    const mkTxt = (x, y, text, color, size, css = '') =>
-      board.create('text', [x, y], {
-        text, fontSize: size, color,
-        highlight: false, fixed: true, strokeColor: 'none',
-        cssStyle: `font-family:Georgia,serif;font-style:italic;${css}`,
-      });
-
-    mkTxt(0, -1.3,  'l', tema.azul,  16);        // etiqueta lado inferior
-    mkTxt(1.28, 0,  'l', tema.azul,  16);        // etiqueta lado derecho
-    mkTxt(0.12, 0.08, 'd', tema.azul, 13, 'opacity:0.5;'); // diagonal
-
-    // Etiquetas de vértices
-    mkTxt(-1.17, -1.18, 'A', tema.muted, 13);
-    mkTxt( 1.08, -1.18, 'B', tema.muted, 13);
-    mkTxt( 1.08,  1.18, 'C', tema.muted, 13);
-    mkTxt(-1.17,  1.18, 'D', tema.muted, 13);
-
-    boardRef.current = board;
-    return () => { try { JXG.JSXGraph.freeBoard(board); } catch (e) {} };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
+  // Cuadrado 140×140 centrado en viewBox 430×185 → proporciones exactamente 1:1
+  // A=top-left(145,23), B=top-right(285,23), C=bottom-right(285,163), D=bottom-left(145,163)
   return (
-    <div
-      ref={divRef}
-      style={{
-        width: '100%', height: 185,
-        position: 'relative', overflow: 'hidden',
-        background: 'transparent', border: 'none', borderRadius: 0,
-        userSelect: 'none',
-      }}
-    />
+    <svg viewBox="0 0 430 185" width="100%" style={{ display: "block", maxHeight: 185 }}>
+      <polygon points="145,23 285,23 285,163 145,163" fill={tema.azulSuave} stroke="none"/>
+      <polygon points="145,23 285,23 285,163 145,163" fill="none" stroke={tema.azul} strokeWidth="2.2" opacity="0.9"/>
+      {/* Marcadores de ángulo recto */}
+      <path d="M 157,23 L 157,35 L 145,35" stroke={tema.acento} strokeWidth="1.8" fill="none"/>
+      <path d="M 273,23 L 273,35 L 285,35" stroke={tema.acento} strokeWidth="1.8" fill="none"/>
+      <path d="M 273,163 L 273,151 L 285,151" stroke={tema.acento} strokeWidth="1.8" fill="none"/>
+      <path d="M 157,163 L 157,151 L 145,151" stroke={tema.acento} strokeWidth="1.8" fill="none"/>
+      {/* Diagonal A→C */}
+      <line x1="145" y1="23" x2="285" y2="163" stroke={tema.azul} strokeWidth="1.5" strokeDasharray="7,5" opacity="0.4"/>
+      {/* Marcas de lado igual */}
+      <path d="M 215,19 L 215,27" stroke={tema.azul} strokeWidth="1.8" fill="none"/>
+      <path d="M 215,159 L 215,167" stroke={tema.azul} strokeWidth="1.8" fill="none"/>
+      <path d="M 141,93 L 149,93" stroke={tema.azul} strokeWidth="1.8" fill="none"/>
+      <path d="M 281,93 L 289,93" stroke={tema.azul} strokeWidth="1.8" fill="none"/>
+      {/* Etiquetas */}
+      <text x="215" y="178" fill={tema.azul} fontSize="15" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">l</text>
+      <text x="300" y="97" fill={tema.azul} fontSize="15" fontFamily="Georgia,serif" fontStyle="italic">l</text>
+      <text x="221" y="83" fill={tema.azul} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" opacity="0.5">d</text>
+      <text x="141" y="20" fill={tema.muted} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">A</text>
+      <text x="288" y="20" fill={tema.muted} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="288" y="176" fill={tema.muted} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">C</text>
+      <text x="141" y="176" fill={tema.muted} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">D</text>
+    </svg>
   );
 }
 function TrapIsoDetalleSVG({ tema }) {

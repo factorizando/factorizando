@@ -6,7 +6,6 @@ import Preparatoria from "./pages/Preparatoria";
 import Universidad from "./pages/Universidad";
 import Cuestionario from "./pages/Cuestionario";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Registro from "./pages/Registro";
 import SelectorBloque from "./pages/SelectorBloque";
 import Admin from "./pages/Admin";
 import ExaniI from "./pages/cuestionarios/ExaniI";
@@ -30,7 +29,6 @@ export default function App() {
         {/* ── Públicas ── */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/registro" element={<Registro />} />
         <Route path="/exani-i" element={<ExaniI />} />
         <Route path="/exani-ii" element={<ExaniII />} />
 

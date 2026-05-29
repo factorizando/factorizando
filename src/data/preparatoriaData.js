@@ -363,8 +363,13 @@ export const SUBJECTS_PREP = [
               },
               {
                 id: "sesion-3",
-                name: "Sesión 3 - Congruencia y Semejanza de Triángulos",
+                name: "Sesión 3 - Congruencia y Semejanza de Triángulos 1",
                 video: "https://youtu.be/D9htJ6_gxxE",
+              },
+              {
+                id: "sesion-4",
+                name: "Sesión 4 - Congruencia y Semejanza de Triángulos 2",
+                video: "https://youtu.be/v-EUmID0qaM",
               },
             ],
           },
@@ -406,12 +411,17 @@ export const SUBJECTS_PREP = [
           },
           {
             id: "sesion-7",
-            name: "Sesión 7 - Concordancia Verbal",
+            name: "Sesión 7 - Concordancia Verbal 1",
             video: "https://youtu.be/drCqyUPgR38",
           },
           {
             id: "sesion-8",
-            name: "Sesión 8 - Concordancia Verbal",
+            name: "Sesión 8 - Concordancia Verbal 2",
+            video: "https://youtu.be/JL4c-zDLPNA",
+          },
+          {
+            id: "sesion-9",
+            name: "Sesión 9 - Concordancia Verbal 3",
             video: "https://youtu.be/JL4c-zDLPNA",
           },
         ],

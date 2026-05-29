@@ -4,6 +4,7 @@ export const PRESENTACION = {
   id: "semejanza-triangulos",
   titulo: "Congruencia y Semejanza de Triángulos",
   materia: "Matemáticas",
+  subtema: "Geometría",
   slides: [
     // ── PORTADA ───────────────────────────────────────────────────────────────
     {
@@ -475,7 +476,7 @@ export const PRESENTACION = {
     {
       id: "s15a",
       tipo: "ejercicio",
-      svgDiagram: "se-lll-ej1",
+      svgDiagram: "se-lll-s1",
       etiqueta: "LLL · Ejercicio 1 / 3",
       pregunta: "Un triángulo tiene lados 3, 5, 7 y otro tiene lados 6, 10, 14. ¿Son semejantes? ¿Cuál es k?",
       math_pregunta: "\\triangle_1\\!: 3,5,7 \\quad \\triangle_2\\!: 6,10,14",
@@ -489,7 +490,7 @@ export const PRESENTACION = {
     {
       id: "s15b",
       tipo: "ejercicio",
-      svgDiagram: "se-lll-ej2",
+      svgDiagram: "se-lll-s2",
       etiqueta: "LLL · Ejercicio 2 / 3",
       pregunta: "△ABC ~ △DEF (LLL). AB = 8, BC = 10, DE = 4. ¿Cuánto mide EF?",
       math_pregunta: "AB = 8,\\; BC = 10,\\; DE = 4",
@@ -504,7 +505,7 @@ export const PRESENTACION = {
     {
       id: "s15c",
       tipo: "ejercicio",
-      svgDiagram: "se-lll-ej1",
+      svgDiagram: "se-lll-s3",
       etiqueta: "LLL · Ejercicio 3 / 3",
       pregunta: "Triángulos con lados 12, 16, 20 y 3, 4, 5. ¿Cuál es la razón de semejanza del mayor al menor?",
       math_pregunta: "\\triangle_1\\!: 12,16,20 \\quad \\triangle_2\\!: 3,4,5",
@@ -575,7 +576,7 @@ export const PRESENTACION = {
     {
       id: "s16b",
       tipo: "ejercicio",
-      svgDiagram: "se-lal-ej2",
+      svgDiagram: "se-lal-s2",
       etiqueta: "LAL · Ejercicio 2 / 3",
       pregunta: "△ABC ~ △DEF (LAL). AB = 9, AC = 15, DE = 6, ∠A = ∠D. ¿Cuánto mide DF?",
       math_pregunta: "AB = 9,\\; AC = 15,\\; DE = 6",
@@ -650,6 +651,7 @@ export const PRESENTACION = {
     {
       id: 19,
       tipo: "ejercicio",
+      svgDiagram: "se-k3",
       etiqueta: "Ejercicio 1 / 3",
       pregunta: "Si △ABC ~ △DEF con k = 3 y AB = 15, ¿cuánto mide DE?",
       math_pregunta: "\\triangle ABC \\sim \\triangle DEF,\\quad k = 3,\\quad AB = 15",
@@ -668,6 +670,7 @@ export const PRESENTACION = {
     {
       id: 20,
       tipo: "ejercicio",
+      svgDiagram: "ce4-aaa",
       etiqueta: "Ejercicio 2 / 3",
       pregunta:
         "¿Qué criterio de semejanza se aplica cuando únicamente sabemos que dos ángulos son iguales en ambos triángulos?",
@@ -682,6 +685,7 @@ export const PRESENTACION = {
     {
       id: 21,
       tipo: "ejercicio",
+      svgDiagram: "se-areas",
       etiqueta: "Ejercicio 3 / 3",
       pregunta:
         "Dos triángulos semejantes tienen k = 2. Si el área del menor es 9 cm², ¿cuál es el área del mayor?",

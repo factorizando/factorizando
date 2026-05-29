@@ -22,41 +22,80 @@ export default function PresentacionAlumno() {
   const [puntajeFinal, setPuntajeFinal] = useState(null);
   const canalRef = useRef(null);
   const savedRef = useRef(false);
+  // Ref con los valores más recientes: permite guardar desde cleanup sin closures stale
+  const latestRef = useRef({});
+  latestRef.current = { user, presentacion, sesion, slideIdx, respuestas };
 
   const tema = obtenerTema(presentacion?.materia);
   const slides = presentacion?.slides ?? [];
   const slide = slides[slideIdx] ?? slides[0];
+
+  // Lógica de guardado compartida entre el efecto normal y el cleanup de desmontaje.
+  // conUI=true solo cuando el componente sigue montado (muestra resultado en pantalla).
+  function guardar(conUI = false) {
+    if (savedRef.current) return;
+    const { user: u, presentacion: p, sesion: s, slideIdx: idx, respuestas: resp } = latestRef.current;
+    if (!u || !p || !s) return;
+    savedRef.current = true;
+
+    const ejercicios = p.slides.filter(sl => sl.tipo === "ejercicio" && resp[sl.id] !== undefined);
+    if (ejercicios.length === 0) return;
+
+    const puntaje = ejercicios.filter(sl => resp[sl.id] === sl.correcta).length;
+    const total = ejercicios.length;
+    if (conUI) setPuntajeFinal({ puntaje, total });
+
+    (async () => {
+      const { error } = await supabase.from("resultados").insert({
+        user_id: u.id,
+        cuestionario_id: "presentacion-" + p.id,
+        cuestionario_titulo: p.titulo,
+        puntaje,
+        total,
+      });
+      if (error) console.error("[Alumno] Error guardando resultado:", error);
+    })();
+  }
 
   // Obtener usuario autenticado (ProtectedRoute ya garantiza que existe)
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user: u } }) => setUser(u));
   }, []);
 
-  // Guardar puntaje en `resultados` al terminar la sesión
+  // Guardar al terminar la sesión (maestro la cierra).
   useEffect(() => {
-    if (!sesionTerminada || !user || !presentacion || savedRef.current) return;
-    savedRef.current = true;
+    if (!sesionTerminada) return;
+    guardar(true);
+  }, [sesionTerminada, user, presentacion]); // eslint-disable-line react-hooks/exhaustive-deps
 
-    const ejercicios = presentacion.slides
-      .slice(0, slideIdx + 1)
-      .filter(s => s.tipo === "ejercicio");
-    if (ejercicios.length === 0) return;
+  // Guardar al salir de la página antes de que el maestro termine.
+  // latestRef siempre tiene los valores actuales, así que el cleanup los lee correctamente.
+  useEffect(() => {
+    return () => guardar(false);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-    const puntaje = ejercicios.filter(s => respuestas[s.id] === s.correcta).length;
-    const total = ejercicios.length;
-    setPuntajeFinal({ puntaje, total });
+  // Polling de respaldo: si el WebSocket se cayó o el alumno no recibió el evento
+  // de fin de sesión, esto detecta el cambio cada 15 s.
+  useEffect(() => {
+    if (!sesion || sesionTerminada) return;
 
-    // PostgrestFilterBuilder solo implementa .then(), no .catch(); usar async IIFE
-    (async () => {
-      await supabase.from("resultados").insert({
-        user_id: user.id,
-        cuestionario_id: "presentacion-" + presentacion.id,
-        cuestionario_titulo: presentacion.titulo,
-        puntaje,
-        total,
-      });
-    })();
-  }, [sesionTerminada]); // eslint-disable-line react-hooks/exhaustive-deps
+    const poll = setInterval(async () => {
+      const { data } = await supabase
+        .from("sesiones_presentacion")
+        .select("activa, slide_actual")
+        .eq("id", sesion.id)
+        .single();
+
+      if (!data) return;
+      if (!data.activa) {
+        setSesionTerminada(true);
+      } else if (data.slide_actual !== latestRef.current.slideIdx) {
+        setSlideIdx(data.slide_actual);
+      }
+    }, 15000);
+
+    return () => clearInterval(poll);
+  }, [sesion, sesionTerminada]);
 
   async function unirse() {
     if (codigo.length !== 4) {
@@ -139,7 +178,8 @@ export default function PresentacionAlumno() {
     const { error } = await supabase.from("respuestas_presentacion").insert({
       sesion_id: sesion.id,
       slide_id: String(slide.id),
-      opcion_elegida: opcionIdx
+      opcion_elegida: opcionIdx,
+      user_id: user?.id ?? null,
     });
     if (error) console.error("[Alumno] Error guardando respuesta:", error);
   }

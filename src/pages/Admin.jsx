@@ -116,126 +116,173 @@ function TabBtn({ active, onClick, children, badge }) {
   );
 }
 
-// ── Tarjeta de presentación ───────────────────────────────────────────────────
-function PresentacionCard({ id, titulo, materia }) {
+// ── Tarjeta de presentación (compacta) ───────────────────────────────────────
+function PresentacionCard({ id, titulo, materia, subtema }) {
   const tema = obtenerTema(materia);
   const pres = buscarPresentacion(id);
   const slides = pres?.slides || [];
-  const nReglas  = slides.filter((s) => s.tipo === "regla" || s.tipo === "regla_rica" || s.tipo === "criterio_detalle" || s.tipo === "concepto" || s.tipo === "definicion").length;
-  const nEjerc   = slides.filter((s) => s.tipo === "ejercicio").length;
+  const nReglas = slides.filter((s) => ["regla","regla_rica","criterio_detalle","concepto","definicion"].includes(s.tipo)).length;
+  const nEjerc  = slides.filter((s) => s.tipo === "ejercicio").length;
 
   return (
     <div style={{
-      background: C.surface,
-      border: `1px solid ${tema.acentoBorde || C.border}`,
-      borderRadius: 16,
-      overflow: "hidden",
+      background: C.card,
+      border: `1px solid ${C.border}`,
+      borderLeft: `3px solid ${tema.acento}`,
+      borderRadius: 10,
       display: "flex",
-      flexDirection: "column",
-      transition: "transform .15s, box-shadow .15s",
+      alignItems: "center",
+      gap: 14,
+      padding: "10px 14px",
+      transition: "background .15s",
     }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.transform = "translateY(-2px)";
-        e.currentTarget.style.boxShadow = `0 8px 32px ${tema.acentoSuave || "rgba(0,0,0,.4)"}`;
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.transform = "translateY(0)";
-        e.currentTarget.style.boxShadow = "none";
-      }}
+      onMouseEnter={(e) => { e.currentTarget.style.background = "#1e2130"; }}
+      onMouseLeave={(e) => { e.currentTarget.style.background = C.card; }}
     >
-      {/* Barra de acento superior */}
-      <div style={{ height: 5, background: `linear-gradient(90deg, ${tema.acento}, ${tema.azul || tema.acento}88)` }} />
+      {/* Título + subtema */}
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ color: C.text, fontWeight: 600, fontSize: 13, fontFamily: font, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+          {titulo}
+        </div>
+        {subtema && (
+          <div style={{ color: tema.acento, fontSize: 11, fontFamily: font, marginTop: 2, opacity: 0.8 }}>
+            {subtema}
+          </div>
+        )}
+      </div>
 
-      <div style={{ padding: "20px 22px", flex: 1, display: "flex", flexDirection: "column", gap: 10 }}>
-        {/* Materia */}
+      {/* Conteos */}
+      <div style={{ display: "flex", gap: 10, flexShrink: 0 }}>
+        {nReglas > 0 && (
+          <span style={{ color: C.muted, fontSize: 11, fontFamily: font }}>
+            {nReglas} secc.
+          </span>
+        )}
+        {nEjerc > 0 && (
+          <span style={{ color: C.muted, fontSize: 11, fontFamily: font }}>
+            {nEjerc} ej.
+          </span>
+        )}
+        {nReglas === 0 && nEjerc === 0 && (
+          <span style={{ color: C.muted, fontSize: 11, fontFamily: font }}>
+            {slides.length} slides
+          </span>
+        )}
+      </div>
+
+      {/* Botón */}
+      <Link
+        to={`/presentacion/${id}`}
+        style={{
+          flexShrink: 0,
+          background: tema.acento + "22",
+          color: tema.acento,
+          border: `1px solid ${tema.acento}55`,
+          borderRadius: 7,
+          padding: "5px 12px",
+          textDecoration: "none",
+          fontSize: 12,
+          fontWeight: 700,
+          fontFamily: font,
+          whiteSpace: "nowrap",
+        }}
+      >
+        Abrir →
+      </Link>
+    </div>
+  );
+}
+
+// ── Acordeón de materia ───────────────────────────────────────────────────────
+function MateriaAccordion({ materia, presentaciones: items }) {
+  const tema = obtenerTema(materia);
+  const [open, setOpen] = useState(true);
+
+  // Agrupar por subtema dentro de la materia
+  const grupos = {};
+  items.forEach((p) => {
+    const key = p.subtema || "";
+    if (!grupos[key]) grupos[key] = [];
+    grupos[key].push(p);
+  });
+  const tieneSubtemas = Object.keys(grupos).some((k) => k !== "");
+
+  return (
+    <div style={{ borderRadius: 12, overflow: "hidden", border: `1px solid ${C.border}` }}>
+      {/* Cabecera */}
+      <button
+        onClick={() => setOpen((o) => !o)}
+        style={{
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          gap: 12,
+          padding: "12px 18px",
+          background: C.surface,
+          border: "none",
+          cursor: "pointer",
+          textAlign: "left",
+        }}
+      >
+        <span style={{ color: tema.acento, fontSize: 16, lineHeight: 1 }}>
+          {open ? "▼" : "▶"}
+        </span>
+        <span style={{ color: C.text, fontWeight: 700, fontSize: 14, fontFamily: font, flex: 1 }}>
+          {materia}
+        </span>
         <span style={{
-          display: "inline-block",
-          alignSelf: "flex-start",
           background: tema.acentoSuave,
           color: tema.acento,
           borderRadius: 99,
-          padding: "3px 12px",
+          padding: "2px 10px",
           fontSize: 11,
           fontWeight: 700,
-          letterSpacing: 0.5,
           fontFamily: font,
         }}>
-          {materia}
+          {items.length}
         </span>
+      </button>
 
-        {/* Título */}
-        <div style={{
-          color: C.text,
-          fontWeight: 700,
-          fontSize: 18,
-          lineHeight: 1.25,
-          flex: 1,
-          fontFamily: font,
-        }}>
-          {titulo}
+      {/* Contenido */}
+      {open && (
+        <div style={{ background: C.bg, padding: "12px 14px", display: "flex", flexDirection: "column", gap: 6 }}>
+          {tieneSubtemas
+            ? Object.entries(grupos).map(([sub, pres]) => (
+                <div key={sub}>
+                  {sub && (
+                    <div style={{
+                      color: C.muted,
+                      fontSize: 10,
+                      fontWeight: 700,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.12em",
+                      fontFamily: font,
+                      padding: "6px 4px 4px",
+                    }}>
+                      {sub}
+                    </div>
+                  )}
+                  <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+                    {pres.map((p) => (
+                      <PresentacionCard key={p.id} {...p} />
+                    ))}
+                  </div>
+                </div>
+              ))
+            : items.map((p) => <PresentacionCard key={p.id} {...p} />)
+          }
         </div>
-
-        {/* Conteo de slides */}
-        <div style={{ display: "flex", gap: 12, marginTop: 4 }}>
-          {nReglas > 0 && (
-            <span style={{ display: "flex", alignItems: "center", gap: 5, color: C.dim, fontSize: 12, fontFamily: font }}>
-              <span style={{
-                width: 6, height: 6, borderRadius: "50%",
-                background: tema.acento, display: "inline-block",
-              }} />
-              {nReglas} {nReglas === 1 ? "sección" : "secciones"}
-            </span>
-          )}
-          {nEjerc > 0 && (
-            <span style={{ display: "flex", alignItems: "center", gap: 5, color: C.dim, fontSize: 12, fontFamily: font }}>
-              <span style={{
-                width: 6, height: 6, borderRadius: "50%",
-                background: tema.azul || C.blue, display: "inline-block",
-              }} />
-              {nEjerc} reactivos
-            </span>
-          )}
-          {nReglas === 0 && nEjerc === 0 && (
-            <span style={{ color: C.muted, fontSize: 12, fontFamily: font }}>
-              {slides.length} slides
-            </span>
-          )}
-        </div>
-      </div>
-
-      {/* Footer */}
-      <div style={{
-        padding: "14px 22px",
-        borderTop: `1px solid ${C.border}`,
-        display: "flex",
-        gap: 8,
-      }}>
-        <Link
-          to={`/presentacion/${id}`}
-          style={{
-            flex: 1,
-            display: "block",
-            background: tema.acento,
-            color: "#fff",
-            borderRadius: 9,
-            padding: "10px 0",
-            textDecoration: "none",
-            fontSize: 13,
-            fontWeight: 700,
-            textAlign: "center",
-            fontFamily: font,
-          }}
-        >
-          Abrir presentación →
-        </Link>
-      </div>
+      )}
     </div>
   );
 }
 
 // ── Resultados de una presentación ───────────────────────────────────────────
-function ResultadosPresentacion({ presentacion, resultados, profiles }) {
+function ResultadosPresentacion({ presentacion, resultados, profiles, onDelete, onUpdate }) {
   const [open, setOpen] = useState(false);
+  const [deletingId, setDeletingId] = useState(null);
+  const [editingId, setEditingId] = useState(null);
+  const [editValues, setEditValues] = useState({ puntaje: 0, total: 0 });
   const propios = resultados
     .filter((r) => r.cuestionario_id === "presentacion-" + presentacion.id)
     .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
@@ -302,7 +349,7 @@ function ResultadosPresentacion({ presentacion, resultados, profiles }) {
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, fontFamily: font }}>
               <thead>
                 <tr>
-                  {["Alumno", "Puntaje", "%", "Fecha"].map((h) => (
+                  {["Alumno", "Puntaje", "%", "Fecha", ""].map((h) => (
                     <th key={h} style={{
                       color: C.dim, fontWeight: 600, textAlign: "left",
                       padding: "4px 8px", fontSize: 11,
@@ -315,11 +362,25 @@ function ResultadosPresentacion({ presentacion, resultados, profiles }) {
                 {propios.map((r) => {
                   const profile = profiles[r.user_id] || {};
                   const nombre = profile.nombre || profile.email || r.user_id.slice(0, 8);
-                  const pct = Math.round((r.puntaje / r.total) * 100);
+                  const editing = editingId === r.id;
+                  const pct = editing
+                    ? Math.round((editValues.puntaje / editValues.total) * 100)
+                    : Math.round((r.puntaje / r.total) * 100);
+                  const confirming = deletingId === r.id;
                   return (
                     <tr key={r.id} style={{ borderTop: `1px solid ${C.border}` }}>
                       <td style={{ padding: "8px 8px", color: C.text }}>{nombre}</td>
-                      <td style={{ padding: "8px 8px", color: C.dim }}>{r.puntaje}/{r.total}</td>
+                      <td style={{ padding: "8px 8px", color: C.dim }}>
+                        {editing ? (
+                          <span style={{ display: "flex", gap: 4, alignItems: "center" }}>
+                            <input type="number" min={0} value={editValues.puntaje} onChange={(e) => setEditValues((v) => ({ ...v, puntaje: Number(e.target.value) }))} style={{ width: 44, background: C.surface, border: `1px solid ${C.blue}66`, borderRadius: 4, color: C.text, padding: "2px 5px", fontSize: 12, fontFamily: font, textAlign: "center" }} />
+                            <span style={{ color: C.muted }}>/</span>
+                            <input type="number" min={1} value={editValues.total} onChange={(e) => setEditValues((v) => ({ ...v, total: Number(e.target.value) }))} style={{ width: 44, background: C.surface, border: `1px solid ${C.blue}66`, borderRadius: 4, color: C.text, padding: "2px 5px", fontSize: 12, fontFamily: font, textAlign: "center" }} />
+                          </span>
+                        ) : (
+                          `${r.puntaje}/${r.total}`
+                        )}
+                      </td>
                       <td style={{ padding: "8px 8px" }}>
                         <span style={{
                           background: pctColor(pct) + "22",
@@ -335,6 +396,25 @@ function ResultadosPresentacion({ presentacion, resultados, profiles }) {
                       <td style={{ padding: "8px 8px", color: C.muted, fontSize: 12, whiteSpace: "nowrap" }}>
                         {fmtDate(r.created_at)}
                       </td>
+                      <td style={{ padding: "8px 8px", textAlign: "right", whiteSpace: "nowrap" }}>
+                        {editing ? (
+                          <span style={{ display: "flex", gap: 6, justifyContent: "flex-end", alignItems: "center" }}>
+                            <button onClick={() => { onUpdate(r.id, editValues); setEditingId(null); }} style={{ background: C.blue + "22", color: C.blue, border: `1px solid ${C.blue}44`, borderRadius: 5, padding: "2px 8px", fontSize: 11, cursor: "pointer", fontFamily: font }}>Guardar</button>
+                            <button onClick={() => setEditingId(null)} style={{ background: "none", color: C.muted, border: `1px solid ${C.border}`, borderRadius: 5, padding: "2px 8px", fontSize: 11, cursor: "pointer", fontFamily: font }}>Cancelar</button>
+                          </span>
+                        ) : confirming ? (
+                          <span style={{ display: "flex", gap: 6, justifyContent: "flex-end", alignItems: "center" }}>
+                            <span style={{ color: C.muted, fontSize: 11 }}>¿Eliminar?</span>
+                            <button onClick={() => { onDelete(r.id); setDeletingId(null); }} style={{ background: C.red + "22", color: C.red, border: `1px solid ${C.red}44`, borderRadius: 5, padding: "2px 8px", fontSize: 11, cursor: "pointer", fontFamily: font }}>Sí</button>
+                            <button onClick={() => setDeletingId(null)} style={{ background: "none", color: C.muted, border: `1px solid ${C.border}`, borderRadius: 5, padding: "2px 8px", fontSize: 11, cursor: "pointer", fontFamily: font }}>No</button>
+                          </span>
+                        ) : (
+                          <span style={{ display: "flex", gap: 4, justifyContent: "flex-end" }}>
+                            <button onClick={() => { setEditingId(r.id); setEditValues({ puntaje: r.puntaje, total: r.total }); }} style={{ background: "none", color: C.dim, border: "none", cursor: "pointer", fontSize: 13, padding: "2px 4px", lineHeight: 1, borderRadius: 4 }} title="Editar puntaje">✎</button>
+                            <button onClick={() => setDeletingId(r.id)} style={{ background: "none", color: C.muted, border: "none", cursor: "pointer", fontSize: 14, padding: "2px 4px", lineHeight: 1, borderRadius: 4 }} title="Eliminar registro">✕</button>
+                          </span>
+                        )}
+                      </td>
                     </tr>
                   );
                 })}
@@ -348,8 +428,11 @@ function ResultadosPresentacion({ presentacion, resultados, profiles }) {
 }
 
 // ── Resumen por alumno (Cuestionarios) ───────────────────────────────────────
-function ResumenAlumno({ nombre, nivel, resultados }) {
+function ResumenAlumno({ nombre, nivel, resultados, onDelete, onUpdate }) {
   const [open, setOpen] = useState(false);
+  const [deletingId, setDeletingId] = useState(null);
+  const [editingId, setEditingId] = useState(null);
+  const [editValues, setEditValues] = useState({ puntaje: 0, total: 0 });
   const intentos  = resultados.length;
   const promedio  = intentos
     ? Math.round(resultados.reduce((s, r) => s + Math.round((r.puntaje / r.total) * 100), 0) / intentos)
@@ -432,7 +515,7 @@ function ResumenAlumno({ nombre, nivel, resultados }) {
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, fontFamily: font }}>
               <thead>
                 <tr>
-                  {["Cuestionario", "Puntaje", "%", "Fecha"].map((h) => (
+                  {["Cuestionario", "Puntaje", "%", "Fecha", ""].map((h) => (
                     <th key={h} style={{
                       color: C.dim, fontWeight: 600, textAlign: "left",
                       padding: "4px 8px", fontSize: 11,
@@ -443,14 +526,26 @@ function ResumenAlumno({ nombre, nivel, resultados }) {
               </thead>
               <tbody>
                 {resultados.map((r) => {
-                  const pct = Math.round((r.puntaje / r.total) * 100);
+                  const editing = editingId === r.id;
+                  const pct = editing
+                    ? Math.round((editValues.puntaje / editValues.total) * 100)
+                    : Math.round((r.puntaje / r.total) * 100);
+                  const confirming = deletingId === r.id;
                   return (
                     <tr key={r.id} style={{ borderTop: `1px solid ${C.border}` }}>
                       <td style={{ padding: "8px 8px", color: C.text, maxWidth: 260 }}>
                         {r.cuestionario_titulo || r.cuestionario_id}
                       </td>
                       <td style={{ padding: "8px 8px", color: C.dim }}>
-                        {r.puntaje}/{r.total}
+                        {editing ? (
+                          <span style={{ display: "flex", gap: 4, alignItems: "center" }}>
+                            <input type="number" min={0} value={editValues.puntaje} onChange={(e) => setEditValues((v) => ({ ...v, puntaje: Number(e.target.value) }))} style={{ width: 44, background: C.surface, border: `1px solid ${C.blue}66`, borderRadius: 4, color: C.text, padding: "2px 5px", fontSize: 12, fontFamily: font, textAlign: "center" }} />
+                            <span style={{ color: C.muted }}>/</span>
+                            <input type="number" min={1} value={editValues.total} onChange={(e) => setEditValues((v) => ({ ...v, total: Number(e.target.value) }))} style={{ width: 44, background: C.surface, border: `1px solid ${C.blue}66`, borderRadius: 4, color: C.text, padding: "2px 5px", fontSize: 12, fontFamily: font, textAlign: "center" }} />
+                          </span>
+                        ) : (
+                          `${r.puntaje}/${r.total}`
+                        )}
                       </td>
                       <td style={{ padding: "8px 8px" }}>
                         <span style={{
@@ -466,6 +561,25 @@ function ResumenAlumno({ nombre, nivel, resultados }) {
                       </td>
                       <td style={{ padding: "8px 8px", color: C.muted, fontSize: 12, whiteSpace: "nowrap" }}>
                         {fmtDate(r.created_at)}
+                      </td>
+                      <td style={{ padding: "8px 8px", textAlign: "right", whiteSpace: "nowrap" }}>
+                        {editing ? (
+                          <span style={{ display: "flex", gap: 6, justifyContent: "flex-end", alignItems: "center" }}>
+                            <button onClick={() => { onUpdate(r.id, editValues); setEditingId(null); }} style={{ background: C.blue + "22", color: C.blue, border: `1px solid ${C.blue}44`, borderRadius: 5, padding: "2px 8px", fontSize: 11, cursor: "pointer", fontFamily: font }}>Guardar</button>
+                            <button onClick={() => setEditingId(null)} style={{ background: "none", color: C.muted, border: `1px solid ${C.border}`, borderRadius: 5, padding: "2px 8px", fontSize: 11, cursor: "pointer", fontFamily: font }}>Cancelar</button>
+                          </span>
+                        ) : confirming ? (
+                          <span style={{ display: "flex", gap: 6, justifyContent: "flex-end", alignItems: "center" }}>
+                            <span style={{ color: C.muted, fontSize: 11 }}>¿Eliminar?</span>
+                            <button onClick={() => { onDelete(r.id); setDeletingId(null); }} style={{ background: C.red + "22", color: C.red, border: `1px solid ${C.red}44`, borderRadius: 5, padding: "2px 8px", fontSize: 11, cursor: "pointer", fontFamily: font }}>Sí</button>
+                            <button onClick={() => setDeletingId(null)} style={{ background: "none", color: C.muted, border: `1px solid ${C.border}`, borderRadius: 5, padding: "2px 8px", fontSize: 11, cursor: "pointer", fontFamily: font }}>No</button>
+                          </span>
+                        ) : (
+                          <span style={{ display: "flex", gap: 4, justifyContent: "flex-end" }}>
+                            <button onClick={() => { setEditingId(r.id); setEditValues({ puntaje: r.puntaje, total: r.total }); }} style={{ background: "none", color: C.dim, border: "none", cursor: "pointer", fontSize: 13, padding: "2px 4px", lineHeight: 1, borderRadius: 4 }} title="Editar puntaje">✎</button>
+                            <button onClick={() => setDeletingId(r.id)} style={{ background: "none", color: C.muted, border: "none", cursor: "pointer", fontSize: 14, padding: "2px 4px", lineHeight: 1, borderRadius: 4 }} title="Eliminar registro">✕</button>
+                          </span>
+                        )}
                       </td>
                     </tr>
                   );
@@ -504,6 +618,18 @@ export default function Admin() {
     };
     load();
   }, []);
+
+  async function handleDelete(id) {
+    const { error } = await supabase.from("resultados").delete().eq("id", id);
+    if (error) { console.error("Error eliminando registro:", error); return; }
+    setResultados((prev) => prev.filter((r) => r.id !== id));
+  }
+
+  async function handleUpdate(id, { puntaje, total }) {
+    const { error } = await supabase.from("resultados").update({ puntaje, total }).eq("id", id);
+    if (error) { console.error("Error actualizando registro:", error); return; }
+    setResultados((prev) => prev.map((r) => r.id === id ? { ...r, puntaje, total } : r));
+  }
 
   // Agrupar por alumno
   const byUser = {};
@@ -713,6 +839,8 @@ export default function Admin() {
                   nombre={a.profile.nombre || a.profile.email || a.uid.slice(0, 8)}
                   nivel={a.profile.nivel}
                   resultados={a.resultados}
+                  onDelete={handleDelete}
+                  onUpdate={handleUpdate}
                 />
               ))
             )}
@@ -735,19 +863,17 @@ export default function Admin() {
               </div>
             ) : (
               <>
-                <div style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-                  gap: 20,
-                }}>
-                  {presentaciones.map((p) => (
-                    <PresentacionCard
-                      key={p.id}
-                      id={p.id}
-                      titulo={p.titulo}
-                      materia={p.materia}
-                    />
-                  ))}
+                <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                  {(() => {
+                    const byMateria = {};
+                    presentaciones.forEach((p) => {
+                      if (!byMateria[p.materia]) byMateria[p.materia] = [];
+                      byMateria[p.materia].push(p);
+                    });
+                    return Object.entries(byMateria).map(([materia, items]) => (
+                      <MateriaAccordion key={materia} materia={materia} presentaciones={items} />
+                    ));
+                  })()}
                 </div>
 
                 {/* Historial de puntuaciones */}
@@ -778,6 +904,8 @@ export default function Admin() {
                       presentacion={p}
                       resultados={resultados}
                       profiles={profiles}
+                      onDelete={handleDelete}
+                      onUpdate={handleUpdate}
                     />
                   ))}
                 </div>

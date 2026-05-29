@@ -421,17 +421,6 @@ export default function Home() {
           </div>
 
           <Link
-            to="/registro"
-            className="btn"
-            style={{ minWidth: 220, border: "1px solid #34d39966" }}
-          >
-            <span className="btn-icon" style={{ fontSize: "2.2rem" }}>
-              📝
-            </span>
-            <span className="btn-label">Registrarse</span>
-            <span className="btn-sub">Solicita tu acceso a la plataforma</span>
-          </Link>
-          <Link
             to="/clase"
             className="btn"
             style={{ minWidth: 220, border: "1px solid #a78bfa66" }}

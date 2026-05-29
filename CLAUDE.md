@@ -21,6 +21,7 @@ This is a React 19 + Vite SPA for exam preparation (EXANI-I / UNAM admissions). 
 ### Routing (`src/App.jsx`)
 - Public routes: `/`, `/login`, `/registro`, `/exani-i`, `/exani-ii`, `/teoria/*`
 - Protected routes (require Supabase auth): `/preparatoria`, `/universidad`, `/selector/:id`, `/cuestionario/:id`
+- Director/presenter routes (require auth): `/presentacion/:id`, `/alumno/:id`
 - `ProtectedRoute` wraps pages that need auth; it redirects to `/login` if no session.
 
 ### Content data layer
@@ -41,6 +42,32 @@ There are two parallel trees:
 ### Quiz flow (`src/pages/Cuestionario.jsx` + `src/components/QuestionarioGenerico.jsx`)
 `Cuestionario.jsx` receives `?bloque=` and `?modo=aleatorio` query params, filters/shuffles questions, then delegates rendering to `QuestionarioGenerico`. The generic component handles three stages: `theory → quiz → results`. It has a global countdown timer (seconds per question × number of questions).
 
+### Presentation system (`src/data/presentaciones/`, `src/components/SlideRenderer.jsx`)
+Interactive slide presentations for classroom use. Each presentation is a JS module exporting a `PRESENTACION` object:
+```js
+export const PRESENTACION = {
+  id: "slug",
+  titulo: "...",
+  materia: "Matemáticas",
+  subtema: "Geometría",
+  slides: [ /* array of slide objects */ ]
+}
+```
+Presentations are registered in `src/data/presentaciones/presentacionesIndex.js`.
+
+**Slide types:** `portada`, `definicion`, `concepto`, `lista_criterios`, `criterio_detalle`, `ejercicio`, `resumen`.
+
+Each slide can include a `svgDiagram` key referencing an inline SVG component or a JSXGraph component defined in `SlideRenderer.jsx`. All diagrams (SVGs and JSXGraph) are in that file.
+
+**JSXGraph diagrams** use `useRef` + `useEffect` to initialize a board. Key constraints:
+- Do NOT import `jsxgraph/distrib/jsxgraph.css` — the package does not export it via `exports` field and the build will fail. Apply styles inline on `board.containerObj` after creation.
+- Set `position: relative; overflow: hidden; background: transparent; border: none` on the container div.
+- Always use `keepaspectratio: true` for geometric figures.
+- Use `type: 'square'` in `board.create('angle', [...])` for right-angle markers.
+- Use a stable `idRef` initialized with `Math.random().toString(36).slice(2,8)` to avoid ID collisions across slides.
+
+**SVG square proportions:** When drawing a square in SVG, always verify width === height in the polygon points. The viewBox is often wider than tall (e.g., `190×88`), so the polygon coordinates must be explicitly constrained to equal width/height.
+
 ### Theory pages (`src/data/teoria/`)
 JSX components that render directly as routes. They use KaTeX loaded lazily from CDN via the `useKaTeX` hook in `src/data/teoria/shared.jsx`. The `M` component renders inline math, and `B` renders block/display math.
 
@@ -53,6 +80,21 @@ Client configured in `src/lib/supabase.js` via `VITE_SUPABASE_URL` and `VITE_SUP
 ### Styling
 No CSS framework classes in most components — inline styles dominate, using a shared color palette object `C` defined per file (`#0e0f11` bg, `#3b9eff` blue, etc.). Tailwind CSS v4 is available via the Vite plugin but is used minimally.
 
+## Visualization libraries
+
+The following libraries are installed for math and science content:
+
+| Library | Version | Use case |
+|---|---|---|
+| `jsxgraph` | 1.12.2 | Interactive geometry: circles, polygons, angles, loci. Used in `SlideRenderer.jsx` for precise geometric diagrams. |
+| `mathjs` | 15.2.0 | Math computation: algebra, matrices, statistics, expression parsing. Use for answer validation and step-by-step calculations. |
+| `mafs` | 0.21.0 | React-native coordinate planes, function graphs, vectors. Use for slides that show functions or cartesian diagrams. |
+| `recharts` | 3.8.1 | Bar charts, histograms, line charts. Use for statistics and data visualization slides. |
+| `@xyflow/react` | 12.10.2 | Node/edge diagrams. Use for probability tree diagrams. |
+| `matter-js` | 0.20.0 | 2D physics simulation (gravity, collisions, springs). Use for kinematics and mechanics content. |
+
+**Not installed (and why):** Rapier (3D physics, WASM complexity not needed for 2D content), Desmos API (external dependency), Plotly.js (Recharts covers the use cases more lightly), D3 (Recharts and React Flow are built on it; direct D3 not needed), Three.js (no 3D content in EXANI-I/preparatoria scope).
+
 ## Adding a new quiz
 
 1. Create a data file under `src/data/cuestionarios/<level>/<subject>/<name>.js` exporting the quiz object.
@@ -64,3 +106,9 @@ No CSS framework classes in most components — inline styles dominate, using a 
 1. Create `src/data/teoria/<slug>.jsx` as a React component (use `shared.jsx` for `M`, `B`, `useKaTeX`).
 2. Import and add a route in `src/App.jsx`: `<Route path="/teoria/<slug>" element={<Component />} />`.
 3. Reference from the navigation tree with `teoria: "/teoria/<slug>"`.
+
+## Adding a new presentation
+
+1. Create `src/data/presentaciones/<slug>.js` exporting a `PRESENTACION` object.
+2. Import it in `src/data/presentaciones/presentacionesIndex.js` and add it to the index.
+3. Add SVG or JSXGraph diagram components to `src/components/SlideRenderer.jsx` for any `svgDiagram` keys used in the slides.

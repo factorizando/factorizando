@@ -3376,9 +3376,15 @@ function SlideReglaRica({ slide, tema, modo, resaltadoIdx, onResaltar }) {
           const svgMap = {
             "acento-clasificacion":   <AcentoClasificacionSVG    tema={tema} />,
             "diptongo-hiato":         <DiptongoHiatoSVG          tema={tema} />,
-            "cohesion-panorama":      <CohesionPanoramaSVG       tema={tema} />,
-            "correferencia-personal": <CorrreferenciaPersonalSVG tema={tema} />,
-            "elipsis-nominal":        <ElipsisNominalSVG         tema={tema} />,
+            "cohesion-panorama":           <CohesionPanoramaSVG          tema={tema} />,
+            "correferencia-personal":      <CorrreferenciaPersonalSVG    tema={tema} />,
+            "elipsis-nominal":             <ElipsisNominalSVG            tema={tema} />,
+            "lexico-semantica-panorama":   <LexicoSemanticaPanoramaSVG   tema={tema} />,
+            "sinonimia-tipos":             <SinonimiasTiposSVG           tema={tema} />,
+            "sinonimia-contextual":        <SinonimiaContextualSVG       tema={tema} />,
+            "antonimia-tipos":             <AntonimiasTiposSVG           tema={tema} />,
+            "antonimia-contextual":        <AntonimiaContextualSVG       tema={tema} />,
+            "campo-semantico":             <CampoSemanticoSVG            tema={tema} />,
           };
           return (
             <div key={i} onClick={handleClick}
@@ -3883,6 +3889,261 @@ function ElipsisNominalSVG({ tema }) {
       <polygon points="270,68 275,76 280,68" fill={`${az}88`}/>
       <text x="200" y="10" fill={az} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">elemento recuperado del contexto</text>
       <text x="8" y="100" fill={tema.muted} fontSize="8" fontFamily="Georgia,serif" fontStyle="italic">Forma completa: «Quiero el libro azul y el libro rojo.»</text>
+    </svg>
+  );
+}
+
+// ─── Cohesión Léxico-Semántica: Panorama ─────────────────────────────────────
+function LexicoSemanticaPanoramaSVG({ tema }) {
+  const sinItems = ["Total", "Parcial", "Contextual"];
+  const antItems = ["Gradual", "Complementaria", "Recíproca"];
+  return (
+    <svg viewBox="0 0 520 158" width="100%" style={{ display: "block" }}>
+      <rect x="110" y="3" width="300" height="28" rx="7" fill={`${tema.acento}18`} stroke={tema.acento} strokeWidth="1.5"/>
+      <text x="260" y="21" fill={tema.acento} fontSize="9.5" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.1em">COHESIÓN LÉXICO-SEMÁNTICA</text>
+      <line x1="190" y1="31" x2="110" y2="54" stroke={`${tema.azul}88`} strokeWidth="1.5" strokeDasharray="4,2"/>
+      <line x1="330" y1="31" x2="410" y2="54" stroke={`${tema.acento}88`} strokeWidth="1.5" strokeDasharray="4,2"/>
+      <line x1="260" y1="31" x2="260" y2="108" stroke={`${tema.verde}88`} strokeWidth="1.5" strokeDasharray="4,2"/>
+      <rect x="40" y="54" width="140" height="26" rx="6" fill={`${tema.azul}18`} stroke={tema.azul} strokeWidth="1.5"/>
+      <text x="110" y="71" fill={tema.azul} fontSize="9.5" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.06em">SINONIMIA</text>
+      <rect x="340" y="54" width="140" height="26" rx="6" fill={`${tema.acento}18`} stroke={tema.acento} strokeWidth="1.5"/>
+      <text x="410" y="71" fill={tema.acento} fontSize="9.5" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.06em">ANTONIMIA</text>
+      <rect x="178" y="108" width="164" height="26" rx="6" fill={`${tema.verde}18`} stroke={tema.verde} strokeWidth="1.5"/>
+      <text x="260" y="125" fill={tema.verde} fontSize="9.5" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.06em">CAMPO SEMÁNTICO</text>
+      <line x1="56" y1="80" x2="56" y2="150" stroke={`${tema.azul}50`} strokeWidth="1.2"/>
+      {sinItems.map((item, i) => (
+        <g key={i}>
+          <line x1="56" y1={91 + i * 19} x2="66" y2={91 + i * 19} stroke={`${tema.azul}50`} strokeWidth="1.2"/>
+          <circle cx="71" cy={91 + i * 19} r="2.5" fill={tema.azul} opacity="0.6"/>
+          <text x="78" y={95 + i * 19} fill={tema.sub} fontSize="9" fontFamily="'DM Sans',sans-serif">{item}</text>
+        </g>
+      ))}
+      <line x1="356" y1="80" x2="356" y2="150" stroke={`${tema.acento}50`} strokeWidth="1.2"/>
+      {antItems.map((item, i) => (
+        <g key={i}>
+          <line x1="356" y1={91 + i * 19} x2="366" y2={91 + i * 19} stroke={`${tema.acento}50`} strokeWidth="1.2"/>
+          <circle cx="371" cy={91 + i * 19} r="2.5" fill={tema.acento} opacity="0.6"/>
+          <text x="378" y={95 + i * 19} fill={tema.sub} fontSize="9" fontFamily="'DM Sans',sans-serif">{item}</text>
+        </g>
+      ))}
+      <text x="260" y="148" fill={tema.sub} fontSize="8.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">Hiperonimia · Hiponimia · Cohiponimia</text>
+    </svg>
+  );
+}
+
+// ─── Cohesión Léxico-Semántica: Tipos de Sinonimia ────────────────────────────
+function SinonimiasTiposSVG({ tema }) {
+  const cols = [
+    { label: "TOTAL",       color: tema.azul,   desc: ["Idéntico en todos", "los contextos"],       ex: ["comenzar / iniciar", "automóvil / coche"] },
+    { label: "PARCIAL",     color: tema.verde,  desc: ["Similar con matices", "de registro"],       ex: ["casa / hogar", "morir / fallecer"] },
+    { label: "CONTEXTUAL",  color: tema.acento, desc: ["Equivalente solo", "en este fragmento"],    ex: ["«el sol» / «astro rey»", "«Newton» / «el físico»"] },
+  ];
+  const colW = 160, gap = 10, startX = 5;
+  return (
+    <svg viewBox="0 0 520 138" width="100%" style={{ display: "block" }}>
+      <defs>
+        <linearGradient id="ls-sinGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%"   stopColor={tema.azul}   stopOpacity="0.8"/>
+          <stop offset="50%"  stopColor={tema.verde}  stopOpacity="0.8"/>
+          <stop offset="100%" stopColor={tema.acento} stopOpacity="0.8"/>
+        </linearGradient>
+      </defs>
+      <rect x="5" y="2" width="510" height="5" rx="2.5" fill="url(#ls-sinGrad)"/>
+      <text x="5"   y="16" fill={tema.azul}   fontSize="7" fontFamily="'DM Sans',sans-serif" letterSpacing="0.08em" fontWeight="700">IDENTIDAD SEMÁNTICA ←</text>
+      <text x="515" y="16" fill={tema.acento} fontSize="7" fontFamily="'DM Sans',sans-serif" letterSpacing="0.08em" fontWeight="700" textAnchor="end">→ EQUIVALENCIA CONTEXTUAL</text>
+      {cols.map((col, i) => {
+        const x = startX + i * (colW + gap);
+        return (
+          <g key={i}>
+            <rect x={x} y="20" width={colW} height="116" rx="7" fill={`${col.color}10`} stroke={`${col.color}55`} strokeWidth="1.5"/>
+            <rect x={x} y="20" width={colW} height="22" rx="7" fill={`${col.color}25`}/>
+            <rect x={x} y="34" width={colW} height="8" fill={`${col.color}25`}/>
+            <text x={x + colW / 2} y="35" fill={col.color} fontSize="9" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.12em">{col.label}</text>
+            {col.desc.map((line, j) => (
+              <text key={j} x={x + colW / 2} y={56 + j * 13} fill={tema.sub} fontSize="8.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{line}</text>
+            ))}
+            <line x1={x + 10} y1="84" x2={x + colW - 10} y2="84" stroke={`${col.color}30`} strokeWidth="1"/>
+            {col.ex.map((e, j) => (
+              <text key={j} x={x + colW / 2} y={98 + j * 16} fill={col.color} fontSize="8.5" fontFamily="Georgia,serif" textAnchor="middle" fontStyle="italic">{e}</text>
+            ))}
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+// ─── Cohesión Léxico-Semántica: Sinonimia Contextual ─────────────────────────
+function SinonimiaContextualSVG({ tema }) {
+  const az = tema.azul, vd = tema.verde, ac = tema.acento;
+  return (
+    <svg viewBox="0 0 520 125" width="100%" style={{ display: "block" }}>
+      <text x="260" y="12" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.14em" fontWeight="600">LA MISMA PALABRA — DISTINTOS SINÓNIMOS SEGÚN EL CONTEXTO</text>
+      <line x1="5" y1="17" x2="515" y2="17" stroke="rgba(255,255,255,0.08)" strokeWidth="1"/>
+      {/* Left: contexto intelectual */}
+      <rect x="5" y="22" width="240" height="100" rx="7" fill={`${az}10`} stroke={`${az}44`} strokeWidth="1.5"/>
+      <text x="125" y="38" fill={az} fontSize="8.5" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.1em">CONTEXTO INTELECTUAL</text>
+      <text x="125" y="55" fill={tema.texto} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">«un ensayo ligero»</text>
+      <line x1="125" y1="60" x2="125" y2="69" stroke={az} strokeWidth="1.5"/>
+      <polygon points="121,69 125,75 129,69" fill={az}/>
+      <rect x="16" y="78" width="78" height="20" rx="5" fill={`${vd}18`} stroke={vd} strokeWidth="1.5"/>
+      <text x="55" y="92" fill={vd} fontSize="10" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">ameno ✓</text>
+      <rect x="112" y="78" width="120" height="20" rx="5" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.12)" strokeWidth="1" strokeDasharray="4,2"/>
+      <text x="172" y="92" fill={tema.muted} fontSize="10" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">liviano ✗</text>
+      <text x="125" y="114" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle" fontStyle="italic">liviano refiere al peso físico, no al estilo</text>
+      {/* Divider */}
+      <line x1="260" y1="18" x2="260" y2="125" stroke="rgba(255,255,255,0.1)" strokeWidth="1" strokeDasharray="5,3"/>
+      {/* Right: contexto físico */}
+      <rect x="275" y="22" width="240" height="100" rx="7" fill={`${ac}10`} stroke={`${ac}44`} strokeWidth="1.5"/>
+      <text x="395" y="38" fill={ac} fontSize="8.5" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.1em">CONTEXTO FÍSICO</text>
+      <text x="395" y="55" fill={tema.texto} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">«una mochila ligera»</text>
+      <line x1="395" y1="60" x2="395" y2="69" stroke={ac} strokeWidth="1.5"/>
+      <polygon points="391,69 395,75 399,69" fill={ac}/>
+      <rect x="284" y="78" width="82" height="20" rx="5" fill={`${vd}18`} stroke={vd} strokeWidth="1.5"/>
+      <text x="325" y="92" fill={vd} fontSize="10" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">liviana ✓</text>
+      <rect x="380" y="78" width="118" height="20" rx="5" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.12)" strokeWidth="1" strokeDasharray="4,2"/>
+      <text x="439" y="92" fill={tema.muted} fontSize="10" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">amena ✗</text>
+      <text x="395" y="114" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle" fontStyle="italic">amena es estilo literario, no peso físico</text>
+    </svg>
+  );
+}
+
+// ─── Cohesión Léxico-Semántica: Tipos de Antonimia ───────────────────────────
+function AntonimiasTiposSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 520 148" width="100%" style={{ display: "block" }}>
+      <defs>
+        <linearGradient id="ls-antGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%"   stopColor="#60a5fa" stopOpacity="0.9"/>
+          <stop offset="50%"  stopColor="#a78bfa" stopOpacity="0.7"/>
+          <stop offset="100%" stopColor="#f97316" stopOpacity="0.9"/>
+        </linearGradient>
+      </defs>
+      {/* Column titles */}
+      <text x="86"  y="13" fill={tema.azul}   fontSize="9" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.12em">GRADUALES</text>
+      <text x="258" y="13" fill={tema.acento} fontSize="9" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.12em">COMPLEMENTARIOS</text>
+      <text x="434" y="13" fill={tema.verde}  fontSize="9" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.12em">RECÍPROCOS</text>
+      <line x1="172" y1="0" x2="172" y2="148" stroke="rgba(255,255,255,0.08)" strokeWidth="1"/>
+      <line x1="344" y1="0" x2="344" y2="148" stroke="rgba(255,255,255,0.08)" strokeWidth="1"/>
+      {/* GRADUALES: spectrum bar */}
+      <rect x="10" y="25" width="152" height="8" rx="4" fill="url(#ls-antGrad)"/>
+      <circle cx="10"  cy="29" r="4" fill="#60a5fa"/>
+      <circle cx="86"  cy="29" r="3.5" fill="#a78bfa"/>
+      <circle cx="162" cy="29" r="4" fill="#f97316"/>
+      <text x="10"  y="49" fill="#60a5fa" fontSize="10" fontFamily="Georgia,serif" fontStyle="italic">frío</text>
+      <text x="86"  y="49" fill="#a78bfa" fontSize="10" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">tibio</text>
+      <text x="162" y="49" fill="#f97316" fontSize="10" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">caliente</text>
+      <text x="86" y="64" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">Hay términos intermedios</text>
+      <text x="86" y="81" fill={tema.sub}   fontSize="8.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">joven / adulto / anciano</text>
+      <text x="86" y="96" fill={tema.sub}   fontSize="8.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">pequeño / mediano / grande</text>
+      <text x="86" y="115" fill={tema.muted} fontSize="7.5" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">«no frío» ≠ «caliente»</text>
+      <text x="86" y="128" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">La negación no implica el opuesto</text>
+      {/* COMPLEMENTARIOS: binary boxes */}
+      <rect x="181" y="22" width="72" height="28" rx="6" fill={`${tema.acento}18`} stroke={tema.acento} strokeWidth="1.5"/>
+      <text x="217" y="40" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">vivo</text>
+      <rect x="263" y="22" width="72" height="28" rx="6" fill={`${tema.acento}18`} stroke={tema.acento} strokeWidth="1.5"/>
+      <text x="299" y="40" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">muerto</text>
+      <rect x="192" y="58" width="152" height="16" rx="4" fill="rgba(0,0,0,0.3)" stroke={`${tema.acento}33`} strokeWidth="1"/>
+      <text x="268" y="70" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.07em">NO HAY TÉRMINO MEDIO</text>
+      <text x="258" y="88"  fill={tema.sub}   fontSize="8.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">verdadero / falso</text>
+      <text x="258" y="103" fill={tema.sub}   fontSize="8.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">soltero / casado</text>
+      <text x="258" y="122" fill={tema.muted} fontSize="7.5" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">«no vivo» = «muerto»</text>
+      <text x="258" y="135" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">La negación implica el opuesto</text>
+      {/* RECÍPROCOS: bidirectional arrow */}
+      <rect x="356" y="22" width="76" height="28" rx="6" fill={`${tema.verde}18`} stroke={tema.verde} strokeWidth="1.5"/>
+      <text x="394" y="40" fill={tema.verde} fontSize="11" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">comprar</text>
+      <rect x="442" y="22" width="70" height="28" rx="6" fill={`${tema.verde}18`} stroke={tema.verde} strokeWidth="1.5"/>
+      <text x="477" y="40" fill={tema.verde} fontSize="11" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">vender</text>
+      <line x1="432" y1="36" x2="442" y2="36" stroke={tema.verde} strokeWidth="1.8"/>
+      <polygon points="432,32 424,36 432,40" fill={tema.verde}/>
+      <polygon points="442,32 450,36 442,40" fill={tema.verde}/>
+      <text x="434" y="67" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">Presuposición mutua</text>
+      <text x="434" y="83"  fill={tema.sub}   fontSize="8.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">enseñar / aprender</text>
+      <text x="434" y="98"  fill={tema.sub}   fontSize="8.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">preguntar / responder</text>
+      <text x="434" y="117" fill={tema.muted} fontSize="7.5" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A vende implica B compra</text>
+      <text x="434" y="130" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">La relación es simétrica</text>
+    </svg>
+  );
+}
+
+// ─── Cohesión Léxico-Semántica: Antonimia Contextual ─────────────────────────
+function AntonimiaContextualSVG({ tema }) {
+  const az = tema.azul, vd = tema.verde, ac = tema.acento;
+  return (
+    <svg viewBox="0 0 520 118" width="100%" style={{ display: "block" }}>
+      <text x="260" y="12" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.14em" fontWeight="600">EL ANTÓNIMO ES RELATIVO AL MARCO DE REFERENCIA</text>
+      {/* Left box */}
+      <rect x="5" y="18" width="230" height="96" rx="7" fill={`${az}10`} stroke={`${az}44`} strokeWidth="1.5"/>
+      <text x="120" y="34" fill={az} fontSize="8.5" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.1em">ESCALA: ELEFANTES</text>
+      <text x="120" y="53" fill={tema.sub}  fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">«un elefante</text>
+      <text x="120" y="68" fill={az}        fontSize="14" fontFamily="Georgia,serif" fontStyle="italic" fontWeight="700" textAnchor="middle">pequeño»</text>
+      <text x="120" y="87" fill={tema.muted} fontSize="8" fontFamily="'DM Sans',sans-serif" textAnchor="middle">≈ 3 metros de altura</text>
+      <text x="120" y="105" fill={tema.muted} fontSize="7.5" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">enorme en escala humana</text>
+      {/* Center */}
+      <text x="260" y="62" fill={ac} fontSize="22" fontFamily="Georgia,serif" textAnchor="middle">≠</text>
+      <text x="260" y="77" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">referente</text>
+      <text x="260" y="89" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">distinto</text>
+      {/* Right box */}
+      <rect x="285" y="18" width="230" height="96" rx="7" fill={`${vd}10`} stroke={`${vd}44`} strokeWidth="1.5"/>
+      <text x="400" y="34" fill={vd} fontSize="8.5" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.1em">ESCALA: HORMIGAS</text>
+      <text x="400" y="53" fill={tema.sub}  fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">«una hormiga</text>
+      <text x="400" y="68" fill={vd}        fontSize="14" fontFamily="Georgia,serif" fontStyle="italic" fontWeight="700" textAnchor="middle">grande»</text>
+      <text x="400" y="87" fill={tema.muted} fontSize="8" fontFamily="'DM Sans',sans-serif" textAnchor="middle">≈ 1 centímetro</text>
+      <text x="400" y="105" fill={tema.muted} fontSize="7.5" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">minúscula en escala humana</text>
+    </svg>
+  );
+}
+
+// ─── Cohesión Léxico-Semántica: Campo Semántico ───────────────────────────────
+function CampoSemanticoSVG({ tema }) {
+  const az = tema.azul, vd = tema.verde, ac = tema.acento;
+  const lv2 = [
+    { x: 20,  label: "mamífero" },
+    { x: 200, label: "ave" },
+    { x: 378, label: "reptil" },
+  ];
+  const lv3 = [
+    { x: 6,   w: 62,  label: "perro",     px: 55  },
+    { x: 76,  w: 58,  label: "gato",      px: 95  },
+    { x: 186, w: 68,  label: "águila",    px: 250 },
+    { x: 262, w: 56,  label: "pato",      px: 248 },
+    { x: 358, w: 72,  label: "serpiente", px: 418 },
+    { x: 438, w: 68,  label: "lagarto",   px: 418 },
+  ];
+  return (
+    <svg viewBox="0 0 520 148" width="100%" style={{ display: "block" }}>
+      {/* Level 0: hiperónimo */}
+      <rect x="185" y="4" width="150" height="24" rx="6" fill={`${az}22`} stroke={az} strokeWidth="1.5"/>
+      <text x="260" y="20" fill={az} fontSize="11" fontFamily="Georgia,serif" fontStyle="italic" fontWeight="700" textAnchor="middle">ANIMAL</text>
+      <text x="260" y="35" fill={az} fontSize="7" fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.1em" opacity="0.7">HIPERÓNIMO</text>
+      {/* Lines to level 1 */}
+      <line x1="215" y1="28" x2="75"  y2="62" stroke={`${az}55`} strokeWidth="1.3"/>
+      <line x1="260" y1="28" x2="255" y2="62" stroke={`${az}55`} strokeWidth="1.3"/>
+      <line x1="305" y1="28" x2="433" y2="62" stroke={`${az}55`} strokeWidth="1.3"/>
+      {/* Level 1: cohipónimos */}
+      {lv2.map(({ x, label }) => (
+        <g key={label}>
+          <rect x={x} y="62" width="110" height="22" rx="5" fill={`${vd}18`} stroke={vd} strokeWidth="1.3"/>
+          <text x={x + 55} y="77" fill={vd} fontSize="10" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">{label}</text>
+        </g>
+      ))}
+      <text x="260" y="96" fill={vd} fontSize="7" fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.1em" opacity="0.7">COHIPÓNIMOS</text>
+      {/* Lines to level 2 */}
+      {[
+        [55, 37], [55, 105], [255, 222], [255, 290], [433, 394], [433, 472],
+      ].map(([py, cy], i) => {
+        const lv1x = [75, 75, 245, 245, 423, 423][i];
+        const lv2cx = [37, 105, 220, 290, 394, 472][i];
+        return <line key={i} x1={lv1x} y1="84" x2={lv2cx} y2="108" stroke={`${vd}44`} strokeWidth="1.2"/>;
+      })}
+      {/* Level 2: hipónimos */}
+      {lv3.map(({ x, w, label }) => (
+        <g key={label}>
+          <rect x={x} y="108" width={w} height="20" rx="4" fill={`${ac}14`} stroke={`${ac}44`} strokeWidth="1"/>
+          <text x={x + w / 2} y="122" fill={ac} fontSize="9" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">{label}</text>
+        </g>
+      ))}
+      <text x="260" y="143" fill={ac} fontSize="7" fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.1em" opacity="0.7">HIPÓNIMOS (más específicos)</text>
     </svg>
   );
 }

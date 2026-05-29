@@ -10,6 +10,7 @@ import { PRESENTACION as CUADRILATEROS_POLIGONOS } from "./cuadrilateros-poligon
 import { PRESENTACION as COHESION_GRAMATICAL } from "./cohesion-gramatical.js";
 import { PRESENTACION as COHESION_LEXICO_SEMANTICA } from "./cohesion-lexico-semantica.js";
 import { PRESENTACION as MARCADORES_TEXTUALES } from "./marcadores-textuales.js";
+import { PRESENTACION as GRAFOFONETICA } from "./grafofonetica.js";
 
 export const PRESENTACIONES_INDEX = {
   "semejanza-triangulos": SEMEJANZA_TRIANGULOS,
@@ -20,6 +21,7 @@ export const PRESENTACIONES_INDEX = {
   "cohesion-gramatical": COHESION_GRAMATICAL,
   "cohesion-lexico-semantica": COHESION_LEXICO_SEMANTICA,
   "marcadores-textuales": MARCADORES_TEXTUALES,
+  "grafofonetica": GRAFOFONETICA,
 };
 
 export function buscarPresentacion(id) {

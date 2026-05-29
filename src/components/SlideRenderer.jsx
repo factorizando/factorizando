@@ -3391,6 +3391,12 @@ function SlideReglaRica({ slide, tema, modo, resaltadoIdx, onResaltar }) {
             "marcadores-causa-consecuencia":   <MarcadoresCausaConsecuenciaSVG    tema={tema} />,
             "marcadores-temporales":           <MarcadoresTemporalesSVG           tema={tema} />,
             "marcadores-reformulacion":        <MarcadoresReformulacionSVG        tema={tema} />,
+            "grafo-panorama":    <GrafoPanoramaSVG    tema={tema} />,
+            "grafo-vocales":     <GrafoVocalesSVG     tema={tema} />,
+            "grafo-bv":          <GrafoBVSVG          tema={tema} />,
+            "grafo-ck":          <GrafoCKSVG          tema={tema} />,
+            "grafo-gj":          <GrafoGJSVG          tema={tema} />,
+            "grafo-secuencias":  <GrafoSecuenciasSVG  tema={tema} />,
           };
           return (
             <div key={i} onClick={handleClick}
@@ -4631,6 +4637,286 @@ function SlideRegla({ slide, tema, modo, resaltadoIdx, onResaltar }) {
         })}
       </div>
     </div>
+  );
+}
+
+// ── Grafofonética: SVG diagrams ───────────────────────────────────────────────
+
+function GrafoPanoramaSVG({ tema }) {
+  const az = tema.azul, vd = tema.verde, ac = tema.acento;
+  const purple = "#c084fc", orange = "#fb923c";
+  const vocal = [
+    { x: 8,   label: "/a/ → a" },
+    { x: 66,  label: "/e/ → e" },
+    { x: 124, label: "/i/ → i" },
+    { x: 182, label: "/o/ → o" },
+    { x: 240, label: "/u/ → u" },
+  ];
+  const multi = [
+    { color: az,     label: "/b/ → b, v" },
+    { color: vd,     label: "/k/ → c, k, qu" },
+    { color: ac,     label: "/x/ → j, g(e,i)" },
+    { color: purple, label: "/s/ → s, z, c" },
+    { color: orange, label: "/r/ y /rr/ → r, rr" },
+  ];
+  return (
+    <svg viewBox="0 0 520 160" width="100%" style={{ display: "block" }}>
+      {/* Cabecera */}
+      <rect x="135" y="3" width="250" height="26" rx="6" fill={`${ac}18`} stroke={ac} strokeWidth="1.5"/>
+      <text x="260" y="20" fill={ac} fontSize="10" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.12em">GRAFOFONÉTICA</text>
+      <text x="260" y="31" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">fonema (sonido) → grafema (letra o combinación)</text>
+
+      {/* Rama izquierda: vocálicos */}
+      <line x1="185" y1="29" x2="155" y2="50" stroke={`${az}80`} strokeWidth="1.2" strokeDasharray="3,2"/>
+      <rect x="60" y="50" width="190" height="22" rx="5" fill={`${az}18`} stroke={az} strokeWidth="1.3"/>
+      <text x="155" y="65" fill={az} fontSize="9" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.08em">FONEMAS VOCÁLICOS — correspondencia 1:1</text>
+      {vocal.map(({ x, label }) => (
+        <g key={label}>
+          <line x1={x + 25} y1="72" x2={x + 25} y2="82" stroke={`${az}50`} strokeWidth="1"/>
+          <rect x={x} y="82" width="50" height="18" rx="4" fill={`${az}12`} stroke={`${az}40`} strokeWidth="1"/>
+          <text x={x + 25} y="95" fill={az} fontSize="8.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{label}</text>
+        </g>
+      ))}
+
+      {/* Rama derecha: consonánticos múltiples */}
+      <line x1="335" y1="29" x2="365" y2="50" stroke={`${vd}80`} strokeWidth="1.2" strokeDasharray="3,2"/>
+      <rect x="270" y="50" width="242" height="22" rx="5" fill={`${vd}18`} stroke={vd} strokeWidth="1.3"/>
+      <text x="391" y="65" fill={vd} fontSize="9" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.08em">CONSONÁNTICOS — múltiples grafemas posibles</text>
+      {multi.map(({ color, label }, i) => {
+        const x = 272 + i * 48;
+        return (
+          <g key={i}>
+            <line x1={x + 20} y1="72" x2={x + 20} y2="82" stroke={`${color}50`} strokeWidth="1"/>
+            <rect x={x} y="82" width="46" height="32" rx="4" fill={`${color}12`} stroke={`${color}40`} strokeWidth="1"/>
+            <text x={x + 23} y="94" fill={color} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{label.split("→")[0].trim()}</text>
+            <text x={x + 23} y="107" fill={color} fontSize="7" fontFamily="'DM Sans',sans-serif" textAnchor="middle">→ {label.split("→")[1].trim()}</text>
+          </g>
+        );
+      })}
+
+      {/* Secuencias */}
+      <rect x="135" y="124" width="250" height="18" rx="4" fill={`${orange}15`} stroke={`${orange}60`} strokeWidth="1"/>
+      <text x="260" y="136" fill={orange} fontSize="8" fontFamily="'DM Sans',sans-serif" textAnchor="middle">Secuencias especiales: gue, gui, güe, güi, que, qui · H muda</text>
+    </svg>
+  );
+}
+
+function GrafoVocalesSVG({ tema }) {
+  const az = tema.azul, vd = tema.verde, ac = tema.acento;
+  const purple = "#c084fc", orange = "#fb923c";
+  const vocales = [
+    { phoneme: "/a/", letter: "a", color: az,     examples: "alma · casa · para" },
+    { phoneme: "/e/", letter: "e", color: vd,     examples: "esto · leche · mesa" },
+    { phoneme: "/i/", letter: "i", color: ac,     examples: "isla · vida · iris" },
+    { phoneme: "/o/", letter: "o", color: purple, examples: "obra · color · boca" },
+    { phoneme: "/u/", letter: "u", color: orange, examples: "uva · luna · fruta" },
+  ];
+  const colW = 100, gap = 4, startX = 5;
+  return (
+    <svg viewBox="0 0 520 118" width="100%" style={{ display: "block" }}>
+      <text x="260" y="13" fill={tema.muted} fontSize="8" fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.14em" fontWeight="600">5 FONEMAS VOCÁLICOS — CORRESPONDENCIA BIUNÍVOCA</text>
+      {vocales.map(({ phoneme, letter, color, examples }, i) => {
+        const x = startX + i * (colW + gap);
+        return (
+          <g key={i}>
+            <rect x={x} y="18" width={colW} height="96" rx="6" fill={`${color}10`} stroke={`${color}45`} strokeWidth="1.3"/>
+            <rect x={x} y="18" width={colW} height="24" rx="6" fill={`${color}25`}/>
+            <rect x={x} y="34" width={colW} height="8" fill={`${color}25`}/>
+            <text x={x + colW / 2} y="35" fill={color} fontSize="10" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.1em">{phoneme}</text>
+            {/* Arrow */}
+            <text x={x + colW / 2} y="56" fill={color} fontSize="16" textAnchor="middle" opacity="0.6">↓</text>
+            {/* Grapheme */}
+            <text x={x + colW / 2} y="80" fill={color} fontSize="26" fontFamily="Georgia,serif" textAnchor="middle" fontWeight="700">{letter}</text>
+            {/* Examples */}
+            <text x={x + colW / 2} y="99" fill={tema.muted} fontSize="7" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">{examples.split(" · ")[0]}</text>
+            <text x={x + colW / 2} y="109" fill={tema.muted} fontSize="7" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">{examples.split(" · ")[1]}</text>
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+function GrafoBVSVG({ tema }) {
+  const az = tema.azul, ac = tema.acento;
+  const bExamples = ["barco", "bello", "cambio", "hablar", "cantaba", "escribir"];
+  const vExamples = ["vaca", "vivir", "enviar", "invitar", "nueva", "tuvo"];
+  return (
+    <svg viewBox="0 0 520 140" width="100%" style={{ display: "block" }}>
+      {/* Central phoneme node */}
+      <rect x="195" y="5" width="130" height="36" rx="10" fill={`${az}20`} stroke={az} strokeWidth="2"/>
+      <text x="260" y="22" fill={az} fontSize="15" fontFamily="Georgia,serif" fontStyle="italic" fontWeight="700" textAnchor="middle">/b/</text>
+      <text x="260" y="35" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">oclusiva bilabial sonora</text>
+
+      {/* Left branch: B */}
+      <line x1="210" y1="41" x2="130" y2="63" stroke={`${az}70`} strokeWidth="1.5"/>
+      <rect x="50" y="63" width="155" height="73" rx="6" fill={`${az}12`} stroke={`${az}50`} strokeWidth="1.3"/>
+      <text x="128" y="79" fill={az} fontSize="20" fontFamily="Georgia,serif" fontWeight="700" textAnchor="middle">b</text>
+      <line x1="56" y1="82" x2="196" y2="82" stroke={`${az}22`} strokeWidth="1"/>
+      {bExamples.map((ex, j) => (
+        <text key={j} x={70 + (j % 2) * 77} y={96 + Math.floor(j / 2) * 14} fill={tema.sub} fontSize="8.5" fontFamily="Georgia,serif" fontStyle="italic">{ex}</text>
+      ))}
+
+      {/* Right branch: V */}
+      <line x1="310" y1="41" x2="390" y2="63" stroke={`${ac}70`} strokeWidth="1.5"/>
+      <rect x="315" y="63" width="155" height="73" rx="6" fill={`${ac}12`} stroke={`${ac}50`} strokeWidth="1.3"/>
+      <text x="393" y="79" fill={ac} fontSize="20" fontFamily="Georgia,serif" fontWeight="700" textAnchor="middle">v</text>
+      <line x1="321" y1="82" x2="463" y2="82" stroke={`${ac}22`} strokeWidth="1"/>
+      {vExamples.map((ex, j) => (
+        <text key={j} x={333 + (j % 2) * 77} y={96 + Math.floor(j / 2) * 14} fill={tema.sub} fontSize="8.5" fontFamily="Georgia,serif" fontStyle="italic">{ex}</text>
+      ))}
+
+      {/* Note at bottom */}
+      <text x="260" y="135" fill={tema.muted} fontSize="8" fontFamily="'DM Sans',sans-serif" textAnchor="middle">En español mexicano: /b/ y /v/ suenan igual — la distinción es solo ortográfica</text>
+    </svg>
+  );
+}
+
+function GrafoCKSVG({ tema }) {
+  const az = tema.azul, vd = tema.verde, ac = tema.acento;
+  const cols = [
+    {
+      letter: "c",
+      color: az,
+      rule: "Antes de A, O, U",
+      sub: "(o ante consonante)",
+      examples: ["ca-sa", "co-lor", "cu-bo", "cla-ro", "cre-ma"],
+    },
+    {
+      letter: "qu",
+      color: vd,
+      rule: "Antes de E, I",
+      sub: "(u siempre muda)",
+      examples: ["que-so", "quien", "quie-ro", "que-dar", "tran-qui-lo"],
+    },
+    {
+      letter: "k",
+      color: ac,
+      rule: "Préstamos extranjeros",
+      sub: "(o siglas/nombres)",
+      examples: ["ki-ló-me-tro", "ká-ra-te", "kiwi", "km", "ka-ra-o-ke"],
+    },
+  ];
+  const colW = 162, gap = 5, startX = 5;
+  return (
+    <svg viewBox="0 0 520 145" width="100%" style={{ display: "block" }}>
+      <text x="260" y="12" fill={tema.muted} fontSize="8" fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.14em" fontWeight="600">EL FONEMA /k/ — TRES REPRESENTACIONES GRÁFICAS</text>
+      {cols.map(({ letter, color, rule, sub, examples }, i) => {
+        const x = startX + i * (colW + gap);
+        return (
+          <g key={i}>
+            <rect x={x} y="16" width={colW} height="126" rx="6" fill={`${color}10`} stroke={`${color}45`} strokeWidth="1.3"/>
+            <rect x={x} y="16" width={colW} height="22" rx="6" fill={`${color}25`}/>
+            <rect x={x} y="30" width={colW} height="8" fill={`${color}25`}/>
+            <text x={x + colW / 2} y="32" fill={color} fontSize="9" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.1em">{rule}</text>
+            <text x={x + colW / 2} y="42" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{sub}</text>
+            <text x={x + colW / 2} y="68" fill={color} fontSize="28" fontFamily="Georgia,serif" fontWeight="700" textAnchor="middle">{letter}</text>
+            <line x1={x + 10} y1="78" x2={x + colW - 10} y2="78" stroke={`${color}22`} strokeWidth="1"/>
+            {examples.map((ex, j) => (
+              <text key={j} x={x + colW / 2} y={92 + j * 13} fill={tema.sub} fontSize="8.5" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">{ex}</text>
+            ))}
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+function GrafoGJSVG({ tema }) {
+  const az = tema.azul, ac = tema.acento;
+  const jExamples = ["jamón", "jefe", "jirafa", "joven", "jugo", "viaje"];
+  const gExamples = ["gente", "girasol", "agente", "mágico", "urgente", "ágil"];
+  return (
+    <svg viewBox="0 0 520 148" width="100%" style={{ display: "block" }}>
+      {/* Central phoneme */}
+      <rect x="190" y="4" width="140" height="36" rx="10" fill={`${ac}20`} stroke={ac} strokeWidth="2"/>
+      <text x="260" y="22" fill={ac} fontSize="15" fontFamily="Georgia,serif" fontStyle="italic" fontWeight="700" textAnchor="middle">/x/</text>
+      <text x="260" y="35" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">fricativa velar sorda (la «jota»)</text>
+
+      {/* Left: J */}
+      <line x1="215" y1="40" x2="130" y2="62" stroke={`${az}70`} strokeWidth="1.5"/>
+      <rect x="48" y="62" width="166" height="82" rx="6" fill={`${az}12`} stroke={`${az}50`} strokeWidth="1.3"/>
+      <text x="131" y="81" fill={az} fontSize="22" fontFamily="Georgia,serif" fontWeight="700" textAnchor="middle">j</text>
+      <rect x="56" y="85" width="150" height="16" rx="4" fill={`${az}20`}/>
+      <text x="131" y="97" fill={az} fontSize="8" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">ANTES DE CUALQUIER VOCAL</text>
+      <text x="131" y="109" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">ja · je · ji · jo · ju</text>
+      {jExamples.map((ex, j) => (
+        <text key={j} x={65 + (j % 3) * 52} y={123 + Math.floor(j / 3) * 14} fill={tema.sub} fontSize="8" fontFamily="Georgia,serif" fontStyle="italic">{ex}</text>
+      ))}
+
+      {/* Right: G */}
+      <line x1="305" y1="40" x2="390" y2="62" stroke={`${ac}70`} strokeWidth="1.5"/>
+      <rect x="306" y="62" width="166" height="82" rx="6" fill={`${ac}12`} stroke={`${ac}50`} strokeWidth="1.3"/>
+      <text x="389" y="81" fill={ac} fontSize="22" fontFamily="Georgia,serif" fontWeight="700" textAnchor="middle">g</text>
+      <rect x="314" y="85" width="150" height="16" rx="4" fill={`${ac}20`}/>
+      <text x="389" y="97" fill={ac} fontSize="8" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">SOLO ANTES DE E O I</text>
+      <text x="389" y="109" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">g+e · g+i (ante a/o/u → /g/ distinto)</text>
+      {gExamples.map((ex, j) => (
+        <text key={j} x={323 + (j % 3) * 52} y={123 + Math.floor(j / 3) * 14} fill={tema.sub} fontSize="8" fontFamily="Georgia,serif" fontStyle="italic">{ex}</text>
+      ))}
+
+      <text x="260" y="146" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">gato · gol · gusto → fonema /g/, NO /x/ — ante a/o/u, g nunca suena como jota</text>
+    </svg>
+  );
+}
+
+function GrafoSecuenciasSVG({ tema }) {
+  const az = tema.azul, vd = tema.verde, ac = tema.acento;
+  const secs = [
+    {
+      label: "QUE / QUI",
+      color: az,
+      uStatus: "U MUDA",
+      uPronounced: false,
+      sound: "/ke/ · /ki/",
+      examples: [["que-so", "/ke-so/"], ["quien", "/kjen/"], ["quie-ro", "/kje-ro/"]],
+    },
+    {
+      label: "GUE / GUI",
+      color: vd,
+      uStatus: "U MUDA",
+      uPronounced: false,
+      sound: "/ge/ · /gi/",
+      examples: [["gue-rra", "/ge-rra/"], ["guiar", "/gjar/"], ["gui-ta-rra", "/gi/"]],
+    },
+    {
+      label: "GÜE / GÜI",
+      color: ac,
+      uStatus: "U PRONUNCIADA",
+      uPronounced: true,
+      sound: "/gwe/ · /gwi/",
+      examples: [["ver-güen-za", "/gwen/"], ["pin-güi-no", "/gwi/"], ["agüita", "/gwi/"]],
+    },
+  ];
+  const colW = 162, gap = 5, startX = 5;
+  return (
+    <svg viewBox="0 0 520 138" width="100%" style={{ display: "block" }}>
+      <text x="260" y="11" fill={tema.muted} fontSize="8" fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.14em" fontWeight="600">SECUENCIAS CON U: MUDA VS. PRONUNCIADA</text>
+      {secs.map(({ label, color, uStatus, uPronounced, sound, examples }, i) => {
+        const x = startX + i * (colW + gap);
+        return (
+          <g key={i}>
+            <rect x={x} y="16" width={colW} height="120" rx="6" fill={`${color}10`} stroke={`${color}45`} strokeWidth="1.3"/>
+            <rect x={x} y="16" width={colW} height="22" rx="6" fill={`${color}25`}/>
+            <rect x={x} y="30" width={colW} height="8" fill={`${color}25`}/>
+            <text x={x + colW / 2} y="32" fill={color} fontSize="10" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.1em">{label}</text>
+            {/* U status badge */}
+            <rect x={x + 18} y="42" width={colW - 36} height="15" rx="4" fill={uPronounced ? `${color}35` : `rgba(255,255,255,0.06)`} stroke={color} strokeWidth="1"/>
+            <text x={x + colW / 2} y="53.5" fill={uPronounced ? color : tema.muted} fontSize="8" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">{uStatus}</text>
+            {/* Sound */}
+            <text x={x + colW / 2} y="69" fill={color} fontSize="11" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">{sound}</text>
+            <line x1={x + 10} y1="75" x2={x + colW - 10} y2="75" stroke={`${color}22`} strokeWidth="1"/>
+            {/* Examples */}
+            {examples.map(([word, pron], j) => (
+              <g key={j}>
+                <text x={x + colW / 2} y={89 + j * 17} fill={tema.texto} fontSize="9" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">{word}</text>
+                <text x={x + colW / 2} y={100 + j * 17} fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{pron}</text>
+              </g>
+            ))}
+          </g>
+        );
+      })}
+    </svg>
   );
 }
 

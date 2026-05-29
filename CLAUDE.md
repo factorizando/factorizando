@@ -59,12 +59,7 @@ Presentations are registered in `src/data/presentaciones/presentacionesIndex.js`
 
 Each slide can include a `svgDiagram` key referencing an inline SVG component or a JSXGraph component defined in `SlideRenderer.jsx`. All diagrams (SVGs and JSXGraph) are in that file.
 
-**JSXGraph diagrams** use `useRef` + `useEffect` to initialize a board. Key constraints:
-- Do NOT import `jsxgraph/distrib/jsxgraph.css` — the package does not export it via `exports` field and the build will fail. Apply styles inline on `board.containerObj` after creation.
-- Set `position: relative; overflow: hidden; background: transparent; border: none` on the container div.
-- Always use `keepaspectratio: true` for geometric figures.
-- Use `type: 'square'` in `board.create('angle', [...])` for right-angle markers.
-- Use a stable `idRef` initialized with `Math.random().toString(36).slice(2,8)` to avoid ID collisions across slides.
+**JSXGraph diagrams** — JSXGraph is installed but **NOT yet used in SlideRenderer** because it injects `background-color: white` into the container div at runtime, which blanks the entire slide. When integrating JSXGraph in a future component, you must override its CSS injection AFTER `initBoard` returns AND use `!important` or direct `style` property overrides. Until a clean integration pattern is validated, prefer inline SVG for all static diagrams.
 
 **SVG square proportions:** When drawing a square in SVG, always verify width === height in the polygon points. The viewBox is often wider than tall (e.g., `190×88`), so the polygon coordinates must be explicitly constrained to equal width/height.
 

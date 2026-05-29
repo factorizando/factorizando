@@ -4,6 +4,8 @@ import { useState, useEffect, useMemo, useRef } from "react";
 import { M, useKaTeX } from "../data/teoria/shared.jsx";
 import { TEMAS, useFuentesTema } from "../data/presentaciones/temas.jsx";
 import JXG from 'jsxgraph';
+import { ReactFlow, Handle, Position, Background } from '@xyflow/react';
+import '@xyflow/react/dist/style.css';
 
 function useWindowWidth() {
   const [w, setW] = useState(() => (typeof window !== "undefined" ? window.innerWidth : 1024));
@@ -3463,6 +3465,174 @@ function SlideReglaRica({ slide, tema, modo, resaltadoIdx, onResaltar }) {
   );
 }
 
+// ─── Árbol de decisión interactivo: ¿lleva tilde? ────────────────────────────
+
+const HANDLE_HIDDEN = { background: 'transparent', border: 'none', width: 8, height: 8 };
+
+function FNStart({ data }) {
+  return (
+    <div style={{ padding: '4px 18px', borderRadius: 20, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.18)', fontSize: 11, fontWeight: 700, color: data.t, letterSpacing: '0.14em', textAlign: 'center', opacity: data.dim ? 0.15 : 1, transition: 'opacity 0.35s' }}>
+      {data.label}
+      <Handle type="source" position={Position.Bottom} style={HANDLE_HIDDEN} />
+    </div>
+  );
+}
+
+function FNQuestion({ data }) {
+  const col = data.col || '#3b9eff';
+  return (
+    <div style={{ padding: '6px 12px', borderRadius: 8, minWidth: 140, background: `${col}16`, border: `1.5px solid ${col}${data.glow ? '' : '80'}`, fontSize: 10, color: data.t, textAlign: 'center', lineHeight: 1.4, opacity: data.dim ? 0.15 : 1, transition: 'all 0.35s', boxShadow: data.glow ? `0 0 14px ${col}55` : 'none' }}>
+      <Handle type="target" position={Position.Top} style={HANDLE_HIDDEN} />
+      {data.label}
+      <Handle type="source" id="si"     position={Position.Left}   style={HANDLE_HIDDEN} />
+      <Handle type="source" id="no"     position={Position.Right}  style={HANDLE_HIDDEN} />
+      <Handle type="source" id="bottom" position={Position.Bottom} style={HANDLE_HIDDEN} />
+      <Handle type="source" id="b25"    position={Position.Bottom} style={{ ...HANDLE_HIDDEN, left: '25%' }} />
+      <Handle type="source" id="b50"    position={Position.Bottom} style={{ ...HANDLE_HIDDEN, left: '50%' }} />
+      <Handle type="source" id="b75"    position={Position.Bottom} style={{ ...HANDLE_HIDDEN, left: '75%' }} />
+    </div>
+  );
+}
+
+function FNType({ data }) {
+  const col = data.col || '#3b9eff';
+  return (
+    <div style={{ padding: '4px 12px', borderRadius: 16, background: `${col}22`, border: `1.5px solid ${col}70`, fontSize: 9.5, color: col, fontWeight: 700, textAlign: 'center', lineHeight: 1.35, opacity: data.dim ? 0.15 : 1, transition: 'opacity 0.35s' }}>
+      <Handle type="target" position={Position.Top} style={HANDLE_HIDDEN} />
+      {data.label}
+      <Handle type="source" position={Position.Bottom} style={HANDLE_HIDDEN} />
+    </div>
+  );
+}
+
+function FNResult({ data }) {
+  const isTilde = data.result !== 'no';
+  const col = isTilde ? '#4ade80' : '#f5c842';
+  const isActive = data.active;
+  return (
+    <div onClick={data.onClick} style={{ padding: '6px 10px', borderRadius: 8, minWidth: 88, background: `${col}${isActive ? '22' : '0d'}`, border: `${isActive ? '2px' : '1px'} solid ${col}${isActive ? '' : '60'}`, fontSize: 10, color: col, fontWeight: 700, textAlign: 'center', lineHeight: 1.4, cursor: 'pointer', opacity: data.dim ? 0.15 : 1, transition: 'all 0.35s', boxShadow: isActive ? `0 0 18px ${col}55` : 'none', userSelect: 'none' }}>
+      <Handle type="target" position={Position.Top} style={HANDLE_HIDDEN} />
+      <div style={{ fontFamily: 'monospace', letterSpacing: '0.06em', marginBottom: 2 }}>{data.label}</div>
+      {data.sub && <div style={{ fontSize: 8, opacity: 0.75, fontWeight: 400, lineHeight: 1.3 }}>{data.sub}</div>}
+    </div>
+  );
+}
+
+const FLOW_NODE_TYPES = { start: FNStart, question: FNQuestion, type: FNType, result: FNResult };
+
+// Paths: cada resultado → conjuntos de nodos y aristas que lo conectan al inicio
+const TILDE_PATHS = {
+  r1: { n: new Set(['start','nmono','ndiac','r1']),          e: new Set(['e0','e_msi','e_dsi']) },
+  r2: { n: new Set(['start','nmono','ndiac','r2']),          e: new Set(['e0','e_msi','e_dno']) },
+  r3: { n: new Set(['start','nmono','npos','naguda','nagc','r3']),  e: new Set(['e0','e_mno','e_ag','e4','e_agsi']) },
+  r4: { n: new Set(['start','nmono','npos','naguda','nagc','r4']),  e: new Set(['e0','e_mno','e_ag','e4','e_agno']) },
+  r5: { n: new Set(['start','nmono','npos','nllana','nllc','r5']),  e: new Set(['e0','e_mno','e_ll','e5','e_llsi']) },
+  r6: { n: new Set(['start','nmono','npos','nllana','nllc','r6']),  e: new Set(['e0','e_mno','e_ll','e5','e_llno']) },
+  r7: { n: new Set(['start','nmono','npos','nesdruj','r7']),  e: new Set(['e0','e_mno','e_es','e6']) },
+};
+
+function SlideArbolDecision({ slide, tema }) {
+  const [activeResult, setActiveResult] = useState(null);
+  const winW = useWindowWidth();
+
+  const activePath = activeResult ? TILDE_PATHS[activeResult] : null;
+  const nDim  = (id) => activePath ? !activePath.n.has(id) : false;
+  const nGlow = (id) => activePath ? activePath.n.has(id) : false;
+  const eDim  = (id) => activePath ? !activePath.e.has(id) : false;
+  const eOn   = (id) => activePath ? activePath.e.has(id) : false;
+
+  const toggle = (id) => setActiveResult(p => p === id ? null : id);
+
+  const eStyle = (id) => ({
+    stroke: eOn(id) ? '#4ade80' : eDim(id) ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.25)',
+    strokeWidth: eOn(id) ? 2.2 : 1.2,
+    transition: 'stroke 0.35s, stroke-width 0.35s',
+    filter: eOn(id) ? 'drop-shadow(0 0 3px #4ade8077)' : 'none',
+  });
+  const eLabelStyle = (id) => ({
+    fill: eOn(id) ? '#4ade80' : '#94a3b8',
+    fontSize: 8, fontFamily: 'monospace',
+    transition: 'fill 0.35s',
+  });
+  const eLabelBg = (id) => ({
+    fill: eOn(id) ? '#0d1f12' : '#0e0f11',
+    rx: 3,
+  });
+
+  const T = tema.texto;
+  const nodes = useMemo(() => [
+    { id: 'start',  type: 'start',    position: { x: 218, y:   0 }, data: { label: 'PALABRA', t: T, dim: nDim('start') } },
+    { id: 'nmono',  type: 'question', position: { x: 175, y:  44 }, data: { label: '¿Es monosílabo?', col: '#94a3b8', t: T, dim: nDim('nmono'), glow: nGlow('nmono') } },
+    { id: 'ndiac',  type: 'question', position: { x:   8, y: 132 }, data: { label: '¿Tiene par\ndiacrítico?', col: '#94a3b8', t: T, dim: nDim('ndiac'), glow: nGlow('ndiac') } },
+    { id: 'npos',   type: 'question', position: { x: 238, y: 132 }, data: { label: '¿Dónde cae\nla tónica?', col: '#94a3b8', t: T, dim: nDim('npos'), glow: nGlow('npos') } },
+    { id: 'r1',     type: 'result',   position: { x:   4, y: 222 }, data: { label: 'TILDE', sub: 'él·mí·tú·sé·sí…', result: 'si', active: activeResult === 'r1', dim: nDim('r1'), onClick: () => toggle('r1') } },
+    { id: 'r2',     type: 'result',   position: { x: 116, y: 222 }, data: { label: 'SIN TILDE', sub: 'fue·vio·pie…', result: 'no', active: activeResult === 'r2', dim: nDim('r2'), onClick: () => toggle('r2') } },
+    { id: 'naguda', type: 'type',     position: { x: 222, y: 222 }, data: { label: 'AGUDA\núltima', col: tema.acento, dim: nDim('naguda') } },
+    { id: 'nllana', type: 'type',     position: { x: 342, y: 222 }, data: { label: 'LLANA\npenúltima', col: tema.azul, dim: nDim('nllana') } },
+    { id: 'nesdruj',type: 'type',     position: { x: 462, y: 222 }, data: { label: 'ESDRÚJ./SOBR.\nante-penúlt.+', col: tema.verde, dim: nDim('nesdruj') } },
+    { id: 'nagc',   type: 'question', position: { x: 198, y: 302 }, data: { label: '¿Termina en\nvocal, N o S?', col: tema.acento, t: T, dim: nDim('nagc'), glow: nGlow('nagc') } },
+    { id: 'nllc',   type: 'question', position: { x: 320, y: 302 }, data: { label: '¿Termina en\nvocal, N o S?', col: tema.azul, t: T, dim: nDim('nllc'), glow: nGlow('nllc') } },
+    { id: 'r7',     type: 'result',   position: { x: 462, y: 302 }, data: { label: 'SIEMPRE\nTILDE', sub: 'médico·sílaba…', result: 'si', active: activeResult === 'r7', dim: nDim('r7'), onClick: () => toggle('r7') } },
+    { id: 'r3',     type: 'result',   position: { x: 150, y: 396 }, data: { label: 'TILDE', sub: 'café·jardín…', result: 'si', active: activeResult === 'r3', dim: nDim('r3'), onClick: () => toggle('r3') } },
+    { id: 'r4',     type: 'result',   position: { x: 262, y: 396 }, data: { label: 'SIN TILDE', sub: 'reloj·verdad…', result: 'no', active: activeResult === 'r4', dim: nDim('r4'), onClick: () => toggle('r4') } },
+    { id: 'r5',     type: 'result',   position: { x: 320, y: 396 }, data: { label: 'SIN TILDE', sub: 'casa·examen…', result: 'no', active: activeResult === 'r5', dim: nDim('r5'), onClick: () => toggle('r5') } },
+    { id: 'r6',     type: 'result',   position: { x: 432, y: 396 }, data: { label: 'TILDE', sub: 'árbol·fácil…', result: 'si', active: activeResult === 'r6', dim: nDim('r6'), onClick: () => toggle('r6') } },
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  ], [activeResult, tema]);
+
+  const edges = useMemo(() => [
+    { id: 'e0',    source: 'start',  target: 'nmono',  style: eStyle('e0') },
+    { id: 'e_msi', source: 'nmono',  sourceHandle: 'si', target: 'ndiac', label: 'SÍ', labelStyle: eLabelStyle('e_msi'), labelBgStyle: eLabelBg('e_msi'), style: eStyle('e_msi') },
+    { id: 'e_mno', source: 'nmono',  sourceHandle: 'no', target: 'npos',  label: 'NO', labelStyle: eLabelStyle('e_mno'), labelBgStyle: eLabelBg('e_mno'), style: eStyle('e_mno') },
+    { id: 'e_dsi', source: 'ndiac',  sourceHandle: 'si', target: 'r1',    label: 'SÍ', labelStyle: eLabelStyle('e_dsi'), labelBgStyle: eLabelBg('e_dsi'), style: eStyle('e_dsi') },
+    { id: 'e_dno', source: 'ndiac',  sourceHandle: 'no', target: 'r2',    label: 'NO', labelStyle: eLabelStyle('e_dno'), labelBgStyle: eLabelBg('e_dno'), style: eStyle('e_dno') },
+    { id: 'e_ag',  source: 'npos',   sourceHandle: 'b25', target: 'naguda', style: eStyle('e_ag') },
+    { id: 'e_ll',  source: 'npos',   sourceHandle: 'b50', target: 'nllana', style: eStyle('e_ll') },
+    { id: 'e_es',  source: 'npos',   sourceHandle: 'b75', target: 'nesdruj', style: eStyle('e_es') },
+    { id: 'e4',    source: 'naguda', target: 'nagc',   style: eStyle('e4') },
+    { id: 'e5',    source: 'nllana', target: 'nllc',   style: eStyle('e5') },
+    { id: 'e6',    source: 'nesdruj',target: 'r7',     style: eStyle('e6') },
+    { id: 'e_agsi',source: 'nagc',   sourceHandle: 'si', target: 'r3',   label: 'SÍ', labelStyle: eLabelStyle('e_agsi'), labelBgStyle: eLabelBg('e_agsi'), style: eStyle('e_agsi') },
+    { id: 'e_agno',source: 'nagc',   sourceHandle: 'no', target: 'r4',   label: 'NO', labelStyle: eLabelStyle('e_agno'), labelBgStyle: eLabelBg('e_agno'), style: eStyle('e_agno') },
+    { id: 'e_llsi',source: 'nllc',   sourceHandle: 'si', target: 'r5',   label: 'SÍ', labelStyle: eLabelStyle('e_llsi'), labelBgStyle: eLabelBg('e_llsi'), style: eStyle('e_llsi') },
+    { id: 'e_llno',source: 'nllc',   sourceHandle: 'no', target: 'r6',   label: 'NO', labelStyle: eLabelStyle('e_llno'), labelBgStyle: eLabelBg('e_llno'), style: eStyle('e_llno') },
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  ], [activeResult]);
+
+  return (
+    <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+      <div style={{ padding: '10px 18px 4px', flexShrink: 0 }}>
+        <div style={{ fontFamily: tema.mono, fontSize: 9, letterSpacing: '0.2em', color: tema.acento, textTransform: 'uppercase', opacity: 0.75 }}>{slide.etiqueta}</div>
+        <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(15px, 2.2vw, 22px)', fontWeight: 700, color: tema.texto, margin: '2px 0 0', lineHeight: 1.2 }}>{slide.titulo}</h2>
+        <div style={{ fontFamily: tema.mono, fontSize: 8.5, color: tema.muted, marginTop: 3 }}>
+          {activeResult ? '✓ Toca otro resultado para cambiar · o toca el mismo para deseleccionar' : 'Toca cualquier resultado (verde/amarillo) para iluminar ese camino'}
+        </div>
+      </div>
+      <div style={{ flex: 1, position: 'relative', minHeight: 0 }}>
+        <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          nodeTypes={FLOW_NODE_TYPES}
+          fitView
+          fitViewOptions={{ padding: winW < 500 ? 0.08 : 0.14 }}
+          nodesDraggable={false}
+          nodesConnectable={false}
+          nodesFocusable={false}
+          edgesFocusable={false}
+          panOnDrag={true}
+          zoomOnScroll={false}
+          zoomOnPinch={true}
+          preventScrolling={false}
+          proOptions={{ hideAttribution: true }}
+          style={{ background: 'transparent' }}
+        >
+          <Background color="rgba(255,255,255,0.025)" gap={22} size={1} />
+        </ReactFlow>
+      </div>
+    </div>
+  );
+}
+
 // ─── Acentuación: diagrama de posición del acento ────────────────────────────
 function AcentoClasificacionSVG({ tema }) {
   const tipos = [
@@ -3877,6 +4047,8 @@ export default function SlideRenderer({
       return <SlideRegla {...props} />;
     case "resumen_acentuacion":
       return <SlideResumenAcentuacion {...props} />;
+    case "arbol_decision":
+      return <SlideArbolDecision {...props} />;
     default:
       return (
         <div style={{ padding: 40, color: "#888" }}>

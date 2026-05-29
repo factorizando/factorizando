@@ -18,9 +18,9 @@ export const PRESENTACION = {
     // ── Resumen visual completo de tildes ─────────────────────────────────────
     {
       id: "resumen-visual",
-      tipo: "resumen_acentuacion",
+      tipo: "arbol_decision",
       etiqueta: "Mapa de referencia",
-      titulo: "¿Cuándo lleva tilde? — Guía rápida",
+      titulo: "¿Cuándo lleva tilde?",
     },
 
     // ── Intro 1: Cómo silabear ────────────────────────────────────────────────

@@ -584,17 +584,26 @@ function AnguloInteriorFormulaSVG({ tema }) {
   );
 }
 function AnguloExteriorFormulaSVG({ tema }) {
+  // Pentágono: centro(155,92) r=62. Vértice superior P0=(155,30), P1=(214,73), P4=(96,73)
+  // Ángulo exterior β en P0: entre extensión de P1→P0 y lado P0→P4
+  // Arco r=22: inicio(137,17) y fin(137,43) — ambos exactamente a r=22 de P0
+  // Extensión punteada desde P0(155,30) hacia (121,5)
   return (
     <svg viewBox="0 0 310 175" width="100%" style={{ maxHeight: 160, display: "block" }}>
+      {/* Extensión del lado P1→P0 más allá de P0 */}
+      <line x1="155" y1="30" x2="121" y2="5"
+        stroke={tema.azul} strokeWidth="2" strokeDasharray="5,3" opacity="0.6"/>
       <polygon points={qRegPoly(155, 92, 62, 5, -Math.PI / 2)}
         fill={tema.azulSuave} stroke={tema.azul} strokeWidth="2" opacity="0.85"/>
-      {/* Extend side from v1→v0 beyond v0: v1=(213,66), v0=(155,30) → extend to ~(112,4) */}
-      <line x1="213" y1="66" x2="110" y2="4" stroke={tema.azul} strokeWidth="2" strokeDasharray="5,3" opacity="0.5"/>
-      {/* Exterior angle arc at v0(155,30) between extension and side to v4(97,66) */}
-      <path d="M 140,34 A 22,22 0 0,0 112,50" stroke={tema.acento} strokeWidth="2.2" fill="none"/>
-      <text x="106" y="46" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">β</text>
-      <text x="260" y="115" fill={tema.azul} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" opacity="0.75">n=5</text>
-      <text x="155" y="168" fill={tema.muted} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.03em">β = 360° / n</text>
+      {/* Arco ángulo exterior β en P0(155,30), r=22, CCW → pasa por el exterior (izquierda) */}
+      <path d="M 137,17 A 22,22 0 0,0 137,43"
+        stroke={tema.acento} strokeWidth="2.2" fill="none"/>
+      <text x="123" y="35" fill={tema.acento} fontSize="13"
+        fontFamily="Georgia,serif" fontStyle="italic">β</text>
+      <text x="260" y="115" fill={tema.azul} fontSize="12"
+        fontFamily="Georgia,serif" fontStyle="italic" opacity="0.75">n=5</text>
+      <text x="155" y="168" fill={tema.muted} fontSize="10"
+        fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.03em">β = 360° / n</text>
     </svg>
   );
 }
@@ -2837,13 +2846,24 @@ function Poe1HexSVG({ tema }) {
   );
 }
 function Poe2AngExtSVG({ tema }) {
+  // Octágono: centro(145,84) r=58. Vértice superior P0=(145,26), P1=(186,43), P7=(104,43)
+  // Ángulo exterior β=45° en P0: entre extensión de P1→P0 y lado P0→P7
+  // Arco r=18: inicio(128,19) y fin(128,33) — ambos exactamente a r=18 de P0
+  // Extensión punteada desde P0(145,26) hacia (106,10)
   return (
     <svg viewBox="0 0 290 158" width="100%" style={{ display: "block", maxHeight: 138 }}>
-      <polygon points={qRegPoly(145, 84, 58, 8, -Math.PI / 2)} fill={tema.azulSuave} stroke={tema.azul} strokeWidth="2" opacity="0.85"/>
-      <line x1="186" y1="43" x2="108" y2="10" stroke={tema.azul} strokeWidth="1.8" strokeDasharray="5,3" opacity="0.5"/>
-      <path d="M 135,30 A 18,18 0 0,0 110,43" stroke={tema.acento} strokeWidth="2" fill="none"/>
-      <text x="108" y="40" fill={tema.acento} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">β=45°</text>
-      <text x="145" y="150" fill={tema.muted} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">n = 8 (octágono)</text>
+      {/* Extensión del lado P1→P0 más allá de P0 */}
+      <line x1="145" y1="26" x2="106" y2="10"
+        stroke={tema.azul} strokeWidth="1.8" strokeDasharray="5,3" opacity="0.6"/>
+      <polygon points={qRegPoly(145, 84, 58, 8, -Math.PI / 2)}
+        fill={tema.azulSuave} stroke={tema.azul} strokeWidth="2" opacity="0.85"/>
+      {/* Arco ángulo exterior β en P0(145,26), r=18, CCW → pasa por el exterior (izquierda) */}
+      <path d="M 128,19 A 18,18 0 0,0 128,33"
+        stroke={tema.acento} strokeWidth="2" fill="none"/>
+      <text x="112" y="28" fill={tema.acento} fontSize="12"
+        fontFamily="Georgia,serif" fontStyle="italic">β=45°</text>
+      <text x="145" y="150" fill={tema.muted} fontSize="11"
+        fontFamily="'DM Sans',sans-serif" textAnchor="middle">n = 8 (octágono)</text>
     </svg>
   );
 }

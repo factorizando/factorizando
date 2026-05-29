@@ -1,8 +1,9 @@
 // Renderizador de diapositivas para el sistema de presentaciones.
 // Recibe un objeto `slide`, un `tema` y props de contexto (modo, votos, etc.)
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { M, useKaTeX } from "../data/teoria/shared.jsx";
 import { TEMAS, useFuentesTema } from "../data/presentaciones/temas.jsx";
+import JXG from 'jsxgraph';
 
 function useWindowWidth() {
   const [w, setW] = useState(() => (typeof window !== "undefined" ? window.innerWidth : 1024));
@@ -19,6 +20,19 @@ function useWindowWidth() {
     };
   }, []);
   return w;
+}
+
+// Shuffle determinístico basado en el id del slide (LCG seeded).
+// Devuelve un arreglo donde shuffledOrder[displayIdx] = originalIdx.
+function shuffleIndices(length, seed) {
+  const order = Array.from({ length }, (_, i) => i);
+  let s = (seed ^ 0x12345678) >>> 0;
+  for (let i = length - 1; i > 0; i--) {
+    s = (Math.imul(s, 1664525) + 1013904223) >>> 0;
+    const j = s % (i + 1);
+    [order[i], order[j]] = [order[j], order[i]];
+  }
+  return order;
 }
 
 // ── Componentes de apoyo ──────────────────────────────────────────────────────
@@ -192,6 +206,14 @@ function SlidePortada({ slide, tema }) {
   );
 }
 
+// ─── Cuadriláteros y Polígonos: helper ───────────────────────────────────────
+function qRegPoly(cx, cy, r, n, offset = -Math.PI / 2) {
+  return Array.from({ length: n }, (_, k) => {
+    const a = offset + (2 * Math.PI * k) / n;
+    return `${(cx + r * Math.cos(a)).toFixed(1)},${(cy + r * Math.sin(a)).toFixed(1)}`;
+  }).join(" ");
+}
+
 function TriangulosSemejantesSVG({ tema }) {
   const A = [115, 16], B = [10, 178], C = [240, 178];
   const D = [365, 81], E = [302, 178], F = [440, 178];
@@ -310,6 +332,70 @@ function TriangulosCongruentesSVG({ tema }) {
   );
 }
 
+// ─── Definicion SVGs: Cuadriláteros y Polígonos ──────────────────────────────
+function ParalelogramoDefSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 360 150" width="100%" style={{ maxHeight: 138, display: "block" }}>
+      <polygon points="30,15 260,15 285,125 55,125" fill={tema.azulSuave} stroke="none"/>
+      <line x1="30" y1="15" x2="260" y2="15" stroke={tema.azul} strokeWidth="2" opacity="0.9"/>
+      <line x1="55" y1="125" x2="285" y2="125" stroke={tema.azul} strokeWidth="2" opacity="0.9"/>
+      <line x1="30" y1="15" x2="55" y2="125" stroke={tema.acento} strokeWidth="2" opacity="0.85"/>
+      <line x1="260" y1="15" x2="285" y2="125" stroke={tema.acento} strokeWidth="2" opacity="0.85"/>
+      <path d="M 138,10 L 145,15 L 138,20" stroke={tema.azul} strokeWidth="2" fill="none"/>
+      <path d="M 163,120 L 170,125 L 163,130" stroke={tema.azul} strokeWidth="2" fill="none"/>
+      <path d="M 36,66 L 44,72" stroke={tema.acento} strokeWidth="1.8" fill="none"/>
+      <path d="M 266,66 L 274,72" stroke={tema.acento} strokeWidth="1.8" fill="none"/>
+      <line x1="30" y1="15" x2="30" y2="125" stroke={tema.verde} strokeWidth="1.4" strokeDasharray="5,4" opacity="0.65"/>
+      <path d="M 30,113 L 40,113 L 40,125" stroke={tema.verde} strokeWidth="1.4" fill="none" opacity="0.65"/>
+      <text x="145" y="11" fill={tema.azul} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">b</text>
+      <text x="14" y="72" fill={tema.verde} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">h</text>
+      <text x="34" y="73" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">a</text>
+      <text x="25" y="10" fill={tema.azul} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">A</text>
+      <text x="263" y="10" fill={tema.azul} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="290" y="130" fill={tema.azul} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">C</text>
+      <text x="50" y="140" fill={tema.azul} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">D</text>
+    </svg>
+  );
+}
+function TrapecioDefSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 380 155" width="100%" style={{ maxHeight: 138, display: "block" }}>
+      <polygon points="20,130 340,130 280,20 80,20" fill={tema.azulSuave} stroke="none"/>
+      <line x1="20" y1="130" x2="340" y2="130" stroke={tema.azul} strokeWidth="2.5" opacity="0.9"/>
+      <line x1="80" y1="20" x2="280" y2="20" stroke={tema.verde} strokeWidth="2.5" opacity="0.9"/>
+      <line x1="20" y1="130" x2="80" y2="20" stroke={tema.acento} strokeWidth="2" opacity="0.85"/>
+      <line x1="340" y1="130" x2="280" y2="20" stroke={tema.acento} strokeWidth="2" opacity="0.85"/>
+      <line x1="180" y1="20" x2="180" y2="130" stroke={tema.verde} strokeWidth="1.4" strokeDasharray="5,4" opacity="0.6"/>
+      <path d="M 180,118 L 190,118 L 190,130" stroke={tema.verde} strokeWidth="1.4" fill="none" opacity="0.6"/>
+      <path d="M 173,125 L 180,130 L 173,135" stroke={tema.azul} strokeWidth="2" fill="none"/>
+      <path d="M 173,15 L 180,20 L 173,25" stroke={tema.verde} strokeWidth="2" fill="none"/>
+      <text x="180" y="147" fill={tema.azul} fontSize="14" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">B</text>
+      <text x="180" y="14" fill={tema.verde} fontSize="14" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">b</text>
+      <text x="192" y="78" fill={tema.verde} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">h</text>
+    </svg>
+  );
+}
+function PoligonoRegularDefSVG({ tema }) {
+  const configs = [
+    { n: 3, cx: 45, cy: 60, r: 30, label: "n=3" },
+    { n: 4, cx: 120, cy: 60, r: 28, label: "n=4" },
+    { n: 5, cx: 197, cy: 60, r: 30, label: "n=5" },
+    { n: 6, cx: 275, cy: 60, r: 30, label: "n=6" },
+  ];
+  return (
+    <svg viewBox="0 0 330 105" width="100%" style={{ maxHeight: 105, display: "block" }}>
+      {configs.map(({ n, cx, cy, r, label }) => (
+        <g key={n}>
+          <polygon points={qRegPoly(cx, cy, r, n, n === 4 ? -Math.PI / 4 : -Math.PI / 2)}
+            fill={tema.azulSuave} stroke={tema.azul} strokeWidth="1.8" opacity="0.88"/>
+          <text x={cx} y={cy + r + 14} fill={tema.muted} fontSize="10"
+            fontFamily="'DM Sans',sans-serif" textAnchor="middle">{label}</text>
+        </g>
+      ))}
+    </svg>
+  );
+}
+
 function SlideDefinicion({ slide, tema, resaltadoIdx, onResaltar }) {
   const winW = useWindowWidth();
   const narrow = winW < 500;
@@ -358,6 +444,9 @@ function SlideDefinicion({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "triangulos-congruentes" && (
         <TriangulosCongruentesSVG tema={tema} />
       )}
+      {slide.svgDiagram === "paralelogramo-def"    && <ParalelogramoDefSVG    tema={tema} />}
+      {slide.svgDiagram === "trapecio-def"         && <TrapecioDefSVG         tema={tema} />}
+      {slide.svgDiagram === "poligono-regular-def" && <PoligonoRegularDefSVG  tema={tema} />}
 
       <div style={{ display: "grid", gridTemplateColumns: narrow ? "1fr" : "1fr 1fr", gap: 12 }}>
         {slide.condiciones.map((c, i) => {
@@ -445,6 +534,71 @@ function RazonSemejanzaSVG({ tema }) {
   );
 }
 
+// ─── Concepto SVGs: Cuadriláteros y Polígonos ────────────────────────────────
+function ParalelogramoFormulasSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 360 148" width="100%" style={{ maxHeight: 132, display: "block" }}>
+      <polygon points="35,25 255,25 290,130 70,130" fill={tema.azulSuave} stroke="none"/>
+      <line x1="35" y1="25" x2="255" y2="25" stroke={tema.azul} strokeWidth="2" opacity="0.9"/>
+      <line x1="70" y1="130" x2="290" y2="130" stroke={tema.azul} strokeWidth="2" opacity="0.9"/>
+      <line x1="35" y1="25" x2="70" y2="130" stroke={tema.acento} strokeWidth="2" opacity="0.85"/>
+      <line x1="255" y1="25" x2="290" y2="130" stroke={tema.acento} strokeWidth="2" opacity="0.85"/>
+      <line x1="35" y1="25" x2="35" y2="130" stroke={tema.verde} strokeWidth="1.4" strokeDasharray="5,4" opacity="0.7"/>
+      <path d="M 35,118 L 45,118 L 45,130" stroke={tema.verde} strokeWidth="1.4" fill="none" opacity="0.7"/>
+      <text x="145" y="20" fill={tema.azul} fontSize="14" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">b</text>
+      <text x="180" y="144" fill={tema.azul} fontSize="14" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">b</text>
+      <text x="19" y="82" fill={tema.verde} fontSize="14" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">h</text>
+      <text x="44" y="80" fill={tema.acento} fontSize="14" fontFamily="Georgia,serif" fontStyle="italic">a</text>
+      <text x="279" y="80" fill={tema.acento} fontSize="14" fontFamily="Georgia,serif" fontStyle="italic">a</text>
+    </svg>
+  );
+}
+function TrapecioFormulasSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 400 162" width="100%" style={{ maxHeight: 148, display: "block" }}>
+      <polygon points="20,140 360,140 290,25 85,25" fill={tema.azulSuave} stroke="none"/>
+      <line x1="20" y1="140" x2="360" y2="140" stroke={tema.azul} strokeWidth="2.5" opacity="0.9"/>
+      <line x1="85" y1="25" x2="290" y2="25" stroke={tema.verde} strokeWidth="2.5" opacity="0.9"/>
+      <line x1="20" y1="140" x2="85" y2="25" stroke={tema.acento} strokeWidth="2" opacity="0.85"/>
+      <line x1="360" y1="140" x2="290" y2="25" stroke={tema.acento} strokeWidth="2" opacity="0.85"/>
+      <line x1="85" y1="25" x2="85" y2="140" stroke={tema.verde} strokeWidth="1.4" strokeDasharray="5,4" opacity="0.65"/>
+      <path d="M 85,128 L 95,128 L 95,140" stroke={tema.verde} strokeWidth="1.4" fill="none" opacity="0.65"/>
+      <line x1="52" y1="82" x2="325" y2="82" stroke={tema.azul} strokeWidth="1.5" strokeDasharray="6,4" opacity="0.45"/>
+      <text x="190" y="156" fill={tema.azul} fontSize="14" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">B</text>
+      <text x="187" y="18" fill={tema.verde} fontSize="14" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">b</text>
+      <text x="72" y="86" fill={tema.verde} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">h</text>
+      <text x="188" y="76" fill={tema.azul} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle" opacity="0.65">m</text>
+    </svg>
+  );
+}
+function AnguloInteriorFormulaSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 310 160" width="100%" style={{ maxHeight: 148, display: "block" }}>
+      <polygon points={qRegPoly(150, 80, 62, 6, -Math.PI / 2)}
+        fill={tema.azulSuave} stroke={tema.azul} strokeWidth="2" opacity="0.85"/>
+      <path d="M 164,28 A 18,18 0 0,1 136,28" stroke={tema.acento} strokeWidth="2.5" fill="none"/>
+      <text x="150" y="46" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">α</text>
+      <text x="252" y="80" fill={tema.azul} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" opacity="0.75">n=6</text>
+      <text x="150" y="152" fill={tema.muted} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.03em">α = (n−2)·180° / n</text>
+    </svg>
+  );
+}
+function AnguloExteriorFormulaSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 310 175" width="100%" style={{ maxHeight: 160, display: "block" }}>
+      <polygon points={qRegPoly(155, 92, 62, 5, -Math.PI / 2)}
+        fill={tema.azulSuave} stroke={tema.azul} strokeWidth="2" opacity="0.85"/>
+      {/* Extend side from v1→v0 beyond v0: v1=(213,66), v0=(155,30) → extend to ~(112,4) */}
+      <line x1="213" y1="66" x2="110" y2="4" stroke={tema.azul} strokeWidth="2" strokeDasharray="5,3" opacity="0.5"/>
+      {/* Exterior angle arc at v0(155,30) between extension and side to v4(97,66) */}
+      <path d="M 140,34 A 22,22 0 0,0 112,50" stroke={tema.acento} strokeWidth="2.2" fill="none"/>
+      <text x="106" y="46" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">β</text>
+      <text x="260" y="115" fill={tema.azul} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" opacity="0.75">n=5</text>
+      <text x="155" y="168" fill={tema.muted} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.03em">β = 360° / n</text>
+    </svg>
+  );
+}
+
 function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar }) {
   const compact = !!slide.svgDiagram;
   const winW = useWindowWidth();
@@ -476,9 +630,11 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar }) {
         <M>{slide.formula}</M>
       </div>
 
-      {slide.svgDiagram === "razon-semejanza" && (
-        <RazonSemejanzaSVG tema={tema} />
-      )}
+      {slide.svgDiagram === "razon-semejanza"          && <RazonSemejanzaSVG          tema={tema} />}
+      {slide.svgDiagram === "paralelogramo-formulas"   && <ParalelogramoFormulasSVG   tema={tema} />}
+      {slide.svgDiagram === "trapecio-formulas"        && <TrapecioFormulasSVG        tema={tema} />}
+      {slide.svgDiagram === "angulo-interior-formula"  && <AnguloInteriorFormulaSVG   tema={tema} />}
+      {slide.svgDiagram === "angulo-exterior-formula"  && <AnguloExteriorFormulaSVG   tema={tema} />}
 
       <div style={{ display: "flex", flexDirection: "column", gap: compact ? 8 : 10 }}>
         {slide.items.map((item, i) => {
@@ -585,7 +741,7 @@ function CriterioLLL_SVG({ tema }) {
       <path d="M 49,74 L 49,82 M 55,74 L 55,82" stroke={tema.verde} strokeWidth="1.5" fill="none"/>
       <path d="M 146,74 L 146,82 M 152,74 L 152,82" stroke={tema.verde} strokeWidth="1.5" fill="none"/>
       <path d="M 72,36 L 66,40 M 76,42 L 70,46 M 80,48 L 74,52" stroke={tema.acento} strokeWidth="1.5" fill="none"/>
-      <path d="M 169,53 L 163,49 M 166,58 L 160,54 M 163,62 L 157,58" stroke={tema.acento} strokeWidth="1.5" fill="none"/>
+      <path d="M 163,50 L 157,54 M 166,54 L 160,58 M 169,57 L 163,61" stroke={tema.acento} strokeWidth="1.5" fill="none"/>
     </svg>
   );
 }
@@ -610,7 +766,7 @@ function CriterioLAL_SVG({ tema }) {
       <path d="M 25,41 L 33,47" stroke={tema.azul} strokeWidth="1.5" fill="none"/>
       <path d="M 131,53 L 137,58" stroke={tema.azul} strokeWidth="1.5" fill="none"/>
       <path d="M 72,36 L 66,40 M 76,42 L 70,46" stroke={tema.acento} strokeWidth="1.5" fill="none"/>
-      <path d="M 169,53 L 163,49 M 166,58 L 160,54" stroke={tema.acento} strokeWidth="1.5" fill="none"/>
+      <path d="M 163,50 L 157,54 M 166,54 L 160,58" stroke={tema.acento} strokeWidth="1.5" fill="none"/>
     </svg>
   );
 }
@@ -699,6 +855,160 @@ function CongLAA_SVG({ tema }) {
   );
 }
 
+// ─── Criterio small SVGs: paralelogramos ─────────────────────────────────────
+function RomboideCriterioSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 190 88" width="100%" style={{ display: "block" }}>
+      <polygon points="25,8 150,8 165,80 40,80" fill={tema.azulSuave} stroke="none"/>
+      <line x1="25" y1="8" x2="150" y2="8" stroke={tema.azul} strokeWidth="1.8" opacity="0.85"/>
+      <line x1="40" y1="80" x2="165" y2="80" stroke={tema.azul} strokeWidth="1.8" opacity="0.85"/>
+      <line x1="25" y1="8" x2="40" y2="80" stroke={tema.acento} strokeWidth="1.8" opacity="0.85"/>
+      <line x1="150" y1="8" x2="165" y2="80" stroke={tema.acento} strokeWidth="1.8" opacity="0.85"/>
+      <path d="M 82,4 L 87,8 L 82,12" stroke={tema.azul} strokeWidth="1.5" fill="none"/>
+      <path d="M 97,76 L 102,80 L 97,84" stroke={tema.azul} strokeWidth="1.5" fill="none"/>
+      <path d="M 27,43 L 35,49" stroke={tema.acento} strokeWidth="1.5" fill="none"/>
+      <path d="M 152,43 L 160,49" stroke={tema.acento} strokeWidth="1.5" fill="none"/>
+    </svg>
+  );
+}
+function RectanguloCriterioSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 190 88" width="100%" style={{ display: "block" }}>
+      <polygon points="12,6 178,6 178,82 12,82" fill={tema.azulSuave} stroke="none"/>
+      <polygon points="12,6 178,6 178,82 12,82" fill="none" stroke={tema.azul} strokeWidth="1.8" opacity="0.85"/>
+      <path d="M 20,6 L 20,14 L 12,14" stroke={tema.acento} strokeWidth="1.5" fill="none"/>
+      <path d="M 170,6 L 170,14 L 178,14" stroke={tema.acento} strokeWidth="1.5" fill="none"/>
+      <path d="M 170,82 L 170,74 L 178,74" stroke={tema.acento} strokeWidth="1.5" fill="none"/>
+      <path d="M 20,82 L 20,74 L 12,74" stroke={tema.acento} strokeWidth="1.5" fill="none"/>
+      <path d="M 93,2 L 93,10 M 97,2 L 97,10" stroke={tema.azul} strokeWidth="1.3" fill="none"/>
+      <path d="M 93,78 L 93,86 M 97,78 L 97,86" stroke={tema.azul} strokeWidth="1.3" fill="none"/>
+      <path d="M 8,42 L 16,42" stroke={tema.azul} strokeWidth="1.3" fill="none"/>
+      <path d="M 174,42 L 182,42" stroke={tema.azul} strokeWidth="1.3" fill="none"/>
+    </svg>
+  );
+}
+function RomboCriterioSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 190 88" width="100%" style={{ display: "block" }}>
+      <polygon points="95,5 180,44 95,83 10,44" fill={tema.azulSuave} stroke="none"/>
+      <line x1="95" y1="5" x2="180" y2="44" stroke={tema.azul} strokeWidth="1.8" opacity="0.85"/>
+      <line x1="180" y1="44" x2="95" y2="83" stroke={tema.azul} strokeWidth="1.8" opacity="0.85"/>
+      <line x1="95" y1="83" x2="10" y2="44" stroke={tema.azul} strokeWidth="1.8" opacity="0.85"/>
+      <line x1="10" y1="44" x2="95" y2="5" stroke={tema.azul} strokeWidth="1.8" opacity="0.85"/>
+      <line x1="95" y1="5" x2="95" y2="83" stroke="rgba(255,255,255,0.14)" strokeWidth="1" strokeDasharray="4,3"/>
+      <line x1="10" y1="44" x2="180" y2="44" stroke="rgba(255,255,255,0.14)" strokeWidth="1" strokeDasharray="4,3"/>
+      <path d="M 133,21 L 139,28" stroke={tema.acento} strokeWidth="1.5" fill="none"/>
+      <path d="M 133,60 L 139,67" stroke={tema.acento} strokeWidth="1.5" fill="none"/>
+      <path d="M 51,60 L 57,67" stroke={tema.acento} strokeWidth="1.5" fill="none"/>
+      <path d="M 51,21 L 57,28" stroke={tema.acento} strokeWidth="1.5" fill="none"/>
+    </svg>
+  );
+}
+function CuadradoCriterioSVG({ tema }) {
+  // Polígono 70×70 centrado en el viewBox 190×88 → proporciones 1:1
+  return (
+    <svg viewBox="0 0 190 88" width="100%" style={{ display: "block" }}>
+      <polygon points="60,5 130,5 130,75 60,75" fill={tema.azulSuave} stroke="none"/>
+      <polygon points="60,5 130,5 130,75 60,75" fill="none" stroke={tema.azul} strokeWidth="1.8" opacity="0.85"/>
+      <path d="M 68,5 L 68,13 L 60,13"   stroke={tema.acento} strokeWidth="1.5" fill="none"/>
+      <path d="M 122,5 L 122,13 L 130,13" stroke={tema.acento} strokeWidth="1.5" fill="none"/>
+      <path d="M 122,75 L 122,67 L 130,67" stroke={tema.acento} strokeWidth="1.5" fill="none"/>
+      <path d="M 68,75 L 68,67 L 60,67"   stroke={tema.acento} strokeWidth="1.5" fill="none"/>
+      <path d="M 95,1 L 95,9"   stroke={tema.azul} strokeWidth="1.5" fill="none"/>
+      <path d="M 95,71 L 95,79" stroke={tema.azul} strokeWidth="1.5" fill="none"/>
+      <path d="M 56,40 L 64,40"   stroke={tema.azul} strokeWidth="1.5" fill="none"/>
+      <path d="M 126,40 L 134,40" stroke={tema.azul} strokeWidth="1.5" fill="none"/>
+    </svg>
+  );
+}
+// ─── Criterio small SVGs: trapecios ──────────────────────────────────────────
+function TrapEscalenoCriterioSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 190 88" width="100%" style={{ display: "block" }}>
+      <polygon points="8,80 178,80 148,8 55,8" fill={tema.azulSuave} stroke="none"/>
+      <line x1="8" y1="80" x2="178" y2="80" stroke={tema.azul} strokeWidth="2" opacity="0.9"/>
+      <line x1="55" y1="8" x2="148" y2="8" stroke={tema.verde} strokeWidth="2" opacity="0.9"/>
+      <line x1="8" y1="80" x2="55" y2="8" stroke={tema.acento} strokeWidth="1.8" opacity="0.85"/>
+      <line x1="178" y1="80" x2="148" y2="8" stroke={tema.azul} strokeWidth="1.8" opacity="0.7"/>
+    </svg>
+  );
+}
+function TrapIsosCriterioSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 190 88" width="100%" style={{ display: "block" }}>
+      <polygon points="8,80 178,80 148,8 38,8" fill={tema.azulSuave} stroke="none"/>
+      <line x1="8" y1="80" x2="178" y2="80" stroke={tema.azul} strokeWidth="2" opacity="0.9"/>
+      <line x1="38" y1="8" x2="148" y2="8" stroke={tema.verde} strokeWidth="2" opacity="0.9"/>
+      <line x1="8" y1="80" x2="38" y2="8" stroke={tema.acento} strokeWidth="2" opacity="0.85"/>
+      <line x1="178" y1="80" x2="148" y2="8" stroke={tema.acento} strokeWidth="2" opacity="0.85"/>
+      <path d="M 17,44 L 25,50" stroke={tema.acento} strokeWidth="1.8" fill="none"/>
+      <path d="M 160,44 L 168,50" stroke={tema.acento} strokeWidth="1.8" fill="none"/>
+    </svg>
+  );
+}
+function TrapRectCriterioSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 190 88" width="100%" style={{ display: "block" }}>
+      <polygon points="20,80 168,80 168,8 80,8" fill={tema.azulSuave} stroke="none"/>
+      <line x1="20" y1="80" x2="168" y2="80" stroke={tema.azul} strokeWidth="2" opacity="0.9"/>
+      <line x1="80" y1="8" x2="168" y2="8" stroke={tema.verde} strokeWidth="2" opacity="0.9"/>
+      <line x1="20" y1="80" x2="80" y2="8" stroke={tema.acento} strokeWidth="2" opacity="0.85"/>
+      <line x1="168" y1="8" x2="168" y2="80" stroke={tema.azul} strokeWidth="2" opacity="0.9"/>
+      <path d="M 160,80 L 160,72 L 168,72" stroke={tema.acento} strokeWidth="1.5" fill="none"/>
+      <path d="M 160,8 L 160,16 L 168,16" stroke={tema.acento} strokeWidth="1.5" fill="none"/>
+    </svg>
+  );
+}
+// ─── Criterio small SVGs: polígonos regulares ────────────────────────────────
+function TrianguloRegSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 190 88" width="100%" style={{ display: "block" }}>
+      <polygon points={qRegPoly(95,44,36,3,-Math.PI/2)} fill={tema.azulSuave} stroke={tema.azul} strokeWidth="1.8" opacity="0.85"/>
+      <text x="95" y="86" fill={tema.muted} fontSize="9" fontFamily="'DM Sans',sans-serif" textAnchor="middle">60° · 60° · 60°</text>
+    </svg>
+  );
+}
+function CuadradoRegSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 190 88" width="100%" style={{ display: "block" }}>
+      <polygon points={qRegPoly(95,42,32,4,-Math.PI/4)} fill={tema.azulSuave} stroke={tema.azul} strokeWidth="1.8" opacity="0.85"/>
+      <text x="95" y="86" fill={tema.muted} fontSize="9" fontFamily="'DM Sans',sans-serif" textAnchor="middle">90° × 4</text>
+    </svg>
+  );
+}
+function PentagonoRegSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 190 88" width="100%" style={{ display: "block" }}>
+      <polygon points={qRegPoly(95,44,36,5,-Math.PI/2)} fill={tema.azulSuave} stroke={tema.azul} strokeWidth="1.8" opacity="0.85"/>
+      <text x="95" y="86" fill={tema.muted} fontSize="9" fontFamily="'DM Sans',sans-serif" textAnchor="middle">108° × 5</text>
+    </svg>
+  );
+}
+function HexagonoRegSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 190 88" width="100%" style={{ display: "block" }}>
+      <polygon points={qRegPoly(95,44,36,6,-Math.PI/2)} fill={tema.azulSuave} stroke={tema.azul} strokeWidth="1.8" opacity="0.85"/>
+      <text x="95" y="86" fill={tema.muted} fontSize="9" fontFamily="'DM Sans',sans-serif" textAnchor="middle">120° × 6</text>
+    </svg>
+  );
+}
+function HeptagonoRegSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 190 88" width="100%" style={{ display: "block" }}>
+      <polygon points={qRegPoly(95,44,36,7,-Math.PI/2)} fill={tema.azulSuave} stroke={tema.azul} strokeWidth="1.8" opacity="0.85"/>
+      <text x="95" y="86" fill={tema.muted} fontSize="9" fontFamily="'DM Sans',sans-serif" textAnchor="middle">≈128.6° × 7</text>
+    </svg>
+  );
+}
+function OctagonoRegSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 190 88" width="100%" style={{ display: "block" }}>
+      <polygon points={qRegPoly(95,44,36,8,-Math.PI/2)} fill={tema.azulSuave} stroke={tema.azul} strokeWidth="1.8" opacity="0.85"/>
+      <text x="95" y="86" fill={tema.muted} fontSize="9" fontFamily="'DM Sans',sans-serif" textAnchor="middle">135° × 8</text>
+    </svg>
+  );
+}
+
 function SlideListaCriterios({ slide, tema, resaltadoIdx, onResaltar }) {
   const coloresAll = [tema.acento, tema.azul, tema.verde, tema.rojo];
   const bgColoresAll = [tema.acentoMed, tema.azulMed, "rgba(74,222,128,0.1)", "rgba(248,113,113,0.10)"];
@@ -715,7 +1025,31 @@ function SlideListaCriterios({ slide, tema, resaltadoIdx, onResaltar }) {
     "ALA": <CongALA_SVG tema={tema} />,
     "LAA": <CongLAA_SVG tema={tema} />,
   };
-  const criterioSVGs = slide.variante === "congruencia" ? criterioSVGsCongruencia : criterioSVGsSemejanza;
+  const criterioSVGsParalelogramos = {
+    "RBDE": <RomboideCriterioSVG   tema={tema} />,
+    "RECT": <RectanguloCriterioSVG tema={tema} />,
+    "RMBO": <RomboCriterioSVG      tema={tema} />,
+    "CUAD": <CuadradoCriterioSVG   tema={tema} />,
+  };
+  const criterioSVGsTrapecios = {
+    "ESC": <TrapEscalenoCriterioSVG tema={tema} />,
+    "ISO": <TrapIsosCriterioSVG     tema={tema} />,
+    "REC": <TrapRectCriterioSVG     tema={tema} />,
+  };
+  const criterioSVGsPoligonos = {
+    "TRI": <TrianguloRegSVG  tema={tema} />,
+    "CUA": <CuadradoRegSVG   tema={tema} />,
+    "PEN": <PentagonoRegSVG  tema={tema} />,
+    "HEX": <HexagonoRegSVG   tema={tema} />,
+    "HEP": <HeptagonoRegSVG  tema={tema} />,
+    "OCT": <OctagonoRegSVG   tema={tema} />,
+  };
+  const criterioSVGs =
+    slide.variante === "congruencia"    ? criterioSVGsCongruencia :
+    slide.variante === "paralelogramos" ? criterioSVGsParalelogramos :
+    slide.variante === "trapecios"      ? criterioSVGsTrapecios :
+    slide.variante === "poligonos"      ? criterioSVGsPoligonos :
+    criterioSVGsSemejanza;
   // 4 criteria → 2-column grid; 3 criteria → single column
   const cols = slide.criterios.length >= 4 ? 2 : 1;
   return (
@@ -944,7 +1278,7 @@ function CongLAADetalleSVG({ tema }) {
 // △ABC: A(100,18) B(12,162) C(210,162)  △DEF: D(341,78) E(290,162) F(405,162)  k≈1.72
 function CriterioAADetalleSVG({ tema }) {
   return (
-    <svg viewBox="0 0 480 182" width="100%" style={{ display: "block", maxHeight: 170 }}>
+    <svg viewBox="0 0 480 200" width="100%" style={{ display: "block", maxHeight: 188 }}>
       {/* Triangle fills */}
       <polygon points="100,18 12,162 210,162" fill={tema.azulSuave} stroke="none"/>
       <polygon points="341,78 290,162 405,162" fill={tema.azulSuave} stroke="none"/>
@@ -983,7 +1317,7 @@ function CriterioAADetalleSVG({ tema }) {
       <text x="252" y="110" fill="rgba(240,236,227,0.28)" fontSize="30" fontFamily="Georgia,serif" textAnchor="middle">∼</text>
 
       {/* Subtitle: γ derived */}
-      <text x="252" y="180" fill="rgba(240,236,227,0.20)" fontSize="9.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.05em">γ = 180° − α − β  (se determina solo)</text>
+      <text x="252" y="196" fill="rgba(240,236,227,0.20)" fontSize="9.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.05em">γ = 180° − α − β  (se determina solo)</text>
     </svg>
   );
 }
@@ -1087,101 +1421,101 @@ function CriterioLALDetalleSVG({ tema }) {
   );
 }
 
-// Big right △ABC: B(28,150) A(28,78) C(124,150) — sides 6,8,10 (12px/unit)
-// Small right △DEF: E(188,132) D(188,96) F(236,132) — sides 3,4,5
+// Big right △ABC: B(25,170) A(25,80) C(145,170) — sides 6,8,10 (15px/unit)
+// Small right △DEF: D(210,110) E(210,150) F(260,150) — sides 3,4,5 (10px/unit)
 function Ej1LLLSVG({ tema }) {
   return (
-    <svg viewBox="0 0 265 172" width="100%" style={{ display: "block", maxHeight: 160 }}>
+    <svg viewBox="0 0 310 192" width="100%" style={{ display: "block", maxHeight: 185 }}>
       {/* Fills */}
-      <polygon points="28,78 28,150 124,150" fill={tema.azulSuave} stroke="none"/>
-      <polygon points="188,96 188,132 236,132" fill={tema.azulSuave} stroke="none"/>
+      <polygon points="25,80 25,170 145,170" fill={tema.azulSuave} stroke="none"/>
+      <polygon points="210,110 210,150 260,150" fill={tema.azulSuave} stroke="none"/>
 
       {/* Right angle squares */}
-      <path d="M 28,142 L 36,142 L 36,150" fill="none" stroke="rgba(240,236,227,0.45)" strokeWidth="1.2"/>
-      <path d="M 188,124 L 196,124 L 196,132" fill="none" stroke="rgba(240,236,227,0.45)" strokeWidth="1.2"/>
+      <path d="M 25,161 L 34,161 L 34,170" fill="none" stroke="rgba(240,236,227,0.45)" strokeWidth="1.2"/>
+      <path d="M 210,141 L 219,141 L 219,150" fill="none" stroke="rgba(240,236,227,0.45)" strokeWidth="1.2"/>
 
       {/* Sides: AB/DE=azul(1), BC/EF=verde(2), CA/FD=acento(3) */}
-      <line x1="28"  y1="78"  x2="28"  y2="150" stroke={tema.azul}   strokeWidth="2.5"/>
-      <line x1="28"  y1="150" x2="124" y2="150" stroke={tema.verde}  strokeWidth="2.5"/>
-      <line x1="124" y1="150" x2="28"  y2="78"  stroke={tema.acento} strokeWidth="2.5"/>
-      <line x1="188" y1="96"  x2="188" y2="132" stroke={tema.azul}   strokeWidth="2.5"/>
-      <line x1="188" y1="132" x2="236" y2="132" stroke={tema.verde}  strokeWidth="2.5"/>
-      <line x1="236" y1="132" x2="188" y2="96"  stroke={tema.acento} strokeWidth="2.5"/>
+      <line x1="25"  y1="80"  x2="25"  y2="170" stroke={tema.azul}   strokeWidth="2.5"/>
+      <line x1="25"  y1="170" x2="145" y2="170" stroke={tema.verde}  strokeWidth="2.5"/>
+      <line x1="145" y1="170" x2="25"  y2="80"  stroke={tema.acento} strokeWidth="2.5"/>
+      <line x1="210" y1="110" x2="210" y2="150" stroke={tema.azul}   strokeWidth="2.5"/>
+      <line x1="210" y1="150" x2="260" y2="150" stroke={tema.verde}  strokeWidth="2.5"/>
+      <line x1="260" y1="150" x2="210" y2="110" stroke={tema.acento} strokeWidth="2.5"/>
 
-      {/* Ticks — AB/DE: 1 azul (horizontal, ⊥ to vertical side) */}
-      <line x1="22"  y1="114" x2="34"  y2="114" stroke={tema.azul}  strokeWidth="2"/>
-      <line x1="182" y1="114" x2="194" y2="114" stroke={tema.azul}  strokeWidth="2"/>
-      {/* BC/EF: 2 verde (vertical, ⊥ to horizontal side) */}
-      <line x1="70"  y1="144" x2="70"  y2="156" stroke={tema.verde} strokeWidth="2"/>
-      <line x1="82"  y1="144" x2="82"  y2="156" stroke={tema.verde} strokeWidth="2"/>
-      <line x1="207" y1="126" x2="207" y2="138" stroke={tema.verde} strokeWidth="2"/>
-      <line x1="217" y1="126" x2="217" y2="138" stroke={tema.verde} strokeWidth="2"/>
-      {/* CA/FD: 3 acento (⊥ to diagonal, perp direction (0.600,−0.800)) */}
-      <line x1="79"  y1="110" x2="73"  y2="118" stroke={tema.acento} strokeWidth="2"/>
-      <line x1="75"  y1="107" x2="69"  y2="115" stroke={tema.acento} strokeWidth="2"/>
-      <line x1="83"  y1="113" x2="77"  y2="121" stroke={tema.acento} strokeWidth="2"/>
-      <line x1="214" y1="111" x2="210" y2="117" stroke={tema.acento} strokeWidth="2"/>
-      <line x1="211" y1="109" x2="207" y2="115" stroke={tema.acento} strokeWidth="2"/>
-      <line x1="217" y1="113" x2="213" y2="119" stroke={tema.acento} strokeWidth="2"/>
+      {/* Ticks — AB/DE: 1 azul */}
+      <line x1="18"  y1="125" x2="32"  y2="125" stroke={tema.azul}  strokeWidth="2"/>
+      <line x1="203" y1="130" x2="217" y2="130" stroke={tema.azul}  strokeWidth="2"/>
+      {/* BC/EF: 2 verde */}
+      <line x1="75"  y1="163" x2="75"  y2="177" stroke={tema.verde} strokeWidth="2"/>
+      <line x1="90"  y1="163" x2="90"  y2="177" stroke={tema.verde} strokeWidth="2"/>
+      <line x1="229" y1="144" x2="229" y2="157" stroke={tema.verde} strokeWidth="2"/>
+      <line x1="240" y1="144" x2="240" y2="157" stroke={tema.verde} strokeWidth="2"/>
+      {/* CA/FD: 3 acento (perp direction (0.600,−0.800)) */}
+      <line x1="90"  y1="121" x2="84"  y2="129" stroke={tema.acento} strokeWidth="2"/>
+      <line x1="85"  y1="117" x2="79"  y2="125" stroke={tema.acento} strokeWidth="2"/>
+      <line x1="95"  y1="125" x2="89"  y2="133" stroke={tema.acento} strokeWidth="2"/>
+      <line x1="237" y1="127" x2="232" y2="133" stroke={tema.acento} strokeWidth="2"/>
+      <line x1="233" y1="123" x2="228" y2="129" stroke={tema.acento} strokeWidth="2"/>
+      <line x1="241" y1="131" x2="236" y2="137" stroke={tema.acento} strokeWidth="2"/>
 
       {/* Side labels */}
-      <text x="17"  y="118" fill={tema.azul}   fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="end">6</text>
-      <text x="76"  y="165" fill={tema.verde}  fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">8</text>
-      <text x="88"  y="101" fill={tema.acento} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="600">10</text>
-      <text x="180" y="116" fill={tema.azul}   fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="end">3</text>
-      <text x="212" y="145" fill={tema.verde}  fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">4</text>
-      <text x="221" y="104" fill={tema.acento} fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="600">5</text>
+      <text x="14"  y="129" fill={tema.azul}   fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="end">6</text>
+      <text x="85"  y="185" fill={tema.verde}  fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">8</text>
+      <text x="100" y="112" fill={tema.acento} fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="600">10</text>
+      <text x="200" y="132" fill={tema.azul}   fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="end">3</text>
+      <text x="235" y="163" fill={tema.verde}  fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">4</text>
+      <text x="248" y="118" fill={tema.acento} fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="600">5</text>
 
       {/* Vertex labels */}
-      <text x="28"  y="70"  fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
-      <text x="14"  y="164" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">B</text>
-      <text x="128" y="163" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">C</text>
-      <text x="188" y="89"  fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
-      <text x="174" y="142" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">E</text>
-      <text x="240" y="142" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">F</text>
+      <text x="25"  y="73"  fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
+      <text x="11"  y="184" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="149" y="184" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">C</text>
+      <text x="210" y="103" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
+      <text x="196" y="162" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">E</text>
+      <text x="264" y="162" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">F</text>
 
       {/* k=2 between the triangles */}
-      <text x="158" y="100" fill="rgba(240,236,227,0.50)" fontSize="16" fontWeight="700" fontFamily="'DM Sans',sans-serif" textAnchor="middle">k = 2</text>
-      <text x="158" y="116" fill="rgba(240,236,227,0.22)" fontSize="8.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">△ABC ∼ △DEF</text>
+      <text x="180" y="118" fill="rgba(240,236,227,0.50)" fontSize="16" fontWeight="700" fontFamily="'DM Sans',sans-serif" textAnchor="middle">k = 2</text>
+      <text x="180" y="134" fill="rgba(240,236,227,0.22)" fontSize="8.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">△ABC ∼ △DEF</text>
     </svg>
   );
 }
 
-// Big △PQR: P(95,14) Q(12,155) R(198,155) — labeled PQ=12
-// Small △XYZ: X(296,42) Y(240,136) Z(364,136) — labeled XY=8, k=3/2
+// Big △PQR: P(95,29) Q(12,170) R(198,170) — labeled PQ=12
+// Small △XYZ: X(296,57) Y(240,151) Z(364,151) — labeled XY=?, k=3/2
 function Ej2K32SVG({ tema }) {
   return (
-    <svg viewBox="0 0 388 170" width="100%" style={{ display: "block", maxHeight: 160 }}>
+    <svg viewBox="0 0 388 185" width="100%" style={{ display: "block", maxHeight: 175 }}>
       {/* Fills */}
-      <polygon points="95,14 12,155 198,155" fill={tema.azulSuave} stroke="none"/>
-      <polygon points="296,42 240,136 364,136" fill={tema.azulSuave} stroke="none"/>
+      <polygon points="95,29 12,170 198,170" fill={tema.azulSuave} stroke="none"/>
+      <polygon points="296,57 240,151 364,151" fill={tema.azulSuave} stroke="none"/>
 
       {/* Big triangle sides — PQ highlighted in azul, rest dimmed */}
-      <line x1="95"  y1="14"  x2="12"  y2="155" stroke={tema.azul}   strokeWidth="2.8"/>
-      <line x1="12"  y1="155" x2="198" y2="155" stroke="rgba(240,236,227,0.35)" strokeWidth="1.8"/>
-      <line x1="198" y1="155" x2="95"  y2="14"  stroke="rgba(240,236,227,0.35)" strokeWidth="1.8"/>
+      <line x1="95"  y1="29"  x2="12"  y2="170" stroke={tema.azul}   strokeWidth="2.8"/>
+      <line x1="12"  y1="170" x2="198" y2="170" stroke="rgba(240,236,227,0.35)" strokeWidth="1.8"/>
+      <line x1="198" y1="170" x2="95"  y2="29"  stroke="rgba(240,236,227,0.35)" strokeWidth="1.8"/>
 
       {/* Small triangle sides — XY highlighted in azul, rest dimmed */}
-      <line x1="296" y1="42"  x2="240" y2="136" stroke={tema.azul}   strokeWidth="2.8"/>
-      <line x1="240" y1="136" x2="364" y2="136" stroke="rgba(240,236,227,0.35)" strokeWidth="1.8"/>
-      <line x1="364" y1="136" x2="296" y2="42"  stroke="rgba(240,236,227,0.35)" strokeWidth="1.8"/>
+      <line x1="296" y1="57"  x2="240" y2="151" stroke={tema.azul}   strokeWidth="2.8"/>
+      <line x1="240" y1="151" x2="364" y2="151" stroke="rgba(240,236,227,0.35)" strokeWidth="1.8"/>
+      <line x1="364" y1="151" x2="296" y2="57"  stroke="rgba(240,236,227,0.35)" strokeWidth="1.8"/>
 
       {/* Labels on PQ and XY */}
-      <text x="40"  y="93"  fill={tema.azul} fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">12</text>
-      <text x="258" y="95"  fill={tema.azul} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">8</text>
+      <text x="40"  y="108" fill={tema.azul} fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">12</text>
+      <text x="258" y="110" fill={tema.azul} fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">?</text>
 
       {/* Vertex labels */}
-      <text x="95"  y="8"   fill="rgba(240,236,227,0.70)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">P</text>
-      <text x="4"   y="163" fill="rgba(240,236,227,0.70)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">Q</text>
-      <text x="202" y="163" fill="rgba(240,236,227,0.70)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">R</text>
-      <text x="296" y="36"  fill="rgba(240,236,227,0.70)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">X</text>
-      <text x="232" y="148" fill="rgba(240,236,227,0.70)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">Y</text>
-      <text x="368" y="148" fill="rgba(240,236,227,0.70)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">Z</text>
+      <text x="95"  y="22"  fill="rgba(240,236,227,0.70)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">P</text>
+      <text x="4"   y="179" fill="rgba(240,236,227,0.70)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">Q</text>
+      <text x="202" y="179" fill="rgba(240,236,227,0.70)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">R</text>
+      <text x="296" y="51"  fill="rgba(240,236,227,0.70)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">X</text>
+      <text x="232" y="163" fill="rgba(240,236,227,0.70)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">Y</text>
+      <text x="368" y="163" fill="rgba(240,236,227,0.70)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">Z</text>
 
       {/* k = 3/2 in center + ∼ */}
-      <text x="222" y="72"  fill="rgba(240,236,227,0.28)" fontSize="22" fontFamily="Georgia,serif" textAnchor="middle">∼</text>
-      <text x="222" y="96"  fill="rgba(240,236,227,0.55)" fontSize="17" fontWeight="700" fontFamily="'DM Sans',sans-serif" textAnchor="middle">k = 3/2</text>
-      <text x="222" y="112" fill="rgba(240,236,227,0.22)" fontSize="9" fontFamily="'DM Sans',sans-serif" textAnchor="middle">PQ / XY = 12 / 8</text>
+      <text x="222" y="87"  fill="rgba(240,236,227,0.28)" fontSize="22" fontFamily="Georgia,serif" textAnchor="middle">∼</text>
+      <text x="222" y="111" fill="rgba(240,236,227,0.55)" fontSize="17" fontWeight="700" fontFamily="'DM Sans',sans-serif" textAnchor="middle">k = 3/2</text>
+      <text x="222" y="127" fill="rgba(240,236,227,0.22)" fontSize="9" fontFamily="'DM Sans',sans-serif" textAnchor="middle">PQ = 12</text>
     </svg>
   );
 }
@@ -1315,6 +1649,209 @@ function Ce3AlaSVG({ tema }) {
   );
 }
 
+// ─── CriterioDetalle SVGs: Cuadriláteros ─────────────────────────────────────
+function RectanguloDetalleSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 430 175" width="100%" style={{ display: "block", maxHeight: 175 }}>
+      <polygon points="40,22 370,22 370,148 40,148" fill={tema.azulSuave} stroke="none"/>
+      <polygon points="40,22 370,22 370,148 40,148" fill="none" stroke={tema.azul} strokeWidth="2.2" opacity="0.9"/>
+      <path d="M 52,22 L 52,34 L 40,34" stroke={tema.acento} strokeWidth="1.8" fill="none"/>
+      <path d="M 358,22 L 358,34 L 370,34" stroke={tema.acento} strokeWidth="1.8" fill="none"/>
+      <path d="M 358,148 L 358,136 L 370,136" stroke={tema.acento} strokeWidth="1.8" fill="none"/>
+      <path d="M 52,148 L 52,136 L 40,136" stroke={tema.acento} strokeWidth="1.8" fill="none"/>
+      <line x1="40" y1="22" x2="370" y2="148" stroke={tema.azul} strokeWidth="1.5" strokeDasharray="7,5" opacity="0.45"/>
+      <path d="M 202,18 L 202,26 M 208,18 L 208,26" stroke={tema.azul} strokeWidth="1.5" fill="none"/>
+      <path d="M 202,144 L 202,152 M 208,144 L 208,152" stroke={tema.azul} strokeWidth="1.5" fill="none"/>
+      <path d="M 36,83 L 44,83" stroke={tema.azul} strokeWidth="1.5" fill="none"/>
+      <path d="M 366,83 L 374,83" stroke={tema.azul} strokeWidth="1.5" fill="none"/>
+      <text x="205" y="167" fill={tema.azul} fontSize="15" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">b</text>
+      <text x="385" y="88" fill={tema.azul} fontSize="15" fontFamily="Georgia,serif" fontStyle="italic">h</text>
+      <text x="218" y="77" fill={tema.azul} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" opacity="0.55">d</text>
+      <text x="35" y="17" fill={tema.muted} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">A</text>
+      <text x="373" y="17" fill={tema.muted} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="373" y="163" fill={tema.muted} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">C</text>
+      <text x="35" y="163" fill={tema.muted} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">D</text>
+    </svg>
+  );
+}
+function RomboDetalleSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 430 185" width="100%" style={{ display: "block", maxHeight: 185 }}>
+      <polygon points="210,15 390,90 210,165 30,90" fill={tema.azulSuave} stroke="none"/>
+      <line x1="210" y1="15" x2="390" y2="90" stroke={tema.azul} strokeWidth="2.2" opacity="0.9"/>
+      <line x1="390" y1="90" x2="210" y2="165" stroke={tema.azul} strokeWidth="2.2" opacity="0.9"/>
+      <line x1="210" y1="165" x2="30" y2="90" stroke={tema.azul} strokeWidth="2.2" opacity="0.9"/>
+      <line x1="30" y1="90" x2="210" y2="15" stroke={tema.azul} strokeWidth="2.2" opacity="0.9"/>
+      <line x1="210" y1="15" x2="210" y2="165" stroke={tema.verde} strokeWidth="1.8" strokeDasharray="7,5" opacity="0.7"/>
+      <line x1="30" y1="90" x2="390" y2="90" stroke={tema.acento} strokeWidth="1.8" strokeDasharray="7,5" opacity="0.7"/>
+      <path d="M 210,90 L 210,80 L 220,80" stroke="rgba(255,255,255,0.45)" strokeWidth="1.5" fill="none"/>
+      <path d="M 293,49 L 300,56" stroke={tema.acento} strokeWidth="1.8" fill="none"/>
+      <path d="M 293,124 L 300,131" stroke={tema.acento} strokeWidth="1.8" fill="none"/>
+      <path d="M 120,124 L 127,131" stroke={tema.acento} strokeWidth="1.8" fill="none"/>
+      <path d="M 120,49 L 127,56" stroke={tema.acento} strokeWidth="1.8" fill="none"/>
+      <text x="195" y="10" fill={tema.muted} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">A</text>
+      <text x="394" y="94" fill={tema.muted} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="210" y="180" fill={tema.muted} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">C</text>
+      <text x="26" y="94" fill={tema.muted} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">D</text>
+      <text x="217" y="52" fill={tema.verde} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">d₁</text>
+      <text x="306" y="87" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">d₂</text>
+      <text x="302" y="50" fill={tema.azul} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">l</text>
+    </svg>
+  );
+}
+function CuadradoDetalleSVG({ tema }) {
+  const divRef = useRef(null);
+  const boardRef = useRef(null);
+  const idRef = useRef(null);
+  if (!idRef.current) {
+    idRef.current = `jxg-cdet-${Math.random().toString(36).slice(2, 8)}`;
+  }
+
+  useEffect(() => {
+    const div = divRef.current;
+    if (!div) return;
+    div.id = idRef.current;
+
+    if (JXG.JSXGraph.boards && JXG.JSXGraph.boards[idRef.current]) {
+      JXG.JSXGraph.freeBoard(JXG.JSXGraph.boards[idRef.current]);
+    }
+
+    const board = JXG.JSXGraph.initBoard(idRef.current, {
+      boundingbox: [-1.65, 1.65, 1.65, -1.65],
+      keepaspectratio: true,
+      showNavigation: false,
+      showCopyright: false,
+      pan: { enabled: false, needTwoFingers: false },
+      zoom: { wheel: false, enabled: false, pinch: false },
+      axis: false,
+      grid: false,
+    });
+
+    board.containerObj.style.background = 'transparent';
+    board.containerObj.style.border = 'none';
+    board.containerObj.style.borderRadius = '0';
+
+    const pt = (x, y) => board.create('point', [x, y], {
+      name: '', visible: false, fixed: true, withLabel: false, highlight: false,
+    });
+
+    // A=bottom-left, B=bottom-right, C=top-right, D=top-left
+    const A = pt(-1, -1);
+    const B = pt(1, -1);
+    const C = pt(1, 1);
+    const D = pt(-1, 1);
+
+    board.create('polygon', [A, B, C, D], {
+      fillColor: tema.azulSuave,
+      fillOpacity: 1,
+      highlight: false,
+      hasInnerPoints: false,
+      vertices: { visible: false, withLabel: false },
+      borders: {
+        strokeColor: tema.azul, strokeWidth: 2.2, strokeOpacity: 0.9,
+        highlight: false, lastArrow: false, firstArrow: false,
+      },
+      highlightFillColor: tema.azulSuave,
+      highlightFillOpacity: 1,
+    });
+
+    // Diagonal A→C punteada
+    board.create('segment', [A, C], {
+      strokeColor: tema.azul, strokeWidth: 1.5,
+      dash: 2, strokeOpacity: 0.4, highlight: false,
+    });
+
+    // Marcadores de ángulo recto en las cuatro esquinas
+    const raStyle = {
+      radius: 0.13, type: 'square',
+      strokeColor: tema.acento, strokeWidth: 1.8,
+      fillColor: 'none', fillOpacity: 0,
+      withLabel: false, highlight: false,
+    };
+    board.create('angle', [B, A, D], raStyle); // esquina A
+    board.create('angle', [C, B, A], raStyle); // esquina B
+    board.create('angle', [D, C, B], raStyle); // esquina C
+    board.create('angle', [A, D, C], raStyle); // esquina D
+
+    const mkTxt = (x, y, text, color, size, css = '') =>
+      board.create('text', [x, y], {
+        text, fontSize: size, color,
+        highlight: false, fixed: true, strokeColor: 'none',
+        cssStyle: `font-family:Georgia,serif;font-style:italic;${css}`,
+      });
+
+    mkTxt(0, -1.3,  'l', tema.azul,  16);        // etiqueta lado inferior
+    mkTxt(1.28, 0,  'l', tema.azul,  16);        // etiqueta lado derecho
+    mkTxt(0.12, 0.08, 'd', tema.azul, 13, 'opacity:0.5;'); // diagonal
+
+    // Etiquetas de vértices
+    mkTxt(-1.17, -1.18, 'A', tema.muted, 13);
+    mkTxt( 1.08, -1.18, 'B', tema.muted, 13);
+    mkTxt( 1.08,  1.18, 'C', tema.muted, 13);
+    mkTxt(-1.17,  1.18, 'D', tema.muted, 13);
+
+    boardRef.current = board;
+    return () => { try { JXG.JSXGraph.freeBoard(board); } catch (e) {} };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  return (
+    <div
+      ref={divRef}
+      style={{
+        width: '100%', height: 185,
+        position: 'relative', overflow: 'hidden',
+        background: 'transparent', border: 'none', borderRadius: 0,
+        userSelect: 'none',
+      }}
+    />
+  );
+}
+function TrapIsoDetalleSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 430 185" width="100%" style={{ display: "block", maxHeight: 185 }}>
+      <polygon points="25,155 385,155 310,25 100,25" fill={tema.azulSuave} stroke="none"/>
+      <line x1="25" y1="155" x2="385" y2="155" stroke={tema.azul} strokeWidth="2.5" opacity="0.9"/>
+      <line x1="100" y1="25" x2="310" y2="25" stroke={tema.verde} strokeWidth="2.5" opacity="0.9"/>
+      <line x1="25" y1="155" x2="100" y2="25" stroke={tema.acento} strokeWidth="2.2" opacity="0.9"/>
+      <line x1="385" y1="155" x2="310" y2="25" stroke={tema.acento} strokeWidth="2.2" opacity="0.9"/>
+      <path d="M 56,91 L 66,99" stroke={tema.acento} strokeWidth="2" fill="none"/>
+      <path d="M 342,91 L 352,99" stroke={tema.acento} strokeWidth="2" fill="none"/>
+      <line x1="100" y1="25" x2="100" y2="155" stroke={tema.verde} strokeWidth="1.5" strokeDasharray="6,4" opacity="0.6"/>
+      <path d="M 100,143 L 110,143 L 110,155" stroke={tema.verde} strokeWidth="1.5" fill="none" opacity="0.6"/>
+      <text x="205" y="175" fill={tema.azul} fontSize="15" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">B</text>
+      <text x="205" y="18" fill={tema.verde} fontSize="15" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">b</text>
+      <text x="86" y="92" fill={tema.verde} fontSize="14" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">h</text>
+      <text x="49" y="84" fill={tema.acento} fontSize="14" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">c</text>
+      <text x="364" y="84" fill={tema.acento} fontSize="14" fontFamily="Georgia,serif" fontStyle="italic">c</text>
+      <text x="22" y="168" fill={tema.muted} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">A</text>
+      <text x="388" y="168" fill={tema.muted} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="313" y="18" fill={tema.muted} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">C</text>
+      <text x="97" y="18" fill={tema.muted} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">D</text>
+    </svg>
+  );
+}
+function TrapRectDetalleSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 430 185" width="100%" style={{ display: "block", maxHeight: 185 }}>
+      <polygon points="50,155 370,155 370,25 165,25" fill={tema.azulSuave} stroke="none"/>
+      <line x1="50" y1="155" x2="370" y2="155" stroke={tema.azul} strokeWidth="2.5" opacity="0.9"/>
+      <line x1="165" y1="25" x2="370" y2="25" stroke={tema.verde} strokeWidth="2.5" opacity="0.9"/>
+      <line x1="50" y1="155" x2="165" y2="25" stroke={tema.acento} strokeWidth="2.2" opacity="0.9"/>
+      <line x1="370" y1="155" x2="370" y2="25" stroke={tema.azul} strokeWidth="2.2" opacity="0.9"/>
+      <path d="M 358,155 L 358,143 L 370,143" stroke={tema.acento} strokeWidth="1.8" fill="none"/>
+      <path d="M 358,25 L 358,37 L 370,37" stroke={tema.acento} strokeWidth="1.8" fill="none"/>
+      <text x="210" y="175" fill={tema.azul} fontSize="15" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">B</text>
+      <text x="267" y="18" fill={tema.verde} fontSize="15" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">b</text>
+      <text x="384" y="92" fill={tema.azul} fontSize="14" fontFamily="Georgia,serif" fontStyle="italic">h = c</text>
+      <text x="94" y="84" fill={tema.acento} fontSize="14" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">d</text>
+      <text x="47" y="168" fill={tema.muted} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">A</text>
+      <text x="373" y="168" fill={tema.muted} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="373" y="20" fill={tema.muted} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">C</text>
+      <text x="162" y="18" fill={tema.muted} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">D</text>
+    </svg>
+  );
+}
+
 function SlideCriterioDetalle({ slide, tema, resaltadoIdx, onResaltar }) {
   const compact = !!slide.svgDiagram;
   const winW = useWindowWidth();
@@ -1362,13 +1899,18 @@ function SlideCriterioDetalle({ slide, tema, resaltadoIdx, onResaltar }) {
         </div>
       </div>
 
-      {slide.svgDiagram === "aa-detalle"      && <CriterioAADetalleSVG  tema={tema} />}
-      {slide.svgDiagram === "lll-detalle"     && <CriterioLLLDetalleSVG tema={tema} />}
-      {slide.svgDiagram === "lal-detalle"     && <CriterioLALDetalleSVG tema={tema} />}
-      {slide.svgDiagram === "lll-cong-detalle" && <CongLLLDetalleSVG tema={tema} />}
-      {slide.svgDiagram === "lal-cong-detalle" && <CongLALDetalleSVG tema={tema} />}
-      {slide.svgDiagram === "ala-cong-detalle" && <CongALADetalleSVG tema={tema} />}
-      {slide.svgDiagram === "laa-cong-detalle" && <CongLAADetalleSVG tema={tema} />}
+      {slide.svgDiagram === "aa-detalle"               && <CriterioAADetalleSVG   tema={tema} />}
+      {slide.svgDiagram === "lll-detalle"              && <CriterioLLLDetalleSVG  tema={tema} />}
+      {slide.svgDiagram === "lal-detalle"              && <CriterioLALDetalleSVG  tema={tema} />}
+      {slide.svgDiagram === "lll-cong-detalle"         && <CongLLLDetalleSVG      tema={tema} />}
+      {slide.svgDiagram === "lal-cong-detalle"         && <CongLALDetalleSVG      tema={tema} />}
+      {slide.svgDiagram === "ala-cong-detalle"         && <CongALADetalleSVG      tema={tema} />}
+      {slide.svgDiagram === "laa-cong-detalle"         && <CongLAADetalleSVG      tema={tema} />}
+      {slide.svgDiagram === "rectangulo-detalle"       && <RectanguloDetalleSVG   tema={tema} />}
+      {slide.svgDiagram === "rombo-detalle"            && <RomboDetalleSVG        tema={tema} />}
+      {slide.svgDiagram === "cuadrado-detalle"         && <CuadradoDetalleSVG     tema={tema} />}
+      {slide.svgDiagram === "trapecio-isosceles-detalle" && <TrapIsoDetalleSVG    tema={tema} />}
+      {slide.svgDiagram === "trapecio-rect-detalle"    && <TrapRectDetalleSVG     tema={tema} />}
 
       <div
         onClick={() => onResaltar && onResaltar(1)}
@@ -1565,7 +2107,8 @@ function SeAaEj1SVG({ tema }) {
   const pts=ps=>ps.map(([x,y])=>`${x},${y}`).join(" ");
   const st="rgba(240,236,227,0.72)";
   return (
-    <svg viewBox="0 0 370 145" width="100%" style={{display:"block",maxHeight:145}}>
+    <svg viewBox="0 0 370 160" width="100%" style={{display:"block",maxHeight:160}}>
+      <g transform="translate(0,15)">
       <polygon points={pts([A,B,C])} fill={tema.azulSuave} stroke="none"/>
       <polygon points={pts([D,E,F])} fill={tema.azulSuave} stroke="none"/>
       <line x1={A[0]} y1={A[1]} x2={B[0]} y2={B[1]} stroke={st} strokeWidth="2"/>
@@ -1589,6 +2132,7 @@ function SeAaEj1SVG({ tema }) {
       <text x="264" y="5"   fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
       <text x="194" y="138" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">E</text>
       <text x="360" y="129" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">F</text>
+      </g>
     </svg>
   );
 }
@@ -1612,7 +2156,6 @@ function SeAaEj2SVG({ tema }) {
       <text x="29"  y="62"  fill={tema.azul}  fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">6</text>
       <text x="93"  y="136" fill={tema.verde} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">9</text>
       <text x="214" y="82"  fill={tema.azul}  fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">4</text>
-      <text x="274" y="136" fill={tema.verde} fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">6</text>
       <text x="194" y="96"  fill="rgba(240,236,227,0.50)" fontSize="13" fontWeight="700" fontFamily="'DM Sans',sans-serif" textAnchor="middle">k=3/2</text>
       <text x="186" y="78"  fill="rgba(240,236,227,0.28)" fontSize="22" fontFamily="Georgia,serif" textAnchor="middle">∼</text>
       <text x="86"  y="5"   fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
@@ -1626,15 +2169,16 @@ function SeAaEj2SVG({ tema }) {
 }
 
 function SeLllEj1SVG({ tema }) {
-  // Sides AB=4(azul),BC=8(verde),CA=6(acento) | DE=6,EF=12,FD=9 — k=2/3
-  const A=[86,14],B=[8,122],C=[178,122],D=[264,14],E=[194,122],F=[354,122];
+  // Sides AB=4(azul),BC=8(verde),CA=6(acento) | DE=6,EF=12,FD=9 — k=2/3  (triángulos ampliados)
+  const A=[85,8],B=[3,148],C=[185,148],D=[305,8],E=[215,148],F=[397,148];
   const {mid,vsub,vadd,vscale,vunit,vperp,fmt}=_svgH();
   function tp(P1,P2){const m=mid(P1,P2),p=vperp(vunit(vsub(P2,P1)));return`M ${fmt(vadd(m,vscale(p,6)))} L ${fmt(vadd(m,vscale(p,-6)))}`;}
   function t2p(P1,P2){const m=mid(P1,P2),d=vunit(vsub(P2,P1)),p=vperp(d);return[-4,4].map(o=>{const c=vadd(m,vscale(d,o));return`M ${fmt(vadd(c,vscale(p,6)))} L ${fmt(vadd(c,vscale(p,-6)))}`;}).join(" ");}
   function t3p(P1,P2){const m=mid(P1,P2),d=vunit(vsub(P2,P1)),p=vperp(d);return[-7,0,7].map(o=>{const c=vadd(m,vscale(d,o));return`M ${fmt(vadd(c,vscale(p,6)))} L ${fmt(vadd(c,vscale(p,-6)))}`;}).join(" ");}
   const pts=ps=>ps.map(fmt).join(" ");
   return (
-    <svg viewBox="0 0 370 145" width="100%" style={{display:"block",maxHeight:145}}>
+    <svg viewBox="0 0 400 183" width="100%" style={{display:"block",maxHeight:183}}>
+      <g transform="translate(0,20)">
       <polygon points={pts([A,B,C])} fill={tema.azulSuave} stroke="none"/>
       <polygon points={pts([D,E,F])} fill={tema.azulSuave} stroke="none"/>
       <line x1={A[0]} y1={A[1]} x2={B[0]} y2={B[1]} stroke={tema.azul}   strokeWidth="2.2"/>
@@ -1649,12 +2193,55 @@ function SeLllEj1SVG({ tema }) {
       <path d={t2p(E,F)} stroke={tema.verde}  strokeWidth="1.8" fill="none"/>
       <path d={t3p(C,A)} stroke={tema.acento} strokeWidth="1.8" fill="none"/>
       <path d={t3p(F,D)} stroke={tema.acento} strokeWidth="1.8" fill="none"/>
-      <text x="29"  y="62"  fill={tema.azul}   fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">4</text>
-      <text x="93"  y="136" fill={tema.verde}  fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">8</text>
-      <text x="148" y="61"  fill={tema.acento} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700">6</text>
+      <text x="22"  y="74"  fill={tema.azul}   fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">4</text>
+      <text x="94"  y="155" fill={tema.verde}  fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">8</text>
+      <text x="153" y="68"  fill={tema.acento} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700">6</text>
+      <text x="240" y="74"  fill={tema.azul}   fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">6</text>
+      <text x="306" y="155" fill={tema.verde}  fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">12</text>
+      <text x="363" y="68"  fill={tema.acento} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700">9</text>
+      <text x="200" y="78"  fill="rgba(240,236,227,0.30)" fontSize="22" fontFamily="Georgia,serif" textAnchor="middle">∼</text>
+      <text x="85"  y="3"   fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
+      <text x="0"   y="155" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="186" y="155" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">C</text>
+      <text x="305" y="3"   fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
+      <text x="214" y="155" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">E</text>
+      <text x="398" y="155" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">F</text>
+      </g>
+    </svg>
+  );
+}
+
+function SeLllS1SVG({ tema }) {
+  // Ejercicio 1 LLL: AB=3(azul),BC=5(verde),CA=7(acento) | DE=6,EF=10,FD=14 — k=2
+  const A=[86,14],B=[8,122],C=[178,122],D=[264,14],E=[194,122],F=[354,122];
+  const {mid,vsub,vadd,vscale,vunit,vperp,fmt}=_svgH();
+  function tp(P1,P2){const m=mid(P1,P2),p=vperp(vunit(vsub(P2,P1)));return`M ${fmt(vadd(m,vscale(p,6)))} L ${fmt(vadd(m,vscale(p,-6)))}`;}
+  function t2p(P1,P2){const m=mid(P1,P2),d=vunit(vsub(P2,P1)),p=vperp(d);return[-4,4].map(o=>{const c=vadd(m,vscale(d,o));return`M ${fmt(vadd(c,vscale(p,6)))} L ${fmt(vadd(c,vscale(p,-6)))}`;}).join(" ");}
+  function t3p(P1,P2){const m=mid(P1,P2),d=vunit(vsub(P2,P1)),p=vperp(d);return[-7,0,7].map(o=>{const c=vadd(m,vscale(d,o));return`M ${fmt(vadd(c,vscale(p,6)))} L ${fmt(vadd(c,vscale(p,-6)))}`;}).join(" ");}
+  const pts=ps=>ps.map(fmt).join(" ");
+  return (
+    <svg viewBox="0 0 370 160" width="100%" style={{display:"block",maxHeight:160}}>
+      <g transform="translate(0,15)">
+      <polygon points={pts([A,B,C])} fill={tema.azulSuave} stroke="none"/>
+      <polygon points={pts([D,E,F])} fill={tema.azulSuave} stroke="none"/>
+      <line x1={A[0]} y1={A[1]} x2={B[0]} y2={B[1]} stroke={tema.azul}   strokeWidth="2.2"/>
+      <line x1={B[0]} y1={B[1]} x2={C[0]} y2={C[1]} stroke={tema.verde}  strokeWidth="2.2"/>
+      <line x1={C[0]} y1={C[1]} x2={A[0]} y2={A[1]} stroke={tema.acento} strokeWidth="2.2"/>
+      <line x1={D[0]} y1={D[1]} x2={E[0]} y2={E[1]} stroke={tema.azul}   strokeWidth="2.2"/>
+      <line x1={E[0]} y1={E[1]} x2={F[0]} y2={F[1]} stroke={tema.verde}  strokeWidth="2.2"/>
+      <line x1={F[0]} y1={F[1]} x2={D[0]} y2={D[1]} stroke={tema.acento} strokeWidth="2.2"/>
+      <path d={tp(A,B)}  stroke={tema.azul}   strokeWidth="1.8" fill="none"/>
+      <path d={tp(D,E)}  stroke={tema.azul}   strokeWidth="1.8" fill="none"/>
+      <path d={t2p(B,C)} stroke={tema.verde}  strokeWidth="1.8" fill="none"/>
+      <path d={t2p(E,F)} stroke={tema.verde}  strokeWidth="1.8" fill="none"/>
+      <path d={t3p(C,A)} stroke={tema.acento} strokeWidth="1.8" fill="none"/>
+      <path d={t3p(F,D)} stroke={tema.acento} strokeWidth="1.8" fill="none"/>
+      <text x="29"  y="62"  fill={tema.azul}   fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">3</text>
+      <text x="93"  y="136" fill={tema.verde}  fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">5</text>
+      <text x="148" y="61"  fill={tema.acento} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700">7</text>
       <text x="207" y="62"  fill={tema.azul}   fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">6</text>
-      <text x="274" y="136" fill={tema.verde}  fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">12</text>
-      <text x="327" y="61"  fill={tema.acento} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700">9</text>
+      <text x="274" y="136" fill={tema.verde}  fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">10</text>
+      <text x="327" y="61"  fill={tema.acento} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700">14</text>
       <text x="186" y="74"  fill="rgba(240,236,227,0.30)" fontSize="26" fontFamily="Georgia,serif" textAnchor="middle">∼</text>
       <text x="86"  y="5"   fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
       <text x="4"   y="138" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">B</text>
@@ -1662,6 +2249,89 @@ function SeLllEj1SVG({ tema }) {
       <text x="264" y="5"   fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
       <text x="194" y="138" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">E</text>
       <text x="360" y="129" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">F</text>
+      </g>
+    </svg>
+  );
+}
+
+function SeLllS2SVG({ tema }) {
+  // Ejercicio 2 LLL: AB=8(azul),BC=10(verde),CA=dim | DE=4(azul),EF=?(verde),FD=dim
+  const A=[86,14],B=[8,122],C=[178,122],D=[264,14],E=[194,122],F=[354,122];
+  const {mid,vsub,vadd,vscale,vunit,vperp,fmt}=_svgH();
+  function tp(P1,P2){const m=mid(P1,P2),p=vperp(vunit(vsub(P2,P1)));return`M ${fmt(vadd(m,vscale(p,6)))} L ${fmt(vadd(m,vscale(p,-6)))}`;}
+  function t2p(P1,P2){const m=mid(P1,P2),d=vunit(vsub(P2,P1)),p=vperp(d);return[-4,4].map(o=>{const c=vadd(m,vscale(d,o));return`M ${fmt(vadd(c,vscale(p,6)))} L ${fmt(vadd(c,vscale(p,-6)))}`;}).join(" ");}
+  const pts=ps=>ps.map(fmt).join(" ");
+  const dim="rgba(240,236,227,0.20)";
+  return (
+    <svg viewBox="0 0 370 160" width="100%" style={{display:"block",maxHeight:160}}>
+      <g transform="translate(0,15)">
+      <polygon points={pts([A,B,C])} fill={tema.azulSuave} stroke="none"/>
+      <polygon points={pts([D,E,F])} fill={tema.azulSuave} stroke="none"/>
+      <line x1={A[0]} y1={A[1]} x2={B[0]} y2={B[1]} stroke={tema.azul}   strokeWidth="2.2"/>
+      <line x1={B[0]} y1={B[1]} x2={C[0]} y2={C[1]} stroke={tema.verde}  strokeWidth="2.2"/>
+      <line x1={C[0]} y1={C[1]} x2={A[0]} y2={A[1]} stroke={dim}          strokeWidth="1.5"/>
+      <line x1={D[0]} y1={D[1]} x2={E[0]} y2={E[1]} stroke={tema.azul}   strokeWidth="2.2"/>
+      <line x1={E[0]} y1={E[1]} x2={F[0]} y2={F[1]} stroke={tema.verde}  strokeWidth="2.2"/>
+      <line x1={F[0]} y1={F[1]} x2={D[0]} y2={D[1]} stroke={dim}          strokeWidth="1.5"/>
+      <path d={tp(A,B)}  stroke={tema.azul}  strokeWidth="1.8" fill="none"/>
+      <path d={tp(D,E)}  stroke={tema.azul}  strokeWidth="1.8" fill="none"/>
+      <path d={t2p(B,C)} stroke={tema.verde} strokeWidth="1.8" fill="none"/>
+      <path d={t2p(E,F)} stroke={tema.verde} strokeWidth="1.8" fill="none"/>
+      <text x="29"  y="62"  fill={tema.azul}  fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">8</text>
+      <text x="93"  y="136" fill={tema.verde} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">10</text>
+      <text x="207" y="62"  fill={tema.azul}  fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">4</text>
+      <text x="274" y="136" fill={tema.verde} fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">?</text>
+      <text x="186" y="74"  fill="rgba(240,236,227,0.30)" fontSize="26" fontFamily="Georgia,serif" textAnchor="middle">∼</text>
+      <text x="86"  y="5"   fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
+      <text x="4"   y="138" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="178" y="138" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">C</text>
+      <text x="264" y="5"   fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
+      <text x="194" y="138" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">E</text>
+      <text x="360" y="129" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">F</text>
+      </g>
+    </svg>
+  );
+}
+
+function SeLllS3SVG({ tema }) {
+  // Ejercicio 3 LLL: AB=12(azul),BC=16(verde),CA=20(acento) | DE=3,EF=4,FD=5
+  const A=[86,14],B=[8,122],C=[178,122],D=[264,14],E=[194,122],F=[354,122];
+  const {mid,vsub,vadd,vscale,vunit,vperp,fmt}=_svgH();
+  function tp(P1,P2){const m=mid(P1,P2),p=vperp(vunit(vsub(P2,P1)));return`M ${fmt(vadd(m,vscale(p,6)))} L ${fmt(vadd(m,vscale(p,-6)))}`;}
+  function t2p(P1,P2){const m=mid(P1,P2),d=vunit(vsub(P2,P1)),p=vperp(d);return[-4,4].map(o=>{const c=vadd(m,vscale(d,o));return`M ${fmt(vadd(c,vscale(p,6)))} L ${fmt(vadd(c,vscale(p,-6)))}`;}).join(" ");}
+  function t3p(P1,P2){const m=mid(P1,P2),d=vunit(vsub(P2,P1)),p=vperp(d);return[-7,0,7].map(o=>{const c=vadd(m,vscale(d,o));return`M ${fmt(vadd(c,vscale(p,6)))} L ${fmt(vadd(c,vscale(p,-6)))}`;}).join(" ");}
+  const pts=ps=>ps.map(fmt).join(" ");
+  return (
+    <svg viewBox="0 0 370 160" width="100%" style={{display:"block",maxHeight:160}}>
+      <g transform="translate(0,15)">
+      <polygon points={pts([A,B,C])} fill={tema.azulSuave} stroke="none"/>
+      <polygon points={pts([D,E,F])} fill={tema.azulSuave} stroke="none"/>
+      <line x1={A[0]} y1={A[1]} x2={B[0]} y2={B[1]} stroke={tema.azul}   strokeWidth="2.2"/>
+      <line x1={B[0]} y1={B[1]} x2={C[0]} y2={C[1]} stroke={tema.verde}  strokeWidth="2.2"/>
+      <line x1={C[0]} y1={C[1]} x2={A[0]} y2={A[1]} stroke={tema.acento} strokeWidth="2.2"/>
+      <line x1={D[0]} y1={D[1]} x2={E[0]} y2={E[1]} stroke={tema.azul}   strokeWidth="2.2"/>
+      <line x1={E[0]} y1={E[1]} x2={F[0]} y2={F[1]} stroke={tema.verde}  strokeWidth="2.2"/>
+      <line x1={F[0]} y1={F[1]} x2={D[0]} y2={D[1]} stroke={tema.acento} strokeWidth="2.2"/>
+      <path d={tp(A,B)}  stroke={tema.azul}   strokeWidth="1.8" fill="none"/>
+      <path d={tp(D,E)}  stroke={tema.azul}   strokeWidth="1.8" fill="none"/>
+      <path d={t2p(B,C)} stroke={tema.verde}  strokeWidth="1.8" fill="none"/>
+      <path d={t2p(E,F)} stroke={tema.verde}  strokeWidth="1.8" fill="none"/>
+      <path d={t3p(C,A)} stroke={tema.acento} strokeWidth="1.8" fill="none"/>
+      <path d={t3p(F,D)} stroke={tema.acento} strokeWidth="1.8" fill="none"/>
+      <text x="29"  y="62"  fill={tema.azul}   fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">12</text>
+      <text x="93"  y="136" fill={tema.verde}  fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">16</text>
+      <text x="148" y="61"  fill={tema.acento} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700">20</text>
+      <text x="207" y="62"  fill={tema.azul}   fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">3</text>
+      <text x="274" y="136" fill={tema.verde}  fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">4</text>
+      <text x="327" y="61"  fill={tema.acento} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700">5</text>
+      <text x="186" y="74"  fill="rgba(240,236,227,0.30)" fontSize="26" fontFamily="Georgia,serif" textAnchor="middle">∼</text>
+      <text x="86"  y="5"   fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
+      <text x="4"   y="138" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="178" y="138" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">C</text>
+      <text x="264" y="5"   fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
+      <text x="194" y="138" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">E</text>
+      <text x="360" y="129" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">F</text>
+      </g>
     </svg>
   );
 }
@@ -1671,7 +2341,8 @@ function SeLllEj2SVG({ tema }) {
   const A=[86,14],B=[8,122],C=[178,122],D=[264,14],E=[194,122],F=[354,122];
   const pts=ps=>ps.map(([x,y])=>`${x},${y}`).join(" ");
   return (
-    <svg viewBox="0 0 370 145" width="100%" style={{display:"block",maxHeight:145}}>
+    <svg viewBox="0 0 370 160" width="100%" style={{display:"block",maxHeight:160}}>
+      <g transform="translate(0,15)">
       <polygon points={pts([A,B,C])} fill={tema.azulSuave} stroke="none"/>
       <polygon points={pts([D,E,F])} fill={tema.azulSuave} stroke="none"/>
       <line x1={A[0]} y1={A[1]} x2={B[0]} y2={B[1]} stroke={tema.azul}   strokeWidth="2.2"/>
@@ -1693,6 +2364,7 @@ function SeLllEj2SVG({ tema }) {
       <text x="264" y="5"   fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
       <text x="194" y="138" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">E</text>
       <text x="360" y="129" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">F</text>
+      </g>
     </svg>
   );
 }
@@ -1707,7 +2379,8 @@ function SeLalEj1SVG({ tema }) {
   const pts=ps=>ps.map(fmt).join(" ");
   const dim="rgba(240,236,227,0.25)";
   return (
-    <svg viewBox="0 0 370 145" width="100%" style={{display:"block",maxHeight:145}}>
+    <svg viewBox="0 0 370 160" width="100%" style={{display:"block",maxHeight:160}}>
+      <g transform="translate(0,15)">
       <polygon points={pts([A,B,C])} fill={tema.azulSuave} stroke="none"/>
       <polygon points={pts([D,E,F])} fill={tema.azulSuave} stroke="none"/>
       <line x1={A[0]} y1={A[1]} x2={B[0]} y2={B[1]} stroke={tema.azul}   strokeWidth="2.2"/>
@@ -1731,6 +2404,7 @@ function SeLalEj1SVG({ tema }) {
       <text x="264" y="5"   fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
       <text x="194" y="138" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">E</text>
       <text x="360" y="129" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">F</text>
+      </g>
     </svg>
   );
 }
@@ -1743,7 +2417,8 @@ function SeLalEj2SVG({ tema }) {
   const pts=ps=>ps.map(([x,y])=>`${x},${y}`).join(" ");
   const dim="rgba(240,236,227,0.25)";
   return (
-    <svg viewBox="0 0 370 145" width="100%" style={{display:"block",maxHeight:145}}>
+    <svg viewBox="0 0 370 160" width="100%" style={{display:"block",maxHeight:160}}>
+      <g transform="translate(0,15)">
       <polygon points={pts([A,B,C])} fill={tema.azulSuave} stroke="none"/>
       <polygon points={pts([D,E,F])} fill={tema.azulSuave} stroke="none"/>
       <line x1={A[0]} y1={A[1]} x2={B[0]} y2={B[1]} stroke={tema.azul}   strokeWidth="2.4"/>
@@ -1767,6 +2442,45 @@ function SeLalEj2SVG({ tema }) {
       <text x="264" y="5"   fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
       <text x="194" y="138" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">E</text>
       <text x="360" y="129" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">F</text>
+      </g>
+    </svg>
+  );
+}
+
+function SeLalS2SVG({ tema }) {
+  // Ejercicio 2 LAL: AB=9(azul),AC=15(acento),∠A=∠D | DE=6(azul),DF=?(acento)
+  const A=[86,14],B=[8,122],C=[178,122],D=[264,14],E=[194,122],F=[354,122];
+  const {vadd,vsub,vscale,vunit,fmt}=_svgH();
+  function arcPath(V,P1,P2,r){const s=vadd(V,vscale(vunit(vsub(P1,V)),r)),e=vadd(V,vscale(vunit(vsub(P2,V)),r));return`M ${fmt(s)} A ${r},${r} 0 0,1 ${fmt(e)}`;}
+  const pts=ps=>ps.map(([x,y])=>`${x},${y}`).join(" ");
+  const dim="rgba(240,236,227,0.20)";
+  return (
+    <svg viewBox="0 0 370 160" width="100%" style={{display:"block",maxHeight:160}}>
+      <g transform="translate(0,15)">
+      <polygon points={pts([A,B,C])} fill={tema.azulSuave} stroke="none"/>
+      <polygon points={pts([D,E,F])} fill={tema.azulSuave} stroke="none"/>
+      <line x1={A[0]} y1={A[1]} x2={B[0]} y2={B[1]} stroke={tema.azul}   strokeWidth="2.4"/>
+      <line x1={B[0]} y1={B[1]} x2={C[0]} y2={C[1]} stroke={dim}          strokeWidth="1.5"/>
+      <line x1={C[0]} y1={C[1]} x2={A[0]} y2={A[1]} stroke={tema.acento} strokeWidth="2.4"/>
+      <line x1={D[0]} y1={D[1]} x2={E[0]} y2={E[1]} stroke={tema.azul}   strokeWidth="2.4"/>
+      <line x1={E[0]} y1={E[1]} x2={F[0]} y2={F[1]} stroke={dim}          strokeWidth="1.5"/>
+      <line x1={F[0]} y1={F[1]} x2={D[0]} y2={D[1]} stroke={tema.acento} strokeWidth="2.4"/>
+      <path d={arcPath(A,C,B,22)} stroke={tema.verde} strokeWidth="1.8" fill="none"/>
+      <path d={arcPath(D,F,E,22)} stroke={tema.verde} strokeWidth="1.8" fill="none"/>
+      <text x="86"  y="48"  fill={tema.verde} fontSize="9"  fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">∠A</text>
+      <text x="264" y="48"  fill={tema.verde} fontSize="9"  fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">∠D</text>
+      <text x="29"  y="62"  fill={tema.azul}   fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">9</text>
+      <text x="148" y="61"  fill={tema.acento} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700">15</text>
+      <text x="207" y="62"  fill={tema.azul}   fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">6</text>
+      <text x="327" y="61"  fill={tema.acento} fontSize="14" fontFamily="'DM Sans',sans-serif" fontWeight="700">?</text>
+      <text x="186" y="74"  fill="rgba(240,236,227,0.30)" fontSize="26" fontFamily="Georgia,serif" textAnchor="middle">∼</text>
+      <text x="86"  y="5"   fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
+      <text x="4"   y="138" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="178" y="138" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">C</text>
+      <text x="264" y="5"   fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
+      <text x="194" y="138" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">E</text>
+      <text x="360" y="129" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">F</text>
+      </g>
     </svg>
   );
 }
@@ -1841,9 +2555,13 @@ function SlideEjemplo({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "se-aa-ej1"   && <SeAaEj1SVG    tema={tema} />}
       {slide.svgDiagram === "se-aa-ej2"   && <SeAaEj2SVG    tema={tema} />}
       {slide.svgDiagram === "se-lll-ej1"  && <SeLllEj1SVG   tema={tema} />}
+      {slide.svgDiagram === "se-lll-s1"   && <SeLllS1SVG    tema={tema} />}
+      {slide.svgDiagram === "se-lll-s2"   && <SeLllS2SVG    tema={tema} />}
+      {slide.svgDiagram === "se-lll-s3"   && <SeLllS3SVG    tema={tema} />}
       {slide.svgDiagram === "se-lll-ej2"  && <SeLllEj2SVG   tema={tema} />}
       {slide.svgDiagram === "se-lal-ej1"  && <SeLalEj1SVG   tema={tema} />}
       {slide.svgDiagram === "se-lal-ej2"  && <SeLalEj2SVG   tema={tema} />}
+      {slide.svgDiagram === "se-lal-s2"   && <SeLalS2SVG    tema={tema} />}
 
       <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
         {slide.pasos.map((p, i) => {
@@ -2028,7 +2746,7 @@ function SePitSVG({ tema }) {
       <text x="14"  y="27"  fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
       <text x="248" y="27"  fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">B</text>
       <text x="86"  y="135" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">C</text>
-      <text x="86"  y="27"  fill={tema.verde}  fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">H</text>
+      <text x="98"  y="24"  fill={tema.verde}  fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">H</text>
     </svg>
   );
 }
@@ -2045,16 +2763,16 @@ function SeParalelaSVG({ tema }) {
       <line x1={A[0]} y1={A[1]} x2={C[0]} y2={C[1]} stroke="rgba(240,236,227,0.60)" strokeWidth="2"/>
       <line x1={B[0]} y1={B[1]} x2={C[0]} y2={C[1]} stroke={tema.verde}  strokeWidth="2.2"/>
       <line x1={D[0]} y1={D[1]} x2={E[0]} y2={E[1]} stroke={tema.acento} strokeWidth="2.2"/>
-      <text x="97"  y="40"  fill={tema.azul}   fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="700">AD=4</text>
-      <text x="44"  y="108" fill="rgba(240,236,227,0.65)" fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="600">DB=8</text>
-      <text x="164" y="40"  fill={tema.acento} fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="700">AE=3</text>
-      <text x="204" y="108" fill={tema.acento} fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700">EC=?</text>
-      <text x="130" y="56"  fill={tema.acento} fontSize="9"  fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.1em">DE ∥ BC</text>
-      <text x="130" y="7"   fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
+      <text x="93"  y="40"  fill={tema.azul}   fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="700">AD=4</text>
+      <text x="34"  y="112" fill="rgba(240,236,227,0.65)" fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="600">DB=8</text>
+      <text x="162" y="40"  fill={tema.acento} fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="700">AE=3</text>
+      <text x="200" y="108" fill={tema.acento} fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700">EC=?</text>
+      <text x="130" y="50"  fill={tema.acento} fontSize="9"  fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.1em">DE ∥ BC</text>
+      <text x="130" y="9"   fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
       <text x="3"   y="158" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">B</text>
       <text x="256" y="158" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">C</text>
-      <text x="84"  y="58"  fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">D</text>
-      <text x="175" y="58"  fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">E</text>
+      <text x="82"  y="70"  fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">D</text>
+      <text x="177" y="70"  fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">E</text>
     </svg>
   );
 }
@@ -2084,6 +2802,142 @@ function SeSombraSVG({ tema }) {
   );
 }
 
+function SeK3SVG({ tema }) {
+  return (
+    <svg viewBox="0 0 388 185" width="100%" style={{ display: "block", maxHeight: 175 }}>
+      <polygon points="95,29 12,170 198,170" fill={tema.azulSuave} stroke="none"/>
+      <polygon points="296,57 240,151 364,151" fill={tema.azulSuave} stroke="none"/>
+      <line x1="95"  y1="29"  x2="12"  y2="170" stroke={tema.azul}   strokeWidth="2.8"/>
+      <line x1="12"  y1="170" x2="198" y2="170" stroke="rgba(240,236,227,0.35)" strokeWidth="1.8"/>
+      <line x1="198" y1="170" x2="95"  y2="29"  stroke="rgba(240,236,227,0.35)" strokeWidth="1.8"/>
+      <line x1="296" y1="57"  x2="240" y2="151" stroke={tema.azul}   strokeWidth="2.8"/>
+      <line x1="240" y1="151" x2="364" y2="151" stroke="rgba(240,236,227,0.35)" strokeWidth="1.8"/>
+      <line x1="364" y1="151" x2="296" y2="57"  stroke="rgba(240,236,227,0.35)" strokeWidth="1.8"/>
+      <text x="40"  y="108" fill={tema.azul} fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">AB=15</text>
+      <text x="258" y="110" fill={tema.acento} fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">DE=?</text>
+      <text x="95"  y="22"  fill="rgba(240,236,227,0.70)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
+      <text x="4"   y="179" fill="rgba(240,236,227,0.70)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+      <text x="202" y="179" fill="rgba(240,236,227,0.70)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">C</text>
+      <text x="296" y="51"  fill="rgba(240,236,227,0.70)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">D</text>
+      <text x="232" y="163" fill="rgba(240,236,227,0.70)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">E</text>
+      <text x="368" y="163" fill="rgba(240,236,227,0.70)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">F</text>
+      <text x="222" y="87"  fill="rgba(240,236,227,0.28)" fontSize="22" fontFamily="Georgia,serif" textAnchor="middle">∼</text>
+      <text x="222" y="111" fill="rgba(240,236,227,0.55)" fontSize="17" fontWeight="700" fontFamily="'DM Sans',sans-serif" textAnchor="middle">k = 3</text>
+    </svg>
+  );
+}
+
+// ─── Ejercicio SVGs: Cuadriláteros y Polígonos ───────────────────────────────
+function Pe1RectSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 280 158" width="100%" style={{ display: "block", maxHeight: 138 }}>
+      <polygon points="30,20 240,20 240,128 30,128" fill={tema.azulSuave} stroke={tema.azul} strokeWidth="2" opacity="0.85"/>
+      <path d="M 42,20 L 42,32 L 30,32" stroke={tema.acento} strokeWidth="1.5" fill="none"/>
+      <path d="M 228,20 L 228,32 L 240,32" stroke={tema.acento} strokeWidth="1.5" fill="none"/>
+      <path d="M 228,128 L 228,116 L 240,116" stroke={tema.acento} strokeWidth="1.5" fill="none"/>
+      <path d="M 42,128 L 42,116 L 30,116" stroke={tema.acento} strokeWidth="1.5" fill="none"/>
+      <line x1="30" y1="20" x2="240" y2="128" stroke={tema.azul} strokeWidth="1.5" strokeDasharray="6,4" opacity="0.45"/>
+      <text x="135" y="148" fill={tema.azul} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">8 cm</text>
+      <text x="252" y="76" fill={tema.azul} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">6 cm</text>
+      <text x="148" y="66" fill={tema.muted} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" opacity="0.65">d=?</text>
+    </svg>
+  );
+}
+function Pe2RomboSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 280 158" width="100%" style={{ display: "block", maxHeight: 138 }}>
+      <polygon points="140,8 262,79 140,150 18,79" fill={tema.azulSuave} stroke={tema.azul} strokeWidth="2" opacity="0.85"/>
+      <line x1="140" y1="8" x2="140" y2="150" stroke={tema.verde} strokeWidth="1.8" strokeDasharray="6,4" opacity="0.65"/>
+      <line x1="18" y1="79" x2="262" y2="79" stroke={tema.acento} strokeWidth="1.8" strokeDasharray="6,4" opacity="0.65"/>
+      <path d="M 140,79 L 140,69 L 150,69" stroke="rgba(255,255,255,0.4)" strokeWidth="1.3" fill="none"/>
+      <text x="148" y="44" fill={tema.verde} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">d₁=10</text>
+      <text x="182" y="76" fill={tema.acento} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">d₂=24</text>
+    </svg>
+  );
+}
+function Pe3CuadradoSVG({ tema }) {
+  // Polígono 120×120 centrado → proporciones 1:1
+  return (
+    <svg viewBox="0 0 280 158" width="100%" style={{ display: "block", maxHeight: 138 }}>
+      <polygon points="80,19 200,19 200,139 80,139" fill={tema.azulSuave} stroke={tema.azul} strokeWidth="2" opacity="0.85"/>
+      <path d="M 90,19 L 90,29 L 80,29"   stroke={tema.acento} strokeWidth="1.5" fill="none"/>
+      <path d="M 190,19 L 190,29 L 200,29" stroke={tema.acento} strokeWidth="1.5" fill="none"/>
+      <path d="M 190,139 L 190,129 L 200,129" stroke={tema.acento} strokeWidth="1.5" fill="none"/>
+      <path d="M 90,139 L 90,129 L 80,129"  stroke={tema.acento} strokeWidth="1.5" fill="none"/>
+      <text x="140" y="84" fill={tema.acento} fontSize="14" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A = 49 cm²</text>
+      <text x="140" y="154" fill={tema.azul} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">l = ?  →  d = ?</text>
+    </svg>
+  );
+}
+function Te1AreaSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 300 152" width="100%" style={{ display: "block", maxHeight: 132 }}>
+      <polygon points="15,128 272,128 225,20 68,20" fill={tema.azulSuave} stroke={tema.azul} strokeWidth="2" opacity="0.85"/>
+      <line x1="68" y1="20" x2="68" y2="128" stroke={tema.verde} strokeWidth="1.4" strokeDasharray="5,4" opacity="0.65"/>
+      <path d="M 68,116 L 78,116 L 78,128" stroke={tema.verde} strokeWidth="1.3" fill="none" opacity="0.65"/>
+      <text x="143" y="148" fill={tema.azul} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">B = 12</text>
+      <text x="146" y="14" fill={tema.verde} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">b = 8</text>
+      <text x="55" y="77" fill={tema.verde} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">h=5</text>
+    </svg>
+  );
+}
+function Te2MedianaSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 300 152" width="100%" style={{ display: "block", maxHeight: 132 }}>
+      <polygon points="10,128 278,128 228,18 58,18" fill={tema.azulSuave} stroke={tema.azul} strokeWidth="2" opacity="0.85"/>
+      <line x1="34" y1="73" x2="253" y2="73" stroke={tema.acento} strokeWidth="2" strokeDasharray="6,4" opacity="0.8"/>
+      <text x="144" y="146" fill={tema.azul} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">B = 14</text>
+      <text x="143" y="13" fill={tema.verde} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">b = 6</text>
+      <text x="143" y="67" fill={tema.acento} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">m = ?</text>
+    </svg>
+  );
+}
+function Te3IsoSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 300 152" width="100%" style={{ display: "block", maxHeight: 132 }}>
+      <polygon points="14,128 278,128 218,20 74,20" fill={tema.azulSuave} stroke={tema.azul} strokeWidth="2" opacity="0.85"/>
+      <path d="M 27,128 A 22,22 0 0,1 29,106" stroke={tema.acento} strokeWidth="2" fill="none"/>
+      <path d="M 265,128 A 22,22 0 0,0 263,106" stroke={tema.acento} strokeWidth="2" fill="none"/>
+      <text x="42" y="113" fill={tema.acento} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">∠A=65°</text>
+      <text x="188" y="113" fill={tema.acento} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">∠B=?</text>
+    </svg>
+  );
+}
+function Poe1HexSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 290 158" width="100%" style={{ display: "block", maxHeight: 138 }}>
+      <polygon points={qRegPoly(140, 76, 62, 6, -Math.PI / 2)} fill={tema.azulSuave} stroke={tema.azul} strokeWidth="2" opacity="0.85"/>
+      <path d="M 154,24 A 18,18 0 0,1 126,24" stroke={tema.acento} strokeWidth="2" fill="none"/>
+      <text x="140" y="41" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">α=?</text>
+      <text x="140" y="150" fill={tema.muted} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">n = 6 lados</text>
+    </svg>
+  );
+}
+function Poe2AngExtSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 290 158" width="100%" style={{ display: "block", maxHeight: 138 }}>
+      <polygon points={qRegPoly(145, 84, 58, 8, -Math.PI / 2)} fill={tema.azulSuave} stroke={tema.azul} strokeWidth="2" opacity="0.85"/>
+      <line x1="186" y1="43" x2="108" y2="10" stroke={tema.azul} strokeWidth="1.8" strokeDasharray="5,3" opacity="0.5"/>
+      <path d="M 135,30 A 18,18 0 0,0 110,43" stroke={tema.acento} strokeWidth="2" fill="none"/>
+      <text x="108" y="40" fill={tema.acento} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">β=45°</text>
+      <text x="145" y="150" fill={tema.muted} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">n = 8 (octágono)</text>
+    </svg>
+  );
+}
+function Poe3SumaSVG({ tema }) {
+  return (
+    <svg viewBox="0 0 290 158" width="100%" style={{ display: "block", maxHeight: 138 }}>
+      <polygon points={qRegPoly(145, 78, 58, 8, -Math.PI / 2)} fill={tema.azulSuave} stroke={tema.azul} strokeWidth="2" opacity="0.85"/>
+      {[0,1,2,3,4,5,6,7].map(k => {
+        const a = -Math.PI/2 + 2*Math.PI*k/8;
+        return <circle key={k} cx={(145+58*Math.cos(a)).toFixed(1)} cy={(78+58*Math.sin(a)).toFixed(1)} r="3.5" fill={tema.acento} opacity="0.75"/>;
+      })}
+      <text x="145" y="84" fill={tema.muted} fontSize="13" fontFamily="'DM Sans',sans-serif" textAnchor="middle">Σ = ?</text>
+      <text x="145" y="150" fill={tema.muted} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">n = 8 lados</text>
+    </svg>
+  );
+}
+
 function renderEjercicioSVG(svgDiagram, tema) {
   if (svgDiagram === "ce1-lll")      return <Ce1LllSVG     tema={tema} />;
   if (svgDiagram === "ce2-medidas")  return <Ce2CondMedSVG tema={tema} />;
@@ -2093,19 +2947,53 @@ function renderEjercicioSVG(svgDiagram, tema) {
   if (svgDiagram === "se-aa-ej1")    return <SeAaEj1SVG    tema={tema} />;
   if (svgDiagram === "se-aa-ej2")    return <SeAaEj2SVG    tema={tema} />;
   if (svgDiagram === "se-lll-ej1")   return <SeLllEj1SVG   tema={tema} />;
+  if (svgDiagram === "se-lll-s1")    return <SeLllS1SVG    tema={tema} />;
+  if (svgDiagram === "se-lll-s2")    return <SeLllS2SVG    tema={tema} />;
+  if (svgDiagram === "se-lll-s3")    return <SeLllS3SVG    tema={tema} />;
   if (svgDiagram === "se-lll-ej2")   return <SeLllEj2SVG   tema={tema} />;
   if (svgDiagram === "se-lal-ej1")   return <SeLalEj1SVG   tema={tema} />;
   if (svgDiagram === "se-lal-ej2")   return <SeLalEj2SVG   tema={tema} />;
+  if (svgDiagram === "se-lal-s2")    return <SeLalS2SVG    tema={tema} />;
+  if (svgDiagram === "se-k3")         return <SeK3SVG         tema={tema} />;
   if (svgDiagram === "se-areas")     return <SeAreasSVG     tema={tema} />;
   if (svgDiagram === "se-pitagoras") return <SePitSVG       tema={tema} />;
   if (svgDiagram === "se-paralela")  return <SeParalelaSVG  tema={tema} />;
   if (svgDiagram === "se-sombra")    return <SeSombraSVG    tema={tema} />;
+  if (svgDiagram === "pe1-rect")     return <Pe1RectSVG     tema={tema} />;
+  if (svgDiagram === "pe2-rombo")    return <Pe2RomboSVG    tema={tema} />;
+  if (svgDiagram === "pe3-cuadrado") return <Pe3CuadradoSVG tema={tema} />;
+  if (svgDiagram === "te1-area")     return <Te1AreaSVG     tema={tema} />;
+  if (svgDiagram === "te2-mediana")  return <Te2MedianaSVG  tema={tema} />;
+  if (svgDiagram === "te3-iso")      return <Te3IsoSVG      tema={tema} />;
+  if (svgDiagram === "poe1-hex")     return <Poe1HexSVG     tema={tema} />;
+  if (svgDiagram === "poe2-angext")  return <Poe2AngExtSVG  tema={tema} />;
+  if (svgDiagram === "poe3-suma")    return <Poe3SumaSVG    tema={tema} />;
   return null;
 }
 
 function SlideEjercicio({ slide, modo, votos, totalVotos, respuestaDada, onResponder, tema, resaltadoIdx, onResaltar }) {
   const done = respuestaDada !== null && respuestaDada !== undefined;
   const correcta = slide.correcta;
+
+  // Shuffle determinístico: misma semilla → mismo orden para maestro y alumnos.
+  const shuffledOrder = useMemo(() => {
+    const seed = typeof slide.id === "number"
+      ? slide.id
+      : String(slide.id).split("").reduce((a, c) => a * 31 + c.charCodeAt(0), 0);
+    return shuffleIndices(slide.opciones.length, seed);
+  }, [slide.id, slide.opciones.length]);
+
+  // Votos remapeados al orden de display para el histograma del director.
+  const votosMapped = useMemo(() => {
+    if (!votos) return votos;
+    return shuffledOrder.reduce((acc, origIdx, displayIdx) => {
+      acc[displayIdx] = votos[origIdx] || 0;
+      return acc;
+    }, {});
+  }, [votos, shuffledOrder]);
+
+  const correctaDisplay = shuffledOrder.indexOf(correcta);
+  const opcionesDisplay = shuffledOrder.map(origIdx => slide.opciones[origIdx]);
 
   return (
     <div
@@ -2167,13 +3055,14 @@ function SlideEjercicio({ slide, modo, votos, totalVotos, respuestaDada, onRespo
           </div>
         )}
 
-        {/* Opciones */}
+        {/* Opciones en orden mezclado (igual para maestro y alumnos) */}
         <div
           style={{ display: "grid", gridTemplateColumns: "1fr", gap: 10, alignContent: "start" }}
         >
-          {slide.opciones.map((op, i) => {
-            const isOk = i === correcta;
-            const isSel = respuestaDada === i;
+          {shuffledOrder.map((origIdx, displayIdx) => {
+            const op = slide.opciones[origIdx];
+            const isOk = origIdx === correcta;
+            const isSel = respuestaDada === origIdx;
 
             let bg = "rgba(255,255,255,0.04)";
             let border = "1px solid rgba(255,255,255,0.1)";
@@ -2181,22 +3070,20 @@ function SlideEjercicio({ slide, modo, votos, totalVotos, respuestaDada, onRespo
 
             if (modo === "alumno" && done) {
               if (isOk) {
-                bg = "rgba(74,222,128,0.1)";
-                border = "2px solid rgba(74,222,128,0.45)";
-                color = tema.verde;
+                bg = "rgba(59,158,255,0.12)";
+                border = "2px solid rgba(59,158,255,0.5)";
+                color = "#3b9eff";
               } else if (isSel) {
-                bg = "rgba(248,113,113,0.09)";
-                border = "2px solid rgba(248,113,113,0.4)";
-                color = "#fca5a5";
+                bg = "rgba(245,200,66,0.10)";
+                border = "2px solid rgba(245,200,66,0.5)";
+                color = "#f5c842";
               }
-            } else if (modo === "director" && isOk) {
-              border = "1px solid rgba(74,222,128,0.25)";
-              bg = "rgba(74,222,128,0.04)";
             }
 
-            const votoCount = votos?.[i] || 0;
+            const votoCount = votos?.[origIdx] || 0;
 
-            const resaltado = resaltadoIdx === i;
+            // resaltadoIdx viene del director usando índices originales
+            const resaltado = resaltadoIdx === origIdx;
             if (resaltado) {
               border = `2px solid ${tema.acento}`;
               bg = bg === "rgba(255,255,255,0.04)" ? tema.acentoSuave : bg;
@@ -2204,10 +3091,10 @@ function SlideEjercicio({ slide, modo, votos, totalVotos, respuestaDada, onRespo
 
             return (
               <button
-                key={i}
+                key={origIdx}
                 onClick={() => {
-                  if (modo === "alumno" && !done) onResponder(i);
-                  if (modo === "director" && onResaltar) onResaltar(i);
+                  if (modo === "alumno" && !done) onResponder(origIdx);
+                  if (modo === "director" && onResaltar) onResaltar(origIdx);
                 }}
                 disabled={modo === "alumno" && done}
                 style={{
@@ -2238,7 +3125,7 @@ function SlideEjercicio({ slide, modo, votos, totalVotos, respuestaDada, onRespo
                     flexShrink: 0
                   }}
                 >
-                  {String.fromCharCode(65 + i)}.
+                  {String.fromCharCode(65 + displayIdx)}.
                 </span>
                 <span style={{ flex: 1 }}>{op}</span>
                 {modo === "director" && votos !== undefined && (
@@ -2246,7 +3133,7 @@ function SlideEjercicio({ slide, modo, votos, totalVotos, respuestaDada, onRespo
                     style={{
                       fontFamily: tema.mono,
                       fontSize: 11,
-                      color: isOk ? tema.verde : tema.muted,
+                      color: tema.muted,
                       flexShrink: 0
                     }}
                   >
@@ -2264,16 +3151,9 @@ function SlideEjercicio({ slide, modo, votos, totalVotos, respuestaDada, onRespo
             style={{
               padding: "14px 18px",
               borderRadius: 8,
-              background:
-                respuestaDada === correcta
-                  ? "rgba(74,222,128,0.1)"
-                  : "rgba(248,113,113,0.08)",
-              border: `1px solid ${
-                respuestaDada === correcta
-                  ? "rgba(74,222,128,0.25)"
-                  : "rgba(248,113,113,0.2)"
-              }`,
-              color: respuestaDada === correcta ? tema.verde : "#fca5a5",
+              background: respuestaDada === correcta ? "rgba(59,158,255,0.10)" : "rgba(245,200,66,0.08)",
+              border: `1px solid ${respuestaDada === correcta ? "rgba(59,158,255,0.35)" : "rgba(245,200,66,0.4)"}`,
+              color: respuestaDada === correcta ? "#3b9eff" : "#f5c842",
               fontSize: 14.5,
               lineHeight: 1.6
             }}
@@ -2287,10 +3167,10 @@ function SlideEjercicio({ slide, modo, votos, totalVotos, respuestaDada, onRespo
       {/* Histograma en modo director */}
       {modo === "director" && (
         <HistogramaVotos
-          votos={votos}
+          votos={votosMapped}
           totalVotos={totalVotos}
-          opciones={slide.opciones}
-          correcta={correcta}
+          opciones={opcionesDisplay}
+          correcta={correctaDisplay}
           tema={tema}
         />
       )}

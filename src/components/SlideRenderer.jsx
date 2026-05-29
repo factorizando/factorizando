@@ -4645,58 +4645,76 @@ function SlideRegla({ slide, tema, modo, resaltadoIdx, onResaltar }) {
 function GrafoPanoramaSVG({ tema }) {
   const az = tema.azul, vd = tema.verde, ac = tema.acento;
   const purple = "#c084fc", orange = "#fb923c";
-  const vocal = [
-    { x: 8,   label: "/a/ → a" },
-    { x: 66,  label: "/e/ → e" },
-    { x: 124, label: "/i/ → i" },
-    { x: 182, label: "/o/ → o" },
-    { x: 240, label: "/u/ → u" },
+
+  // 5 vowel pills — cada una 43px de ancho, 4px de separación, inicio x=12
+  const vowels = [
+    { label: "/a/ → a", color: az     },
+    { label: "/e/ → e", color: vd     },
+    { label: "/i/ → i", color: ac     },
+    { label: "/o/ → o", color: purple },
+    { label: "/u/ → u", color: orange },
   ];
-  const multi = [
-    { color: az,     label: "/b/ → b, v" },
-    { color: vd,     label: "/k/ → c, k, qu" },
-    { color: ac,     label: "/x/ → j, g(e,i)" },
-    { color: purple, label: "/s/ → s, z, c" },
-    { color: orange, label: "/r/ y /rr/ → r, rr" },
+  const pillW = 43, pillGap = 4, pillStartX = 12;
+
+  // 5 líneas de fonemas consonánticos
+  const cLines = [
+    { color: az,     text: "/b/ → b, v  (barco · vaca)" },
+    { color: vd,     text: "/k/ → c, k, qu  (casa · queso · kilo)" },
+    { color: ac,     text: "/x/ → j, g(e,i)  (jefe · gente)" },
+    { color: purple, text: "/s/ → s, z, c(e,i)  (seseo mexicano)" },
+    { color: orange, text: "/rr/ → rr (carro) · r (rosa, enredar)" },
   ];
+
   return (
-    <svg viewBox="0 0 520 160" width="100%" style={{ display: "block" }}>
-      {/* Cabecera */}
-      <rect x="135" y="3" width="250" height="26" rx="6" fill={`${ac}18`} stroke={ac} strokeWidth="1.5"/>
-      <text x="260" y="20" fill={ac} fontSize="10" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.12em">GRAFOFONÉTICA</text>
-      <text x="260" y="31" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">fonema (sonido) → grafema (letra o combinación)</text>
+    <svg viewBox="0 0 520 145" width="100%" style={{ display: "block" }}>
 
-      {/* Rama izquierda: vocálicos */}
-      <line x1="185" y1="29" x2="155" y2="50" stroke={`${az}80`} strokeWidth="1.2" strokeDasharray="3,2"/>
-      <rect x="60" y="50" width="190" height="22" rx="5" fill={`${az}18`} stroke={az} strokeWidth="1.3"/>
-      <text x="155" y="65" fill={az} fontSize="9" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.08em">FONEMAS VOCÁLICOS — correspondencia 1:1</text>
-      {vocal.map(({ x, label }) => (
-        <g key={label}>
-          <line x1={x + 25} y1="72" x2={x + 25} y2="82" stroke={`${az}50`} strokeWidth="1"/>
-          <rect x={x} y="82" width="50" height="18" rx="4" fill={`${az}12`} stroke={`${az}40`} strokeWidth="1"/>
-          <text x={x + 25} y="95" fill={az} fontSize="8.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{label}</text>
-        </g>
-      ))}
+      {/* ── Cabecera central ── */}
+      <rect x="130" y="3" width="260" height="26" rx="6" fill={`${ac}18`} stroke={ac} strokeWidth="1.5"/>
+      <text x="260" y="19" fill={ac} fontSize="10" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.12em">GRAFOFONÉTICA</text>
+      <text x="260" y="30" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">fonema (sonido) → grafema (letra o combinación)</text>
 
-      {/* Rama derecha: consonánticos múltiples */}
-      <line x1="335" y1="29" x2="365" y2="50" stroke={`${vd}80`} strokeWidth="1.2" strokeDasharray="3,2"/>
-      <rect x="270" y="50" width="242" height="22" rx="5" fill={`${vd}18`} stroke={vd} strokeWidth="1.3"/>
-      <text x="391" y="65" fill={vd} fontSize="9" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.08em">CONSONÁNTICOS — múltiples grafemas posibles</text>
-      {multi.map(({ color, label }, i) => {
-        const x = 272 + i * 48;
+      {/* Conectores de cabecera → columnas */}
+      <line x1="180" y1="29" x2="128" y2="34" stroke={`${az}70`} strokeWidth="1.2" strokeDasharray="3,2"/>
+      <line x1="340" y1="29" x2="392" y2="34" stroke={`${vd}70`} strokeWidth="1.2" strokeDasharray="3,2"/>
+
+      {/* ── Columna izquierda: VOCÁLICOS (x=4 a x=252) ── */}
+      <rect x="4" y="34" width="248" height="107" rx="6" fill={`${az}08`} stroke={`${az}40`} strokeWidth="1.2"/>
+      {/* Encabezado columna */}
+      <rect x="4" y="34" width="248" height="20" rx="6" fill={`${az}22`}/>
+      <rect x="4" y="46" width="248" height="8" fill={`${az}22`}/>
+      <text x="128" y="48" fill={az} fontSize="8.5" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.1em">FONEMAS VOCÁLICOS</text>
+      <text x="128" y="60" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">correspondencia 1 : 1 — sin ambigüedad</text>
+
+      {/* 5 pills vocálicos */}
+      {vowels.map(({ label, color }, i) => {
+        const px = pillStartX + i * (pillW + pillGap);
         return (
           <g key={i}>
-            <line x1={x + 20} y1="72" x2={x + 20} y2="82" stroke={`${color}50`} strokeWidth="1"/>
-            <rect x={x} y="82" width="46" height="32" rx="4" fill={`${color}12`} stroke={`${color}40`} strokeWidth="1"/>
-            <text x={x + 23} y="94" fill={color} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{label.split("→")[0].trim()}</text>
-            <text x={x + 23} y="107" fill={color} fontSize="7" fontFamily="'DM Sans',sans-serif" textAnchor="middle">→ {label.split("→")[1].trim()}</text>
+            <rect x={px} y="68" width={pillW} height="17" rx="4" fill={`${color}18`} stroke={`${color}55`} strokeWidth="1"/>
+            <text x={px + pillW / 2} y="80" fill={color} fontSize="8" fontFamily="'DM Sans',sans-serif" textAnchor="middle" fontWeight="600">{label}</text>
           </g>
         );
       })}
 
-      {/* Secuencias */}
-      <rect x="135" y="124" width="250" height="18" rx="4" fill={`${orange}15`} stroke={`${orange}60`} strokeWidth="1"/>
-      <text x="260" y="136" fill={orange} fontSize="8" fontFamily="'DM Sans',sans-serif" textAnchor="middle">Secuencias especiales: gue, gui, güe, güi, que, qui · H muda</text>
+      <text x="128" y="104" fill={tema.sub} fontSize="8" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">a · e · i · o · u</text>
+      <text x="128" y="117" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">cada vocal tiene una sola letra</text>
+      <text x="128" y="129" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">la y puede ser vocal /i/ al final de diptongo</text>
+
+      {/* ── Columna derecha: CONSONÁNTICOS (x=260 a x=516) ── */}
+      <rect x="260" y="34" width="256" height="107" rx="6" fill={`${vd}08`} stroke={`${vd}40`} strokeWidth="1.2"/>
+      {/* Encabezado columna */}
+      <rect x="260" y="34" width="256" height="20" rx="6" fill={`${vd}22`}/>
+      <rect x="260" y="46" width="256" height="8" fill={`${vd}22`}/>
+      <text x="388" y="48" fill={vd} fontSize="8.5" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.1em">FONEMAS CONSONÁNTICOS</text>
+      <text x="388" y="60" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">representación múltiple — aquí está la dificultad</text>
+
+      {/* 5 líneas de pares fonema → grafemas */}
+      {cLines.map(({ color, text }, i) => (
+        <g key={i}>
+          <circle cx="270" cy={72 + i * 14} r="2.5" fill={color} opacity="0.7"/>
+          <text x="278" y={76 + i * 14} fill={tema.sub} fontSize="8.5" fontFamily="'DM Sans',sans-serif">{text}</text>
+        </g>
+      ))}
     </svg>
   );
 }

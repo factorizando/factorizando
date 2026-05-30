@@ -3403,6 +3403,8 @@ function SlideReglaRica({ slide, tema, modo, resaltadoIdx, onResaltar }) {
             "geo-husos":              <GeoHusosSVG              tema={tema} />,
             "geo-placas":             <GeoPlacastSVG            tema={tema} />,
             "geo-ciclo-hidrologico":  <GeoCicloHidrologicoSVG  tema={tema} />,
+            // Geografía — Globo 3D
+            "geo-globo-3d": <GloboTerraqueo3D tema={tema} />,
             // Geografía — Complemento: Recursos, Mar y Política
             "geo-minerales":      <GeoMineralesSVG      tema={tema} />,
             "geo-rios":           <GeoRiosSVG           tema={tema} />,
@@ -5229,6 +5231,208 @@ function GeoCicloHidrologicoSVG({ tema }) {
       {/* Leyenda */}
       <text x="160" y="13" fill="rgba(255,255,255,0.4)" fontSize="5.5" fontFamily="monospace">Hidrósfera + Atmósfera + Litósfera + Biósfera</text>
     </svg>
+  );
+}
+
+// ── Globo Terráqueo 3D (Three.js — carga dinámica) ────────────────────────────
+function GloboTerraqueo3D({ tema }) {
+  const mountRef = useRef(null);
+
+  useEffect(() => {
+    const container = mountRef.current;
+    if (!container) return;
+
+    let animId;
+    let mounted = true;
+    const cleanupRef = { fn: null };
+
+    (async () => {
+      const THREE = await import("three");
+      const { OrbitControls } = await import("three/addons/controls/OrbitControls.js");
+      if (!mounted || !mountRef.current) return;
+
+      const W = container.clientWidth || 420;
+      const H = 310;
+
+      // ── Scene & camera ──
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(38, W / H, 0.1, 100);
+      camera.position.z = 2.85;
+
+      // ── Renderer ──
+      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setSize(W, H);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      container.appendChild(renderer.domElement);
+
+      // ── Lighting ──
+      scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+      const sun = new THREE.DirectionalLight(0xffffff, 0.9);
+      sun.position.set(4, 2, 5);
+      scene.add(sun);
+      // subtle back-fill light
+      const fill = new THREE.DirectionalLight(0x4477cc, 0.3);
+      fill.position.set(-3, -1, -4);
+      scene.add(fill);
+
+      // ── Globe group (sphere + lines rotate together) ──
+      const group = new THREE.Group();
+      scene.add(group);
+
+      // Ocean sphere
+      group.add(new THREE.Mesh(
+        new THREE.SphereGeometry(1, 72, 72),
+        new THREE.MeshPhongMaterial({
+          color: 0x0d2b5c, emissive: 0x040f20,
+          specular: 0x224488, shininess: 40,
+        })
+      ));
+      // Atmosphere glow
+      group.add(new THREE.Mesh(
+        new THREE.SphereGeometry(1.045, 32, 32),
+        new THREE.MeshPhongMaterial({
+          color: 0x2255aa, transparent: true, opacity: 0.07, side: THREE.BackSide,
+        })
+      ));
+
+      // ── Line builders ──
+      const addLat = (latDeg, hex, op) => {
+        const phi = (latDeg * Math.PI) / 180;
+        const r = 1.004;
+        const pts = [];
+        for (let i = 0; i <= 180; i++) {
+          const theta = (i * 2 * Math.PI) / 180;
+          pts.push(new THREE.Vector3(
+            r * Math.cos(phi) * Math.cos(theta),
+            r * Math.sin(phi),
+            r * Math.cos(phi) * Math.sin(theta)
+          ));
+        }
+        group.add(new THREE.Line(
+          new THREE.BufferGeometry().setFromPoints(pts),
+          new THREE.LineBasicMaterial({ color: hex, transparent: true, opacity: op })
+        ));
+      };
+
+      const addLon = (lonDeg, hex, op) => {
+        const theta = (lonDeg * Math.PI) / 180;
+        const r = 1.004;
+        const pts = [];
+        for (let i = 0; i <= 90; i++) {
+          const phi = ((i * 2 - 90) * Math.PI) / 180;
+          pts.push(new THREE.Vector3(
+            r * Math.cos(phi) * Math.cos(theta),
+            r * Math.sin(phi),
+            r * Math.cos(phi) * Math.sin(theta)
+          ));
+        }
+        group.add(new THREE.Line(
+          new THREE.BufferGeometry().setFromPoints(pts),
+          new THREE.LineBasicMaterial({ color: hex, transparent: true, opacity: op })
+        ));
+      };
+
+      // Grid every 30°
+      [-60, -30, 30, 60].forEach(lat => addLat(lat, 0x1e3560, 0.55));
+      [30, 60, 90, 120, 150, 210, 240, 270, 300, 330].forEach(lon => addLon(lon, 0x1e3560, 0.4));
+
+      // Key parallels
+      addLat(0,     0x3399ff, 1.0);  // Ecuador — azul
+      addLat(23.5,  0xf5c842, 0.95); // Trópico de Cáncer — dorado
+      addLat(-23.5, 0xf5c842, 0.85); // Trópico de Capricornio — dorado
+      addLat(66.5,  0x88ccff, 0.80); // Círculo Polar Ártico — azul claro
+      addLat(-66.5, 0x88ccff, 0.70); // Círculo Polar Antártico — azul claro
+
+      // Key meridians
+      addLon(0,   0xff6644, 0.95); // Greenwich — naranja
+      addLon(180, 0xcc3322, 0.70); // Línea de fecha — rojo
+
+      // Pole dots
+      const dotGeo = new THREE.SphereGeometry(0.024, 8, 8);
+      const dotMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+      const np = new THREE.Mesh(dotGeo, dotMat); np.position.set(0,  1.012, 0);
+      const sp = new THREE.Mesh(dotGeo, dotMat); sp.position.set(0, -1.012, 0);
+      group.add(np, sp);
+
+      // ── Controls ──
+      const controls = new OrbitControls(camera, renderer.domElement);
+      controls.enableZoom = false;
+      controls.enablePan  = false;
+      controls.autoRotate = true;
+      controls.autoRotateSpeed = 0.45;
+      controls.enableDamping  = true;
+      controls.dampingFactor  = 0.08;
+
+      // ── Resize ──
+      const onResize = () => {
+        if (!container || !renderer) return;
+        const w = container.clientWidth;
+        camera.aspect = w / H;
+        camera.updateProjectionMatrix();
+        renderer.setSize(w, H);
+      };
+      window.addEventListener("resize", onResize);
+
+      // ── Render loop ──
+      const animate = () => {
+        animId = requestAnimationFrame(animate);
+        controls.update();
+        renderer.render(scene, camera);
+      };
+      animate();
+
+      cleanupRef.fn = () => {
+        cancelAnimationFrame(animId);
+        window.removeEventListener("resize", onResize);
+        controls.dispose();
+        renderer.dispose();
+        if (container && renderer.domElement.parentNode === container) {
+          container.removeChild(renderer.domElement);
+        }
+      };
+    })();
+
+    return () => {
+      mounted = false;
+      if (cleanupRef.fn) cleanupRef.fn();
+    };
+  }, []);
+
+  const legend = [
+    { color: "#3399ff", text: "Ecuador · 0°" },
+    { color: "#f5c842", text: "Trópico de Cáncer · 23.5°N" },
+    { color: "#f5c842", text: "Trópico de Capricornio · 23.5°S" },
+    { color: "#88ccff", text: "Círculo Polar Ártico · 66.5°N" },
+    { color: "#88ccff", text: "Círculo Polar Antártico · 66.5°S" },
+    { color: "#ff6644", text: "Meridiano de Greenwich · 0°" },
+    { color: "#cc3322", text: "Línea Internacional de Fecha · 180°" },
+    { color: "#334466", text: "Cuadrícula cada 30°" },
+  ];
+
+  return (
+    <div style={{ display: "flex", gap: 14, alignItems: "center", width: "100%" }}>
+      <div
+        ref={mountRef}
+        style={{ flex: "1 1 0", minWidth: 0, height: 310, borderRadius: 10, overflow: "hidden",
+          background: "rgba(4,14,30,0.6)" }}
+      />
+      <div style={{ width: 185, flexShrink: 0, display: "flex", flexDirection: "column", gap: 7 }}>
+        {legend.map((l, i) => (
+          <div key={i} style={{ display: "flex", alignItems: "center", gap: 9 }}>
+            <div style={{ width: 22, height: 3, background: l.color, borderRadius: 2, flexShrink: 0 }}/>
+            <span style={{
+              color: "rgba(255,255,255,0.72)", fontSize: 9.5,
+              fontFamily: "monospace", lineHeight: 1.35,
+            }}>
+              {l.text}
+            </span>
+          </div>
+        ))}
+        <div style={{ marginTop: 8, color: "rgba(255,255,255,0.22)", fontSize: 8.5, fontFamily: "monospace" }}>
+          ↺ arrastra para rotar
+        </div>
+      </div>
+    </div>
   );
 }
 

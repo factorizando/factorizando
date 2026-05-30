@@ -75,8 +75,8 @@ export const PRESENTACION = {
         },
         {
           tipo: "diagrama",
-          id: "geo-coordenadas",
-          titulo: "Sistema de coordenadas: paralelos (latitud) y meridianos (longitud)",
+          id: "geo-globo-3d",
+          titulo: "Globo terráqueo interactivo — arrastra para explorar latitud y longitud",
         },
         {
           tipo: "tabla",

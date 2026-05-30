@@ -5237,6 +5237,8 @@ function GeoCicloHidrologicoSVG({ tema }) {
 // ── Globo Terráqueo 3D (Three.js — carga dinámica) ────────────────────────────
 function GloboTerraqueo3D({ tema }) {
   const mountRef = useRef(null);
+  // Canvas height — cámara calibrada para este valor
+  const H = 420;
 
   useEffect(() => {
     const container = mountRef.current;
@@ -5251,13 +5253,14 @@ function GloboTerraqueo3D({ tema }) {
       const { OrbitControls } = await import("three/addons/controls/OrbitControls.js");
       if (!mounted || !mountRef.current) return;
 
-      const W = container.clientWidth || 420;
-      const H = 310;
+      const W = container.clientWidth || 500;
 
-      // ── Scene & camera ──
+      // ── Escena y cámara ──
+      // FOV 40° + z=3.3 → visible height ≈ 2.40 world units > sphere diameter 2.0
+      // → polos con ~10 % de margen a cada lado
       const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(38, W / H, 0.1, 100);
-      camera.position.z = 2.85;
+      const camera = new THREE.PerspectiveCamera(40, W / H, 0.1, 100);
+      camera.position.z = 3.3;
 
       // ── Renderer ──
       const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -5265,21 +5268,20 @@ function GloboTerraqueo3D({ tema }) {
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       container.appendChild(renderer.domElement);
 
-      // ── Lighting ──
+      // ── Iluminación ──
       scene.add(new THREE.AmbientLight(0xffffff, 0.5));
-      const sun = new THREE.DirectionalLight(0xffffff, 0.9);
+      const sun = new THREE.DirectionalLight(0xffffff, 0.95);
       sun.position.set(4, 2, 5);
       scene.add(sun);
-      // subtle back-fill light
       const fill = new THREE.DirectionalLight(0x4477cc, 0.3);
       fill.position.set(-3, -1, -4);
       scene.add(fill);
 
-      // ── Globe group (sphere + lines rotate together) ──
+      // ── Grupo del globo (todo rota junto) ──
       const group = new THREE.Group();
       scene.add(group);
 
-      // Ocean sphere
+      // Esfera oceánica
       group.add(new THREE.Mesh(
         new THREE.SphereGeometry(1, 72, 72),
         new THREE.MeshPhongMaterial({
@@ -5287,15 +5289,15 @@ function GloboTerraqueo3D({ tema }) {
           specular: 0x224488, shininess: 40,
         })
       ));
-      // Atmosphere glow
+      // Halo atmosférico
       group.add(new THREE.Mesh(
-        new THREE.SphereGeometry(1.045, 32, 32),
+        new THREE.SphereGeometry(1.048, 32, 32),
         new THREE.MeshPhongMaterial({
           color: 0x2255aa, transparent: true, opacity: 0.07, side: THREE.BackSide,
         })
       ));
 
-      // ── Line builders ──
+      // ── Constructores de líneas ──
       const addLat = (latDeg, hex, op) => {
         const phi = (latDeg * Math.PI) / 180;
         const r = 1.004;
@@ -5332,36 +5334,47 @@ function GloboTerraqueo3D({ tema }) {
         ));
       };
 
-      // Grid every 30°
-      [-60, -30, 30, 60].forEach(lat => addLat(lat, 0x1e3560, 0.55));
-      [30, 60, 90, 120, 150, 210, 240, 270, 300, 330].forEach(lon => addLon(lon, 0x1e3560, 0.4));
+      // Cuadrícula cada 30°
+      [-60, -30, 30, 60].forEach(lat => addLat(lat, 0x1e3560, 0.5));
+      [30, 60, 90, 120, 150, 210, 240, 270, 300, 330].forEach(lon =>
+        addLon(lon, 0x1e3560, 0.38));
 
-      // Key parallels
-      addLat(0,     0x3399ff, 1.0);  // Ecuador — azul
-      addLat(23.5,  0xf5c842, 0.95); // Trópico de Cáncer — dorado
-      addLat(-23.5, 0xf5c842, 0.85); // Trópico de Capricornio — dorado
-      addLat(66.5,  0x88ccff, 0.80); // Círculo Polar Ártico — azul claro
-      addLat(-66.5, 0x88ccff, 0.70); // Círculo Polar Antártico — azul claro
+      // Paralelos clave
+      addLat(0,     0x3399ff, 1.0);   // Ecuador
+      addLat(23.5,  0xf5c842, 0.95);  // Trópico de Cáncer
+      addLat(-23.5, 0xf5c842, 0.88);  // Trópico de Capricornio
+      addLat(66.5,  0x88ccff, 0.82);  // Círculo Polar Ártico
+      addLat(-66.5, 0x88ccff, 0.72);  // Círculo Polar Antártico
 
-      // Key meridians
-      addLon(0,   0xff6644, 0.95); // Greenwich — naranja
-      addLon(180, 0xcc3322, 0.70); // Línea de fecha — rojo
+      // Meridianos clave
+      addLon(0,   0xff6644, 0.95);  // Greenwich
+      addLon(180, 0xcc3322, 0.72);  // Línea de fecha
 
-      // Pole dots
-      const dotGeo = new THREE.SphereGeometry(0.024, 8, 8);
+      // Puntos polares
+      const dotGeo = new THREE.SphereGeometry(0.028, 8, 8);
       const dotMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
-      const np = new THREE.Mesh(dotGeo, dotMat); np.position.set(0,  1.012, 0);
-      const sp = new THREE.Mesh(dotGeo, dotMat); sp.position.set(0, -1.012, 0);
+      const np = new THREE.Mesh(dotGeo, dotMat); np.position.set(0,  1.013, 0);
+      const sp = new THREE.Mesh(dotGeo, dotMat); sp.position.set(0, -1.013, 0);
       group.add(np, sp);
 
-      // ── Controls ──
+      // Eje polar (línea fija en escena — no rota)
+      const axPts = [new THREE.Vector3(0, 1.25, 0), new THREE.Vector3(0, -1.25, 0)];
+      scene.add(new THREE.Line(
+        new THREE.BufferGeometry().setFromPoints(axPts),
+        new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.18 })
+      ));
+
+      // ── Controles de órbita ──
       const controls = new OrbitControls(camera, renderer.domElement);
       controls.enableZoom = false;
       controls.enablePan  = false;
       controls.autoRotate = true;
       controls.autoRotateSpeed = 0.45;
-      controls.enableDamping  = true;
-      controls.dampingFactor  = 0.08;
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.08;
+      // Limitar inclinación para que los polos sigan visibles
+      controls.minPolarAngle = Math.PI * 0.12;
+      controls.maxPolarAngle = Math.PI * 0.88;
 
       // ── Resize ──
       const onResize = () => {
@@ -5373,7 +5386,7 @@ function GloboTerraqueo3D({ tema }) {
       };
       window.addEventListener("resize", onResize);
 
-      // ── Render loop ──
+      // ── Loop ──
       const animate = () => {
         animId = requestAnimationFrame(animate);
         controls.update();
@@ -5405,32 +5418,76 @@ function GloboTerraqueo3D({ tema }) {
     { color: "#88ccff", text: "Círculo Polar Ártico · 66.5°N" },
     { color: "#88ccff", text: "Círculo Polar Antártico · 66.5°S" },
     { color: "#ff6644", text: "Meridiano de Greenwich · 0°" },
-    { color: "#cc3322", text: "Línea Internacional de Fecha · 180°" },
-    { color: "#334466", text: "Cuadrícula cada 30°" },
+    { color: "#cc3322", text: "Línea de Fecha Internacional · 180°" },
+    { color: "#334466", text: "Cuadrícula · c/30°" },
   ];
 
+  // Badge de punto cardinal
+  const Cardinal = ({ letter, color, bg, style }) => (
+    <div style={{
+      position: "absolute",
+      width: 36, height: 36,
+      borderRadius: "50%",
+      background: bg || "rgba(6,14,32,0.82)",
+      border: `2.5px solid ${color}`,
+      boxShadow: `0 0 10px ${color}55`,
+      display: "flex", alignItems: "center", justifyContent: "center",
+      color,
+      fontSize: 15, fontWeight: "900", fontFamily: "monospace",
+      letterSpacing: 0,
+      pointerEvents: "none",
+      zIndex: 10,
+      userSelect: "none",
+      ...style,
+    }}>
+      {letter}
+    </div>
+  );
+
   return (
-    <div style={{ display: "flex", gap: 14, alignItems: "center", width: "100%" }}>
-      <div
-        ref={mountRef}
-        style={{ flex: "1 1 0", minWidth: 0, height: 310, borderRadius: 10, overflow: "hidden",
-          background: "rgba(4,14,30,0.6)" }}
-      />
-      <div style={{ width: 185, flexShrink: 0, display: "flex", flexDirection: "column", gap: 7 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 10, width: "100%" }}>
+      {/* ── Globo con cardinales superpuestos ── */}
+      <div style={{ position: "relative", width: "100%", height: H }}>
+        <div
+          ref={mountRef}
+          style={{ width: "100%", height: "100%", borderRadius: 12, overflow: "hidden",
+            background: "rgba(3,10,24,0.7)" }}
+        />
+        {/* Norte — arriba, centrado */}
+        <Cardinal letter="N" color="#ff5555"
+          style={{ top: 10, left: "50%", transform: "translateX(-50%)" }} />
+        {/* Sur — abajo, centrado */}
+        <Cardinal letter="S" color="#6699ff"
+          style={{ bottom: 10, left: "50%", transform: "translateX(-50%)" }} />
+        {/* Este — derecha, centrado verticalmente */}
+        <Cardinal letter="E" color="#f5c842"
+          style={{ top: "50%", right: 10, transform: "translateY(-50%)" }} />
+        {/* Oeste — izquierda, centrado verticalmente */}
+        <Cardinal letter="O" color="#f5c842"
+          style={{ top: "50%", left: 10, transform: "translateY(-50%)" }} />
+        {/* Hint */}
+        <div style={{
+          position: "absolute", bottom: 14, right: 16,
+          color: "rgba(255,255,255,0.22)", fontSize: 9, fontFamily: "monospace",
+          pointerEvents: "none",
+        }}>
+          ↺ arrastra para rotar
+        </div>
+      </div>
+
+      {/* ── Leyenda horizontal compacta ── */}
+      <div style={{
+        display: "flex", flexWrap: "wrap", gap: "5px 18px",
+        padding: "8px 4px 2px",
+      }}>
         {legend.map((l, i) => (
-          <div key={i} style={{ display: "flex", alignItems: "center", gap: 9 }}>
-            <div style={{ width: 22, height: 3, background: l.color, borderRadius: 2, flexShrink: 0 }}/>
-            <span style={{
-              color: "rgba(255,255,255,0.72)", fontSize: 9.5,
-              fontFamily: "monospace", lineHeight: 1.35,
-            }}>
+          <div key={i} style={{ display: "flex", alignItems: "center", gap: 7 }}>
+            <div style={{ width: 20, height: 3, background: l.color, borderRadius: 2, flexShrink: 0 }}/>
+            <span style={{ color: "rgba(255,255,255,0.68)", fontSize: 9.5, fontFamily: "monospace" }}>
               {l.text}
             </span>
           </div>
         ))}
-        <div style={{ marginTop: 8, color: "rgba(255,255,255,0.22)", fontSize: 8.5, fontFamily: "monospace" }}>
-          ↺ arrastra para rotar
-        </div>
       </div>
     </div>
   );

@@ -5281,21 +5281,31 @@ function GloboTerraqueo3D({ tema }) {
       const group = new THREE.Group();
       scene.add(group);
 
-      // Esfera oceánica
+      // Textura NASA Blue Marble (equirectangular, CC0)
+      const earthTex = new THREE.TextureLoader().load(
+        `${import.meta.env.BASE_URL}textures/earth.jpg`
+      );
+      earthTex.colorSpace = THREE.SRGBColorSpace;
+
+      // Esfera con mapa real
       group.add(new THREE.Mesh(
         new THREE.SphereGeometry(1, 72, 72),
         new THREE.MeshPhongMaterial({
-          color: 0x0d2b5c, emissive: 0x040f20,
-          specular: 0x224488, shininess: 40,
+          map: earthTex,
+          specular: new THREE.Color(0x112244),
+          shininess: 12,
         })
       ));
-      // Halo atmosférico
+      // Halo atmosférico azul
       group.add(new THREE.Mesh(
         new THREE.SphereGeometry(1.048, 32, 32),
         new THREE.MeshPhongMaterial({
-          color: 0x2255aa, transparent: true, opacity: 0.07, side: THREE.BackSide,
+          color: 0x3366cc, transparent: true, opacity: 0.10, side: THREE.BackSide,
         })
       ));
+
+      // Rotación inicial: Meridiano de Greenwich al frente (Europa/África visible)
+      group.rotation.y = Math.PI;
 
       // ── Constructores de líneas ──
       const addLat = (latDeg, hex, op) => {
@@ -5334,21 +5344,21 @@ function GloboTerraqueo3D({ tema }) {
         ));
       };
 
-      // Cuadrícula cada 30°
-      [-60, -30, 30, 60].forEach(lat => addLat(lat, 0x1e3560, 0.5));
+      // Cuadrícula cada 30° — blanco translúcido sobre el mapa
+      [-60, -30, 30, 60].forEach(lat => addLat(lat, 0xffffff, 0.18));
       [30, 60, 90, 120, 150, 210, 240, 270, 300, 330].forEach(lon =>
-        addLon(lon, 0x1e3560, 0.38));
+        addLon(lon, 0xffffff, 0.14));
 
-      // Paralelos clave
-      addLat(0,     0x3399ff, 1.0);   // Ecuador
-      addLat(23.5,  0xf5c842, 0.95);  // Trópico de Cáncer
-      addLat(-23.5, 0xf5c842, 0.88);  // Trópico de Capricornio
-      addLat(66.5,  0x88ccff, 0.82);  // Círculo Polar Ártico
-      addLat(-66.5, 0x88ccff, 0.72);  // Círculo Polar Antártico
+      // Paralelos clave — colores saturados para destacar sobre el mapa
+      addLat(0,     0x00aaff, 1.0);   // Ecuador — azul brillante
+      addLat(23.5,  0xffcc00, 1.0);   // Trópico de Cáncer — dorado
+      addLat(-23.5, 0xffcc00, 0.95);  // Trópico de Capricornio — dorado
+      addLat(66.5,  0x88eeff, 0.90);  // Círculo Polar Ártico — celeste
+      addLat(-66.5, 0x88eeff, 0.82);  // Círculo Polar Antártico — celeste
 
       // Meridianos clave
-      addLon(0,   0xff6644, 0.95);  // Greenwich
-      addLon(180, 0xcc3322, 0.72);  // Línea de fecha
+      addLon(0,   0xff6633, 1.0);   // Greenwich — naranja fuerte
+      addLon(180, 0xff3322, 0.80);  // Línea de fecha — rojo
 
       // Puntos polares
       const dotGeo = new THREE.SphereGeometry(0.028, 8, 8);
@@ -5412,14 +5422,14 @@ function GloboTerraqueo3D({ tema }) {
   }, []);
 
   const legend = [
-    { color: "#3399ff", text: "Ecuador · 0°" },
-    { color: "#f5c842", text: "Trópico de Cáncer · 23.5°N" },
-    { color: "#f5c842", text: "Trópico de Capricornio · 23.5°S" },
-    { color: "#88ccff", text: "Círculo Polar Ártico · 66.5°N" },
-    { color: "#88ccff", text: "Círculo Polar Antártico · 66.5°S" },
-    { color: "#ff6644", text: "Meridiano de Greenwich · 0°" },
-    { color: "#cc3322", text: "Línea de Fecha Internacional · 180°" },
-    { color: "#334466", text: "Cuadrícula · c/30°" },
+    { color: "#00aaff", text: "Ecuador · 0°" },
+    { color: "#ffcc00", text: "Trópico de Cáncer · 23.5°N" },
+    { color: "#ffcc00", text: "Trópico de Capricornio · 23.5°S" },
+    { color: "#88eeff", text: "Círculo Polar Ártico · 66.5°N" },
+    { color: "#88eeff", text: "Círculo Polar Antártico · 66.5°S" },
+    { color: "#ff6633", text: "Meridiano de Greenwich · 0°" },
+    { color: "#ff3322", text: "Línea de Fecha Internacional · 180°" },
+    { color: "rgba(255,255,255,0.3)", text: "Cuadrícula · c/30°" },
   ];
 
   // Badge de punto cardinal

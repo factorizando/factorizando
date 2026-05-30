@@ -171,11 +171,6 @@ export const SUBJECTS_PREP = [
     color: "#34d399",
     children: [
       {
-        id: "fis-exani-pres",
-        name: "Pensamiento Científico — Física",
-        presentacion: "/presentacion/fisica-pensamiento-cientifico",
-      },
-      {
         id: "mru",
         name: "Cinemática",
         children: [
@@ -204,11 +199,6 @@ export const SUBJECTS_PREP = [
     name: "Biología",
     color: "#f97316",
     children: [
-      {
-        id: "bio-exani-pres",
-        name: "Pensamiento Científico — Biología",
-        presentacion: "/presentacion/biologia-pensamiento-cientifico",
-      },
       {
         id: "cel",
         name: "La Célula",
@@ -239,11 +229,6 @@ export const SUBJECTS_PREP = [
     color: "#f43f5e",
     children: [
       {
-        id: "qui-exani-pres",
-        name: "Pensamiento Científico — Química",
-        presentacion: "/presentacion/quimica-pensamiento-cientifico",
-      },
-      {
         id: "tabla",
         name: "Tabla Periódica",
         children: [
@@ -253,28 +238,6 @@ export const SUBJECTS_PREP = [
             //quiz: "/cuestionario/tabla-periodica",
           },
         ],
-      },
-    ],
-  },
-  {
-    id: "pensamiento-cientifico",
-    name: "Pensamiento Científico",
-    color: "#22d3ee",
-    children: [
-      {
-        id: "pens-fisica",
-        name: "Física",
-        presentacion: "/presentacion/fisica-pensamiento-cientifico",
-      },
-      {
-        id: "pens-quimica",
-        name: "Química",
-        presentacion: "/presentacion/quimica-pensamiento-cientifico",
-      },
-      {
-        id: "pens-biologia",
-        name: "Biología",
-        presentacion: "/presentacion/biologia-pensamiento-cientifico",
       },
     ],
   },

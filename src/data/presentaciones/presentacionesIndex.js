@@ -14,6 +14,9 @@ import { PRESENTACION as GRAFOFONETICA } from "./grafofonetica.js";
 import { PRESENTACION as GEOGRAFIA_TIERRA } from "./geografia-tierra.js";
 import { PRESENTACION as GEOGRAFIA_HUMANA } from "./geografia-humana.js";
 import { PRESENTACION as GEOGRAFIA_COMPLEMENTO } from "./geografia-complemento.js";
+import { PRESENTACION as FISICA_PENSAMIENTO_CIENTIFICO } from "./fisica-pensamiento-cientifico.js";
+import { PRESENTACION as QUIMICA_PENSAMIENTO_CIENTIFICO } from "./quimica-pensamiento-cientifico.js";
+import { PRESENTACION as BIOLOGIA_PENSAMIENTO_CIENTIFICO } from "./biologia-pensamiento-cientifico.js";
 
 export const PRESENTACIONES_INDEX = {
   "semejanza-triangulos": SEMEJANZA_TRIANGULOS,
@@ -28,6 +31,9 @@ export const PRESENTACIONES_INDEX = {
   "geografia-tierra": GEOGRAFIA_TIERRA,
   "geografia-humana": GEOGRAFIA_HUMANA,
   "geografia-complemento": GEOGRAFIA_COMPLEMENTO,
+  "fisica-pensamiento-cientifico": FISICA_PENSAMIENTO_CIENTIFICO,
+  "quimica-pensamiento-cientifico": QUIMICA_PENSAMIENTO_CIENTIFICO,
+  "biologia-pensamiento-cientifico": BIOLOGIA_PENSAMIENTO_CIENTIFICO,
 };
 
 export function buscarPresentacion(id) {

@@ -3415,6 +3415,30 @@ function SlideReglaRica({ slide, tema, modo, resaltadoIdx, onResaltar }) {
             "geo-deterioro":  <GeoDeterioroSVG  tema={tema} />,
             "geo-poblacion":  <GeoPoblacionSVG  tema={tema} />,
             "geo-economia":   <GeoEconomiaSVG   tema={tema} />,
+            // Biología: Pensamiento Científico
+            "biologia-celula":              <BiologiaCelulaSVG              tema={tema} />,
+            "biologia-herencia":            <BiologiaHerenciaSVG            tema={tema} />,
+            "biologia-evolucion":           <BiologiaEvolucionSVG           tema={tema} />,
+            "biologia-genetica-aplicada":   <BiologiaGeneticaAplicadaSVG   tema={tema} />,
+            "biologia-biodiversidad":       <BiologiaBiodiversidadSVG       tema={tema} />,
+            "biologia-adaptacion":          <BiologiaAdaptacionSVG          tema={tema} />,
+            "biologia-cadena-trofica":      <BiologiaCadenaTroficaSVG       tema={tema} />,
+            // Química: Pensamiento Científico
+            "quimica-modelos-atomicos":      <QuimicaModelosAtomicosSVG      tema={tema} />,
+            "quimica-biomoleculas":          <QuimicaBiomoleculasSVG          tema={tema} />,
+            "quimica-mezclas":               <QuimicaMezclasSVG               tema={tema} />,
+            "quimica-separacion":            <QuimicaSeparacionSVG            tema={tema} />,
+            "quimica-reacciones":            <QuimicaReaccionesSVG            tema={tema} />,
+            "quimica-energia-reacciones":    <QuimicaEnergiaReaccionesSVG    tema={tema} />,
+            "quimica-impacto":               <QuimicaImpactoSVG               tema={tema} />,
+            // Física: Pensamiento Científico
+            "fisica-estados-materia":   <FisicaEstadosMateriaSVG   tema={tema} />,
+            "fisica-fuerzas":           <FisicaFuerzasSVG           tema={tema} />,
+            "fisica-vel-acel":          <FisicaVelAcelSVG           tema={tema} />,
+            "fisica-sistema-solar":     <FisicaSistemaSolarSVG      tema={tema} />,
+            "fisica-energia-mecanica":  <FisicaEnergiaMecanicaSVG   tema={tema} />,
+            "fisica-circuito":          <FisicaCircuitoSVG          tema={tema} />,
+            "fisica-transformaciones":  <FisicaTransformacionesSVG  tema={tema} />,
           };
           return (
             <div key={i} onClick={handleClick}
@@ -5938,6 +5962,1266 @@ function GeoEconomiaSVG({ tema }) {
           <text x={bl.x + 48} y="152" textAnchor="middle" fill={bl.color} fontSize="5" fontFamily="monospace" opacity="0.6">México ∈ T-MEC y APEC</text>
         </g>
       ))}
+    </svg>
+  );
+}
+
+// ── Biología: Célula animal vs vegetal ───────────────────────────────────────
+function BiologiaCelulaSVG({ tema }) {
+  const a = tema.acento, grn = "#4ab890", gold = "#f5c842", org = "#ff7755", lila = "#cc88ff";
+  return (
+    <svg viewBox="0 0 320 130" width="100%" style={{ display:"block" }}>
+      {/* LEFT: Animal Cell */}
+      <rect x="1" y="1" width="154" height="128" rx="5"
+        fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="78" y="11" textAnchor="middle" fill={a} fontSize="6.5" fontFamily="monospace" fontWeight="700">CÉLULA ANIMAL</text>
+      <ellipse cx="72" cy="68" rx="58" ry="44" fill={`${a}08`} stroke={a} strokeWidth="1.5" opacity="0.65"/>
+      {/* Nucleus */}
+      <ellipse cx="68" cy="65" rx="17" ry="13" fill={`${lila}25`} stroke={lila} strokeWidth="1.5"/>
+      <circle cx="70" cy="63" r="5" fill={lila} opacity="0.65"/>
+      <text x="50" y="58" fill={lila} fontSize="4.5" fontFamily="monospace">núcleo</text>
+      {/* Mitochondria */}
+      <ellipse cx="108" cy="55" rx="11" ry="6" fill={`${org}28`} stroke={org} strokeWidth="1.2"/>
+      <line x1="99" y1="53" x2="104" y2="58" stroke={org} strokeWidth="0.8" opacity="0.5"/>
+      <line x1="99" y1="57" x2="104" y2="52" stroke={org} strokeWidth="0.8" opacity="0.5"/>
+      <text x="106" y="50" fill={org} fontSize="4.5" fontFamily="monospace">mitocondria</text>
+      {/* Golgi */}
+      <path d="M 96,76 Q 100,73 104,76" fill="none" stroke={gold} strokeWidth="1.5" opacity="0.85"/>
+      <path d="M 96,79 Q 100,76 104,79" fill="none" stroke={gold} strokeWidth="1.5" opacity="0.85"/>
+      <path d="M 96,82 Q 100,79 104,82" fill="none" stroke={gold} strokeWidth="1.5" opacity="0.85"/>
+      <text x="107" y="80" fill={gold} fontSize="4.5" fontFamily="monospace">Golgi</text>
+      {/* Ribosomes */}
+      {[[44,80],[50,72],[38,70],[34,60],[86,82],[80,90]].map(([x,y],i)=>(
+        <circle key={i} cx={x} cy={y} r="1.8" fill="rgba(255,255,255,0.5)"/>
+      ))}
+      <text x="30" y="87" fill="rgba(255,255,255,0.4)" fontSize="4" fontFamily="monospace">ribosoma</text>
+      {/* Lysosome */}
+      <circle cx="90" cy="90" r="5" fill={`${a}35`} stroke={a} strokeWidth="1"/>
+      <text x="97" y="93" fill={a} fontSize="4" fontFamily="monospace">lisosoma</text>
+      {/* Centriole */}
+      <rect x="46" y="78" width="8" height="4" rx="1" fill="rgba(255,220,150,0.3)" stroke={gold} strokeWidth="0.8"/>
+      <text x="38" y="88" fill={gold} fontSize="3.5" fontFamily="monospace">centriolo</text>
+      <text x="72" y="120" textAnchor="middle" fill={a} fontSize="4.5" fontFamily="monospace">membrana plasmática (flexible)</text>
+      {/* RIGHT: Plant Cell */}
+      <rect x="165" y="1" width="154" height="128" rx="5"
+        fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="242" y="11" textAnchor="middle" fill={grn} fontSize="6.5" fontFamily="monospace" fontWeight="700">CÉLULA VEGETAL</text>
+      {/* Cell wall */}
+      <rect x="181" y="17" width="126" height="93" rx="4" fill="none" stroke={grn} strokeWidth="3" opacity="0.75"/>
+      {/* Cell membrane inside */}
+      <rect x="184" y="20" width="120" height="87" rx="3"
+        fill={`${grn}08`} stroke={grn} strokeWidth="0.8" opacity="0.4" strokeDasharray="2,1"/>
+      {/* Central vacuole */}
+      <ellipse cx="242" cy="66" rx="38" ry="30" fill="rgba(80,140,220,0.15)" stroke="rgba(80,140,220,0.45)" strokeWidth="1.2"/>
+      <text x="242" y="64" textAnchor="middle" fill="rgba(80,180,255,0.65)" fontSize="4.5" fontFamily="monospace">vacuola</text>
+      <text x="242" y="71" textAnchor="middle" fill="rgba(80,180,255,0.5)" fontSize="4" fontFamily="monospace">central</text>
+      {/* Nucleus */}
+      <ellipse cx="212" cy="40" rx="12" ry="9" fill={`${lila}25`} stroke={lila} strokeWidth="1.2"/>
+      <circle cx="213" cy="39" r="4" fill={lila} opacity="0.65"/>
+      <text x="202" y="33" fill={lila} fontSize="4" fontFamily="monospace">núcleo</text>
+      {/* Chloroplasts */}
+      <ellipse cx="274" cy="40" rx="12" ry="7" fill="rgba(50,160,50,0.45)" stroke={grn} strokeWidth="1.2"/>
+      <text x="274" y="33" textAnchor="middle" fill={grn} fontSize="4" fontFamily="monospace">cloroplasto</text>
+      <ellipse cx="255" cy="98" rx="11" ry="6" fill="rgba(50,160,50,0.45)" stroke={grn} strokeWidth="1.2"/>
+      {/* Mitochondria */}
+      <ellipse cx="292" cy="58" rx="8" ry="5" fill={`${org}28`} stroke={org} strokeWidth="1"/>
+      <text x="293" y="52" fill={org} fontSize="3.5" fontFamily="monospace">mitoc.</text>
+      <text x="242" y="119" textAnchor="middle" fill={grn} fontSize="4.5" fontFamily="monospace">pared celular rígida (celulosa)</text>
+    </svg>
+  );
+}
+
+// ── Biología: Herencia genética ───────────────────────────────────────────────
+function BiologiaHerenciaSVG({ tema }) {
+  const a = tema.acento, gold = "#f5c842", grn = "#4ab890", lila = "#cc88ff";
+  return (
+    <svg viewBox="0 0 320 128" width="100%" style={{ display:"block" }}>
+      {/* LEFT: Punnett Square */}
+      <rect x="1" y="1" width="154" height="126" rx="5"
+        fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="78" y="10" textAnchor="middle" fill={a} fontSize="6" fontFamily="monospace" fontWeight="700">CUADRO DE PUNNETT</text>
+      <text x="78" y="17" textAnchor="middle" fill="rgba(255,255,255,0.3)" fontSize="5" fontFamily="monospace">cruce: Aa × Aa</text>
+      {/* Parent 2 headers (top) */}
+      <text x="60" y="28" textAnchor="middle" fill={a} fontSize="11" fontWeight="700">A</text>
+      <text x="108" y="28" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="11" fontStyle="italic">a</text>
+      {/* Parent 1 headers (left) */}
+      <text x="20" y="53" textAnchor="middle" fill={a} fontSize="11" fontWeight="700">A</text>
+      <text x="20" y="88" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="11" fontStyle="italic">a</text>
+      {/* AA cell */}
+      <rect x="32" y="31" width="52" height="38" rx="3" fill={`${a}35`} stroke={a} strokeWidth="1.5"/>
+      <text x="58" y="51" textAnchor="middle" fill={a} fontSize="10" fontWeight="700">AA</text>
+      <text x="58" y="62" textAnchor="middle" fill={a} fontSize="5" fontFamily="monospace">dominante</text>
+      {/* Aa top-right */}
+      <rect x="86" y="31" width="52" height="38" rx="3" fill={`${a}20`} stroke={a} strokeWidth="1.2"/>
+      <text x="112" y="51" textAnchor="middle" fill={a} fontSize="10" fontWeight="700">Aa</text>
+      <text x="112" y="62" textAnchor="middle" fill={a} fontSize="5" fontFamily="monospace">dominante</text>
+      {/* Aa bottom-left */}
+      <rect x="32" y="71" width="52" height="38" rx="3" fill={`${a}20`} stroke={a} strokeWidth="1.2"/>
+      <text x="58" y="91" textAnchor="middle" fill={a} fontSize="10" fontWeight="700">Aa</text>
+      <text x="58" y="102" textAnchor="middle" fill={a} fontSize="5" fontFamily="monospace">dominante</text>
+      {/* aa cell */}
+      <rect x="86" y="71" width="52" height="38" rx="3"
+        fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.3)" strokeWidth="1.2"/>
+      <text x="112" y="91" textAnchor="middle" fill="rgba(255,255,255,0.45)" fontSize="10" fontStyle="italic">aa</text>
+      <text x="112" y="102" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="5" fontFamily="monospace">recesivo</text>
+      {/* Ratio */}
+      <text x="78" y="118" textAnchor="middle" fill={gold} fontSize="5.5" fontFamily="monospace">3 dominantes : 1 recesivo</text>
+      {/* RIGHT: Key concepts */}
+      <rect x="165" y="1" width="154" height="126" rx="5"
+        fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="242" y="11" textAnchor="middle" fill={a} fontSize="6.5" fontFamily="monospace" fontWeight="700">CONCEPTOS CLAVE</text>
+      {[
+        { label:"Gen",       desc:["segmento de ADN que codifica","una característica heredable"],  color:a    },
+        { label:"Alelo",     desc:["versión del gen","A=dominante · a=recesivo"],                   color:lila },
+        { label:"Genotipo",  desc:["composición genética","AA, Aa, aa"],                            color:grn  },
+        { label:"Fenotipo",  desc:["característica observable","color, altura, grupo sanguíneo"],   color:gold },
+      ].map(({ label, desc, color }, i) => (
+        <g key={i}>
+          <rect x="170" y={16+i*27} width="144" height="23" rx="3"
+            fill={`${color}18`} stroke={`${color}45`} strokeWidth="1"/>
+          <text x="176" y={28+i*27} fill={color} fontSize="6" fontFamily="monospace" fontWeight="700">{label}</text>
+          {desc.map((line,li)=>(
+            <text key={li} x="176" y={28+i*27+7+li*7} fill="rgba(255,255,255,0.4)" fontSize="4.5" fontFamily="monospace">{line}</text>
+          ))}
+        </g>
+      ))}
+      <text x="242" y="125" textAnchor="middle" fill="rgba(255,255,255,0.25)" fontSize="5" fontFamily="monospace">Mendel: segregación + distribución independiente</text>
+    </svg>
+  );
+}
+
+// ── Biología: Evolución ───────────────────────────────────────────────────────
+function BiologiaEvolucionSVG({ tema }) {
+  const a = tema.acento, gold = "#f5c842", grn = "#4ab890", org = "#ff7755";
+  return (
+    <svg viewBox="0 0 320 130" width="100%" style={{ display:"block" }}>
+      {/* LEFT: Natural selection */}
+      <rect x="1" y="1" width="154" height="128" rx="5"
+        fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="78" y="11" textAnchor="middle" fill={a} fontSize="6.5" fontFamily="monospace" fontWeight="700">SELECCIÓN NATURAL</text>
+      {/* Initial population - varied */}
+      <text x="78" y="20" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="5" fontFamily="monospace">población inicial (variación genética)</text>
+      {[[10,5],[20,2.5],[30,5],[40,3],[50,5],[60,2],[70,5],[80,3],[90,5],[100,2.5],[110,5],[120,3],[130,4]].map(([x,r],i)=>(
+        <circle key={i} cx={x+5} cy={30} r={r} fill={r>=5 ? a : "rgba(255,255,255,0.25)"} opacity="0.75"/>
+      ))}
+      {/* Selection pressure */}
+      <line x1="8" y1="46" x2="148" y2="46" stroke={org} strokeWidth="1.5" strokeDasharray="4,2"/>
+      <text x="78" y="43" textAnchor="middle" fill={org} fontSize="4.5" fontFamily="monospace">presión ambiental (depredación, clima)</text>
+      {/* Survivors */}
+      <text x="78" y="56" textAnchor="middle" fill={grn} fontSize="5" fontFamily="monospace">sobreviven los más adaptados</text>
+      {[[22,5],[46,5],[70,5],[94,5],[118,5]].map(([x,r],i)=>(
+        <circle key={i} cx={x} cy={65} r={r} fill={a} opacity="0.85"/>
+      ))}
+      {/* Arrow */}
+      <line x1="78" y1="74" x2="78" y2="82" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5"/>
+      <polygon points="74,78 82,78 78,83" fill="rgba(255,255,255,0.4)"/>
+      {/* Next generation */}
+      <text x="78" y="91" textAnchor="middle" fill={gold} fontSize="5" fontFamily="monospace">nueva generación (más adaptada + variación)</text>
+      {[[10,5],[22,5],[34,5],[46,5],[58,5],[70,5],[82,5],[94,5],[106,5],[118,5],[130,4]].map(([x,r],i)=>(
+        <circle key={i} cx={x+5} cy={100} r={r} fill={gold} opacity="0.78"/>
+      ))}
+      <text x="78" y="118" textAnchor="middle" fill="rgba(255,255,255,0.25)" fontSize="4.5" fontFamily="monospace">muchas generaciones → nueva especie</text>
+      {/* RIGHT: Evolutionary tree */}
+      <rect x="165" y="1" width="154" height="128" rx="5"
+        fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="242" y="11" textAnchor="middle" fill={a} fontSize="6.5" fontFamily="monospace" fontWeight="700">ÁRBOL EVOLUTIVO</text>
+      {/* Time axis */}
+      <line x1="178" y1="112" x2="178" y2="20" stroke="rgba(255,255,255,0.2)" strokeWidth="1"/>
+      <text x="178" y="118" textAnchor="middle" fill="rgba(255,255,255,0.25)" fontSize="4" fontFamily="monospace">pasado</text>
+      <text x="178" y="17" textAnchor="middle" fill="rgba(255,255,255,0.25)" fontSize="4" fontFamily="monospace">presente</text>
+      {/* Common ancestor trunk */}
+      <line x1="212" y1="108" x2="212" y2="82" stroke={a} strokeWidth="2"/>
+      <circle cx="212" cy="108" r="3" fill={a} opacity="0.7"/>
+      <text x="218" y="112" fill="rgba(255,255,255,0.3)" fontSize="4" fontFamily="monospace">ancestro común</text>
+      {/* First split */}
+      <circle cx="212" cy="82" r="2.5" fill={gold} opacity="0.8"/>
+      <line x1="212" y1="82" x2="193" y2="52" stroke={grn} strokeWidth="1.5"/>
+      <line x1="212" y1="82" x2="238" y2="56" stroke={a} strokeWidth="1.5"/>
+      {/* Left subtree */}
+      <circle cx="193" cy="52" r="2.5" fill={gold} opacity="0.8"/>
+      <line x1="193" y1="52" x2="182" y2="28" stroke={grn} strokeWidth="1.5"/>
+      <line x1="193" y1="52" x2="204" y2="28" stroke={grn} strokeWidth="1.5"/>
+      <circle cx="182" cy="24" r="5" fill={grn} opacity="0.8"/>
+      <circle cx="204" cy="24" r="5" fill={grn} opacity="0.8"/>
+      <text x="180" y="19" fill={grn} fontSize="4" fontFamily="monospace">Sp A</text>
+      <text x="202" y="19" fill={grn} fontSize="4" fontFamily="monospace">Sp B</text>
+      {/* Right subtree */}
+      <circle cx="238" cy="56" r="2.5" fill={gold} opacity="0.8"/>
+      <line x1="238" y1="56" x2="226" y2="30" stroke={a} strokeWidth="1.5"/>
+      <line x1="238" y1="56" x2="258" y2="34" stroke={a} strokeWidth="1.5"/>
+      <line x1="258" y1="34" x2="250" y2="20" stroke={a} strokeWidth="1.5"/>
+      <line x1="258" y1="34" x2="268" y2="20" stroke={a} strokeWidth="1.5"/>
+      <circle cx="226" cy="26" r="5" fill={a} opacity="0.8"/>
+      <circle cx="250" cy="16" r="4" fill={a} opacity="0.8"/>
+      <circle cx="268" cy="16" r="4" fill={a} opacity="0.8"/>
+      <text x="223" y="21" fill={a} fontSize="4" fontFamily="monospace">Sp C</text>
+      <text x="246" y="12" fill={a} fontSize="4" fontFamily="monospace">Sp D</text>
+      <text x="264" y="12" fill={a} fontSize="4" fontFamily="monospace">Sp E</text>
+      <text x="242" y="121" textAnchor="middle" fill="rgba(255,255,255,0.25)" fontSize="4.5" fontFamily="monospace">especiación: divergencia de poblaciones aisladas</text>
+    </svg>
+  );
+}
+
+// ── Biología: Genética aplicada ───────────────────────────────────────────────
+function BiologiaGeneticaAplicadaSVG({ tema }) {
+  const a = tema.acento, grn = "#4ab890", gold = "#f5c842", lila = "#cc88ff", org = "#ff7755";
+  const techs = [
+    { label:"TRANSGÉNICOS\n(OGM)",    ej:"Maíz Bt\nSoya resistente",  imp:"Menos pesticidas\nDebate bioseguridad", color:grn,  x:4   },
+    { label:"BIOTECH.\nMÉDICA",       ej:"Insulina, HGH\nVacunas ARNm", imp:"Trata enfermedades\nProducción masiva",  color:a,    x:84  },
+    { label:"TERAPIA\nGÉNICA",        ej:"CRISPR-Cas9\nVectores virales",imp:"Corrige genes\nDebate ético",           color:gold, x:164 },
+    { label:"DIAGNÓSTICO\nMOLECULAR", ej:"PCR\nSecuenciación ADN",    imp:"Detección rápida\nMedicina personalizada",color:lila, x:244 },
+  ];
+  return (
+    <svg viewBox="0 0 320 128" width="100%" style={{ display:"block" }}>
+      {techs.map(({ label, ej, imp, color, x }, i) => {
+        const cx = x + 36;
+        return (
+          <g key={i}>
+            <rect x={x} y="0" width="72" height="128" rx="5"
+              fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+            {/* Label */}
+            {label.split('\n').map((line,li)=>(
+              <text key={li} x={cx} y={10+li*8} textAnchor="middle" fill={color}
+                fontSize="5.5" fontFamily="monospace" fontWeight="700">{line}</text>
+            ))}
+            {/* DNA icon */}
+            {[0,6,12].map(dy=>(
+              <g key={dy}>
+                <line x1={cx-10} y1={28+dy} x2={cx+10} y2={28+dy} stroke={color} strokeWidth="1.5" opacity="0.5"/>
+              </g>
+            ))}
+            <line x1={cx-12} y1={22} x2={cx-10} y2={46} stroke={color} strokeWidth="1.5" opacity="0.7"/>
+            <line x1={cx+12} y1={22} x2={cx+10} y2={46} stroke={color} strokeWidth="1.5" opacity="0.7"/>
+            {/* Example */}
+            <text x={cx} y="56" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="4.5" fontFamily="monospace">Ejemplo:</text>
+            {ej.split('\n').map((line,li)=>(
+              <text key={li} x={cx} y={63+li*8} textAnchor="middle" fill={color}
+                fontSize="5" fontFamily="monospace">{line}</text>
+            ))}
+            {/* Implication */}
+            <line x1={x+6} y1="82" x2={x+66} y2="82" stroke="rgba(255,255,255,0.1)" strokeWidth="0.7"/>
+            <text x={cx} y="90" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="4" fontFamily="monospace">Implicación:</text>
+            {imp.split('\n').map((line,li)=>(
+              <text key={li} x={cx} y={97+li*8} textAnchor="middle" fill="rgba(255,255,255,0.5)"
+                fontSize="4.5" fontFamily="monospace">{line}</text>
+            ))}
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+// ── Biología: Biodiversidad en México ────────────────────────────────────────
+function BiologiaBiodiversidadSVG({ tema }) {
+  const a = tema.acento, grn = "#4ab890", gold = "#f5c842", org = "#ff7755", lila = "#cc88ff";
+  const pW = 60, starts = [1, 65, 129, 193, 257];
+  const biomes = [
+    { name:"SELVA\nTROPICAL",  region:"Chiapas\nVeracruz",    key:"Mayor biodiversidad\ndel país",       color:grn,  icon:"🌿" },
+    { name:"DESIERTO\nSECO",   region:"Sonora\nChihuahua",    key:"Endémicos únicos:\njaguar, ocelote", color:gold, icon:"🌵" },
+    { name:"BOSQUE\nTEMPLADO", region:"Sierra Madre\nEje Neovolc.", key:"Pino-encino\naves migratorias", color:a,    icon:"🌲" },
+    { name:"MANGLAR\nCOSTERO", region:"Costas Pacífico\ny Golfo",  key:"Vivero de peces\nbarreras naturales",color:org, icon:"🦀" },
+    { name:"ARRECIFE\nCORAL",  region:"Caribe\nQuintana Roo",  key:"2° arrecife más\ngrande del mundo", color:lila, icon:"🐠" },
+  ];
+  return (
+    <svg viewBox="0 0 320 128" width="100%" style={{ display:"block" }}>
+      {biomes.map(({ name, region, key, color, icon }, pi) => {
+        const px = starts[pi], cx = px + 30;
+        return (
+          <g key={pi}>
+            <rect x={px} y="1" width={pW} height="126" rx="4"
+              fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+            {name.split('\n').map((line,li)=>(
+              <text key={li} x={cx} y={9+li*7} textAnchor="middle" fill={color}
+                fontSize="5.5" fontFamily="monospace" fontWeight="700">{line}</text>
+            ))}
+            {/* Icon area */}
+            <rect x={px+4} y="24" width="52" height="40" rx="3" fill="rgba(0,0,0,0.2)"/>
+            <text x={cx} y="50" textAnchor="middle" fontSize="20">{icon}</text>
+            {/* Region */}
+            <text x={cx} y="70" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="4.5" fontFamily="monospace">Región:</text>
+            {region.split('\n').map((line,li)=>(
+              <text key={li} x={cx} y={77+li*7} textAnchor="middle" fill="rgba(255,255,255,0.5)"
+                fontSize="4.5" fontFamily="monospace">{line}</text>
+            ))}
+            {/* Key fact */}
+            <line x1={px+4} y1="93" x2={px+56} y2="93" stroke="rgba(255,255,255,0.1)" strokeWidth="0.7"/>
+            {key.split('\n').map((line,li)=>(
+              <text key={li} x={cx} y={100+li*7} textAnchor="middle" fill={color}
+                fontSize="4.5" fontFamily="monospace">{line}</text>
+            ))}
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+// ── Biología: Adaptación y tipos de nutrición ─────────────────────────────────
+function BiologiaAdaptacionSVG({ tema }) {
+  const a = tema.acento, grn = "#4ab890", gold = "#f5c842", org = "#ff7755";
+  return (
+    <svg viewBox="0 0 320 130" width="100%" style={{ display:"block" }}>
+      {/* LEFT: Nutrition types */}
+      <rect x="1" y="1" width="154" height="128" rx="5"
+        fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="78" y="11" textAnchor="middle" fill={a} fontSize="6.5" fontFamily="monospace" fontWeight="700">TIPOS DE NUTRICIÓN</text>
+      {/* Autótrofos */}
+      <rect x="6" y="15" width="142" height="48" rx="3" fill={`${grn}15`} stroke={`${grn}45`} strokeWidth="1"/>
+      <text x="78" y="24" textAnchor="middle" fill={grn} fontSize="6" fontFamily="monospace" fontWeight="700">AUTÓTROFOS</text>
+      <text x="78" y="33" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="4.5" fontFamily="monospace">producen su propio alimento</text>
+      <text x="20" y="43" fill={grn} fontSize="5" fontFamily="monospace">☀ Fotosintéticos:</text>
+      <text x="20" y="51" fill="rgba(255,255,255,0.45)" fontSize="4.5" fontFamily="monospace">  plantas, algas, cianobacterias</text>
+      <text x="20" y="59" fill={gold} fontSize="5" fontFamily="monospace">⚗ Quimiosintéticos:</text>
+      {/* Heterótrofos */}
+      <rect x="6" y="66" width="142" height="52" rx="3" fill={`${a}12`} stroke={`${a}40`} strokeWidth="1"/>
+      <text x="78" y="75" textAnchor="middle" fill={a} fontSize="6" fontFamily="monospace" fontWeight="700">HETERÓTROFOS</text>
+      <text x="78" y="83" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="4.5" fontFamily="monospace">consumen a otros organismos</text>
+      <text x="10" y="92" fill={a} fontSize="4.5" fontFamily="monospace">🌿 Herbívoro: vaca, conejo, saltamontes</text>
+      <text x="10" y="100" fill={org} fontSize="4.5" fontFamily="monospace">🦁 Carnívoro: león, serpiente, águila</text>
+      <text x="10" y="108" fill={gold} fontSize="4.5" fontFamily="monospace">🍕 Omnívoro: humano, cerdo, oso</text>
+      <text x="10" y="116" fill="rgba(255,200,100,0.6)" fontSize="4.5" fontFamily="monospace">🍄 Descomponedor: hongos, bacterias</text>
+      {/* RIGHT: Adaptation types */}
+      <rect x="165" y="1" width="154" height="128" rx="5"
+        fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="242" y="11" textAnchor="middle" fill={a} fontSize="6.5" fontFamily="monospace" fontWeight="700">TIPOS DE ADAPTACIÓN</text>
+      {[
+        { tipo:"ESTRUCTURAL",  color:grn,  icon:"🌵", ej:"Espinas cactus,\nplumas impermeables" },
+        { tipo:"FISIOLÓGICA",  color:gold, icon:"🐪", ej:"Hibernación,\nalmacén grasa camello" },
+        { tipo:"CONDUCTUAL",   color:a,    icon:"🦅", ej:"Migración,\ncamouflage activo" },
+      ].map(({ tipo, color, icon, ej }, i) => (
+        <g key={i}>
+          <rect x="170" y={16+i*34} width="144" height="30" rx="3"
+            fill={`${color}18`} stroke={`${color}45`} strokeWidth="1"/>
+          <text x="178" y={29+i*34} fill={color} fontSize="6" fontFamily="monospace" fontWeight="700">{tipo}</text>
+          <text x="206" y={24+i*34} fontSize="12">{icon}</text>
+          {ej.split('\n').map((line,li)=>(
+            <text key={li} x="178" y={33+i*34+li*8} fill="rgba(255,255,255,0.4)" fontSize="4.5" fontFamily="monospace">{line}</text>
+          ))}
+        </g>
+      ))}
+      <text x="242" y="125" textAnchor="middle" fill="rgba(255,255,255,0.25)" fontSize="4.5" fontFamily="monospace">adaptaciones surgen por selección natural</text>
+    </svg>
+  );
+}
+
+// ── Biología: Cadena trófica y pirámide energética ────────────────────────────
+function BiologiaCadenaTroficaSVG({ tema }) {
+  const a = tema.acento, grn = "#4ab890", gold = "#f5c842", org = "#ff7755", red = "#dd3333";
+  const levels = [
+    { label:"PRODUCTORES",       pct:"100%", y:80, h:20, w:240, x:40, color:grn },
+    { label:"CONS. PRIMARIOS",   pct:"10%",  y:59, h:21, w:178, x:71, color:a   },
+    { label:"CONS. SECUNDARIOS", pct:"1%",   y:39, h:20, w:118, x:101,color:gold},
+    { label:"CONS. TERCIARIOS",  pct:"0.1%", y:20, h:19, w:60,  x:130,color:red },
+  ];
+  const chain = [
+    { name:"Pasto",   color:grn }, { name:"Conejo", color:a    },
+    { name:"Zorro",   color:gold}, { name:"Águila", color:red  },
+  ];
+  return (
+    <svg viewBox="0 0 320 128" width="100%" style={{ display:"block" }}>
+      <rect x="0" y="0" width="320" height="128" rx="5"
+        fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="160" y="10" textAnchor="middle" fill={a}
+        fontSize="6" fontFamily="monospace" fontWeight="700">PIRÁMIDE TRÓFICA — REGLA DEL 10%</text>
+      {levels.map(({ label, pct, y, h, w, x, color }) => (
+        <g key={label}>
+          <rect x={x} y={y} width={w} height={h} rx="2"
+            fill={`${color}30`} stroke={color} strokeWidth="1.5"/>
+          <text x="160" y={y+h/2+2.5} textAnchor="middle" fill={color}
+            fontSize="5.5" fontFamily="monospace" fontWeight="700">{label}</text>
+          <text x={x+4} y={y+h/2+2.5} fill={color} fontSize="5.5" fontFamily="monospace">{pct}</text>
+        </g>
+      ))}
+      {/* 90% loss annotation */}
+      <text x="298" y="50" textAnchor="middle" fill="rgba(255,255,255,0.3)" fontSize="4.5" fontFamily="monospace">90%</text>
+      <text x="298" y="57" textAnchor="middle" fill="rgba(255,255,255,0.3)" fontSize="4.5" fontFamily="monospace">perdido</text>
+      <text x="298" y="64" textAnchor="middle" fill="rgba(255,255,255,0.3)" fontSize="4.5" fontFamily="monospace">como</text>
+      <text x="298" y="71" textAnchor="middle" fill="rgba(255,255,255,0.3)" fontSize="4.5" fontFamily="monospace">calor</text>
+      <line x1="293" y1="74" x2="284" y2="90" stroke="rgba(255,255,255,0.15)" strokeWidth="0.8"/>
+      {/* Food chain example */}
+      {chain.map(({ name, color }, i) => {
+        const cx = 35 + i * 68;
+        return (
+          <g key={i}>
+            <rect x={cx-24} y={103} width="48" height="14" rx="3"
+              fill={`${color}20`} stroke={`${color}55`} strokeWidth="1"/>
+            <text x={cx} y={113} textAnchor="middle"
+              fill={color} fontSize="5.5" fontFamily="monospace">{name}</text>
+            {i < chain.length-1 && (
+              <>
+                <line x1={cx+24} y1={110} x2={cx+44} y2={110} stroke="rgba(255,255,255,0.35)" strokeWidth="1.2"/>
+                <polygon points={`${cx+44},107 ${cx+44},113 ${cx+48},110`} fill="rgba(255,255,255,0.35)"/>
+              </>
+            )}
+          </g>
+        );
+      })}
+      <text x="160" y="124" textAnchor="middle" fill="rgba(255,255,255,0.2)" fontSize="4.5" fontFamily="monospace">cada flecha: "es alimento de" — la energía siempre fluye hacia arriba</text>
+    </svg>
+  );
+}
+
+// ── Química: Modelos atómicos ─────────────────────────────────────────────────
+function QuimicaModelosAtomicosSVG({ tema }) {
+  const a = tema.acento, gold = "#f5c842", grn = "#4ab890", org = "#ff7755", lila = "#cc88ff", blu = "#88aaff";
+  const pW = 60, starts = [1, 65, 129, 193, 257];
+  const models = [
+    { name:"DALTON",     year:"1803", color:a    },
+    { name:"THOMSON",    year:"1897", color:org  },
+    { name:"RUTHERFORD", year:"1911", color:gold },
+    { name:"BOHR",       year:"1913", color:grn  },
+    { name:"ACTUAL",     year:"≥1926",color:lila },
+  ];
+  return (
+    <svg viewBox="0 0 320 128" width="100%" style={{ display:"block" }}>
+      {models.map(({ name, year, color }, pi) => {
+        const px = starts[pi], cx = px + 30, cy = 55;
+        return (
+          <g key={pi}>
+            <rect x={px} y="1" width={pW} height="126" rx="4"
+              fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+            <text x={cx} y="11" textAnchor="middle" fill={color} fontSize="5.5" fontFamily="monospace" fontWeight="700">{name}</text>
+            <text x={cx} y="18" textAnchor="middle" fill="rgba(255,255,255,0.3)" fontSize="4.5" fontFamily="monospace">{year}</text>
+            <rect x={px+4} y="22" width="52" height="58" rx="3" fill="rgba(0,0,0,0.2)"/>
+            {pi === 0 && (
+              <circle cx={cx} cy={cy} r="16" fill={color} opacity="0.7"/>
+            )}
+            {pi === 1 && (
+              <>
+                <circle cx={cx} cy={cy} r="18" fill={org} opacity="0.25" stroke={org} strokeWidth="1"/>
+                {[[0,0],[10,8],[-8,10],[12,-5],[-10,0],[5,-10],[-5,8],[10,-12]].map(([dx,dy],i)=>(
+                  <circle key={i} cx={cx+dx} cy={cy+dy} r="2.5" fill={blu} opacity="0.9"/>
+                ))}
+              </>
+            )}
+            {pi === 2 && (
+              <>
+                <circle cx={cx} cy={cy} r="20" fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="0.8"/>
+                <circle cx={cx} cy={cy} r="4" fill={gold} opacity="0.9"/>
+                {[[20,0],[-14,14],[0,-20]].map(([dx,dy],i)=>(
+                  <circle key={i} cx={cx+dx} cy={cy+dy} r="2.5" fill={blu} opacity="0.85"/>
+                ))}
+              </>
+            )}
+            {pi === 3 && (
+              <>
+                {[9,16,23].map((r,i)=>(
+                  <circle key={i} cx={cx} cy={cy} r={r} fill="none" stroke={grn} strokeWidth="0.8" opacity="0.5"/>
+                ))}
+                <circle cx={cx} cy={cy} r="3.5" fill={gold} opacity="0.9"/>
+                <circle cx={cx+9}  cy={cy}    r="2.5" fill={blu} opacity="0.85"/>
+                <circle cx={cx}    cy={cy-16} r="2.5" fill={blu} opacity="0.85"/>
+                <circle cx={cx-23} cy={cy}    r="2.5" fill={blu} opacity="0.85"/>
+              </>
+            )}
+            {pi === 4 && (
+              <>
+                {[[-12,-8],[-8,14],[14,10],[10,-14],[-16,2],[16,-4],[0,18],[-2,-18],[8,4],[-10,-2],[4,12],[-6,10],[-14,6],[12,-10]].map(([dx,dy],i)=>(
+                  <circle key={i} cx={cx+dx} cy={cy+dy} r="1.5" fill={lila} opacity={0.35+i*0.04}/>
+                ))}
+                <circle cx={cx} cy={cy} r="3.5" fill={gold} opacity="0.9"/>
+              </>
+            )}
+            {pi === 0 && <text x={cx} y="90" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="4.5" fontFamily="monospace">esfera sólida</text>}
+            {pi === 1 && <text x={cx} y="90" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="4.5" fontFamily="monospace">pudín de pasas</text>}
+            {pi === 2 && <text x={cx} y="90" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="4.5" fontFamily="monospace">núcleo central</text>}
+            {pi === 3 && <text x={cx} y="90" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="4.5" fontFamily="monospace">órbitas fijas</text>}
+            {pi === 4 && <text x={cx} y="90" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="4.5" fontFamily="monospace">nube electrónica</text>}
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+// ── Química: Biomoléculas ─────────────────────────────────────────────────────
+function QuimicaBiomoleculasSVG({ tema }) {
+  const org = "#ff7755", gold = "#f5c842", grn = "#4ab890", lila = "#cc88ff", blu = "#88aaff";
+  const pW = 77, starts = [1, 82, 163, 244];
+  const bData = [
+    { label:"CARBOHIDRATOS", sub:"energía rápida",      eg:"glucosa · almidón", color:org  },
+    { label:"LÍPIDOS",       sub:"energía almacenada",  eg:"grasas · aceites",  color:gold },
+    { label:"PROTEÍNAS",     sub:"estructura · enzimas",eg:"carne · huevo",     color:grn  },
+    { label:"ÁC. NUCLEICOS", sub:"inf. genética",       eg:"ADN · ARN",         color:lila },
+  ];
+  return (
+    <svg viewBox="0 0 320 128" width="100%" style={{ display:"block" }}>
+      {bData.map(({ label, sub, eg, color }, pi) => {
+        const px = starts[pi], cx = px + 38, cy = 52;
+        return (
+          <g key={pi}>
+            <rect x={px} y="1" width={pW} height="126" rx="5"
+              fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+            <text x={cx} y="12" textAnchor="middle" fill={color} fontSize="5.5" fontFamily="monospace" fontWeight="700">{label}</text>
+            <rect x={px+4} y="16" width="69" height="66" rx="3" fill="rgba(0,0,0,0.2)"/>
+            {pi === 0 && (
+              // Carbohidratos: hexagon ring (glucose)
+              <>
+                <polygon points={`${cx+15},${cy} ${cx+7.5},${cy+13} ${cx-7.5},${cy+13} ${cx-15},${cy} ${cx-7.5},${cy-13} ${cx+7.5},${cy-13}`}
+                  fill="none" stroke={color} strokeWidth="2" opacity="0.85"/>
+                <text x={cx} y={cy-17} textAnchor="middle" fill={color} fontSize="5.5">O</text>
+                {[[15,0],[7.5,13],[-7.5,13],[-15,0],[-7.5,-13],[7.5,-13]].map(([dx,dy],i)=>(
+                  <text key={i} x={cx+dx} y={cy+dy+2} textAnchor="middle" fill="rgba(255,255,255,0.45)" fontSize="4.5">C</text>
+                ))}
+                <text x={cx} y={cy+30} textAnchor="middle" fill={color} fontSize="5.5" fontFamily="monospace">C₆H₁₂O₆</text>
+              </>
+            )}
+            {pi === 1 && (
+              // Lípidos: glycerol + 3 fatty acid chains
+              <>
+                <line x1={cx-14} y1={cy-15} x2={cx-14} y2={cy+14} stroke={color} strokeWidth="2" opacity="0.8"/>
+                {[-14,0,14].map((dy,i)=>(
+                  <polyline key={i}
+                    points={`${cx-14},${cy+dy-2} ${cx-7},${cy+dy+4} ${cx},${cy+dy-2} ${cx+7},${cy+dy+4} ${cx+14},${cy+dy-2} ${cx+21},${cy+dy+4} ${cx+28},${cy+dy-2}`}
+                    fill="none" stroke={color} strokeWidth="1.5" opacity="0.75"/>
+                ))}
+              </>
+            )}
+            {pi === 2 && (
+              // Proteínas: amino acid chain
+              <>
+                {[0,1,2,3,4].map(i => {
+                  const bx = cx - 18 + i * 9;
+                  return (
+                    <g key={i}>
+                      {i > 0 && <line x1={bx-7} y1={cy} x2={bx-2} y2={cy} stroke={color} strokeWidth="1.2" opacity="0.7"/>}
+                      <circle cx={bx} cy={cy} r="5" fill={`${color}28`} stroke={color} strokeWidth="1.2" opacity="0.85"/>
+                      <text x={bx} y={cy+2} textAnchor="middle" fill={color} fontSize="3.5" fontWeight="600">AA</text>
+                    </g>
+                  );
+                })}
+                <text x={cx} y={cy-14} textAnchor="middle" fill="rgba(255,255,255,0.3)" fontSize="4.5" fontFamily="monospace">enlace peptídico</text>
+                <text x={cx} y={cy+24} textAnchor="middle" fill={color} fontSize="4.5" fontFamily="monospace">20 aminoácidos</text>
+              </>
+            )}
+            {pi === 3 && (
+              // Ácidos nucleicos: DNA ladder
+              <>
+                {[-18,-9,0,9,18].map((dy,i) => {
+                  const bpColors = [[blu,org],[gold,grn],[blu,gold],[org,grn],[blu,org]];
+                  return (
+                    <g key={i}>
+                      <line x1={cx-11} y1={cy+dy} x2={cx} y2={cy+dy} stroke={bpColors[i][0]} strokeWidth="2" opacity="0.8"/>
+                      <line x1={cx} y1={cy+dy} x2={cx+11} y2={cy+dy} stroke={bpColors[i][1]} strokeWidth="2" opacity="0.8"/>
+                    </g>
+                  );
+                })}
+                <line x1={cx-11} y1={cy-20} x2={cx-10} y2={cy+20} stroke={color} strokeWidth="1.8" opacity="0.8"/>
+                <line x1={cx+11} y1={cy-20} x2={cx+10} y2={cy+20} stroke={color} strokeWidth="1.8" opacity="0.8"/>
+                <text x={cx} y={cy+30} textAnchor="middle" fill={color} fontSize="4.5" fontFamily="monospace">A-T · G-C</text>
+              </>
+            )}
+            <text x={cx} y="91" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="5" fontFamily="monospace">{sub}</text>
+            <text x={cx} y="103" textAnchor="middle" fill={color} fontSize="5.5" fontFamily="monospace" opacity="0.8">{eg}</text>
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+// ── Química: Sustancias puras y mezclas ───────────────────────────────────────
+function QuimicaMezclasSVG({ tema }) {
+  const a = tema.acento, gold = "#f5c842", grn = "#4ab890";
+  return (
+    <svg viewBox="0 0 320 130" width="100%" style={{ display:"block" }}>
+      {/* LEFT: Sustancias puras */}
+      <rect x="1" y="1" width="154" height="128" rx="5"
+        fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="78" y="11" textAnchor="middle" fill={a} fontSize="6.5" fontFamily="monospace" fontWeight="700">SUSTANCIAS PURAS</text>
+      {/* Elemento */}
+      <rect x="5" y="16" width="144" height="50" rx="3" fill="rgba(0,0,0,0.2)"/>
+      <text x="78" y="24" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="5.5" fontFamily="monospace">ELEMENTO (un tipo de átomo)</text>
+      {[[16,33],[28,33],[40,33],[52,33],[64,33],[76,33],[88,33],[100,33],[112,33],[124,33],[136,33],[144,33],
+        [22,43],[34,43],[46,43],[58,43],[70,43],[82,43],[94,43],[106,43],[118,43],[130,43]].map(([x,y],i)=>(
+        <circle key={i} cx={x} cy={y} r="4" fill={a} opacity="0.75"/>
+      ))}
+      <text x="78" y="59" textAnchor="middle" fill={a} fontSize="5" fontFamily="monospace">Fe, O₂, Cu, N₂, Au</text>
+      {/* Compuesto */}
+      <rect x="5" y="70" width="144" height="50" rx="3" fill="rgba(0,0,0,0.2)"/>
+      <text x="78" y="78" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="5.5" fontFamily="monospace">COMPUESTO (proporción fija)</text>
+      {[[14,89],[40,89],[66,89],[92,89],[118,89],[144,89]].map(([x,y],i)=>(
+        <g key={i}>
+          <circle cx={x}   cy={y} r="4.5" fill={gold} opacity="0.8"/>
+          <circle cx={x+11} cy={y} r="4.5" fill={grn}  opacity="0.8"/>
+          <line x1={x+4.5} y1={y} x2={x+6.5} y2={y} stroke="rgba(255,255,255,0.4)" strokeWidth="1.5"/>
+        </g>
+      ))}
+      {[[27,103],[53,103],[79,103],[105,103],[131,103]].map(([x,y],i)=>(
+        <g key={i}>
+          <circle cx={x}   cy={y} r="4.5" fill={gold} opacity="0.8"/>
+          <circle cx={x+11} cy={y} r="4.5" fill={grn}  opacity="0.8"/>
+          <line x1={x+4.5} y1={y} x2={x+6.5} y2={y} stroke="rgba(255,255,255,0.4)" strokeWidth="1.5"/>
+        </g>
+      ))}
+      <text x="78" y="115" textAnchor="middle" fill={gold} fontSize="5" fontFamily="monospace">H₂O, CO₂, NaCl, glucosa</text>
+      {/* RIGHT: Mezclas */}
+      <rect x="165" y="1" width="154" height="128" rx="5"
+        fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="242" y="11" textAnchor="middle" fill={gold} fontSize="6.5" fontFamily="monospace" fontWeight="700">MEZCLAS</text>
+      {/* Homogénea */}
+      <rect x="169" y="16" width="144" height="50" rx="3" fill="rgba(0,0,0,0.2)"/>
+      <text x="242" y="24" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="5.5" fontFamily="monospace">HOMOGÉNEA (solución)</text>
+      {[[178,33],[192,39],[206,31],[220,37],[234,33],[248,39],[262,33],[276,37],[290,31],[304,37],
+        [184,47],[198,43],[212,49],[226,43],[240,47],[254,43],[268,49],[282,43],[296,47]].map(([x,y],i)=>(
+        <circle key={i} cx={x} cy={y} r="3.5" fill={i%2===0 ? a : gold} opacity="0.75"/>
+      ))}
+      <text x="242" y="59" textAnchor="middle" fill={gold} fontSize="5" fontFamily="monospace">aire, sal+agua, vinagre</text>
+      {/* Heterogénea */}
+      <rect x="169" y="70" width="144" height="50" rx="3" fill="rgba(0,0,0,0.2)"/>
+      <text x="242" y="78" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="5.5" fontFamily="monospace">HETEROGÉNEA (fases visibles)</text>
+      <rect x="170" y="95" width="142" height="24" rx="0" fill="rgba(40,80,160,0.3)"/>
+      <text x="242" y="110" textAnchor="middle" fill="rgba(100,150,255,0.5)" fontSize="5" fontFamily="monospace">agua (densa)</text>
+      {[[178,84],[194,88],[210,82],[226,86],[242,82],[258,88],[274,84],[290,80],[306,86]].map(([x,y],i)=>(
+        <circle key={i} cx={x} cy={y} r="3" fill={gold} opacity="0.6"/>
+      ))}
+      <text x="242" y="115" textAnchor="middle" fill={gold} fontSize="5" fontFamily="monospace">aceite+agua, granito, sangre</text>
+    </svg>
+  );
+}
+
+// ── Química: Métodos de separación ───────────────────────────────────────────
+function QuimicaSeparacionSVG({ tema }) {
+  const a = tema.acento, gold = "#f5c842", grn = "#4ab890", org = "#ff7755";
+  return (
+    <svg viewBox="0 0 320 128" width="100%" style={{ display:"block" }}>
+      {/* Panel 1: Filtración */}
+      <rect x="1" y="1" width="77" height="126" rx="5"
+        fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="39" y="11" textAnchor="middle" fill={a} fontSize="6" fontFamily="monospace" fontWeight="700">FILTRACIÓN</text>
+      <polygon points="14,22 64,22 52,55 26,55" fill="none" stroke={a} strokeWidth="1.5" opacity="0.8"/>
+      <line x1="18" y1="29" x2="60" y2="29" stroke={a} strokeWidth="1" strokeDasharray="2,2" opacity="0.45"/>
+      <ellipse cx="39" cy="52" rx="11" ry="3" fill={org} opacity="0.5"/>
+      <line x1="39" y1="55" x2="39" y2="72" stroke={a} strokeWidth="2" opacity="0.7"/>
+      <ellipse cx="39" cy="74" rx="3" ry="4" fill={a} opacity="0.6"/>
+      <polygon points="26,74 52,74 55,90 23,90" fill="none" stroke="rgba(255,255,255,0.25)" strokeWidth="1"/>
+      <text x="39" y="102" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="4.5" fontFamily="monospace">sólido de líquido</text>
+      <text x="39" y="110" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="4.5" fontFamily="monospace">tamaño partícula</text>
+      <text x="39" y="120" textAnchor="middle" fill={a} fontSize="5" fontFamily="monospace">café · agua+arena</text>
+      {/* Panel 2: Destilación */}
+      <rect x="82" y="1" width="77" height="126" rx="5"
+        fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="120" y="11" textAnchor="middle" fill={gold} fontSize="6" fontFamily="monospace" fontWeight="700">DESTILACIÓN</text>
+      <ellipse cx="100" cy="65" rx="14" ry="11" fill={`${gold}20`} stroke={gold} strokeWidth="1.5" opacity="0.8"/>
+      <line x1="100" y1="54" x2="100" y2="42" stroke={gold} strokeWidth="1.5"/>
+      <line x1="100" y1="42" x2="118" y2="35" stroke="rgba(255,255,255,0.35)" strokeWidth="1.5" strokeDasharray="2,2"/>
+      <line x1="118" y1="35" x2="138" y2="52" stroke="rgba(200,200,200,0.5)" strokeWidth="2"/>
+      <line x1="138" y1="52" x2="138" y2="70" stroke={a} strokeWidth="1.5"/>
+      <ellipse cx="138" cy="72" rx="3" ry="4" fill={a} opacity="0.7"/>
+      <text x="95" y="84" fill={org} fontSize="10">🔥</text>
+      <text x="120" y="102" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="4.5" fontFamily="monospace">punto de ebullición</text>
+      <text x="120" y="110" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="4.5" fontFamily="monospace">líquidos miscibles</text>
+      <text x="120" y="120" textAnchor="middle" fill={gold} fontSize="5" fontFamily="monospace">agua · alcohol</text>
+      {/* Panel 3: Cromatografía */}
+      <rect x="163" y="1" width="77" height="126" rx="5"
+        fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="201" y="11" textAnchor="middle" fill={grn} fontSize="6" fontFamily="monospace" fontWeight="700">CROMATOGRAFÍA</text>
+      <rect x="187" y="20" width="28" height="62" rx="2" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.3)" strokeWidth="1"/>
+      <rect x="188" y="23" width="26" height="8" rx="1" fill={org} opacity="0.65"/>
+      <rect x="188" y="33" width="26" height="8" rx="1" fill="#aa44ff" opacity="0.65"/>
+      <rect x="188" y="43" width="26" height="8" rx="1" fill={gold} opacity="0.65"/>
+      <rect x="188" y="53" width="26" height="8" rx="1" fill={grn} opacity="0.65"/>
+      <line x1="183" y1="78" x2="219" y2="78" stroke="rgba(100,150,255,0.45)" strokeWidth="1" strokeDasharray="2,2"/>
+      <text x="201" y="75" textAnchor="middle" fill="rgba(100,150,255,0.4)" fontSize="4.5" fontFamily="monospace">solvente</text>
+      <text x="201" y="102" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="4.5" fontFamily="monospace">afinidad química</text>
+      <text x="201" y="110" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="4.5" fontFamily="monospace">componentes disueltos</text>
+      <text x="201" y="120" textAnchor="middle" fill={grn} fontSize="5" fontFamily="monospace">pigmentos · ADN</text>
+      {/* Panel 4: Centrifugación */}
+      <rect x="244" y="1" width="76" height="126" rx="5"
+        fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="282" y="11" textAnchor="middle" fill={org} fontSize="5.5" fontFamily="monospace" fontWeight="700">CENTRIFUGACIÓN</text>
+      <polygon points="268,26 296,26 298,74 266,74" fill="none" stroke={org} strokeWidth="1.5" opacity="0.8"/>
+      <rect x="267" y="60" width="30" height="13" fill={gold} opacity="0.5"/>
+      <rect x="267" y="46" width="30" height="14" fill="rgba(100,150,255,0.4)"/>
+      <rect x="267" y="28" width="30" height="18" fill="rgba(255,255,255,0.12)"/>
+      <text x="300" y="68" fill={gold} fontSize="4" fontFamily="monospace">denso</text>
+      <text x="300" y="54" fill="rgba(150,200,255,0.6)" fontSize="4" fontFamily="monospace">medio</text>
+      <text x="300" y="38" fill="rgba(255,255,255,0.3)" fontSize="4" fontFamily="monospace">ligero</text>
+      <text x="282" y="102" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="4.5" fontFamily="monospace">densidad / tamaño</text>
+      <text x="282" y="110" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="4.5" fontFamily="monospace">mezclas complejas</text>
+      <text x="282" y="120" textAnchor="middle" fill={org} fontSize="5" fontFamily="monospace">sangre · leche</text>
+    </svg>
+  );
+}
+
+// ── Química: Reacciones químicas ──────────────────────────────────────────────
+function QuimicaReaccionesSVG({ tema }) {
+  const a = tema.acento, gold = "#f5c842", grn = "#4ab890", org = "#ff7755", lila = "#cc88ff";
+  const types = [
+    { label:"SÍNTESIS",        eq:"A + B → AB",     color:a,    x:6   },
+    { label:"DESCOMPOSICIÓN",  eq:"AB → A + B",     color:grn,  x:86  },
+    { label:"SUSTITUCIÓN",     eq:"AB + C → AC + B",color:gold, x:166 },
+    { label:"DOBLE SUST.",     eq:"AB+CD→AD+CB",    color:lila, x:246 },
+  ];
+  return (
+    <svg viewBox="0 0 320 128" width="100%" style={{ display:"block" }}>
+      {/* Top: reaction concept */}
+      <rect x="0" y="0" width="320" height="52" rx="5"
+        fill="rgba(0,0,0,0.3)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="160" y="10" textAnchor="middle" fill={a} fontSize="6" fontFamily="monospace" fontWeight="700">CAMBIO QUÍMICO: se forman sustancias nuevas</text>
+      {/* Reactivos */}
+      <rect x="8" y="16" width="80" height="28" rx="4" fill={`${org}20`} stroke={org} strokeWidth="1.5"/>
+      <text x="48" y="27" textAnchor="middle" fill={org} fontSize="7.5" fontFamily="monospace" fontWeight="700">REACTIVOS</text>
+      <text x="48" y="37" textAnchor="middle" fill="rgba(255,255,255,0.45)" fontSize="5" fontFamily="monospace">A + B</text>
+      {/* Arrow */}
+      <line x1="92" y1="30" x2="126" y2="30" stroke="rgba(255,255,255,0.5)" strokeWidth="2"/>
+      <polygon points="126,26 126,34 132,30" fill="rgba(255,255,255,0.5)"/>
+      <text x="110" y="26" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="4.5" fontFamily="monospace">Ea</text>
+      <text x="110" y="44" textAnchor="middle" fill="rgba(255,255,255,0.3)" fontSize="4" fontFamily="monospace">energía activación</text>
+      {/* Productos */}
+      <rect x="136" y="16" width="80" height="28" rx="4" fill={`${grn}20`} stroke={grn} strokeWidth="1.5"/>
+      <text x="176" y="27" textAnchor="middle" fill={grn} fontSize="7.5" fontFamily="monospace" fontWeight="700">PRODUCTOS</text>
+      <text x="176" y="37" textAnchor="middle" fill="rgba(255,255,255,0.45)" fontSize="5" fontFamily="monospace">C + D</text>
+      {/* Ley Lavoisier */}
+      <rect x="222" y="14" width="96" height="30" rx="4" fill={`${gold}15`} stroke={`${gold}50`} strokeWidth="1"/>
+      <text x="270" y="25" textAnchor="middle" fill={gold} fontSize="5.5" fontFamily="monospace" fontWeight="700">Ley de Lavoisier</text>
+      <text x="270" y="34" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="4.5" fontFamily="monospace">masa reactivos = masa productos</text>
+      <text x="270" y="41" textAnchor="middle" fill="rgba(255,255,255,0.3)" fontSize="4" fontFamily="monospace">la materia se conserva</text>
+      {/* Bottom: 4 reaction types */}
+      {types.map(({ label, eq, color, x }, i) => (
+        <g key={i}>
+          <rect x={x} y="56" width="64" height="68" rx="5"
+            fill={`${color}15`} stroke={color} strokeWidth="1.5"/>
+          <text x={x+32} y="68" textAnchor="middle" fill={color} fontSize="5.5" fontFamily="monospace" fontWeight="700">{label}</text>
+          <text x={x+32} y="80" textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="5.5" fontFamily="monospace">{eq}</text>
+          {i === 0 && (
+            <>
+              <circle cx={x+14} cy={100} r="6" fill={a} opacity="0.7"/>
+              <circle cx={x+26} cy={100} r="6" fill={grn} opacity="0.7"/>
+              <line x1={x+34} y1={100} x2={x+42} y2={100} stroke="rgba(255,255,255,0.5)" strokeWidth="1.5"/>
+              <polygon points={`${x+42},97 ${x+42},103 ${x+46},100`} fill="rgba(255,255,255,0.5)"/>
+              <ellipse cx={x+54} cy={100} rx="9" ry="6" fill="none" stroke={a} strokeWidth="1.5"/>
+              <line x1={x+47} y1={100} x2={x+61} y2={100} stroke={grn} strokeWidth="1.2"/>
+            </>
+          )}
+          {i === 1 && (
+            <>
+              <ellipse cx={x+14} cy={100} rx="9" ry="6" fill="none" stroke={a} strokeWidth="1.5"/>
+              <line x1={x+7} y1={100} x2={x+21} y2={100} stroke={grn} strokeWidth="1.2"/>
+              <line x1={x+26} y1={100} x2={x+34} y2={100} stroke="rgba(255,255,255,0.5)" strokeWidth="1.5"/>
+              <polygon points={`${x+34},97 ${x+34},103 ${x+38},100`} fill="rgba(255,255,255,0.5)"/>
+              <circle cx={x+46} cy={100} r="6" fill={a} opacity="0.7"/>
+              <circle cx={x+58} cy={100} r="6" fill={grn} opacity="0.7"/>
+            </>
+          )}
+          <text x={x+32} y="118" textAnchor="middle" fill={color} fontSize="4.5" fontFamily="monospace">
+            {["H₂+O₂→H₂O","H₂O→H₂+O₂","Fe+S→FeS","NaCl+AgNO₃→…"][i]}
+          </text>
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+// ── Química: Energía en reacciones ────────────────────────────────────────────
+function QuimicaEnergiaReaccionesSVG({ tema }) {
+  const a = tema.acento, gold = "#f5c842", grn = "#4ab890", org = "#ff7755";
+  return (
+    <svg viewBox="0 0 320 130" width="100%" style={{ display:"block" }}>
+      {/* LEFT: Exotérmica */}
+      <rect x="1" y="1" width="154" height="128" rx="5"
+        fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="78" y="11" textAnchor="middle" fill={org} fontSize="6.5" fontFamily="monospace" fontWeight="700">EXOTÉRMICA</text>
+      <text x="78" y="19" textAnchor="middle" fill="rgba(255,255,255,0.3)" fontSize="5" fontFamily="monospace">libera energía al entorno</text>
+      <line x1="22" y1="22" x2="22" y2="88" stroke="rgba(255,255,255,0.35)" strokeWidth="1"/>
+      <polygon points="18,22 26,22 22,17" fill="rgba(255,255,255,0.35)"/>
+      <text x="16" y="55" textAnchor="end" fill="rgba(255,255,255,0.4)" fontSize="5" fontFamily="monospace">Ep</text>
+      <line x1="22" y1="88" x2="145" y2="88" stroke="rgba(255,255,255,0.35)" strokeWidth="1"/>
+      <polygon points="145,84 145,92 150,88" fill="rgba(255,255,255,0.35)"/>
+      <text x="148" y="96" fill="rgba(255,255,255,0.35)" fontSize="4.5" fontFamily="monospace">rxn</text>
+      <path d="M 30,58 C 45,58 55,26 65,26 C 75,26 85,78 100,78 L 138,78"
+        fill="none" stroke={org} strokeWidth="2.5"/>
+      <path d="M 30,88 L 30,58 C 45,58 55,26 65,26 C 75,26 85,78 100,78 L 138,78 L 138,88 Z"
+        fill={`${org}12`}/>
+      <text x="30" y="56" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="5.5" fontFamily="monospace">R</text>
+      <text x="102" y="76" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="5.5" fontFamily="monospace">P</text>
+      <text x="65" y="23" textAnchor="middle" fill="rgba(255,255,255,0.3)" fontSize="4.5" fontFamily="monospace">Ea</text>
+      <line x1="118" y1="58" x2="118" y2="78" stroke={gold} strokeWidth="1.5"/>
+      <polygon points="114,74 122,74 118,79" fill={gold}/>
+      <text x="126" y="67" fill={gold} fontSize="5" fontFamily="monospace">–ΔH</text>
+      <text x="78" y="101" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="5" fontFamily="monospace">combustión, respiración</text>
+      <text x="78" y="110" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="5" fontFamily="monospace">oxidación, explosión</text>
+      <text x="78" y="121" textAnchor="middle" fill={org} fontSize="5.5" fontFamily="monospace">genera calor</text>
+      {/* RIGHT: Endotérmica */}
+      <rect x="165" y="1" width="154" height="128" rx="5"
+        fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="242" y="11" textAnchor="middle" fill={a} fontSize="6.5" fontFamily="monospace" fontWeight="700">ENDOTÉRMICA</text>
+      <text x="242" y="19" textAnchor="middle" fill="rgba(255,255,255,0.3)" fontSize="5" fontFamily="monospace">absorbe energía del entorno</text>
+      <line x1="187" y1="22" x2="187" y2="88" stroke="rgba(255,255,255,0.35)" strokeWidth="1"/>
+      <polygon points="183,22 191,22 187,17" fill="rgba(255,255,255,0.35)"/>
+      <line x1="187" y1="88" x2="310" y2="88" stroke="rgba(255,255,255,0.35)" strokeWidth="1"/>
+      <polygon points="310,84 310,92 315,88" fill="rgba(255,255,255,0.35)"/>
+      <text x="313" y="96" fill="rgba(255,255,255,0.35)" fontSize="4.5" fontFamily="monospace">rxn</text>
+      <path d="M 195,78 C 210,78 220,26 230,26 C 240,26 250,58 265,58 L 303,58"
+        fill="none" stroke={a} strokeWidth="2.5"/>
+      <path d="M 195,88 L 195,78 C 210,78 220,26 230,26 C 240,26 250,58 265,58 L 303,58 L 303,88 Z"
+        fill={`${a}12`}/>
+      <text x="195" y="76" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="5.5" fontFamily="monospace">R</text>
+      <text x="267" y="56" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="5.5" fontFamily="monospace">P</text>
+      <text x="230" y="23" textAnchor="middle" fill="rgba(255,255,255,0.3)" fontSize="4.5" fontFamily="monospace">Ea</text>
+      <line x1="284" y1="78" x2="284" y2="58" stroke={gold} strokeWidth="1.5"/>
+      <polygon points="280,62 288,62 284,57" fill={gold}/>
+      <text x="292" y="67" fill={gold} fontSize="5" fontFamily="monospace">+ΔH</text>
+      <text x="242" y="101" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="5" fontFamily="monospace">fotosíntesis, fusión del hielo</text>
+      <text x="242" y="110" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="5" fontFamily="monospace">vaporización, electrólisis</text>
+      <text x="242" y="121" textAnchor="middle" fill={a} fontSize="5.5" fontFamily="monospace">absorbe calor</text>
+    </svg>
+  );
+}
+
+// ── Química: Impacto en salud y ambiente ──────────────────────────────────────
+function QuimicaImpactoSVG({ tema }) {
+  const a = tema.acento, gold = "#f5c842", grn = "#4ab890", org = "#ff7755", red = "#dd3333";
+  const benefits = [
+    { label:"Medicamentos",     desc:"tratan enfermedades",         color:grn  },
+    { label:"Fertilizantes",    desc:"mayor producción agrícola",   color:grn  },
+    { label:"Plásticos",        desc:"materiales versátiles",       color:grn  },
+    { label:"Vacunas",          desc:"previenen infecciones",       color:grn  },
+  ];
+  const risks = [
+    { label:"Pesticidas",       desc:"contaminan suelo y agua",     color:org  },
+    { label:"Combustibles",     desc:"CO₂ y lluvia ácida",          color:org  },
+    { label:"CFCs",             desc:"destruyen capa de ozono",     color:red  },
+    { label:"Metales pesados",  desc:"bioacumulación tóxica",       color:red  },
+  ];
+  return (
+    <svg viewBox="0 0 320 128" width="100%" style={{ display:"block" }}>
+      {/* Center title bar */}
+      <rect x="0" y="0" width="320" height="128" rx="5" fill="rgba(0,0,0,0.3)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="160" y="10" textAnchor="middle" fill={a} fontSize="6" fontFamily="monospace" fontWeight="700">PRODUCTOS Y PROCESOS QUÍMICOS: DOBLE IMPACTO</text>
+      {/* Left: Beneficios */}
+      <rect x="4" y="14" width="150" height="110" rx="4" fill={`${grn}10`} stroke={`${grn}40`} strokeWidth="1"/>
+      <text x="79" y="24" textAnchor="middle" fill={grn} fontSize="6.5" fontFamily="monospace" fontWeight="700">BENEFICIOS</text>
+      {benefits.map(({ label, desc, color }, i) => (
+        <g key={i}>
+          <rect x="8" y={30+i*22} width="142" height="18" rx="3"
+            fill={`${color}18`} stroke={`${color}45`} strokeWidth="1"/>
+          <text x="12" y={30+i*22+8} fill={color} fontSize="5.5" fontFamily="monospace">✓</text>
+          <text x="22" y={30+i*22+8} fill={color} fontSize="5.5" fontFamily="monospace" fontWeight="600">{label}</text>
+          <text x="22" y={30+i*22+16} fill="rgba(255,255,255,0.4)" fontSize="4.5" fontFamily="monospace">{desc}</text>
+        </g>
+      ))}
+      {/* Right: Riesgos */}
+      <rect x="166" y="14" width="150" height="110" rx="4" fill={`${org}10`} stroke={`${org}40`} strokeWidth="1"/>
+      <text x="241" y="24" textAnchor="middle" fill={org} fontSize="6.5" fontFamily="monospace" fontWeight="700">RIESGOS</text>
+      {risks.map(({ label, desc, color }, i) => (
+        <g key={i}>
+          <rect x="170" y={30+i*22} width="142" height="18" rx="3"
+            fill={`${color}18`} stroke={`${color}45`} strokeWidth="1"/>
+          <text x="174" y={30+i*22+8} fill={color} fontSize="5.5" fontFamily="monospace">!</text>
+          <text x="184" y={30+i*22+8} fill={color} fontSize="5.5" fontFamily="monospace" fontWeight="600">{label}</text>
+          <text x="184" y={30+i*22+16} fill="rgba(255,255,255,0.4)" fontSize="4.5" fontFamily="monospace">{desc}</text>
+        </g>
+      ))}
+      {/* Bottom note */}
+      <text x="160" y="120" textAnchor="middle" fill="rgba(255,255,255,0.25)" fontSize="4.5" fontFamily="monospace">
+        Paracelso: "la dosis hace el veneno" — el contexto y la cantidad determinan el riesgo
+      </text>
+    </svg>
+  );
+}
+
+// ── Física: Estados de la materia ─────────────────────────────────────────────
+function FisicaEstadosMateriaSVG({ tema }) {
+  const a = tema.acento, grn = "#4ab890", gold = "#f5c842", org = "#ff7755", blu = "#88aaff";
+  const pW = 77, starts = [1, 82, 163, 244];
+  const sData = [
+    { label:"SÓLIDO",  sub1:"forma y volumen", sub2:"fijos",          eg:"hielo · metal",   color:a,
+      mols:[[10,8],[28,8],[46,8],[10,26],[28,26],[46,26],[10,44],[28,44],[46,44]], r:6 },
+    { label:"LÍQUIDO", sub1:"volumen fijo,",   sub2:"forma variable", eg:"agua · aceite",   color:grn,
+      mols:[[6,15],[24,8],[44,18],[60,10],[12,34],[32,28],[52,36],[10,54],[40,50]], r:5.5 },
+    { label:"GAS",     sub1:"forma y volumen", sub2:"variables",      eg:"aire · vapor",    color:gold,
+      mols:[[8,6],[52,16],[20,50],[58,10],[32,36],[10,34],[60,56]], r:5 },
+    { label:"PLASMA",  sub1:"gas ionizado,",   sub2:"T muy elevada",  eg:"sol · relámpago", color:org },
+  ];
+  return (
+    <svg viewBox="0 0 320 128" width="100%" style={{ display:"block" }}>
+      {sData.map(({ label, sub1, sub2, eg, color, mols, r }, pi) => {
+        const px = starts[pi];
+        return (
+          <g key={pi}>
+            <rect x={px} y="1" width={pW} height="126" rx="5"
+              fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+            <text x={px+38} y="12" textAnchor="middle" fill={color}
+              fontSize="6.5" fontFamily="monospace" fontWeight="700">{label}</text>
+            <rect x={px+4} y="16" width="69" height="68" rx="3" fill="rgba(0,0,0,0.2)"/>
+            {pi === 3 ? (
+              <>
+                {[[12,24],[40,16],[26,42],[58,34],[8,54],[36,58],[60,18]].map(([mx,my],i)=>(
+                  <g key={i}>
+                    <circle cx={px+4+mx} cy={16+my} r="5.5" fill={org} opacity="0.7"/>
+                    <text x={px+4+mx} y={16+my+2.5} textAnchor="middle" fill="white" fontSize="6.5" fontWeight="700">+</text>
+                  </g>
+                ))}
+                {[[28,28],[52,50],[14,40]].map(([mx,my],i)=>(
+                  <circle key={i+10} cx={px+4+mx} cy={16+my} r="3" fill={blu} opacity="0.7"/>
+                ))}
+              </>
+            ) : (mols||[]).map(([mx,my],i)=>(
+              <circle key={i} cx={px+4+mx} cy={16+my} r={r}
+                fill={color} opacity="0.78" stroke="rgba(0,0,0,0.2)" strokeWidth="0.5"/>
+            ))}
+            <text x={px+38} y="95" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="5" fontFamily="monospace">{sub1}</text>
+            <text x={px+38} y="103" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="5" fontFamily="monospace">{sub2}</text>
+            <text x={px+38} y="116" textAnchor="middle" fill={color} fontSize="5.5" fontFamily="monospace" opacity="0.8">{eg}</text>
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+// ── Física: Fuerzas — equilibrio, fricción, flotación ─────────────────────────
+function FisicaFuerzasSVG({ tema }) {
+  const a = tema.acento, grn = "#4ab890", gold = "#f5c842", red = "#ff7755";
+  const arrowV = (x, y1, y2, color, w=1.5) => {
+    const dn = y2 > y1;
+    return (
+      <g>
+        <line x1={x} y1={y1} x2={x} y2={dn ? y2-5 : y2+5} stroke={color} strokeWidth={w}/>
+        {dn
+          ? <polygon points={`${x-4},${y2-5} ${x+4},${y2-5} ${x},${y2}`} fill={color}/>
+          : <polygon points={`${x-4},${y2+5} ${x+4},${y2+5} ${x},${y2}`} fill={color}/>}
+      </g>
+    );
+  };
+  const arrowH = (y, x1, x2, color, w=1.5) => {
+    const rt = x2 > x1;
+    return (
+      <g>
+        <line x1={x1} y1={y} x2={rt ? x2-5 : x2+5} y2={y} stroke={color} strokeWidth={w}/>
+        {rt
+          ? <polygon points={`${x2-5},${y-4} ${x2-5},${y+4} ${x2},${y}`} fill={color}/>
+          : <polygon points={`${x2+5},${y-4} ${x2+5},${y+4} ${x2},${y}`} fill={color}/>}
+      </g>
+    );
+  };
+  return (
+    <svg viewBox="0 0 320 130" width="100%" style={{ display:"block" }}>
+      {/* LEFT: Equilibrio y fricción */}
+      <rect x="1" y="1" width="154" height="128" rx="5"
+        fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="78" y="11" textAnchor="middle" fill={a} fontSize="6.5" fontFamily="monospace" fontWeight="700">EQUILIBRIO · FRICCIÓN</text>
+      <line x1="18" y1="86" x2="142" y2="86" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5"/>
+      {[22,32,42,52,62,72,82,92,102,112,122,132].map(x=>(
+        <line key={x} x1={x} y1="86" x2={x-5} y2="93" stroke="rgba(255,255,255,0.15)" strokeWidth="1"/>
+      ))}
+      <rect x="56" y="56" width="44" height="30" rx="3" fill={`${a}28`} stroke={a} strokeWidth="1.5"/>
+      <text x="78" y="73" textAnchor="middle" fill={a} fontSize="8" fontWeight="600">m</text>
+      {arrowV(78, 87, 112, gold, 2)}
+      <text x="84" y="105" fill={gold} fontSize="6" fontFamily="monospace" fontWeight="600">W=mg</text>
+      {arrowV(78, 55, 30, grn, 2)}
+      <text x="84" y="43" fill={grn} fontSize="6" fontFamily="monospace" fontWeight="600">N</text>
+      {arrowH(71, 55, 28, red, 2)}
+      <text x="32" y="67" fill={red} fontSize="6" fontFamily="monospace" fontWeight="600">f</text>
+      <line x1="101" y1="71" x2="127" y2="71" stroke="rgba(255,255,255,0.35)" strokeWidth="1.5" strokeDasharray="3,2"/>
+      <polygon points="122,67 122,75 127,71" fill="rgba(255,255,255,0.35)"/>
+      <text x="129" y="68" fill="rgba(255,255,255,0.3)" fontSize="5.5" fontFamily="monospace">v →</text>
+      <text x="78" y="120" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="5.5" fontFamily="monospace">ΣF = 0 → equilibrio</text>
+      <text x="78" y="128" textAnchor="middle" fill="rgba(255,255,255,0.25)" fontSize="5" fontFamily="monospace">f ≤ μ · N</text>
+      {/* RIGHT: Flotación */}
+      <rect x="165" y="1" width="154" height="128" rx="5"
+        fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="242" y="11" textAnchor="middle" fill={a} fontSize="6.5" fontFamily="monospace" fontWeight="700">FLOTACIÓN · ARQUÍMEDES</text>
+      <rect x="192" y="26" width="100" height="82" rx="3" fill="none" stroke="rgba(100,150,220,0.4)" strokeWidth="1.5"/>
+      <rect x="193" y="58" width="98" height="49" rx="2" fill="rgba(40,80,160,0.3)"/>
+      <line x1="192" y1="58" x2="292" y2="58" stroke="rgba(100,150,255,0.4)" strokeWidth="1"/>
+      <text x="200" y="95" fill="rgba(100,150,255,0.35)" fontSize="5" fontFamily="monospace">fluido</text>
+      <rect x="218" y="43" width="48" height="30" rx="3" fill={`${a}35`} stroke={a} strokeWidth="1.5"/>
+      <text x="242" y="61" textAnchor="middle" fill={a} fontSize="8" fontWeight="600">m</text>
+      {arrowV(242, 42, 16, grn, 2)}
+      <text x="249" y="30" fill={grn} fontSize="7" fontFamily="monospace" fontWeight="700">E ↑</text>
+      {arrowV(242, 74, 98, gold, 2)}
+      <text x="249" y="92" fill={gold} fontSize="7" fontFamily="monospace" fontWeight="700">W ↓</text>
+      <text x="242" y="116" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="5.5" fontFamily="monospace">E = peso fluido desplazado</text>
+      <text x="242" y="125" textAnchor="middle" fill={grn} fontSize="5.5" fontFamily="monospace" fontWeight="600">E = W → flota en equilibrio</text>
+    </svg>
+  );
+}
+
+// ── Física: Velocidad y aceleración ───────────────────────────────────────────
+function FisicaVelAcelSVG({ tema }) {
+  const a = tema.acento, grn = "#4ab890";
+  return (
+    <svg viewBox="0 0 320 130" width="100%" style={{ display:"block" }}>
+      {/* LEFT: MRU */}
+      <rect x="1" y="1" width="154" height="128" rx="5"
+        fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="78" y="11" textAnchor="middle" fill={grn} fontSize="7" fontFamily="monospace" fontWeight="700">M.R.U.</text>
+      <text x="78" y="19" textAnchor="middle" fill="rgba(255,255,255,0.3)" fontSize="5.5" fontFamily="monospace">Movimiento Rectilíneo Uniforme</text>
+      <line x1="28" y1="24" x2="28" y2="88" stroke="rgba(255,255,255,0.4)" strokeWidth="1"/>
+      <polygon points="24,24 32,24 28,19" fill="rgba(255,255,255,0.4)"/>
+      <text x="21" y="22" textAnchor="end" fill="rgba(255,255,255,0.5)" fontSize="7.5" fontFamily="monospace">v</text>
+      <line x1="28" y1="88" x2="142" y2="88" stroke="rgba(255,255,255,0.4)" strokeWidth="1"/>
+      <polygon points="142,84 142,92 147,88" fill="rgba(255,255,255,0.4)"/>
+      <text x="149" y="91" fill="rgba(255,255,255,0.5)" fontSize="7.5" fontFamily="monospace">t</text>
+      <line x1="28" y1="58" x2="135" y2="58" stroke={grn} strokeWidth="2.5"/>
+      <line x1="25" y1="58" x2="31" y2="58" stroke="rgba(255,255,255,0.3)" strokeWidth="0.8"/>
+      <text x="22" y="61" textAnchor="end" fill="rgba(255,255,255,0.3)" fontSize="5" fontFamily="monospace">v₀</text>
+      <text x="78" y="100" textAnchor="middle" fill={grn} fontSize="9" fontFamily="monospace" fontWeight="700">v = d / t</text>
+      <text x="78" y="111" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="5.5" fontFamily="monospace">a = 0 · velocidad constante</text>
+      <text x="78" y="120" textAnchor="middle" fill="rgba(255,255,255,0.25)" fontSize="5" fontFamily="monospace">gráfica v-t: línea horizontal</text>
+      {/* RIGHT: MRUA */}
+      <rect x="165" y="1" width="154" height="128" rx="5"
+        fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="242" y="11" textAnchor="middle" fill={a} fontSize="7" fontFamily="monospace" fontWeight="700">M.R.U.A.</text>
+      <text x="242" y="19" textAnchor="middle" fill="rgba(255,255,255,0.3)" fontSize="5.5" fontFamily="monospace">Rect. Unif. Acelerado</text>
+      <line x1="192" y1="24" x2="192" y2="88" stroke="rgba(255,255,255,0.4)" strokeWidth="1"/>
+      <polygon points="188,24 196,24 192,19" fill="rgba(255,255,255,0.4)"/>
+      <text x="185" y="22" textAnchor="end" fill="rgba(255,255,255,0.5)" fontSize="7.5" fontFamily="monospace">v</text>
+      <line x1="192" y1="88" x2="306" y2="88" stroke="rgba(255,255,255,0.4)" strokeWidth="1"/>
+      <polygon points="306,84 306,92 311,88" fill="rgba(255,255,255,0.4)"/>
+      <text x="313" y="91" fill="rgba(255,255,255,0.5)" fontSize="7.5" fontFamily="monospace">t</text>
+      <line x1="192" y1="85" x2="300" y2="30" stroke={a} strokeWidth="2.5"/>
+      <line x1="189" y1="85" x2="195" y2="85" stroke="rgba(255,255,255,0.3)" strokeWidth="0.8"/>
+      <text x="186" y="88" textAnchor="end" fill="rgba(255,255,255,0.3)" fontSize="5" fontFamily="monospace">v₀</text>
+      <text x="242" y="100" textAnchor="middle" fill={a} fontSize="8" fontFamily="monospace" fontWeight="700">v = v₀ + a·t</text>
+      <text x="242" y="111" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="5.5" fontFamily="monospace">a = Δv / t = constante</text>
+      <text x="242" y="120" textAnchor="middle" fill="rgba(255,255,255,0.25)" fontSize="5" fontFamily="monospace">gráfica v-t: línea diagonal</text>
+    </svg>
+  );
+}
+
+// ── Física: Sistema solar y gravitación ───────────────────────────────────────
+function FisicaSistemaSolarSVG({ tema }) {
+  const a = tema.acento, gold = "#f5c842", org = "#ff7755";
+  const SX = 18, SY = 65;
+  const planets = [
+    { name:"Mer.",    px:50,  size:2.5, color:"#aaaaaa" },
+    { name:"Venus",   px:66,  size:3.5, color:"#f0c040" },
+    { name:"Tierra",  px:84,  size:4,   color:a         },
+    { name:"Marte",   px:102, size:3,   color:org       },
+    { name:"Júpiter", px:158, size:7,   color:gold      },
+    { name:"Saturno", px:193, size:5.5, color:"#d4c080", rings:true },
+    { name:"Urano",   px:226, size:4,   color:"#88ccee" },
+    { name:"Neptuno", px:255, size:3.5, color:"#4488cc" },
+  ];
+  return (
+    <svg viewBox="0 0 320 128" width="100%" style={{ display:"block" }}>
+      <rect x="0" y="0" width="320" height="128" rx="5"
+        fill="rgba(0,0,0,0.3)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="160" y="10" textAnchor="middle" fill={a}
+        fontSize="6" fontFamily="monospace" fontWeight="700">SISTEMA SOLAR (esquemático)</text>
+      {/* Orbit ellipses */}
+      {planets.map(({ px }, i) => (
+        <ellipse key={i} cx={SX} cy={SY} rx={px-SX} ry={(px-SX)*0.22}
+          fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="0.7"
+          strokeDasharray={i >= 4 ? "3,2" : "none"}/>
+      ))}
+      {/* Asteroid belt band */}
+      <ellipse cx={SX} cy={SY} rx={118} ry={26}
+        fill="none" stroke="rgba(180,160,100,0.12)" strokeWidth="5"/>
+      <text x={SX+120} y={SY-22} fill="rgba(180,160,100,0.4)" fontSize="4" fontFamily="monospace">cinturón</text>
+      {/* Sun */}
+      <circle cx={SX} cy={SY} r="11" fill="#FFD700" opacity="0.9"/>
+      <circle cx={SX} cy={SY} r="8"  fill="#FFA500"/>
+      <text x={SX} y={SY+3} textAnchor="middle" fill="white" fontSize="5.5" fontWeight="700">Sol</text>
+      {/* Planets */}
+      {planets.map(({ name, px, size, color, rings }, i) => (
+        <g key={i}>
+          <circle cx={px} cy={SY} r={size} fill={color} opacity="0.88"/>
+          {rings && (
+            <ellipse cx={px} cy={SY} rx={size+6} ry={size*0.38}
+              fill="none" stroke={`${color}99`} strokeWidth="1.5"/>
+          )}
+          <text x={px} y={SY - size - 3} textAnchor="middle"
+            fill="rgba(255,255,255,0.55)" fontSize="4.5" fontFamily="monospace">{name}</text>
+        </g>
+      ))}
+      {/* Legend */}
+      <text x="160" y="97" textAnchor="middle"
+        fill="rgba(255,255,255,0.35)" fontSize="5" fontFamily="monospace">
+        Terrestres (rocosos): Mercurio, Venus, Tierra, Marte
+      </text>
+      <text x="160" y="107" textAnchor="middle"
+        fill="rgba(255,255,255,0.35)" fontSize="5" fontFamily="monospace">
+        Jovianos (gaseosos/helados): Júpiter, Saturno, Urano, Neptuno
+      </text>
+      <text x="160" y="118" textAnchor="middle"
+        fill="rgba(255,255,255,0.2)" fontSize="4.5" fontFamily="monospace">
+        Plutón = planeta enano desde 2006 (UAI)
+      </text>
+    </svg>
+  );
+}
+
+// ── Física: Energía mecánica — péndulo ────────────────────────────────────────
+function FisicaEnergiaMecanicaSVG({ tema }) {
+  const a = tema.acento, grn = "#4ab890";
+  const PIV = { x: 160, y: 20 };
+  const L = 50;
+  const toXY = (angleDeg) => {
+    const r = (angleDeg * Math.PI) / 180;
+    return { x: PIV.x + L * Math.sin(r), y: PIV.y + L * Math.cos(r) };
+  };
+  const posA = toXY(-38);
+  const posB = toXY(0);
+  const posC = toXY(38);
+  const BH = 26, BY = 102;
+  return (
+    <svg viewBox="0 0 320 128" width="100%" style={{ display:"block" }}>
+      <rect x="0" y="0" width="320" height="128" rx="5"
+        fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="160" y="11" textAnchor="middle" fill={a}
+        fontSize="6.5" fontFamily="monospace" fontWeight="700">PÉNDULO: CONVERSIÓN Ep ↔ Ec</text>
+      {/* Ceiling */}
+      <line x1="100" y1="20" x2="220" y2="20" stroke="rgba(255,255,255,0.3)" strokeWidth="2"/>
+      {[104,112,120,128,136,144,152,160,168,176,184,192,200,208,216].map(x=>(
+        <line key={x} x1={x} y1="20" x2={x-4} y2="26" stroke="rgba(255,255,255,0.12)" strokeWidth="1"/>
+      ))}
+      <circle cx={PIV.x} cy={PIV.y} r="3" fill="rgba(255,255,255,0.5)"/>
+      {/* Pendulum A (left, dashed) */}
+      <line x1={PIV.x} y1={PIV.y+3} x2={posA.x} y2={posA.y-7}
+        stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="2,2"/>
+      <circle cx={posA.x} cy={posA.y} r="8" fill={a} opacity="0.65"/>
+      <text x={posA.x} y={posA.y+3} textAnchor="middle" fill="white" fontSize="7" fontWeight="700">A</text>
+      {/* Pendulum C (right, dashed) */}
+      <line x1={PIV.x} y1={PIV.y+3} x2={posC.x} y2={posC.y-7}
+        stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="2,2"/>
+      <circle cx={posC.x} cy={posC.y} r="8" fill={a} opacity="0.65"/>
+      <text x={posC.x} y={posC.y+3} textAnchor="middle" fill="white" fontSize="7" fontWeight="700">C</text>
+      {/* Pendulum B (center, solid) */}
+      <line x1={PIV.x} y1={PIV.y+3} x2={posB.x} y2={posB.y-9}
+        stroke="rgba(255,255,255,0.5)" strokeWidth="1.5"/>
+      <circle cx={posB.x} cy={posB.y} r="9" fill={grn} opacity="0.9"/>
+      <text x={posB.x} y={posB.y+3} textAnchor="middle" fill="white" fontSize="7" fontWeight="700">B</text>
+      {/* Reference height line */}
+      <line x1="110" y1={posA.y+8} x2="210" y2={posA.y+8}
+        stroke="rgba(255,255,255,0.1)" strokeWidth="0.8" strokeDasharray="2,2"/>
+      {/* Separator */}
+      <line x1="20" y1="78" x2="300" y2="78" stroke="rgba(255,255,255,0.1)" strokeWidth="0.7"/>
+      {/* Energy bars */}
+      {[
+        { cx: posA.x, ep:BH, ec:0,  label:"A" },
+        { cx: posB.x, ep:0,  ec:BH, label:"B" },
+        { cx: posC.x, ep:BH, ec:0,  label:"C" },
+      ].map(({ cx, ep, ec, label }, i) => {
+        const bx = Math.round(cx) - 14;
+        return (
+          <g key={i}>
+            <rect x={bx}    y={BY-ep}       width="12" height={Math.max(ep,1)} rx="1" fill={a}   opacity={ep>0?0.85:0.2}/>
+            <rect x={bx+14} y={BY-ec}       width="12" height={Math.max(ec,1)} rx="1" fill={grn} opacity={ec>0?0.85:0.2}/>
+            <line x1={bx-2} y1={BY} x2={bx+28} y2={BY} stroke="rgba(255,255,255,0.2)" strokeWidth="0.7"/>
+            <text x={bx+13} y={BY+8} textAnchor="middle"
+              fill="rgba(255,255,255,0.4)" fontSize="6" fontFamily="monospace">{label}</text>
+          </g>
+        );
+      })}
+      {/* Bar legend */}
+      <rect x="50"  y="116" width="8" height="6" fill={a}   opacity="0.8" rx="1"/>
+      <text x="61"  y="122" fill={a}   fontSize="5.5" fontFamily="monospace">Ep (potencial)</text>
+      <rect x="160" y="116" width="8" height="6" fill={grn} opacity="0.8" rx="1"/>
+      <text x="171" y="122" fill={grn} fontSize="5.5" fontFamily="monospace">Ec (cinética)</text>
+    </svg>
+  );
+}
+
+// ── Física: Circuito eléctrico serie vs paralelo ───────────────────────────────
+function FisicaCircuitoSVG({ tema }) {
+  const a = tema.acento, gold = "#f5c842", grn = "#4ab890";
+  return (
+    <svg viewBox="0 0 320 130" width="100%" style={{ display:"block" }}>
+      {/* LEFT: Serie */}
+      <rect x="1" y="1" width="154" height="128" rx="5"
+        fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="78" y="11" textAnchor="middle" fill={gold} fontSize="6.5" fontFamily="monospace" fontWeight="700">CIRCUITO EN SERIE</text>
+      <text x="78" y="19" textAnchor="middle" fill="rgba(255,255,255,0.3)" fontSize="5" fontFamily="monospace">misma corriente · I₁ = I₂ = I</text>
+      <line x1="28" y1="33" x2="138" y2="33" stroke={gold} strokeWidth="1.5"/>
+      <line x1="138" y1="33" x2="138" y2="88" stroke={gold} strokeWidth="1.5"/>
+      <line x1="28" y1="88" x2="138" y2="88" stroke={gold} strokeWidth="1.5"/>
+      <line x1="28" y1="33" x2="28" y2="50" stroke={gold} strokeWidth="1.5"/>
+      <line x1="28" y1="66" x2="28" y2="88" stroke={gold} strokeWidth="1.5"/>
+      <line x1="23" y1="50" x2="33" y2="50" stroke={gold} strokeWidth="2.5"/>
+      <line x1="25" y1="57" x2="31" y2="57" stroke={gold} strokeWidth="1.5"/>
+      <line x1="25" y1="62" x2="31" y2="62" stroke={gold} strokeWidth="1.5"/>
+      <line x1="23" y1="66" x2="33" y2="66" stroke={gold} strokeWidth="2.5"/>
+      <text x="18" y="56" textAnchor="middle" fill={gold} fontSize="6">+</text>
+      <text x="18" y="68" textAnchor="middle" fill={gold} fontSize="6">−</text>
+      <rect x="53" y="27" width="28" height="12" rx="2" fill="rgba(0,0,0,0.3)" stroke={a} strokeWidth="1.5"/>
+      <text x="67" y="36" textAnchor="middle" fill={a} fontSize="6" fontFamily="monospace">R₁</text>
+      <rect x="93" y="27" width="28" height="12" rx="2" fill="rgba(0,0,0,0.3)" stroke={a} strokeWidth="1.5"/>
+      <text x="107" y="36" textAnchor="middle" fill={a} fontSize="6" fontFamily="monospace">R₂</text>
+      <polygon points="85,31 89,33 85,35" fill="rgba(255,255,255,0.35)"/>
+      <text x="78" y="102" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="5.5" fontFamily="monospace">V = V₁ + V₂</text>
+      <text x="78" y="111" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="5.5" fontFamily="monospace">R_total = R₁ + R₂</text>
+      <text x="78" y="122" textAnchor="middle" fill={gold} fontSize="5.5" fontFamily="monospace">si R₁ falla → todo apagado</text>
+      {/* RIGHT: Paralelo */}
+      <rect x="165" y="1" width="154" height="128" rx="5"
+        fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="242" y="11" textAnchor="middle" fill={grn} fontSize="6.5" fontFamily="monospace" fontWeight="700">CIRCUITO EN PARALELO</text>
+      <text x="242" y="19" textAnchor="middle" fill="rgba(255,255,255,0.3)" fontSize="5" fontFamily="monospace">mismo voltaje · V₁ = V₂ = V</text>
+      <line x1="180" y1="33" x2="308" y2="33" stroke={grn} strokeWidth="1.5"/>
+      <line x1="180" y1="88" x2="308" y2="88" stroke={grn} strokeWidth="1.5"/>
+      <line x1="180" y1="33" x2="180" y2="50" stroke={grn} strokeWidth="1.5"/>
+      <line x1="180" y1="67" x2="180" y2="88" stroke={grn} strokeWidth="1.5"/>
+      <line x1="175" y1="50" x2="185" y2="50" stroke={grn} strokeWidth="2.5"/>
+      <line x1="177" y1="57" x2="183" y2="57" stroke={grn} strokeWidth="1.5"/>
+      <line x1="177" y1="62" x2="183" y2="62" stroke={grn} strokeWidth="1.5"/>
+      <line x1="175" y1="67" x2="185" y2="67" stroke={grn} strokeWidth="2.5"/>
+      <text x="172" y="56" textAnchor="end" fill={grn} fontSize="6">+</text>
+      <text x="172" y="68" textAnchor="end" fill={grn} fontSize="6">−</text>
+      <line x1="308" y1="33" x2="308" y2="88" stroke={grn} strokeWidth="1.5"/>
+      <line x1="220" y1="33" x2="220" y2="42" stroke={grn} strokeWidth="1.5"/>
+      <rect x="210" y="42" width="20" height="14" rx="2" fill="rgba(0,0,0,0.3)" stroke={a} strokeWidth="1.5"/>
+      <text x="220" y="52" textAnchor="middle" fill={a} fontSize="6" fontFamily="monospace">R₁</text>
+      <line x1="220" y1="56" x2="220" y2="88" stroke={grn} strokeWidth="1.5"/>
+      <line x1="268" y1="33" x2="268" y2="42" stroke={grn} strokeWidth="1.5"/>
+      <rect x="258" y="42" width="20" height="14" rx="2" fill="rgba(0,0,0,0.3)" stroke={a} strokeWidth="1.5"/>
+      <text x="268" y="52" textAnchor="middle" fill={a} fontSize="6" fontFamily="monospace">R₂</text>
+      <line x1="268" y1="56" x2="268" y2="88" stroke={grn} strokeWidth="1.5"/>
+      <text x="242" y="102" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="5.5" fontFamily="monospace">I = I₁ + I₂</text>
+      <text x="242" y="111" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="5.5" fontFamily="monospace">1/R_total = 1/R₁ + 1/R₂</text>
+      <text x="242" y="122" textAnchor="middle" fill={grn} fontSize="5.5" fontFamily="monospace">si R₁ falla → R₂ sigue</text>
+    </svg>
+  );
+}
+
+// ── Física: Transformaciones de energía ───────────────────────────────────────
+function FisicaTransformacionesSVG({ tema }) {
+  const a = tema.acento, gold = "#f5c842", grn = "#4ab890", org = "#ff7755";
+  const boxes = [
+    { label:"Química",  sub:"gasolina\nbatería",  color:org,  x:6   },
+    { label:"Térmica",  sub:"calor\nvapor",        color:gold, x:86  },
+    { label:"Cinética", sub:"movimiento\nviento",  color:grn,  x:166 },
+    { label:"Eléctrica",sub:"corriente\ncircuito", color:a,    x:246 },
+  ];
+  return (
+    <svg viewBox="0 0 320 130" width="100%" style={{ display:"block" }}>
+      <rect x="0" y="0" width="320" height="130" rx="5"
+        fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="160" y="10" textAnchor="middle" fill={a}
+        fontSize="6.5" fontFamily="monospace" fontWeight="700">CADENA DE TRANSFORMACIONES DE ENERGÍA</text>
+      {boxes.map(({ label, sub, color, x }, i) => (
+        <g key={i}>
+          <rect x={x} y="16" width="64" height="54" rx="5"
+            fill={`${color}18`} stroke={color} strokeWidth="1.5"/>
+          <text x={x+32} y="37" textAnchor="middle" fill={color}
+            fontSize="8" fontFamily="monospace" fontWeight="700">{label}</text>
+          {sub.split('\n').map((s,si)=>(
+            <text key={si} x={x+32} y={49+si*9} textAnchor="middle"
+              fill="rgba(255,255,255,0.4)" fontSize="5.5" fontFamily="monospace">{s}</text>
+          ))}
+          {i < boxes.length-1 && (
+            <>
+              <line x1={x+64} y1="43" x2={x+78} y2="43" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5"/>
+              <polygon points={`${x+78},39 ${x+78},47 ${x+83},43`} fill="rgba(255,255,255,0.4)"/>
+            </>
+          )}
+        </g>
+      ))}
+      <text x="38" y="85" textAnchor="middle" fill={org}  fontSize="5" fontFamily="monospace" opacity="0.75">motor · fábrica</text>
+      <text x="118" y="85" textAnchor="middle" fill={gold} fontSize="5" fontFamily="monospace" opacity="0.75">turbina · caldera</text>
+      <text x="198" y="85" textAnchor="middle" fill={grn}  fontSize="5" fontFamily="monospace" opacity="0.75">generador · molino</text>
+      <text x="278" y="85" textAnchor="middle" fill={a}    fontSize="5" fontFamily="monospace" opacity="0.75">motor eléc · LED</text>
+      <rect x="16" y="93" width="288" height="28" rx="4"
+        fill={`${a}10`} stroke={`${a}35`} strokeWidth="1"/>
+      <text x="160" y="104" textAnchor="middle" fill="rgba(255,255,255,0.45)" fontSize="5.5" fontFamily="monospace">
+        Ley de Conservación de la Energía (1er principio de la termodinámica)
+      </text>
+      <text x="160" y="114" textAnchor="middle" fill={a} fontSize="6" fontFamily="monospace" fontWeight="600">
+        La energía no se crea ni se destruye, solo se transforma
+      </text>
     </svg>
   );
 }

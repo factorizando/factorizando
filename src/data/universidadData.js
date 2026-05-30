@@ -145,9 +145,9 @@ export const SUBJECTS_UNI = [
     color: "#34d399",
     children: [
       {
-        id: "fis-tem1",
-        name: "Tema por definir",
-        children: [{ id: "fis-sub1", name: "Subtema por definir" }],
+        id: "fis-pens-cient",
+        name: "Pensamiento Científico — Física",
+        presentacion: "/presentacion/fisica-pensamiento-cientifico",
       },
     ],
   },
@@ -156,6 +156,11 @@ export const SUBJECTS_UNI = [
     name: "Biología",
     color: "#f97316",
     children: [
+      {
+        id: "bio-pens-cient",
+        name: "Pensamiento Científico — Biología",
+        presentacion: "/presentacion/biologia-pensamiento-cientifico",
+      },
       {
         id: "celula",
         name: "La Célula",
@@ -180,9 +185,31 @@ export const SUBJECTS_UNI = [
     color: "#f43f5e",
     children: [
       {
-        id: "qui-tem1",
-        name: "Tema por definir",
-        children: [{ id: "qui-sub1", name: "Subtema por definir" }],
+        id: "qui-pens-cient",
+        name: "Pensamiento Científico — Química",
+        presentacion: "/presentacion/quimica-pensamiento-cientifico",
+      },
+    ],
+  },
+  {
+    id: "pensamiento-cientifico",
+    name: "Pensamiento Científico",
+    color: "#22d3ee",
+    children: [
+      {
+        id: "uni-pens-fisica",
+        name: "Física",
+        presentacion: "/presentacion/fisica-pensamiento-cientifico",
+      },
+      {
+        id: "uni-pens-quimica",
+        name: "Química",
+        presentacion: "/presentacion/quimica-pensamiento-cientifico",
+      },
+      {
+        id: "uni-pens-biologia",
+        name: "Biología",
+        presentacion: "/presentacion/biologia-pensamiento-cientifico",
       },
     ],
   },

@@ -22,11 +22,12 @@ function ResourcePill({ type, href, label, onClick }) {
   const navigate = useNavigate();
   const isInternal = href && href.startsWith("/") && !href.includes(".");
   const styles = {
-    quiz:   { bg: C.blue,    color: "#fff",    border: "none",                            shadow: "0 2px 12px rgba(59,158,255,.3)" },
-    video:  { bg: "#1a2535", color: "#60a5fa", border: "1px solid rgba(96,165,250,.25)",  shadow: "none" },
-    teoria: { bg: "#1e1a2e", color: "#c084fc", border: "1px solid rgba(192,132,252,.25)", shadow: "none" },
+    quiz:         { bg: C.blue,    color: "#fff",    border: "none",                              shadow: "0 2px 12px rgba(59,158,255,.3)" },
+    video:        { bg: "#1a2535", color: "#60a5fa", border: "1px solid rgba(96,165,250,.25)",    shadow: "none" },
+    teoria:       { bg: "#1e1a2e", color: "#c084fc", border: "1px solid rgba(192,132,252,.25)",  shadow: "none" },
+    presentacion: { bg: "#0d2828", color: "#2dd4bf", border: "1px solid rgba(45,212,191,.3)",    shadow: "none" },
   };
-  const icons = { quiz: "⚡", video: "▶", teoria: "📄" };
+  const icons = { quiz: "⚡", video: "▶", teoria: "📄", presentacion: "◈" };
   const s = styles[type];
   const base = {
     display: "inline-flex", alignItems: "center", gap: ".45rem",
@@ -66,7 +67,7 @@ function ResourcePill({ type, href, label, onClick }) {
 }
 
 function ResourcesRow({ node, onQuizOpen }) {
-  const hasAny = node.quiz || node.video || node.teoria;
+  const hasAny = node.quiz || node.video || node.teoria || node.presentacion;
   if (!hasAny) return (
     <span style={{ fontSize: ".72rem", color: C.muted, letterSpacing: ".1em", textTransform: "uppercase", fontStyle: "italic" }}>
       Recursos próximamente
@@ -74,9 +75,10 @@ function ResourcesRow({ node, onQuizOpen }) {
   );
   return (
     <div style={{ display: "flex", gap: ".6rem", flexWrap: "wrap", alignItems: "center" }}>
-      {node.quiz   && <ResourcePill type="quiz"   href={node.quiz}   label="Cuestionario" onClick={onQuizOpen} />}
-      {node.video  && <ResourcePill type="video"  href={node.video}  label="Video" />}
-      {node.teoria && <ResourcePill type="teoria" href={node.teoria} label="Teoría" />}
+      {node.quiz         && <ResourcePill type="quiz"         href={node.quiz}         label="Cuestionario" onClick={onQuizOpen} />}
+      {node.video        && <ResourcePill type="video"        href={node.video}        label="Video" />}
+      {node.teoria       && <ResourcePill type="teoria"       href={node.teoria}       label="Teoría" />}
+      {node.presentacion && <ResourcePill type="presentacion" href={node.presentacion} label="Presentación" />}
     </div>
   );
 }
@@ -84,7 +86,7 @@ function ResourcesRow({ node, onQuizOpen }) {
 function TreeNode({ node, depth, isLast, onQuizOpen }) {
   const [open, setOpen] = useState(false);
   const hasChildren = node.children && node.children.length > 0;
-  const hasResources = node.quiz || node.video || node.teoria;
+  const hasResources = node.quiz || node.video || node.teoria || node.presentacion;
   const paddingLeft = `${1.4 + depth * 0.9}rem`;
   const dotSize   = Math.max(3, 5 - depth);
   const fontSize  = depth === 1 ? ".9rem" : ".85rem";

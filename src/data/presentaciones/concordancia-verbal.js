@@ -1613,9 +1613,13 @@ export const PRESENTACION = {
         {
           tipo: "trampa",
           letra: "A",
-          titulo: "Un infinitivo → singular / Dos infinitivos con «y» → plural (Regla 22)",
-          correcto: "Leer es enriquecedor. (uno → singular)",
-          incorrecto: "Leer y escribir es enriquecedor. (dos con «y» → «son enriquecedores»)"
+          titulo: "Dos infinitivos con «y» → plural en el EXANI-I (Regla 22)",
+          correcto: "Leer y escribir son enriquecedores. (norma general: dos infinitivos → plural)",
+          incorrecto: "Cantar y bailar es agotador. — sin percepción de unidad semántica: «son agotadores»"
+        },
+        {
+          tipo: "texto",
+          texto: "Matiz RAE: si los dos infinitivos se perciben como una unidad semántica inseparable (una sola competencia o concepto), el singular también es correcto: «Leer y escribir es la base de la educación». En el EXANI-I, ante la duda, elige el plural."
         }
       ]
     },

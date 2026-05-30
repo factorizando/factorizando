@@ -2974,6 +2974,7 @@ function SlideEjercicio({ slide, modo, votos, totalVotos, respuestaDada, onRespo
             lineHeight: 1.65,
             margin: 0
           }}
+          translate="no"
         >
           {slide.pregunta}
         </p>
@@ -3072,7 +3073,7 @@ function SlideEjercicio({ slide, modo, votos, totalVotos, respuestaDada, onRespo
                 >
                   {String.fromCharCode(65 + displayIdx)}.
                 </span>
-                <span style={{ flex: 1 }}>{op.includes('\\') ? <M>{op}</M> : op}</span>
+                <span style={{ flex: 1 }} translate="no">{op.includes('\\') ? <M>{op}</M> : op}</span>
                 {modo === "director" && votos !== undefined && (
                   <span
                     style={{
@@ -3397,6 +3398,21 @@ function SlideReglaRica({ slide, tema, modo, resaltadoIdx, onResaltar }) {
             "grafo-ck":          <GrafoCKSVG          tema={tema} />,
             "grafo-gj":          <GrafoGJSVG          tema={tema} />,
             "grafo-secuencias":  <GrafoSecuenciasSVG  tema={tema} />,
+            // Geografía — Tema 1: Tierra
+            "geo-coordenadas":        <GeoCoordenadaSVG        tema={tema} />,
+            "geo-husos":              <GeoHusosSVG              tema={tema} />,
+            "geo-placas":             <GeoPlacastSVG            tema={tema} />,
+            "geo-ciclo-hidrologico":  <GeoCicloHidrologicoSVG  tema={tema} />,
+            // Geografía — Complemento: Recursos, Mar y Política
+            "geo-minerales":      <GeoMineralesSVG      tema={tema} />,
+            "geo-rios":           <GeoRiosSVG           tema={tema} />,
+            "geo-ciclones":       <GeoCiclonesSVG       tema={tema} />,
+            "geo-organizacion":   <GeoOrganizacionSVG   tema={tema} />,
+            // Geografía — Tema 2: Humana
+            "geo-regiones":   <GeoRegionesSVG   tema={tema} />,
+            "geo-deterioro":  <GeoDeterioroSVG  tema={tema} />,
+            "geo-poblacion":  <GeoPoblacionSVG  tema={tema} />,
+            "geo-economia":   <GeoEconomiaSVG   tema={tema} />,
           };
           return (
             <div key={i} onClick={handleClick}
@@ -4934,6 +4950,723 @@ function GrafoSecuenciasSVG({ tema }) {
           </g>
         );
       })}
+    </svg>
+  );
+}
+
+// ── Geografía: Coordenadas geográficas ───────────────────────────────────────
+function GeoCoordenadaSVG({ tema }) {
+  const t = tema.texto;
+  const a = tema.acento;
+  const g = "#f5c842";
+  const r = "#e06448";
+  return (
+    <svg viewBox="0 0 320 162" width="100%" style={{ display: "block" }}>
+      {/* ── PANEL IZQUIERDO: LATITUD ── */}
+      <rect x="2" y="2" width="152" height="158" rx="7" fill="rgba(0,0,0,0.3)" stroke="rgba(255,255,255,0.08)" strokeWidth="1"/>
+      <text x="78" y="15" textAnchor="middle" fill={a} fontSize="8.5" fontFamily="monospace" letterSpacing="1.5">LATITUD</text>
+      <text x="78" y="24" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="6.5" fontFamily="monospace">paralelos · dirección N/S</text>
+      {/* Polo Norte 90°N */}
+      <line x1="10" y1="32" x2="146" y2="32" stroke="rgba(160,210,255,0.5)" strokeWidth="1" strokeDasharray="4,3"/>
+      <text x="78" y="30" textAnchor="middle" fill="rgba(160,210,255,0.7)" fontSize="6" fontFamily="monospace">90°N · POLO NORTE</text>
+      {/* Círculo Polar Ártico 66.5°N */}
+      <line x1="10" y1="50" x2="146" y2="50" stroke="rgba(160,210,255,0.35)" strokeWidth="0.8" strokeDasharray="3,3"/>
+      <text x="6" y="49" fill="rgba(160,210,255,0.55)" fontSize="5.5" fontFamily="monospace">66.5°N</text>
+      {/* Trópico de Cáncer 23.5°N */}
+      <line x1="10" y1="72" x2="146" y2="72" stroke={g} strokeWidth="1" strokeDasharray="5,2" opacity="0.75"/>
+      <text x="6" y="71" fill={g} fontSize="5.5" fontFamily="monospace" opacity="0.9">23.5°N</text>
+      <text x="90" y="70" fill={g} fontSize="5" fontFamily="monospace" opacity="0.65">Trópico de Cáncer</text>
+      {/* Ecuador 0° */}
+      <line x1="10" y1="94" x2="146" y2="94" stroke={a} strokeWidth="2.5"/>
+      <text x="78" y="91" textAnchor="middle" fill={a} fontSize="7.5" fontFamily="monospace" fontWeight="bold">ECUADOR 0°</text>
+      {/* Trópico de Capricornio 23.5°S */}
+      <line x1="10" y1="116" x2="146" y2="116" stroke={g} strokeWidth="1" strokeDasharray="5,2" opacity="0.75"/>
+      <text x="6" y="115" fill={g} fontSize="5.5" fontFamily="monospace" opacity="0.9">23.5°S</text>
+      <text x="90" y="114" fill={g} fontSize="5" fontFamily="monospace" opacity="0.65">T. de Capricornio</text>
+      {/* Círculo Polar Antártico 66.5°S */}
+      <line x1="10" y1="136" x2="146" y2="136" stroke="rgba(160,210,255,0.35)" strokeWidth="0.8" strokeDasharray="3,3"/>
+      <text x="6" y="135" fill="rgba(160,210,255,0.55)" fontSize="5.5" fontFamily="monospace">66.5°S</text>
+      {/* Polo Sur 90°S */}
+      <line x1="10" y1="154" x2="146" y2="154" stroke="rgba(160,210,255,0.5)" strokeWidth="1" strokeDasharray="4,3"/>
+      <text x="78" y="160" textAnchor="middle" fill="rgba(160,210,255,0.7)" fontSize="6" fontFamily="monospace">90°S · POLO SUR</text>
+
+      {/* ── PANEL DERECHO: LONGITUD ── */}
+      <rect x="166" y="2" width="152" height="158" rx="7" fill="rgba(0,0,0,0.3)" stroke="rgba(255,255,255,0.08)" strokeWidth="1"/>
+      <text x="242" y="15" textAnchor="middle" fill={r} fontSize="8.5" fontFamily="monospace" letterSpacing="1.5">LONGITUD</text>
+      <text x="242" y="24" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="6.5" fontFamily="monospace">meridianos · dirección E/O</text>
+      {/* Línea de Fecha 180° (left edge) */}
+      <line x1="174" y1="30" x2="174" y2="155" stroke="rgba(255,120,90,0.6)" strokeWidth="1" strokeDasharray="4,3"/>
+      <text x="174" y="28" textAnchor="middle" fill="rgba(255,120,90,0.75)" fontSize="5.5" fontFamily="monospace">180°</text>
+      {/* 90°O */}
+      <line x1="204" y1="30" x2="204" y2="155" stroke="rgba(255,255,255,0.2)" strokeWidth="0.7" strokeDasharray="3,3"/>
+      <text x="204" y="28" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="5.5" fontFamily="monospace">90°O</text>
+      {/* Greenwich 0° */}
+      <line x1="242" y1="30" x2="242" y2="155" stroke={r} strokeWidth="2.5"/>
+      <text x="242" y="161" textAnchor="middle" fill={r} fontSize="6.5" fontFamily="monospace" fontWeight="bold">0° GREENWICH</text>
+      {/* 90°E */}
+      <line x1="280" y1="30" x2="280" y2="155" stroke="rgba(255,255,255,0.2)" strokeWidth="0.7" strokeDasharray="3,3"/>
+      <text x="280" y="28" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="5.5" fontFamily="monospace">90°E</text>
+      {/* Línea de Fecha 180° (right edge) */}
+      <line x1="310" y1="30" x2="310" y2="155" stroke="rgba(255,120,90,0.6)" strokeWidth="1" strokeDasharray="4,3"/>
+      <text x="310" y="28" textAnchor="middle" fill="rgba(255,120,90,0.75)" fontSize="5.5" fontFamily="monospace">180°</text>
+      {/* Flecha E-O */}
+      <text x="178" y="95" fill="rgba(255,255,255,0.22)" fontSize="7" fontFamily="monospace">◄ OESTE</text>
+      <text x="258" y="95" fill="rgba(255,255,255,0.22)" fontSize="7" fontFamily="monospace">ESTE ►</text>
+      {/* Línea Ecuador horizontal referencia */}
+      <line x1="174" y1="92" x2="312" y2="92" stroke="rgba(255,255,255,0.08)" strokeWidth="0.5"/>
+    </svg>
+  );
+}
+
+// ── Geografía: Husos horarios ─────────────────────────────────────────────────
+function GeoHusosSVG({ tema }) {
+  const t = tema.texto;
+  const a = tema.acento;
+  const g = "#f5c842";
+  const r = "rgba(255,120,90,0.75)";
+  // 25 zonas: UTC-12 a UTC+12
+  const zones = Array.from({ length: 25 }, (_, i) => i - 12);
+  const zW = 11.6; // zone width in px (25 * 11.6 = 290, con padding = 320)
+  const startX = 15;
+  const barY = 26; const barH = 44;
+  return (
+    <svg viewBox="0 0 320 100" width="100%" style={{ display: "block" }}>
+      <text x="160" y="11" textAnchor="middle" fill={a} fontSize="8" fontFamily="monospace" letterSpacing="1.5">HUSOS HORARIOS (UTC)</text>
+      {zones.map((offset, i) => {
+        const x = startX + i * zW;
+        const isMx = offset >= -8 && offset <= -5;
+        const isGmt = offset === 0;
+        const isDate = offset === -12 || offset === 12;
+        const fill = isDate ? "rgba(255,120,90,0.18)" : isGmt ? `${a}22` : isMx ? `${g}20` : "rgba(255,255,255,0.04)";
+        const stroke = isDate ? "rgba(255,120,90,0.5)" : isGmt ? `${a}60` : isMx ? `${g}55` : "rgba(255,255,255,0.12)";
+        const strokeW = (isGmt || isMx || isDate) ? 1.2 : 0.5;
+        return (
+          <g key={i}>
+            <rect x={x} y={barY} width={zW} height={barH} fill={fill} stroke={stroke} strokeWidth={strokeW}/>
+            {(isGmt || isDate || i % 4 === 0) && (
+              <text x={x + zW / 2} y={barY + barH / 2 + 3.5} textAnchor="middle"
+                fill={isDate ? r : isGmt ? a : "rgba(255,255,255,0.4)"}
+                fontSize="5.5" fontFamily="monospace">
+                {offset > 0 ? `+${offset}` : offset}
+              </text>
+            )}
+          </g>
+        );
+      })}
+      {/* Mexico bracket */}
+      {(() => {
+        const mxStart = startX + ((-8) - (-12)) * zW;
+        const mxEnd = startX + ((-5) - (-12) + 1) * zW;
+        return (
+          <g>
+            <line x1={mxStart} y1={barY + barH + 4} x2={mxEnd} y2={barY + barH + 4} stroke={g} strokeWidth="1.2"/>
+            <line x1={mxStart} y1={barY + barH + 2} x2={mxStart} y2={barY + barH + 6} stroke={g} strokeWidth="1"/>
+            <line x1={mxEnd}   y1={barY + barH + 2} x2={mxEnd}   y2={barY + barH + 6} stroke={g} strokeWidth="1"/>
+            <text x={(mxStart + mxEnd) / 2} y={barY + barH + 15} textAnchor="middle" fill={g} fontSize="6.5" fontFamily="monospace">MÉXICO (UTC−8 a UTC−5)</text>
+          </g>
+        );
+      })()}
+      {/* GMT label */}
+      {(() => {
+        const gmtX = startX + (0 - (-12)) * zW + zW / 2;
+        return <text x={gmtX} y={barY - 4} textAnchor="middle" fill={a} fontSize="6" fontFamily="monospace">GMT/UTC</text>;
+      })()}
+      {/* Date line labels */}
+      <text x={startX - 2} y={barY - 4} textAnchor="middle" fill={r} fontSize="5.5" fontFamily="monospace">LÍNEA</text>
+      <text x={startX - 2} y={barY + 2} textAnchor="middle" fill={r} fontSize="5.5" fontFamily="monospace">DE FECHA</text>
+      <text x={startX + 25 * zW} y={barY - 4} textAnchor="middle" fill={r} fontSize="5.5" fontFamily="monospace">LÍNEA</text>
+      <text x={startX + 25 * zW} y={barY + 2} textAnchor="middle" fill={r} fontSize="5.5" fontFamily="monospace">DE FECHA</text>
+    </svg>
+  );
+}
+
+// ── Geografía: Tipos de bordes de placas tectónicas ──────────────────────────
+function GeoPlacastSVG({ tema }) {
+  const a = tema.acento;
+  const g = "#f5c842";
+  const t = tema.texto;
+  const oceColor = "#1a3a5c";
+  const contColor = "#5a3c1a";
+  const magmaColor = "#cc3300";
+  return (
+    <svg viewBox="0 0 320 158" width="100%" style={{ display: "block" }}>
+      {/* ── PANEL 1: CONVERGENTE ── */}
+      <rect x="2" y="2" width="98" height="154" rx="6" fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.08)" strokeWidth="1"/>
+      <text x="51" y="13" textAnchor="middle" fill={g} fontSize="7.5" fontFamily="monospace" letterSpacing="0.5">CONVERGENTE</text>
+      <text x="51" y="21" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="5.5" fontFamily="monospace">placas se acercan</text>
+      {/* Placa oceánica (izq) con subducción */}
+      <polygon points="4,90 50,70 50,105 4,125" fill={oceColor} opacity="0.85"/>
+      <text x="27" y="100" textAnchor="middle" fill="rgba(150,200,255,0.8)" fontSize="5" fontFamily="monospace">oceánica</text>
+      {/* Placa continental (der) */}
+      <rect x="50" y="65" width="48" height="42" rx="3" fill={contColor} opacity="0.85"/>
+      <text x="74" y="90" textAnchor="middle" fill="rgba(255,200,150,0.85)" fontSize="5" fontFamily="monospace">continental</text>
+      {/* Flechas de movimiento */}
+      <text x="15" y="63" fill={g} fontSize="9">→</text>
+      <text x="80" y="63" fill={g} fontSize="9">←</text>
+      {/* Volcán */}
+      <polygon points="68,64 74,38 80,64" fill="#cc4400" opacity="0.9"/>
+      <text x="74" y="36" textAnchor="middle" fill="#ff7755" fontSize="6">🌋</text>
+      <text x="74" y="31" textAnchor="middle" fill="#ff7755" fontSize="5" fontFamily="monospace">volcán</text>
+      {/* Manto */}
+      <ellipse cx="27" cy="128" rx="20" ry="8" fill={magmaColor} opacity="0.4"/>
+      <text x="27" y="130" textAnchor="middle" fill="#ff8866" fontSize="5" fontFamily="monospace">manto</text>
+      {/* Sismo símbolo */}
+      <text x="51" y="120" textAnchor="middle" fill="rgba(255,200,50,0.7)" fontSize="6" fontFamily="monospace">≋sismos</text>
+      {/* Ejemplos */}
+      <text x="51" y="140" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="5" fontFamily="monospace">Andes · Himalaya</text>
+      <text x="51" y="150" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="5" fontFamily="monospace">Cinturón de Fuego</text>
+
+      {/* ── PANEL 2: DIVERGENTE ── */}
+      <rect x="111" y="2" width="98" height="154" rx="6" fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.08)" strokeWidth="1"/>
+      <text x="160" y="13" textAnchor="middle" fill={a} fontSize="7.5" fontFamily="monospace" letterSpacing="0.5">DIVERGENTE</text>
+      <text x="160" y="21" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="5.5" fontFamily="monospace">placas se separan</text>
+      {/* Placa izquierda */}
+      <rect x="113" y="65" width="42" height="42" rx="3" fill={oceColor} opacity="0.8"/>
+      <text x="134" y="90" textAnchor="middle" fill="rgba(150,200,255,0.8)" fontSize="5" fontFamily="monospace">placa A</text>
+      {/* Placa derecha */}
+      <rect x="159" y="65" width="48" height="42" rx="3" fill={oceColor} opacity="0.8"/>
+      <text x="183" y="90" textAnchor="middle" fill="rgba(150,200,255,0.8)" fontSize="5" fontFamily="monospace">placa B</text>
+      {/* Flechas opuestas */}
+      <text x="116" y="63" fill={a} fontSize="9">←</text>
+      <text x="183" y="63" fill={a} fontSize="9">→</text>
+      {/* Rift / dorsal oceánica */}
+      <polygon points="155,64 160,44 165,64" fill={magmaColor} opacity="0.8"/>
+      <text x="160" y="42" textAnchor="middle" fill="#ff8866" fontSize="5" fontFamily="monospace">magma</text>
+      <text x="160" y="35" textAnchor="middle" fill="#ff8866" fontSize="5.5">↑</text>
+      <text x="160" y="29" textAnchor="middle" fill="#ff8866" fontSize="5" fontFamily="monospace">dorsal</text>
+      {/* Labels */}
+      <text x="160" y="120" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="5" fontFamily="monospace">sin volcanes de arco</text>
+      <text x="160" y="130" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="5" fontFamily="monospace">corteza nueva</text>
+      <text x="160" y="140" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="5" fontFamily="monospace">Dorsal del Atlántico</text>
+      <text x="160" y="150" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="5" fontFamily="monospace">Rift Valley · Islandia</text>
+
+      {/* ── PANEL 3: TRANSFORMANTE ── */}
+      <rect x="220" y="2" width="98" height="154" rx="6" fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.08)" strokeWidth="1"/>
+      <text x="269" y="13" textAnchor="middle" fill="#d070ff" fontSize="7.5" fontFamily="monospace" letterSpacing="0.5">TRANSFORMANTE</text>
+      <text x="269" y="21" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="5.5" fontFamily="monospace">placas se deslizan</text>
+      {/* Placa superior */}
+      <rect x="224" y="55" width="90" height="30" rx="3" fill={contColor} opacity="0.8"/>
+      <text x="269" y="73" textAnchor="middle" fill="rgba(255,200,150,0.8)" fontSize="5" fontFamily="monospace">placa A  →</text>
+      {/* Falla (línea zigzag) */}
+      <polyline points="224,88 236,84 248,92 260,84 272,92 284,84 296,88 308,84 314,88"
+        fill="none" stroke={g} strokeWidth="1.5" strokeDasharray="3,1"/>
+      {/* Placa inferior */}
+      <rect x="224" y="90" width="90" height="30" rx="3" fill={oceColor} opacity="0.8"/>
+      <text x="269" y="108" textAnchor="middle" fill="rgba(150,200,255,0.8)" fontSize="5" fontFamily="monospace">← placa B</text>
+      {/* Labels */}
+      <text x="269" y="86" textAnchor="middle" fill={g} fontSize="5.5" fontFamily="monospace">falla</text>
+      <text x="269" y="130" textAnchor="middle" fill="rgba(255,200,50,0.7)" fontSize="6" fontFamily="monospace">≋sismos</text>
+      <text x="269" y="138" textAnchor="middle" fill="rgba(200,100,255,0.65)" fontSize="5" fontFamily="monospace">sin vulcanismo</text>
+      <text x="269" y="148" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="5" fontFamily="monospace">Falla de San Andrés</text>
+    </svg>
+  );
+}
+
+// ── Geografía: Ciclo hidrológico ──────────────────────────────────────────────
+function GeoCicloHidrologicoSVG({ tema }) {
+  const a = tema.acento;
+  const g = "#f5c842";
+  const t = tema.texto;
+  const azulAgua = "#2a7fbf";
+  const verdeVeg = "#3a8a3a";
+  return (
+    <svg viewBox="0 0 320 160" width="100%" style={{ display: "block" }}>
+      {/* Fondo cielo */}
+      <rect x="0" y="0" width="320" height="160" rx="6" fill="rgba(10,20,40,0.4)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      {/* ── SOL ── */}
+      <circle cx="285" cy="28" r="16" fill="#ffd020" opacity="0.9"/>
+      <text x="285" y="32" textAnchor="middle" fill="#fff" fontSize="12">☀</text>
+      {/* ── OCÉANO / MAR ── */}
+      <rect x="170" y="118" width="148" height="36" rx="5" fill={azulAgua} opacity="0.75"/>
+      <text x="244" y="138" textAnchor="middle" fill="rgba(200,240,255,0.9)" fontSize="7" fontFamily="monospace">OCÉANO / MAR</text>
+      {/* ── MONTAÑA ── */}
+      <polygon points="10,154 65,60 120,154" fill="#4a4a5a" opacity="0.85"/>
+      <polygon points="45,100 65,60 85,100" fill="rgba(220,230,255,0.25)"/>
+      <text x="65" y="56" textAnchor="middle" fill="rgba(255,255,255,0.6)" fontSize="6" fontFamily="monospace">nieve</text>
+      {/* ── VEGETACIÓN (pie montaña) ── */}
+      <ellipse cx="115" cy="148" rx="18" ry="8" fill={verdeVeg} opacity="0.7"/>
+      <text x="115" y="150" textAnchor="middle" fill="rgba(200,255,200,0.8)" fontSize="5" fontFamily="monospace">biósfera</text>
+      {/* ── NUBE ── */}
+      <ellipse cx="158" cy="42" rx="32" ry="18" fill="rgba(200,215,240,0.55)"/>
+      <ellipse cx="140" cy="48" rx="20" ry="14" fill="rgba(200,215,240,0.55)"/>
+      <ellipse cx="175" cy="50" rx="22" ry="13" fill="rgba(200,215,240,0.55)"/>
+      <text x="158" y="45" textAnchor="middle" fill="rgba(30,50,100,0.9)" fontSize="6" fontFamily="monospace">NUBE</text>
+      {/* ── RÍO ── */}
+      <path d="M 105,140 Q 130,135 155,130 Q 168,126 170,120" fill="none" stroke={azulAgua} strokeWidth="3" opacity="0.8"/>
+      <text x="132" y="131" fill="rgba(150,210,255,0.8)" fontSize="5.5" fontFamily="monospace">río</text>
+      {/* SUELO / ACUÍFERO */}
+      <rect x="10" y="148" width="158" height="10" rx="3" fill="rgba(120,90,60,0.5)"/>
+      <text x="90" y="156" textAnchor="middle" fill="rgba(200,170,140,0.6)" fontSize="5" fontFamily="monospace">suelo · acuífero</text>
+
+      {/* ── FLECHAS Y ETIQUETAS ── */}
+      {/* Evaporación: océano → nube */}
+      <path d="M 244,116 Q 230,80 185,55" fill="none" stroke={g} strokeWidth="1.4" strokeDasharray="4,2"
+        markerEnd="url(#arrowGeo)"/>
+      <text x="218" y="82" fill={g} fontSize="6" fontFamily="monospace" transform="rotate(-55,218,82)">evaporación</text>
+      {/* Transpiración: vegetación → nube */}
+      <path d="M 118,140 Q 130,100 138,62" fill="none" stroke={verdeVeg} strokeWidth="1.2" strokeDasharray="3,2"
+        markerEnd="url(#arrowGeo)"/>
+      <text x="108" y="110" fill={verdeVeg} fontSize="5.5" fontFamily="monospace" transform="rotate(-78,108,110)">trans-</text>
+      <text x="106" y="118" fill={verdeVeg} fontSize="5.5" fontFamily="monospace" transform="rotate(-78,106,118)">piración</text>
+      {/* Precipitación: nube → montaña */}
+      <path d="M 138,62 Q 110,80 85,108" fill="none" stroke={a} strokeWidth="1.5" strokeDasharray="4,2"
+        markerEnd="url(#arrowGeo)"/>
+      <text x="98" y="80" fill={a} fontSize="6" fontFamily="monospace" transform="rotate(-55,98,80)">precipitación</text>
+      {/* Escurrimiento: montaña → río/mar */}
+      <path d="M 100,138 Q 128,135 168,120" fill="none" stroke={azulAgua} strokeWidth="1.3" strokeDasharray="4,2"
+        markerEnd="url(#arrowGeo)"/>
+      <text x="130" y="141" fill={azulAgua} fontSize="5.5" fontFamily="monospace">escurrimiento</text>
+      {/* Infiltración: flecha hacia abajo */}
+      <path d="M 92,140 L 92,152" fill="none" stroke="rgba(160,130,100,0.8)" strokeWidth="1.2"
+        markerEnd="url(#arrowGeo)"/>
+      <text x="58" y="146" fill="rgba(200,170,140,0.75)" fontSize="5.5" fontFamily="monospace">infiltración</text>
+      {/* Definición de marcador de flecha */}
+      <defs>
+        <marker id="arrowGeo" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+          <path d="M0,0 L6,3 L0,6 Z" fill="rgba(255,255,255,0.5)"/>
+        </marker>
+      </defs>
+      {/* Leyenda */}
+      <text x="160" y="13" fill="rgba(255,255,255,0.4)" fontSize="5.5" fontFamily="monospace">Hidrósfera + Atmósfera + Litósfera + Biósfera</text>
+    </svg>
+  );
+}
+
+// ── Geografía: Minerales (preciosos, industriales, energéticos) ───────────────
+function GeoMineralesSVG({ tema }) {
+  const a = tema.acento;
+  const gold = "#f5c842";
+  const cols = [
+    {
+      title: "PRECIOSOS", color: gold, x: 2,
+      minerals: ["Oro (Au)", "Plata (Ag)", "Platino (Pt)", "Diamante"],
+      world1: "Sudáfrica · Rusia",
+      world2: "Australia · Canadá",
+      mx: "México: 1er plata mundial",
+      mx2: "Zacatecas · Guanajuato",
+    },
+    {
+      title: "INDUSTRIALES", color: a, x: 112,
+      minerals: ["Hierro (Fe)", "Cobre (Cu)", "Zinc (Zn)", "Aluminio"],
+      world1: "China (hierro)",
+      world2: "Chile (cobre) · Australia",
+      mx: "Cobre: Sonora (Cananea)",
+      mx2: "Zinc: Zacatecas · Chih.",
+    },
+    {
+      title: "ENERGÉTICOS", color: "#e07040", x: 222,
+      minerals: ["Petróleo", "Gas natural", "Carbón", "Uranio"],
+      world1: "Rusia · Arabia Saudita",
+      world2: "EUA · Qatar",
+      mx: "Petróleo: Campeche/Tab.",
+      mx2: "Gas: Tamaulipas · Ver.",
+    },
+  ];
+  const W = 96, H = 151;
+  return (
+    <svg viewBox="0 0 320 155" width="100%" style={{ display: "block" }}>
+      {cols.map((col) => (
+        <g key={col.x}>
+          <rect x={col.x} y="2" width={W} height={H} rx="6" fill={`${col.color}12`} stroke={`${col.color}40`} strokeWidth="1"/>
+          <rect x={col.x} y="2" width={W} height="20" rx="6" fill={`${col.color}28`}/>
+          <rect x={col.x} y="14" width={W} height="8" fill={`${col.color}28`}/>
+          <text x={col.x + W / 2} y="15" textAnchor="middle" fill={col.color} fontSize="7.5" fontFamily="monospace" fontWeight="700" letterSpacing="0.5">{col.title}</text>
+          {col.minerals.map((m, j) => (
+            <g key={j}>
+              <rect x={col.x + 6} y={26 + j * 22} width={W - 12} height="18" rx="3" fill={`${col.color}18`}/>
+              <text x={col.x + W / 2} y={26 + j * 22 + 12} textAnchor="middle" fill={col.color} fontSize="6.5" fontFamily="monospace" opacity="0.9">{m}</text>
+            </g>
+          ))}
+          <line x1={col.x + 6} y1="117" x2={col.x + W - 6} y2="117" stroke={`${col.color}30`} strokeWidth="0.7"/>
+          <text x={col.x + 6} y="124" fill="rgba(255,255,255,0.4)" fontSize="4.5" fontFamily="monospace">Mundial:</text>
+          <text x={col.x + 6} y="131" fill="rgba(255,255,255,0.65)" fontSize="4.5" fontFamily="monospace">{col.world1}</text>
+          <text x={col.x + 6} y="138" fill="rgba(255,255,255,0.65)" fontSize="4.5" fontFamily="monospace">{col.world2}</text>
+          <line x1={col.x + 6} y1="141" x2={col.x + W - 6} y2="141" stroke={`${col.color}30`} strokeWidth="0.5"/>
+          <text x={col.x + 6} y="147" fill={col.color} fontSize="4.5" fontFamily="monospace" opacity="0.9">{col.mx}</text>
+          <text x={col.x + 6} y="153" fill={col.color} fontSize="4.5" fontFamily="monospace" opacity="0.75">{col.mx2}</text>
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+// ── Geografía: Ríos del mundo y de México ─────────────────────────────────────
+function GeoRiosSVG({ tema }) {
+  const a = tema.acento;
+  const gold = "#f5c842";
+  const maxKm = 6853;
+  const maxBarW = 148;
+  const worldRivers = [
+    { name: "Nilo (África)",               km: 6853, color: "#8ab0cc" },
+    { name: "Amazonas (Sudamérica)",        km: 6400, color: "#3a8a3a" },
+    { name: "Yang-Tsé (China)",            km: 6300, color: "#cc7720" },
+    { name: "Mississippi-Missouri (N.Am.)", km: 6275, color: a },
+    { name: "Ob-Irtysh (Siberia)",         km: 5410, color: "#7070b0" },
+  ];
+  const mxRivers = [
+    { name: "Bravo/Grande (frontera EUA)",        km: 3034, color: gold },
+    { name: "Usumacinta-Grijalva (mayor caudal)", km: 1000, color: gold },
+    { name: "Balsas (hidroeléctrico)",            km:  771, color: gold },
+    { name: "Lerma-Santiago (abastece Altiplano)", km:  708, color: gold },
+  ];
+  const bW = (km) => Math.max(Math.round((km / maxKm) * maxBarW), 4);
+  return (
+    <svg viewBox="0 0 320 158" width="100%" style={{ display: "block" }}>
+      {/* World rivers */}
+      <rect x="2" y="2" width="316" height="74" rx="6" fill="rgba(0,0,0,0.25)" stroke="rgba(255,255,255,0.08)"/>
+      <text x="160" y="13" textAnchor="middle" fill={a} fontSize="7.5" fontFamily="monospace" letterSpacing="1">RÍOS MÁS LARGOS DEL MUNDO</text>
+      {worldRivers.map((r, i) => {
+        const y = 18 + i * 11;
+        return (
+          <g key={i}>
+            <text x="154" y={y + 8.5} textAnchor="end" fill="rgba(255,255,255,0.5)" fontSize="5.5" fontFamily="monospace">{r.name}</text>
+            <rect x="157" y={y} width={bW(r.km)} height="10" fill={r.color} opacity="0.75" rx="2"/>
+            <text x={157 + bW(r.km) + 3} y={y + 8} fill={r.color} fontSize="5.5" fontFamily="monospace">{r.km.toLocaleString("es-MX")} km</text>
+          </g>
+        );
+      })}
+      {/* Mexico rivers */}
+      <rect x="2" y="80" width="316" height="76" rx="6" fill="rgba(0,0,0,0.25)" stroke="rgba(255,255,255,0.08)"/>
+      <text x="160" y="92" textAnchor="middle" fill={gold} fontSize="7.5" fontFamily="monospace" letterSpacing="1">PRINCIPALES RÍOS DE MÉXICO</text>
+      {mxRivers.map((r, i) => {
+        const y = 97 + i * 13;
+        return (
+          <g key={i}>
+            <text x="154" y={y + 9} textAnchor="end" fill="rgba(255,255,255,0.5)" fontSize="5.5" fontFamily="monospace">{r.name}</text>
+            <rect x="157" y={y} width={bW(r.km)} height="11" fill={r.color} opacity="0.75" rx="2"/>
+            <text x={157 + bW(r.km) + 3} y={y + 9} fill={r.color} fontSize="5.5" fontFamily="monospace">{r.km.toLocaleString("es-MX")} km</text>
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+// ── Geografía: Ciclones en México ─────────────────────────────────────────────
+function GeoCiclonesSVG({ tema }) {
+  const a = tema.acento;
+  const gold = "#f5c842";
+  const orange = "#e07040";
+  // Saffir-Simpson categories
+  const cats = [
+    { cat: "Cat. 1", km: "119–153 km/h", color: "#88cc44", label: "leve" },
+    { cat: "Cat. 2", km: "154–177 km/h", color: "#cccc22", label: "moderado" },
+    { cat: "Cat. 3", km: "178–208 km/h", color: "#cc8822", label: "intenso" },
+    { cat: "Cat. 4", km: "209–251 km/h", color: "#cc4422", label: "extremo" },
+    { cat: "Cat. 5", km: "> 252 km/h",   color: "#990022", label: "catastrófico" },
+  ];
+  return (
+    <svg viewBox="0 0 320 158" width="100%" style={{ display: "block" }}>
+      {/* Left: Pacific */}
+      <rect x="2" y="2" width="96" height="154" rx="6" fill="rgba(230,112,64,0.1)" stroke="rgba(230,112,64,0.35)" strokeWidth="1"/>
+      <text x="50" y="14" textAnchor="middle" fill={orange} fontSize="7" fontFamily="monospace" fontWeight="700">PACÍFICO</text>
+      <text x="50" y="24" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="5.5" fontFamily="monospace">15 mayo–30 nov.</text>
+      <text x="50" y="33" textAnchor="middle" fill={orange} fontSize="5.5" fontFamily="monospace" opacity="0.8">Pico: jul.–oct.</text>
+      <line x1="10" y1="38" x2="90" y2="38" stroke="rgba(255,255,255,0.1)" strokeWidth="0.7"/>
+      <text x="8" y="48" fill="rgba(255,255,255,0.5)" fontSize="5" fontFamily="monospace">Estados:</text>
+      {["Sinaloa","Nayarit","Jalisco","Colima","Michoacán","Guerrero","Oaxaca","Chiapas"].map((s, i) => (
+        <text key={i} x="8" y={56 + i * 9} fill="rgba(255,255,255,0.7)" fontSize="5" fontFamily="monospace">· {s}</text>
+      ))}
+      <line x1="10" y1="133" x2="90" y2="133" stroke="rgba(255,255,255,0.1)" strokeWidth="0.7"/>
+      <text x="50" y="143" textAnchor="middle" fill={orange} fontSize="5" fontFamily="monospace" opacity="0.9">Patricia (2015)</text>
+      <text x="50" y="152" textAnchor="middle" fill={orange} fontSize="5" fontFamily="monospace" opacity="0.7">Cat. 5 · récord W</text>
+
+      {/* Center: Saffir-Simpson scale */}
+      <rect x="104" y="2" width="112" height="154" rx="6" fill="rgba(0,0,0,0.25)" stroke="rgba(255,255,255,0.08)" strokeWidth="1"/>
+      <text x="160" y="14" textAnchor="middle" fill="rgba(255,255,255,0.7)" fontSize="7" fontFamily="monospace" fontWeight="700">SAFFIR-SIMPSON</text>
+      <text x="160" y="23" textAnchor="middle" fill="rgba(255,255,255,0.3)" fontSize="5.5" fontFamily="monospace">escala de categorías</text>
+      {cats.map((c, i) => (
+        <g key={i}>
+          <rect x="108" y={32 + i * 24} width="108" height="20" rx="4" fill={`${c.color}20`} stroke={`${c.color}50`} strokeWidth="0.8"/>
+          <text x="114" y={32 + i * 24 + 13} fill={c.color} fontSize="7" fontFamily="monospace" fontWeight="700">{c.cat}</text>
+          <text x="114" y={32 + i * 24 + 20} fill={c.color} fontSize="5" fontFamily="monospace" opacity="0.75">{c.km}</text>
+          <text x="206" y={32 + i * 24 + 14} textAnchor="end" fill={c.color} fontSize="5.5" fontFamily="monospace" opacity="0.85">{c.label}</text>
+        </g>
+      ))}
+      <text x="160" y="158" textAnchor="middle" fill="rgba(255,255,255,0.25)" fontSize="4.5" fontFamily="monospace">viento sostenido</text>
+
+      {/* Right: Atlantic/Caribbean */}
+      <rect x="222" y="2" width="96" height="154" rx="6" fill={`${a}10`} stroke={`${a}35`} strokeWidth="1"/>
+      <text x="270" y="14" textAnchor="middle" fill={a} fontSize="7" fontFamily="monospace" fontWeight="700">ATLÁNTICO</text>
+      <text x="270" y="23" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="5.5" fontFamily="monospace">1 jun.–30 nov.</text>
+      <text x="270" y="32" textAnchor="middle" fill={a} fontSize="5.5" fontFamily="monospace" opacity="0.8">Pico: ago.–oct.</text>
+      <line x1="230" y1="37" x2="310" y2="37" stroke="rgba(255,255,255,0.1)" strokeWidth="0.7"/>
+      <text x="228" y="47" fill="rgba(255,255,255,0.5)" fontSize="5" fontFamily="monospace">Estados:</text>
+      {["Quintana Roo","Yucatán","Tabasco","Veracruz","Tamaulipas"].map((s, i) => (
+        <text key={i} x="228" y={55 + i * 9} fill="rgba(255,255,255,0.7)" fontSize="5" fontFamily="monospace">· {s}</text>
+      ))}
+      <line x1="230" y1="103" x2="310" y2="103" stroke="rgba(255,255,255,0.1)" strokeWidth="0.7"/>
+      <text x="270" y="114" textAnchor="middle" fill={a} fontSize="5" fontFamily="monospace" opacity="0.9">Gilberto (1988)</text>
+      <text x="270" y="123" textAnchor="middle" fill={a} fontSize="5" fontFamily="monospace" opacity="0.9">Wilma (2005)</text>
+      <text x="270" y="132" textAnchor="middle" fill={a} fontSize="5" fontFamily="monospace" opacity="0.7">ambos Cat. 5</text>
+    </svg>
+  );
+}
+
+// ── Geografía: Organización política mundial ───────────────────────────────────
+function GeoOrganizacionSVG({ tema }) {
+  const a = tema.acento;
+  const gold = "#f5c842";
+  const red = "#cc4420";
+  const disint = [
+    { pais: "URSS (1991)",          resultado: "→ 15 repúblicas",            color: a },
+    { pais: "Yugoslavia (1991–2008)", resultado: "→ 7 países (Balcanes)",    color: a },
+    { pais: "Checoslovaquia (1993)", resultado: "→ Rep. Checa + Eslovaquia", color: a },
+    { pais: "Alemania (1990)",       resultado: "Reunificación (O + W)",      color: gold },
+    { pais: "Yemen (1990)",          resultado: "Reunificación",              color: gold },
+    { pais: "Sudán (2011)",          resultado: "→ Sudán + Sudán del Sur",   color: a },
+    { pais: "Kosovo (2008)",         resultado: "Independencia de Serbia",    color: a },
+  ];
+  const tension = [
+    { zona: "Oriente Medio",        desc: "Israel-Palestina · guerras regionales" },
+    { zona: "Ucrania-Rusia",        desc: "Invasión rusa 2022; tensión OTAN-Rusia" },
+    { zona: "Corea del Norte",      desc: "Programa nuclear; tensión con Occidente" },
+    { zona: "Cachemira",            desc: "Disputa India-Pakistán desde 1947" },
+    { zona: "Estrecho de Taiwán",   desc: "Tensión China-Taiwán-EUA" },
+    { zona: "Mar del Sur de China",  desc: "Reclamaciones territoriales China vs. vecinos" },
+  ];
+  return (
+    <svg viewBox="0 0 320 158" width="100%" style={{ display: "block" }}>
+      {/* Left: Disintegración/unificación */}
+      <rect x="2" y="2" width="152" height="154" rx="6" fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.08)"/>
+      <text x="78" y="13" textAnchor="middle" fill={a} fontSize="7" fontFamily="monospace" fontWeight="700">DESINTEGRACIÓN / UNIFIC.</text>
+      <text x="78" y="22" textAnchor="middle" fill="rgba(255,255,255,0.3)" fontSize="5.5" fontFamily="monospace">post-Guerra Fría (1989–)</text>
+      {disint.map((d, i) => (
+        <g key={i}>
+          <rect x="6" y={28 + i * 18} width="144" height="15" rx="3" fill={`${d.color}10`}/>
+          <text x="10" y={28 + i * 18 + 10} fill={d.color} fontSize="5.5" fontFamily="monospace" fontWeight="600">{d.pais}</text>
+          <text x="10" y={28 + i * 18 + 14} fill="rgba(255,255,255,0.6)" fontSize="4.5" fontFamily="monospace">{d.resultado}</text>
+        </g>
+      ))}
+
+      {/* Right: Zonas de tensión */}
+      <rect x="166" y="2" width="152" height="154" rx="6" fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.08)"/>
+      <text x="242" y="13" textAnchor="middle" fill={red} fontSize="7" fontFamily="monospace" fontWeight="700">ZONAS DE TENSIÓN</text>
+      <text x="242" y="22" textAnchor="middle" fill="rgba(255,255,255,0.3)" fontSize="5.5" fontFamily="monospace">conflictos y disputas actuales</text>
+      {tension.map((z, i) => (
+        <g key={i}>
+          <rect x="170" y={28 + i * 21} width="144" height="18" rx="3" fill="rgba(200,70,40,0.1)"/>
+          <text x="174" y={28 + i * 21 + 11} fill={red} fontSize="5.5" fontFamily="monospace" fontWeight="600">{z.zona}</text>
+          <text x="174" y={28 + i * 21 + 17} fill="rgba(255,255,255,0.55)" fontSize="4.5" fontFamily="monospace">{z.desc}</text>
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+// ── Geografía: Biomas mundiales y de México ───────────────────────────────────
+function GeoRegionesSVG({ tema }) {
+  const a = tema.acento;
+  const worldZ = [
+    { label: "TUNDRA / POLAR",         color: "#607090", y: 22, h: 18, res: "glaciares · petróleo ártico" },
+    { label: "TAIGA",                   color: "#2a5a2a", y: 40, h: 18, res: "madera · gas natural" },
+    { label: "BOSQUE TEMPLADO",         color: "#3a7a3a", y: 58, h: 16, res: "madera · agua · suelos fértiles" },
+    { label: "MATORRAL / ESTEPA",       color: "#7a6a28", y: 74, h: 14, res: "ganadería · trigo · gas" },
+    { label: "DESIERTO SUBTROPICAL",    color: "#b07820", y: 88, h: 14, res: "minería · energía solar" },
+    { label: "SABANA",                  color: "#78a828", y: 102, h: 14, res: "ganadería extensiva" },
+    { label: "◄  SELVA TROPICAL  ►",  color: "#1a7020", y: 116, h: 20, res: "Mayor biodiversidad del planeta" },
+    { label: "Hemisferio Sur (espejo)", color: "#1e1e2e", y: 136, h: 22, res: "mismos biomas, orden inverso" },
+  ];
+  const mxZ = [
+    { label: "DESIERTO / MATORRAL ÁRIDO",      color: "#b07820", y: 22,  h: 25, sub: "Sonora · Chihuahua · Baja California" },
+    { label: "PASTIZAL / ESTEPA",              color: "#7a6a28", y: 47,  h: 20, sub: "Chihuahua norte · Durango" },
+    { label: "BOSQUE DE PINO-ENCINO",          color: "#2a5a2a", y: 67,  h: 26, sub: "Sierra Madre Occ., Orient. y del Sur" },
+    { label: "MATORRAL XERÓFILO",              color: "#8a7a30", y: 93,  h: 20, sub: "Altiplano Central" },
+    { label: "BOSQUE TROP. CADUCIFOLIO",       color: "#4a8a2a", y: 113, h: 20, sub: "Costas del Pacífico y del Golfo" },
+    { label: "SELVA TROPICAL HÚMEDA",          color: "#1a7020", y: 133, h: 25, sub: "Chiapas · Tabasco · Veracruz · Yucatán" },
+  ];
+  return (
+    <svg viewBox="0 0 320 162" width="100%" style={{ display: "block" }}>
+      <rect x="2"   y="2" width="153" height="158" rx="6" fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.08)"/>
+      <text x="78"  y="13" textAnchor="middle" fill={a} fontSize="7.5" fontFamily="monospace" letterSpacing="1">BIOMAS MUNDIALES</text>
+      <text x="78"  y="21" textAnchor="middle" fill="rgba(255,255,255,0.3)" fontSize="5.5" fontFamily="monospace">norte → sur (por latitud)</text>
+      {worldZ.map((z, i) => (
+        <g key={i}>
+          <rect x="4"  y={z.y} width="149" height={z.h - 1} fill={z.color} opacity="0.82" rx="1.5"/>
+          <text x="8"  y={z.y + z.h * 0.45} fill="rgba(255,255,255,0.95)" fontSize="5.5" fontFamily="monospace" fontWeight="600">{z.label}</text>
+          <text x="8"  y={z.y + z.h * 0.82} fill="rgba(255,255,255,0.5)"  fontSize="4.5" fontFamily="monospace">{z.res}</text>
+        </g>
+      ))}
+      <rect x="165" y="2" width="153" height="158" rx="6" fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.08)"/>
+      <text x="241" y="13" textAnchor="middle" fill={a} fontSize="7.5" fontFamily="monospace" letterSpacing="1">BIOMAS EN MÉXICO</text>
+      <text x="241" y="21" textAnchor="middle" fill="rgba(255,255,255,0.3)" fontSize="5.5" fontFamily="monospace">norte → sur</text>
+      {mxZ.map((z, i) => (
+        <g key={i}>
+          <rect x="167" y={z.y} width="149" height={z.h - 1} fill={z.color} opacity="0.82" rx="1.5"/>
+          <text x="171" y={z.y + z.h * 0.45} fill="rgba(255,255,255,0.95)" fontSize="5.5" fontFamily="monospace" fontWeight="600">{z.label}</text>
+          <text x="171" y={z.y + z.h * 0.82} fill="rgba(255,255,255,0.5)"  fontSize="4.5" fontFamily="monospace">{z.sub}</text>
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+// ── Geografía: Deterioro ambiental (4 problemas) ──────────────────────────────
+function GeoDeterioroSVG({ tema }) {
+  const boxes = [
+    {
+      title: "CAMBIO CLIMÁTICO",   sub: "Efecto Invernadero",
+      hdr: "#cc4420", bg: "rgba(200,70,30,0.12)", brd: "rgba(200,70,30,0.38)",
+      causa: "CO₂, CH₄, N₂O atrapan calor solar",
+      efecto: "↑ T° · deshielo · ↑ nivel del mar",
+      x: 2, y: 2,
+    },
+    {
+      title: "CAPA DE OZONO",      sub: "Adelgazamiento",
+      hdr: "#7744cc", bg: "rgba(100,60,200,0.12)", brd: "rgba(100,60,200,0.38)",
+      causa: "Clorofluorocarbonos (CFC)",
+      efecto: "↑ UV · cáncer de piel · daño ecosist.",
+      x: 163, y: 2,
+    },
+    {
+      title: "AGUA",               sub: "Contaminación y sobreexplotación",
+      hdr: "#1a6aaa", bg: "rgba(26,100,170,0.12)", brd: "rgba(26,100,170,0.38)",
+      causa: "Agropecuaria · industrial · doméstica",
+      efecto: "Escasez · enfermedades · ↓ acuíferos",
+      x: 2, y: 82,
+    },
+    {
+      title: "MAREA NEGRA",        sub: "Petróleo",
+      hdr: "#884411", bg: "rgba(100,50,20,0.15)", brd: "rgba(130,80,40,0.38)",
+      causa: "Derrames en extracción y transporte",
+      efecto: "Muerte ecosist. marino · aves · peces",
+      x: 163, y: 82,
+    },
+  ];
+  const W = 153, H = 74;
+  return (
+    <svg viewBox="0 0 320 158" width="100%" style={{ display: "block" }}>
+      {boxes.map((b, i) => (
+        <g key={i}>
+          <rect x={b.x} y={b.y} width={W} height={H} rx="7" fill={b.bg} stroke={b.brd} strokeWidth="1"/>
+          <text x={b.x + W / 2} y={b.y + 12} textAnchor="middle" fill={b.hdr} fontSize="7.5" fontFamily="monospace" fontWeight="700" letterSpacing="0.5">{b.title}</text>
+          <text x={b.x + W / 2} y={b.y + 21} textAnchor="middle" fill={b.hdr} fontSize="5.5" fontFamily="monospace" opacity="0.75">{b.sub}</text>
+          <line x1={b.x + 10} y1={b.y + 25} x2={b.x + W - 10} y2={b.y + 25} stroke={b.brd} strokeWidth="0.7"/>
+          <text x={b.x + 8} y={b.y + 35} fill="rgba(255,255,255,0.45)" fontSize="5.5" fontFamily="monospace">Causa:</text>
+          <text x={b.x + 8} y={b.y + 46} fill="rgba(255,255,255,0.85)" fontSize="5.5" fontFamily="monospace">{b.causa}</text>
+          <line x1={b.x + 10} y1={b.y + 51} x2={b.x + W - 10} y2={b.y + 51} stroke={b.brd} strokeWidth="0.5" opacity="0.5"/>
+          <text x={b.x + 8} y={b.y + 61} fill="rgba(255,255,255,0.45)" fontSize="5.5" fontFamily="monospace">Consecuencia:</text>
+          <text x={b.x + 8} y={b.y + 71} fill={b.hdr} fontSize="5.5" fontFamily="monospace" opacity="0.9">{b.efecto}</text>
+        </g>
+      ))}
+      {/* gap separator */}
+      <line x1="2" y1="79" x2="318" y2="79" stroke="rgba(255,255,255,0.06)" strokeWidth="1"/>
+    </svg>
+  );
+}
+
+// ── Geografía: Pirámide poblacional comparativa ───────────────────────────────
+function GeoPoblacionSVG({ tema }) {
+  const a = tema.acento;
+  const gold = "#f5c842";
+  const red = "#cc4420";
+  const scale = 1.9; // px per %
+  const barH = 18, barGap = 4, startY = 38, labelX = 55;
+
+  const devAges    = [[32,"0-14","#cc4420"],[27,"15-29","#cc6020"],[20,"30-44","#aa7820"],[13,"45-59","#7a8820"],[8,"60+","#4a9820"]];
+  const richAges   = [[15,"0-14","#4a9820"],[17,"15-29","#3a9840"],[21,"30-44","#2a8860"],[23,"45-59","#1a7880"],[24,"60+",a]];
+
+  return (
+    <svg viewBox="0 0 320 160" width="100%" style={{ display: "block" }}>
+      {/* Panel izquierdo: países en desarrollo */}
+      <rect x="2" y="2" width="148" height="156" rx="6" fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.08)"/>
+      <text x="76" y="13" textAnchor="middle" fill={red} fontSize="6.5" fontFamily="monospace" fontWeight="700">PAÍSES EN DESARROLLO</text>
+      <text x="76" y="22" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="5.5" fontFamily="monospace">Pirámide con base amplia</text>
+      <text x="76" y="31" textAnchor="middle" fill="rgba(255,255,255,0.25)" fontSize="5" fontFamily="monospace">México · India · Nigeria · Brasil</text>
+      {devAges.map(([pct, label, color], i) => {
+        const bW = Math.round(pct * scale);
+        const y = startY + i * (barH + barGap);
+        return (
+          <g key={i}>
+            <text x="50" y={y + barH / 2 + 3} textAnchor="end" fill="rgba(255,255,255,0.5)" fontSize="6" fontFamily="monospace">{label}</text>
+            <rect x={labelX} y={y} width={bW} height={barH} fill={color} opacity="0.82" rx="2"/>
+            <text x={labelX + bW + 3} y={y + barH / 2 + 3} fill={color} fontSize="6" fontFamily="monospace">{pct}%</text>
+          </g>
+        );
+      })}
+      {/* Panel derecho: países desarrollados */}
+      <rect x="170" y="2" width="148" height="156" rx="6" fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.08)"/>
+      <text x="244" y="13" textAnchor="middle" fill={a} fontSize="6.5" fontFamily="monospace" fontWeight="700">PAÍSES DESARROLLADOS</text>
+      <text x="244" y="22" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="5.5" fontFamily="monospace">Pirámide envejecida / uniforme</text>
+      <text x="244" y="31" textAnchor="middle" fill="rgba(255,255,255,0.25)" fontSize="5" fontFamily="monospace">Japón · Alemania · Suecia · EUA</text>
+      {richAges.map(([pct, label, color], i) => {
+        const bW = Math.round(pct * scale);
+        const y = startY + i * (barH + barGap);
+        return (
+          <g key={i}>
+            <text x="220" y={y + barH / 2 + 3} textAnchor="end" fill="rgba(255,255,255,0.5)" fontSize="6" fontFamily="monospace">{label}</text>
+            <rect x="223" y={y} width={bW} height={barH} fill={color} opacity="0.82" rx="2"/>
+            <text x={223 + bW + 3} y={y + barH / 2 + 3} fill={color} fontSize="6" fontFamily="monospace">{pct}%</text>
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+// ── Geografía: Brecha del desarrollo y bloques económicos ─────────────────────
+function GeoEconomiaSVG({ tema }) {
+  const a = tema.acento;
+  const gold = "#f5c842";
+  const grn = "#3a8a3a";
+  const red = "#cc4420";
+  const W = 152, barH = 12, barGap = 5, startY = 38, lbW = 50, maxBW = 80;
+  const PL = 2, PR = 166; // panel left x
+
+  const devInds  = [["IDH","0.90",90,grn],["Esp. vida","80 años",89,grn],["Alfabet.","99%",99,grn],["Natalidad","10 ‰",25,a]];
+  const devgInds = [["IDH","0.60",60,gold],["Esp. vida","68 años",76,gold],["Alfabet.","75%",75,gold],["Natalidad","25 ‰",63,red]];
+
+  const panelRows = (inds, px) =>
+    inds.map(([label, val, pct, color], i) => {
+      const bW = Math.round(pct * maxBW / 100);
+      const y = startY + i * (barH + barGap);
+      const barX = px + lbW + 8;
+      return (
+        <g key={i}>
+          <text x={px + 8} y={y + barH - 1} fill="rgba(255,255,255,0.5)" fontSize="6" fontFamily="monospace">{label}</text>
+          <rect x={barX} y={y} width={bW} height={barH} fill={color} opacity="0.75" rx="2"/>
+          <text x={barX + bW + 3} y={y + barH - 1} fill={color} fontSize="5.5" fontFamily="monospace">{val}</text>
+        </g>
+      );
+    });
+
+  return (
+    <svg viewBox="0 0 320 162" width="100%" style={{ display: "block" }}>
+      {/* Top: indicators */}
+      <rect x={PL}  y="2" width={W} height="104" rx="6" fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.08)"/>
+      <text x={PL + W/2} y="13" textAnchor="middle" fill={grn}  fontSize="7" fontFamily="monospace" fontWeight="700">PAÍSES DESARROLLADOS</text>
+      <text x={PL + W/2} y="22" textAnchor="middle" fill="rgba(255,255,255,0.3)" fontSize="5.5" fontFamily="monospace">EUA · Alemania · Japón · Francia</text>
+      <text x={PL + W/2} y="31" textAnchor="middle" fill="rgba(255,255,255,0.2)" fontSize="5" fontFamily="monospace">indicadores altos</text>
+      {panelRows(devInds, PL)}
+
+      <rect x={PR}  y="2" width={W} height="104" rx="6" fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.08)"/>
+      <text x={PR + W/2} y="13" textAnchor="middle" fill={gold} fontSize="7" fontFamily="monospace" fontWeight="700">PAÍSES EN DESARROLLO</text>
+      <text x={PR + W/2} y="22" textAnchor="middle" fill="rgba(255,255,255,0.3)" fontSize="5.5" fontFamily="monospace">México · India · Nigeria · Bolivia</text>
+      <text x={PR + W/2} y="31" textAnchor="middle" fill="rgba(255,255,255,0.2)" fontSize="5" fontFamily="monospace">indicadores intermedios-bajos</text>
+      {panelRows(devgInds, PR)}
+
+      {/* Brecha label */}
+      <text x="160" y="55"  textAnchor="middle" fill="rgba(255,255,255,0.22)" fontSize="5.5" fontFamily="monospace">←</text>
+      <text x="160" y="63"  textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="5.5" fontFamily="monospace">BRECHA</text>
+      <text x="160" y="71"  textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="5.5" fontFamily="monospace">DEL</text>
+      <text x="160" y="79"  textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="5.5" fontFamily="monospace">DESARR.</text>
+      <text x="160" y="87"  textAnchor="middle" fill="rgba(255,255,255,0.22)" fontSize="5.5" fontFamily="monospace">→</text>
+
+      {/* Bottom: economic blocs */}
+      {[
+        { label:"T-MEC", sub:"EUA · Canadá · México", desc:"Mayor bloque por PIB",   color:a,    x:2   },
+        { label:"U.E.",  sub:"27 países · Alemania",   desc:"Euro · Banco Central",  color:gold, x:112 },
+        { label:"APEC",  sub:"Cuenca del Pacífico",    desc:"Japón · China · EUA",   color:"#4ab890", x:222 },
+      ].map((bl, i) => (
+        <g key={i}>
+          <rect x={bl.x} y="110" width="96" height="48" rx="6"
+            fill={`${bl.color}14`} stroke={`${bl.color}44`} strokeWidth="1"/>
+          <text x={bl.x + 48} y="122" textAnchor="middle" fill={bl.color} fontSize="7.5" fontFamily="monospace" fontWeight="700">{bl.label}</text>
+          <text x={bl.x + 48} y="132" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="5" fontFamily="monospace">{bl.sub}</text>
+          <text x={bl.x + 48} y="142" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="4.5" fontFamily="monospace">{bl.desc}</text>
+          <text x={bl.x + 48} y="152" textAnchor="middle" fill={bl.color} fontSize="5" fontFamily="monospace" opacity="0.6">México ∈ T-MEC y APEC</text>
+        </g>
+      ))}
     </svg>
   );
 }

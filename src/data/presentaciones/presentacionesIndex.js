@@ -11,6 +11,9 @@ import { PRESENTACION as COHESION_GRAMATICAL } from "./cohesion-gramatical.js";
 import { PRESENTACION as COHESION_LEXICO_SEMANTICA } from "./cohesion-lexico-semantica.js";
 import { PRESENTACION as MARCADORES_TEXTUALES } from "./marcadores-textuales.js";
 import { PRESENTACION as GRAFOFONETICA } from "./grafofonetica.js";
+import { PRESENTACION as GEOGRAFIA_TIERRA } from "./geografia-tierra.js";
+import { PRESENTACION as GEOGRAFIA_HUMANA } from "./geografia-humana.js";
+import { PRESENTACION as GEOGRAFIA_COMPLEMENTO } from "./geografia-complemento.js";
 
 export const PRESENTACIONES_INDEX = {
   "semejanza-triangulos": SEMEJANZA_TRIANGULOS,
@@ -22,6 +25,9 @@ export const PRESENTACIONES_INDEX = {
   "cohesion-lexico-semantica": COHESION_LEXICO_SEMANTICA,
   "marcadores-textuales": MARCADORES_TEXTUALES,
   "grafofonetica": GRAFOFONETICA,
+  "geografia-tierra": GEOGRAFIA_TIERRA,
+  "geografia-humana": GEOGRAFIA_HUMANA,
+  "geografia-complemento": GEOGRAFIA_COMPLEMENTO,
 };
 
 export function buscarPresentacion(id) {

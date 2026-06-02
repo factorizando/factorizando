@@ -103,10 +103,18 @@ export const SUBJECTS_PREP = [
         id: "geometria",
         name: "Geometría",
         children: [
-          { id: "angulos",       name: "Ángulos" },
-          { id: "semejanza",     name: "Semejanza de Triángulos",  presentacion: "/ver/semejanza-triangulos"   },
-          { id: "circulo",       name: "El Círculo",               presentacion: "/ver/circulo"                },
-          { id: "cuadrilateros", name: "Cuadriláteros y Polígonos", presentacion: "/ver/cuadrilateros-poligonos" },
+          { id: "angulos", name: "Ángulos" },
+          {
+            id: "semejanza",
+            name: "Semejanza de Triángulos",
+            presentacion: "/ver/semejanza-triangulos",
+          },
+          { id: "circulo", name: "El Círculo", presentacion: "/ver/circulo" },
+          {
+            id: "cuadrilateros",
+            name: "Cuadriláteros y Polígonos",
+            presentacion: "/ver/cuadrilateros-poligonos",
+          },
         ],
       },
       {
@@ -166,18 +174,42 @@ export const SUBJECTS_PREP = [
             name: "Redacción Indirecta",
             teoria: `${import.meta.env.BASE_URL}guias/EXANI-I_RedaccionIndirecta.html`,
           },
-          { id: "grafofonetica",    name: "Grafofonética",         presentacion: "/ver/grafofonetica"        },
-          { id: "acentuacion",      name: "Acentuación",           presentacion: "/ver/acentuacion"          },
-          { id: "signos-puntuacion", name: "Signos de Puntuación", presentacion: "/ver/signos-puntuacion"    },
+          {
+            id: "grafofonetica",
+            name: "Grafofonética",
+            presentacion: "/ver/grafofonetica",
+          },
+          {
+            id: "acentuacion",
+            name: "Acentuación",
+            presentacion: "/ver/acentuacion",
+          },
+          {
+            id: "signos-puntuacion",
+            name: "Signos de Puntuación",
+            presentacion: "/ver/signos-puntuacion",
+          },
         ],
       },
       {
         id: "cohesion-redaccion",
         name: "Cohesión y Redacción",
         children: [
-          { id: "cohesion-gramatical",  name: "Cohesión Gramatical",          presentacion: "/ver/cohesion-gramatical"         },
-          { id: "cohesion-lexico",      name: "Cohesión Léxico-Semántica",     presentacion: "/ver/cohesion-lexico-semantica"   },
-          { id: "marcadores-textuales", name: "Marcadores Textuales",          presentacion: "/ver/marcadores-textuales"        },
+          {
+            id: "cohesion-gramatical",
+            name: "Cohesión Gramatical",
+            presentacion: "/ver/cohesion-gramatical",
+          },
+          {
+            id: "cohesion-lexico",
+            name: "Cohesión Léxico-Semántica",
+            presentacion: "/ver/cohesion-lexico-semantica",
+          },
+          {
+            id: "marcadores-textuales",
+            name: "Marcadores Textuales",
+            presentacion: "/ver/marcadores-textuales",
+          },
         ],
       },
     ],
@@ -236,9 +268,7 @@ export const SUBJECTS_PREP = [
       {
         id: "gen",
         name: "Genética y Herencia",
-        children: [
-          { id: "gen-bas", name: "Leyes de Mendel" },
-        ],
+        children: [{ id: "gen-bas", name: "Leyes de Mendel" }],
       },
       {
         id: "bio-pc",
@@ -275,9 +305,21 @@ export const SUBJECTS_PREP = [
     name: "Geografía",
     color: "#4ade80",
     children: [
-      { id: "geo-tierra",      name: "La Tierra: Geografía Física",  presentacion: "/ver/geografia-tierra"      },
-      { id: "geo-humana",      name: "Geografía Humana",              presentacion: "/ver/geografia-humana"      },
-      { id: "geo-complemento", name: "Recursos, Mar y Política",      presentacion: "/ver/geografia-complemento" },
+      {
+        id: "geo-tierra",
+        name: "La Tierra: Geografía Física",
+        presentacion: "/ver/geografia-tierra",
+      },
+      {
+        id: "geo-humana",
+        name: "Geografía Humana",
+        presentacion: "/ver/geografia-humana",
+      },
+      {
+        id: "geo-complemento",
+        name: "Recursos, Mar y Política",
+        presentacion: "/ver/geografia-complemento",
+      },
     ],
   },
   {
@@ -410,6 +452,11 @@ export const SUBJECTS_PREP = [
                 name: "Sesión 4 - Congruencia y Semejanza de Triángulos 2",
                 video: "https://youtu.be/v-EUmID0qaM",
               },
+              {
+                id: "sesion-5",
+                name: "Sesión 5 - Cuadriláteros y polígonos regulares",
+                video: "https://youtu.be/v-EUmID0qaM",
+              },
             ],
           },
         ],
@@ -462,6 +509,11 @@ export const SUBJECTS_PREP = [
             id: "sesion-9",
             name: "Sesión 9 - Concordancia Verbal 3",
             video: "https://youtu.be/JL4c-zDLPNA",
+          },
+          {
+            id: "sesion-10",
+            name: "Sesión 10 - Acentuación",
+            video: "https://youtu.be/oT9zv8SfreI",
           },
         ],
       },

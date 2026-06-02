@@ -144,11 +144,7 @@ export const SUBJECTS_UNI = [
     name: "Física",
     color: "#34d399",
     children: [
-      {
-        id: "fis-tem1",
-        name: "Tema por definir",
-        children: [{ id: "fis-sub1", name: "Subtema por definir" }],
-      },
+      { id: "fis-pc", name: "Pensamiento Científico", presentacion: "/ver/fisica-pensamiento-cientifico" },
     ],
   },
   {
@@ -179,11 +175,7 @@ export const SUBJECTS_UNI = [
     name: "Química",
     color: "#f43f5e",
     children: [
-      {
-        id: "qui-tem1",
-        name: "Tema por definir",
-        children: [{ id: "qui-sub1", name: "Subtema por definir" }],
-      },
+      { id: "qui-pc", name: "Pensamiento Científico", presentacion: "/ver/quimica-pensamiento-cientifico" },
     ],
   },
   {
@@ -191,11 +183,9 @@ export const SUBJECTS_UNI = [
     name: "Geografía",
     color: "#4ade80",
     children: [
-      {
-        id: "geo-tem1",
-        name: "Tema por definir",
-        children: [{ id: "geo-sub1", name: "Subtema por definir" }],
-      },
+      { id: "geo-tierra",      name: "La Tierra: Geografía Física",  presentacion: "/ver/geografia-tierra"      },
+      { id: "geo-humana",      name: "Geografía Humana",              presentacion: "/ver/geografia-humana"      },
+      { id: "geo-complemento", name: "Recursos, Mar y Política",      presentacion: "/ver/geografia-complemento" },
     ],
   },
   {

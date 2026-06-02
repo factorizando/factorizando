@@ -20,6 +20,7 @@ import LeyesNewton from "./data/teoria/leyes-de-newton.jsx";
 import Quimica from "./data/teoria/quimica-unam.jsx";
 import PresentacionDirector from "./pages/PresentacionDirector.jsx";
 import PresentacionAlumno from "./pages/PresentacionAlumno.jsx";
+import PresentacionVer from "./pages/PresentacionVer.jsx";
 import TemaPreview from "./pages/TemaPreview.jsx";
 
 export default function App() {
@@ -85,12 +86,21 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-        {/* Alumno (requiere auth): /clase */}
+        {/* Alumno en vivo (requiere auth): /clase */}
         <Route
           path="/clase"
           element={
             <ProtectedRoute>
               <PresentacionAlumno />
+            </ProtectedRoute>
+          }
+        />
+        {/* Repaso autónomo (requiere auth): /ver/:id */}
+        <Route
+          path="/ver/:id"
+          element={
+            <ProtectedRoute>
+              <PresentacionVer />
             </ProtectedRoute>
           }
         />

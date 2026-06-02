@@ -257,6 +257,18 @@ export const PRESENTACION = {
           ],
         },
         {
+          tipo: "tabla",
+          titulo: "Principales zonas de tensión política en el mundo",
+          columnas: ["Zona / Conflicto", "Países involucrados", "Causa principal"],
+          filas: [
+            { tiempo: "Medio Oriente",        correcto: "Israel-Palestina, Siria, Irak",             error: "Disputas territoriales, religión y control del petróleo" },
+            { tiempo: "Península de Corea",   correcto: "Corea del Norte vs. Corea del Sur / EUA",   error: "División ideológica desde 1953; amenaza nuclear norcoreana" },
+            { tiempo: "Asia del Sur",         correcto: "India vs. Pakistán (Cachemira)",             error: "Disputa territorial desde la partición de 1947; ambos con armas nucleares" },
+            { tiempo: "Europa del Este",      correcto: "Rusia vs. Ucrania (invasión 2022)",          error: "Expansión de la OTAN, control de territorio y recursos energéticos" },
+            { tiempo: "África Subsahariana",  correcto: "Sahel, RD Congo, Etiopía",                  error: "Pobreza extrema, grupos armados no estatales, disputas étnicas y recursos" },
+          ],
+        },
+        {
           tipo: "trampa",
           letra: "A",
           titulo: "Las 15 repúblicas de la URSS no son lo mismo que los 7 países surgidos de Yugoslavia",
@@ -353,7 +365,7 @@ export const PRESENTACION = {
         },
         {
           titulo: "Organización política",
-          texto: "URSS (1991) → 15 repúblicas. Yugoslavia (1991-2008) → 7 países. Checoslovaquia (1993) → 2. México: 32 entidades (31 estados + CDMX). Fronteras: EUA (norte), Guatemala y Belice (sur). Litorales: Pacífico (7,828 km) y Golfo/Caribe (3,294 km).",
+          texto: "URSS (1991) → 15 repúblicas. Yugoslavia (1991-2008) → 7 países. Checoslovaquia (1993) → 2. México: 32 entidades (31 estados + CDMX). Fronteras: EUA (norte), Guatemala y Belice (sur). Litorales: Pacífico (7,828 km) y Golfo/Caribe (3,294 km). Zonas de tensión política: Medio Oriente, Corea, Cachemira (India-Pakistán), Rusia-Ucrania, Sahel africano.",
         },
       ],
     },

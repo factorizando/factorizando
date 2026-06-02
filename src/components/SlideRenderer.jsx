@@ -127,7 +127,7 @@ function HistogramaVotos({ votos, totalVotos, opciones, correcta, tema }) {
               }}
             >
               <span style={{ color: isOk ? tema.verde : tema.muted }}>
-                {String.fromCharCode(65 + i)}. {op.length > 14 ? op.slice(0, 14) + "…" : op}
+                {String.fromCharCode(65 + i)}. {op.includes('\\') ? <M>{op}</M> : (op.length > 14 ? op.slice(0, 14) + "…" : op)}
               </span>
               <span style={{ color: isOk ? tema.verde : tema.sub }}>
                 {count} ({pct}%)
@@ -449,6 +449,7 @@ function SlideDefinicion({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "paralelogramo-def"    && <ParalelogramoDefSVG    tema={tema} />}
       {slide.svgDiagram === "trapecio-def"         && <TrapecioDefSVG         tema={tema} />}
       {slide.svgDiagram === "poligono-regular-def" && <PoligonoRegularDefSVG  tema={tema} />}
+      {slide.svgDiagram === "circulo-partes"       && <CirculoPartesSVG       tema={tema} />}
 
       <div style={{ display: "grid", gridTemplateColumns: narrow ? "1fr" : "1fr 1fr", gap: 12 }}>
         {slide.condiciones.map((c, i) => {
@@ -646,6 +647,9 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "trapecio-formulas"        && <TrapecioFormulasSVG        tema={tema} />}
       {slide.svgDiagram === "angulo-interior-formula"  && <AnguloInteriorFormulaSVG   tema={tema} />}
       {slide.svgDiagram === "angulo-exterior-formula"  && <AnguloExteriorFormulaSVG   tema={tema} />}
+      {slide.svgDiagram === "circulo-partes"           && <CirculoPartesSVG           tema={tema} />}
+      {slide.svgDiagram === "circulo-formulas"         && <CirculoFormulasSVG         tema={tema} />}
+      {slide.svgDiagram === "areas-estrategia"         && <AreasEstrategiaSVG         tema={tema} />}
 
       <div style={{ display: "flex", flexDirection: "column", gap: compact ? 8 : 10 }}>
         {slide.items.map((item, i) => {
@@ -1845,6 +1849,10 @@ function SlideCriterioDetalle({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "cuadrado-detalle"         && <CuadradoDetalleSVG     tema={tema} />}
       {slide.svgDiagram === "trapecio-isosceles-detalle" && <TrapIsoDetalleSVG    tema={tema} />}
       {slide.svgDiagram === "trapecio-rect-detalle"    && <TrapRectDetalleSVG     tema={tema} />}
+      {slide.svgDiagram === "angulo-central"           && <AnguloCentralSVG       tema={tema} />}
+      {slide.svgDiagram === "sector-circular"          && <SectorCircularSVG      tema={tema} />}
+      {slide.svgDiagram === "segmento-circular"        && <SegmentoCircularSVG    tema={tema} />}
+      {slide.svgDiagram === "tangente-exterior"        && <TangenteExteriorSVG    tema={tema} />}
 
       <div
         onClick={() => onResaltar && onResaltar(1)}
@@ -2883,6 +2891,447 @@ function Poe3SumaSVG({ tema }) {
   );
 }
 
+// ── El Círculo: SVG components ───────────────────────────────────────────────
+
+function CirculoPartesSVG({ tema }) {
+  const cx=148, cy=100, r=74;
+  const bl=tema.azul, a=tema.acento, gr=tema.verde;
+  const D=(d)=>d*Math.PI/180;
+  const P=(ang)=>[+(cx+r*Math.cos(D(ang))).toFixed(1), +(cy+r*Math.sin(D(ang))).toFixed(1)];
+  const [ax,ay]=P(-130), [bx,by]=P(-40);
+  const [arc0x,arc0y]=P(-90), [arc1x,arc1y]=P(-30);
+  return (
+    <svg viewBox="0 0 310 200" width="100%" style={{display:"block",maxHeight:190}}>
+      <circle cx={cx} cy={cy} r={r} fill={tema.azulSuave} stroke={bl} strokeWidth="2"/>
+      <line x1={cx-r} y1={cy} x2={cx+r} y2={cy} stroke={gr} strokeWidth="1.6" strokeDasharray="5,3" opacity="0.8"/>
+      <text x={cx} y={cy+14} fill={gr} fontSize="11" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">d = 2r</text>
+      <line x1={cx} y1={cy} x2={cx} y2={cy-r} stroke={a} strokeWidth="2.2"/>
+      <text x={cx+5} y={cy-r/2} fill={a} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">r</text>
+      <line x1={ax} y1={ay} x2={bx} y2={by} stroke={bl} strokeWidth="2" opacity="0.85"/>
+      <text x={(+ax + +bx)/2} y={(+ay + +by)/2 - 9} fill={bl} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle" opacity="0.85">cuerda</text>
+      <path d={`M ${arc0x},${arc0y} A ${r},${r} 0 0,1 ${arc1x},${arc1y}`} fill="none" stroke={gr} strokeWidth="4.5" strokeLinecap="round" opacity="0.75"/>
+      <text x={+arc1x+4} y={+arc1y-24} fill={gr} fontSize="10" fontFamily="'DM Sans',sans-serif">arco</text>
+      <line x1={cx+r} y1={cy-52} x2={cx+r} y2={cy+52} stroke={a} strokeWidth="1.5" strokeDasharray="4,3" opacity="0.7"/>
+      <text x={cx+r+6} y={cy-38} fill={a} fontSize="10" fontFamily="'DM Sans',sans-serif" opacity="0.85">tangente</text>
+      <path d={`M ${cx+r-8},${cy} L ${cx+r-8},${cy-8} L ${cx+r},${cy-8}`} fill="none" stroke="rgba(255,255,255,0.40)" strokeWidth="1.2"/>
+      <circle cx={cx+r} cy={cy} r={3} fill={a} opacity="0.8"/>
+      <circle cx={cx} cy={cy} r={3.5} fill={a}/>
+      <text x={cx+5} y={cy-5} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">O</text>
+    </svg>
+  );
+}
+
+function CirculoFormulasSVG({ tema }) {
+  const cx=94, cy=95, r=68;
+  const bl=tema.azul, a=tema.acento, gr=tema.verde;
+  return (
+    <svg viewBox="0 0 275 185" width="100%" style={{display:"block",maxHeight:178}}>
+      <defs>
+        <marker id="cf-arr-a" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+          <path d="M 0,0 L 5,3 L 0,6 Z" fill={a}/>
+        </marker>
+        <marker id="cf-arr-g" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+          <path d="M 0,0 L 5,3 L 0,6 Z" fill={gr}/>
+        </marker>
+      </defs>
+      <circle cx={cx} cy={cy} r={r} fill={tema.azulSuave} stroke={bl} strokeWidth="2"/>
+      <line x1={cx} y1={cy} x2={cx+r} y2={cy} stroke={a} strokeWidth="2.2" markerEnd="url(#cf-arr-a)"/>
+      <text x={cx+r/2} y={cy-8} fill={a} fontSize="14" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">r</text>
+      <path d="M 138,42 A 54,54 0 0,1 22,80" fill="none" stroke={gr} strokeWidth="2.5" markerEnd="url(#cf-arr-g)" opacity="0.85"/>
+      <text x={165} y={44} fill={gr} fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700">C = 2πr</text>
+      <text x={cx} y={cy+7} fill={bl} fontSize="14" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" opacity="0.9">A = πr²</text>
+      <text x={cx} y={cy+26} fill="rgba(255,255,255,0.33)" fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">π ≈ 3.1416</text>
+      <circle cx={cx} cy={cy} r={3.5} fill={a}/>
+    </svg>
+  );
+}
+
+function AnguloCentralSVG({ tema }) {
+  const cx=105, cy=110, r=80;
+  const bl=tema.azul, a=tema.acento, gr=tema.verde;
+  const D=(d)=>d*Math.PI/180;
+  const ang0=-90, ang1=-30;
+  const x0=+(cx+r*Math.cos(D(ang0))).toFixed(1), y0=+(cy+r*Math.sin(D(ang0))).toFixed(1);
+  const x1=+(cx+r*Math.cos(D(ang1))).toFixed(1), y1=+(cy+r*Math.sin(D(ang1))).toFixed(1);
+  const arc20=+(cx+20*Math.cos(D(ang0))).toFixed(1), arc2y0=+(cy+20*Math.sin(D(ang0))).toFixed(1);
+  const arc21=+(cx+20*Math.cos(D(ang1))).toFixed(1), arc2y1=+(cy+20*Math.sin(D(ang1))).toFixed(1);
+  return (
+    <svg viewBox="0 0 245 235" width="100%" style={{display:"block",maxHeight:225}}>
+      <circle cx={cx} cy={cy} r={r} fill={tema.azulSuave} stroke={bl} strokeWidth="1.8" opacity="0.8"/>
+      <path d={`M ${cx},${cy} L ${x0},${y0} A ${r},${r} 0 0,1 ${x1},${y1} Z`} fill={`${a}28`}/>
+      <line x1={cx} y1={cy} x2={x0} y2={y0} stroke={a} strokeWidth="2"/>
+      <line x1={cx} y1={cy} x2={x1} y2={y1} stroke={a} strokeWidth="2"/>
+      <path d={`M ${x0},${y0} A ${r},${r} 0 0,1 ${x1},${y1}`} fill="none" stroke={a} strokeWidth="4.5" strokeLinecap="round" opacity="0.9"/>
+      <path d={`M ${arc20},${arc2y0} A 20,20 0 0,1 ${arc21},${arc2y1}`} fill="none" stroke={a} strokeWidth="1.5" opacity="0.8"/>
+      <text x={cx+26} y={cy-22} fill={a} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">θ</text>
+      <circle cx={cx} cy={cy} r={3.5} fill={a}/>
+      <text x={cx+5} y={cy-5} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">O</text>
+      <text x={+x1+10} y={+y1-4} fill={gr} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">l</text>
+      <text x={163} y={75} fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif">l = θ/360·2πr</text>
+      <text x={163} y={95} fill={bl} fontSize="11" fontFamily="'DM Sans',sans-serif">A = θ/360·πr²</text>
+    </svg>
+  );
+}
+
+function SectorCircularSVG({ tema }) {
+  const cx=105, cy=118, r=84;
+  const bl=tema.azul, a=tema.acento;
+  const D=(d)=>d*Math.PI/180;
+  const ang0=-90, ang1=30;
+  const x0=+(cx+r*Math.cos(D(ang0))).toFixed(1), y0=+(cy+r*Math.sin(D(ang0))).toFixed(1);
+  const x1=+(cx+r*Math.cos(D(ang1))).toFixed(1), y1=+(cy+r*Math.sin(D(ang1))).toFixed(1);
+  const mx=+(cx+r*Math.cos(D(-30))).toFixed(1), my=+(cy+r*Math.sin(D(-30))).toFixed(1);
+  return (
+    <svg viewBox="0 0 252 240" width="100%" style={{display:"block",maxHeight:230}}>
+      <circle cx={cx} cy={cy} r={r} fill={tema.azulSuave} stroke={bl} strokeWidth="1.8" opacity="0.7"/>
+      <path d={`M ${cx},${cy} L ${x0},${y0} A ${r},${r} 0 0,1 ${x1},${y1} Z`} fill={`${a}35`} stroke={a} strokeWidth="2"/>
+      <circle cx={cx} cy={cy} r={3.5} fill={a}/>
+      <text x={cx+5} y={cy-5} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">O</text>
+      <text x={(cx + +x0)/2-12} y={(cy + +y0)/2+2} fill={a} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">r</text>
+      <text x={(cx + +x1)/2+5} y={(cy + +y1)/2+8} fill={a} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">r</text>
+      <text x={cx+24} y={cy-18} fill={a} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">θ</text>
+      <text x={+mx+8} y={+my+20} fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif">arco</text>
+      <text x={163} y={54} fill={a} fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="600">A sector</text>
+      <text x={163} y={72} fill={a} fontSize="11" fontFamily="Georgia,serif" fontStyle="italic">= θ/360 · πr²</text>
+    </svg>
+  );
+}
+
+function SegmentoCircularSVG({ tema }) {
+  const cx=108, cy=112, r=78;
+  const bl=tema.azul, a=tema.acento;
+  const D=(d)=>d*Math.PI/180;
+  const ang0=-140, ang1=-40;
+  const x0=+(cx+r*Math.cos(D(ang0))).toFixed(1), y0=+(cy+r*Math.sin(D(ang0))).toFixed(1);
+  const x1=+(cx+r*Math.cos(D(ang1))).toFixed(1), y1=+(cy+r*Math.sin(D(ang1))).toFixed(1);
+  return (
+    <svg viewBox="0 0 252 228" width="100%" style={{display:"block",maxHeight:218}}>
+      <circle cx={cx} cy={cy} r={r} fill={tema.azulSuave} stroke={bl} strokeWidth="1.8" opacity="0.7"/>
+      <path d={`M ${cx},${cy} L ${x0},${y0} A ${r},${r} 0 0,1 ${x1},${y1} Z`} fill={tema.azulSuave} stroke={bl} strokeWidth="1.5"/>
+      <path d={`M ${x0},${y0} A ${r},${r} 0 0,1 ${x1},${y1} Z`} fill={`${a}38`} stroke={a} strokeWidth="2"/>
+      <line x1={x0} y1={y0} x2={x1} y2={y1} stroke={bl} strokeWidth="2.2" opacity="0.9"/>
+      <line x1={cx} y1={cy} x2={x0} y2={y0} stroke={bl} strokeWidth="1.5" strokeDasharray="4,3" opacity="0.6"/>
+      <line x1={cx} y1={cy} x2={x1} y2={y1} stroke={bl} strokeWidth="1.5" strokeDasharray="4,3" opacity="0.6"/>
+      <circle cx={cx} cy={cy} r={3.5} fill={bl}/>
+      <text x={cx+5} y={cy+5} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">O</text>
+      <text x={(+x0 + +x1)/2} y={(+y0 + +y1)/2 - 13} fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle" fontWeight="600">segmento</text>
+      <text x={172} y={68} fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif">A = A₍sector₎</text>
+      <text x={172} y={84} fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif">   − A₍△₎</text>
+    </svg>
+  );
+}
+
+function TangenteExteriorSVG({ tema }) {
+  const cx=200, cy=90, r=54;
+  const px=22, py=90;
+  const bl=tema.azul, a=tema.acento, gr=tema.verde;
+  const dist=Math.sqrt((cx-px)**2+(cy-py)**2);
+  const tanLen=Math.sqrt(dist*dist-r*r);
+  const ang=Math.asin(r/dist);
+  const TAx=+(px+tanLen*Math.cos(-ang)).toFixed(1);
+  const TAy=+(py+tanLen*Math.sin(-ang)).toFixed(1);
+  const TBx=+(px+tanLen*Math.cos(ang)).toFixed(1);
+  const TBy=+(py+tanLen*Math.sin(ang)).toFixed(1);
+  return (
+    <svg viewBox="0 0 300 180" width="100%" style={{display:"block",maxHeight:175}}>
+      <circle cx={cx} cy={cy} r={r} fill={tema.azulSuave} stroke={bl} strokeWidth="2"/>
+      <line x1={px} y1={py} x2={TAx} y2={TAy} stroke={gr} strokeWidth="2.2" opacity="0.9"/>
+      <line x1={px} y1={py} x2={TBx} y2={TBy} stroke={gr} strokeWidth="2.2" opacity="0.9"/>
+      <line x1={cx} y1={cy} x2={TAx} y2={TAy} stroke={bl} strokeWidth="1.5" strokeDasharray="4,3" opacity="0.6"/>
+      <line x1={cx} y1={cy} x2={TBx} y2={TBy} stroke={bl} strokeWidth="1.5" strokeDasharray="4,3" opacity="0.6"/>
+      <line x1={px} y1={py} x2={cx} y2={cy} stroke="rgba(255,255,255,0.18)" strokeWidth="1.2" strokeDasharray="3,4"/>
+      <text x={(px + +TAx)/2 - 14} y={(py + +TAy)/2 - 6} fill={gr} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">PA</text>
+      <text x={(px + +TBx)/2 - 14} y={(py + +TBy)/2 + 16} fill={gr} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">PB</text>
+      <text x={80} y={94} fill="rgba(255,255,255,0.45)" fontSize="18" fontFamily="Georgia,serif">=</text>
+      <circle cx={px} cy={py} r={4} fill={a}/>
+      <text x={px-16} y={py+5} fill={a} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">P</text>
+      <circle cx={cx} cy={cy} r={3.5} fill={bl}/>
+      <text x={cx+5} y={cy-4} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">O</text>
+      <circle cx={+TAx} cy={+TAy} r={3.5} fill={gr} opacity="0.9"/>
+      <circle cx={+TBx} cy={+TBy} r={3.5} fill={gr} opacity="0.9"/>
+      <text x={+TAx+5} y={+TAy-5} fill={gr} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">A</text>
+      <text x={+TBx+5} y={+TBy+14} fill={gr} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">B</text>
+    </svg>
+  );
+}
+
+function AreasEstrategiaSVG({ tema }) {
+  const bl=tema.azul, a=tema.acento;
+  return (
+    <svg viewBox="0 0 320 138" width="100%" style={{display:"block",maxHeight:130}}>
+      <circle cx={55} cy={68} r={50} fill={`${a}28`} stroke={a} strokeWidth="2"/>
+      <text x={120} y={78} fill="rgba(255,255,255,0.55)" fontSize="30" fontFamily="'DM Sans',sans-serif" fontWeight="300">−</text>
+      <circle cx={175} cy={68} r={30} fill={tema.azulSuave} stroke={bl} strokeWidth="2"/>
+      <text x={220} y={76} fill="rgba(255,255,255,0.55)" fontSize="26" fontFamily="'DM Sans',sans-serif" fontWeight="300">=</text>
+      <path fillRule="evenodd" fill={`${a}28`} stroke={a} strokeWidth="1.5"
+        d="M 212,68 A 42,42 0 1,0 296,68 A 42,42 0 1,0 212,68 M 228,68 A 26,26 0 1,1 280,68 A 26,26 0 1,1 228,68"/>
+      <text x={55} y={133} fill={a} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle">figura grande</text>
+      <text x={175} y={111} fill={bl} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle">interior</text>
+      <text x={254} y={123} fill={a} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle">sombreado</text>
+    </svg>
+  );
+}
+
+// ── Círculo: ejercicios básicos SVG ──────────────────────────────────────────
+
+function Cce1RadioSVG({ tema }) {
+  const cx=100, cy=80, r=63;
+  const bl=tema.azul, a=tema.acento;
+  return (
+    <svg viewBox="0 0 220 162" width="100%" style={{display:"block",maxHeight:152}}>
+      <circle cx={cx} cy={cy} r={r} fill={tema.azulSuave} stroke={bl} strokeWidth="2"/>
+      <circle cx={cx} cy={cy} r={3.5} fill={a}/>
+      <text x={cx+4} y={cy-4} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">O</text>
+      <text x={cx} y={cy+20} fill={a} fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">C = 20π cm</text>
+      <text x={cx} y={cy+38} fill="rgba(255,255,255,0.38)" fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">r = ?   →   A = ?</text>
+    </svg>
+  );
+}
+
+function Cce2SectorSVG({ tema }) {
+  const cx=96, cy=118, r=86;
+  const a=tema.acento, bl=tema.azul;
+  const D=(d)=>d*Math.PI/180;
+  const x0=+(cx+r*Math.cos(D(-90))).toFixed(1), y0=+(cy+r*Math.sin(D(-90))).toFixed(1);
+  const x1=+(cx+r*Math.cos(D(30))).toFixed(1),  y1=+(cy+r*Math.sin(D(30))).toFixed(1);
+  return (
+    <svg viewBox="0 0 234 218" width="100%" style={{display:"block",maxHeight:208}}>
+      <circle cx={cx} cy={cy} r={r} fill={tema.azulSuave} stroke={bl} strokeWidth="1.5" opacity="0.6"/>
+      <path d={`M ${cx},${cy} L ${x0},${y0} A ${r},${r} 0 0,1 ${x1},${y1} Z`} fill={`${a}38`} stroke={a} strokeWidth="2"/>
+      <circle cx={cx} cy={cy} r={3.5} fill={a}/>
+      <text x={cx+5} y={cy-5} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">O</text>
+      <text x={(cx + +x0)/2-16} y={(cy + +y0)/2} fill={a} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">r=6</text>
+      <text x={cx+24} y={cy-20} fill={a} fontSize="12" fontFamily="'DM Sans',sans-serif">120°</text>
+      <text x={+x1+6} y={+y1+6} fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif">A=?</text>
+    </svg>
+  );
+}
+
+function Cce3ArcoSVG({ tema }) {
+  const cx=108, cy=116, r=82;
+  const a=tema.acento, bl=tema.azul, gr=tema.verde;
+  const D=(d)=>d*Math.PI/180;
+  const x0=+(cx+r*Math.cos(D(-90))).toFixed(1), y0=+(cy+r*Math.sin(D(-90))).toFixed(1);
+  const x1=+(cx+r*Math.cos(D(-10))).toFixed(1), y1=+(cy+r*Math.sin(D(-10))).toFixed(1);
+  return (
+    <svg viewBox="0 0 248 228" width="100%" style={{display:"block",maxHeight:218}}>
+      <circle cx={cx} cy={cy} r={r} fill={tema.azulSuave} stroke={bl} strokeWidth="1.5" opacity="0.6"/>
+      <path d={`M ${x0},${y0} A ${r},${r} 0 0,1 ${x1},${y1}`} fill="none" stroke={gr} strokeWidth="4.5" strokeLinecap="round" opacity="0.9"/>
+      <line x1={cx} y1={cy} x2={x0} y2={y0} stroke={bl} strokeWidth="1.5" strokeDasharray="4,3" opacity="0.55"/>
+      <line x1={cx} y1={cy} x2={x1} y2={y1} stroke={bl} strokeWidth="1.5" strokeDasharray="4,3" opacity="0.55"/>
+      <circle cx={cx} cy={cy} r={3.5} fill={a}/>
+      <text x={cx+5} y={cy-4} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">O</text>
+      <text x={(cx + +x1)/2+8} y={(cy + +y1)/2+2} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">r=9</text>
+      <text x={cx+24} y={cy-26} fill={a} fontSize="12" fontFamily="'DM Sans',sans-serif">80°</text>
+      <text x={+x1+8} y={+y1-6} fill={gr} fontSize="12" fontFamily="'DM Sans',sans-serif">l=?</text>
+    </svg>
+  );
+}
+
+function Cce4TangSVG({ tema }) {
+  const cx=190, cy=90, r=46;
+  const px=28, py=90;
+  const bl=tema.azul, a=tema.acento, gr=tema.verde;
+  const dist=Math.sqrt((cx-px)**2+(cy-py)**2);
+  const tanLen=Math.sqrt(dist*dist-r*r);
+  const ang=Math.asin(r/dist);
+  const TAx=+(px+tanLen*Math.cos(-ang)).toFixed(1);
+  const TAy=+(py+tanLen*Math.sin(-ang)).toFixed(1);
+  const TBx=+(px+tanLen*Math.cos(ang)).toFixed(1);
+  const TBy=+(py+tanLen*Math.sin(ang)).toFixed(1);
+  return (
+    <svg viewBox="0 0 262 180" width="100%" style={{display:"block",maxHeight:175}}>
+      <circle cx={cx} cy={cy} r={r} fill={tema.azulSuave} stroke={bl} strokeWidth="2"/>
+      <line x1={px} y1={py} x2={TAx} y2={TAy} stroke={gr} strokeWidth="2" opacity="0.85"/>
+      <line x1={px} y1={py} x2={TBx} y2={TBy} stroke={gr} strokeWidth="2" opacity="0.85"/>
+      <line x1={cx} y1={cy} x2={TAx} y2={TAy} stroke={bl} strokeWidth="1.5" strokeDasharray="4,3" opacity="0.6"/>
+      <line x1={cx} y1={cy} x2={TBx} y2={TBy} stroke={bl} strokeWidth="1.5" strokeDasharray="4,3" opacity="0.6"/>
+      <line x1={px} y1={py} x2={cx} y2={cy} stroke="rgba(255,255,255,0.18)" strokeWidth="1.2" strokeDasharray="3,4"/>
+      <circle cx={px} cy={py} r={4} fill={a}/>
+      <text x={px-16} y={py+5} fill={a} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">P</text>
+      <circle cx={cx} cy={cy} r={3.5} fill={bl}/>
+      <text x={cx+5} y={cy-4} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">O</text>
+      <circle cx={+TAx} cy={+TAy} r={3} fill={gr} opacity="0.85"/>
+      <circle cx={+TBx} cy={+TBy} r={3} fill={gr} opacity="0.85"/>
+      <text x={+TAx+4} y={+TAy-5} fill={gr} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">A</text>
+      <text x={(cx+px)/2+2} y={py-8} fill="rgba(255,255,255,0.48)" fontSize="11" fontFamily="'DM Sans',sans-serif">PO = 13</text>
+      <text x={(cx+px)/2+2} y={py+18} fill={bl} fontSize="11" fontFamily="'DM Sans',sans-serif">r = 5</text>
+    </svg>
+  );
+}
+
+// ── Áreas sombreadas: SVG ─────────────────────────────────────────────────────
+
+function As1CuadCircSVG({ tema }) {
+  const sq_x=16, sq_y=8, sq_w=164, sq_h=164;
+  const cx=sq_x+sq_w/2, cy=sq_y+sq_h/2, r=sq_w/2;
+  const a=tema.acento, bl=tema.azul;
+  return (
+    <svg viewBox="0 0 200 200" width="100%" style={{display:"block",maxHeight:195}}>
+      <path d={`M ${sq_x},${sq_y} H ${sq_x+sq_w} V ${sq_y+sq_h} H ${sq_x} Z M ${cx-r},${cy} A ${r},${r} 0 1,0 ${cx+r},${cy} A ${r},${r} 0 1,0 ${cx-r},${cy}`}
+        fillRule="evenodd" fill={`${a}32`}/>
+      <rect x={sq_x} y={sq_y} width={sq_w} height={sq_h} fill="none" stroke={a} strokeWidth="2"/>
+      <circle cx={cx} cy={cy} r={r} fill="none" stroke={bl} strokeWidth="2"/>
+      <line x1={cx} y1={cy} x2={cx+r} y2={cy} stroke={bl} strokeWidth="1.5" strokeDasharray="4,3" opacity="0.7"/>
+      <text x={cx+r/2} y={cy-7} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">r=7</text>
+      <text x={cx} y={sq_y+sq_h+16} fill={a} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">l = 14 cm</text>
+    </svg>
+  );
+}
+
+function As2CoronaSVG({ tema }) {
+  const cx=100, cy=90;
+  const R=76, rr=46;
+  const a=tema.acento, bl=tema.azul;
+  return (
+    <svg viewBox="0 0 200 182" width="100%" style={{display:"block",maxHeight:175}}>
+      <path d={`M ${cx-R},${cy} A ${R},${R} 0 1,0 ${cx+R},${cy} A ${R},${R} 0 1,0 ${cx-R},${cy} M ${cx-rr},${cy} A ${rr},${rr} 0 1,1 ${cx+rr},${cy} A ${rr},${rr} 0 1,1 ${cx-rr},${cy}`}
+        fillRule="evenodd" fill={`${a}32`}/>
+      <circle cx={cx} cy={cy} r={R} fill="none" stroke={a} strokeWidth="2"/>
+      <circle cx={cx} cy={cy} r={rr} fill="none" stroke={bl} strokeWidth="2"/>
+      <circle cx={cx} cy={cy} r={3.5} fill={bl}/>
+      <line x1={cx} y1={cy} x2={cx+rr} y2={cy} stroke={bl} strokeWidth="1.5" strokeDasharray="3,3" opacity="0.7"/>
+      <text x={cx+rr/2} y={cy-7} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">r=6</text>
+      <line x1={cx+rr} y1={cy} x2={cx+R} y2={cy} stroke={a} strokeWidth="1.5" strokeDasharray="3,3" opacity="0.7"/>
+      <text x={cx+(rr+R)/2} y={cy-7} fill={a} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">R=10</text>
+    </svg>
+  );
+}
+
+function As3SemiRectSVG({ tema }) {
+  const rx=26, ry=42, rw=248, rh=92, r=46;
+  const cy=ry+rh/2;
+  const a=tema.acento, bl=tema.azul;
+  return (
+    <svg viewBox="0 0 300 175" width="100%" style={{display:"block",maxHeight:168}}>
+      <path d={`M ${rx},${ry} H ${rx+rw} V ${ry+rh} H ${rx} Z M ${rx},${cy-r} A ${r},${r} 0 0,0 ${rx},${cy+r} Z M ${rx+rw},${cy-r} A ${r},${r} 0 0,1 ${rx+rw},${cy+r} Z`}
+        fillRule="evenodd" fill={`${a}32`} stroke={a} strokeWidth="1.5"/>
+      <rect x={rx} y={ry} width={rw} height={rh} fill="none" stroke={bl} strokeWidth="1.5" strokeDasharray="5,3" opacity="0.5"/>
+      <text x={rx+rw/2} y={ry-10} fill={a} fontSize="13" fontFamily="'DM Sans',sans-serif" textAnchor="middle" fontWeight="600">16 cm</text>
+      <text x={rx+rw+12} y={cy+5} fill={bl} fontSize="12" fontFamily="'DM Sans',sans-serif">6 cm</text>
+      <text x={rx-14} y={cy+22} fill={bl} fontSize="11" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">r=3</text>
+    </svg>
+  );
+}
+
+function As4SectorTriSVG({ tema }) {
+  const cx=44, cy=180, r=135;
+  const a=tema.acento, bl=tema.azul;
+  const x_right=cx+r, y_right=cy;
+  const x_up=cx, y_up=cy-r;
+  return (
+    <svg viewBox="0 0 240 230" width="100%" style={{display:"block",maxHeight:222}}>
+      <path d={`M ${x_right},${y_right} A ${r},${r} 0 0,0 ${x_up},${y_up} Z`} fill={`${a}38`} stroke="none"/>
+      <polygon points={`${cx},${cy} ${x_right},${y_right} ${x_up},${y_up}`} fill={tema.azulSuave} stroke={bl} strokeWidth="1.8"/>
+      <path d={`M ${cx+18},${cy} L ${cx+18},${cy-18} L ${cx},${cy-18}`} fill="none" stroke="rgba(255,255,255,0.42)" strokeWidth="1.5"/>
+      <path d={`M ${x_right},${y_right} A ${r},${r} 0 0,0 ${x_up},${y_up}`} fill="none" stroke={a} strokeWidth="2.5"/>
+      <circle cx={cx} cy={cy} r={3.5} fill={a}/>
+      <text x={cx+6} y={cy-6} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">O</text>
+      <text x={(cx+x_right)/2} y={cy+16} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">r=6</text>
+      <text x={cx-18} y={(cy+y_up)/2} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">r=6</text>
+      <text x={cx+26} y={cy-22} fill={a} fontSize="13" fontFamily="'DM Sans',sans-serif">90°</text>
+      <text x={(x_right+x_up)/2+12} y={(y_right+y_up)/2-22} fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif">segmento</text>
+    </svg>
+  );
+}
+
+function As5TrapSemiSVG({ tema }) {
+  const sc=11;
+  const B=10*sc, b=6*sc, h=8*sc;
+  const cx=162, cyBot=162;
+  const bx_l=cx-B/2, bx_r=cx+B/2;
+  const tx_l=cx-b/2, tx_r=cx+b/2;
+  const cyTop=cyBot-h;
+  const rSemi=B/2;
+  const a=tema.acento, bl=tema.azul;
+  return (
+    <svg viewBox="0 0 324 225" width="100%" style={{display:"block",maxHeight:218}}>
+      <polygon points={`${bx_l},${cyBot} ${bx_r},${cyBot} ${tx_r},${cyTop} ${tx_l},${cyTop}`} fill={tema.azulSuave} stroke={bl} strokeWidth="2"/>
+      <path d={`M ${bx_l},${cyBot} A ${rSemi},${rSemi} 0 0,1 ${bx_r},${cyBot}`} fill={`${a}30`} stroke={a} strokeWidth="2"/>
+      <text x={cx} y={cyBot+10} fill={a} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">B = 10 cm</text>
+      <text x={cx} y={cyTop-9} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">b = 6 cm</text>
+      <line x1={bx_l-18} y1={cyBot} x2={bx_l-18} y2={cyTop} stroke="rgba(255,255,255,0.28)" strokeWidth="1" strokeDasharray="3,3"/>
+      <text x={bx_l-22} y={(cyBot+cyTop)/2+4} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">h=8</text>
+      <text x={cx} y={cyBot+38} fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle" opacity="0.85">A = πr²/2</text>
+    </svg>
+  );
+}
+
+function As6HexCircSVG({ tema }) {
+  const cx=112, cy=112, r=82;
+  const a=tema.acento, bl=tema.azul;
+  const hex=Array.from({length:6},(_,i)=>{
+    const ang=-Math.PI/2+i*Math.PI/3;
+    return `${+(cx+r*Math.cos(ang)).toFixed(1)},${+(cy+r*Math.sin(ang)).toFixed(1)}`;
+  });
+  const hexPoints=hex.join(' ');
+  return (
+    <svg viewBox="0 0 238 232" width="100%" style={{display:"block",maxHeight:222}}>
+      <circle cx={cx} cy={cy} r={r} fill={`${a}22`} stroke={a} strokeWidth="1.8" opacity="0.85"/>
+      <polygon points={hexPoints} fill={tema.azulSuave} stroke={bl} strokeWidth="2"/>
+      <text x={cx} y={cy+5} fill={bl} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle" opacity="0.65">Hexágono</text>
+      <text x={cx} y={cy+20} fill={bl} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle" opacity="0.45">l = r = 6 cm</text>
+      {(() => {
+        const [hx,hy]=hex[0].split(',').map(Number);
+        return (
+          <>
+            <line x1={cx} y1={cy} x2={hx} y2={hy} stroke={a} strokeWidth="1.5" strokeDasharray="4,3" opacity="0.7"/>
+            <text x={(cx+hx)/2+5} y={(cy+hy)/2+2} fill={a} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">r=6</text>
+          </>
+        );
+      })()}
+    </svg>
+  );
+}
+
+function As7TriCircSVG({ tema }) {
+  const sc=13;
+  const a6=6*sc, a8=8*sc;
+  const C=[182, 168];
+  const B=[C[0], C[1]-a8];
+  const Av=[C[0]-a6, C[1]];
+  const hCx=(B[0]+Av[0])/2, hCy=(B[1]+Av[1])/2;
+  const hypLen=Math.sqrt((B[0]-Av[0])**2+(B[1]-Av[1])**2);
+  const rSemi=hypLen/2;
+  const a=tema.acento, bl=tema.azul;
+  return (
+    <svg viewBox="0 0 290 205" width="100%" style={{display:"block",maxHeight:198}}>
+      <path d={`M ${Av[0].toFixed(1)},${Av[1].toFixed(1)} A ${rSemi.toFixed(1)},${rSemi.toFixed(1)} 0 0,0 ${B[0].toFixed(1)},${B[1].toFixed(1)}`}
+        fill={`${a}30`} stroke={a} strokeWidth="2"/>
+      <polygon points={`${C[0]},${C[1]} ${B[0].toFixed(1)},${B[1].toFixed(1)} ${Av[0].toFixed(1)},${Av[1].toFixed(1)}`}
+        fill={tema.azulSuave} stroke={bl} strokeWidth="2"/>
+      <path d={`M ${C[0]-14},${C[1]} L ${C[0]-14},${C[1]-14} L ${C[0]},${C[1]-14}`} fill="none" stroke="rgba(255,255,255,0.42)" strokeWidth="1.5"/>
+      <text x={(C[0]+B[0])/2+10} y={(C[1]+B[1])/2} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">6 cm</text>
+      <text x={(C[0]+Av[0])/2} y={C[1]+16} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">8 cm</text>
+      <text x={(B[0]+Av[0])/2-34} y={(B[1]+Av[1])/2-10} fill={a} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">c=10</text>
+      <text x={hCx-44} y={hCy-28} fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif">r=5</text>
+    </svg>
+  );
+}
+
+function As8ComplejoSVG({ tema }) {
+  const sc=9;
+  const rW=12*sc, rH=8*sc;
+  const rX=32, rY=40;
+  const qR=rH;
+  const a=tema.acento, bl=tema.azul, gr=tema.verde;
+  const triBase=rW, triH=5*sc;
+  return (
+    <svg viewBox="0 0 295 198" width="100%" style={{display:"block",maxHeight:192}}>
+      <rect x={rX} y={rY} width={rW} height={rH} fill={`${bl}22`} stroke={bl} strokeWidth="2"/>
+      <path d={`M ${rX+rW},${rY} A ${qR},${qR} 0 0,1 ${rX+rW+qR},${rY+rH}`}
+        fill={`${a}28`} stroke={a} strokeWidth="2"/>
+      <polygon points={`${rX},${rY+rH} ${rX+rW},${rY+rH} ${rX+rW/2},${rY+rH-triH}`}
+        fill="rgba(0,0,0,0.38)" stroke={gr} strokeWidth="1.5" strokeDasharray="5,3"/>
+      <text x={rX+rW/2} y={rY-10} fill={bl} fontSize="12" fontFamily="'DM Sans',sans-serif" textAnchor="middle">12 cm</text>
+      <text x={rX-8} y={rY+rH/2+4} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">8 cm</text>
+      <text x={rX+rW/2} y={rY+rH-triH/3+4} fill={gr} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle" opacity="0.75">quitar △</text>
+      <text x={rX+rW+qR/2+4} y={rY+rH/2-6} fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">sector</text>
+      <text x={rX+rW+qR/2+4} y={rY+rH/2+10} fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">90°, r=8</text>
+    </svg>
+  );
+}
+
 function renderEjercicioSVG(svgDiagram, tema) {
   if (svgDiagram === "ce1-lll")      return <Ce1LllSVG     tema={tema} />;
   if (svgDiagram === "ce2-medidas")  return <Ce2CondMedSVG tema={tema} />;
@@ -2913,6 +3362,18 @@ function renderEjercicioSVG(svgDiagram, tema) {
   if (svgDiagram === "poe1-hex")     return <Poe1HexSVG     tema={tema} />;
   if (svgDiagram === "poe2-angext")  return <Poe2AngExtSVG  tema={tema} />;
   if (svgDiagram === "poe3-suma")    return <Poe3SumaSVG    tema={tema} />;
+  if (svgDiagram === "cce1-radio")   return <Cce1RadioSVG   tema={tema} />;
+  if (svgDiagram === "cce2-sector")  return <Cce2SectorSVG  tema={tema} />;
+  if (svgDiagram === "cce3-arco")    return <Cce3ArcoSVG    tema={tema} />;
+  if (svgDiagram === "cce4-tang")    return <Cce4TangSVG    tema={tema} />;
+  if (svgDiagram === "as1-cuad-circ") return <As1CuadCircSVG tema={tema} />;
+  if (svgDiagram === "as2-corona")   return <As2CoronaSVG   tema={tema} />;
+  if (svgDiagram === "as3-semi-rect") return <As3SemiRectSVG tema={tema} />;
+  if (svgDiagram === "as4-sector-tri") return <As4SectorTriSVG tema={tema} />;
+  if (svgDiagram === "as5-trap-semi") return <As5TrapSemiSVG tema={tema} />;
+  if (svgDiagram === "as6-hex-circ") return <As6HexCircSVG  tema={tema} />;
+  if (svgDiagram === "as7-tri-circ") return <As7TriCircSVG  tema={tema} />;
+  if (svgDiagram === "as8-complejo") return <As8ComplejoSVG tema={tema} />;
   return null;
 }
 

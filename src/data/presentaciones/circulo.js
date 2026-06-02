@@ -78,6 +78,269 @@ export const PRESENTACION = {
       nota: "De P se obtiene r = P/(2π); de ahí puedes calcular el área sin necesidad de medir el radio directamente."
     },
 
+    // ── RELACIONES ÁREA ↔ PERÍMETRO ──────────────────────────────────────────
+
+    {
+      id: "ap-intro",
+      tipo: "concepto",
+      titulo: "Relaciones entre A y P",
+      etiqueta: "De una fórmula a la otra",
+      formula: "P^2 = 4\\pi A",
+      svgDiagram: "circulo-formulas",
+      items: [
+        { math: "r = \\dfrac{P}{2\\pi}", texto: "radio a partir del perímetro" },
+        { math: "r = \\sqrt{\\dfrac{A}{\\pi}}", texto: "radio a partir del área" },
+        { math: "P = 2\\sqrt{\\pi A}", texto: "perímetro directo desde el área" },
+      ],
+      nota: "La relación P² = 4πA permite convertir entre perímetro y área sin calcular el radio. Se deduce combinando P = 2πr y A = πr²."
+    },
+
+    // ── EJEMPLOS RESUELTOS ────────────────────────────────────────────────────
+
+    {
+      id: "ej-ap1",
+      tipo: "ejercicio",
+      svgDiagram: "circulo-partes",
+      etiqueta: "Ejemplo 1 — Dado el radio",
+      pregunta: "Un círculo tiene radio r = 10 cm. ¿Cuáles son su área A y su perímetro P?",
+      math_pregunta: "r = 10\\text{ cm},\\quad A = ?\\;,\\quad P = ?",
+      opciones: [
+        "A = 10\\pi\\text{ cm}^2,\\; P = 100\\pi\\text{ cm}",
+        "A = 100\\pi\\text{ cm}^2,\\; P = 20\\pi\\text{ cm}",
+        "A = 100\\pi\\text{ cm}^2,\\; P = 10\\pi\\text{ cm}",
+      ],
+      correcta: 1,
+      explicacion: "Con r = 10 cm: A = πr² = π(10)² = 100π cm² y P = 2πr = 2π(10) = 20π cm. Error frecuente: usar r en lugar de 2r en la fórmula del perímetro.",
+      pasos: [
+        { pre: "Área: ", math: "A = \\pi r^2 = \\pi(10)^2 = 100\\pi\\text{ cm}^2" },
+        { pre: "Perímetro: ", math: "P = 2\\pi r = 2\\pi(10) = 20\\pi\\text{ cm}" },
+      ]
+    },
+
+    {
+      id: "ej-ap2",
+      tipo: "ejercicio",
+      svgDiagram: "circulo-formulas",
+      etiqueta: "Ejemplo 2 — Dado el área, hallar P",
+      pregunta: "Un círculo tiene área A = 64π cm². ¿Cuánto mide su perímetro P?",
+      math_pregunta: "A = 64\\pi\\text{ cm}^2,\\quad P = ?",
+      opciones: [
+        "P = 8\\pi\\text{ cm}",
+        "P = 16\\pi\\text{ cm}",
+        "P = 64\\pi\\text{ cm}",
+      ],
+      correcta: 1,
+      explicacion: "Método directo: P = 2√(πA) = 2√(π·64π) = 2√(64π²) = 2·8π = 16π cm. Método por r: r = √(A/π) = √64 = 8 cm → P = 2π(8) = 16π cm.",
+      pasos: [
+        { pre: "Despejar r: ", math: "r = \\sqrt{\\dfrac{A}{\\pi}} = \\sqrt{\\dfrac{64\\pi}{\\pi}} = \\sqrt{64} = 8\\text{ cm}" },
+        { pre: "Perímetro: ", math: "P = 2\\pi r = 2\\pi(8) = 16\\pi\\text{ cm}" },
+        { pre: "O directo: ", math: "P = 2\\sqrt{\\pi A} = 2\\sqrt{64\\pi^2} = 16\\pi\\text{ cm}" },
+      ]
+    },
+
+    // ── PRÁCTICA: ÁREA Y PERÍMETRO (10 reactivos) ────────────────────────────
+
+    {
+      id: "ap1",
+      tipo: "ejercicio",
+      svgDiagram: "circulo-partes",
+      etiqueta: "Reactivo 1 / 10 — Dado r",
+      pregunta: "¿Cuáles son el área y el perímetro de un círculo con radio r = 6 cm?",
+      math_pregunta: "r = 6\\text{ cm}",
+      opciones: [
+        "A = 36\\pi\\text{ cm}^2,\\; P = 6\\pi\\text{ cm}",
+        "A = 36\\pi\\text{ cm}^2,\\; P = 12\\pi\\text{ cm}",
+        "A = 12\\pi\\text{ cm}^2,\\; P = 36\\pi\\text{ cm}",
+      ],
+      correcta: 1,
+      explicacion: "A = πr² = π(6)² = 36π cm² y P = 2πr = 2π(6) = 12π cm. La opción A omite el factor 2 en el perímetro; la C invierte las fórmulas.",
+      pasos: [
+        { pre: "Área: ", math: "A = \\pi(6)^2 = 36\\pi\\text{ cm}^2" },
+        { pre: "Perímetro: ", math: "P = 2\\pi(6) = 12\\pi\\text{ cm}" },
+      ]
+    },
+
+    {
+      id: "ap2",
+      tipo: "ejercicio",
+      svgDiagram: "circulo-partes",
+      etiqueta: "Reactivo 2 / 10 — Dado D",
+      pregunta: "Un círculo tiene diámetro D = 14 cm. ¿Cuáles son su área A y su perímetro P?",
+      math_pregunta: "D = 14\\text{ cm},\\quad r = D/2 = 7\\text{ cm}",
+      opciones: [
+        "A = 49\\pi\\text{ cm}^2,\\; P = 14\\pi\\text{ cm}",
+        "A = 196\\pi\\text{ cm}^2,\\; P = 28\\pi\\text{ cm}",
+        "A = 49\\pi\\text{ cm}^2,\\; P = 7\\pi\\text{ cm}",
+      ],
+      correcta: 0,
+      explicacion: "r = D/2 = 7 cm. Entonces A = π(7)² = 49π cm² y P = 2π(7) = 14π cm. La opción B usa D = 14 como si fuera el radio; la C divide el perímetro a la mitad.",
+      pasos: [
+        { pre: "Radio: ", math: "r = D/2 = 14/2 = 7\\text{ cm}" },
+        { pre: "Área: ", math: "A = \\pi(7)^2 = 49\\pi\\text{ cm}^2" },
+        { pre: "Perímetro: ", math: "P = 2\\pi(7) = 14\\pi\\text{ cm}" },
+      ]
+    },
+
+    {
+      id: "ap3",
+      tipo: "ejercicio",
+      svgDiagram: "circulo-formulas",
+      etiqueta: "Reactivo 3 / 10 — Dado A, hallar P",
+      pregunta: "El área de un círculo es A = 36π cm². ¿Cuánto mide su perímetro P?",
+      math_pregunta: "A = 36\\pi\\text{ cm}^2,\\quad P = ?",
+      opciones: [
+        "P = 6\\pi\\text{ cm}",
+        "P = 12\\pi\\text{ cm}",
+        "P = 36\\pi\\text{ cm}",
+      ],
+      correcta: 1,
+      explicacion: "r = √(36π/π) = √36 = 6 cm → P = 2π(6) = 12π cm. Error habitual: confundir r con 2r y escribir P = 6π (opción A), o copiar directamente A = 36π como P (opción C).",
+      pasos: [
+        { pre: "Despejar r: ", math: "r = \\sqrt{A/\\pi} = \\sqrt{36} = 6\\text{ cm}" },
+        { pre: "Perímetro: ", math: "P = 2\\pi(6) = 12\\pi\\text{ cm}" },
+      ]
+    },
+
+    {
+      id: "ap4",
+      tipo: "ejercicio",
+      svgDiagram: "circulo-formulas",
+      etiqueta: "Reactivo 4 / 10 — Dado P, hallar A",
+      pregunta: "El perímetro de un círculo es P = 10π cm. ¿Cuánto mide su área A?",
+      math_pregunta: "P = 10\\pi\\text{ cm},\\quad A = ?",
+      opciones: [
+        "A = 100\\pi\\text{ cm}^2",
+        "A = 10\\pi\\text{ cm}^2",
+        "A = 25\\pi\\text{ cm}^2",
+      ],
+      correcta: 2,
+      explicacion: "r = P/(2π) = 10π/(2π) = 5 cm → A = π(5)² = 25π cm². La opción A usa incorrectamente r = 10 (sin dividir entre 2π); la B confunde P con A.",
+      pasos: [
+        { pre: "Despejar r: ", math: "r = \\dfrac{P}{2\\pi} = \\dfrac{10\\pi}{2\\pi} = 5\\text{ cm}" },
+        { pre: "Área: ", math: "A = \\pi(5)^2 = 25\\pi\\text{ cm}^2" },
+      ]
+    },
+
+    {
+      id: "ap5",
+      tipo: "ejercicio",
+      svgDiagram: "circulo-partes",
+      etiqueta: "Reactivo 5 / 10 — Dado A, hallar r y D",
+      pregunta: "Un círculo tiene área A = 100π cm². ¿Cuáles son su radio r y su diámetro D?",
+      math_pregunta: "A = 100\\pi\\text{ cm}^2,\\quad r = ?\\;,\\quad D = ?",
+      opciones: [
+        "r = 100\\text{ cm},\\; D = 200\\text{ cm}",
+        "r = 10\\text{ cm},\\; D = 20\\text{ cm}",
+        "r = 10\\pi\\text{ cm},\\; D = 20\\pi\\text{ cm}",
+      ],
+      correcta: 1,
+      explicacion: "r = √(A/π) = √(100π/π) = √100 = 10 cm; D = 2r = 20 cm. La opción A olvida aplicar la raíz cuadrada; la C añade incorrectamente un factor π al resultado.",
+      pasos: [
+        { pre: "Radio: ", math: "r = \\sqrt{\\dfrac{A}{\\pi}} = \\sqrt{100} = 10\\text{ cm}" },
+        { pre: "Diámetro: ", math: "D = 2r = 20\\text{ cm}" },
+      ]
+    },
+
+    {
+      id: "ap6",
+      tipo: "ejercicio",
+      svgDiagram: "circulo-formulas",
+      etiqueta: "Reactivo 6 / 10 — Dado P, hallar r",
+      pregunta: "El perímetro de un círculo es P = 24π cm. ¿Cuánto mide su radio r?",
+      math_pregunta: "P = 24\\pi\\text{ cm},\\quad r = ?",
+      opciones: [
+        "r = 24\\text{ cm}",
+        "r = 12\\pi\\text{ cm}",
+        "r = 12\\text{ cm}",
+      ],
+      correcta: 2,
+      explicacion: "r = P/(2π) = 24π/(2π) = 12 cm. La opción A olvida dividir entre 2π y toma el coeficiente numérico; la B conserva incorrectamente el factor π.",
+      pasos: [
+        { pre: "Despejar r: ", math: "r = \\dfrac{P}{2\\pi} = \\dfrac{24\\pi}{2\\pi} = 12\\text{ cm}" },
+      ]
+    },
+
+    {
+      id: "ap7",
+      tipo: "ejercicio",
+      svgDiagram: "circulo-partes",
+      etiqueta: "Reactivo 7 / 10 — Caso r = 1",
+      pregunta: "Para un círculo con radio unitario r = 1, ¿cuánto valen su área A y su perímetro P?",
+      math_pregunta: "r = 1",
+      opciones: [
+        "A = 1,\\; P = 2",
+        "A = 2\\pi,\\; P = \\pi",
+        "A = \\pi,\\; P = 2\\pi",
+      ],
+      correcta: 2,
+      explicacion: "Con r = 1: A = π(1)² = π y P = 2π(1) = 2π. El círculo unitario 'destila' el número π: su área es exactamente π y su perímetro es exactamente 2π. La opción A omite el factor π; la B invierte las fórmulas.",
+      pasos: [
+        { pre: "Área: ", math: "A = \\pi(1)^2 = \\pi" },
+        { pre: "Perímetro: ", math: "P = 2\\pi(1) = 2\\pi" },
+      ]
+    },
+
+    {
+      id: "ap8",
+      tipo: "ejercicio",
+      svgDiagram: "circulo-formulas",
+      etiqueta: "Reactivo 8 / 10 — Caso A = π",
+      pregunta: "Si el área de un círculo es exactamente A = π cm², ¿cuánto mide su perímetro P?",
+      math_pregunta: "A = \\pi\\text{ cm}^2,\\quad P = ?",
+      opciones: [
+        "P = \\pi\\text{ cm}",
+        "P = 2\\pi\\text{ cm}",
+        "P = 2\\text{ cm}",
+      ],
+      correcta: 1,
+      explicacion: "r = √(π/π) = √1 = 1 cm → P = 2π(1) = 2π cm. Cuando A = π, el radio es exactamente 1 (círculo unitario), cuyo perímetro es 2π. La opción C olvida el factor π.",
+      pasos: [
+        { pre: "Radio: ", math: "r = \\sqrt{\\dfrac{\\pi}{\\pi}} = \\sqrt{1} = 1\\text{ cm}" },
+        { pre: "Perímetro: ", math: "P = 2\\pi(1) = 2\\pi\\text{ cm}" },
+      ]
+    },
+
+    {
+      id: "ap9",
+      tipo: "ejercicio",
+      svgDiagram: "circulo-formulas",
+      etiqueta: "Reactivo 9 / 10 — Caso A = 1",
+      pregunta: "Si el área de un círculo es exactamente A = 1 cm², ¿cuánto mide su perímetro P?",
+      math_pregunta: "A = 1\\text{ cm}^2,\\quad P = ?",
+      opciones: [
+        "P = 2\\pi\\text{ cm}",
+        "P = 2\\sqrt{\\pi}\\text{ cm}",
+        "P = \\sqrt{\\pi}\\text{ cm}",
+      ],
+      correcta: 1,
+      explicacion: "r = √(1/π) = 1/√π cm → P = 2π/√π = 2π · π^{−1/2} = 2π^{1/2} = 2√π cm ≈ 3.545 cm. Usando la fórmula directa: P = 2√(πA) = 2√(π·1) = 2√π cm.",
+      pasos: [
+        { pre: "Radio: ", math: "r = \\sqrt{\\dfrac{1}{\\pi}} = \\dfrac{1}{\\sqrt{\\pi}}\\text{ cm}" },
+        { pre: "Perímetro: ", math: "P = 2\\pi r = \\dfrac{2\\pi}{\\sqrt{\\pi}} = 2\\sqrt{\\pi}\\text{ cm}" },
+        { pre: "O directo: ", math: "P = 2\\sqrt{\\pi A} = 2\\sqrt{\\pi \\cdot 1} = 2\\sqrt{\\pi}\\text{ cm}" },
+      ]
+    },
+
+    {
+      id: "ap10",
+      tipo: "ejercicio",
+      svgDiagram: "circulo-formulas",
+      etiqueta: "Reactivo 10 / 10 — Caso P = 1",
+      pregunta: "Si el perímetro de un círculo es exactamente P = 1 cm, ¿cuánto vale su área A?",
+      math_pregunta: "P = 1\\text{ cm},\\quad A = ?",
+      opciones: [
+        "A = \\dfrac{1}{2\\pi}\\text{ cm}^2",
+        "A = \\pi\\text{ cm}^2",
+        "A = \\dfrac{1}{4\\pi}\\text{ cm}^2",
+      ],
+      correcta: 2,
+      explicacion: "r = P/(2π) = 1/(2π) cm → A = πr² = π·1/(4π²) = 1/(4π) cm² ≈ 0.0796 cm². La opción A da el radio, no el área; la B usa P = 1 como si fuera el radio unitario.",
+      pasos: [
+        { pre: "Radio: ", math: "r = \\dfrac{P}{2\\pi} = \\dfrac{1}{2\\pi}\\text{ cm}" },
+        { pre: "Área: ", math: "A = \\pi r^2 = \\pi \\cdot \\dfrac{1}{4\\pi^2} = \\dfrac{1}{4\\pi}\\text{ cm}^2" },
+      ]
+    },
+
     // ── ÁNGULO CENTRAL ────────────────────────────────────────────────────────
 
     {

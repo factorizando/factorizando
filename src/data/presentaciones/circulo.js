@@ -13,7 +13,8 @@ export const PRESENTACION = {
       tipo: "portada",
       titulo: "El Círculo",
       subtitulo: "Propiedades, sectores, segmentos y áreas sombreadas",
-      etiqueta: "Geometría · Preparatoria"
+      etiqueta: "Geometría · Preparatoria",
+      svgDiagram: "euler-line",
     },
 
     // ── DEFINICIÓN ────────────────────────────────────────────────────────────
@@ -22,17 +23,22 @@ export const PRESENTACION = {
       id: 1,
       tipo: "definicion",
       titulo: "El Círculo",
-      simbolo: "C = 2\\pi r \\qquad A = \\pi r^2",
-      cuerpo: "Un círculo es el conjunto de todos los puntos del plano que equidistan de un punto fijo llamado centro. La distancia constante del centro a cualquier punto del círculo se denomina radio.",
+      simbolo: "d(O,\\,P) = r",
+      cuerpo: "La circunferencia es el conjunto de todos los puntos del plano que equidistan de un punto fijo llamado centro O. Esa distancia constante r se llama radio. El círculo es la región plana interior a la circunferencia.",
       svgDiagram: "circulo-partes",
       condiciones: [
         {
-          texto: "① Centro O y radio r",
-          math: "d(O,\\,P) = r \\quad \\text{para todo punto } P \\text{ del círculo}"
+          texto: "Perímetro de la circunferencia",
+          math: "P = 2\\pi r = \\pi D"
         },
         {
-          texto: "② Diámetro: la cuerda que pasa por el centro",
-          math: "d = 2r \\qquad d \\text{ es la cuerda más larga}"
+          texto: "Área del círculo",
+          math: "A = \\pi r^2"
+        },
+        {
+          texto: "Definición de π — razón perímetro / diámetro",
+          math: "\\pi = \\dfrac{P}{D}",
+          destacado: true
         }
       ]
     },
@@ -44,11 +50,11 @@ export const PRESENTACION = {
       tipo: "concepto",
       titulo: "Partes del Círculo",
       etiqueta: "Terminología esencial",
-      formula: "d = 2r",
+      formula: "D = 2r",
       svgDiagram: "circulo-partes",
       items: [
         { math: "r", texto: "Radio: del centro a cualquier punto de la circunferencia" },
-        { math: "d = 2r", texto: "Diámetro: cuerda que pasa por el centro" },
+        { math: "D = 2r", texto: "Diámetro: cuerda que pasa por el centro" },
         { math: "\\widehat{AB}", texto: "Arco: porción de circunferencia entre dos puntos" },
         { math: "\\overline{AB}", texto: "Cuerda: segmento que une dos puntos del círculo" }
       ],
@@ -65,11 +71,11 @@ export const PRESENTACION = {
       formula: "A = \\pi r^2",
       svgDiagram: "circulo-formulas",
       items: [
-        { math: "C = 2\\pi r = \\pi d", texto: "longitud de la circunferencia (perímetro del círculo)" },
+        { math: "P = 2\\pi r = \\pi D", texto: "perímetro (longitud de la circunferencia)" },
         { math: "A = \\pi r^2", texto: "área encerrada por el círculo" },
-        { math: "\\pi \\approx 3.1416", texto: "número irracional = razón circunferencia/diámetro" }
+        { math: "\\pi \\approx 3.1416", texto: "número irracional = razón perímetro/diámetro" }
       ],
-      nota: "De C se obtiene r = C/(2π); de ahí puedes calcular el área sin necesidad de medir el radio directamente."
+      nota: "De P se obtiene r = P/(2π); de ahí puedes calcular el área sin necesidad de medir el radio directamente."
     },
 
     // ── ÁNGULO CENTRAL ────────────────────────────────────────────────────────
@@ -194,13 +200,13 @@ export const PRESENTACION = {
       tipo: "ejercicio",
       svgDiagram: "cce1-radio",
       etiqueta: "Círculo · Ejercicio 1 / 4",
-      pregunta: "Un círculo tiene circunferencia de 20π cm. ¿Cuánto mide su área?",
-      math_pregunta: "C = 20\\pi\\text{ cm},\\quad A = ?",
+      pregunta: "Un círculo tiene perímetro de 20π cm. ¿Cuánto mide su área?",
+      math_pregunta: "P = 20\\pi\\text{ cm},\\quad A = ?",
       opciones: ["50π cm²", "100π cm²", "400π cm²"],
       correcta: 1,
-      explicacion: "De C = 2πr → r = 10 cm. Área = π(10)² = 100π cm².",
+      explicacion: "De P = 2πr → r = 10 cm. Área = π(10)² = 100π cm².",
       pasos: [
-        { pre: "Despejar r: ", math: "r = \\dfrac{C}{2\\pi} = \\dfrac{20\\pi}{2\\pi} = 10\\text{ cm}" },
+        { pre: "Despejar r: ", math: "r = \\dfrac{P}{2\\pi} = \\dfrac{20\\pi}{2\\pi} = 10\\text{ cm}" },
         { pre: "Área: ", math: "A = \\pi r^2 = 100\\pi\\text{ cm}^2" }
       ]
     },
@@ -413,7 +419,7 @@ export const PRESENTACION = {
       titulo: "Resumen",
       etiqueta: "Lo que aprendimos hoy",
       puntos: [
-        { math: "C = 2\\pi r,\\quad A = \\pi r^2", texto: "circunferencia y área del círculo" },
+        { math: "P = 2\\pi r,\\quad A = \\pi r^2", texto: "perímetro (circunferencia) y área del círculo" },
         { math: "l = \\dfrac{\\theta}{360^\\circ}\\cdot 2\\pi r,\\quad A_{\\text{sector}} = \\dfrac{\\theta}{360^\\circ}\\pi r^2", texto: "longitud de arco y área de sector" },
         { math: "A_{\\text{seg}} = A_{\\text{sector}} - \\tfrac{1}{2}r^2\\sin\\theta", texto: "área del segmento circular (sector − triángulo)" },
         { math: "A_{\\text{corona}} = \\pi(R^2 - r^2)", texto: "área del anillo o corona circular" },

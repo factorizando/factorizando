@@ -20,6 +20,7 @@ import { PRESENTACION as BIOLOGIA_PENSAMIENTO_CIENTIFICO } from "./biologia-pens
 import { PRESENTACION as CIRCULO } from "./circulo.js";
 import { PRESENTACION as PROBABILIDAD } from "./probabilidad.js";
 import { PRESENTACION as ESTADISTICA } from "./estadistica.js";
+import { PRESENTACION as VOCABULARIO_UNAM } from "./vocabulario-unam.js";
 
 export const PRESENTACIONES_INDEX = {
   "semejanza-triangulos": SEMEJANZA_TRIANGULOS,
@@ -40,6 +41,7 @@ export const PRESENTACIONES_INDEX = {
   "circulo": CIRCULO,
   "probabilidad": PROBABILIDAD,
   "estadistica": ESTADISTICA,
+  "vocabulario-unam": VOCABULARIO_UNAM,
 };
 
 export function buscarPresentacion(id) {

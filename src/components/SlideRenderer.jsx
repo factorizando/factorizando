@@ -169,6 +169,7 @@ function SlidePortadaDiagram({ slide, tema }) {
   if (slide.svgDiagram === "din-portada") return <DinPortadaSVG tema={tema} />;
   if (slide.svgDiagram === "ene-portada") return <EnePortadaSVG tema={tema} />;
   if (slide.svgDiagram === "ter-portada") return <TerPortadaSVG tema={tema} />;
+  if (slide.svgDiagram === "ond-portada") return <OndPortadaSVG tema={tema} />;
   const DecoSVG = tema.DecoSVG;
   return <DecoSVG tema={tema} />;
 }
@@ -680,6 +681,8 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "din-friccion"             && <DinFriccionSVG           tema={tema} />}
       {slide.svgDiagram === "ene-trabajo"              && <EneTrabajoSVG            tema={tema} />}
       {slide.svgDiagram === "ter-transferencia"        && <TerTransferenciaSVG      tema={tema} />}
+      {slide.svgDiagram === "ond-onda"                 && <OndOndaSVG               tema={tema} />}
+      {slide.svgDiagram === "ond-tipos"                && <OndTiposSVG              tema={tema} />}
 
       <div style={{ display: "flex", flexDirection: "column", gap: compact ? 8 : 10 }}>
         {slide.items.map((item, i) => {
@@ -1930,6 +1933,8 @@ function SlideCriterioDetalle({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "ter-escalas"              && <TerEscalasSVG          tema={tema} />}
       {slide.svgDiagram === "ter-dilatacion"           && <TerDilatacionSVG       tema={tema} />}
       {slide.svgDiagram === "ter-gas"                  && <TerGasSVG              tema={tema} />}
+      {slide.svgDiagram === "ond-reflexion-refraccion" && <OndReflexRefracSVG     tema={tema} />}
+      {slide.svgDiagram === "ond-lente"                && <OndLenteSVG            tema={tema} />}
 
       <div
         onClick={() => onResaltar && onResaltar(1)}
@@ -4950,6 +4955,93 @@ function TerTransferenciaSVG({ tema }) {
   );
 }
 
+// ═══════════════════════════════════════════════════════════════════════════
+// Diagramas de Ondas, Sonido y Óptica
+// ═══════════════════════════════════════════════════════════════════════════
+
+function OndPortadaSVG({ tema }) {
+  const a = tema.acento;
+  return (
+    <svg viewBox="0 0 250 120" width="100%" style={{ display: "block", maxHeight: 132, maxWidth: 320 }}>
+      <path d="M 20 60 Q 44 26 68 60 T 116 60 T 164 60 T 212 60" stroke={a} strokeWidth="2.6" fill="none" />
+    </svg>
+  );
+}
+
+function OndOndaSVG({ tema }) {
+  const a = tema.acento, mu = tema.muted, bl = tema.azul, gr = tema.verde;
+  const axis = 64;
+  return (
+    <svg viewBox="0 0 250 120" width="100%" style={{ display: "block", maxHeight: 130 }}>
+      <line x1={18} y1={axis} x2={232} y2={axis} stroke={mu} strokeWidth="1" strokeDasharray="3 3" />
+      <path d="M 24 64 Q 48 30 72 64 T 120 64 T 168 64 T 216 64" stroke={a} strokeWidth="2.5" fill="none" />
+      <line x1={48} y1={30} x2={48} y2={104} stroke={mu} strokeWidth="1" strokeDasharray="3 3" />
+      <line x1={144} y1={30} x2={144} y2={104} stroke={mu} strokeWidth="1" strokeDasharray="3 3" />
+      <line x1={48} y1={98} x2={144} y2={98} stroke={bl} strokeWidth="1.4" />
+      <polygon points={arrowHead(62, 98, 48, 98, 6)} fill={bl} />
+      <polygon points={arrowHead(130, 98, 144, 98, 6)} fill={bl} />
+      <text x={96} y={113} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">λ</text>
+      <line x1={48} y1={64} x2={48} y2={30} stroke={gr} strokeWidth="1.4" />
+      <text x={53} y={46} fill={gr} fontSize="11" fontFamily="Georgia,serif" fontStyle="italic">A</text>
+    </svg>
+  );
+}
+
+function OndTiposSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted;
+  const comp = [20, 30, 40, 53, 67, 79, 87, 93, 106, 120, 132, 140, 146, 159, 173, 185, 193, 199, 211];
+  return (
+    <svg viewBox="0 0 250 132" width="100%" style={{ display: "block", maxHeight: 142 }}>
+      <path d="M 20 34 Q 44 14 68 34 T 116 34 T 164 34 T 212 34" stroke={a} strokeWidth="2.2" fill="none" />
+      <line x1={44} y1={46} x2={44} y2={12} stroke={bl} strokeWidth="1.6" />
+      <polygon points={arrowHead(44, 24, 44, 12, 6)} fill={bl} />
+      <polygon points={arrowHead(44, 34, 44, 46, 6)} fill={bl} />
+      <text x={120} y={58} fill={mu} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle">transversal</text>
+      {comp.map((x, i) => <line key={i} x1={x} y1={78} x2={x} y2={104} stroke={a} strokeWidth="1.6" />)}
+      <text x={120} y={124} fill={mu} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle">longitudinal (compresiones)</text>
+    </svg>
+  );
+}
+
+function OndReflexRefracSVG({ tema }) {
+  const a = tema.acento, gr = tema.verde, rj = tema.rojo, mu = tema.muted;
+  const ix = 125, iy = 72;
+  return (
+    <svg viewBox="0 0 250 132" width="100%" style={{ display: "block", maxHeight: 142 }}>
+      <rect x={20} y={iy} width={210} height={54} fill={tema.azulSuave} />
+      <line x1={20} y1={iy} x2={230} y2={iy} stroke={mu} strokeWidth="1.8" />
+      <line x1={ix} y1={18} x2={ix} y2={122} stroke={mu} strokeWidth="1" strokeDasharray="4 3" />
+      <Vector x1={72} y1={22} x2={ix} y2={iy} color={a} label="" sw={2.2} />
+      <text x={58} y={20} fill={a} fontSize="9.5" fontFamily="'DM Sans',sans-serif">incidente</text>
+      <Vector x1={ix} y1={iy} x2={178} y2={22} color={gr} label="" sw={2.2} />
+      <text x={182} y={24} fill={gr} fontSize="9.5" fontFamily="'DM Sans',sans-serif">reflejado</text>
+      <Vector x1={ix} y1={iy} x2={150} y2={118} color={rj} label="" sw={2.2} />
+      <text x={154} y={116} fill={rj} fontSize="9.5" fontFamily="'DM Sans',sans-serif">refractado</text>
+      <text x={26} y={iy - 6} fill={mu} fontSize="8.5" fontFamily="'DM Sans',sans-serif">medio 1</text>
+      <text x={26} y={iy + 14} fill={mu} fontSize="8.5" fontFamily="'DM Sans',sans-serif">medio 2</text>
+    </svg>
+  );
+}
+
+function OndLenteSVG({ tema }) {
+  const a = tema.acento, gr = tema.verde, mu = tema.muted;
+  const lx = 120, F = 192, axis = 60;
+  return (
+    <svg viewBox="0 0 250 120" width="100%" style={{ display: "block", maxHeight: 130 }}>
+      <line x1={20} y1={axis} x2={232} y2={axis} stroke={mu} strokeWidth="1" strokeDasharray="3 3" />
+      <path d={`M ${lx} 22 Q ${lx + 14} ${axis} ${lx} 98 Q ${lx - 14} ${axis} ${lx} 22 Z`} fill={tema.acentoMed} stroke={a} strokeWidth="1.8" />
+      {[36, 60, 84].map((y, i) => (
+        <g key={i}>
+          <line x1={20} y1={y} x2={lx} y2={y} stroke={gr} strokeWidth="1.8" />
+          <line x1={lx} y1={y} x2={F} y2={axis} stroke={gr} strokeWidth="1.8" />
+        </g>
+      ))}
+      <circle cx={F} cy={axis} r={4} fill={a} />
+      <text x={F + 5} y={axis - 6} fill={a} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">F</text>
+    </svg>
+  );
+}
+
 function renderEjercicioSVG(svgDiagram, tema) {
   if (svgDiagram === "ce1-lll")      return <Ce1LllSVG     tema={tema} />;
   if (svgDiagram === "ce2-medidas")  return <Ce2CondMedSVG tema={tema} />;
@@ -5017,6 +5109,10 @@ function renderEjercicioSVG(svgDiagram, tema) {
   if (svgDiagram === "ter-dilatacion")     return <TerDilatacionSVG    tema={tema} />;
   if (svgDiagram === "ter-gas")            return <TerGasSVG           tema={tema} />;
   if (svgDiagram === "ter-transferencia")  return <TerTransferenciaSVG tema={tema} />;
+  if (svgDiagram === "ond-onda")           return <OndOndaSVG          tema={tema} />;
+  if (svgDiagram === "ond-tipos")          return <OndTiposSVG         tema={tema} />;
+  if (svgDiagram === "ond-reflexion-refraccion") return <OndReflexRefracSVG tema={tema} />;
+  if (svgDiagram === "ond-lente")          return <OndLenteSVG         tema={tema} />;
   if (svgDiagram === "as1-cuad-circ") return <As1CuadCircSVG tema={tema} />;
   if (svgDiagram === "as2-corona")   return <As2CoronaSVG   tema={tema} />;
   if (svgDiagram === "as3-semi-rect") return <As3SemiRectSVG tema={tema} />;

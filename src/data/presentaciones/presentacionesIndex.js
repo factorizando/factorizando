@@ -25,6 +25,7 @@ import { PRESENTACION as CINEMATICA } from "./cinematica.js";
 import { PRESENTACION as DINAMICA } from "./dinamica.js";
 import { PRESENTACION as ENERGIA } from "./energia.js";
 import { PRESENTACION as TERMODINAMICA } from "./termodinamica.js";
+import { PRESENTACION as ONDAS } from "./ondas.js";
 
 export const PRESENTACIONES_INDEX = {
   "semejanza-triangulos": SEMEJANZA_TRIANGULOS,
@@ -50,6 +51,7 @@ export const PRESENTACIONES_INDEX = {
   "dinamica": DINAMICA,
   "energia": ENERGIA,
   "termodinamica": TERMODINAMICA,
+  "ondas": ONDAS,
 };
 
 export function buscarPresentacion(id) {

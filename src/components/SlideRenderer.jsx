@@ -168,6 +168,7 @@ function SlidePortadaDiagram({ slide, tema }) {
   if (slide.svgDiagram === "cin-portada") return <CinPortadaSVG tema={tema} />;
   if (slide.svgDiagram === "din-portada") return <DinPortadaSVG tema={tema} />;
   if (slide.svgDiagram === "ene-portada") return <EnePortadaSVG tema={tema} />;
+  if (slide.svgDiagram === "ter-portada") return <TerPortadaSVG tema={tema} />;
   const DecoSVG = tema.DecoSVG;
   return <DecoSVG tema={tema} />;
 }
@@ -678,6 +679,7 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "din-fuerza-neta"          && <DinFuerzaNetaSVG         tema={tema} />}
       {slide.svgDiagram === "din-friccion"             && <DinFriccionSVG           tema={tema} />}
       {slide.svgDiagram === "ene-trabajo"              && <EneTrabajoSVG            tema={tema} />}
+      {slide.svgDiagram === "ter-transferencia"        && <TerTransferenciaSVG      tema={tema} />}
 
       <div style={{ display: "flex", flexDirection: "column", gap: compact ? 8 : 10 }}>
         {slide.items.map((item, i) => {
@@ -1925,6 +1927,9 @@ function SlideCriterioDetalle({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "ene-energias"             && <EneEnergiasSVG         tema={tema} />}
       {slide.svgDiagram === "ene-conservacion"         && <EneConservacionSVG     tema={tema} />}
       {slide.svgDiagram === "ene-momento"              && <EneMomentoSVG          tema={tema} />}
+      {slide.svgDiagram === "ter-escalas"              && <TerEscalasSVG          tema={tema} />}
+      {slide.svgDiagram === "ter-dilatacion"           && <TerDilatacionSVG       tema={tema} />}
+      {slide.svgDiagram === "ter-gas"                  && <TerGasSVG              tema={tema} />}
 
       <div
         onClick={() => onResaltar && onResaltar(1)}
@@ -4844,6 +4849,107 @@ function EneMomentoSVG({ tema }) {
   );
 }
 
+// ═══════════════════════════════════════════════════════════════════════════
+// Diagramas de Termodinámica
+// ═══════════════════════════════════════════════════════════════════════════
+
+function TerPortadaSVG({ tema }) {
+  const rj = tema.rojo, mu = tema.muted;
+  return (
+    <svg viewBox="0 0 250 120" width="100%" style={{ display: "block", maxHeight: 132, maxWidth: 320 }}>
+      <rect x={118} y={16} width={14} height={76} rx={7} fill={tema.card} stroke={mu} strokeWidth="1.6" />
+      <rect x={121} y={48} width={8} height={46} fill={rj} />
+      <circle cx={125} cy={98} r={15} fill={rj} stroke={mu} strokeWidth="1.6" />
+      {[28, 42, 56, 70].map((y) => (
+        <line key={y} x1={134} y1={y} x2={143} y2={y} stroke={mu} strokeWidth="1.2" />
+      ))}
+    </svg>
+  );
+}
+
+function TerEscalasSVG({ tema }) {
+  const a = tema.acento, mu = tema.muted, rj = tema.rojo, az = tema.azul, T = tema.texto;
+  const cols = [{ x: 60, t: "°C", hi: "100", lo: "0" }, { x: 125, t: "K", hi: "373", lo: "273" }, { x: 190, t: "°F", hi: "212", lo: "32" }];
+  const yHi = 48, yLo = 114;
+  return (
+    <svg viewBox="0 0 250 142" width="100%" style={{ display: "block", maxHeight: 150 }}>
+      <line x1={40} y1={yHi} x2={214} y2={yHi} stroke={rj} strokeWidth="1" strokeDasharray="4 3" opacity="0.55" />
+      <line x1={40} y1={yLo} x2={214} y2={yLo} stroke={az} strokeWidth="1" strokeDasharray="4 3" opacity="0.55" />
+      {cols.map((c, i) => (
+        <g key={i}>
+          <line x1={c.x} y1={34} x2={c.x} y2={122} stroke={mu} strokeWidth="1.6" />
+          <text x={c.x} y={26} fill={a} fontSize="12" textAnchor="middle" fontFamily="'DM Sans',sans-serif" fontWeight="600">{c.t}</text>
+          <line x1={c.x - 4} y1={yHi} x2={c.x + 4} y2={yHi} stroke={mu} strokeWidth="1.5" />
+          <line x1={c.x - 4} y1={yLo} x2={c.x + 4} y2={yLo} stroke={mu} strokeWidth="1.5" />
+          <text x={c.x + 8} y={yHi + 3} fill={T} fontSize="9.5" fontFamily="'IBM Plex Mono',monospace">{c.hi}</text>
+          <text x={c.x + 8} y={yLo + 3} fill={T} fontSize="9.5" fontFamily="'IBM Plex Mono',monospace">{c.lo}</text>
+        </g>
+      ))}
+      <text x={16} y={yHi + 2} fill={rj} fontSize="8" fontFamily="'DM Sans',sans-serif">hierve</text>
+      <text x={14} y={yLo + 2} fill={az} fontSize="8" fontFamily="'DM Sans',sans-serif">congela</text>
+    </svg>
+  );
+}
+
+function TerDilatacionSVG({ tema }) {
+  const a = tema.acento, rj = tema.rojo, mu = tema.muted, az = tema.azul;
+  return (
+    <svg viewBox="0 0 250 110" width="100%" style={{ display: "block", maxHeight: 120 }}>
+      <rect x={30} y={26} width={120} height={16} rx={2} fill={tema.azulSuave} stroke={az} strokeWidth="1.5" />
+      <text x={30} y={20} fill={az} fontSize="10" fontFamily="'DM Sans',sans-serif">L₀ (frío)</text>
+      <rect x={30} y={64} width={170} height={16} rx={2} fill={tema.acentoMed} stroke={a} strokeWidth="1.5" />
+      <text x={30} y={58} fill={a} fontSize="10" fontFamily="'DM Sans',sans-serif">caliente (se dilata)</text>
+      <line x1={150} y1={42} x2={150} y2={92} stroke={mu} strokeWidth="1" strokeDasharray="3 3" />
+      <line x1={150} y1={90} x2={200} y2={90} stroke={rj} strokeWidth="1.4" />
+      <line x1={150} y1={86} x2={150} y2={94} stroke={rj} strokeWidth="1.2" />
+      <line x1={200} y1={86} x2={200} y2={94} stroke={rj} strokeWidth="1.2" />
+      <text x={175} y={104} fill={rj} fontSize="11" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">ΔL</text>
+    </svg>
+  );
+}
+
+function TerGasSVG({ tema }) {
+  const a = tema.acento, mu = tema.muted, rj = tema.rojo, az = tema.azul;
+  const dots = [[95, 56], [116, 72], [131, 50], [110, 90], [136, 84], [100, 72], [125, 64], [141, 96]];
+  return (
+    <svg viewBox="0 0 250 130" width="100%" style={{ display: "block", maxHeight: 140 }}>
+      <rect x={82} y={34} width={70} height={70} fill="none" stroke={mu} strokeWidth="1.8" />
+      {dots.map((d, i) => <circle key={i} cx={d[0]} cy={d[1]} r={3} fill={a} />)}
+      <rect x={80} y={26} width={74} height={8} rx={2} fill={tema.acentoMed} stroke={a} strokeWidth="1.5" />
+      <Vector x1={117} y1={12} x2={117} y2={24} color={az} label="P" lx={122} ly={20} />
+      <path d="M 108 104 Q 113 118 117 106 Q 121 118 126 104 Q 124 112 117 110 Q 110 112 108 104" fill={rj} />
+      <text x={138} y={118} fill={rj} fontSize="11" fontFamily="Georgia,serif" fontStyle="italic">T</text>
+      <text x={158} y={72} fill={mu} fontSize="11" fontFamily="Georgia,serif" fontStyle="italic">V</text>
+    </svg>
+  );
+}
+
+function TerTransferenciaSVG({ tema }) {
+  const a = tema.acento, mu = tema.muted, rj = tema.rojo, az = tema.azul;
+  return (
+    <svg viewBox="0 0 250 104" width="100%" style={{ display: "block", maxHeight: 116 }}>
+      {/* conducción */}
+      <rect x={20} y={36} width={56} height={12} rx={2} fill={tema.acentoMed} stroke={a} strokeWidth="1.3" />
+      <circle cx={20} cy={42} r={6} fill={rj} />
+      <Vector x1={34} y1={42} x2={68} y2={42} color={mu} label="" sw={1.5} />
+      <text x={48} y={66} fill={mu} fontSize="9.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">conducción</text>
+      {/* convección */}
+      <rect x={104} y={30} width={42} height={26} rx={2} fill="none" stroke={mu} strokeWidth="1.5" />
+      <Vector x1={125} y1={54} x2={125} y2={34} color={rj} label="" sw={1.6} />
+      <Vector x1={112} y1={34} x2={112} y2={54} color={az} label="" sw={1.6} />
+      <Vector x1={138} y1={34} x2={138} y2={54} color={az} label="" sw={1.6} />
+      <text x={125} y={66} fill={mu} fontSize="9.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">convección</text>
+      {/* radiación */}
+      <circle cx={205} cy={42} r={9} fill={rj} />
+      {[0, 45, 90, 135, 180, 225, 270, 315].map((deg) => {
+        const r = deg * Math.PI / 180;
+        return <line key={deg} x1={205 + 12 * Math.cos(r)} y1={42 + 12 * Math.sin(r)} x2={205 + 18 * Math.cos(r)} y2={42 + 18 * Math.sin(r)} stroke={rj} strokeWidth="1.4" />;
+      })}
+      <text x={205} y={66} fill={mu} fontSize="9.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">radiación</text>
+    </svg>
+  );
+}
+
 function renderEjercicioSVG(svgDiagram, tema) {
   if (svgDiagram === "ce1-lll")      return <Ce1LllSVG     tema={tema} />;
   if (svgDiagram === "ce2-medidas")  return <Ce2CondMedSVG tema={tema} />;
@@ -4907,6 +5013,10 @@ function renderEjercicioSVG(svgDiagram, tema) {
   if (svgDiagram === "ene-trabajo")        return <EneTrabajoSVG       tema={tema} />;
   if (svgDiagram === "ene-conservacion")   return <EneConservacionSVG  tema={tema} />;
   if (svgDiagram === "ene-momento")        return <EneMomentoSVG       tema={tema} />;
+  if (svgDiagram === "ter-escalas")        return <TerEscalasSVG       tema={tema} />;
+  if (svgDiagram === "ter-dilatacion")     return <TerDilatacionSVG    tema={tema} />;
+  if (svgDiagram === "ter-gas")            return <TerGasSVG           tema={tema} />;
+  if (svgDiagram === "ter-transferencia")  return <TerTransferenciaSVG tema={tema} />;
   if (svgDiagram === "as1-cuad-circ") return <As1CuadCircSVG tema={tema} />;
   if (svgDiagram === "as2-corona")   return <As2CoronaSVG   tema={tema} />;
   if (svgDiagram === "as3-semi-rect") return <As3SemiRectSVG tema={tema} />;

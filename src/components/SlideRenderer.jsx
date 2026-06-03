@@ -166,6 +166,7 @@ function SlidePortadaDiagram({ slide, tema }) {
   if (slide.svgDiagram === "prob-portada") return <ProbabilidadPortadaSVG tema={tema} />;
   if (slide.svgDiagram === "est-portada") return <EstPortadaSVG tema={tema} />;
   if (slide.svgDiagram === "cin-portada") return <CinPortadaSVG tema={tema} />;
+  if (slide.svgDiagram === "din-portada") return <DinPortadaSVG tema={tema} />;
   const DecoSVG = tema.DecoSVG;
   return <DecoSVG tema={tema} />;
 }
@@ -673,6 +674,8 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "dispersion"               && <DispersionSVG             tema={tema} />}
       {slide.svgDiagram === "graficas-circular"        && <EstCircularSVG            tema={tema} />}
       {slide.svgDiagram === "cin-desplazamiento"       && <CinDesplazamientoSVG     tema={tema} />}
+      {slide.svgDiagram === "din-fuerza-neta"          && <DinFuerzaNetaSVG         tema={tema} />}
+      {slide.svgDiagram === "din-friccion"             && <DinFriccionSVG           tema={tema} />}
 
       <div style={{ display: "flex", flexDirection: "column", gap: compact ? 8 : 10 }}>
         {slide.items.map((item, i) => {
@@ -1914,6 +1917,9 @@ function SlideCriterioDetalle({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "cin-graf-vt"              && <CinGrafVtSVG           tema={tema} />}
       {slide.svgDiagram === "cin-caida-libre"          && <CinCaidaLibreSVG       tema={tema} />}
       {slide.svgDiagram === "cin-tiro-parabolico"      && <CinTiroParabolicoSVG   tema={tema} />}
+      {slide.svgDiagram === "din-segunda-ley"          && <DinSegundaLeySVG       tema={tema} />}
+      {slide.svgDiagram === "din-tercera-ley"          && <DinTerceraLeySVG       tema={tema} />}
+      {slide.svgDiagram === "din-hooke"                && <DinHookeSVG            tema={tema} />}
 
       <div
         onClick={() => onResaltar && onResaltar(1)}
@@ -4632,6 +4638,119 @@ function CinEjVtAreaSVG({ tema }) {
   );
 }
 
+// ═══════════════════════════════════════════════════════════════════════════
+// Diagramas de Dinámica (Leyes de Newton)
+// ═══════════════════════════════════════════════════════════════════════════
+
+// Caja con etiqueta (bloque genérico).
+function Bloque({ x, y, w, h, tema, label, fill }) {
+  return (
+    <g>
+      <rect x={x} y={y} width={w} height={h} rx={4} fill={fill || tema.acentoMed} stroke={tema.acento} strokeWidth="1.8" />
+      {label && <text x={x + w / 2} y={y + h / 2 + 5} fill={tema.texto} fontSize="14" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">{label}</text>}
+    </g>
+  );
+}
+
+// Vector con punta de flecha y etiqueta.
+function Vector({ x1, y1, x2, y2, color, label, lx, ly, sw }) {
+  return (
+    <g>
+      <line x1={x1} y1={y1} x2={x2} y2={y2} stroke={color} strokeWidth={sw || 2.4} />
+      <polygon points={arrowHead(x1, y1, x2, y2, 8)} fill={color} />
+      {label && <text x={lx} y={ly} fill={color} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">{label}</text>}
+    </g>
+  );
+}
+
+function DinPortadaSVG({ tema }) {
+  const a = tema.acento, gr = tema.verde, mu = tema.muted;
+  return (
+    <svg viewBox="0 0 250 120" width="100%" style={{ display: "block", maxHeight: 132, maxWidth: 320 }}>
+      <line x1={20} y1={92} x2={230} y2={92} stroke={mu} strokeWidth="1.5" />
+      <Bloque x={60} y={52} w={54} h={40} tema={tema} label="m" />
+      <Vector x1={114} y1={72} x2={188} y2={72} color={gr} label="F" lx={150} ly={66} />
+      <Vector x1={60} y1={40} x2={120} y2={40} color={a} label="a" lx={88} ly={34} />
+    </svg>
+  );
+}
+
+function DinFuerzaNetaSVG({ tema }) {
+  const gr = tema.verde, rj = tema.rojo, mu = tema.muted;
+  return (
+    <svg viewBox="0 0 250 120" width="100%" style={{ display: "block", maxHeight: 128 }}>
+      <Bloque x={95} y={42} w={60} h={44} tema={tema} label="m" />
+      <Vector x1={155} y1={64} x2={216} y2={64} color={gr} label="F₁" lx={178} ly={56} />
+      <Vector x1={95} y1={64} x2={48} y2={64} color={rj} label="F₂" lx={50} ly={56} />
+      <text x={125} y={108} fill={mu} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">fuerza neta = suma vectorial</text>
+    </svg>
+  );
+}
+
+function DinSegundaLeySVG({ tema }) {
+  const a = tema.acento, gr = tema.verde, mu = tema.muted;
+  return (
+    <svg viewBox="0 0 250 110" width="100%" style={{ display: "block", maxHeight: 120 }}>
+      <Bloque x={66} y={42} w={54} h={42} tema={tema} label="m" />
+      <Vector x1={120} y1={54} x2={200} y2={54} color={gr} label="F" lx={170} ly={48} />
+      <Vector x1={120} y1={74} x2={172} y2={74} color={a} label="a" lx={150} ly={94} />
+      <text x={50} y={100} fill={mu} fontSize="10.5" fontFamily="'DM Sans',sans-serif">a en el sentido de F</text>
+    </svg>
+  );
+}
+
+function DinTerceraLeySVG({ tema }) {
+  const gr = tema.verde, rj = tema.rojo, T = tema.texto;
+  return (
+    <svg viewBox="0 0 250 116" width="100%" style={{ display: "block", maxHeight: 126 }}>
+      <Bloque x={71} y={48} w={44} h={38} tema={tema} label="A" fill={tema.azulSuave} />
+      <Bloque x={115} y={48} w={44} h={38} tema={tema} label="B" />
+      <Vector x1={115} y1={38} x2={178} y2={38} color={gr} label="" />
+      <text x={120} y={31} fill={gr} fontSize="10.5" fontFamily="'DM Sans',sans-serif">acción (A → B)</text>
+      <Vector x1={115} y1={98} x2={52} y2={98} color={rj} label="" />
+      <text x={70} y={112} fill={rj} fontSize="10.5" fontFamily="'DM Sans',sans-serif">reacción (B → A)</text>
+    </svg>
+  );
+}
+
+function DinFriccionSVG({ tema }) {
+  const a = tema.acento, gr = tema.verde, rj = tema.rojo, az = tema.azul, mu = tema.muted;
+  const gy = 92;
+  return (
+    <svg viewBox="0 0 250 140" width="100%" style={{ display: "block", maxHeight: 150 }}>
+      <line x1={28} y1={gy} x2={222} y2={gy} stroke={mu} strokeWidth="1.5" />
+      {[40, 60, 80, 100, 120, 140, 160, 180, 200].map((x) => (
+        <line key={x} x1={x} y1={gy} x2={x - 8} y2={gy + 8} stroke={mu} strokeWidth="1" opacity="0.5" />
+      ))}
+      <Bloque x={88} y={56} w={56} h={36} tema={tema} label="m" />
+      <Vector x1={116} y1={56} x2={116} y2={22} color={a} label="N" lx={122} ly={34} />
+      <Vector x1={116} y1={92} x2={116} y2={126} color={rj} label="P" lx={122} ly={116} />
+      <Vector x1={144} y1={74} x2={198} y2={74} color={gr} label="F" lx={176} ly={68} />
+      <Vector x1={88} y1={74} x2={44} y2={74} color={az} label="f" lx={48} ly={68} />
+    </svg>
+  );
+}
+
+function DinHookeSVG({ tema }) {
+  const a = tema.acento, gr = tema.verde, mu = tema.muted;
+  const zig = "22,60 34,48 46,72 58,48 70,72 82,48 94,72 106,48 118,72 130,60";
+  return (
+    <svg viewBox="0 0 250 110" width="100%" style={{ display: "block", maxHeight: 120 }}>
+      <rect x={12} y={34} width={10} height={52} fill={tema.card} stroke={mu} strokeWidth="1.5" />
+      {[38, 48, 58, 68, 78].map((y) => (
+        <line key={y} x1={12} y1={y} x2={6} y2={y + 6} stroke={mu} strokeWidth="1" opacity="0.6" />
+      ))}
+      <polyline points={zig} fill="none" stroke={a} strokeWidth="2.2" />
+      <Bloque x={130} y={44} w={40} h={32} tema={tema} label="m" />
+      <Vector x1={170} y1={60} x2={216} y2={60} color={gr} label="F" lx={192} ly={54} />
+      <line x1={70} y1={90} x2={150} y2={90} stroke={mu} strokeWidth="1" />
+      <line x1={70} y1={86} x2={70} y2={94} stroke={mu} strokeWidth="1" />
+      <line x1={150} y1={86} x2={150} y2={94} stroke={mu} strokeWidth="1" />
+      <text x={108} y={103} fill={mu} fontSize="11" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">x</text>
+    </svg>
+  );
+}
+
 function renderEjercicioSVG(svgDiagram, tema) {
   if (svgDiagram === "ce1-lll")      return <Ce1LllSVG     tema={tema} />;
   if (svgDiagram === "ce2-medidas")  return <Ce2CondMedSVG tema={tema} />;
@@ -4689,6 +4808,9 @@ function renderEjercicioSVG(svgDiagram, tema) {
   if (svgDiagram === "cin-caida-libre")    return <CinCaidaLibreSVG    tema={tema} />;
   if (svgDiagram === "cin-tiro-parabolico") return <CinTiroParabolicoSVG tema={tema} />;
   if (svgDiagram === "cin-ej-vt-area")     return <CinEjVtAreaSVG      tema={tema} />;
+  if (svgDiagram === "din-fuerza-neta")    return <DinFuerzaNetaSVG    tema={tema} />;
+  if (svgDiagram === "din-hooke")          return <DinHookeSVG         tema={tema} />;
+  if (svgDiagram === "din-tercera-ley")    return <DinTerceraLeySVG    tema={tema} />;
   if (svgDiagram === "as1-cuad-circ") return <As1CuadCircSVG tema={tema} />;
   if (svgDiagram === "as2-corona")   return <As2CoronaSVG   tema={tema} />;
   if (svgDiagram === "as3-semi-rect") return <As3SemiRectSVG tema={tema} />;

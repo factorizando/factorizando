@@ -22,6 +22,7 @@ import { PRESENTACION as PROBABILIDAD } from "./probabilidad.js";
 import { PRESENTACION as ESTADISTICA } from "./estadistica.js";
 import { PRESENTACION as VOCABULARIO_UNAM } from "./vocabulario-unam.js";
 import { PRESENTACION as CINEMATICA } from "./cinematica.js";
+import { PRESENTACION as DINAMICA } from "./dinamica.js";
 
 export const PRESENTACIONES_INDEX = {
   "semejanza-triangulos": SEMEJANZA_TRIANGULOS,
@@ -44,6 +45,7 @@ export const PRESENTACIONES_INDEX = {
   "estadistica": ESTADISTICA,
   "vocabulario-unam": VOCABULARIO_UNAM,
   "cinematica": CINEMATICA,
+  "dinamica": DINAMICA,
 };
 
 export function buscarPresentacion(id) {

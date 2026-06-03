@@ -167,6 +167,7 @@ function SlidePortadaDiagram({ slide, tema }) {
   if (slide.svgDiagram === "est-portada") return <EstPortadaSVG tema={tema} />;
   if (slide.svgDiagram === "cin-portada") return <CinPortadaSVG tema={tema} />;
   if (slide.svgDiagram === "din-portada") return <DinPortadaSVG tema={tema} />;
+  if (slide.svgDiagram === "ene-portada") return <EnePortadaSVG tema={tema} />;
   const DecoSVG = tema.DecoSVG;
   return <DecoSVG tema={tema} />;
 }
@@ -676,6 +677,7 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "cin-desplazamiento"       && <CinDesplazamientoSVG     tema={tema} />}
       {slide.svgDiagram === "din-fuerza-neta"          && <DinFuerzaNetaSVG         tema={tema} />}
       {slide.svgDiagram === "din-friccion"             && <DinFriccionSVG           tema={tema} />}
+      {slide.svgDiagram === "ene-trabajo"              && <EneTrabajoSVG            tema={tema} />}
 
       <div style={{ display: "flex", flexDirection: "column", gap: compact ? 8 : 10 }}>
         {slide.items.map((item, i) => {
@@ -1920,6 +1922,9 @@ function SlideCriterioDetalle({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "din-segunda-ley"          && <DinSegundaLeySVG       tema={tema} />}
       {slide.svgDiagram === "din-tercera-ley"          && <DinTerceraLeySVG       tema={tema} />}
       {slide.svgDiagram === "din-hooke"                && <DinHookeSVG            tema={tema} />}
+      {slide.svgDiagram === "ene-energias"             && <EneEnergiasSVG         tema={tema} />}
+      {slide.svgDiagram === "ene-conservacion"         && <EneConservacionSVG     tema={tema} />}
+      {slide.svgDiagram === "ene-momento"              && <EneMomentoSVG          tema={tema} />}
 
       <div
         onClick={() => onResaltar && onResaltar(1)}
@@ -4751,6 +4756,94 @@ function DinHookeSVG({ tema }) {
   );
 }
 
+// ═══════════════════════════════════════════════════════════════════════════
+// Diagramas de Trabajo y Energía
+// ═══════════════════════════════════════════════════════════════════════════
+
+function EnePortadaSVG({ tema }) {
+  const a = tema.acento, mu = tema.muted;
+  return (
+    <svg viewBox="0 0 250 120" width="100%" style={{ display: "block", maxHeight: 132, maxWidth: 320 }}>
+      <line x1={20} y1={102} x2={230} y2={102} stroke={mu} strokeWidth="1.5" />
+      <path d="M 34 30 C 92 32 108 96 222 102" stroke={a} strokeWidth="2.5" fill="none" />
+      <circle cx={40} cy={26} r={7} fill={a} />
+      <text x={52} y={26} fill={mu} fontSize="10" fontFamily="'DM Sans',sans-serif">Ep</text>
+      <text x={198} y={94} fill={mu} fontSize="10" fontFamily="'DM Sans',sans-serif">Ec</text>
+    </svg>
+  );
+}
+
+function EneTrabajoSVG({ tema }) {
+  const gr = tema.verde, mu = tema.muted;
+  return (
+    <svg viewBox="0 0 250 110" width="100%" style={{ display: "block", maxHeight: 120 }}>
+      <Bloque x={50} y={40} w={50} h={36} tema={tema} label="m" />
+      <Vector x1={100} y1={58} x2={176} y2={58} color={gr} label="F" lx={150} ly={52} />
+      <line x1={50} y1={90} x2={176} y2={90} stroke={mu} strokeWidth="1.2" />
+      <line x1={50} y1={86} x2={50} y2={94} stroke={mu} strokeWidth="1" />
+      <line x1={176} y1={86} x2={176} y2={94} stroke={mu} strokeWidth="1" />
+      <text x={113} y={103} fill={mu} fontSize="11" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">d</text>
+    </svg>
+  );
+}
+
+function EneEnergiasSVG({ tema }) {
+  const gr = tema.verde, mu = tema.muted, bl = tema.azul;
+  const gy = 112;
+  return (
+    <svg viewBox="0 0 250 130" width="100%" style={{ display: "block", maxHeight: 140 }}>
+      <line x1={30} y1={gy} x2={220} y2={gy} stroke={mu} strokeWidth="1.5" />
+      <line x1={36} y1={52} x2={150} y2={52} stroke={mu} strokeWidth="1.5" />
+      <Bloque x={64} y={32} w={36} h={20} tema={tema} label="m" />
+      <Vector x1={100} y1={42} x2={150} y2={42} color={gr} label="v" lx={128} ly={36} />
+      <line x1={176} y1={52} x2={176} y2={gy} stroke={bl} strokeWidth="1.4" strokeDasharray="4 3" />
+      <polygon points={arrowHead(176, 58, 176, 52, 7)} fill={bl} />
+      <polygon points={arrowHead(176, gy - 6, 176, gy, 7)} fill={bl} />
+      <text x={182} y={86} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">h</text>
+      <text x={34} y={26} fill={mu} fontSize="9.5" fontFamily="'DM Sans',sans-serif">Ec = ½mv²</text>
+      <text x={150} y={126} fill={mu} fontSize="9.5" fontFamily="'DM Sans',sans-serif">Ep = mgh</text>
+    </svg>
+  );
+}
+
+function EneConservacionSVG({ tema }) {
+  const a = tema.acento, mu = tema.muted;
+  return (
+    <svg viewBox="0 0 250 130" width="100%" style={{ display: "block", maxHeight: 140 }}>
+      <line x1={20} y1={114} x2={230} y2={114} stroke={mu} strokeWidth="1.5" />
+      <path d="M 44 36 C 92 42 120 110 208 112" stroke={a} strokeWidth="2.5" fill="none" />
+      <circle cx={46} cy={32} r={7} fill={tema.acentoMed} stroke={a} strokeWidth="1.6" />
+      <circle cx={206} cy={106} r={7} fill={a} />
+      <text x={58} y={30} fill={mu} fontSize="10" fontFamily="'DM Sans',sans-serif">Ep máx (v = 0)</text>
+      <text x={150} y={100} fill={mu} fontSize="10" fontFamily="'DM Sans',sans-serif">Ec máx</text>
+    </svg>
+  );
+}
+
+function EneMomentoSVG({ tema }) {
+  const gr = tema.verde, mu = tema.muted, T = tema.texto;
+  const cart = (x, y, w, label, fill) => (
+    <g>
+      <rect x={x} y={y} width={w} height={18} rx={3} fill={fill} stroke={tema.acento} strokeWidth="1.5" />
+      <text x={x + w / 2} y={y + 13} fill={T} fontSize="10" fontFamily="Georgia,serif" textAnchor="middle">{label}</text>
+      <circle cx={x + 6} cy={y + 20} r={3.5} fill={mu} />
+      <circle cx={x + w - 6} cy={y + 20} r={3.5} fill={mu} />
+    </g>
+  );
+  return (
+    <svg viewBox="0 0 250 130" width="100%" style={{ display: "block", maxHeight: 140 }}>
+      <text x={8} y={42} fill={mu} fontSize="10" fontFamily="'DM Sans',sans-serif">antes</text>
+      {cart(54, 28, 34, "A", tema.acentoMed)}
+      <Vector x1={90} y1={37} x2={116} y2={37} color={gr} label="v" lx={98} ly={24} />
+      {cart(140, 28, 34, "B", tema.azulSuave)}
+      <line x1={20} y1={64} x2={230} y2={64} stroke={tema.border} strokeWidth="1" strokeDasharray="3 3" />
+      <text x={8} y={98} fill={mu} fontSize="10" fontFamily="'DM Sans',sans-serif">después</text>
+      {cart(96, 84, 48, "A+B", tema.acentoMed)}
+      <Vector x1={146} y1={93} x2={174} y2={93} color={gr} label="v'" lx={156} ly={80} />
+    </svg>
+  );
+}
+
 function renderEjercicioSVG(svgDiagram, tema) {
   if (svgDiagram === "ce1-lll")      return <Ce1LllSVG     tema={tema} />;
   if (svgDiagram === "ce2-medidas")  return <Ce2CondMedSVG tema={tema} />;
@@ -4811,6 +4904,9 @@ function renderEjercicioSVG(svgDiagram, tema) {
   if (svgDiagram === "din-fuerza-neta")    return <DinFuerzaNetaSVG    tema={tema} />;
   if (svgDiagram === "din-hooke")          return <DinHookeSVG         tema={tema} />;
   if (svgDiagram === "din-tercera-ley")    return <DinTerceraLeySVG    tema={tema} />;
+  if (svgDiagram === "ene-trabajo")        return <EneTrabajoSVG       tema={tema} />;
+  if (svgDiagram === "ene-conservacion")   return <EneConservacionSVG  tema={tema} />;
+  if (svgDiagram === "ene-momento")        return <EneMomentoSVG       tema={tema} />;
   if (svgDiagram === "as1-cuad-circ") return <As1CuadCircSVG tema={tema} />;
   if (svgDiagram === "as2-corona")   return <As2CoronaSVG   tema={tema} />;
   if (svgDiagram === "as3-semi-rect") return <As3SemiRectSVG tema={tema} />;

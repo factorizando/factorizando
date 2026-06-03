@@ -457,6 +457,11 @@ export const SUBJECTS_PREP = [
                 name: "Sesión 5 - Cuadriláteros y polígonos regulares",
                 video: "https://youtu.be/v-EUmID0qaM",
               },
+              {
+                id: "sesion-6",
+                name: "Sesión 6 - El Círculo",
+                video: "https://youtu.be/HWIZwEtln0Q",
+              },
             ],
           },
         ],

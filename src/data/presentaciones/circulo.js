@@ -88,9 +88,18 @@ export const PRESENTACION = {
       formula: "P^2 = 4\\pi A",
       svgDiagram: "circulo-formulas",
       items: [
-        { math: "r = \\dfrac{P}{2\\pi}", texto: "radio a partir del perímetro" },
-        { math: "r = \\sqrt{\\dfrac{A}{\\pi}}", texto: "radio a partir del área" },
-        { math: "P = 2\\sqrt{\\pi A}", texto: "perímetro directo desde el área" },
+        {
+          texto: "Radio a partir del perímetro",
+          pasos: ["P = 2\\pi r", "r = \\dfrac{P}{2\\pi}"]
+        },
+        {
+          texto: "Radio a partir del área",
+          pasos: ["A = \\pi r^2", "r^2 = \\dfrac{A}{\\pi}", "r = \\sqrt{\\dfrac{A}{\\pi}}"]
+        },
+        {
+          texto: "Perímetro directo desde el área",
+          pasos: ["P = 2\\pi r", "r = \\sqrt{\\dfrac{A}{\\pi}}", "P = 2\\pi\\sqrt{\\dfrac{A}{\\pi}} = 2\\sqrt{\\pi A}"]
+        },
       ],
       nota: "La relación P² = 4πA permite convertir entre perímetro y área sin calcular el radio. Se deduce combinando P = 2πr y A = πr²."
     },
@@ -341,181 +350,112 @@ export const PRESENTACION = {
       ]
     },
 
-    // ── ÁNGULO CENTRAL ────────────────────────────────────────────────────────
+    // ── ÁREA DE UNA PORCIÓN DEL CÍRCULO ───────────────────────────────────────
 
     {
       id: 4,
-      tipo: "criterio_detalle",
-      titulo: "Ángulo Central y Arco",
-      etiqueta: "Proporcional al ángulo central",
-      svgDiagram: "angulo-central",
-      enunciado: "El ángulo central tiene su vértice en el centro del círculo. La longitud del arco y el área del sector son proporcionales al ángulo central θ.",
-      math: "l = \\dfrac{\\theta}{360^\\circ} \\cdot 2\\pi r \\qquad A_{\\text{sector}} = \\dfrac{\\theta}{360^\\circ} \\cdot \\pi r^2",
-      por_que: "Un ángulo completo (360°) corresponde a la circunferencia entera y al área total del círculo. Para un ángulo θ se toma la fracción θ/360° de cada cantidad.",
-      math_razon: "\\dfrac{l}{2\\pi r} = \\dfrac{A_{\\text{sector}}}{\\pi r^2} = \\dfrac{\\theta}{360^\\circ}"
+      tipo: "concepto",
+      titulo: "Área de una Porción del Círculo",
+      etiqueta: "Una fracción del área total",
+      formula: "A_{\\text{porción}} = \\text{fracción} \\times \\pi r^2",
+      svgDiagram: "porciones-circulo",
+      items: [
+        { math: "\\dfrac{1}{2}\\,\\pi r^2", texto: "la mitad del círculo" },
+        { math: "\\dfrac{1}{4}\\,\\pi r^2", texto: "una cuarta parte" },
+        { math: "\\dfrac{3}{4}\\,\\pi r^2", texto: "tres cuartas partes" },
+        { math: "\\dfrac{1}{8}\\,\\pi r^2", texto: "un octavo" },
+        { math: "\\dfrac{1}{12}\\,\\pi r^2", texto: "un doceavo" }
+      ],
+      nota: "Para las porciones comunes no necesitas la fórmula del sector con ángulos: basta calcular el área total πr² y tomar la fracción que indique el dibujo."
     },
 
-    // ── SECTOR CIRCULAR ───────────────────────────────────────────────────────
+    // ── TRIÁNGULO INSCRITO: TEOREMA DEL ÁNGULO INSCRITO ───────────────────────
 
     {
-      id: 5,
+      id: "ti-teorema",
       tipo: "criterio_detalle",
-      titulo: "Sector Circular",
-      etiqueta: "La rebanada del círculo",
-      svgDiagram: "sector-circular",
-      enunciado: "El sector circular es la región comprendida entre dos radios y el arco que subtienden. En radianes, su área tiene una fórmula compacta.",
-      math: "A_{\\text{sector}} = \\dfrac{\\theta}{360^\\circ}\\cdot\\pi r^2 = \\dfrac{1}{2}\\,r^2\\,\\theta_{\\text{rad}}",
-      por_que: "En radianes la longitud de arco es l = rθ, y la altura del triángulo diferencial es r, por lo que el área es ½·r·l = ½r²θ.",
-      math_razon: "l = r\\theta \\;\\Rightarrow\\; A = \\tfrac{1}{2}rl = \\tfrac{1}{2}r^2\\theta"
+      titulo: "Triángulo Inscrito en una Circunferencia",
+      etiqueta: "Teorema del ángulo inscrito",
+      svgDiagram: "angulo-inscrito",
+      enunciado: "En un triángulo inscrito los tres vértices están sobre la circunferencia y sus lados son cuerdas. Un ángulo inscrito (con vértice en la circunferencia) mide la mitad del ángulo central que abarca el mismo arco.",
+      math: "\\angle_{\\text{inscrito}} = \\dfrac{1}{2}\\,\\angle_{\\text{central}}",
+      por_que: "Ambos ángulos «ven» el mismo arco AC: el central lo abarca completo y el inscrito con la mitad de abertura. El caso estrella es el Teorema de Tales (lado = diámetro ⇒ ángulo recto). Demostración: con AC diámetro, el centro O queda sobre AC; al trazar el radio OB se forman dos triángulos isósceles, pues OA = OB = OC = r. Entonces ∠OAB = ∠OBA = α y ∠OBC = ∠OCB = β, así que el ángulo en B es α + β. Como los tres ángulos de ABC suman 180°, resulta 2α + 2β = 180°.",
+      math_razon: "2\\alpha + 2\\beta = 180^\\circ \\;\\Rightarrow\\; \\angle B = \\alpha + \\beta = 90^\\circ"
     },
 
-    // ── SEGMENTO CIRCULAR ─────────────────────────────────────────────────────
+    // ── TRIÁNGULO INSCRITO: TODOS LOS CASOS ───────────────────────────────────
 
     {
-      id: 6,
-      tipo: "criterio_detalle",
-      titulo: "Segmento Circular",
-      etiqueta: "Sector menos el triángulo",
-      svgDiagram: "segmento-circular",
-      enunciado: "El segmento circular es la región limitada por una cuerda y su arco. Su área es la del sector circular menos la del triángulo formado por los dos radios y la cuerda.",
-      math: "A_{\\text{seg}} = A_{\\text{sector}} - A_{\\triangle} = \\dfrac{\\theta}{360^\\circ}\\pi r^2 - \\dfrac{1}{2}r^2\\sin\\theta",
-      por_que: "El triángulo isósceles con dos lados iguales a r y ángulo θ entre ellos tiene área = ½·r·r·sen(θ). El segmento es lo que queda tras quitar ese triángulo del sector.",
-      math_razon: "A_{\\triangle} = \\dfrac{1}{2}r^2\\sin\\theta"
-    },
-
-    // ── POSICIONES RECTA–CÍRCULO ──────────────────────────────────────────────
-
-    {
-      id: 7,
+      id: "ti-casos",
       tipo: "lista_criterios",
-      titulo: "Recta y Círculo",
-      etiqueta: "Tres posiciones posibles",
-      variante: "circulo",
+      titulo: "Ángulo Inscrito: Todos los Casos",
+      etiqueta: "Según dónde quede el centro O",
+      variante: "inscrito",
       criterios: [
         {
-          sigla: "EXT",
-          nombre: "Exterior",
-          desc: "La recta no toca el círculo. Distancia del centro a la recta es mayor que r."
+          sigla: "DIA",
+          nombre: "Un lado es diámetro (Tales)",
+          desc: "El centro O cae sobre un lado. El ángulo inscrito opuesto al diámetro mide exactamente 90°."
         },
         {
-          sigla: "TAN",
-          nombre: "Tangente",
-          desc: "La recta toca el círculo en exactamente un punto. Distancia del centro = r."
+          sigla: "DEN",
+          nombre: "El centro queda dentro",
+          desc: "Los dos lados del ángulo encierran al centro O. El inscrito vale la mitad del ángulo central."
         },
         {
-          sigla: "SEC",
-          nombre: "Secante",
-          desc: "La recta corta el círculo en dos puntos. Distancia del centro es menor que r."
+          sigla: "FUE",
+          nombre: "El centro queda fuera",
+          desc: "Los dos lados dejan al centro O del mismo lado. El inscrito sigue valiendo la mitad del central."
         }
       ]
     },
 
-    // ── POSICIONES DOS CÍRCULOS ───────────────────────────────────────────────
+    // ── EJERCICIOS: TRIÁNGULO INSCRITO ────────────────────────────────────────
 
     {
-      id: 8,
-      tipo: "lista_criterios",
-      titulo: "Dos Círculos",
-      etiqueta: "Posiciones relativas",
-      variante: "circulo",
-      criterios: [
-        {
-          sigla: "EXT",
-          nombre: "Exteriores",
-          desc: "No se tocan. Distancia entre centros d > r₁ + r₂."
-        },
-        {
-          sigla: "TEX",
-          nombre: "Tang. exterior",
-          desc: "Se tocan en un punto exterior. d = r₁ + r₂."
-        },
-        {
-          sigla: "SEC",
-          nombre: "Secantes",
-          desc: "Se cortan en dos puntos. |r₁ − r₂| < d < r₁ + r₂."
-        },
-        {
-          sigla: "TIN",
-          nombre: "Tang. interior",
-          desc: "Un círculo toca al otro internamente. d = |r₁ − r₂|."
-        }
-      ]
-    },
-
-    // ── TANGENTES DESDE UN PUNTO EXTERIOR ────────────────────────────────────
-
-    {
-      id: 9,
-      tipo: "criterio_detalle",
-      titulo: "Tangentes desde un Punto Exterior",
-      etiqueta: "Los dos segmentos tangentes son iguales",
-      svgDiagram: "tangente-exterior",
-      enunciado: "Desde un punto P exterior a un círculo de centro O y radio r se pueden trazar exactamente dos tangentes. Los segmentos desde P hasta los puntos de tangencia son iguales.",
-      math: "PA = PB = \\sqrt{PO^2 - r^2}",
-      por_que: "Los triángulos OAP y OBP son congruentes: comparten la hipotenusa OP, tienen el ángulo recto en A y B respectivamente, y OA = OB = r. Por congruencia H-L, PA = PB.",
-      math_razon: "\\triangle OAP \\cong \\triangle OBP \\;(\\text{H-L}) \\;\\Rightarrow\\; PA = PB"
-    },
-
-    // ── EJERCICIOS DEL CÍRCULO ────────────────────────────────────────────────
-
-    {
-      id: "cc1",
+      id: "ti1",
       tipo: "ejercicio",
-      svgDiagram: "cce1-radio",
-      etiqueta: "Círculo · Ejercicio 1 / 4",
-      pregunta: "Un círculo tiene perímetro de 20π cm. ¿Cuánto mide su área?",
-      math_pregunta: "P = 20\\pi\\text{ cm},\\quad A = ?",
-      opciones: ["50π cm²", "100π cm²", "400π cm²"],
+      svgDiagram: "ti-ej1",
+      etiqueta: "Triángulo inscrito · Ejercicio 1 / 3",
+      pregunta: "Un triángulo está inscrito en una circunferencia y uno de sus lados es el diámetro. Si uno de sus ángulos agudos mide 35°, ¿cuánto mide el tercer ángulo?",
+      math_pregunta: "\\text{lado} = \\text{diámetro},\\quad \\alpha = 35^\\circ,\\quad \\gamma = ?",
+      opciones: ["45°", "55°", "65°"],
       correcta: 1,
-      explicacion: "De P = 2πr → r = 10 cm. Área = π(10)² = 100π cm².",
+      explicacion: "Por Tales, el ángulo opuesto al diámetro es 90°. Entonces 35° + 90° + γ = 180°, así que γ = 55°.",
       pasos: [
-        { pre: "Despejar r: ", math: "r = \\dfrac{P}{2\\pi} = \\dfrac{20\\pi}{2\\pi} = 10\\text{ cm}" },
-        { pre: "Área: ", math: "A = \\pi r^2 = 100\\pi\\text{ cm}^2" }
+        { pre: "Ángulo en el diámetro (Tales): ", math: "\\beta = 90^\\circ" },
+        { pre: "Suma de ángulos: ", math: "\\gamma = 180^\\circ - 90^\\circ - 35^\\circ = 55^\\circ" }
       ]
     },
 
     {
-      id: "cc2",
+      id: "ti2",
       tipo: "ejercicio",
-      svgDiagram: "cce2-sector",
-      etiqueta: "Círculo · Ejercicio 2 / 4",
-      pregunta: "¿Cuál es el área de un sector circular de radio 6 cm y ángulo central 120°?",
-      math_pregunta: "r = 6\\text{ cm},\\quad \\theta = 120^\\circ",
-      opciones: ["6π cm²", "12π cm²", "36π cm²"],
+      svgDiagram: "ti-ej2",
+      etiqueta: "Triángulo inscrito · Ejercicio 2 / 3",
+      pregunta: "Un ángulo inscrito y un ángulo central abarcan el mismo arco. Si el ángulo central mide 80°, ¿cuánto mide el ángulo inscrito?",
+      math_pregunta: "\\angle_{\\text{central}} = 80^\\circ,\\quad \\angle_{\\text{inscrito}} = ?",
+      opciones: ["20°", "40°", "160°"],
       correcta: 1,
-      explicacion: "A_sector = (120/360)·π·36 = (1/3)·36π = 12π cm².",
+      explicacion: "El ángulo inscrito es la mitad del central que abarca el mismo arco: 80° ÷ 2 = 40°.",
       pasos: [
-        { pre: "A sector: ", math: "\\dfrac{120^\\circ}{360^\\circ}\\cdot\\pi(6)^2 = \\dfrac{1}{3}\\cdot 36\\pi = 12\\pi\\text{ cm}^2" }
+        { pre: "Mitad del central: ", math: "\\angle_{\\text{inscrito}} = \\dfrac{80^\\circ}{2} = 40^\\circ" }
       ]
     },
 
     {
-      id: "cc3",
+      id: "ti3",
       tipo: "ejercicio",
-      svgDiagram: "cce3-arco",
-      etiqueta: "Círculo · Ejercicio 3 / 4",
-      pregunta: "Un círculo de radio 9 cm tiene un arco que subtiende 80° en el centro. ¿Cuánto mide ese arco?",
-      math_pregunta: "r = 9\\text{ cm},\\quad \\theta = 80^\\circ,\\quad l = ?",
-      opciones: ["2π cm", "4π cm", "8π cm"],
+      svgDiagram: "ti-ej3",
+      etiqueta: "Triángulo inscrito · Ejercicio 3 / 3",
+      pregunta: "Un triángulo rectángulo de catetos 6 cm y 8 cm está inscrito en una circunferencia, con su hipotenusa como diámetro. ¿Cuánto mide el radio de la circunferencia?",
+      math_pregunta: "a = 6\\text{ cm},\\quad b = 8\\text{ cm},\\quad r = ?",
+      opciones: ["4 cm", "5 cm", "10 cm"],
       correcta: 1,
-      explicacion: "l = (80/360)·2π·9 = (2/9)·18π = 4π cm.",
+      explicacion: "La hipotenusa es el diámetro. Por Pitágoras mide √(6²+8²) = 10 cm, así que el radio es 10 ÷ 2 = 5 cm.",
       pasos: [
-        { pre: "Longitud de arco: ", math: "l = \\dfrac{80}{360}\\cdot 2\\pi(9) = \\dfrac{2}{9}\\cdot 18\\pi = 4\\pi\\text{ cm}" }
-      ]
-    },
-
-    {
-      id: "cc4",
-      tipo: "ejercicio",
-      svgDiagram: "cce4-tang",
-      etiqueta: "Círculo · Ejercicio 4 / 4",
-      pregunta: "Desde un punto P exterior, la distancia PO = 13 cm y el radio del círculo es 5 cm. ¿Cuánto mide el segmento tangente PA?",
-      math_pregunta: "PO = 13\\text{ cm},\\quad r = 5\\text{ cm},\\quad PA = ?",
-      opciones: ["8 cm", "10 cm", "12 cm"],
-      correcta: 2,
-      explicacion: "PA² = PO² − r² = 169 − 25 = 144. Por lo tanto PA = 12 cm.",
-      pasos: [
-        { pre: "Pitágoras en △OAP: ", math: "PA = \\sqrt{PO^2 - r^2} = \\sqrt{169 - 25} = \\sqrt{144} = 12\\text{ cm}" }
+        { pre: "Hipotenusa (diámetro): ", math: "h = \\sqrt{6^2 + 8^2} = \\sqrt{100} = 10\\text{ cm}" },
+        { pre: "Radio: ", math: "r = \\dfrac{h}{2} = \\dfrac{10}{2} = 5\\text{ cm}" }
       ]
     },
 
@@ -575,8 +515,8 @@ export const PRESENTACION = {
       tipo: "ejercicio",
       svgDiagram: "as3-semi-rect",
       etiqueta: "Áreas sombreadas · Ejercicio 3 / 8",
-      pregunta: "Un rectángulo de 16 × 6 cm tiene un semicírculo de diámetro 6 cm quitado en cada extremo de la dimensión larga. ¿Cuál es el área restante?",
-      math_pregunta: "16\\times 6\\text{ cm};\\quad r = 3\\text{ cm en cada extremo}",
+      pregunta: "A un rectángulo de 16 cm × 6 cm se le recorta un semicírculo en cada lado corto (los extremos de 6 cm), con el diámetro apoyado sobre ese lado. ¿Cuál es el área de la región sombreada que queda?",
+      math_pregunta: "\\text{rectángulo } 16\\times 6\\text{ cm};\\quad \\text{semicírculo de } r=3 \\text{ en cada lado corto}",
       opciones: ["96 − 9π cm²", "96 − 18π cm²", "96 − 36π cm²"],
       correcta: 0,
       explicacion: "Los dos semicírculos forman un círculo completo de r = 3. A = 16·6 − π(3)² = 96 − 9π cm².",
@@ -609,15 +549,15 @@ export const PRESENTACION = {
       tipo: "ejercicio",
       svgDiagram: "as5-trap-semi",
       etiqueta: "Áreas sombreadas · Ejercicio 5 / 8",
-      pregunta: "Un trapecio isósceles tiene bases B = 10 cm, b = 6 cm y altura h = 8 cm. Sobre la base mayor se construye exteriormente un semicírculo. ¿Cuál es el área total sombreada?",
-      math_pregunta: "B=10,\\; b=6,\\; h=8\\text{ cm};\\quad \\text{semicírculo exterior sobre }B",
-      opciones: ["64 + 12.5π cm²", "64 + 25π cm²", "80 + 25π cm²"],
+      pregunta: "Un trapecio isósceles tiene bases B = 10 cm, b = 4 cm y altura h = 8 cm. Sobre la base mayor se construye exteriormente un semicírculo. ¿Cuál es el área total sombreada?",
+      math_pregunta: "B=10,\\; b=4,\\; h=8\\text{ cm};\\quad \\text{semicírculo exterior sobre }B",
+      opciones: ["56 + 12.5π cm²", "56 + 25π cm²", "112 + 12.5π cm²"],
       correcta: 0,
-      explicacion: "A_trap = (B+b)·h/2 = 16·8/2 = 64 cm². A_semi = π(B/2)²/2 = π(5)²/2 = 12.5π cm². Total = 64 + 12.5π cm².",
+      explicacion: "A_trap = (B+b)·h/2 = 14·8/2 = 56 cm². A_semi = π(B/2)²/2 = π(5)²/2 = 12.5π cm². Total = 56 + 12.5π cm².",
       pasos: [
-        { pre: "Área trapecio: ", math: "\\dfrac{(10+6)\\cdot 8}{2} = 64\\text{ cm}^2" },
+        { pre: "Área trapecio: ", math: "\\dfrac{(10+4)\\cdot 8}{2} = 56\\text{ cm}^2" },
         { pre: "Semicírculo (r = 5 cm): ", math: "\\dfrac{\\pi(5)^2}{2} = \\dfrac{25\\pi}{2}\\text{ cm}^2" },
-        { pre: "Total: ", math: "64 + \\dfrac{25\\pi}{2}\\text{ cm}^2" }
+        { pre: "Total: ", math: "56 + \\dfrac{25\\pi}{2}\\text{ cm}^2" }
       ]
     },
 
@@ -661,16 +601,16 @@ export const PRESENTACION = {
       tipo: "ejercicio",
       svgDiagram: "as8-complejo",
       etiqueta: "Áreas sombreadas · Ejercicio 8 / 8",
-      pregunta: "Figura compuesta: un rectángulo 12 × 8 cm más un sector circular de 90° y radio 8 cm adosado a uno de sus lados cortos, menos un triángulo interior de base 12 cm y altura 5 cm. ¿Cuál es el área total sombreada?",
-      math_pregunta: "A_{\\square}+A_{\\text{sector}}-A_{\\triangle}",
-      opciones: ["126 + 16π cm²", "66 + 16π cm²", "96 + 16π cm²"],
-      correcta: 1,
-      explicacion: "A_rect = 96. A_sector = (1/4)π(8)² = 16π. A_triángulo = ½·12·5 = 30. Total = 96 + 16π − 30 = 66 + 16π cm².",
+      pregunta: "Figura compuesta: un rectángulo 12 × 8 cm más una semicircunferencia adosada a uno de sus lados cortos (su diámetro coincide con ese lado de 8 cm, así que el radio es 4 cm), menos un triángulo interior de base 12 cm y altura 5 cm. ¿Cuál es el área total sombreada?",
+      math_pregunta: "A_{\\square}+A_{\\text{semicírculo}}-A_{\\triangle}",
+      opciones: ["66 + 8π cm²", "66 + 16π cm²", "96 + 8π cm²"],
+      correcta: 0,
+      explicacion: "A_rect = 96. Semicírculo (diámetro = lado de 8 ⇒ r = 4): A = ½π(4)² = 8π. A_triángulo = ½·12·5 = 30. Total = 96 + 8π − 30 = 66 + 8π cm².",
       pasos: [
         { pre: "Rectángulo: ", math: "12 \\times 8 = 96\\text{ cm}^2" },
-        { pre: "Sector 90°, r = 8: ", math: "\\dfrac{1}{4}\\pi(8)^2 = 16\\pi\\text{ cm}^2" },
-        { pre: "Triángulo (sumar, no quitar — está afuera): ", math: "\\dfrac{1}{2}(12)(5) = 30\\text{ cm}^2" },
-        { pre: "Total: ", math: "96 + 16\\pi - 30 = 66 + 16\\pi \\approx 116.3\\text{ cm}^2" }
+        { pre: "Semicírculo (r = 4 cm): ", math: "\\dfrac{1}{2}\\pi(4)^2 = 8\\pi\\text{ cm}^2" },
+        { pre: "Triángulo (se resta): ", math: "\\dfrac{1}{2}(12)(5) = 30\\text{ cm}^2" },
+        { pre: "Total: ", math: "96 + 8\\pi - 30 = 66 + 8\\pi \\approx 91.1\\text{ cm}^2" }
       ]
     },
 

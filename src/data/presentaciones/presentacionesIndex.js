@@ -18,6 +18,8 @@ import { PRESENTACION as FISICA_PENSAMIENTO_CIENTIFICO } from "./fisica-pensamie
 import { PRESENTACION as QUIMICA_PENSAMIENTO_CIENTIFICO } from "./quimica-pensamiento-cientifico.js";
 import { PRESENTACION as BIOLOGIA_PENSAMIENTO_CIENTIFICO } from "./biologia-pensamiento-cientifico.js";
 import { PRESENTACION as CIRCULO } from "./circulo.js";
+import { PRESENTACION as PROBABILIDAD } from "./probabilidad.js";
+import { PRESENTACION as ESTADISTICA } from "./estadistica.js";
 
 export const PRESENTACIONES_INDEX = {
   "semejanza-triangulos": SEMEJANZA_TRIANGULOS,
@@ -36,6 +38,8 @@ export const PRESENTACIONES_INDEX = {
   "quimica-pensamiento-cientifico": QUIMICA_PENSAMIENTO_CIENTIFICO,
   "biologia-pensamiento-cientifico": BIOLOGIA_PENSAMIENTO_CIENTIFICO,
   "circulo": CIRCULO,
+  "probabilidad": PROBABILIDAD,
+  "estadistica": ESTADISTICA,
 };
 
 export function buscarPresentacion(id) {

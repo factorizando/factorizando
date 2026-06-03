@@ -6,6 +6,7 @@ import { TEMAS, useFuentesTema } from "../data/presentaciones/temas.jsx";
 import JXG from 'jsxgraph';
 import { ReactFlow, Handle, Position, Background } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ReferenceLine, ResponsiveContainer } from 'recharts';
 
 function useWindowWidth() {
   const [w, setW] = useState(() => (typeof window !== "undefined" ? window.innerWidth : 1024));
@@ -162,6 +163,8 @@ function HistogramaVotos({ votos, totalVotos, opciones, correcta, tema }) {
 
 function SlidePortadaDiagram({ slide, tema }) {
   if (slide.svgDiagram === "euler-line") return <EulerLineSVG tema={tema} />;
+  if (slide.svgDiagram === "prob-portada") return <ProbabilidadPortadaSVG tema={tema} />;
+  if (slide.svgDiagram === "est-portada") return <EstPortadaSVG tema={tema} />;
   const DecoSVG = tema.DecoSVG;
   return <DecoSVG tema={tema} />;
 }
@@ -656,7 +659,18 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "angulo-exterior-formula"  && <AnguloExteriorFormulaSVG   tema={tema} />}
       {slide.svgDiagram === "circulo-partes"           && <CirculoPartesSVG           tema={tema} />}
       {slide.svgDiagram === "circulo-formulas"         && <CirculoFormulasSVG         tema={tema} />}
+      {slide.svgDiagram === "porciones-circulo"        && <PorcionesCirculoSVG        tema={tema} />}
       {slide.svgDiagram === "areas-estrategia"         && <AreasEstrategiaSVG         tema={tema} />}
+      {slide.svgDiagram === "espacio-muestral"         && <EspacioMuestralSVG         tema={tema} />}
+      {slide.svgDiagram === "dos-dados"                && <DosDadosSVG                tema={tema} />}
+      {slide.svgDiagram === "orden-importa"            && <OrdenImportaSVG            tema={tema} />}
+      {slide.svgDiagram === "frecuencias-dado"         && <FrecuenciasDadoChart       tema={tema} />}
+      {slide.svgDiagram === "tipos-variable"           && <TiposVariableSVG          tema={tema} />}
+      {slide.svgDiagram === "tabla-frecuencias"        && <TablaFrecuenciasEst       tema={tema} />}
+      {slide.svgDiagram === "graficas-barras"          && <EstBarrasChart            tema={tema} />}
+      {slide.svgDiagram === "tendencia-central"        && <TendenciaCentralSVG       tema={tema} />}
+      {slide.svgDiagram === "dispersion"               && <DispersionSVG             tema={tema} />}
+      {slide.svgDiagram === "graficas-circular"        && <EstCircularSVG            tema={tema} />}
 
       <div style={{ display: "flex", flexDirection: "column", gap: compact ? 8 : 10 }}>
         {slide.items.map((item, i) => {
@@ -667,8 +681,9 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar }) {
             onClick={() => onResaltar && onResaltar(i)}
             style={{
               display: "flex",
-              alignItems: "center",
-              gap: 18,
+              flexDirection: item.pasos ? "column" : "row",
+              alignItems: item.pasos ? "flex-start" : "center",
+              gap: item.pasos ? 8 : 18,
               background: activo ? tema.acentoSuave : tema.card,
               border: `1px solid ${activo ? tema.acento : tema.border}`,
               borderRadius: 8,
@@ -679,11 +694,27 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar }) {
               cursor: onResaltar ? "pointer" : "default"
             }}
           >
-            <span style={{ fontSize: "1.1em", minWidth: 52 }}>
-              <M>{item.math}</M>
-            </span>
-            <span style={{ color: "#4a4640", fontSize: 17 }}>→</span>
-            <span style={{ fontSize: 15, color: "#c4bfb3" }}>{item.texto}</span>
+            {item.pasos ? (
+              <>
+                <span style={{ fontSize: 13, color: tema.sub, fontWeight: 600 }}>{item.texto}</span>
+                <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 10 }}>
+                  {item.pasos.map((paso, j) => (
+                    <span key={j} style={{ display: "inline-flex", alignItems: "center", gap: 10, fontSize: "1.05em" }}>
+                      {j > 0 && <span style={{ color: "#4a4640", fontSize: 16 }}>→</span>}
+                      <M>{paso}</M>
+                    </span>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <>
+                <span style={{ fontSize: "1.1em", minWidth: 52 }}>
+                  <M>{item.math}</M>
+                </span>
+                <span style={{ color: "#4a4640", fontSize: 17 }}>→</span>
+                <span style={{ fontSize: 15, color: "#c4bfb3" }}>{item.texto}</span>
+              </>
+            )}
           </div>
           );
         })}
@@ -1066,11 +1097,17 @@ function SlideListaCriterios({ slide, tema, resaltadoIdx, onResaltar }) {
     "HEP": <HeptagonoRegSVG  tema={tema} />,
     "OCT": <OctagonoRegSVG   tema={tema} />,
   };
+  const criterioSVGsInscrito = {
+    "DIA": <InscritoDiametroSVG tema={tema} />,
+    "DEN": <InscritoDentroSVG   tema={tema} />,
+    "FUE": <InscritoFueraSVG    tema={tema} />,
+  };
   const criterioSVGs =
     slide.variante === "congruencia"    ? criterioSVGsCongruencia :
     slide.variante === "paralelogramos" ? criterioSVGsParalelogramos :
     slide.variante === "trapecios"      ? criterioSVGsTrapecios :
     slide.variante === "poligonos"      ? criterioSVGsPoligonos :
+    slide.variante === "inscrito"       ? criterioSVGsInscrito :
     criterioSVGsSemejanza;
   // 4 criteria → 2-column grid; 3 criteria → single column
   const cols = slide.criterios.length >= 4 ? 2 : 1;
@@ -1860,6 +1897,17 @@ function SlideCriterioDetalle({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "sector-circular"          && <SectorCircularSVG      tema={tema} />}
       {slide.svgDiagram === "segmento-circular"        && <SegmentoCircularSVG    tema={tema} />}
       {slide.svgDiagram === "tangente-exterior"        && <TangenteExteriorSVG    tema={tema} />}
+      {slide.svgDiagram === "angulo-inscrito"          && <AnguloInscritoSVG      tema={tema} />}
+      {slide.svgDiagram === "escala-probabilidad"      && <EscalaProbabilidadSVG  tema={tema} />}
+      {slide.svgDiagram === "arbol-multiplicativo"     && <ProbArbolMultiplicativo tema={tema} />}
+      {slide.svgDiagram === "complemento"              && <ComplementoSVG         tema={tema} />}
+      {slide.svgDiagram === "regla-suma"               && <ReglaSumaSVG           tema={tema} />}
+      {slide.svgDiagram === "arbol-monedas"            && <ProbArbolMonedas       tema={tema} />}
+      {slide.svgDiagram === "arbol-urna"               && <ProbArbolUrna          tema={tema} />}
+      {slide.svgDiagram === "media-detalle"            && <MediaDetalleSVG        tema={tema} />}
+      {slide.svgDiagram === "mediana-detalle"          && <MedianaDetalleSVG      tema={tema} />}
+      {slide.svgDiagram === "moda-detalle"             && <ModaDetalleSVG         tema={tema} />}
+      {slide.svgDiagram === "desviacion-detalle"       && <DesviacionDetalleSVG   tema={tema} />}
 
       <div
         onClick={() => onResaltar && onResaltar(1)}
@@ -3026,6 +3074,163 @@ function CirculoFormulasSVG({ tema }) {
   );
 }
 
+function PorcionesCirculoSVG({ tema }) {
+  const bl=tema.azul, a=tema.acento;
+  const r=30, cy=42;
+  const D=(d)=>d*Math.PI/180;
+  const porciones=[
+    { f:1/2,  label:"1/2"  },
+    { f:1/4,  label:"1/4"  },
+    { f:3/4,  label:"3/4"  },
+    { f:1/8,  label:"1/8"  },
+    { f:1/12, label:"1/12" }
+  ];
+  const cxs=[42,112,182,252,322];
+  const wedge=(cx,f)=>{
+    const a0=-90, a1=-90+f*360;
+    const x0=+(cx+r*Math.cos(D(a0))).toFixed(1), y0=+(cy+r*Math.sin(D(a0))).toFixed(1);
+    const x1=+(cx+r*Math.cos(D(a1))).toFixed(1), y1=+(cy+r*Math.sin(D(a1))).toFixed(1);
+    const large=f>0.5?1:0;
+    return `M ${cx},${cy} L ${x0},${y0} A ${r},${r} 0 ${large},1 ${x1},${y1} Z`;
+  };
+  return (
+    <svg viewBox="0 0 364 100" width="100%" style={{display:"block",maxHeight:118}}>
+      {porciones.map((p,i)=>(
+        <g key={i}>
+          <circle cx={cxs[i]} cy={cy} r={r} fill={tema.azulSuave} stroke={bl} strokeWidth="1.6"/>
+          <path d={wedge(cxs[i],p.f)} fill={`${a}40`} stroke={a} strokeWidth="1.8"/>
+          <circle cx={cxs[i]} cy={cy} r={2.5} fill={a}/>
+          <text x={cxs[i]} y={cy+r+18} fill={a} fontSize="14" fontFamily="Georgia,serif" textAnchor="middle">{p.label}</text>
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+// ── Triángulo inscrito: teorema del ángulo inscrito ─────────────────────────
+function AnguloInscritoSVG({ tema }) {
+  const cx=140, cy=120, r=90;
+  const bl=tema.azul, a=tema.acento, gr=tema.verde;
+  const D=(d)=>d*Math.PI/180;
+  const P=(deg,R=r)=>[+(cx+R*Math.cos(D(deg))).toFixed(1), +(cy+R*Math.sin(D(deg))).toFixed(1)];
+  const [Ax,Ay]=P(150), [Cx,Cy]=P(30), [Bx,By]=P(-90);
+  // marca del ángulo central (arco inferior 30°→150° pasando por 90°)
+  const [oc0x,oc0y]=P(30,24), [oc1x,oc1y]=P(150,24);
+  // marca del ángulo inscrito en B (entre las cuerdas B→C y B→A: 60°→120°)
+  const ib0x=+(Bx+28*Math.cos(D(60))).toFixed(1),  ib0y=+(By+28*Math.sin(D(60))).toFixed(1);
+  const ib1x=+(Bx+28*Math.cos(D(120))).toFixed(1), ib1y=+(By+28*Math.sin(D(120))).toFixed(1);
+  return (
+    <svg viewBox="0 0 300 232" width="100%" style={{display:"block",maxHeight:222}}>
+      <circle cx={cx} cy={cy} r={r} fill={tema.azulSuave} stroke={bl} strokeWidth="1.8" opacity="0.8"/>
+      {/* cuerda AC (mismo arco) */}
+      <line x1={Ax} y1={Ay} x2={Cx} y2={Cy} stroke={gr} strokeWidth="2" opacity="0.6"/>
+      {/* radios: ángulo central */}
+      <line x1={cx} y1={cy} x2={Ax} y2={Ay} stroke={a} strokeWidth="2"/>
+      <line x1={cx} y1={cy} x2={Cx} y2={Cy} stroke={a} strokeWidth="2"/>
+      {/* cuerdas: ángulo inscrito */}
+      <line x1={Bx} y1={By} x2={Ax} y2={Ay} stroke={bl} strokeWidth="2"/>
+      <line x1={Bx} y1={By} x2={Cx} y2={Cy} stroke={bl} strokeWidth="2"/>
+      <path d={`M ${oc0x},${oc0y} A 24,24 0 0,1 ${oc1x},${oc1y}`} fill="none" stroke={a} strokeWidth="1.8"/>
+      <path d={`M ${ib0x},${ib0y} A 28,28 0 0,1 ${ib1x},${ib1y}`} fill="none" stroke={bl} strokeWidth="1.8"/>
+      <text x={cx} y={cy+44} fill={a} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">2θ</text>
+      <text x={cx} y={By+40} fill={bl} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">θ</text>
+      <circle cx={cx} cy={cy} r={3} fill={a}/>
+      <text x={cx+6} y={cy-5} fill={a} fontSize="11" fontFamily="Georgia,serif" fontStyle="italic">O</text>
+      <circle cx={Bx} cy={By} r={3} fill={bl}/>
+      <text x={Bx} y={By-8} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">B</text>
+      <circle cx={Ax} cy={Ay} r={3} fill={gr}/>
+      <text x={Ax-12} y={Ay+6} fill={gr} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">A</text>
+      <circle cx={Cx} cy={Cy} r={3} fill={gr}/>
+      <text x={Cx+6} y={Cy+6} fill={gr} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">C</text>
+    </svg>
+  );
+}
+
+// ── Triángulo inscrito: los tres casos (centro O respecto al ángulo) ────────
+function InscritoCasoBase({ tema, A, C, B, derecha }) {
+  const cx=75, cy=72, r=58;
+  const bl=tema.azul, a=tema.acento, gr=tema.verde;
+  const D=(d)=>d*Math.PI/180;
+  const P=(deg)=>[+(cx+r*Math.cos(D(deg))).toFixed(1), +(cy+r*Math.sin(D(deg))).toFixed(1)];
+  const [Ax,Ay]=P(A), [Cx,Cy]=P(C), [Bx,By]=P(B);
+  return (
+    <svg viewBox="0 0 150 148" width="100%" style={{display:"block",maxHeight:150}}>
+      <circle cx={cx} cy={cy} r={r} fill={tema.azulSuave} stroke={bl} strokeWidth="1.6" opacity="0.8"/>
+      <polygon points={`${Ax},${Ay} ${Bx},${By} ${Cx},${Cy}`} fill={`${a}26`} stroke={a} strokeWidth="1.8"/>
+      <circle cx={cx} cy={cy} r={2.8} fill={gr}/>
+      <text x={cx+5} y={cy-4} fill={gr} fontSize="10" fontFamily="Georgia,serif" fontStyle="italic">O</text>
+      {derecha && (
+        <path d={`M ${Bx-9},${By+1} L ${Bx-9},${By+10} L ${Bx},${By+10}`} fill="none" stroke={a} strokeWidth="1.5"/>
+      )}
+      <text x={Bx} y={By-5} fill={bl} fontSize="11" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">B</text>
+    </svg>
+  );
+}
+function InscritoDiametroSVG({ tema }) { return <InscritoCasoBase tema={tema} A={180} C={0} B={-90} derecha />; }
+function InscritoDentroSVG({ tema })   { return <InscritoCasoBase tema={tema} A={158} C={22} B={-90} />; }
+function InscritoFueraSVG({ tema })    { return <InscritoCasoBase tema={tema} A={18}  C={74} B={-115} />; }
+
+// ── Ejercicios del triángulo inscrito ───────────────────────────────────────
+function TiEj1SVG({ tema }) {
+  const cx=95, cy=82, r=62;
+  const bl=tema.azul, a=tema.acento, gr=tema.verde;
+  const Ax=cx-r, Ay=cy, Cx=cx+r, Cy=cy, Bx=cx, By=cy-r;
+  return (
+    <svg viewBox="0 0 200 130" width="100%" style={{display:"block",maxHeight:150}}>
+      <circle cx={cx} cy={cy} r={r} fill={tema.azulSuave} stroke={bl} strokeWidth="1.8" opacity="0.8"/>
+      <polygon points={`${Ax},${Ay} ${Bx},${By} ${Cx},${Cy}`} fill={`${a}22`} stroke={a} strokeWidth="2"/>
+      <line x1={Ax} y1={Ay} x2={Cx} y2={Cy} stroke={gr} strokeWidth="2"/>
+      <path d={`M ${Bx-10},${By+2} L ${Bx-10},${By+12} L ${Bx},${By+12}`} fill="none" stroke={a} strokeWidth="1.6"/>
+      <text x={Ax+16} y={Ay-7} fill={bl} fontSize="12" fontFamily="Georgia,serif">35°</text>
+      <text x={Cx-22} y={Cy-7} fill={bl} fontSize="13" fontFamily="Georgia,serif">?</text>
+      <text x={cx} y={Cy+18} fill={gr} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">diámetro</text>
+      <circle cx={cx} cy={cy} r={2.8} fill={gr}/>
+    </svg>
+  );
+}
+function TiEj2SVG({ tema }) {
+  const cx=105, cy=92, r=68;
+  const bl=tema.azul, a=tema.acento, gr=tema.verde;
+  const D=(d)=>d*Math.PI/180;
+  const P=(deg,R=r)=>[+(cx+R*Math.cos(D(deg))).toFixed(1), +(cy+R*Math.sin(D(deg))).toFixed(1)];
+  const [Ax,Ay]=P(150), [Cx,Cy]=P(30), [Bx,By]=P(-90);
+  return (
+    <svg viewBox="0 0 220 168" width="100%" style={{display:"block",maxHeight:160}}>
+      <circle cx={cx} cy={cy} r={r} fill={tema.azulSuave} stroke={bl} strokeWidth="1.8" opacity="0.8"/>
+      <line x1={cx} y1={cy} x2={Ax} y2={Ay} stroke={a} strokeWidth="2"/>
+      <line x1={cx} y1={cy} x2={Cx} y2={Cy} stroke={a} strokeWidth="2"/>
+      <line x1={Bx} y1={By} x2={Ax} y2={Ay} stroke={bl} strokeWidth="2"/>
+      <line x1={Bx} y1={By} x2={Cx} y2={Cy} stroke={bl} strokeWidth="2"/>
+      <line x1={Ax} y1={Ay} x2={Cx} y2={Cy} stroke={gr} strokeWidth="1.8" opacity="0.6"/>
+      <text x={cx} y={cy+38} fill={a} fontSize="13" fontFamily="Georgia,serif" textAnchor="middle">80°</text>
+      <text x={cx} y={By+36} fill={bl} fontSize="13" fontFamily="Georgia,serif" textAnchor="middle">?</text>
+      <circle cx={cx} cy={cy} r={2.8} fill={a}/>
+      <circle cx={Bx} cy={By} r={2.8} fill={bl}/>
+    </svg>
+  );
+}
+function TiEj3SVG({ tema }) {
+  const cx=92, cy=80, r=60;
+  const bl=tema.azul, a=tema.acento, gr=tema.verde;
+  // Hipotenusa = diámetro horizontal A–C; B sobre la circunferencia con ángulo recto
+  const Ax=cx-r, Ay=cy, Cx=cx+r, Cy=cy;
+  // B colocado para que el ángulo en B sea recto (sobre el semicírculo)
+  const Bx=cx+24, By=cy-Math.round(Math.sqrt(r*r-24*24));
+  return (
+    <svg viewBox="0 0 200 132" width="100%" style={{display:"block",maxHeight:150}}>
+      <circle cx={cx} cy={cy} r={r} fill={tema.azulSuave} stroke={bl} strokeWidth="1.8" opacity="0.8"/>
+      <polygon points={`${Ax},${Ay} ${Bx},${By} ${Cx},${Cy}`} fill={`${a}22`} stroke={a} strokeWidth="2"/>
+      <line x1={Ax} y1={Ay} x2={Cx} y2={Cy} stroke={gr} strokeWidth="2"/>
+      <line x1={cx} y1={cy} x2={Bx} y2={By} stroke={bl} strokeWidth="1.4" strokeDasharray="4,3" opacity="0.7"/>
+      <text x={(Ax+Bx)/2-12} y={(Ay+By)/2} fill={a} fontSize="12" fontFamily="Georgia,serif">6</text>
+      <text x={(Cx+Bx)/2+4} y={(Cy+By)/2-2} fill={a} fontSize="12" fontFamily="Georgia,serif">8</text>
+      <text x={cx} y={Cy+16} fill={gr} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">diámetro</text>
+      <text x={(cx+Bx)/2+2} y={(cy+By)/2-3} fill={bl} fontSize="10" fontFamily="Georgia,serif" fontStyle="italic">r</text>
+      <circle cx={cx} cy={cy} r={2.8} fill={gr}/>
+    </svg>
+  );
+}
+
 function AnguloCentralSVG({ tema }) {
   const cx=105, cy=110, r=80;
   const bl=tema.azul, a=tema.acento, gr=tema.verde;
@@ -3298,7 +3503,7 @@ function As3SemiRectSVG({ tema }) {
   const a=tema.acento, bl=tema.azul;
   return (
     <svg viewBox="0 0 300 175" width="100%" style={{display:"block",maxHeight:168}}>
-      <path d={`M ${rx},${ry} H ${rx+rw} V ${ry+rh} H ${rx} Z M ${rx},${cy-r} A ${r},${r} 0 0,0 ${rx},${cy+r} Z M ${rx+rw},${cy-r} A ${r},${r} 0 0,1 ${rx+rw},${cy+r} Z`}
+      <path d={`M ${rx},${ry} H ${rx+rw} V ${ry+rh} H ${rx} Z M ${rx},${cy-r} A ${r},${r} 0 0,1 ${rx},${cy+r} Z M ${rx+rw},${cy-r} A ${r},${r} 0 0,0 ${rx+rw},${cy+r} Z`}
         fillRule="evenodd" fill={`${a}32`} stroke={a} strokeWidth="1.5"/>
       <rect x={rx} y={ry} width={rw} height={rh} fill="none" stroke={bl} strokeWidth="1.5" strokeDasharray="5,3" opacity="0.5"/>
       <text x={rx+rw/2} y={ry-10} fill={a} fontSize="13" fontFamily="'DM Sans',sans-serif" textAnchor="middle" fontWeight="600">16 cm</text>
@@ -3330,23 +3535,23 @@ function As4SectorTriSVG({ tema }) {
 }
 
 function As5TrapSemiSVG({ tema }) {
-  const sc=11;
-  const B=10*sc, b=6*sc, h=8*sc;
-  const cx=162, cyBot=162;
+  const sc=17;
+  const B=10*sc, b=4*sc, h=8*sc;
+  const cx=131, cyBot=164;
   const bx_l=cx-B/2, bx_r=cx+B/2;
   const tx_l=cx-b/2, tx_r=cx+b/2;
   const cyTop=cyBot-h;
   const rSemi=B/2;
   const a=tema.acento, bl=tema.azul;
   return (
-    <svg viewBox="0 0 324 225" width="100%" style={{display:"block",maxHeight:218}}>
+    <svg viewBox="0 0 230 262" width="100%" style={{display:"block",maxHeight:258}}>
       <polygon points={`${bx_l},${cyBot} ${bx_r},${cyBot} ${tx_r},${cyTop} ${tx_l},${cyTop}`} fill={tema.azulSuave} stroke={bl} strokeWidth="2"/>
-      <path d={`M ${bx_l},${cyBot} A ${rSemi},${rSemi} 0 0,1 ${bx_r},${cyBot}`} fill={`${a}30`} stroke={a} strokeWidth="2"/>
-      <text x={cx} y={cyBot+10} fill={a} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">B = 10 cm</text>
-      <text x={cx} y={cyTop-9} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">b = 6 cm</text>
-      <line x1={bx_l-18} y1={cyBot} x2={bx_l-18} y2={cyTop} stroke="rgba(255,255,255,0.28)" strokeWidth="1" strokeDasharray="3,3"/>
-      <text x={bx_l-22} y={(cyBot+cyTop)/2+4} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">h=8</text>
-      <text x={cx} y={cyBot+38} fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle" opacity="0.85">A = πr²/2</text>
+      <path d={`M ${bx_l},${cyBot} A ${rSemi},${rSemi} 0 0,0 ${bx_r},${cyBot}`} fill={`${a}30`} stroke={a} strokeWidth="2"/>
+      <text x={cx} y={cyTop-10} fill={bl} fontSize="14" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">b = 4 cm</text>
+      <text x={cx} y={cyBot+22} fill={a} fontSize="14" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">B = 10 cm</text>
+      <line x1={bx_l-14} y1={cyBot} x2={bx_l-14} y2={cyTop} stroke="rgba(255,255,255,0.32)" strokeWidth="1" strokeDasharray="3,3"/>
+      <text x={bx_l-18} y={(cyBot+cyTop)/2+4} fill={bl} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">h=8</text>
+      <text x={cx} y={cyBot+54} fill={a} fontSize="13" fontFamily="'DM Sans',sans-serif" textAnchor="middle" opacity="0.85">A = πr²/2</text>
     </svg>
   );
 }
@@ -3379,9 +3584,9 @@ function As6HexCircSVG({ tema }) {
 }
 
 function As7TriCircSVG({ tema }) {
-  const sc=13;
+  const sc=14;
   const a6=6*sc, a8=8*sc;
-  const C=[182, 168];
+  const C=[136, 182];
   const B=[C[0], C[1]-a8];
   const Av=[C[0]-a6, C[1]];
   const hCx=(B[0]+Av[0])/2, hCy=(B[1]+Av[1])/2;
@@ -3389,39 +3594,865 @@ function As7TriCircSVG({ tema }) {
   const rSemi=hypLen/2;
   const a=tema.acento, bl=tema.azul;
   return (
-    <svg viewBox="0 0 290 205" width="100%" style={{display:"block",maxHeight:198}}>
-      <path d={`M ${Av[0].toFixed(1)},${Av[1].toFixed(1)} A ${rSemi.toFixed(1)},${rSemi.toFixed(1)} 0 0,0 ${B[0].toFixed(1)},${B[1].toFixed(1)}`}
+    <svg viewBox="0 0 192 212" width="100%" style={{display:"block",maxHeight:205}}>
+      <path d={`M ${Av[0].toFixed(1)},${Av[1].toFixed(1)} A ${rSemi.toFixed(1)},${rSemi.toFixed(1)} 0 0,1 ${B[0].toFixed(1)},${B[1].toFixed(1)}`}
         fill={`${a}30`} stroke={a} strokeWidth="2"/>
       <polygon points={`${C[0]},${C[1]} ${B[0].toFixed(1)},${B[1].toFixed(1)} ${Av[0].toFixed(1)},${Av[1].toFixed(1)}`}
         fill={tema.azulSuave} stroke={bl} strokeWidth="2"/>
       <path d={`M ${C[0]-14},${C[1]} L ${C[0]-14},${C[1]-14} L ${C[0]},${C[1]-14}`} fill="none" stroke="rgba(255,255,255,0.42)" strokeWidth="1.5"/>
-      <text x={(C[0]+B[0])/2+10} y={(C[1]+B[1])/2} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">6 cm</text>
-      <text x={(C[0]+Av[0])/2} y={C[1]+16} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">8 cm</text>
-      <text x={(B[0]+Av[0])/2-34} y={(B[1]+Av[1])/2-10} fill={a} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">c=10</text>
-      <text x={hCx-44} y={hCy-28} fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif">r=5</text>
+      <text x={C[0]+10} y={(C[1]+B[1])/2} fill={bl} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">6 cm</text>
+      <text x={(C[0]+Av[0])/2} y={C[1]+18} fill={bl} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">8 cm</text>
+      <text x={hCx+18} y={hCy+14} fill={a} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">c=10</text>
+      <text x={hCx-26} y={hCy-18} fill={a} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">r=5</text>
     </svg>
   );
 }
 
 function As8ComplejoSVG({ tema }) {
-  const sc=9;
+  const sc=11;
   const rW=12*sc, rH=8*sc;
-  const rX=32, rY=40;
-  const qR=rH;
+  const rX=38, rY=30;
+  const rSemi=rH/2;                 // diámetro = lado corto (8 cm) ⇒ r = 4 cm
   const a=tema.acento, bl=tema.azul, gr=tema.verde;
-  const triBase=rW, triH=5*sc;
+  const triH=5*sc;
+  const ex=rX+rW;                   // borde derecho del rectángulo
+  const cyMid=rY+rH/2;
   return (
-    <svg viewBox="0 0 295 198" width="100%" style={{display:"block",maxHeight:192}}>
+    <svg viewBox="0 0 230 150" width="100%" style={{display:"block",maxHeight:148}}>
       <rect x={rX} y={rY} width={rW} height={rH} fill={`${bl}22`} stroke={bl} strokeWidth="2"/>
-      <path d={`M ${rX+rW},${rY} A ${qR},${qR} 0 0,1 ${rX+rW+qR},${rY+rH}`}
+      {/* Semicircunferencia adosada al ras del lado corto derecho (bulge a la derecha) */}
+      <path d={`M ${ex},${rY} A ${rSemi},${rSemi} 0 0,1 ${ex},${rY+rH}`}
         fill={`${a}28`} stroke={a} strokeWidth="2"/>
       <polygon points={`${rX},${rY+rH} ${rX+rW},${rY+rH} ${rX+rW/2},${rY+rH-triH}`}
         fill="rgba(0,0,0,0.38)" stroke={gr} strokeWidth="1.5" strokeDasharray="5,3"/>
-      <text x={rX+rW/2} y={rY-10} fill={bl} fontSize="12" fontFamily="'DM Sans',sans-serif" textAnchor="middle">12 cm</text>
-      <text x={rX-8} y={rY+rH/2+4} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">8 cm</text>
-      <text x={rX+rW/2} y={rY+rH-triH/3+4} fill={gr} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle" opacity="0.75">quitar △</text>
-      <text x={rX+rW+qR/2+4} y={rY+rH/2-6} fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">sector</text>
-      <text x={rX+rW+qR/2+4} y={rY+rH/2+10} fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">90°, r=8</text>
+      <text x={rX+rW/2} y={rY-10} fill={bl} fontSize="13" fontFamily="'DM Sans',sans-serif" textAnchor="middle">12 cm</text>
+      <text x={rX-8} y={cyMid+4} fill={bl} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">8 cm</text>
+      <text x={rX+rW/2} y={rY+rH-triH/3+4} fill={gr} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle" opacity="0.8">quitar △</text>
+      <text x={ex+rSemi*0.42} y={cyMid-3} fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">semic.</text>
+      <text x={ex+rSemi*0.42} y={cyMid+13} fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">r = 4</text>
+    </svg>
+  );
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// PROBABILIDAD
+// ════════════════════════════════════════════════════════════════════════════
+
+// Posiciones de los puntos de un dado dentro de una celda unitaria (0–1).
+const DADO_PIPS = {
+  1: [[0.5, 0.5]],
+  2: [[0.28, 0.28], [0.72, 0.72]],
+  3: [[0.28, 0.28], [0.5, 0.5], [0.72, 0.72]],
+  4: [[0.28, 0.28], [0.72, 0.28], [0.28, 0.72], [0.72, 0.72]],
+  5: [[0.28, 0.28], [0.72, 0.28], [0.5, 0.5], [0.28, 0.72], [0.72, 0.72]],
+  6: [[0.28, 0.28], [0.28, 0.5], [0.28, 0.72], [0.72, 0.28], [0.72, 0.5], [0.72, 0.72]],
+};
+
+function DadoSVG({ x, y, s, n, color, fill, stroke, rPip }) {
+  const r = rPip || s * 0.07;
+  return (
+    <g>
+      <rect x={x} y={y} width={s} height={s} rx={s * 0.18} fill={fill} stroke={stroke} strokeWidth="2"/>
+      {DADO_PIPS[n].map(([fx, fy], i) => (
+        <circle key={i} cx={x + fx * s} cy={y + fy * s} r={r} fill={color}/>
+      ))}
+    </g>
+  );
+}
+
+function ProbabilidadPortadaSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul;
+  return (
+    <svg viewBox="0 0 250 120" width="100%" style={{ display: "block", maxHeight: 132, maxWidth: 320 }}>
+      {/* Moneda detrás */}
+      <circle cx="176" cy="62" r="42" fill={tema.azulSuave} stroke={bl} strokeWidth="2.5"/>
+      <circle cx="176" cy="62" r="33" fill="none" stroke={bl} strokeWidth="1" opacity="0.5"/>
+      <text x="176" y="76" fill={bl} fontSize="38" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">?</text>
+      {/* Dado (cara 5) */}
+      <DadoSVG x={30} y={24} s={78} n={5} color={a} fill={tema.acentoSuave} stroke={a} rPip={6}/>
+    </svg>
+  );
+}
+
+function EspacioMuestralSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul;
+  const s = 38, y = 22, gap = 7;
+  const x0 = 8;
+  return (
+    <svg viewBox="0 0 278 96" width="100%" style={{ display: "block", maxHeight: 110 }}>
+      {[1, 2, 3, 4, 5, 6].map((n, i) => {
+        const par = n % 2 === 0;
+        const x = x0 + i * (s + gap);
+        return (
+          <DadoSVG
+            key={n}
+            x={x} y={y} s={s} n={n}
+            color={par ? a : tema.muted}
+            fill={par ? tema.acentoSuave : tema.card}
+            stroke={par ? a : tema.border}
+            rPip={3}
+          />
+        );
+      })}
+      <text x={x0 + 3 * (s + gap) - gap / 2} y={y + s + 22} fill={a} fontSize="12" fontFamily="'DM Sans',sans-serif" textAnchor="middle">
+        Ω = {"{1…6}"} · evento E = {"{2, 4, 6}"}
+      </text>
+    </svg>
+  );
+}
+
+function EscalaProbabilidadSVG({ tema }) {
+  const a = tema.acento, gr = tema.verde, rj = tema.rojo;
+  const x0 = 40, x1 = 280, y = 56;
+  const X = (f) => x0 + f * (x1 - x0);
+  const ticks = [0, 0.25, 0.5, 0.75, 1];
+  return (
+    <svg viewBox="0 0 320 104" width="100%" style={{ display: "block", maxHeight: 120 }}>
+      <defs>
+        <linearGradient id="prob-grad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor={rj}/>
+          <stop offset="50%" stopColor={a}/>
+          <stop offset="100%" stopColor={gr}/>
+        </linearGradient>
+      </defs>
+      <line x1={x0} y1={y} x2={x1} y2={y} stroke="url(#prob-grad)" strokeWidth="5" strokeLinecap="round"/>
+      {ticks.map((f) => (
+        <line key={f} x1={X(f)} y1={y - 7} x2={X(f)} y2={y + 7} stroke={tema.texto} strokeWidth="1.5" opacity="0.55"/>
+      ))}
+      <text x={X(0)} y={y + 24} fill={tema.texto} fontSize="13" fontFamily="Georgia,serif" textAnchor="middle">0</text>
+      <text x={X(0.5)} y={y + 24} fill={tema.texto} fontSize="13" fontFamily="Georgia,serif" textAnchor="middle">½</text>
+      <text x={X(1)} y={y + 24} fill={tema.texto} fontSize="13" fontFamily="Georgia,serif" textAnchor="middle">1</text>
+      <text x={X(0)} y={y - 15} fill={rj} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">imposible</text>
+      <text x={X(0.5)} y={y - 15} fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">50 / 50</text>
+      <text x={X(1)} y={y - 15} fill={gr} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">seguro</text>
+    </svg>
+  );
+}
+
+// Rejilla 6×6 de dos dados (36 resultados; diagonal suma = 7 resaltada).
+function DosDadosSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul;
+  const s = 22, gx = 40, gy = 26;
+  const cells = [];
+  for (let i = 0; i < 6; i++) {
+    for (let j = 0; j < 6; j++) {
+      const fav = (i + 1) + (j + 1) === 7;
+      cells.push(
+        <rect key={`c${i}-${j}`} x={gx + j * s} y={gy + i * s} width={s - 2} height={s - 2} rx={3}
+          fill={fav ? `${a}40` : tema.azulSuave} stroke={fav ? a : tema.border} strokeWidth={fav ? 1.5 : 1}/>
+      );
+    }
+  }
+  const labels = [];
+  for (let k = 0; k < 6; k++) {
+    labels.push(<text key={`t${k}`} x={gx + k * s + (s - 2) / 2} y={gy - 7} fill={bl} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{k + 1}</text>);
+    labels.push(<text key={`l${k}`} x={gx - 9} y={gy + k * s + (s - 2) / 2 + 3} fill={a} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{k + 1}</text>);
+  }
+  return (
+    <svg viewBox="0 0 196 176" width="100%" style={{ display: "block", maxHeight: 188 }}>
+      {cells}{labels}
+      <text x={gx + 3 * s} y={gy + 6 * s + 16} fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">suma = 7 → 6 de 36</text>
+    </svg>
+  );
+}
+
+// Permutaciones (orden importa) vs combinaciones (orden no importa), eligiendo 2 de {A,B,C}.
+function OrdenImportaSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, gr = tema.verde, T = tema.texto;
+  const tEst = { fontFamily: "'DM Sans',sans-serif" };
+  return (
+    <svg viewBox="0 0 300 118" width="100%" style={{ display: "block", maxHeight: 130 }}>
+      <line x1="150" y1="8" x2="150" y2="110" stroke={tema.border} strokeWidth="1"/>
+      {/* Permutaciones */}
+      <text x="74" y="20" fill={bl} fontSize="12" fontWeight="700" textAnchor="middle" style={tEst}>Permutación · P(3,2)=6</text>
+      <text x="74" y="52" fill={T} fontSize="15" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">AB   BA   AC</text>
+      <text x="74" y="78" fill={T} fontSize="15" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">CA   BC   CB</text>
+      <text x="74" y="102" fill={tema.muted} fontSize="10" textAnchor="middle" style={tEst}>el orden cuenta</text>
+      {/* Combinaciones */}
+      <text x="226" y="20" fill={gr} fontSize="12" fontWeight="700" textAnchor="middle" style={tEst}>Combinación · C(3,2)=3</text>
+      <text x="226" y="48" fill={T} fontSize="15" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">{"{A,B}"}</text>
+      <text x="226" y="70" fill={T} fontSize="15" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">{"{A,C}   {B,C}"}</text>
+      <text x="226" y="102" fill={tema.muted} fontSize="10" textAnchor="middle" style={tEst}>el orden no cuenta</text>
+    </svg>
+  );
+}
+
+// ─── Árbol del principio multiplicativo (2 platos × 3 bebidas) con React Flow ──
+const PROB_HANDLE_OCULTO = { background: 'transparent', border: 'none', width: 6, height: 6 };
+
+function ProbNodo({ data }) {
+  const col = data.col || '#3b9eff';
+  return (
+    <div style={{ padding: '5px 12px', borderRadius: 8, minWidth: 52, background: `${col}1a`, border: `1.5px solid ${col}80`, fontSize: 11, color: data.t, textAlign: 'center', fontWeight: 600, whiteSpace: 'nowrap' }}>
+      <Handle type="target" position={Position.Left} style={PROB_HANDLE_OCULTO} />
+      {data.label}
+      <Handle type="source" position={Position.Right} style={PROB_HANDLE_OCULTO} />
+    </div>
+  );
+}
+const PROB_NODE_TYPES = { probnodo: ProbNodo };
+
+function ProbArbolMultiplicativo({ tema }) {
+  const T = tema.texto, a = tema.acento, bl = tema.azul, gr = tema.verde;
+  const eStyle = { stroke: 'rgba(255,255,255,0.28)', strokeWidth: 1.4 };
+  const nodes = [
+    { id: 'root', type: 'probnodo', position: { x: 0,   y: 128 }, data: { label: 'Menú',   t: T, col: a } },
+    { id: 'p1',   type: 'probnodo', position: { x: 130, y: 58  }, data: { label: 'Pollo',  t: T, col: bl } },
+    { id: 'p2',   type: 'probnodo', position: { x: 130, y: 198 }, data: { label: 'Pasta',  t: T, col: bl } },
+    { id: 'b1',   type: 'probnodo', position: { x: 280, y: 18  }, data: { label: 'Agua',     t: T, col: gr } },
+    { id: 'b2',   type: 'probnodo', position: { x: 280, y: 58  }, data: { label: 'Jugo',     t: T, col: gr } },
+    { id: 'b3',   type: 'probnodo', position: { x: 280, y: 98  }, data: { label: 'Refresco', t: T, col: gr } },
+    { id: 'b4',   type: 'probnodo', position: { x: 280, y: 158 }, data: { label: 'Agua',     t: T, col: gr } },
+    { id: 'b5',   type: 'probnodo', position: { x: 280, y: 198 }, data: { label: 'Jugo',     t: T, col: gr } },
+    { id: 'b6',   type: 'probnodo', position: { x: 280, y: 238 }, data: { label: 'Refresco', t: T, col: gr } },
+  ];
+  const edges = [
+    { id: 'e1', source: 'root', target: 'p1', style: eStyle },
+    { id: 'e2', source: 'root', target: 'p2', style: eStyle },
+    { id: 'e3', source: 'p1', target: 'b1', style: eStyle },
+    { id: 'e4', source: 'p1', target: 'b2', style: eStyle },
+    { id: 'e5', source: 'p1', target: 'b3', style: eStyle },
+    { id: 'e6', source: 'p2', target: 'b4', style: eStyle },
+    { id: 'e7', source: 'p2', target: 'b5', style: eStyle },
+    { id: 'e8', source: 'p2', target: 'b6', style: eStyle },
+  ];
+  return (
+    <div style={{ width: '100%', height: 248 }}>
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        nodeTypes={PROB_NODE_TYPES}
+        fitView
+        fitViewOptions={{ padding: 0.12 }}
+        nodesDraggable={false}
+        nodesConnectable={false}
+        nodesFocusable={false}
+        edgesFocusable={false}
+        panOnDrag={false}
+        zoomOnScroll={false}
+        zoomOnPinch={false}
+        zoomOnDoubleClick={false}
+        preventScrolling={false}
+        proOptions={{ hideAttribution: true }}
+        style={{ background: 'transparent' }}
+      />
+    </div>
+  );
+}
+
+// Evento complementario: Ω (rectángulo) con E (círculo) y su complemento E′.
+function ComplementoSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul;
+  return (
+    <svg viewBox="0 0 250 140" width="100%" style={{ display: "block", maxHeight: 150 }}>
+      <rect x="10" y="18" width="230" height="104" rx="8" fill={tema.azulSuave} stroke={bl} strokeWidth="1.6"/>
+      <text x="228" y="36" fill={bl} fontSize="14" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">Ω</text>
+      <circle cx="80" cy="72" r="42" fill={`${a}33`} stroke={a} strokeWidth="2"/>
+      <text x="80" y="78" fill={a} fontSize="17" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">E</text>
+      <text x="180" y="98" fill={bl} fontSize="16" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">E′</text>
+      <text x="180" y="115" fill={tema.muted} fontSize="9.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">«E no ocurre»</text>
+    </svg>
+  );
+}
+
+// Regla de la suma: excluyentes (disjuntos) vs no excluyentes (con intersección).
+function ReglaSumaSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, gr = tema.verde, T = tema.texto;
+  return (
+    <svg viewBox="0 0 320 150" width="100%" style={{ display: "block", maxHeight: 155 }}>
+      <defs>
+        <clipPath id="clip-suma-E"><circle cx="208" cy="58" r="34"/></clipPath>
+      </defs>
+      {/* Izquierda: mutuamente excluyentes */}
+      <circle cx="46" cy="58" r="30" fill={`${a}26`} stroke={a} strokeWidth="2"/>
+      <circle cx="112" cy="58" r="30" fill={`${bl}26`} stroke={bl} strokeWidth="2"/>
+      <text x="46" y="63" fill={a} fontSize="15" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">E</text>
+      <text x="112" y="63" fill={bl} fontSize="15" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">F</text>
+      <text x="79" y="110" fill={T} fontSize="10.5" textAnchor="middle" fontFamily="'DM Sans',sans-serif">excluyentes</text>
+      <text x="79" y="126" fill={tema.muted} fontSize="9.5" textAnchor="middle" fontFamily="'DM Sans',sans-serif">P(E∪F)=P(E)+P(F)</text>
+      {/* Divisor */}
+      <line x1="160" y1="14" x2="160" y2="136" stroke={tema.border} strokeWidth="1"/>
+      {/* Derecha: no excluyentes (intersección resaltada) */}
+      <circle cx="208" cy="58" r="34" fill={`${a}22`} stroke={a} strokeWidth="2"/>
+      <circle cx="256" cy="58" r="34" fill={`${bl}22`} stroke={bl} strokeWidth="2"/>
+      <circle cx="256" cy="58" r="34" fill={`${gr}66`} clipPath="url(#clip-suma-E)"/>
+      <text x="194" y="63" fill={a} fontSize="14" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">E</text>
+      <text x="270" y="63" fill={bl} fontSize="14" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">F</text>
+      <text x="232" y="110" fill={T} fontSize="10.5" textAnchor="middle" fontFamily="'DM Sans',sans-serif">no excluyentes</text>
+      <text x="232" y="126" fill={gr} fontSize="9.5" textAnchor="middle" fontFamily="'DM Sans',sans-serif">restar P(E∩F)</text>
+    </svg>
+  );
+}
+
+// ─── Árbol de 2 lanzamientos de moneda (regla del producto) con React Flow ────
+function ProbArbolMonedas({ tema }) {
+  const T = tema.texto, a = tema.acento, bl = tema.azul, gr = tema.verde;
+  const eStyle = { stroke: 'rgba(255,255,255,0.28)', strokeWidth: 1.4 };
+  const lStyle = { fill: tema.azulTexto, fontSize: 9, fontFamily: 'IBM Plex Mono, monospace' };
+  const lBg = { fill: tema.bg, rx: 3 };
+  const ed = (id, s, t) => ({ id, source: s, target: t, style: eStyle, label: '½', labelStyle: lStyle, labelBgStyle: lBg, labelShowBg: true });
+  const nodes = [
+    { id: 'root', type: 'probnodo', position: { x: 0,   y: 95  }, data: { label: '2 lanzam.', t: T, col: a } },
+    { id: 'c1',   type: 'probnodo', position: { x: 145, y: 40  }, data: { label: 'Cara', t: T, col: bl } },
+    { id: 'x1',   type: 'probnodo', position: { x: 145, y: 150 }, data: { label: 'Cruz', t: T, col: bl } },
+    { id: 'cc',   type: 'probnodo', position: { x: 295, y: 8   }, data: { label: 'CC = ¼', t: T, col: gr } },
+    { id: 'cx',   type: 'probnodo', position: { x: 295, y: 72  }, data: { label: 'CX = ¼', t: T, col: gr } },
+    { id: 'xc',   type: 'probnodo', position: { x: 295, y: 118 }, data: { label: 'XC = ¼', t: T, col: gr } },
+    { id: 'xx',   type: 'probnodo', position: { x: 295, y: 182 }, data: { label: 'XX = ¼', t: T, col: gr } },
+  ];
+  const edges = [
+    ed('e1', 'root', 'c1'), ed('e2', 'root', 'x1'),
+    ed('e3', 'c1', 'cc'), ed('e4', 'c1', 'cx'),
+    ed('e5', 'x1', 'xc'), ed('e6', 'x1', 'xx'),
+  ];
+  return (
+    <div style={{ width: '100%', height: 228 }}>
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        nodeTypes={PROB_NODE_TYPES}
+        fitView
+        fitViewOptions={{ padding: 0.12 }}
+        nodesDraggable={false}
+        nodesConnectable={false}
+        nodesFocusable={false}
+        edgesFocusable={false}
+        panOnDrag={false}
+        zoomOnScroll={false}
+        zoomOnPinch={false}
+        zoomOnDoubleClick={false}
+        preventScrolling={false}
+        proOptions={{ hideAttribution: true }}
+        style={{ background: 'transparent' }}
+      />
+    </div>
+  );
+}
+
+// ─── Árbol de urna sin reemplazo (probabilidad condicional) con React Flow ────
+function ProbArbolUrna({ tema }) {
+  const T = tema.texto, a = tema.acento, rj = tema.rojo, bl = tema.azul, gr = tema.verde;
+  const eStyle = { stroke: 'rgba(255,255,255,0.28)', strokeWidth: 1.4 };
+  const lStyle = { fill: tema.azulTexto, fontSize: 9, fontFamily: 'IBM Plex Mono, monospace' };
+  const lBg = { fill: tema.bg, rx: 3 };
+  const ed = (id, s, t, label) => ({ id, source: s, target: t, style: eStyle, label, labelStyle: lStyle, labelBgStyle: lBg, labelShowBg: true });
+  const nodes = [
+    { id: 'root', type: 'probnodo', position: { x: 0,   y: 95  }, data: { label: '2R · 3A', t: T, col: a } },
+    { id: 'r1',   type: 'probnodo', position: { x: 150, y: 40  }, data: { label: 'Roja',  t: T, col: rj } },
+    { id: 'a1',   type: 'probnodo', position: { x: 150, y: 150 }, data: { label: 'Azul',  t: T, col: bl } },
+    { id: 'rr',   type: 'probnodo', position: { x: 312, y: 8   }, data: { label: 'RR · 1/10', t: T, col: gr } },
+    { id: 'ra',   type: 'probnodo', position: { x: 312, y: 72  }, data: { label: 'RA · 3/10', t: T, col: gr } },
+    { id: 'ar',   type: 'probnodo', position: { x: 312, y: 118 }, data: { label: 'AR · 3/10', t: T, col: gr } },
+    { id: 'aa',   type: 'probnodo', position: { x: 312, y: 182 }, data: { label: 'AA · 3/10', t: T, col: gr } },
+  ];
+  const edges = [
+    ed('e1', 'root', 'r1', '2/5'), ed('e2', 'root', 'a1', '3/5'),
+    ed('e3', 'r1', 'rr', '1/4'), ed('e4', 'r1', 'ra', '3/4'),
+    ed('e5', 'a1', 'ar', '2/4'), ed('e6', 'a1', 'aa', '2/4'),
+  ];
+  return (
+    <div style={{ width: '100%', height: 232 }}>
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        nodeTypes={PROB_NODE_TYPES}
+        fitView
+        fitViewOptions={{ padding: 0.12 }}
+        nodesDraggable={false}
+        nodesConnectable={false}
+        nodesFocusable={false}
+        edgesFocusable={false}
+        panOnDrag={false}
+        zoomOnScroll={false}
+        zoomOnPinch={false}
+        zoomOnDoubleClick={false}
+        preventScrolling={false}
+        proOptions={{ hideAttribution: true }}
+        style={{ background: 'transparent' }}
+      />
+    </div>
+  );
+}
+
+// ─── Frecuencias relativas de lanzar un dado (probabilidad frecuentista) ──────
+const DADO_FREC = [
+  { cara: "1", fr: 0.160 },
+  { cara: "2", fr: 0.173 },
+  { cara: "3", fr: 0.163 },
+  { cara: "4", fr: 0.183 },
+  { cara: "5", fr: 0.153 },
+  { cara: "6", fr: 0.167 },
+];
+
+function FrecuenciasDadoChart({ tema }) {
+  return (
+    <div style={{ width: "100%", height: 198 }}>
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={DADO_FREC} margin={{ top: 14, right: 16, left: 0, bottom: 2 }}>
+          <CartesianGrid stroke="rgba(255,255,255,0.06)" vertical={false} />
+          <XAxis dataKey="cara" tick={{ fill: tema.muted, fontSize: 12 }} axisLine={{ stroke: tema.border }} tickLine={false} />
+          <YAxis domain={[0, 0.25]} tick={{ fill: tema.muted, fontSize: 11 }} axisLine={false} tickLine={false} tickFormatter={(v) => v.toFixed(2)} width={40} />
+          <ReferenceLine y={1 / 6} stroke={tema.verde} strokeDasharray="5 4" label={{ value: "1/6 ≈ 0.167", position: "insideTopRight", fill: tema.verde, fontSize: 10 }} />
+          <Bar dataKey="fr" fill={tema.acento} radius={[4, 4, 0, 0]} maxBarSize={34} />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
+
+// ─── Diagramas de los ejercicios de probabilidad ─────────────────────────────
+
+// Dado con las caras > 4 resaltadas (ejercicio 1).
+function DadoMayor4SVG({ tema }) {
+  const a = tema.acento;
+  const s = 38, y = 12, gap = 8, x0 = 14;
+  return (
+    <svg viewBox="0 0 290 64" width="100%" style={{ display: "block", maxHeight: 88 }}>
+      {[1, 2, 3, 4, 5, 6].map((n, i) => {
+        const hi = n > 4;
+        return (
+          <DadoSVG key={n} x={x0 + i * (s + gap)} y={y} s={s} n={n}
+            color={hi ? a : tema.muted} fill={hi ? tema.acentoSuave : tema.card} stroke={hi ? a : tema.border} rPip={3}/>
+        );
+      })}
+    </svg>
+  );
+}
+
+// Carta de baraja: as de picas (ejercicio 2).
+function CartaAsSVG({ tema }) {
+  const a = tema.acento, T = tema.texto;
+  return (
+    <svg viewBox="0 0 120 150" width="100%" style={{ display: "block", maxHeight: 158, maxWidth: 130 }}>
+      <rect x="14" y="10" width="92" height="130" rx="10" fill={tema.card} stroke={a} strokeWidth="2.5"/>
+      <text x="30" y="36" fill={T} fontSize="20" fontFamily="Georgia,serif" textAnchor="middle">A</text>
+      <text x="60" y="94" fill={T} fontSize="46" textAnchor="middle">♠</text>
+      <text x="90" y="124" fill={T} fontSize="20" fontFamily="Georgia,serif" textAnchor="middle" transform="rotate(180 90 117)">A</text>
+    </svg>
+  );
+}
+
+// Los 4 resultados de 2 monedas; los que tienen ≥1 cara resaltados (ejercicio 4).
+function DosMonedasSVG({ tema }) {
+  const a = tema.acento;
+  const outs = [["C", "C"], ["C", "X"], ["X", "C"], ["X", "X"]];
+  return (
+    <svg viewBox="0 0 280 92" width="100%" style={{ display: "block", maxHeight: 104 }}>
+      {outs.map((o, i) => {
+        const hi = o.includes("C");
+        const x = 14 + i * 68;
+        return (
+          <g key={i}>
+            <circle cx={x + 16} cy={38} r={16} fill={hi ? `${a}26` : tema.card} stroke={hi ? a : tema.border} strokeWidth="1.8"/>
+            <text x={x + 16} y={43} fill={hi ? a : tema.muted} fontSize="15" fontFamily="Georgia,serif" textAnchor="middle">{o[0]}</text>
+            <circle cx={x + 44} cy={38} r={16} fill={hi ? `${a}26` : tema.card} stroke={hi ? a : tema.border} strokeWidth="1.8"/>
+            <text x={x + 44} y={43} fill={hi ? a : tema.muted} fontSize="15" fontFamily="Georgia,serif" textAnchor="middle">{o[1]}</text>
+          </g>
+        );
+      })}
+      <text x={140} y={82} fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">3 de 4 tienen al menos una cara</text>
+    </svg>
+  );
+}
+
+// Urna con bolas de colores en una rejilla de 3 columnas.
+function UrnaSVG({ tema, rojas = 0, azules = 0, verdes = 0 }) {
+  const rj = tema.rojo, az = tema.azul, gr = tema.verde;
+  const colores = [...Array(rojas).fill(rj), ...Array(azules).fill(az), ...Array(verdes).fill(gr)];
+  const partes = [];
+  if (rojas) partes.push(`${rojas}R`);
+  if (azules) partes.push(`${azules}A`);
+  if (verdes) partes.push(`${verdes}V`);
+  return (
+    <svg viewBox="0 0 150 152" width="100%" style={{ display: "block", maxHeight: 162, maxWidth: 170 }}>
+      <path d="M34,32 L34,120 Q34,134 48,134 L102,134 Q116,134 116,120 L116,32"
+        fill="rgba(255,255,255,0.03)" stroke={tema.border} strokeWidth="2"/>
+      {colores.map((c, i) => {
+        const col = i % 3, row = Math.floor(i / 3);
+        const cx = 55 + col * 20, cy = 114 - row * 23;
+        return <circle key={i} cx={cx} cy={cy} r={9.5} fill={`${c}59`} stroke={c} strokeWidth="1.8"/>;
+      })}
+      <text x="75" y="22" fill={tema.acento} fontSize="13" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{partes.join(" · ")}</text>
+    </svg>
+  );
+}
+function UrnaSumaSVG({ tema })    { return <UrnaSVG tema={tema} rojas={4} azules={3} verdes={2} />; }
+function UrnaSinReempSVG({ tema }) { return <UrnaSVG tema={tema} rojas={5} azules={3} />; }
+
+// Moneda (cara) y dado (6) — eventos independientes (ejercicio 6).
+function MonedaDadoSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul;
+  return (
+    <svg viewBox="0 0 200 100" width="100%" style={{ display: "block", maxHeight: 112 }}>
+      <circle cx="50" cy="50" r="34" fill={tema.azulSuave} stroke={bl} strokeWidth="2.5"/>
+      <text x="50" y="60" fill={bl} fontSize="28" fontFamily="Georgia,serif" textAnchor="middle">C</text>
+      <text x="100" y="56" fill={tema.muted} fontSize="18" fontFamily="'DM Sans',sans-serif" textAnchor="middle">y</text>
+      <DadoSVG x={122} y={16} s={68} n={6} color={a} fill={tema.acentoSuave} stroke={a} rPip={5}/>
+    </svg>
+  );
+}
+
+// Ruleta de 8 sectores con los números primos resaltados (ejercicio 8).
+function RuletaSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul;
+  const cx = 80, cy = 80, r = 66;
+  const primes = new Set([2, 3, 5, 7]);
+  const D = (d) => d * Math.PI / 180;
+  const partes = [];
+  for (let k = 0; k < 8; k++) {
+    const a0 = k * 45 - 90, a1 = a0 + 45;
+    const x0 = cx + r * Math.cos(D(a0)), y0 = cy + r * Math.sin(D(a0));
+    const x1 = cx + r * Math.cos(D(a1)), y1 = cy + r * Math.sin(D(a1));
+    const num = k + 1, hi = primes.has(num);
+    partes.push(
+      <path key={`s${k}`} d={`M ${cx},${cy} L ${x0.toFixed(1)},${y0.toFixed(1)} A ${r},${r} 0 0,1 ${x1.toFixed(1)},${y1.toFixed(1)} Z`}
+        fill={hi ? `${a}40` : tema.azulSuave} stroke={tema.border} strokeWidth="1"/>
+    );
+    const am = D(a0 + 22.5);
+    const lx = cx + r * 0.66 * Math.cos(am), ly = cy + r * 0.66 * Math.sin(am);
+    partes.push(<text key={`n${k}`} x={lx.toFixed(1)} y={(ly + 4).toFixed(1)} fill={hi ? a : tema.muted} fontSize="13" fontFamily="Georgia,serif" textAnchor="middle">{num}</text>);
+  }
+  return (
+    <svg viewBox="0 0 220 160" width="100%" style={{ display: "block", maxHeight: 168 }}>
+      {partes}
+      <circle cx={cx} cy={cy} r={r} fill="none" stroke={bl} strokeWidth="2"/>
+      <circle cx={cx} cy={cy} r="4" fill={bl}/>
+      <text x="172" y="74" fill={a} fontSize="12" fontFamily="'DM Sans',sans-serif">primos</text>
+      <text x="172" y="92" fill={tema.muted} fontSize="12" fontFamily="'IBM Plex Mono',monospace">2·3·5·7</text>
+    </svg>
+  );
+}
+
+// 5 personas y las 10 parejas posibles = C(5,2) (ejercicio 9).
+function CombinaPersonasSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, T = tema.texto;
+  const cx = 80, cy = 80, r = 56;
+  const pts = Array.from({ length: 5 }, (_, i) => {
+    const ang = (-90 + i * 72) * Math.PI / 180;
+    return [cx + r * Math.cos(ang), cy + r * Math.sin(ang)];
+  });
+  const lines = [];
+  for (let i = 0; i < 5; i++) for (let j = i + 1; j < 5; j++) {
+    lines.push(<line key={`${i}-${j}`} x1={pts[i][0].toFixed(1)} y1={pts[i][1].toFixed(1)} x2={pts[j][0].toFixed(1)} y2={pts[j][1].toFixed(1)} stroke={`${a}66`} strokeWidth="1.4"/>);
+  }
+  return (
+    <svg viewBox="0 0 230 158" width="100%" style={{ display: "block", maxHeight: 166 }}>
+      {lines}
+      {pts.map((p, i) => <circle key={i} cx={p[0].toFixed(1)} cy={p[1].toFixed(1)} r="7.5" fill={tema.azulSuave} stroke={bl} strokeWidth="2"/>)}
+      <text x="180" y="74" fill={a} fontSize="13" fontFamily="'DM Sans',sans-serif">C(5,2)</text>
+      <text x="180" y="95" fill={T} fontSize="16" fontFamily="'IBM Plex Mono',monospace">= 10</text>
+    </svg>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Diagramas de Estadística descriptiva
+// ═══════════════════════════════════════════════════════════════════════════
+
+// Datos de ejemplo compartidos: distribución de 20 calificaciones (6 a 10).
+const GRADE_FREC = [
+  { x: "6", f: 2 },
+  { x: "7", f: 5 },
+  { x: "8", f: 8 },
+  { x: "9", f: 4 },
+  { x: "10", f: 1 },
+];
+
+// Portada: barras con una línea de media punteada.
+function EstPortadaSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul;
+  const heights = [30, 54, 78, 62, 40, 22];
+  const bw = 26, gap = 10, x0 = 30, base = 104, meanY = 54;
+  return (
+    <svg viewBox="0 0 250 120" width="100%" style={{ display: "block", maxHeight: 132, maxWidth: 320 }}>
+      {heights.map((h, i) => (
+        <rect key={i} x={x0 + i * (bw + gap)} y={base - h} width={bw} height={h} rx={3}
+          fill={tema.acentoMed} stroke={a} strokeWidth="1.6" />
+      ))}
+      <line x1="16" y1={base} x2="236" y2={base} stroke={tema.border} strokeWidth="1.5" />
+      <line x1="16" y1={meanY} x2="236" y2={meanY} stroke={bl} strokeWidth="2" strokeDasharray="6 4" />
+      <text x="232" y={meanY - 6} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">media</text>
+    </svg>
+  );
+}
+
+// Árbol de clasificación de variables.
+function TiposVariableSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted;
+  const caja = (cx, cy, w, label, color) => (
+    <g>
+      <rect x={cx - w / 2} y={cy - 14} width={w} height={28} rx={7} fill={tema.card} stroke={color} strokeWidth="1.6" />
+      <text x={cx} y={cy + 5} fill={color} fontSize="12.5" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">{label}</text>
+    </g>
+  );
+  const ln = (x1, y1, x2, y2) => <line x1={x1} y1={y1} x2={x2} y2={y2} stroke={mu} strokeWidth="1.4" opacity="0.5" />;
+  return (
+    <svg viewBox="0 0 360 168" width="100%" style={{ display: "block", maxHeight: 176 }}>
+      {ln(180, 32, 84, 62)}
+      {ln(180, 32, 264, 62)}
+      {ln(264, 90, 204, 122)}
+      {ln(264, 90, 310, 122)}
+      {caja(180, 18, 96, "Variable", a)}
+      {caja(84, 76, 112, "Cualitativa", bl)}
+      {caja(264, 76, 120, "Cuantitativa", a)}
+      {caja(204, 136, 96, "Discreta", a)}
+      {caja(310, 136, 96, "Continua", a)}
+      <text x="84" y="101" fill={mu} fontSize="9" fontFamily="'DM Sans',sans-serif" textAnchor="middle">color, sexo, marca</text>
+      <text x="204" y="161" fill={mu} fontSize="9" fontFamily="'DM Sans',sans-serif" textAnchor="middle">nº de hijos, goles</text>
+      <text x="310" y="161" fill={mu} fontSize="9" fontFamily="'DM Sans',sans-serif" textAnchor="middle">peso, tiempo</text>
+    </svg>
+  );
+}
+
+// Tabla de frecuencias (HTML) de las 20 calificaciones.
+function TablaFrecuenciasEst({ tema }) {
+  const rows = [
+    ["6", 2, "0.10", "10%", 2],
+    ["7", 5, "0.25", "25%", 7],
+    ["8", 8, "0.40", "40%", 15],
+    ["9", 4, "0.20", "20%", 19],
+    ["10", 1, "0.05", "5%", 20],
+  ];
+  const th = { padding: "7px 12px", color: tema.acento, fontFamily: tema.mono, fontSize: 11, letterSpacing: "0.06em", textTransform: "uppercase", borderBottom: `1px solid ${tema.acentoBorde}`, textAlign: "center" };
+  const td = { padding: "6px 12px", fontFamily: tema.mono, fontSize: 13, textAlign: "center", borderBottom: `1px solid ${tema.border}` };
+  const tot = { ...td, color: tema.acento, fontWeight: 700, borderBottom: "none" };
+  return (
+    <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+      <table style={{ borderCollapse: "collapse", background: tema.card, borderRadius: 8, overflow: "hidden" }}>
+        <thead>
+          <tr>
+            <th style={th}>Calif. (xᵢ)</th><th style={th}>f</th><th style={th}>fᵣ</th><th style={th}>%</th><th style={th}>F</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((r, i) => (
+            <tr key={i}>
+              {r.map((c, j) => (
+                <td key={j} style={{ ...td, color: j === 0 ? tema.azul : tema.texto }}>{c}</td>
+              ))}
+            </tr>
+          ))}
+          <tr>
+            <td style={tot}>Σ</td><td style={tot}>20</td><td style={tot}>1.00</td><td style={tot}>100%</td>
+            <td style={{ ...td, color: tema.muted, borderBottom: "none" }}>—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+// Gráfica de barras (Recharts) de la tabla de frecuencias.
+function EstBarrasChart({ tema }) {
+  return (
+    <div style={{ width: "100%", height: 190 }}>
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={GRADE_FREC} margin={{ top: 14, right: 16, left: 0, bottom: 2 }}>
+          <CartesianGrid stroke="rgba(255,255,255,0.06)" vertical={false} />
+          <XAxis dataKey="x" tick={{ fill: tema.muted, fontSize: 12 }} axisLine={{ stroke: tema.border }} tickLine={false} />
+          <YAxis allowDecimals={false} tick={{ fill: tema.muted, fontSize: 11 }} axisLine={false} tickLine={false} width={28} />
+          <Bar dataKey="f" fill={tema.acento} radius={[4, 4, 0, 0]} maxBarSize={40} />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
+
+// Recta numérica con los puntos {2,2,6,7,8} y las tres medidas marcadas.
+function TendenciaCentralSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, gr = tema.verde, mu = tema.muted;
+  const X = (v) => 24 + v * 27.6;
+  const axisY = 60;
+  const datos = [2, 2, 6, 7, 8];
+  const counts = {};
+  const marcas = [
+    { v: 2, y: 80, c: a, l: "moda = 2" },
+    { v: 5, y: 100, c: bl, l: "media = 5" },
+    { v: 6, y: 120, c: gr, l: "mediana = 6" },
+  ];
+  return (
+    <svg viewBox="0 0 320 140" width="100%" style={{ display: "block", maxHeight: 150 }}>
+      <line x1={X(0)} y1={axisY} x2={X(10)} y2={axisY} stroke={tema.border} strokeWidth="1.5" />
+      {[0, 2, 4, 6, 8, 10].map((t) => (
+        <g key={t}>
+          <line x1={X(t)} y1={axisY - 4} x2={X(t)} y2={axisY + 4} stroke={mu} strokeWidth="1" />
+          <text x={X(t)} y={axisY + 16} fill={mu} fontSize="9" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{t}</text>
+        </g>
+      ))}
+      {datos.map((v, i) => {
+        counts[v] = (counts[v] || 0) + 1;
+        const cy = axisY - 12 - (counts[v] - 1) * 13;
+        return <circle key={i} cx={X(v)} cy={cy} r="5.5" fill={tema.acentoMed} stroke={a} strokeWidth="1.6" />;
+      })}
+      {marcas.map((m, i) => (
+        <g key={i}>
+          <line x1={X(m.v)} y1={axisY} x2={X(m.v)} y2={m.y} stroke={m.c} strokeWidth="1.6" strokeDasharray="3 3" />
+          <circle cx={X(m.v)} cy={axisY} r="3.5" fill={m.c} />
+          <text x={X(m.v)} y={m.y + 11} fill={m.c} fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">{m.l}</text>
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+// Dos rectas numéricas con la misma media (8) y distinta dispersión.
+function DispersionSVG({ tema }) {
+  const bl = tema.azul, gr = tema.verde, rj = tema.rojo;
+  const X = (v) => 20 + v * 17.5;
+  const fila = (y, datos, color, label) => (
+    <g>
+      <line x1={X(0)} y1={y} x2={X(16)} y2={y} stroke={tema.border} strokeWidth="1.4" />
+      {datos.map((v, i) => <circle key={i} cx={X(v)} cy={y} r="5" fill={`${color}33`} stroke={color} strokeWidth="1.6" />)}
+      <text x={X(0)} y={y - 12} fill={color} fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="600">{label}</text>
+    </g>
+  );
+  return (
+    <svg viewBox="0 0 320 150" width="100%" style={{ display: "block", maxHeight: 160 }}>
+      <line x1={X(8)} y1={22} x2={X(8)} y2={130} stroke={bl} strokeWidth="1.6" strokeDasharray="5 4" />
+      <text x={X(8)} y={16} fill={bl} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle">media = 8</text>
+      {fila(54, [6, 7, 8, 9, 10], gr, "poca dispersión")}
+      {fila(110, [2, 5, 8, 11, 14], rj, "mucha dispersión")}
+    </svg>
+  );
+}
+
+// Recta numérica con las desviaciones de {2,4,6,8,10} respecto a la media 6.
+function DesviacionDetalleSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted;
+  const X = (v) => 24 + v * 23;
+  const axisY = 68, datos = [2, 4, 6, 8, 10], mean = 6;
+  return (
+    <svg viewBox="0 0 320 110" width="100%" style={{ display: "block", maxHeight: 120 }}>
+      <line x1={X(0)} y1={axisY} x2={X(12)} y2={axisY} stroke={tema.border} strokeWidth="1.4" />
+      <line x1={X(mean)} y1={28} x2={X(mean)} y2={axisY + 6} stroke={bl} strokeWidth="1.8" strokeDasharray="5 4" />
+      <text x={X(mean)} y={22} fill={bl} fontSize="10.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">media = 6</text>
+      {datos.map((v, i) => {
+        const d = v - mean;
+        return (
+          <g key={i}>
+            <line x1={X(v)} y1={axisY} x2={X(mean)} y2={axisY} stroke={d === 0 ? mu : a} strokeWidth="1" opacity="0.35" />
+            <circle cx={X(v)} cy={axisY} r="5.5" fill={tema.acentoMed} stroke={a} strokeWidth="1.6" />
+            <text x={X(v)} y={axisY + 18} fill={mu} fontSize="9" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{v}</text>
+            {d !== 0 && (
+              <text x={(X(v) + X(mean)) / 2} y={axisY - 9} fill={a} fontSize="9.5" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">{d > 0 ? `+${d}` : d}</text>
+            )}
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+// Gráfica circular (sectores) de la distribución de calificaciones.
+function EstCircularSVG({ tema }) {
+  const segs = [
+    { lab: "calif. 6", p: 10, c: tema.rojo },
+    { lab: "calif. 7", p: 25, c: tema.azul },
+    { lab: "calif. 8", p: 40, c: tema.acento },
+    { lab: "calif. 9", p: 20, c: tema.verde },
+    { lab: "calif. 10", p: 5, c: tema.muted },
+  ];
+  const cx = 82, cy = 80, r = 60;
+  let ang = -Math.PI / 2;
+  const paths = segs.map((s, i) => {
+    const a0 = ang, a1 = ang + (s.p / 100) * 2 * Math.PI;
+    ang = a1;
+    const x0 = cx + r * Math.cos(a0), y0 = cy + r * Math.sin(a0);
+    const x1 = cx + r * Math.cos(a1), y1 = cy + r * Math.sin(a1);
+    const large = (a1 - a0) > Math.PI ? 1 : 0;
+    return <path key={i} d={`M ${cx} ${cy} L ${x0.toFixed(2)} ${y0.toFixed(2)} A ${r} ${r} 0 ${large} 1 ${x1.toFixed(2)} ${y1.toFixed(2)} Z`} fill={`${s.c}cc`} stroke={tema.bg} strokeWidth="1.5" />;
+  });
+  return (
+    <svg viewBox="0 0 320 160" width="100%" style={{ display: "block", maxHeight: 168 }}>
+      {paths}
+      {segs.map((s, i) => (
+        <g key={i} transform={`translate(176 ${32 + i * 24})`}>
+          <rect x="0" y="-9" width="13" height="13" rx="3" fill={`${s.c}cc`} />
+          <text x="20" y="2" fill={tema.texto} fontSize="11.5" fontFamily="'DM Sans',sans-serif">{s.lab}</text>
+          <text x="120" y="2" fill={s.c} fontSize="11.5" fontFamily="'IBM Plex Mono',monospace" fontWeight="600" textAnchor="end">{s.p}%</text>
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+// Helper: fila de valores en celdas, con algunos resaltados.
+function estChips(tema, valores, destacados, etiqueta) {
+  const a = tema.acento, T = tema.texto, mu = tema.muted;
+  const w = 40, h = 40, gap = 9, x0 = 10, y = 12;
+  const totalW = x0 * 2 + valores.length * w + (valores.length - 1) * gap;
+  const vbH = etiqueta ? 84 : 64;
+  return (
+    <svg viewBox={`0 0 ${totalW} ${vbH}`} width="100%" style={{ display: "block", maxHeight: etiqueta ? 94 : 74 }}>
+      {valores.map((v, i) => {
+        const hi = destacados.includes(i);
+        const x = x0 + i * (w + gap);
+        return (
+          <g key={i}>
+            <rect x={x} y={y} width={w} height={h} rx={8} fill={hi ? tema.acentoMed : tema.card} stroke={hi ? a : tema.border} strokeWidth={hi ? 2 : 1.4} />
+            <text x={x + w / 2} y={y + h / 2 + 6} fill={hi ? a : T} fontSize="17" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">{v}</text>
+          </g>
+        );
+      })}
+      {etiqueta && <text x={totalW / 2} y={y + h + 20} fill={mu} fontSize="12" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{etiqueta}</text>}
+    </svg>
+  );
+}
+
+// Helper: mini gráfica de barras de frecuencias, con una barra resaltada.
+function estBarras(tema, items, hiIdx, etiqueta) {
+  const a = tema.acento, mu = tema.muted, T = tema.texto;
+  const bw = 34, gap = 18, x0 = 18, base = 86, unit = 20;
+  const totalW = x0 * 2 + items.length * bw + (items.length - 1) * gap;
+  return (
+    <svg viewBox={`0 0 ${totalW} ${etiqueta ? 122 : 104}`} width="100%" style={{ display: "block", maxHeight: etiqueta ? 132 : 112 }}>
+      {items.map((d, i) => {
+        const hi = i === hiIdx;
+        const hgt = d.f * unit;
+        const x = x0 + i * (bw + gap);
+        return (
+          <g key={i}>
+            <rect x={x} y={base - hgt} width={bw} height={hgt} rx={4} fill={hi ? tema.acentoMed : tema.azulSuave} stroke={hi ? a : tema.azulBorde} strokeWidth={hi ? 2 : 1.3} />
+            <text x={x + bw / 2} y={base - hgt - 5} fill={hi ? a : mu} fontSize="11" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">{d.f}</text>
+            <text x={x + bw / 2} y={base + 15} fill={hi ? a : T} fontSize="13" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{d.x}</text>
+          </g>
+        );
+      })}
+      <line x1={8} y1={base} x2={totalW - 8} y2={base} stroke={tema.border} strokeWidth="1.4" />
+      {etiqueta && <text x={totalW / 2} y={base + 34} fill={mu} fontSize="11.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{etiqueta}</text>}
+    </svg>
+  );
+}
+
+function MediaDetalleSVG({ tema })   { return estChips(tema, [2, 2, 6, 7, 8], [], "Σx = 25 · n = 5  →  media = 5"); }
+function MedianaDetalleSVG({ tema }) { return estChips(tema, [2, 2, 6, 7, 8], [2], "ordenados · el centro es 6"); }
+function ModaDetalleSVG({ tema })    { return estBarras(tema, [{ x: "2", f: 2 }, { x: "6", f: 1 }, { x: "7", f: 1 }, { x: "8", f: 1 }], 0, "el 2 se repite más → moda = 2"); }
+
+function Ej_EstMediaSVG({ tema })      { return estChips(tema, [8, 6, 7, 9, 10], [], "5 calificaciones"); }
+function Ej_EstMedianaSVG({ tema })    { return estChips(tema, [3, 4, 5, 7, 9], [2], "ya ordenados · valor central"); }
+function Ej_EstMedianaParSVG({ tema }) { return estChips(tema, [10, 20, 30, 40], [1, 2], "dos valores centrales"); }
+function Ej_EstModaSVG({ tema })       { return estBarras(tema, [{ x: "2", f: 1 }, { x: "4", f: 3 }, { x: "5", f: 1 }, { x: "6", f: 1 }, { x: "7", f: 1 }], 1, "frecuencia de cada valor"); }
+
+// Recta numérica con el mínimo y el máximo resaltados (rango).
+function Ej_EstRangoSVG({ tema }) {
+  const a = tema.acento, mu = tema.muted;
+  const datos = [12, 7, 20, 5, 15];
+  const X = (v) => 20 + (v / 22) * 280;
+  const y = 46;
+  return (
+    <svg viewBox="0 0 320 96" width="100%" style={{ display: "block", maxHeight: 104 }}>
+      <line x1={X(0)} y1={y} x2={X(22)} y2={y} stroke={tema.border} strokeWidth="1.4" />
+      {datos.map((v, i) => {
+        const ext = v === 5 || v === 20;
+        return (
+          <g key={i}>
+            <circle cx={X(v)} cy={y} r="6" fill={ext ? tema.acentoMed : tema.azulSuave} stroke={ext ? a : tema.azulBorde} strokeWidth={ext ? 2 : 1.4} />
+            <text x={X(v)} y={y + 18} fill={ext ? a : mu} fontSize="11" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">{v}</text>
+          </g>
+        );
+      })}
+      <text x={X(5)} y={y - 12} fill={a} fontSize="10.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">mín</text>
+      <text x={X(20)} y={y - 12} fill={a} fontSize="10.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">máx</text>
     </svg>
   );
 }
@@ -3460,6 +4491,24 @@ function renderEjercicioSVG(svgDiagram, tema) {
   if (svgDiagram === "cce2-sector")  return <Cce2SectorSVG  tema={tema} />;
   if (svgDiagram === "cce3-arco")    return <Cce3ArcoSVG    tema={tema} />;
   if (svgDiagram === "cce4-tang")    return <Cce4TangSVG    tema={tema} />;
+  if (svgDiagram === "ti-ej1")       return <TiEj1SVG       tema={tema} />;
+  if (svgDiagram === "ti-ej2")       return <TiEj2SVG       tema={tema} />;
+  if (svgDiagram === "ti-ej3")       return <TiEj3SVG       tema={tema} />;
+  if (svgDiagram === "ej-dado-mayor4") return <DadoMayor4SVG  tema={tema} />;
+  if (svgDiagram === "ej-carta-as")    return <CartaAsSVG     tema={tema} />;
+  if (svgDiagram === "dos-dados")      return <DosDadosSVG    tema={tema} />;
+  if (svgDiagram === "ej-dos-monedas") return <DosMonedasSVG  tema={tema} />;
+  if (svgDiagram === "ej-urna-rav")    return <UrnaSumaSVG    tema={tema} />;
+  if (svgDiagram === "ej-moneda-dado") return <MonedaDadoSVG  tema={tema} />;
+  if (svgDiagram === "ej-urna-r5a3")   return <UrnaSinReempSVG tema={tema} />;
+  if (svgDiagram === "ej-ruleta")      return <RuletaSVG      tema={tema} />;
+  if (svgDiagram === "ej-combinatoria") return <CombinaPersonasSVG tema={tema} />;
+  if (svgDiagram === "ej-est-media")       return <Ej_EstMediaSVG      tema={tema} />;
+  if (svgDiagram === "ej-est-mediana")     return <Ej_EstMedianaSVG    tema={tema} />;
+  if (svgDiagram === "ej-est-moda")        return <Ej_EstModaSVG       tema={tema} />;
+  if (svgDiagram === "ej-est-rango")       return <Ej_EstRangoSVG      tema={tema} />;
+  if (svgDiagram === "ej-est-tabla")       return <TablaFrecuenciasEst tema={tema} />;
+  if (svgDiagram === "ej-est-mediana-par") return <Ej_EstMedianaParSVG tema={tema} />;
   if (svgDiagram === "as1-cuad-circ") return <As1CuadCircSVG tema={tema} />;
   if (svgDiagram === "as2-corona")   return <As2CoronaSVG   tema={tema} />;
   if (svgDiagram === "as3-semi-rect") return <As3SemiRectSVG tema={tema} />;

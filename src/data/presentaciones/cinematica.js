@@ -1,0 +1,437 @@
+// Datos de la presentación: Cinemática (Física · UNAM)
+// Estructura: Teoría → Ejemplos resueltos → 18 ejercicios tipo UNAM → Resumen.
+
+export const PRESENTACION = {
+  id: "cinematica",
+  titulo: "Cinemática",
+  materia: "Física",
+  subtema: "Mecánica",
+  slides: [
+
+    // ── PORTADA ───────────────────────────────────────────────────────────────
+    {
+      id: 0,
+      tipo: "portada",
+      titulo: "Cinemática",
+      subtitulo: "El estudio del movimiento: MRU, MRUA, caída libre y tiro parabólico",
+      etiqueta: "Física · UNAM",
+      svgDiagram: "cin-portada",
+    },
+
+    // ── TEORÍA ────────────────────────────────────────────────────────────────
+    {
+      id: "magnitudes",
+      tipo: "concepto",
+      titulo: "Magnitudes del Movimiento",
+      etiqueta: "El lenguaje de la cinemática",
+      formula: "\\vec{d} = x_f - x_0",
+      svgDiagram: "cin-desplazamiento",
+      items: [
+        { math: "\\text{posición}", texto: "lugar del objeto respecto a un punto de referencia" },
+        { math: "\\text{distancia}", texto: "longitud total de la trayectoria recorrida (escalar)" },
+        { math: "\\text{desplazamiento}", texto: "cambio neto de posición, en línea recta y con dirección (vector)" },
+        { math: "\\text{trayectoria}", texto: "el camino o forma que sigue el objeto" }
+      ],
+      nota: "La distancia mide todo el camino; el desplazamiento solo el cambio de posición. Si das una vuelta completa y regresas al inicio, la distancia es grande pero el desplazamiento es cero."
+    },
+
+    {
+      id: "velocidad",
+      tipo: "concepto",
+      titulo: "Velocidad y Rapidez",
+      etiqueta: "Qué tan rápido y hacia dónde",
+      formula: "v = \\dfrac{\\Delta x}{\\Delta t}",
+      items: [
+        { math: "\\text{rapidez}", texto: "magnitud escalar: distancia recorrida entre el tiempo" },
+        { math: "\\text{velocidad}", texto: "magnitud vectorial: desplazamiento entre el tiempo (lleva dirección)" },
+        { math: "v_{media}", texto: "promedio de todo el recorrido" },
+        { math: "v_{inst}", texto: "la velocidad en un instante específico" }
+      ],
+      nota: "Se mide en metros por segundo (m/s). La rapidez nunca es negativa; la velocidad sí puede serlo, según el sentido del movimiento."
+    },
+
+    {
+      id: "aceleracion",
+      tipo: "concepto",
+      titulo: "Aceleración",
+      etiqueta: "El cambio de la velocidad",
+      formula: "a = \\dfrac{\\Delta v}{\\Delta t} = \\dfrac{v_f - v_0}{t}",
+      items: [
+        { math: "a > 0", texto: "la velocidad aumenta (el objeto se acelera)" },
+        { math: "a < 0", texto: "la velocidad disminuye (frena o desacelera)" },
+        { math: "a = 0", texto: "la velocidad se mantiene constante" }
+      ],
+      nota: "Se mide en metros por segundo al cuadrado (m/s²). Es un vector: tiene dirección y sentido, igual que la velocidad."
+    },
+
+    {
+      id: "mru",
+      tipo: "criterio_detalle",
+      titulo: "Movimiento Rectilíneo Uniforme (MRU)",
+      etiqueta: "Velocidad constante, sin aceleración",
+      svgDiagram: "cin-graf-xt",
+      enunciado: "En el MRU el objeto se mueve en línea recta con velocidad constante: recorre distancias iguales en tiempos iguales. La aceleración es cero.",
+      math: "x = x_0 + v\\,t",
+      por_que: "Como la velocidad es constante, la gráfica posición-tiempo (x-t) es una recta inclinada cuya pendiente es justo la velocidad. La gráfica velocidad-tiempo (v-t) es una línea horizontal.",
+      math_razon: "a = 0, \\qquad v = \\dfrac{\\Delta x}{\\Delta t} = \\text{pendiente de la recta x-t}"
+    },
+
+    {
+      id: "mrua",
+      tipo: "criterio_detalle",
+      titulo: "Movimiento Uniformemente Acelerado (MRUA)",
+      etiqueta: "Aceleración constante",
+      svgDiagram: "cin-graf-vt",
+      enunciado: "En el MRUA la aceleración es constante: la velocidad cambia de manera uniforme. La gráfica velocidad-tiempo es una recta inclinada y el desplazamiento es el área bajo ella.",
+      math: "v = v_0 + a\\,t",
+      por_que: "Con sus ecuaciones se resuelve casi cualquier problema. La pendiente de la gráfica v-t es la aceleración, y el área bajo la gráfica es el desplazamiento recorrido.",
+      math_razon: "x = x_0 + v_0 t + \\tfrac{1}{2}a t^2, \\qquad v^2 = v_0^2 + 2a\\,\\Delta x"
+    },
+
+    {
+      id: "ecuaciones-mrua",
+      tipo: "concepto",
+      titulo: "Las Ecuaciones del MRUA",
+      etiqueta: "Elige según los datos que tengas",
+      formula: "a = \\text{constante}",
+      items: [
+        { math: "v = v_0 + a t", texto: "velocidad en función del tiempo" },
+        { math: "x = x_0 + v_0 t + \\tfrac12 a t^2", texto: "posición en función del tiempo" },
+        { math: "v^2 = v_0^2 + 2a\\,\\Delta x", texto: "sin tiempo: útil para distancias y frenados" },
+        { math: "\\Delta x = \\dfrac{v_0 + v}{2}\\,t", texto: "usa la velocidad media" }
+      ],
+      nota: "Truco: identifica qué dato te falta. Si no aparece el tiempo, usa la tercera ecuación; si tienes las dos velocidades, la cuarta."
+    },
+
+    {
+      id: "caida-libre",
+      tipo: "criterio_detalle",
+      titulo: "Caída Libre y Tiro Vertical",
+      etiqueta: "MRUA con g",
+      svgDiagram: "cin-caida-libre",
+      enunciado: "La caída libre es un MRUA donde la única aceleración es la gravedad, g ≈ 9.8 m/s² hacia abajo. Sin aire, todos los objetos caen igual sin importar su masa.",
+      math: "v = v_0 + g\\,t, \\qquad y = y_0 + v_0 t + \\tfrac12 g t^2",
+      por_que: "Se usan las mismas ecuaciones del MRUA, cambiando a por g. En el punto más alto de un tiro vertical la velocidad es cero, y el tiempo de subida es igual al de bajada.",
+      math_razon: "g \\approx 9.8\\ \\tfrac{m}{s^2}\\ (\\text{a veces } 10), \\qquad v_{\\text{cima}} = 0"
+    },
+
+    {
+      id: "tiro-parabolico",
+      tipo: "criterio_detalle",
+      titulo: "Tiro Parabólico",
+      etiqueta: "Dos movimientos a la vez",
+      svgDiagram: "cin-tiro-parabolico",
+      enunciado: "Es la combinación de dos movimientos independientes: uno horizontal (MRU, velocidad constante) y uno vertical (caída libre). La trayectoria resultante es una parábola.",
+      math: "x = v_{0x}\\,t, \\qquad y = v_{0y}\\,t - \\tfrac12 g t^2",
+      por_que: "Los movimientos horizontal y vertical no se afectan entre sí; solo comparten el tiempo. La componente horizontal de la velocidad nunca cambia; la vertical sí cambia por la gravedad.",
+      math_razon: "v_{0x} = v_0\\cos\\theta, \\qquad v_{0y} = v_0\\sin\\theta"
+    },
+
+    // ── EJEMPLOS RESUELTOS ────────────────────────────────────────────────────
+    {
+      id: "ej-velocidad",
+      tipo: "criterio_detalle",
+      titulo: "Ejemplo 1 · Distancia vs. desplazamiento",
+      etiqueta: "Rapidez media y velocidad media",
+      enunciado: "Un automóvil recorre 300 m hacia el este en 20 s y luego 100 m hacia el oeste en 10 s. ¿Cuál es su rapidez media y cuál su velocidad media?",
+      math: "v = \\dfrac{\\Delta x}{\\Delta t}",
+      por_que: "La rapidez usa la distancia total (300 + 100 = 400 m) entre el tiempo total (30 s). La velocidad usa el desplazamiento neto (300 − 100 = 200 m al este) entre el mismo tiempo. Por eso salen distintas.",
+      math_razon: "v_{rapidez} = \\dfrac{400}{30} \\approx 13.3\\ \\tfrac{m}{s}, \\qquad v_{media} = \\dfrac{200}{30} \\approx 6.7\\ \\tfrac{m}{s}"
+    },
+
+    {
+      id: "ej-mrua",
+      tipo: "criterio_detalle",
+      titulo: "Ejemplo 2 · MRUA desde el reposo",
+      etiqueta: "Distancia y velocidad final",
+      enunciado: "Un coche parte del reposo y acelera a 2 m/s² durante 5 s. ¿Qué distancia recorre y qué velocidad alcanza?",
+      math: "x = v_0 t + \\tfrac12 a t^2, \\qquad v = v_0 + a t",
+      por_que: "Parte del reposo, así que v₀ = 0. La distancia se obtiene con la segunda ecuación y la velocidad final con la primera. Solo hay que sustituir los datos.",
+      math_razon: "x = \\tfrac12(2)(5^2) = 25\\ m, \\qquad v = (2)(5) = 10\\ \\tfrac{m}{s}"
+    },
+
+    {
+      id: "ej-caida",
+      tipo: "criterio_detalle",
+      titulo: "Ejemplo 3 · Caída libre",
+      etiqueta: "Altura desde el tiempo de caída",
+      enunciado: "Se deja caer una piedra desde un edificio y tarda 3 s en llegar al suelo. ¿Desde qué altura cayó? (g = 9.8 m/s²)",
+      math: "y = \\tfrac12 g t^2",
+      por_que: "Como se «deja caer», la velocidad inicial es cero (v₀ = 0). Sustituyendo el tiempo en la ecuación de caída libre se obtiene la altura. La velocidad al llegar sería v = gt = 29.4 m/s.",
+      math_razon: "y = \\tfrac12(9.8)(3^2) = \\tfrac12(9.8)(9) = 44.1\\ m"
+    },
+
+    {
+      id: "ej-parabolico",
+      tipo: "criterio_detalle",
+      titulo: "Ejemplo 4 · Tiro horizontal",
+      etiqueta: "Combinando vertical y horizontal",
+      enunciado: "Una pelota sale rodando horizontalmente de una mesa de 1.25 m de altura con velocidad de 3 m/s. ¿A qué distancia de la mesa cae? (g = 10 m/s²)",
+      math: "y = \\tfrac12 g t^2, \\qquad x = v_{0x}\\,t",
+      por_que: "Primero se calcula el tiempo de caída con el movimiento vertical (la altura no depende de la velocidad horizontal). Con ese tiempo se halla el alcance horizontal, que es un MRU.",
+      math_razon: "t = \\sqrt{\\tfrac{2y}{g}} = \\sqrt{0.25} = 0.5\\ s, \\qquad x = (3)(0.5) = 1.5\\ m"
+    },
+
+    // ── EJERCICIOS TIPO UNAM ──────────────────────────────────────────────────
+    {
+      id: "c1",
+      tipo: "ejercicio",
+      svgDiagram: "cin-graf-xt",
+      etiqueta: "Cinemática · Ejercicio 1 / 18",
+      pregunta: "La gráfica posición-tiempo (x-t) de un móvil es una línea recta inclinada con pendiente constante. ¿Qué tipo de movimiento describe?",
+      opciones: ["MRU: velocidad constante", "Movimiento uniformemente acelerado", "El móvil está en reposo", "Caída libre"],
+      correcta: 0,
+      explicacion: "En la gráfica x-t una recta inclinada significa velocidad constante (su pendiente). Eso es MRU, sin aceleración.",
+      pasos: [
+        { pre: "Pendiente de x-t: ", math: "v = \\dfrac{\\Delta x}{\\Delta t} = \\text{constante}" },
+        { pre: "Por tanto: ", math: "a = 0 \\Rightarrow \\text{MRU}" }
+      ]
+    },
+
+    {
+      id: "c2",
+      tipo: "ejercicio",
+      etiqueta: "Cinemática · Ejercicio 2 / 18",
+      pregunta: "Un atleta da una vuelta completa a una pista circular de 400 m y regresa exactamente al punto de partida. ¿Cuál es su desplazamiento?",
+      opciones: ["0 m", "400 m", "200 m", "800 m"],
+      correcta: 0,
+      explicacion: "El desplazamiento es el cambio de posición entre el inicio y el final. Si regresa al punto de partida, la posición no cambió: el desplazamiento es cero (aunque la distancia sea 400 m).",
+      pasos: [
+        { pre: "Posición final = inicial: ", math: "\\vec{d} = x_f - x_0 = 0" }
+      ]
+    },
+
+    {
+      id: "c3",
+      tipo: "ejercicio",
+      etiqueta: "Cinemática · Ejercicio 3 / 18",
+      pregunta: "Un ciclista recorre 150 m en 30 s a velocidad constante. ¿Cuál es su velocidad?",
+      opciones: ["5 m/s", "4.5 m/s", "180 m/s", "0.2 m/s"],
+      correcta: 0,
+      explicacion: "Velocidad = distancia / tiempo = 150 / 30 = 5 m/s.",
+      pasos: [
+        { pre: "MRU: ", math: "v = \\dfrac{\\Delta x}{\\Delta t} = \\dfrac{150}{30} = 5\\ \\tfrac{m}{s}" }
+      ]
+    },
+
+    {
+      id: "c4",
+      tipo: "ejercicio",
+      svgDiagram: "cin-ej-dt",
+      etiqueta: "Cinemática · Ejercicio 4 / 18",
+      pregunta: "Según la gráfica desplazamiento-tiempo mostrada, el móvil alcanza 8 m a los 5 s con movimiento uniforme. ¿Cuál es su velocidad media?",
+      opciones: ["1.6 m/s", "0.625 m/s", "40 m/s", "3.2 m/s"],
+      correcta: 0,
+      explicacion: "La velocidad media es la pendiente de la recta: 8 m / 5 s = 1.6 m/s.",
+      pasos: [
+        { pre: "Pendiente: ", math: "v = \\dfrac{\\Delta x}{\\Delta t} = \\dfrac{8}{5} = 1.6\\ \\tfrac{m}{s}" }
+      ]
+    },
+
+    {
+      id: "c5",
+      tipo: "ejercicio",
+      etiqueta: "Cinemática · Ejercicio 5 / 18",
+      pregunta: "Un tren viaja a 30 m/s de forma constante. ¿Cuánto tarda en recorrer 600 m?",
+      opciones: ["20 s", "0.05 s", "18 000 s", "630 s"],
+      correcta: 0,
+      explicacion: "De x = v·t se despeja t = x / v = 600 / 30 = 20 s.",
+      pasos: [
+        { pre: "Despejando el tiempo: ", math: "t = \\dfrac{x}{v} = \\dfrac{600}{30} = 20\\ s" }
+      ]
+    },
+
+    {
+      id: "c6",
+      tipo: "ejercicio",
+      etiqueta: "Cinemática · Ejercicio 6 / 18",
+      pregunta: "Un auto pasa de 0 a 20 m/s en 4 s. ¿Cuál es su aceleración?",
+      opciones: ["5 m/s²", "80 m/s²", "0.2 m/s²", "24 m/s²"],
+      correcta: 0,
+      explicacion: "a = (v_f − v_0) / t = (20 − 0) / 4 = 5 m/s².",
+      pasos: [
+        { pre: "Definición: ", math: "a = \\dfrac{v_f - v_0}{t} = \\dfrac{20 - 0}{4} = 5\\ \\tfrac{m}{s^2}" }
+      ]
+    },
+
+    {
+      id: "c7",
+      tipo: "ejercicio",
+      etiqueta: "Cinemática · Ejercicio 7 / 18",
+      pregunta: "Un objeto parte del reposo con aceleración constante de 3 m/s². ¿Qué distancia recorre en 4 s?",
+      opciones: ["24 m", "48 m", "12 m", "6 m"],
+      correcta: 0,
+      explicacion: "Desde el reposo, x = ½·a·t² = ½(3)(4²) = ½(3)(16) = 24 m.",
+      pasos: [
+        { pre: "v₀ = 0: ", math: "x = \\tfrac12 a t^2 = \\tfrac12 (3)(16) = 24\\ m" }
+      ]
+    },
+
+    {
+      id: "c8",
+      tipo: "ejercicio",
+      etiqueta: "Cinemática · Ejercicio 8 / 18",
+      pregunta: "Un coche que va a 10 m/s frena con aceleración de −2 m/s². ¿Qué distancia recorre hasta detenerse?",
+      opciones: ["25 m", "5 m", "2.5 m", "100 m"],
+      correcta: 0,
+      explicacion: "Como no se pide el tiempo, conviene v² = v₀² + 2a·Δx. Al detenerse v = 0: 0 = 10² + 2(−2)Δx → Δx = 100/4 = 25 m.",
+      pasos: [
+        { pre: "Sin tiempo: ", math: "v^2 = v_0^2 + 2a\\,\\Delta x" },
+        { pre: "Con v = 0: ", math: "\\Delta x = \\dfrac{-v_0^2}{2a} = \\dfrac{-100}{-4} = 25\\ m" }
+      ]
+    },
+
+    {
+      id: "c9",
+      tipo: "ejercicio",
+      etiqueta: "Cinemática · Ejercicio 9 / 18",
+      pregunta: "Se deja caer un objeto. ¿Qué velocidad tiene a los 2 s? (g = 9.8 m/s²)",
+      opciones: ["19.6 m/s", "9.8 m/s", "4.9 m/s", "39.2 m/s"],
+      correcta: 0,
+      explicacion: "En caída libre v = g·t = (9.8)(2) = 19.6 m/s (parte del reposo, v₀ = 0).",
+      pasos: [
+        { pre: "Caída libre: ", math: "v = g\\,t = (9.8)(2) = 19.6\\ \\tfrac{m}{s}" }
+      ]
+    },
+
+    {
+      id: "c10",
+      tipo: "ejercicio",
+      svgDiagram: "cin-caida-libre",
+      etiqueta: "Cinemática · Ejercicio 10 / 18",
+      pregunta: "Despreciando la resistencia del aire, si soltamos al mismo tiempo y desde la misma altura una pluma y una piedra, ¿cuál llega primero al suelo?",
+      opciones: ["Llegan al mismo tiempo", "La piedra, por ser más pesada", "La pluma, por ser más ligera", "Depende de su peso"],
+      correcta: 0,
+      explicacion: "En caída libre la aceleración (g) es la misma para todos los cuerpos, sin importar su masa. Sin aire, ambos caen idéntico y llegan juntos.",
+      pasos: [
+        { pre: "g no depende de la masa: ", math: "a = g \\approx 9.8\\ \\tfrac{m}{s^2}" }
+      ]
+    },
+
+    {
+      id: "c11",
+      tipo: "ejercicio",
+      etiqueta: "Cinemática · Ejercicio 11 / 18",
+      pregunta: "Se lanza una pelota verticalmente hacia arriba. En su punto más alto, su velocidad es:",
+      opciones: ["Cero", "Máxima", "Igual a la inicial", "9.8 m/s"],
+      correcta: 0,
+      explicacion: "En el punto más alto la pelota se detiene un instante antes de regresar: su velocidad es cero. La aceleración sigue siendo g hacia abajo.",
+      pasos: [
+        { pre: "En la cima: ", math: "v_{\\text{cima}} = 0" }
+      ]
+    },
+
+    {
+      id: "c12",
+      tipo: "ejercicio",
+      etiqueta: "Cinemática · Ejercicio 12 / 18",
+      pregunta: "¿Desde qué altura cae un objeto que tarda 2 s en llegar al suelo, si se suelta desde el reposo? (g = 10 m/s²)",
+      opciones: ["20 m", "10 m", "40 m", "5 m"],
+      correcta: 0,
+      explicacion: "y = ½·g·t² = ½(10)(2²) = ½(10)(4) = 20 m.",
+      pasos: [
+        { pre: "Caída libre: ", math: "y = \\tfrac12 g t^2 = \\tfrac12 (10)(4) = 20\\ m" }
+      ]
+    },
+
+    {
+      id: "c13",
+      tipo: "ejercicio",
+      svgDiagram: "cin-tiro-parabolico",
+      etiqueta: "Cinemática · Ejercicio 13 / 18",
+      pregunta: "Una pelota se lanza horizontalmente desde 20 m de altura. ¿Cuánto tarda en caer al suelo? (g = 10 m/s²)",
+      opciones: ["2 s", "4 s", "1 s", "0.5 s"],
+      correcta: 0,
+      explicacion: "El tiempo de caída solo depende del movimiento vertical: y = ½g·t² → 20 = ½(10)t² → t² = 4 → t = 2 s. La velocidad horizontal no influye en el tiempo.",
+      pasos: [
+        { pre: "Vertical: ", math: "y = \\tfrac12 g t^2 \\Rightarrow t = \\sqrt{\\dfrac{2y}{g}}" },
+        { pre: "Sustituyendo: ", math: "t = \\sqrt{\\dfrac{2(20)}{10}} = \\sqrt{4} = 2\\ s" }
+      ]
+    },
+
+    {
+      id: "c14",
+      tipo: "ejercicio",
+      etiqueta: "Cinemática · Ejercicio 14 / 18",
+      pregunta: "En un tiro parabólico, despreciando la fricción del aire, la componente horizontal de la velocidad:",
+      opciones: ["Permanece constante", "Aumenta con el tiempo", "Disminuye con el tiempo", "Se hace cero en la cima"],
+      correcta: 0,
+      explicacion: "En el eje horizontal no hay aceleración (la gravedad es vertical), así que la velocidad horizontal no cambia: es un MRU. Lo que sí cambia es la componente vertical.",
+      pasos: [
+        { pre: "Sin fuerza horizontal: ", math: "a_x = 0 \\Rightarrow v_x = \\text{constante}" }
+      ]
+    },
+
+    {
+      id: "c15",
+      tipo: "ejercicio",
+      svgDiagram: "cin-ej-vt-area",
+      etiqueta: "Cinemática · Ejercicio 15 / 18",
+      pregunta: "En una gráfica velocidad-tiempo, la recta sube de 0 a 10 m/s en 4 s. ¿Qué distancia recorrió el móvil?",
+      opciones: ["20 m", "40 m", "2.5 m", "10 m"],
+      correcta: 0,
+      explicacion: "El desplazamiento es el área bajo la gráfica v-t. Aquí es un triángulo: A = ½·base·altura = ½(4)(10) = 20 m.",
+      pasos: [
+        { pre: "Área del triángulo: ", math: "\\Delta x = \\tfrac12 \\, b \\, h = \\tfrac12 (4)(10) = 20\\ m" }
+      ]
+    },
+
+    {
+      id: "c16",
+      tipo: "ejercicio",
+      etiqueta: "Cinemática · Ejercicio 16 / 18",
+      pregunta: "En una gráfica velocidad-tiempo, una línea horizontal (paralela al eje del tiempo) indica que el móvil tiene:",
+      opciones: ["Velocidad constante", "Aceleración constante", "Aceleración variable", "Velocidad cero"],
+      correcta: 0,
+      explicacion: "Si la velocidad no cambia con el tiempo, la línea v-t es horizontal. Eso es MRU: velocidad constante y aceleración nula.",
+      pasos: [
+        { pre: "v no cambia: ", math: "a = \\dfrac{\\Delta v}{\\Delta t} = 0" }
+      ]
+    },
+
+    {
+      id: "c17",
+      tipo: "ejercicio",
+      etiqueta: "Cinemática · Ejercicio 17 / 18",
+      pregunta: "Un móvil acelera uniformemente de 4 m/s a 12 m/s. ¿Cuál es su velocidad media durante ese intervalo?",
+      opciones: ["8 m/s", "16 m/s", "6 m/s", "4 m/s"],
+      correcta: 0,
+      explicacion: "En MRUA la velocidad media es el promedio de las velocidades inicial y final: (4 + 12)/2 = 8 m/s.",
+      pasos: [
+        { pre: "Promedio: ", math: "v_{media} = \\dfrac{v_0 + v}{2} = \\dfrac{4 + 12}{2} = 8\\ \\tfrac{m}{s}" }
+      ]
+    },
+
+    {
+      id: "c18",
+      tipo: "ejercicio",
+      etiqueta: "Cinemática · Ejercicio 18 / 18",
+      pregunta: "¿Cuál de las siguientes es una magnitud vectorial?",
+      opciones: ["La velocidad", "La rapidez", "La distancia", "El tiempo"],
+      correcta: 0,
+      explicacion: "La velocidad tiene magnitud y dirección, por eso es vectorial. La rapidez, la distancia y el tiempo son escalares (solo magnitud).",
+      pasos: [
+        { pre: "Vector = magnitud + dirección: ", math: "\\vec{v} = \\dfrac{\\vec{d}}{\\Delta t}" }
+      ]
+    },
+
+    // ── RESUMEN ───────────────────────────────────────────────────────────────
+    {
+      id: "resumen",
+      tipo: "resumen",
+      titulo: "Resumen",
+      etiqueta: "Fórmulas clave de cinemática",
+      puntos: [
+        { math: "v = \\dfrac{\\Delta x}{\\Delta t}", texto: "velocidad: desplazamiento entre tiempo (vector)" },
+        { math: "a = \\dfrac{\\Delta v}{\\Delta t}", texto: "aceleración: cambio de velocidad entre tiempo" },
+        { math: "x = x_0 + v t", texto: "MRU: velocidad constante, a = 0" },
+        { math: "v = v_0 + a t", texto: "MRUA: la velocidad cambia uniformemente" },
+        { math: "x = x_0 + v_0 t + \\tfrac12 a t^2", texto: "posición en el MRUA (y en caída libre con g)" },
+        { math: "v^2 = v_0^2 + 2a\\,\\Delta x", texto: "ecuación sin tiempo, ideal para frenados" },
+        { titulo: "Caída libre", texto: "MRUA con a = g ≈ 9.8 m/s²; en la cima v = 0" },
+        { titulo: "Tiro parabólico", texto: "horizontal (MRU) + vertical (caída libre), independientes" }
+      ]
+    }
+
+  ]
+};

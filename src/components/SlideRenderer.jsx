@@ -165,6 +165,7 @@ function SlidePortadaDiagram({ slide, tema }) {
   if (slide.svgDiagram === "euler-line") return <EulerLineSVG tema={tema} />;
   if (slide.svgDiagram === "prob-portada") return <ProbabilidadPortadaSVG tema={tema} />;
   if (slide.svgDiagram === "est-portada") return <EstPortadaSVG tema={tema} />;
+  if (slide.svgDiagram === "cin-portada") return <CinPortadaSVG tema={tema} />;
   const DecoSVG = tema.DecoSVG;
   return <DecoSVG tema={tema} />;
 }
@@ -671,6 +672,7 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "tendencia-central"        && <TendenciaCentralSVG       tema={tema} />}
       {slide.svgDiagram === "dispersion"               && <DispersionSVG             tema={tema} />}
       {slide.svgDiagram === "graficas-circular"        && <EstCircularSVG            tema={tema} />}
+      {slide.svgDiagram === "cin-desplazamiento"       && <CinDesplazamientoSVG     tema={tema} />}
 
       <div style={{ display: "flex", flexDirection: "column", gap: compact ? 8 : 10 }}>
         {slide.items.map((item, i) => {
@@ -1908,6 +1910,10 @@ function SlideCriterioDetalle({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "mediana-detalle"          && <MedianaDetalleSVG      tema={tema} />}
       {slide.svgDiagram === "moda-detalle"             && <ModaDetalleSVG         tema={tema} />}
       {slide.svgDiagram === "desviacion-detalle"       && <DesviacionDetalleSVG   tema={tema} />}
+      {slide.svgDiagram === "cin-graf-xt"              && <CinGrafXtSVG           tema={tema} />}
+      {slide.svgDiagram === "cin-graf-vt"              && <CinGrafVtSVG           tema={tema} />}
+      {slide.svgDiagram === "cin-caida-libre"          && <CinCaidaLibreSVG       tema={tema} />}
+      {slide.svgDiagram === "cin-tiro-parabolico"      && <CinTiroParabolicoSVG   tema={tema} />}
 
       <div
         onClick={() => onResaltar && onResaltar(1)}
@@ -4457,6 +4463,175 @@ function Ej_EstRangoSVG({ tema }) {
   );
 }
 
+// ═══════════════════════════════════════════════════════════════════════════
+// Diagramas de Cinemática (Física)
+// ═══════════════════════════════════════════════════════════════════════════
+
+// Punta de flecha para un segmento (x1,y1)→(x2,y2).
+function arrowHead(x1, y1, x2, y2, s) {
+  const ang = Math.atan2(y2 - y1, x2 - x1);
+  const a1 = ang + Math.PI * 0.82, a2 = ang - Math.PI * 0.82;
+  const p1 = `${(x2 + s * Math.cos(a1)).toFixed(1)},${(y2 + s * Math.sin(a1)).toFixed(1)}`;
+  const p2 = `${(x2 + s * Math.cos(a2)).toFixed(1)},${(y2 + s * Math.sin(a2)).toFixed(1)}`;
+  return `${x2},${y2} ${p1} ${p2}`;
+}
+
+// Ejes con flechas; etiquetas de los extremos.
+function EjesXY({ ox, oy, xEnd, yTop, tema, labelX, labelY }) {
+  const mu = tema.muted;
+  return (
+    <>
+      <line x1={ox} y1={oy} x2={xEnd} y2={oy} stroke={mu} strokeWidth="1.5" />
+      <line x1={ox} y1={oy} x2={ox} y2={yTop} stroke={mu} strokeWidth="1.5" />
+      <polygon points={`${xEnd + 6},${oy} ${xEnd},${oy - 3.5} ${xEnd},${oy + 3.5}`} fill={mu} />
+      <polygon points={`${ox},${yTop - 6} ${ox - 3.5},${yTop} ${ox + 3.5},${yTop}`} fill={mu} />
+      <text x={xEnd + 2} y={oy + 14} fill={mu} fontSize="11" fontFamily="Georgia,serif" fontStyle="italic">{labelX}</text>
+      <text x={ox - 14} y={yTop + 2} fill={mu} fontSize="11" fontFamily="Georgia,serif" fontStyle="italic">{labelY}</text>
+    </>
+  );
+}
+
+function CinPortadaSVG({ tema }) {
+  const a = tema.acento, mu = tema.muted;
+  const ox = 30, oy = 100;
+  return (
+    <svg viewBox="0 0 250 120" width="100%" style={{ display: "block", maxHeight: 132, maxWidth: 320 }}>
+      <line x1={ox} y1={oy} x2={232} y2={oy} stroke={mu} strokeWidth="1.5" />
+      <line x1={ox} y1={oy} x2={ox} y2={14} stroke={mu} strokeWidth="1.5" />
+      <polygon points={`238,${oy} 232,${oy - 3.5} 232,${oy + 3.5}`} fill={mu} />
+      <polygon points={`${ox},8 ${ox - 3.5},14 ${ox + 3.5},14`} fill={mu} />
+      <path d={`M ${ox} ${oy} Q 150 ${oy} 210 26`} stroke={a} strokeWidth="2.5" fill="none" />
+      <circle cx="210" cy="26" r="5" fill={a} />
+      <text x="236" y={oy + 4} fill={mu} fontSize="11" fontFamily="Georgia,serif" fontStyle="italic">t</text>
+      <text x={ox - 9} y="12" fill={mu} fontSize="11" fontFamily="Georgia,serif" fontStyle="italic">x</text>
+    </svg>
+  );
+}
+
+function CinDesplazamientoSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, T = tema.texto;
+  const Ax = 32, Ay = 92, Bx = 242, By = 56;
+  return (
+    <svg viewBox="0 0 280 120" width="100%" style={{ display: "block", maxHeight: 128 }}>
+      <path d={`M ${Ax} ${Ay} C 78 18, 128 124, 172 62 S 214 30 ${Bx} ${By}`} stroke={bl} strokeWidth="2.2" fill="none" />
+      <line x1={Ax} y1={Ay} x2={Bx} y2={By} stroke={a} strokeWidth="2.5" />
+      <polygon points={arrowHead(Ax, Ay, Bx, By, 9)} fill={a} />
+      <circle cx={Ax} cy={Ay} r="4" fill={T} />
+      <circle cx={Bx} cy={By} r="4" fill={T} />
+      <text x={Ax - 12} y={Ay + 6} fill={T} fontSize="13" fontFamily="Georgia,serif">A</text>
+      <text x={Bx + 6} y={By + 4} fill={T} fontSize="13" fontFamily="Georgia,serif">B</text>
+      <text x="86" y="34" fill={bl} fontSize="11" fontFamily="'DM Sans',sans-serif">distancia (trayectoria)</text>
+      <text x="118" y="86" fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif">desplazamiento</text>
+    </svg>
+  );
+}
+
+function CinGrafXtSVG({ tema }) {
+  const a = tema.acento, mu = tema.muted;
+  const ox = 34, oy = 118;
+  return (
+    <svg viewBox="0 0 230 150" width="100%" style={{ display: "block", maxHeight: 160 }}>
+      <EjesXY ox={ox} oy={oy} xEnd={206} yTop={20} tema={tema} labelX="t" labelY="x" />
+      <line x1={ox} y1={oy} x2={196} y2={34} stroke={a} strokeWidth="2.5" />
+      {/* triángulo de pendiente */}
+      <line x1={108} y1={80} x2={160} y2={80} stroke={mu} strokeWidth="1.2" strokeDasharray="3 3" />
+      <line x1={160} y1={80} x2={160} y2={52} stroke={mu} strokeWidth="1.2" strokeDasharray="3 3" />
+      <text x={134} y={93} fill={mu} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle">Δt</text>
+      <text x={166} y={69} fill={mu} fontSize="10" fontFamily="'DM Sans',sans-serif">Δx</text>
+      <text x={70} y={40} fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif">pendiente = v</text>
+    </svg>
+  );
+}
+
+function CinGrafVtSVG({ tema }) {
+  const a = tema.acento, mu = tema.muted;
+  const ox = 34, oy = 118, v0y = 92;
+  return (
+    <svg viewBox="0 0 230 150" width="100%" style={{ display: "block", maxHeight: 160 }}>
+      <polygon points={`${ox},${oy} ${ox},${v0y} 196,34 196,${oy}`} fill={tema.acentoMed} stroke="none" />
+      <EjesXY ox={ox} oy={oy} xEnd={206} yTop={20} tema={tema} labelX="t" labelY="v" />
+      <line x1={ox} y1={v0y} x2={196} y2={34} stroke={a} strokeWidth="2.5" />
+      <text x={ox - 4} y={v0y - 5} fill={mu} fontSize="10" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">v₀</text>
+      <text x={112} y={92} fill={tema.texto} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">área = Δx</text>
+      <text x={150} y={52} fill={a} fontSize="10.5" fontFamily="'DM Sans',sans-serif">pend. = a</text>
+    </svg>
+  );
+}
+
+function CinCaidaLibreSVG({ tema }) {
+  const a = tema.acento, mu = tema.muted, bl = tema.azul;
+  const x = 44;
+  const ys = [20, 38, 66, 104, 152];
+  return (
+    <svg viewBox="0 0 130 172" width="100%" style={{ display: "block", maxHeight: 178, maxWidth: 150 }}>
+      <line x1={x} y1={12} x2={x} y2={162} stroke={mu} strokeWidth="1" strokeDasharray="2 4" opacity="0.5" />
+      {ys.map((y, i) => (
+        <circle key={i} cx={x} cy={y} r={6} fill={i === ys.length - 1 ? a : tema.acentoMed} stroke={a} strokeWidth="1.6" />
+      ))}
+      <line x1={92} y1={22} x2={92} y2={150} stroke={bl} strokeWidth="2.2" />
+      <polygon points={arrowHead(92, 22, 92, 150, 9)} fill={bl} />
+      <text x={100} y={92} fill={bl} fontSize="14" fontFamily="Georgia,serif" fontStyle="italic">g</text>
+      <text x={x} y={170} fill={mu} fontSize="9.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">acelera al caer</text>
+    </svg>
+  );
+}
+
+function CinTiroParabolicoSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, gr = tema.verde, mu = tema.muted;
+  return (
+    <svg viewBox="0 0 260 140" width="100%" style={{ display: "block", maxHeight: 150 }}>
+      <line x1={16} y1={118} x2={244} y2={118} stroke={mu} strokeWidth="1.5" />
+      <path d="M 24 118 Q 130 -10 236 118" stroke={a} strokeWidth="2.5" fill="none" />
+      {/* velocidad inicial */}
+      <line x1={24} y1={118} x2={58} y2={86} stroke={gr} strokeWidth="2.2" />
+      <polygon points={arrowHead(24, 118, 58, 86, 8)} fill={gr} />
+      <text x={40} y={80} fill={gr} fontSize="11" fontFamily="Georgia,serif" fontStyle="italic">v₀</text>
+      {/* componentes en un punto */}
+      <line x1={88} y1={64} x2={120} y2={64} stroke={bl} strokeWidth="2" />
+      <polygon points={arrowHead(88, 64, 120, 64, 7)} fill={bl} />
+      <line x1={88} y1={64} x2={88} y2={40} stroke={bl} strokeWidth="2" />
+      <polygon points={arrowHead(88, 64, 88, 40, 7)} fill={bl} />
+      <circle cx={88} cy={64} r={3} fill={tema.texto} />
+      <text x={124} y={68} fill={bl} fontSize="10.5" fontFamily="Georgia,serif" fontStyle="italic">vₓ</text>
+      <text x={74} y={40} fill={bl} fontSize="10.5" fontFamily="Georgia,serif" fontStyle="italic">vy</text>
+    </svg>
+  );
+}
+
+function CinEjDtSVG({ tema }) {
+  const a = tema.acento, mu = tema.muted;
+  const ox = 34, oy = 118;
+  const px = 172, py = 46; // (5 s, 8 m)
+  return (
+    <svg viewBox="0 0 230 150" width="100%" style={{ display: "block", maxHeight: 160 }}>
+      <EjesXY ox={ox} oy={oy} xEnd={206} yTop={20} tema={tema} labelX="t (s)" labelY="d (m)" />
+      <line x1={px} y1={oy} x2={px} y2={py} stroke={mu} strokeWidth="1" strokeDasharray="3 3" />
+      <line x1={ox} y1={py} x2={px} y2={py} stroke={mu} strokeWidth="1" strokeDasharray="3 3" />
+      <line x1={ox} y1={oy} x2={px} y2={py} stroke={a} strokeWidth="2.5" />
+      <circle cx={px} cy={py} r={4} fill={a} />
+      <text x={px} y={oy + 14} fill={mu} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle">5</text>
+      <text x={ox - 9} y={py + 4} fill={mu} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="end">8</text>
+    </svg>
+  );
+}
+
+function CinEjVtAreaSVG({ tema }) {
+  const a = tema.acento, mu = tema.muted;
+  const ox = 34, oy = 118;
+  const px = 167, py = 43; // (4 s, 10 m/s)
+  return (
+    <svg viewBox="0 0 230 150" width="100%" style={{ display: "block", maxHeight: 160 }}>
+      <polygon points={`${ox},${oy} ${px},${py} ${px},${oy}`} fill={tema.acentoMed} stroke="none" />
+      <EjesXY ox={ox} oy={oy} xEnd={206} yTop={20} tema={tema} labelX="t (s)" labelY="v (m/s)" />
+      <line x1={ox} y1={oy} x2={px} y2={py} stroke={a} strokeWidth="2.5" />
+      <line x1={px} y1={oy} x2={px} y2={py} stroke={mu} strokeWidth="1" strokeDasharray="3 3" />
+      <text x={108} y={104} fill={tema.texto} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">área = Δx</text>
+      <text x={px} y={oy + 14} fill={mu} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle">4</text>
+      <text x={ox - 9} y={py + 4} fill={mu} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="end">10</text>
+    </svg>
+  );
+}
+
 function renderEjercicioSVG(svgDiagram, tema) {
   if (svgDiagram === "ce1-lll")      return <Ce1LllSVG     tema={tema} />;
   if (svgDiagram === "ce2-medidas")  return <Ce2CondMedSVG tema={tema} />;
@@ -4509,6 +4684,11 @@ function renderEjercicioSVG(svgDiagram, tema) {
   if (svgDiagram === "ej-est-rango")       return <Ej_EstRangoSVG      tema={tema} />;
   if (svgDiagram === "ej-est-tabla")       return <TablaFrecuenciasEst tema={tema} />;
   if (svgDiagram === "ej-est-mediana-par") return <Ej_EstMedianaParSVG tema={tema} />;
+  if (svgDiagram === "cin-graf-xt")        return <CinGrafXtSVG        tema={tema} />;
+  if (svgDiagram === "cin-ej-dt")          return <CinEjDtSVG          tema={tema} />;
+  if (svgDiagram === "cin-caida-libre")    return <CinCaidaLibreSVG    tema={tema} />;
+  if (svgDiagram === "cin-tiro-parabolico") return <CinTiroParabolicoSVG tema={tema} />;
+  if (svgDiagram === "cin-ej-vt-area")     return <CinEjVtAreaSVG      tema={tema} />;
   if (svgDiagram === "as1-cuad-circ") return <As1CuadCircSVG tema={tema} />;
   if (svgDiagram === "as2-corona")   return <As2CoronaSVG   tema={tema} />;
   if (svgDiagram === "as3-semi-rect") return <As3SemiRectSVG tema={tema} />;

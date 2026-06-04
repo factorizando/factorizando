@@ -1,8 +1,14 @@
-// Banner que muestra una anotación en vivo (palabra u oración que el maestro
-// escribe durante la presentación) sobre la diapositiva. Se usa en la vista del
-// director (pantalla proyectada) y en la del alumno (sincronizado por broadcast).
+import { M } from "../data/teoria/shared.jsx";
+
+// Splits "texto $formula$ más texto" into [{type:"text",...},{type:"math",...},...]
+function parseSegments(str) {
+  const parts = str.split(/\$([^$]+)\$/);
+  return parts.map((s, i) => ({ type: i % 2 === 0 ? "text" : "math", content: s }));
+}
+
 export default function AnotacionOverlay({ texto, tema }) {
   if (!texto || !texto.trim()) return null;
+  const segments = parseSegments(texto);
   return (
     <div
       style={{
@@ -33,7 +39,11 @@ export default function AnotacionOverlay({ texto, tema }) {
           wordBreak: "break-word",
         }}
       >
-        {texto}
+        {segments.map((seg, i) =>
+          seg.type === "math"
+            ? <M key={i}>{seg.content}</M>
+            : <span key={i}>{seg.content}</span>
+        )}
       </span>
     </div>
   );

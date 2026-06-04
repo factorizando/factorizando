@@ -27,9 +27,57 @@ export const PRESENTACION = {
       formula: "E \\subseteq \\Omega",
       svgDiagram: "espacio-muestral",
       items: [
-        { math: "\\text{experimento}", texto: "acción con resultado incierto (lanzar un dado)" },
-        { math: "\\Omega", texto: "espacio muestral: todos los resultados posibles" },
-        { math: "E", texto: "evento: subconjunto de resultados que nos interesan" },
+        {
+          math: "\\text{experimento}",
+          texto: "acción con resultado incierto — toca para ver ejemplos",
+          expandable: true,
+          detalles: [
+            "Lanzar un dado de 6 caras",
+            "Lanzar una moneda",
+            "Lanzar dos dados simultáneamente",
+            "Lanzar dos monedas",
+            "Sacar una carta de una baraja de 52",
+            "Extraer una bola de una urna",
+            "Girar una ruleta de 8 sectores",
+            "Elegir un número del 1 al 10 al azar",
+            "Elegir una letra al azar de una palabra",
+            "Lanzar una tachuela"
+          ]
+        },
+        {
+          math: "\\Omega",
+          texto: "espacio muestral: todos los resultados posibles — toca para ver ejemplos",
+          expandable: true,
+          detalles: [
+            "Dado: {1, 2, 3, 4, 5, 6}",
+            "Moneda: {cara, cruz}",
+            "Dos dados: 36 pares (1,1)…(6,6)",
+            "Dos monedas: {CC, CX, XC, XX}",
+            "Baraja: 52 cartas (4 palos × 13 valores)",
+            "Urna (4R, 3A): {R₁, R₂, R₃, R₄, A₁, A₂, A₃}",
+            "Ruleta de 8: {1, 2, 3, 4, 5, 6, 7, 8}",
+            "Números: {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}",
+            "Letras «HOLA»: {H, O, L, A}",
+            "Tachuela: {punta arriba, punta abajo}"
+          ]
+        },
+        {
+          math: "E",
+          texto: "evento: subconjunto de Ω que nos interesa — toca para ver ejemplos",
+          expandable: true,
+          detalles: [
+            "Dado: «número par» = {2, 4, 6}",
+            "Moneda: «sale cara» = {cara}",
+            "Dos dados: «suma = 7» = {(1,6),(2,5),(3,4),(4,3),(5,2),(6,1)}",
+            "Dos monedas: «al menos una cara» = {CC, CX, XC}",
+            "Baraja: «es as» = {A♠, A♥, A♦, A♣}",
+            "Urna: «sale roja» = {R₁, R₂, R₃, R₄}",
+            "Ruleta: «cae en primo» = {2, 3, 5, 7}",
+            "Números: «múltiplo de 3» = {3, 6, 9}",
+            "Letras «HOLA»: «es vocal» = {O, A}",
+            "Tachuela: «punta arriba»"
+          ]
+        },
         { math: "\\#E", texto: "casos favorables: cuántos resultados cumplen el evento" }
       ],
       nota: "Al lanzar un dado, Ω = {1, 2, 3, 4, 5, 6}. El evento «sale número par» es E = {2, 4, 6}, con #E = 3 casos favorables."
@@ -61,6 +109,20 @@ export const PRESENTACION = {
       math: "N = n_1 \\times n_2 \\times \\cdots \\times n_k",
       por_que: "Con 2 platos y 3 bebidas, cada plato se combina con cada bebida. El árbol muestra que de cada rama de la primera etapa salen todas las opciones de la segunda: 2 × 3 = 6 menús distintos.",
       math_razon: "2 \\text{ platos} \\times 3 \\text{ bebidas} = 6 \\text{ menús}"
+    },
+
+    // ── ÁRBOL: TRES LANZAMIENTOS DE MONEDA ───────────────────────────────────
+
+    {
+      id: "arbol-tres-monedas",
+      tipo: "criterio_detalle",
+      titulo: "Árbol de Tres Lanzamientos",
+      etiqueta: "2 × 2 × 2 = 8 resultados posibles",
+      svgDiagram: "arbol-tres-monedas",
+      enunciado: "Al lanzar una moneda tres veces, el árbol muestra todos los caminos posibles: en cada nivel se bifurca en Cara (C) o Cruz (X). Los 3 nodos resaltados (naranja) son los que dan exactamente 2 caras — el «2 de 3».",
+      math: "2 \\times 2 \\times 2 = 8 \\text{ resultados posibles}",
+      por_que: "Exactamente 2 caras: CCX, CXC y XCC — tres caminos de ocho. Como cada hoja tiene probabilidad ½³ = ⅛, la probabilidad de «2 de 3» es 3 × ⅛ = 3/8.",
+      math_razon: "P(\\text{exactamente 2 caras}) = \\dfrac{3}{8}"
     },
 
     // ── CONTEO CON DOS DADOS ──────────────────────────────────────────────────

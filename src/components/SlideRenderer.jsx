@@ -633,6 +633,7 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar }) {
   const compact = !!slide.svgDiagram;
   const winW = useWindowWidth();
   const narrow = winW < 500;
+  const [expanded, setExpanded] = useState({});
   return (
     <div
       style={{
@@ -695,45 +696,80 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar }) {
       <div style={{ display: "flex", flexDirection: "column", gap: compact ? 8 : 10 }}>
         {slide.items.map((item, i) => {
           const activo = resaltadoIdx === i;
+          const isOpen = !!expanded[i];
           return (
           <div
             key={i}
-            onClick={() => onResaltar && onResaltar(i)}
             style={{
-              display: "flex",
-              flexDirection: item.pasos ? "column" : "row",
-              alignItems: item.pasos ? "flex-start" : "center",
-              gap: item.pasos ? 8 : 18,
               background: activo ? tema.acentoSuave : tema.card,
               border: `1px solid ${activo ? tema.acento : tema.border}`,
               borderRadius: 8,
-              padding: compact ? "9px 18px" : "13px 22px",
               boxShadow: activo ? `0 0 0 2px ${tema.acentoBorde}, 0 0 16px ${tema.acentoBorde}` : "none",
-              transform: "none",
               transition: "all 0.2s",
-              cursor: onResaltar ? "pointer" : "default"
+              overflow: "hidden"
             }}
           >
-            {item.pasos ? (
-              <>
-                <span style={{ fontSize: 13, color: tema.sub, fontWeight: 600 }}>{item.texto}</span>
-                <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 10 }}>
-                  {item.pasos.map((paso, j) => (
-                    <span key={j} style={{ display: "inline-flex", alignItems: "center", gap: 10, fontSize: "1.05em" }}>
-                      {j > 0 && <span style={{ color: "#4a4640", fontSize: 16 }}>→</span>}
-                      <M>{paso}</M>
-                    </span>
-                  ))}
-                </div>
-              </>
-            ) : (
-              <>
-                <span style={{ fontSize: "1.1em", minWidth: 52 }}>
-                  <M>{item.math}</M>
-                </span>
-                <span style={{ color: "#4a4640", fontSize: 17 }}>→</span>
-                <span style={{ fontSize: 15, color: "#c4bfb3" }}>{item.texto}</span>
-              </>
+            <div
+              onClick={() => {
+                if (item.expandable) setExpanded(prev => ({ ...prev, [i]: !prev[i] }));
+                else if (onResaltar) onResaltar(i);
+              }}
+              style={{
+                display: "flex",
+                flexDirection: item.pasos ? "column" : "row",
+                alignItems: item.pasos ? "flex-start" : "center",
+                gap: item.pasos ? 8 : 18,
+                padding: compact ? "9px 18px" : "13px 22px",
+                cursor: item.expandable || onResaltar ? "pointer" : "default"
+              }}
+            >
+              {item.pasos ? (
+                <>
+                  <span style={{ fontSize: 13, color: tema.sub, fontWeight: 600 }}>{item.texto}</span>
+                  <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 10 }}>
+                    {item.pasos.map((paso, j) => (
+                      <span key={j} style={{ display: "inline-flex", alignItems: "center", gap: 10, fontSize: "1.05em" }}>
+                        {j > 0 && <span style={{ color: "#4a4640", fontSize: 16 }}>→</span>}
+                        <M>{paso}</M>
+                      </span>
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <>
+                  <span style={{ fontSize: "1.1em", minWidth: 52 }}>
+                    <M>{item.math}</M>
+                  </span>
+                  <span style={{ color: "#4a4640", fontSize: 17 }}>→</span>
+                  <span style={{ fontSize: 15, color: "#c4bfb3", flex: 1 }}>{item.texto}</span>
+                  {item.expandable && (
+                    <span style={{
+                      color: tema.azul,
+                      fontSize: 12,
+                      display: "inline-block",
+                      transition: "transform 0.2s",
+                      transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+                      flexShrink: 0
+                    }}>▼</span>
+                  )}
+                </>
+              )}
+            </div>
+            {item.expandable && isOpen && item.detalles && (
+              <div style={{
+                borderTop: `1px solid ${tema.border}`,
+                padding: "10px 18px 12px",
+                display: "grid",
+                gridTemplateColumns: narrow ? "1fr" : "1fr 1fr",
+                gap: "5px 16px"
+              }}>
+                {item.detalles.map((d, j) => (
+                  <div key={j} style={{ display: "flex", alignItems: "baseline", gap: 7, fontSize: 13 }}>
+                    <span style={{ color: tema.azul, fontSize: 10, flexShrink: 0 }}>◆</span>
+                    <span style={{ color: "#c4bfb3" }}>{d}</span>
+                  </div>
+                ))}
+              </div>
             )}
           </div>
           );
@@ -1919,7 +1955,8 @@ function SlideCriterioDetalle({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "tangente-exterior"        && <TangenteExteriorSVG    tema={tema} />}
       {slide.svgDiagram === "angulo-inscrito"          && <AnguloInscritoSVG      tema={tema} />}
       {slide.svgDiagram === "escala-probabilidad"      && <EscalaProbabilidadSVG  tema={tema} />}
-      {slide.svgDiagram === "arbol-multiplicativo"     && <ProbArbolMultiplicativo tema={tema} />}
+      {slide.svgDiagram === "arbol-multiplicativo"     && <ProbArbolMultiplicativo  tema={tema} />}
+      {slide.svgDiagram === "arbol-tres-monedas"      && <ProbArbolTresMonedas     tema={tema} />}
       {slide.svgDiagram === "complemento"              && <ComplementoSVG         tema={tema} />}
       {slide.svgDiagram === "regla-suma"               && <ReglaSumaSVG           tema={tema} />}
       {slide.svgDiagram === "arbol-monedas"            && <ProbArbolMonedas       tema={tema} />}
@@ -3969,6 +4006,54 @@ function ProbArbolMonedas({ tema }) {
         preventScrolling={false}
         proOptions={{ hideAttribution: true }}
         style={{ background: 'transparent' }}
+      />
+    </div>
+  );
+}
+
+// ─── Árbol de 3 lanzamientos de moneda (principio multiplicativo) ─────────────
+function ProbArbolTresMonedas({ tema }) {
+  const T = tema.texto, a = tema.acento, bl = tema.azul, gr = tema.verde;
+  const eStyle = { stroke: 'rgba(255,255,255,0.28)', strokeWidth: 1.4 };
+  const lStyle = { fill: tema.azulTexto, fontSize: 9, fontFamily: 'IBM Plex Mono, monospace' };
+  const lBg = { fill: tema.bg, rx: 3 };
+  const ed = (id, s, t, lbl) => ({ id, source: s, target: t, style: eStyle, label: lbl, labelStyle: lStyle, labelBgStyle: lBg, labelShowBg: true });
+  // exactly-2-caras leaves highlighted in acento; 3 caras in verde; rest muted
+  const nodes = [
+    { id: 'root', type: 'probnodo', position: { x: 0,   y: 153 }, data: { label: '3 lanzam.', t: T, col: a  } },
+    { id: 'c1',   type: 'probnodo', position: { x: 140, y: 69  }, data: { label: 'Cara',      t: T, col: bl } },
+    { id: 'x1',   type: 'probnodo', position: { x: 140, y: 237 }, data: { label: 'Cruz',      t: T, col: bl } },
+    { id: 'cc',   type: 'probnodo', position: { x: 280, y: 27  }, data: { label: 'CC',        t: T, col: bl } },
+    { id: 'cx',   type: 'probnodo', position: { x: 280, y: 111 }, data: { label: 'CX',        t: T, col: bl } },
+    { id: 'xc',   type: 'probnodo', position: { x: 280, y: 195 }, data: { label: 'XC',        t: T, col: bl } },
+    { id: 'xx',   type: 'probnodo', position: { x: 280, y: 279 }, data: { label: 'XX',        t: T, col: bl } },
+    { id: 'ccc',  type: 'probnodo', position: { x: 430, y: 6   }, data: { label: 'CCC = ⅛',  t: T, col: gr } },
+    { id: 'ccx',  type: 'probnodo', position: { x: 430, y: 48  }, data: { label: 'CCX = ⅛',  t: T, col: a  } },
+    { id: 'cxc',  type: 'probnodo', position: { x: 430, y: 90  }, data: { label: 'CXC = ⅛',  t: T, col: a  } },
+    { id: 'cxx',  type: 'probnodo', position: { x: 430, y: 132 }, data: { label: 'CXX = ⅛',  t: T, col: tema.muted } },
+    { id: 'xcc',  type: 'probnodo', position: { x: 430, y: 174 }, data: { label: 'XCC = ⅛',  t: T, col: a  } },
+    { id: 'xcx',  type: 'probnodo', position: { x: 430, y: 216 }, data: { label: 'XCX = ⅛',  t: T, col: tema.muted } },
+    { id: 'xxc',  type: 'probnodo', position: { x: 430, y: 258 }, data: { label: 'XXC = ⅛',  t: T, col: tema.muted } },
+    { id: 'xxx',  type: 'probnodo', position: { x: 430, y: 300 }, data: { label: 'XXX = ⅛',  t: T, col: tema.rojo  } },
+  ];
+  const edges = [
+    ed('e1',  'root', 'c1',  'C'), ed('e2',  'root', 'x1',  'X'),
+    ed('e3',  'c1',   'cc',  'C'), ed('e4',  'c1',   'cx',  'X'),
+    ed('e5',  'x1',   'xc',  'C'), ed('e6',  'x1',   'xx',  'X'),
+    ed('e7',  'cc',   'ccc', 'C'), ed('e8',  'cc',   'ccx', 'X'),
+    ed('e9',  'cx',   'cxc', 'C'), ed('e10', 'cx',   'cxx', 'X'),
+    ed('e11', 'xc',   'xcc', 'C'), ed('e12', 'xc',   'xcx', 'X'),
+    ed('e13', 'xx',   'xxc', 'C'), ed('e14', 'xx',   'xxx', 'X'),
+  ];
+  return (
+    <div style={{ width: '100%', height: 340 }}>
+      <ReactFlow
+        nodes={nodes} edges={edges} nodeTypes={PROB_NODE_TYPES}
+        fitView fitViewOptions={{ padding: 0.08 }}
+        nodesDraggable={false} nodesConnectable={false} nodesFocusable={false}
+        edgesFocusable={false} panOnDrag={false} zoomOnScroll={false}
+        zoomOnPinch={false} zoomOnDoubleClick={false} preventScrolling={false}
+        proOptions={{ hideAttribution: true }} style={{ background: 'transparent' }}
       />
     </div>
   );

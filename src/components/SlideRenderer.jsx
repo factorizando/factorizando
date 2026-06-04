@@ -170,6 +170,7 @@ function SlidePortadaDiagram({ slide, tema }) {
   if (slide.svgDiagram === "ene-portada") return <EnePortadaSVG tema={tema} />;
   if (slide.svgDiagram === "ter-portada") return <TerPortadaSVG tema={tema} />;
   if (slide.svgDiagram === "ond-portada") return <OndPortadaSVG tema={tema} />;
+  if (slide.svgDiagram === "ele-portada") return <ElePortadaSVG tema={tema} />;
   const DecoSVG = tema.DecoSVG;
   return <DecoSVG tema={tema} />;
 }
@@ -683,6 +684,8 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "ter-transferencia"        && <TerTransferenciaSVG      tema={tema} />}
       {slide.svgDiagram === "ond-onda"                 && <OndOndaSVG               tema={tema} />}
       {slide.svgDiagram === "ond-tipos"                && <OndTiposSVG              tema={tema} />}
+      {slide.svgDiagram === "ele-coulomb"              && <EleCoulombSVG            tema={tema} />}
+      {slide.svgDiagram === "ele-magnetismo"           && <EleMagnetismoSVG         tema={tema} />}
 
       <div style={{ display: "flex", flexDirection: "column", gap: compact ? 8 : 10 }}>
         {slide.items.map((item, i) => {
@@ -1935,6 +1938,9 @@ function SlideCriterioDetalle({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "ter-gas"                  && <TerGasSVG              tema={tema} />}
       {slide.svgDiagram === "ond-reflexion-refraccion" && <OndReflexRefracSVG     tema={tema} />}
       {slide.svgDiagram === "ond-lente"                && <OndLenteSVG            tema={tema} />}
+      {slide.svgDiagram === "ele-coulomb"              && <EleCoulombSVG          tema={tema} />}
+      {slide.svgDiagram === "ele-circuito"             && <EleCircuitoSVG         tema={tema} />}
+      {slide.svgDiagram === "ele-serie-paralelo"       && <EleSerieParaleloSVG    tema={tema} />}
 
       <div
         onClick={() => onResaltar && onResaltar(1)}
@@ -5042,6 +5048,113 @@ function OndLenteSVG({ tema }) {
   );
 }
 
+// ═══════════════════════════════════════════════════════════════════════════
+// Diagramas de Electricidad y Magnetismo
+// ═══════════════════════════════════════════════════════════════════════════
+
+function ElePortadaSVG({ tema }) {
+  const a = tema.acento;
+  return (
+    <svg viewBox="0 0 250 120" width="100%" style={{ display: "block", maxHeight: 132, maxWidth: 320 }}>
+      <polygon points="138,14 104,62 124,62 100,106 152,52 130,52 152,14" fill={tema.acentoMed} stroke={a} strokeWidth="2.2" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function EleCoulombSVG({ tema }) {
+  const rj = tema.rojo, mu = tema.muted, T = tema.texto;
+  return (
+    <svg viewBox="0 0 250 110" width="100%" style={{ display: "block", maxHeight: 120 }}>
+      <line x1={76} y1={55} x2={174} y2={55} stroke={mu} strokeWidth="1" strokeDasharray="4 3" />
+      <text x={125} y={48} fill={mu} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">r</text>
+      <circle cx={60} cy={55} r={16} fill={`${rj}33`} stroke={rj} strokeWidth="1.8" />
+      <text x={60} y={61} fill={rj} fontSize="18" fontFamily="Georgia,serif" textAnchor="middle">+</text>
+      <circle cx={190} cy={55} r={16} fill={`${rj}33`} stroke={rj} strokeWidth="1.8" />
+      <text x={190} y={61} fill={rj} fontSize="18" fontFamily="Georgia,serif" textAnchor="middle">+</text>
+      <Vector x1={42} y1={55} x2={16} y2={55} color={T} label="F" lx={20} ly={48} />
+      <Vector x1={208} y1={55} x2={234} y2={55} color={T} label="F" lx={222} ly={48} />
+    </svg>
+  );
+}
+
+function EleCircuitoSVG({ tema }) {
+  const a = tema.acento, mu = tema.muted, T = tema.texto;
+  const zig = "100,28 106,20 112,36 118,20 124,36 130,20 136,36 142,20 150,28";
+  return (
+    <svg viewBox="0 0 250 122" width="100%" style={{ display: "block", maxHeight: 132 }}>
+      {/* alambres */}
+      <line x1={40} y1={28} x2={100} y2={28} stroke={mu} strokeWidth="1.8" />
+      <line x1={150} y1={28} x2={210} y2={28} stroke={mu} strokeWidth="1.8" />
+      <line x1={210} y1={28} x2={210} y2={96} stroke={mu} strokeWidth="1.8" />
+      <line x1={40} y1={28} x2={40} y2={96} stroke={mu} strokeWidth="1.8" />
+      <line x1={40} y1={96} x2={110} y2={96} stroke={mu} strokeWidth="1.8" />
+      <line x1={140} y1={96} x2={210} y2={96} stroke={mu} strokeWidth="1.8" />
+      {/* resistencia */}
+      <polyline points={zig} fill="none" stroke={a} strokeWidth="2.2" />
+      <text x={125} y={14} fill={a} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">R</text>
+      {/* batería */}
+      <line x1={118} y1={86} x2={118} y2={106} stroke={T} strokeWidth="2.2" />
+      <line x1={132} y1={91} x2={132} y2={101} stroke={T} strokeWidth="3.4" />
+      <text x={125} y={119} fill={T} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">V</text>
+      {/* corriente */}
+      <Vector x1={210} y1={50} x2={210} y2={74} color={a} label="I" lx={216} ly={66} />
+    </svg>
+  );
+}
+
+function EleSerieParaleloSVG({ tema }) {
+  const a = tema.acento, mu = tema.muted, T = tema.texto;
+  const z = (x) => `${x},34 ${x + 5},27 ${x + 11},41 ${x + 17},27 ${x + 23},41 ${x + 29},27 ${x + 35},34`;
+  const zp = (x, y) => `${x},${y} ${x + 5},${y - 7} ${x + 11},${y + 7} ${x + 17},${y - 7} ${x + 23},${y + 7} ${x + 29},${y - 7} ${x + 35},${y}`;
+  return (
+    <svg viewBox="0 0 250 132" width="100%" style={{ display: "block", maxHeight: 142 }}>
+      {/* serie */}
+      <text x={12} y={38} fill={mu} fontSize="9.5" fontFamily="'DM Sans',sans-serif">serie</text>
+      <line x1={56} y1={34} x2={84} y2={34} stroke={mu} strokeWidth="1.6" />
+      <polyline points={z(84)} fill="none" stroke={a} strokeWidth="2" />
+      <line x1={119} y1={34} x2={147} y2={34} stroke={mu} strokeWidth="1.6" />
+      <polyline points={z(147)} fill="none" stroke={a} strokeWidth="2" />
+      <line x1={182} y1={34} x2={214} y2={34} stroke={mu} strokeWidth="1.6" />
+      {/* paralelo */}
+      <text x={12} y={99} fill={mu} fontSize="9.5" fontFamily="'DM Sans',sans-serif">paralelo</text>
+      <line x1={64} y1={96} x2={84} y2={96} stroke={mu} strokeWidth="1.6" />
+      <line x1={84} y1={78} x2={84} y2={114} stroke={mu} strokeWidth="1.6" />
+      <line x1={186} y1={78} x2={186} y2={114} stroke={mu} strokeWidth="1.6" />
+      <line x1={186} y1={96} x2={206} y2={96} stroke={mu} strokeWidth="1.6" />
+      <polyline points={zp(110, 78)} fill="none" stroke={a} strokeWidth="2" />
+      <line x1={84} y1={78} x2={110} y2={78} stroke={mu} strokeWidth="1.6" />
+      <line x1={145} y1={78} x2={186} y2={78} stroke={mu} strokeWidth="1.6" />
+      <polyline points={zp(110, 114)} fill="none" stroke={a} strokeWidth="2" />
+      <line x1={84} y1={114} x2={110} y2={114} stroke={mu} strokeWidth="1.6" />
+      <line x1={145} y1={114} x2={186} y2={114} stroke={mu} strokeWidth="1.6" />
+    </svg>
+  );
+}
+
+function EleMagnetismoSVG({ tema }) {
+  const rj = tema.rojo, az = tema.azul, mu = tema.muted, T = tema.texto;
+  const mx = 78, mw = 94, my = 52, mh = 22;
+  return (
+    <svg viewBox="0 0 250 120" width="100%" style={{ display: "block", maxHeight: 130 }}>
+      {/* campo */}
+      {[0, 1].map((i) => {
+        const d = 14 + i * 14;
+        return (
+          <g key={i}>
+            <path d={`M ${mx} ${my + mh / 2} C ${mx - 6} ${my - d} ${mx + mw + 6} ${my - d} ${mx + mw} ${my + mh / 2}`} fill="none" stroke={mu} strokeWidth="1.2" opacity="0.6" />
+            <path d={`M ${mx} ${my + mh / 2} C ${mx - 6} ${my + mh + d} ${mx + mw + 6} ${my + mh + d} ${mx + mw} ${my + mh / 2}`} fill="none" stroke={mu} strokeWidth="1.2" opacity="0.6" />
+          </g>
+        );
+      })}
+      {/* imán */}
+      <rect x={mx} y={my} width={mw / 2} height={mh} fill={`${rj}44`} stroke={rj} strokeWidth="1.6" />
+      <rect x={mx + mw / 2} y={my} width={mw / 2} height={mh} fill={`${az}44`} stroke={az} strokeWidth="1.6" />
+      <text x={mx + mw / 4} y={my + 16} fill={rj} fontSize="14" fontFamily="Georgia,serif" fontWeight="700" textAnchor="middle">N</text>
+      <text x={mx + 3 * mw / 4} y={my + 16} fill={az} fontSize="14" fontFamily="Georgia,serif" fontWeight="700" textAnchor="middle">S</text>
+    </svg>
+  );
+}
+
 function renderEjercicioSVG(svgDiagram, tema) {
   if (svgDiagram === "ce1-lll")      return <Ce1LllSVG     tema={tema} />;
   if (svgDiagram === "ce2-medidas")  return <Ce2CondMedSVG tema={tema} />;
@@ -5113,6 +5226,10 @@ function renderEjercicioSVG(svgDiagram, tema) {
   if (svgDiagram === "ond-tipos")          return <OndTiposSVG         tema={tema} />;
   if (svgDiagram === "ond-reflexion-refraccion") return <OndReflexRefracSVG tema={tema} />;
   if (svgDiagram === "ond-lente")          return <OndLenteSVG         tema={tema} />;
+  if (svgDiagram === "ele-coulomb")        return <EleCoulombSVG       tema={tema} />;
+  if (svgDiagram === "ele-circuito")       return <EleCircuitoSVG      tema={tema} />;
+  if (svgDiagram === "ele-serie-paralelo") return <EleSerieParaleloSVG tema={tema} />;
+  if (svgDiagram === "ele-magnetismo")     return <EleMagnetismoSVG    tema={tema} />;
   if (svgDiagram === "as1-cuad-circ") return <As1CuadCircSVG tema={tema} />;
   if (svgDiagram === "as2-corona")   return <As2CoronaSVG   tema={tema} />;
   if (svgDiagram === "as3-semi-rect") return <As3SemiRectSVG tema={tema} />;

@@ -96,6 +96,11 @@ export const SUBJECTS_UNI = [
         name: "Vocabulario",
         children: [
           {
+            id: "vocabulario-funciones-lengua",
+            name: "Vocabulario y Funciones de la Lengua",
+            presentacion: "/ver/vocabulario-unam",
+          },
+          {
             id: "sinonimos-antonimos-analogias",
             name: "Sinónimos, Antónimos, Homófonos y Analogías",
             quiz: "/cuestionario/sinonimos-antonimos-analogias",

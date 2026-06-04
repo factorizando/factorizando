@@ -6,6 +6,7 @@ import { supabase } from "../lib/supabase.js";
 import { buscarPresentacion } from "../data/presentaciones/presentacionesIndex.js";
 import { obtenerTema } from "../data/presentaciones/temas.jsx";
 import SlideRenderer from "../components/SlideRenderer.jsx";
+import AnotacionOverlay from "../components/AnotacionOverlay.jsx";
 
 function generarCodigo() {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -26,6 +27,7 @@ export default function PresentacionDirector() {
   const [cargando, setCargando] = useState(false);
   const [error, setError] = useState("");
   const [resaltado, setResaltado] = useState(null);
+  const [anotacion, setAnotacion] = useState("");
   const canalRef = useRef(null);
   const salaRef = useRef(null);
 
@@ -122,6 +124,16 @@ export default function PresentacionDirector() {
       type: "broadcast",
       event: "resaltado",
       payload: { idx: nuevo },
+    });
+  }
+
+  // Anotación en vivo: muestra el texto en la diapositiva y lo envía a los alumnos.
+  function emitirAnotacion(texto) {
+    setAnotacion(texto);
+    salaRef.current?.send({
+      type: "broadcast",
+      event: "anotacion",
+      payload: { texto },
     });
   }
 
@@ -389,6 +401,68 @@ export default function PresentacionDirector() {
           resaltadoIdx={resaltado}
           onResaltar={resaltar}
         />
+        <AnotacionOverlay texto={anotacion} tema={tema} />
+      </div>
+
+      {/* Barra de anotación en vivo */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 10,
+          padding: "0 24px",
+          height: 46,
+          borderTop: `1px solid ${tema.border}`,
+          background: "rgba(0,0,0,0.25)",
+          flexShrink: 0,
+        }}
+      >
+        <span
+          style={{
+            fontFamily: tema.mono,
+            fontSize: 11,
+            color: tema.muted,
+            letterSpacing: "0.08em",
+            whiteSpace: "nowrap",
+          }}
+        >
+          ✍ En pantalla
+        </span>
+        <input
+          value={anotacion}
+          onChange={(e) => emitirAnotacion(e.target.value)}
+          placeholder="Escribe una palabra u oración para mostrarla en la diapositiva…"
+          style={{
+            flex: 1,
+            minWidth: 0,
+            background: "rgba(255,255,255,0.05)",
+            border: `1px solid ${tema.border}`,
+            borderRadius: 8,
+            padding: "7px 12px",
+            color: tema.texto,
+            fontSize: 14,
+            fontFamily: "inherit",
+            outline: "none",
+          }}
+        />
+        {anotacion && (
+          <button
+            onClick={() => emitirAnotacion("")}
+            style={{
+              flexShrink: 0,
+              background: "transparent",
+              border: `1px solid ${tema.border}`,
+              color: tema.muted,
+              borderRadius: 6,
+              padding: "5px 14px",
+              fontSize: 13,
+              cursor: "pointer",
+              fontFamily: "inherit",
+            }}
+          >
+            Limpiar
+          </button>
+        )}
       </div>
 
       {/* Barra inferior: navegación */}

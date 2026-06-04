@@ -6,6 +6,7 @@ import { supabase } from "../lib/supabase.js";
 import { buscarPresentacion } from "../data/presentaciones/presentacionesIndex.js";
 import { obtenerTema } from "../data/presentaciones/temas.jsx";
 import SlideRenderer from "../components/SlideRenderer.jsx";
+import AnotacionOverlay from "../components/AnotacionOverlay.jsx";
 
 export default function PresentacionAlumno() {
   const [codigo, setCodigo] = useState("");
@@ -18,6 +19,7 @@ export default function PresentacionAlumno() {
   // Respuestas dadas: { [slideId]: opcionIdx }
   const [respuestas, setRespuestas] = useState({});
   const [resaltado, setResaltado] = useState(null);
+  const [anotacion, setAnotacion] = useState("");
   const [user, setUser] = useState(null);
   const [puntajeFinal, setPuntajeFinal] = useState(null);
   const canalRef = useRef(null);
@@ -155,6 +157,9 @@ export default function PresentacionAlumno() {
       .channel(`sala-${sesion.id}`)
       .on("broadcast", { event: "resaltado" }, ({ payload }) => {
         setResaltado(payload.idx);
+      })
+      .on("broadcast", { event: "anotacion" }, ({ payload }) => {
+        setAnotacion(payload.texto);
       })
       .subscribe();
 
@@ -473,7 +478,7 @@ export default function PresentacionAlumno() {
       </div>
 
       {/* Diapositiva actual */}
-      <div style={{ flex: 1, overflow: "hidden" }}>
+      <div style={{ flex: 1, overflow: "hidden", position: "relative" }}>
         <SlideRenderer
           slide={slide}
           tema={tema}
@@ -482,6 +487,7 @@ export default function PresentacionAlumno() {
           onResponder={responder}
           resaltadoIdx={resaltado}
         />
+        <AnotacionOverlay texto={anotacion} tema={tema} />
       </div>
 
       {/* Indicador de espera (para slides que no son ejercicios) */}

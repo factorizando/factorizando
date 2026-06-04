@@ -145,6 +145,14 @@ export const SUBJECTS_UNI = [
     color: "#34d399",
     children: [
       { id: "fis-pc", name: "Pensamiento Científico", presentacion: "/ver/fisica-pensamiento-cientifico" },
+      { id: "fis-cinematica",     name: "Cinemática",                presentacion: "/ver/cinematica"     },
+      { id: "fis-dinamica",       name: "Leyes de Newton",           presentacion: "/ver/dinamica"       },
+      { id: "fis-energia",        name: "Trabajo y Energía",         presentacion: "/ver/energia"        },
+      { id: "fis-termodinamica",  name: "Termodinámica",             presentacion: "/ver/termodinamica"  },
+      { id: "fis-ondas",          name: "Ondas, Sonido y Óptica",    presentacion: "/ver/ondas"          },
+      { id: "fis-electricidad",   name: "Electricidad y Magnetismo", presentacion: "/ver/electricidad"   },
+      { id: "fis-fluidos",        name: "Fluidos",                   presentacion: "/ver/fluidos"        },
+      { id: "fis-fisica-moderna", name: "Física Moderna",            presentacion: "/ver/fisica-moderna" },
     ],
   },
   {

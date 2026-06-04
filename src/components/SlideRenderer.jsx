@@ -172,6 +172,7 @@ function SlidePortadaDiagram({ slide, tema }) {
   if (slide.svgDiagram === "ond-portada") return <OndPortadaSVG tema={tema} />;
   if (slide.svgDiagram === "ele-portada") return <ElePortadaSVG tema={tema} />;
   if (slide.svgDiagram === "flu-portada") return <FluPortadaSVG tema={tema} />;
+  if (slide.svgDiagram === "mod-portada") return <ModPortadaSVG tema={tema} />;
   const DecoSVG = tema.DecoSVG;
   return <DecoSVG tema={tema} />;
 }
@@ -688,6 +689,8 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "ele-coulomb"              && <EleCoulombSVG            tema={tema} />}
       {slide.svgDiagram === "ele-magnetismo"           && <EleMagnetismoSVG         tema={tema} />}
       {slide.svgDiagram === "flu-continuidad"          && <FluContinuidadSVG        tema={tema} />}
+      {slide.svgDiagram === "mod-atomo"                && <ModAtomoSVG              tema={tema} />}
+      {slide.svgDiagram === "mod-espectro"             && <ModEspectroSVG           tema={tema} />}
 
       <div style={{ display: "flex", flexDirection: "column", gap: compact ? 8 : 10 }}>
         {slide.items.map((item, i) => {
@@ -1947,6 +1950,9 @@ function SlideCriterioDetalle({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "flu-pascal"               && <FluPascalSVG           tema={tema} />}
       {slide.svgDiagram === "flu-arquimedes"           && <FluArquimedesSVG       tema={tema} />}
       {slide.svgDiagram === "flu-continuidad"          && <FluContinuidadSVG      tema={tema} />}
+      {slide.svgDiagram === "mod-atomo"                && <ModAtomoSVG            tema={tema} />}
+      {slide.svgDiagram === "mod-fotoelectrico"        && <ModFotoelectricoSVG    tema={tema} />}
+      {slide.svgDiagram === "mod-radioactividad"       && <ModRadioactividadSVG   tema={tema} />}
 
       <div
         onClick={() => onResaltar && onResaltar(1)}
@@ -5249,6 +5255,109 @@ function FluContinuidadSVG({ tema }) {
   );
 }
 
+// ═══════════════════════════════════════════════════════════════════════════
+// Diagramas de Física Moderna
+// ═══════════════════════════════════════════════════════════════════════════
+
+function ModPortadaSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul;
+  return (
+    <svg viewBox="0 0 250 120" width="100%" style={{ display: "block", maxHeight: 132, maxWidth: 320 }}>
+      <g transform="translate(125 60)">
+        <ellipse rx="72" ry="26" fill="none" stroke={a} strokeWidth="1.6" />
+        <ellipse rx="72" ry="26" fill="none" stroke={a} strokeWidth="1.6" transform="rotate(60)" />
+        <ellipse rx="72" ry="26" fill="none" stroke={a} strokeWidth="1.6" transform="rotate(120)" />
+        <circle r="11" fill={tema.acentoMed} stroke={a} strokeWidth="2" />
+        <g><circle cx="72" cy="0" r="4.5" fill={bl} /></g>
+        <g transform="rotate(60)"><circle cx="-72" cy="0" r="4.5" fill={bl} /></g>
+        <g transform="rotate(120)"><circle cx="72" cy="0" r="4.5" fill={bl} /></g>
+      </g>
+    </svg>
+  );
+}
+
+function ModAtomoSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, rj = tema.rojo, mu = tema.muted, T = tema.texto;
+  return (
+    <svg viewBox="0 0 250 130" width="100%" style={{ display: "block", maxHeight: 140 }}>
+      <g transform="translate(112 60)">
+        <ellipse rx="66" ry="24" fill="none" stroke={mu} strokeWidth="1.3" />
+        <ellipse rx="66" ry="24" fill="none" stroke={mu} strokeWidth="1.3" transform="rotate(60)" />
+        <ellipse rx="66" ry="24" fill="none" stroke={mu} strokeWidth="1.3" transform="rotate(120)" />
+        <circle cx="-4" cy="-3" r="6" fill={`${rj}cc`} />
+        <circle cx="5" cy="2" r="6" fill={mu} />
+        <circle cx="-2" cy="6" r="6" fill={`${rj}cc`} />
+        <circle cx="6" cy="-5" r="6" fill={mu} />
+        <g><circle cx="66" cy="0" r="4.5" fill={bl} /></g>
+        <g transform="rotate(60)"><circle cx="-66" cy="0" r="4.5" fill={bl} /></g>
+        <g transform="rotate(120)"><circle cx="66" cy="0" r="4.5" fill={bl} /></g>
+      </g>
+      <text x={112} y={122} fill={mu} fontSize="9.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">núcleo (p⁺ + n⁰)</text>
+      <text x={206} y={62} fill={bl} fontSize="11" fontFamily="Georgia,serif">e⁻</text>
+    </svg>
+  );
+}
+
+function ModEspectroSVG({ tema }) {
+  const mu = tema.muted, T = tema.texto;
+  return (
+    <svg viewBox="0 0 250 108" width="100%" style={{ display: "block", maxHeight: 116 }}>
+      <defs>
+        <linearGradient id="mod-spec" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor="#7f1d1d" />
+          <stop offset="20%" stopColor="#f97316" />
+          <stop offset="45%" stopColor="#eab308" />
+          <stop offset="55%" stopColor="#22c55e" />
+          <stop offset="78%" stopColor="#3b82f6" />
+          <stop offset="100%" stopColor="#7c3aed" />
+        </linearGradient>
+      </defs>
+      <rect x={20} y={40} width={210} height={20} rx={3} fill="url(#mod-spec)" />
+      <rect x={108} y={38} width={34} height={24} fill="none" stroke={T} strokeWidth="1.3" />
+      <text x={125} y={32} fill={T} fontSize="9.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">visible</text>
+      <text x={22} y={76} fill={mu} fontSize="9.5" fontFamily="'DM Sans',sans-serif">radio</text>
+      <text x={228} y={76} fill={mu} fontSize="9.5" fontFamily="'DM Sans',sans-serif" textAnchor="end">gamma</text>
+      <Vector x1={20} y1={92} x2={226} y2={92} color={mu} label="" sw={1.4} />
+      <text x={226} y={104} fill={mu} fontSize="9" fontFamily="'DM Sans',sans-serif" textAnchor="end">frecuencia y energía →</text>
+    </svg>
+  );
+}
+
+function ModFotoelectricoSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted;
+  const gold = "#eab308";
+  return (
+    <svg viewBox="0 0 250 120" width="100%" style={{ display: "block", maxHeight: 130 }}>
+      <rect x={40} y={84} width={170} height={16} rx={2} fill={tema.acentoMed} stroke={a} strokeWidth="1.5" />
+      <text x={125} y={114} fill={mu} fontSize="9.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">metal</text>
+      {[72, 104, 136].map((x, i) => (
+        <g key={i}><Vector x1={x - 28} y1={20} x2={x} y2={82} color={gold} label="" sw={1.8} /></g>
+      ))}
+      <text x={36} y={26} fill={gold} fontSize="10" fontFamily="'DM Sans',sans-serif">luz (fotones)</text>
+      {[160, 182, 204].map((x, i) => (
+        <g key={i}>
+          <circle cx={x} cy={58 - i * 6} r={5.5} fill={bl} />
+          <text x={x} y={62 - i * 6} fill="#fff" fontSize="8" fontFamily="Georgia,serif" textAnchor="middle">−</text>
+        </g>
+      ))}
+      <text x={200} y={34} fill={bl} fontSize="10" fontFamily="Georgia,serif">e⁻ libres</text>
+    </svg>
+  );
+}
+
+function ModRadioactividadSVG({ tema }) {
+  const rj = tema.rojo, gr = tema.verde, bl = tema.azul, T = tema.texto;
+  return (
+    <svg viewBox="0 0 250 120" width="100%" style={{ display: "block", maxHeight: 130 }}>
+      <circle cx={50} cy={60} r={16} fill={tema.acentoMed} stroke={tema.acento} strokeWidth="1.8" />
+      <text x={50} y={88} fill={tema.muted} fontSize="9" fontFamily="'DM Sans',sans-serif" textAnchor="middle">núcleo</text>
+      <Vector x1={66} y1={50} x2={140} y2={24} color={rj} label="α" lx={146} ly={26} />
+      <Vector x1={68} y1={60} x2={152} y2={60} color={gr} label="β" lx={158} ly={64} />
+      <Vector x1={66} y1={70} x2={140} y2={96} color={bl} label="γ" lx={146} ly={100} />
+    </svg>
+  );
+}
+
 function renderEjercicioSVG(svgDiagram, tema) {
   if (svgDiagram === "ce1-lll")      return <Ce1LllSVG     tema={tema} />;
   if (svgDiagram === "ce2-medidas")  return <Ce2CondMedSVG tema={tema} />;
@@ -5328,6 +5437,10 @@ function renderEjercicioSVG(svgDiagram, tema) {
   if (svgDiagram === "flu-pascal")         return <FluPascalSVG        tema={tema} />;
   if (svgDiagram === "flu-arquimedes")     return <FluArquimedesSVG    tema={tema} />;
   if (svgDiagram === "flu-continuidad")    return <FluContinuidadSVG   tema={tema} />;
+  if (svgDiagram === "mod-atomo")          return <ModAtomoSVG         tema={tema} />;
+  if (svgDiagram === "mod-espectro")       return <ModEspectroSVG      tema={tema} />;
+  if (svgDiagram === "mod-fotoelectrico")  return <ModFotoelectricoSVG tema={tema} />;
+  if (svgDiagram === "mod-radioactividad") return <ModRadioactividadSVG tema={tema} />;
   if (svgDiagram === "as1-cuad-circ") return <As1CuadCircSVG tema={tema} />;
   if (svgDiagram === "as2-corona")   return <As2CoronaSVG   tema={tema} />;
   if (svgDiagram === "as3-semi-rect") return <As3SemiRectSVG tema={tema} />;

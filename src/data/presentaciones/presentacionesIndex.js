@@ -28,6 +28,7 @@ import { PRESENTACION as TERMODINAMICA } from "./termodinamica.js";
 import { PRESENTACION as ONDAS } from "./ondas.js";
 import { PRESENTACION as ELECTRICIDAD } from "./electricidad.js";
 import { PRESENTACION as FLUIDOS } from "./fluidos.js";
+import { PRESENTACION as FISICA_MODERNA } from "./fisica-moderna.js";
 
 export const PRESENTACIONES_INDEX = {
   "semejanza-triangulos": SEMEJANZA_TRIANGULOS,
@@ -56,6 +57,7 @@ export const PRESENTACIONES_INDEX = {
   "ondas": ONDAS,
   "electricidad": ELECTRICIDAD,
   "fluidos": FLUIDOS,
+  "fisica-moderna": FISICA_MODERNA,
 };
 
 export function buscarPresentacion(id) {

@@ -171,6 +171,7 @@ function SlidePortadaDiagram({ slide, tema }) {
   if (slide.svgDiagram === "ter-portada") return <TerPortadaSVG tema={tema} />;
   if (slide.svgDiagram === "ond-portada") return <OndPortadaSVG tema={tema} />;
   if (slide.svgDiagram === "ele-portada") return <ElePortadaSVG tema={tema} />;
+  if (slide.svgDiagram === "flu-portada") return <FluPortadaSVG tema={tema} />;
   const DecoSVG = tema.DecoSVG;
   return <DecoSVG tema={tema} />;
 }
@@ -686,6 +687,7 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "ond-tipos"                && <OndTiposSVG              tema={tema} />}
       {slide.svgDiagram === "ele-coulomb"              && <EleCoulombSVG            tema={tema} />}
       {slide.svgDiagram === "ele-magnetismo"           && <EleMagnetismoSVG         tema={tema} />}
+      {slide.svgDiagram === "flu-continuidad"          && <FluContinuidadSVG        tema={tema} />}
 
       <div style={{ display: "flex", flexDirection: "column", gap: compact ? 8 : 10 }}>
         {slide.items.map((item, i) => {
@@ -1941,6 +1943,10 @@ function SlideCriterioDetalle({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "ele-coulomb"              && <EleCoulombSVG          tema={tema} />}
       {slide.svgDiagram === "ele-circuito"             && <EleCircuitoSVG         tema={tema} />}
       {slide.svgDiagram === "ele-serie-paralelo"       && <EleSerieParaleloSVG    tema={tema} />}
+      {slide.svgDiagram === "flu-presion"              && <FluPresionSVG          tema={tema} />}
+      {slide.svgDiagram === "flu-pascal"               && <FluPascalSVG           tema={tema} />}
+      {slide.svgDiagram === "flu-arquimedes"           && <FluArquimedesSVG       tema={tema} />}
+      {slide.svgDiagram === "flu-continuidad"          && <FluContinuidadSVG      tema={tema} />}
 
       <div
         onClick={() => onResaltar && onResaltar(1)}
@@ -5155,6 +5161,94 @@ function EleMagnetismoSVG({ tema }) {
   );
 }
 
+// ═══════════════════════════════════════════════════════════════════════════
+// Diagramas de Fluidos
+// ═══════════════════════════════════════════════════════════════════════════
+
+function FluPortadaSVG({ tema }) {
+  const a = tema.acento, mu = tema.muted;
+  return (
+    <svg viewBox="0 0 250 120" width="100%" style={{ display: "block", maxHeight: 132, maxWidth: 320 }}>
+      <path d="M 95 32 L 95 100 L 155 100 L 155 32" fill="none" stroke={mu} strokeWidth="1.8" />
+      <path d="M 95 58 Q 110 50 125 58 T 155 58 L 155 100 L 95 100 Z" fill={`${a}33`} stroke={a} strokeWidth="1.4" />
+      <path d="M 125 12 C 116 24 116 32 125 32 C 134 32 134 24 125 12 Z" fill={`${a}55`} stroke={a} strokeWidth="1.4" />
+    </svg>
+  );
+}
+
+function FluPresionSVG({ tema }) {
+  const a = tema.acento, mu = tema.muted, az = tema.azul;
+  const px = 125, py = 92;
+  return (
+    <svg viewBox="0 0 250 132" width="100%" style={{ display: "block", maxHeight: 142 }}>
+      <path d="M 60 22 L 60 118 L 190 118 L 190 22" fill="none" stroke={mu} strokeWidth="1.8" />
+      <rect x={61} y={30} width={128} height={88} fill={`${az}22`} />
+      <line x1={61} y1={30} x2={189} y2={30} stroke={az} strokeWidth="1.4" />
+      <line x1={px} y1={30} x2={px} y2={py} stroke={mu} strokeWidth="1" strokeDasharray="3 3" />
+      <text x={px + 6} y={62} fill={mu} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">h</text>
+      {[0, 60, 120, 180, 240, 300].map((deg) => {
+        const r = deg * Math.PI / 180;
+        const x2 = px + 18 * Math.cos(r), y2 = py + 18 * Math.sin(r);
+        return <g key={deg}><line x1={px} y1={py} x2={x2} y2={y2} stroke={a} strokeWidth="1.5" /><polygon points={arrowHead(px, py, x2, y2, 5)} fill={a} /></g>;
+      })}
+      <circle cx={px} cy={py} r={3} fill={a} />
+    </svg>
+  );
+}
+
+function FluPascalSVG({ tema }) {
+  const a = tema.acento, mu = tema.muted, az = tema.azul, T = tema.texto;
+  return (
+    <svg viewBox="0 0 250 124" width="100%" style={{ display: "block", maxHeight: 134 }}>
+      {/* líquido en U */}
+      <path d="M 42 56 L 42 100 L 208 100 L 208 56 L 188 56 L 188 84 L 62 84 L 62 56 Z" fill={`${az}33`} stroke={az} strokeWidth="1.4" />
+      {/* tubos */}
+      <line x1={42} y1={48} x2={42} y2={100} stroke={mu} strokeWidth="1.6" />
+      <line x1={62} y1={48} x2={62} y2={84} stroke={mu} strokeWidth="1.6" />
+      <line x1={188} y1={48} x2={188} y2={84} stroke={mu} strokeWidth="1.6" />
+      <line x1={208} y1={48} x2={208} y2={100} stroke={mu} strokeWidth="1.6" />
+      {/* pistón pequeño */}
+      <rect x={40} y={48} width={24} height={7} fill={tema.acentoMed} stroke={a} strokeWidth="1.4" />
+      <Vector x1={52} y1={30} x2={52} y2={46} color={a} label="" sw={2} />
+      <text x={30} y={26} fill={T} fontSize="10" fontFamily="Georgia,serif" fontStyle="italic">F₁,A₁</text>
+      {/* pistón grande */}
+      <rect x={186} y={48} width={24} height={7} fill={tema.acentoMed} stroke={a} strokeWidth="1.4" />
+      <Vector x1={198} y1={46} x2={198} y2={26} color={a} label="" sw={2.6} />
+      <text x={182} y={20} fill={T} fontSize="10" fontFamily="Georgia,serif" fontStyle="italic">F₂,A₂</text>
+    </svg>
+  );
+}
+
+function FluArquimedesSVG({ tema }) {
+  const a = tema.acento, mu = tema.muted, az = tema.azul, rj = tema.rojo, gr = tema.verde;
+  const surf = 52;
+  return (
+    <svg viewBox="0 0 250 130" width="100%" style={{ display: "block", maxHeight: 140 }}>
+      <path d="M 55 28 L 55 118 L 195 118 L 195 28" fill="none" stroke={mu} strokeWidth="1.8" />
+      <rect x={56} y={surf} width={138} height={66} fill={`${az}22`} />
+      <line x1={56} y1={surf} x2={194} y2={surf} stroke={az} strokeWidth="1.4" />
+      <rect x={104} y={38} width={42} height={34} fill={tema.acentoMed} stroke={a} strokeWidth="1.6" />
+      <Vector x1={125} y1={72} x2={125} y2={92} color={gr} label="E" lx={131} ly={88} />
+      <Vector x1={125} y1={38} x2={125} y2={18} color={rj} label="P" lx={131} ly={26} />
+    </svg>
+  );
+}
+
+function FluContinuidadSVG({ tema }) {
+  const a = tema.acento, mu = tema.muted, az = tema.azul, T = tema.texto;
+  return (
+    <svg viewBox="0 0 250 110" width="100%" style={{ display: "block", maxHeight: 120 }}>
+      <path d="M 30 30 L 120 30 L 220 46 L 220 64 L 120 80 L 30 80 Z" fill={`${az}22`} stroke={mu} strokeWidth="1.8" />
+      <Vector x1={56} y1={56} x2={86} y2={56} color={a} label="" sw={2.2} />
+      <text x={66} y={70} fill={T} fontSize="10" fontFamily="Georgia,serif" fontStyle="italic">v₁</text>
+      <Vector x1={150} y1={56} x2={200} y2={56} color={a} label="" sw={2.2} />
+      <text x={170} y={70} fill={T} fontSize="10" fontFamily="Georgia,serif" fontStyle="italic">v₂</text>
+      <text x={36} y={24} fill={mu} fontSize="9.5" fontFamily="Georgia,serif" fontStyle="italic">A₁</text>
+      <text x={206} y={40} fill={mu} fontSize="9.5" fontFamily="Georgia,serif" fontStyle="italic">A₂</text>
+    </svg>
+  );
+}
+
 function renderEjercicioSVG(svgDiagram, tema) {
   if (svgDiagram === "ce1-lll")      return <Ce1LllSVG     tema={tema} />;
   if (svgDiagram === "ce2-medidas")  return <Ce2CondMedSVG tema={tema} />;
@@ -5230,6 +5324,10 @@ function renderEjercicioSVG(svgDiagram, tema) {
   if (svgDiagram === "ele-circuito")       return <EleCircuitoSVG      tema={tema} />;
   if (svgDiagram === "ele-serie-paralelo") return <EleSerieParaleloSVG tema={tema} />;
   if (svgDiagram === "ele-magnetismo")     return <EleMagnetismoSVG    tema={tema} />;
+  if (svgDiagram === "flu-presion")        return <FluPresionSVG       tema={tema} />;
+  if (svgDiagram === "flu-pascal")         return <FluPascalSVG        tema={tema} />;
+  if (svgDiagram === "flu-arquimedes")     return <FluArquimedesSVG    tema={tema} />;
+  if (svgDiagram === "flu-continuidad")    return <FluContinuidadSVG   tema={tema} />;
   if (svgDiagram === "as1-cuad-circ") return <As1CuadCircSVG tema={tema} />;
   if (svgDiagram === "as2-corona")   return <As2CoronaSVG   tema={tema} />;
   if (svgDiagram === "as3-semi-rect") return <As3SemiRectSVG tema={tema} />;

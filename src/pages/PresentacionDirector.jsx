@@ -7,6 +7,7 @@ import { buscarPresentacion } from "../data/presentaciones/presentacionesIndex.j
 import { obtenerTema } from "../data/presentaciones/temas.jsx";
 import SlideRenderer from "../components/SlideRenderer.jsx";
 import AnotacionOverlay from "../components/AnotacionOverlay.jsx";
+import PaletaSimbolos, { CARET } from "../components/PaletaSimbolos.jsx";
 
 function generarCodigo() {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -30,6 +31,7 @@ export default function PresentacionDirector() {
   const [anotacion, setAnotacion] = useState("");
   const canalRef = useRef(null);
   const salaRef = useRef(null);
+  const anotacionInputRef = useRef(null);
 
   if (!PRESENTACION) {
     return (
@@ -134,6 +136,40 @@ export default function PresentacionDirector() {
       type: "broadcast",
       event: "anotacion",
       payload: { texto },
+    });
+  }
+
+  // Inserta el LaTeX de un símbolo en la posición del cursor. Si el cursor no
+  // está dentro de una zona $...$, envuelve el símbolo en $ $ para que se
+  // renderice. El marcador CARET indica dónde dejar el cursor en plantillas.
+  function insertarEnAnotacion(ins) {
+    const el = anotacionInputRef.current;
+    const inicio = el ? el.selectionStart : anotacion.length;
+    const fin = el ? el.selectionEnd : anotacion.length;
+    const antes = anotacion.slice(0, inicio);
+    const despues = anotacion.slice(fin);
+    const dentroMath = (antes.match(/\$/g) || []).length % 2 === 1;
+
+    let carga = dentroMath ? ins : "$" + ins + "$";
+    let caretRel;
+    const marca = carga.indexOf(CARET);
+    if (marca >= 0) {
+      carga = carga.slice(0, marca) + carga.slice(marca + 1);
+      caretRel = marca;
+    } else {
+      // tras el símbolo; si añadimos $ de cierre, deja el cursor antes de él.
+      caretRel = dentroMath ? carga.length : carga.length - 1;
+    }
+
+    const pos = inicio + caretRel;
+    emitirAnotacion(antes + carga + despues);
+    // En el siguiente frame el input ya tiene el valor nuevo: reubica el cursor.
+    requestAnimationFrame(() => {
+      const el2 = anotacionInputRef.current;
+      if (el2) {
+        el2.focus();
+        el2.setSelectionRange(pos, pos);
+      }
     });
   }
 
@@ -429,6 +465,7 @@ export default function PresentacionDirector() {
           ✍ En pantalla
         </span>
         <input
+          ref={anotacionInputRef}
           value={anotacion}
           onChange={(e) => emitirAnotacion(e.target.value)}
           placeholder="Escribe una palabra u oración para mostrarla en la diapositiva…"
@@ -445,6 +482,7 @@ export default function PresentacionDirector() {
             outline: "none",
           }}
         />
+        <PaletaSimbolos tema={tema} onInsert={insertarEnAnotacion} />
         {anotacion && (
           <button
             onClick={() => emitirAnotacion("")}

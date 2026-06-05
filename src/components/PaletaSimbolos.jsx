@@ -10,18 +10,26 @@ import { M } from "../data/teoria/shared.jsx";
 
 export const CARET = "‸"; // ‸ marcador interno (nunca se muestra)
 
+// Rectángulo áureo vertical: el alto es el lado largo (alto = ancho · φ).
+const PHI = 1.618;
+const POP_ANCHO = 300;
+const POP_ALTO = Math.round(POP_ANCHO * PHI); // ≈ 485
+
 // { t: LaTeX para la vista previa, ins?: LaTeX a insertar si difiere de t }
 const CATEGORIAS = [
   {
     nombre: "Griegas",
     simbolos: [
       { t: "\\alpha" }, { t: "\\beta" }, { t: "\\gamma" }, { t: "\\delta" },
-      { t: "\\epsilon" }, { t: "\\zeta" }, { t: "\\eta" }, { t: "\\theta" },
-      { t: "\\lambda" }, { t: "\\mu" }, { t: "\\nu" }, { t: "\\pi" },
-      { t: "\\rho" }, { t: "\\sigma" }, { t: "\\tau" }, { t: "\\phi" },
-      { t: "\\chi" }, { t: "\\psi" }, { t: "\\omega" },
+      { t: "\\epsilon" }, { t: "\\varepsilon" }, { t: "\\zeta" }, { t: "\\eta" },
+      { t: "\\theta" }, { t: "\\vartheta" }, { t: "\\iota" }, { t: "\\kappa" },
+      { t: "\\lambda" }, { t: "\\mu" }, { t: "\\nu" }, { t: "\\xi" },
+      { t: "\\pi" }, { t: "\\rho" }, { t: "\\sigma" }, { t: "\\tau" },
+      { t: "\\upsilon" }, { t: "\\phi" }, { t: "\\varphi" }, { t: "\\chi" },
+      { t: "\\psi" }, { t: "\\omega" },
       { t: "\\Gamma" }, { t: "\\Delta" }, { t: "\\Theta" }, { t: "\\Lambda" },
-      { t: "\\Pi" }, { t: "\\Sigma" }, { t: "\\Phi" }, { t: "\\Psi" }, { t: "\\Omega" },
+      { t: "\\Xi" }, { t: "\\Pi" }, { t: "\\Sigma" }, { t: "\\Upsilon" },
+      { t: "\\Phi" }, { t: "\\Psi" }, { t: "\\Omega" },
     ],
   },
   {
@@ -29,8 +37,10 @@ const CATEGORIAS = [
     simbolos: [
       { t: "+" }, { t: "-" }, { t: "\\times" }, { t: "\\div" }, { t: "\\cdot" },
       { t: "\\pm" }, { t: "\\mp" }, { t: "\\ast" }, { t: "\\star" }, { t: "\\circ" },
-      { t: "\\bullet" }, { t: "\\oplus" }, { t: "\\otimes" }, { t: "\\%", ins: "\\%" },
-      { t: "^{\\circ}", ins: "^{\\circ}" },
+      { t: "\\bullet" }, { t: "\\oplus" }, { t: "\\ominus" }, { t: "\\otimes" },
+      { t: "\\odot" }, { t: "\\oslash" }, { t: "\\wedge" }, { t: "\\vee" },
+      { t: "\\neg" }, { t: "\\cdots" }, { t: "\\ldots" }, { t: "\\%", ins: "\\%" },
+      { t: "^{\\circ}", ins: "^{\\circ}" }, { t: "\\,'", ins: "'" },
     ],
   },
   {
@@ -38,7 +48,9 @@ const CATEGORIAS = [
     simbolos: [
       { t: "=" }, { t: "\\neq" }, { t: "\\approx" }, { t: "\\equiv" }, { t: "\\propto" },
       { t: "<" }, { t: ">" }, { t: "\\leq" }, { t: "\\geq" }, { t: "\\ll" }, { t: "\\gg" },
-      { t: "\\sim" }, { t: "\\cong" }, { t: "\\parallel" }, { t: "\\perp" }, { t: "\\angle" },
+      { t: "\\sim" }, { t: "\\simeq" }, { t: "\\cong" }, { t: "\\doteq" }, { t: "\\asymp" },
+      { t: "\\prec" }, { t: "\\succ" }, { t: "\\preceq" }, { t: "\\succeq" },
+      { t: "\\parallel" }, { t: "\\perp" }, { t: "\\angle" }, { t: "\\nparallel" },
     ],
   },
   {
@@ -46,25 +58,37 @@ const CATEGORIAS = [
     simbolos: [
       { t: "\\to" }, { t: "\\rightarrow" }, { t: "\\leftarrow" }, { t: "\\leftrightarrow" },
       { t: "\\Rightarrow" }, { t: "\\Leftarrow" }, { t: "\\Leftrightarrow" }, { t: "\\mapsto" },
-      { t: "\\uparrow" }, { t: "\\downarrow" }, { t: "\\implies" }, { t: "\\iff" },
+      { t: "\\uparrow" }, { t: "\\downarrow" }, { t: "\\updownarrow" }, { t: "\\implies" },
+      { t: "\\iff" }, { t: "\\longrightarrow" }, { t: "\\longleftarrow" }, { t: "\\hookrightarrow" },
+      { t: "\\nearrow" }, { t: "\\searrow" }, { t: "\\nwarrow" }, { t: "\\swarrow" },
+      { t: "\\rightleftharpoons" }, { t: "\\Uparrow" }, { t: "\\Downarrow" },
     ],
   },
   {
     nombre: "Conjuntos",
     simbolos: [
-      { t: "\\in" }, { t: "\\notin" }, { t: "\\subset" }, { t: "\\subseteq" }, { t: "\\supset" },
-      { t: "\\cup" }, { t: "\\cap" }, { t: "\\emptyset" }, { t: "\\forall" }, { t: "\\exists" },
-      { t: "\\infty" }, { t: "\\mathbb{R}" }, { t: "\\mathbb{N} " }, { t: "\\mathbb{Z}" }, { t: "\\mathbb{Q}" },
+      { t: "\\in" }, { t: "\\notin" }, { t: "\\ni" }, { t: "\\subset" }, { t: "\\subseteq" },
+      { t: "\\supset" }, { t: "\\supseteq" }, { t: "\\nsubseteq" }, { t: "\\cup" }, { t: "\\cap" },
+      { t: "\\setminus" }, { t: "\\emptyset" }, { t: "\\forall" }, { t: "\\exists" }, { t: "\\nexists" },
+      { t: "\\infty" }, { t: "\\aleph" }, { t: "\\therefore" }, { t: "\\because" }, { t: "\\mid" },
+      { t: "\\mathbb{R}" }, { t: "\\mathbb{N}" }, { t: "\\mathbb{Z}" }, { t: "\\mathbb{Q}" }, { t: "\\mathbb{C}" },
     ],
   },
   {
     nombre: "Cálculo",
     simbolos: [
-      { t: "\\sum" }, { t: "\\prod" }, { t: "\\int" }, { t: "\\lim" }, { t: "\\partial" },
-      { t: "\\nabla" }, { t: "\\Delta" }, { t: "\\infty" },
+      { t: "\\sum" }, { t: "\\prod" }, { t: "\\int" }, { t: "\\oint" }, { t: "\\iint" },
+      { t: "\\lim" }, { t: "\\partial" }, { t: "\\nabla" }, { t: "\\Delta" }, { t: "\\infty" },
+      { t: "\\ln" }, { t: "\\log" }, { t: "\\to" },
       { t: "\\sum_{i}^{n}", ins: "\\sum_{‸}^{}" },
+      { t: "\\prod_{i}^{n}", ins: "\\prod_{‸}^{}" },
       { t: "\\int_{a}^{b}", ins: "\\int_{‸}^{}" },
+      { t: "\\lim_{x \\to 0}", ins: "\\lim_{‸ \\to }" },
       { t: "\\frac{d}{dx}", ins: "\\frac{d}{d‸}" },
+      { t: "\\frac{\\partial}{\\partial x}", ins: "\\frac{\\partial}{\\partial ‸}" },
+      { t: "\\dot{x}", ins: "\\dot{‸}" },
+      { t: "\\ddot{x}", ins: "\\ddot{‸}" },
+      { t: "e^{x}", ins: "e^{‸}" },
     ],
   },
   {
@@ -73,13 +97,22 @@ const CATEGORIAS = [
       { t: "\\frac{a}{b}", ins: "\\frac{‸}{}" },
       { t: "x^{n}", ins: "^{‸}" },
       { t: "x_{n}", ins: "_{‸}" },
+      { t: "x_{n}^{m}", ins: "_{‸}^{}" },
       { t: "\\sqrt{x}", ins: "\\sqrt{‸}" },
       { t: "\\sqrt[n]{x}", ins: "\\sqrt[‸]{}" },
       { t: "\\overline{x}", ins: "\\overline{‸}" },
+      { t: "\\underline{x}", ins: "\\underline{‸}" },
       { t: "\\vec{v}", ins: "\\vec{‸}" },
+      { t: "\\hat{x}", ins: "\\hat{‸}" },
+      { t: "\\widehat{x}", ins: "\\widehat{‸}" },
+      { t: "\\overrightarrow{AB}", ins: "\\overrightarrow{‸}" },
       { t: "|x|", ins: "|‸|" },
+      { t: "\\| x \\|", ins: "\\|‸\\|" },
       { t: "\\binom{n}{k}", ins: "\\binom{‸}{}" },
       { t: "(\\ )", ins: "(‸)" },
+      { t: "[\\ ]", ins: "[‸]" },
+      { t: "\\{\\ \\}", ins: "\\{‸\\}" },
+      { t: "\\langle x \\rangle", ins: "\\langle ‸ \\rangle" },
     ],
   },
 ];
@@ -127,8 +160,11 @@ export default function PaletaSimbolos({ tema, onInsert }) {
           style={{
             position: "absolute",
             bottom: "calc(100% + 8px)",
-            right: 0,
-            width: 372,
+            right: -8,
+            width: POP_ANCHO,
+            height: POP_ALTO,
+            display: "flex",
+            flexDirection: "column",
             background: "#16181d",
             border: `1px solid ${tema.border}`,
             borderRadius: 10,
@@ -146,6 +182,7 @@ export default function PaletaSimbolos({ tema, onInsert }) {
               padding: 6,
               borderBottom: `1px solid ${tema.border}`,
               background: "rgba(0,0,0,0.25)",
+              flexShrink: 0,
             }}
           >
             {CATEGORIAS.map((c, i) => (
@@ -171,14 +208,16 @@ export default function PaletaSimbolos({ tema, onInsert }) {
             ))}
           </div>
 
-          {/* Cuadrícula de símbolos */}
+          {/* Cuadrícula de símbolos (rellena el alto restante) */}
           <div
             style={{
+              flex: 1,
+              minHeight: 0,
               display: "flex",
               flexWrap: "wrap",
+              alignContent: "flex-start",
               gap: 4,
               padding: 8,
-              maxHeight: 184,
               overflowY: "auto",
             }}
           >

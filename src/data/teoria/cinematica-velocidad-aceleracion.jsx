@@ -539,32 +539,17 @@ const quizVelocidad = [
     ],
   },
   {
-    q: "Un tren sale de la ciudad A a 80 km/h. Otro tren sale al mismo tiempo desde la ciudad B (a 360 km de distancia) a 100 km/h, en sentido contrario. ¿En cuántas horas se encuentran?",
-    prob: String.raw`d_A + d_B = 360\,\text{km},\quad v_A=80,\; v_B=100`,
+    q: "Un tren sale de A a 80 km/h. Otro sale simultáneamente desde B (360 km de distancia) a 100 km/h, en sentido contrario. ¿En cuántas horas se encuentran?",
+    prob: String.raw`v_A + v_B = \text{velocidad de acercamiento},\quad d = 360\,\text{km}`,
     opts: [String.raw`1.5\,\text{h}`, String.raw`2\,\text{h}`, String.raw`2.5\,\text{h}`, String.raw`3\,\text{h}`],
-    ans: 0,
-    exp: "Se acercan a 180 km/h en total. t = 360/180 = 2... espera, suman 80+100=180 km/h. t = 360/180 = 2 h. Pero la respuesta es 2h, opción B.",
-    steps: [
-      { pre: "Velocidad de acercamiento: ", math: String.raw`v_{total} = 80 + 100 = 180\,\text{km/h}` },
-      { pre: "Tiempo de encuentro: ", math: String.raw`t = \frac{360}{180} = 2\,\text{h}` },
-    ],
     ans: 1,
-    exp: "Las velocidades se suman porque van en sentido contrario: 80 + 100 = 180 km/h. Tiempo = 360/180 = 2 h.",
+    exp: "Los trenes se acercan a 80 + 100 = 180 km/h. Tiempo = 360 / 180 = 2 h.",
+    steps: [
+      { pre: "Velocidad de acercamiento: ", math: String.raw`80 + 100 = 180\,\text{km/h}` },
+      { pre: "Tiempo: ", math: String.raw`t = \frac{360\,\text{km}}{180\,\text{km/h}} = 2\,\text{h}` },
+    ],
   },
 ];
-
-/* Corregir pregunta 10 */
-quizVelocidad[9] = {
-  q: "Un tren sale de A a 80 km/h. Otro sale simultáneamente desde B (360 km de distancia) a 100 km/h, en sentido contrario. ¿En cuántas horas se encuentran?",
-  prob: String.raw`v_A + v_B = \text{velocidad de acercamiento},\quad d = 360\,\text{km}`,
-  opts: [String.raw`1.5\,\text{h}`, String.raw`2\,\text{h}`, String.raw`2.5\,\text{h}`, String.raw`3\,\text{h}`],
-  ans: 1,
-  exp: "Los trenes se acercan a 80 + 100 = 180 km/h. Tiempo = 360 / 180 = 2 h.",
-  steps: [
-    { pre: "Velocidad de acercamiento: ", math: String.raw`80 + 100 = 180\,\text{km/h}` },
-    { pre: "Tiempo: ", math: String.raw`t = \frac{360\,\text{km}}{180\,\text{km/h}} = 2\,\text{h}` },
-  ],
-};
 
 /* ═══════════════════════════════════════════════════════════════════════════
    DATA — QUIZ ACELERACIÓN (10)

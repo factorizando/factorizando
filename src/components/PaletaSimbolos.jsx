@@ -124,7 +124,7 @@ export default function PaletaSimbolos({ tema, onInsert }) {
   const [cat, setCat] = useState(0);
   const contenedorRef = useRef(null);
 
-  // Cerrar al hacer clic fuera del popover.
+  // Cerrar al hacer clic fuera del popover o al pulsar Escape.
   useEffect(() => {
     if (!abierto) return;
     function onDocDown(e) {
@@ -132,8 +132,15 @@ export default function PaletaSimbolos({ tema, onInsert }) {
         setAbierto(false);
       }
     }
+    function onKeyDown(e) {
+      if (e.key === "Escape") setAbierto(false);
+    }
     document.addEventListener("mousedown", onDocDown);
-    return () => document.removeEventListener("mousedown", onDocDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", onDocDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
   }, [abierto]);
 
   return (

@@ -95,6 +95,8 @@ const CATEGORIAS = [
     nombre: "Estructuras",
     simbolos: [
       { t: "\\frac{a}{b}", ins: "\\frac{‸}{}" },
+      { t: "\\dfrac{a}{b}", ins: "\\dfrac{‸}{}" },
+      { t: "\\displaystyle\\sum", ins: "\\displaystyle " },
       { t: "x^{n}", ins: "^{‸}" },
       { t: "x_{n}", ins: "_{‸}" },
       { t: "x_{n}^{m}", ins: "_{‸}^{}" },

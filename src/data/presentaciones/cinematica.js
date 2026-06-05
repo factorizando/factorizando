@@ -88,11 +88,11 @@ export const PRESENTACION = {
       math_razon: "a = \\dfrac{28 - 10}{6} = \\dfrac{18}{6} = 3\\ \\tfrac{m}{s^2}"
     },
 
-    // Reactivos · Conceptos básicos
+    // Reactivos · Conceptos básicos (7)
     {
-      id: "c2",
+      id: "cb1",
       tipo: "ejercicio",
-      etiqueta: "Cinemática · Conceptos básicos · Reactivo 1 / 3",
+      etiqueta: "Cinemática · Conceptos básicos · Reactivo 1 / 7",
       pregunta: "Un atleta da una vuelta completa a una pista circular de 400 m y regresa exactamente al punto de partida. ¿Cuál es su desplazamiento?",
       opciones: ["0 m", "400 m", "200 m", "800 m"],
       correcta: 0,
@@ -103,9 +103,9 @@ export const PRESENTACION = {
     },
 
     {
-      id: "c6",
+      id: "cb2",
       tipo: "ejercicio",
-      etiqueta: "Cinemática · Conceptos básicos · Reactivo 2 / 3",
+      etiqueta: "Cinemática · Conceptos básicos · Reactivo 2 / 7",
       pregunta: "Un auto pasa de 0 a 20 m/s en 4 s. ¿Cuál es su aceleración?",
       opciones: ["5 m/s²", "80 m/s²", "0.2 m/s²", "24 m/s²"],
       correcta: 0,
@@ -116,15 +116,67 @@ export const PRESENTACION = {
     },
 
     {
-      id: "c18",
+      id: "cb3",
       tipo: "ejercicio",
-      etiqueta: "Cinemática · Conceptos básicos · Reactivo 3 / 3",
+      etiqueta: "Cinemática · Conceptos básicos · Reactivo 3 / 7",
       pregunta: "¿Cuál de las siguientes es una magnitud vectorial?",
       opciones: ["La velocidad", "La rapidez", "La distancia", "El tiempo"],
       correcta: 0,
       explicacion: "La velocidad tiene magnitud y dirección, por eso es vectorial. La rapidez, la distancia y el tiempo son escalares (solo magnitud).",
       pasos: [
         { pre: "Vector = magnitud + dirección: ", math: "\\vec{v} = \\dfrac{\\vec{d}}{\\Delta t}" }
+      ]
+    },
+
+    {
+      id: "cb4",
+      tipo: "ejercicio",
+      etiqueta: "Cinemática · Conceptos básicos · Reactivo 4 / 7",
+      pregunta: "La distancia recorrida por un móvil es una magnitud que:",
+      opciones: ["Es escalar y nunca es negativa", "Siempre es igual al desplazamiento", "Tiene dirección y sentido", "Puede ser negativa"],
+      correcta: 0,
+      explicacion: "La distancia mide toda la longitud del recorrido; es un escalar (solo magnitud) y siempre es positiva. El desplazamiento, en cambio, es un vector y puede ser cero o negativo.",
+      pasos: [
+        { pre: "Escalar: ", math: "d \\geq 0\\ \\text{(solo magnitud)}" }
+      ]
+    },
+
+    {
+      id: "cb5",
+      tipo: "ejercicio",
+      etiqueta: "Cinemática · Conceptos básicos · Reactivo 5 / 7",
+      pregunta: "Un corredor recorre 200 m en 25 s. ¿Cuál es su rapidez media?",
+      opciones: ["8 m/s", "5 m/s", "0.125 m/s", "225 m/s"],
+      correcta: 0,
+      explicacion: "Rapidez media = distancia / tiempo = 200 / 25 = 8 m/s.",
+      pasos: [
+        { pre: "Rapidez media: ", math: "v = \\dfrac{d}{t} = \\dfrac{200}{25} = 8\\ \\tfrac{m}{s}" }
+      ]
+    },
+
+    {
+      id: "cb6",
+      tipo: "ejercicio",
+      etiqueta: "Cinemática · Conceptos básicos · Reactivo 6 / 7",
+      pregunta: "¿En qué unidades se mide la aceleración en el Sistema Internacional?",
+      opciones: ["m/s²", "m/s", "m", "s"],
+      correcta: 0,
+      explicacion: "La aceleración es el cambio de velocidad (m/s) por unidad de tiempo (s), así que sus unidades son m/s².",
+      pasos: [
+        { pre: "Definición: ", math: "a = \\dfrac{\\Delta v}{\\Delta t} \\Rightarrow \\tfrac{m/s}{s} = \\tfrac{m}{s^2}" }
+      ]
+    },
+
+    {
+      id: "cb7",
+      tipo: "ejercicio",
+      etiqueta: "Cinemática · Conceptos básicos · Reactivo 7 / 7",
+      pregunta: "Un automóvil va frenando hasta detenerse. Su aceleración es:",
+      opciones: ["Negativa (sentido contrario a la velocidad)", "Positiva", "Cero", "Igual a su velocidad"],
+      correcta: 0,
+      explicacion: "Al frenar, la velocidad disminuye, así que la aceleración apunta en sentido contrario al movimiento: se considera negativa (desaceleración).",
+      pasos: [
+        { pre: "v disminuye: ", math: "a = \\dfrac{v_f - v_0}{t} < 0" }
       ]
     },
 
@@ -154,12 +206,12 @@ export const PRESENTACION = {
       math_razon: "x = (25)(8) = 200\\ m"
     },
 
-    // Reactivos · MRU
+    // Reactivos · MRU (7)
     {
-      id: "c1",
+      id: "mru1",
       tipo: "ejercicio",
       svgDiagram: "cin-graf-xt",
-      etiqueta: "Cinemática · MRU · Reactivo 1 / 5",
+      etiqueta: "Cinemática · MRU · Reactivo 1 / 7",
       pregunta: "La gráfica posición-tiempo (x-t) de un móvil es una línea recta inclinada con pendiente constante. ¿Qué tipo de movimiento describe?",
       opciones: ["MRU: velocidad constante", "Movimiento uniformemente acelerado", "El móvil está en reposo", "Caída libre"],
       correcta: 0,
@@ -171,9 +223,9 @@ export const PRESENTACION = {
     },
 
     {
-      id: "c3",
+      id: "mru2",
       tipo: "ejercicio",
-      etiqueta: "Cinemática · MRU · Reactivo 2 / 5",
+      etiqueta: "Cinemática · MRU · Reactivo 2 / 7",
       pregunta: "Un ciclista recorre 150 m en 30 s a velocidad constante. ¿Cuál es su velocidad?",
       opciones: ["5 m/s", "4.5 m/s", "180 m/s", "0.2 m/s"],
       correcta: 0,
@@ -184,10 +236,10 @@ export const PRESENTACION = {
     },
 
     {
-      id: "c4",
+      id: "mru3",
       tipo: "ejercicio",
       svgDiagram: "cin-ej-dt",
-      etiqueta: "Cinemática · MRU · Reactivo 3 / 5",
+      etiqueta: "Cinemática · MRU · Reactivo 3 / 7",
       pregunta: "Según la gráfica desplazamiento-tiempo mostrada, el móvil alcanza 8 m a los 5 s con movimiento uniforme. ¿Cuál es su velocidad media?",
       opciones: ["1.6 m/s", "0.625 m/s", "40 m/s", "3.2 m/s"],
       correcta: 0,
@@ -198,9 +250,9 @@ export const PRESENTACION = {
     },
 
     {
-      id: "c5",
+      id: "mru4",
       tipo: "ejercicio",
-      etiqueta: "Cinemática · MRU · Reactivo 4 / 5",
+      etiqueta: "Cinemática · MRU · Reactivo 4 / 7",
       pregunta: "Un tren viaja a 30 m/s de forma constante. ¿Cuánto tarda en recorrer 600 m?",
       opciones: ["20 s", "0.05 s", "18 000 s", "630 s"],
       correcta: 0,
@@ -211,15 +263,41 @@ export const PRESENTACION = {
     },
 
     {
-      id: "c16",
+      id: "mru5",
       tipo: "ejercicio",
-      etiqueta: "Cinemática · MRU · Reactivo 5 / 5",
+      etiqueta: "Cinemática · MRU · Reactivo 5 / 7",
       pregunta: "En una gráfica velocidad-tiempo, una línea horizontal (paralela al eje del tiempo) indica que el móvil tiene:",
       opciones: ["Velocidad constante", "Aceleración constante", "Aceleración variable", "Velocidad cero"],
       correcta: 0,
       explicacion: "Si la velocidad no cambia con el tiempo, la línea v-t es horizontal. Eso es MRU: velocidad constante y aceleración nula.",
       pasos: [
         { pre: "v no cambia: ", math: "a = \\dfrac{\\Delta v}{\\Delta t} = 0" }
+      ]
+    },
+
+    {
+      id: "mru6",
+      tipo: "ejercicio",
+      etiqueta: "Cinemática · MRU · Reactivo 6 / 7",
+      pregunta: "Un automóvil viaja a 15 m/s constantes. ¿Qué distancia recorre en 10 s?",
+      opciones: ["150 m", "1.5 m", "25 m", "300 m"],
+      correcta: 0,
+      explicacion: "En el MRU, x = v·t = (15)(10) = 150 m.",
+      pasos: [
+        { pre: "MRU: ", math: "x = v\\,t = (15)(10) = 150\\ m" }
+      ]
+    },
+
+    {
+      id: "mru7",
+      tipo: "ejercicio",
+      etiqueta: "Cinemática · MRU · Reactivo 7 / 7",
+      pregunta: "En el movimiento rectilíneo uniforme (MRU), la aceleración del móvil es:",
+      opciones: ["Cero", "Constante y positiva", "Igual a la velocidad", "Variable"],
+      correcta: 0,
+      explicacion: "Por definición, en el MRU la velocidad es constante, así que no cambia: la aceleración es cero.",
+      pasos: [
+        { pre: "v constante: ", math: "a = \\dfrac{\\Delta v}{\\Delta t} = 0" }
       ]
     },
 
@@ -274,11 +352,11 @@ export const PRESENTACION = {
       math_razon: "\\Delta x = \\dfrac{-v_0^2}{2a} = \\dfrac{-(20)^2}{2(-5)} = \\dfrac{-400}{-10} = 40\\ m"
     },
 
-    // Reactivos · MRUA
+    // Reactivos · MRUA (8)
     {
-      id: "c7",
+      id: "ua1",
       tipo: "ejercicio",
-      etiqueta: "Cinemática · MRUA · Reactivo 1 / 4",
+      etiqueta: "Cinemática · MRUA · Reactivo 1 / 8",
       pregunta: "Un objeto parte del reposo con aceleración constante de 3 m/s². ¿Qué distancia recorre en 4 s?",
       opciones: ["24 m", "48 m", "12 m", "6 m"],
       correcta: 0,
@@ -289,9 +367,9 @@ export const PRESENTACION = {
     },
 
     {
-      id: "c8",
+      id: "ua2",
       tipo: "ejercicio",
-      etiqueta: "Cinemática · MRUA · Reactivo 2 / 4",
+      etiqueta: "Cinemática · MRUA · Reactivo 2 / 8",
       pregunta: "Un coche que va a 10 m/s frena con aceleración de −2 m/s². ¿Qué distancia recorre hasta detenerse?",
       opciones: ["25 m", "5 m", "2.5 m", "100 m"],
       correcta: 0,
@@ -303,10 +381,10 @@ export const PRESENTACION = {
     },
 
     {
-      id: "c15",
+      id: "ua3",
       tipo: "ejercicio",
       svgDiagram: "cin-ej-vt-area",
-      etiqueta: "Cinemática · MRUA · Reactivo 3 / 4",
+      etiqueta: "Cinemática · MRUA · Reactivo 3 / 8",
       pregunta: "En una gráfica velocidad-tiempo, la recta sube de 0 a 10 m/s en 4 s. ¿Qué distancia recorrió el móvil?",
       opciones: ["20 m", "40 m", "2.5 m", "10 m"],
       correcta: 0,
@@ -317,15 +395,68 @@ export const PRESENTACION = {
     },
 
     {
-      id: "c17",
+      id: "ua4",
       tipo: "ejercicio",
-      etiqueta: "Cinemática · MRUA · Reactivo 4 / 4",
+      etiqueta: "Cinemática · MRUA · Reactivo 4 / 8",
       pregunta: "Un móvil acelera uniformemente de 4 m/s a 12 m/s. ¿Cuál es su velocidad media durante ese intervalo?",
       opciones: ["8 m/s", "16 m/s", "6 m/s", "4 m/s"],
       correcta: 0,
       explicacion: "En MRUA la velocidad media es el promedio de las velocidades inicial y final: (4 + 12)/2 = 8 m/s.",
       pasos: [
         { pre: "Promedio: ", math: "v_{media} = \\dfrac{v_0 + v}{2} = \\dfrac{4 + 12}{2} = 8\\ \\tfrac{m}{s}" }
+      ]
+    },
+
+    {
+      id: "ua5",
+      tipo: "ejercicio",
+      etiqueta: "Cinemática · MRUA · Reactivo 5 / 8",
+      pregunta: "Un objeto parte del reposo con aceleración constante de 3 m/s². ¿Qué velocidad alcanza a los 5 s?",
+      opciones: ["15 m/s", "8 m/s", "0.6 m/s", "75 m/s"],
+      correcta: 0,
+      explicacion: "v = v₀ + a·t = 0 + (3)(5) = 15 m/s.",
+      pasos: [
+        { pre: "v₀ = 0: ", math: "v = a\\,t = (3)(5) = 15\\ \\tfrac{m}{s}" }
+      ]
+    },
+
+    {
+      id: "ua6",
+      tipo: "ejercicio",
+      svgDiagram: "cin-graf-vt",
+      etiqueta: "Cinemática · MRUA · Reactivo 6 / 8",
+      pregunta: "En una gráfica velocidad-tiempo, ¿qué representa la pendiente de la recta?",
+      opciones: ["La aceleración", "La distancia recorrida", "La velocidad media", "El tiempo total"],
+      correcta: 0,
+      explicacion: "La pendiente de la gráfica v-t es el cambio de velocidad entre el tiempo, es decir, la aceleración. El área bajo la curva es el desplazamiento.",
+      pasos: [
+        { pre: "Pendiente de v-t: ", math: "a = \\dfrac{\\Delta v}{\\Delta t}" }
+      ]
+    },
+
+    {
+      id: "ua7",
+      tipo: "ejercicio",
+      etiqueta: "Cinemática · MRUA · Reactivo 7 / 8",
+      pregunta: "Un coche viaja a 30 m/s y frena con aceleración constante de −3 m/s². ¿Cuánto tarda en detenerse?",
+      opciones: ["10 s", "90 s", "0.1 s", "27 s"],
+      correcta: 0,
+      explicacion: "De v = v₀ + a·t con v = 0: 0 = 30 + (−3)t → t = 30/3 = 10 s.",
+      pasos: [
+        { pre: "Con v = 0: ", math: "t = \\dfrac{-v_0}{a} = \\dfrac{-30}{-3} = 10\\ s" }
+      ]
+    },
+
+    {
+      id: "ua8",
+      tipo: "ejercicio",
+      etiqueta: "Cinemática · MRUA · Reactivo 8 / 8",
+      pregunta: "¿Cuál de las ecuaciones del MRUA NO incluye el tiempo y es ideal para problemas de frenado?",
+      opciones: ["v² = v₀² + 2aΔx", "v = v₀ + a t", "x = v₀ t + ½ a t²", "Δx = (v₀ + v)/2 · t"],
+      correcta: 0,
+      explicacion: "La ecuación v² = v₀² + 2aΔx relaciona velocidades, aceleración y distancia sin el tiempo, por lo que es ideal cuando este no se conoce ni se pide.",
+      pasos: [
+        { pre: "Sin tiempo: ", math: "v^2 = v_0^2 + 2a\\,\\Delta x" }
       ]
     },
 
@@ -366,11 +497,11 @@ export const PRESENTACION = {
       math_razon: "t = \\dfrac{v_0}{g} = \\dfrac{20}{10} = 2\\ s, \\qquad y = (20)(2) - \\tfrac12(10)(2^2) = 40 - 20 = 20\\ m"
     },
 
-    // Reactivos · Caída libre
+    // Reactivos · Caída libre (8)
     {
-      id: "c9",
+      id: "cl1",
       tipo: "ejercicio",
-      etiqueta: "Cinemática · Caída libre · Reactivo 1 / 4",
+      etiqueta: "Cinemática · Caída libre · Reactivo 1 / 8",
       pregunta: "Se deja caer un objeto. ¿Qué velocidad tiene a los 2 s? (g = 9.8 m/s²)",
       opciones: ["19.6 m/s", "9.8 m/s", "4.9 m/s", "39.2 m/s"],
       correcta: 0,
@@ -381,10 +512,10 @@ export const PRESENTACION = {
     },
 
     {
-      id: "c10",
+      id: "cl2",
       tipo: "ejercicio",
       svgDiagram: "cin-caida-libre",
-      etiqueta: "Cinemática · Caída libre · Reactivo 2 / 4",
+      etiqueta: "Cinemática · Caída libre · Reactivo 2 / 8",
       pregunta: "Despreciando la resistencia del aire, si soltamos al mismo tiempo y desde la misma altura una pluma y una piedra, ¿cuál llega primero al suelo?",
       opciones: ["Llegan al mismo tiempo", "La piedra, por ser más pesada", "La pluma, por ser más ligera", "Depende de su peso"],
       correcta: 0,
@@ -395,9 +526,9 @@ export const PRESENTACION = {
     },
 
     {
-      id: "c11",
+      id: "cl3",
       tipo: "ejercicio",
-      etiqueta: "Cinemática · Caída libre · Reactivo 3 / 4",
+      etiqueta: "Cinemática · Caída libre · Reactivo 3 / 8",
       pregunta: "Se lanza una pelota verticalmente hacia arriba. En su punto más alto, su velocidad es:",
       opciones: ["Cero", "Máxima", "Igual a la inicial", "9.8 m/s"],
       correcta: 0,
@@ -408,15 +539,68 @@ export const PRESENTACION = {
     },
 
     {
-      id: "c12",
+      id: "cl4",
       tipo: "ejercicio",
-      etiqueta: "Cinemática · Caída libre · Reactivo 4 / 4",
+      etiqueta: "Cinemática · Caída libre · Reactivo 4 / 8",
       pregunta: "¿Desde qué altura cae un objeto que tarda 2 s en llegar al suelo, si se suelta desde el reposo? (g = 10 m/s²)",
       opciones: ["20 m", "10 m", "40 m", "5 m"],
       correcta: 0,
       explicacion: "y = ½·g·t² = ½(10)(2²) = ½(10)(4) = 20 m.",
       pasos: [
         { pre: "Caída libre: ", math: "y = \\tfrac12 g t^2 = \\tfrac12 (10)(4) = 20\\ m" }
+      ]
+    },
+
+    {
+      id: "cl5",
+      tipo: "ejercicio",
+      etiqueta: "Cinemática · Caída libre · Reactivo 5 / 8",
+      pregunta: "Se deja caer un objeto desde el reposo. ¿Qué velocidad tiene a los 3 s? (g = 10 m/s²)",
+      opciones: ["30 m/s", "13 m/s", "3.3 m/s", "45 m/s"],
+      correcta: 0,
+      explicacion: "v = g·t = (10)(3) = 30 m/s.",
+      pasos: [
+        { pre: "Caída libre: ", math: "v = g\\,t = (10)(3) = 30\\ \\tfrac{m}{s}" }
+      ]
+    },
+
+    {
+      id: "cl6",
+      tipo: "ejercicio",
+      etiqueta: "Cinemática · Caída libre · Reactivo 6 / 8",
+      pregunta: "Un objeto se suelta desde el reposo y tarda 4 s en caer. ¿Qué altura recorrió? (g = 10 m/s²)",
+      opciones: ["80 m", "40 m", "20 m", "160 m"],
+      correcta: 0,
+      explicacion: "y = ½·g·t² = ½(10)(4²) = ½(10)(16) = 80 m.",
+      pasos: [
+        { pre: "Caída libre: ", math: "y = \\tfrac12 g t^2 = \\tfrac12 (10)(16) = 80\\ m" }
+      ]
+    },
+
+    {
+      id: "cl7",
+      tipo: "ejercicio",
+      svgDiagram: "cin-caida-libre",
+      etiqueta: "Cinemática · Caída libre · Reactivo 7 / 8",
+      pregunta: "Se lanza una pelota hacia arriba con 20 m/s. ¿Cuánto tarda en llegar a su punto más alto? (g = 10 m/s²)",
+      opciones: ["2 s", "4 s", "1 s", "20 s"],
+      correcta: 0,
+      explicacion: "En la cima v = 0: 0 = v₀ − g·t → t = v₀/g = 20/10 = 2 s.",
+      pasos: [
+        { pre: "Tiempo de subida: ", math: "t = \\dfrac{v_0}{g} = \\dfrac{20}{10} = 2\\ s" }
+      ]
+    },
+
+    {
+      id: "cl8",
+      tipo: "ejercicio",
+      etiqueta: "Cinemática · Caída libre · Reactivo 8 / 8",
+      pregunta: "En la caída libre, la aceleración de un cuerpo:",
+      opciones: ["Es g y no depende de su masa", "Es mayor si el cuerpo es más pesado", "Es cero", "Aumenta con el tiempo"],
+      correcta: 0,
+      explicacion: "Todos los cuerpos en caída libre tienen la misma aceleración, g ≈ 9.8 m/s², independientemente de su masa (despreciando el aire).",
+      pasos: [
+        { pre: "Independiente de la masa: ", math: "a = g \\approx 9.8\\ \\tfrac{m}{s^2}" }
       ]
     },
 
@@ -445,12 +629,12 @@ export const PRESENTACION = {
       math_razon: "t = \\sqrt{\\tfrac{2y}{g}} = \\sqrt{0.25} = 0.5\\ s, \\qquad x = (3)(0.5) = 1.5\\ m"
     },
 
-    // Reactivos · Tiro parabólico
+    // Reactivos · Tiro parabólico (6)
     {
-      id: "c13",
+      id: "tp1",
       tipo: "ejercicio",
       svgDiagram: "cin-tiro-parabolico",
-      etiqueta: "Cinemática · Tiro parabólico · Reactivo 1 / 2",
+      etiqueta: "Cinemática · Tiro parabólico · Reactivo 1 / 6",
       pregunta: "Una pelota se lanza horizontalmente desde 20 m de altura. ¿Cuánto tarda en caer al suelo? (g = 10 m/s²)",
       opciones: ["2 s", "4 s", "1 s", "0.5 s"],
       correcta: 0,
@@ -462,15 +646,68 @@ export const PRESENTACION = {
     },
 
     {
-      id: "c14",
+      id: "tp2",
       tipo: "ejercicio",
-      etiqueta: "Cinemática · Tiro parabólico · Reactivo 2 / 2",
+      etiqueta: "Cinemática · Tiro parabólico · Reactivo 2 / 6",
       pregunta: "En un tiro parabólico, despreciando la fricción del aire, la componente horizontal de la velocidad:",
       opciones: ["Permanece constante", "Aumenta con el tiempo", "Disminuye con el tiempo", "Se hace cero en la cima"],
       correcta: 0,
       explicacion: "En el eje horizontal no hay aceleración (la gravedad es vertical), así que la velocidad horizontal no cambia: es un MRU. Lo que sí cambia es la componente vertical.",
       pasos: [
         { pre: "Sin fuerza horizontal: ", math: "a_x = 0 \\Rightarrow v_x = \\text{constante}" }
+      ]
+    },
+
+    {
+      id: "tp3",
+      tipo: "ejercicio",
+      svgDiagram: "cin-tiro-parabolico",
+      etiqueta: "Cinemática · Tiro parabólico · Reactivo 3 / 6",
+      pregunta: "¿Qué forma tiene la trayectoria que describe un proyectil en un tiro parabólico?",
+      opciones: ["Una parábola", "Una recta", "Una circunferencia", "Una espiral"],
+      correcta: 0,
+      explicacion: "La combinación de un movimiento horizontal uniforme y uno vertical acelerado produce una trayectoria curva con forma de parábola.",
+      pasos: [
+        { pre: "Combinación de movimientos: ", math: "y = v_{0y} t - \\tfrac12 g t^2" }
+      ]
+    },
+
+    {
+      id: "tp4",
+      tipo: "ejercicio",
+      etiqueta: "Cinemática · Tiro parabólico · Reactivo 4 / 6",
+      pregunta: "En el tiro parabólico, el movimiento vertical del proyectil es un:",
+      opciones: ["Movimiento de caída libre (acelerado por g)", "MRU sin aceleración", "Movimiento circular", "Movimiento en reposo"],
+      correcta: 0,
+      explicacion: "El eje vertical está sometido a la gravedad, así que se comporta como una caída libre (MRUA con a = g). El horizontal, en cambio, es MRU.",
+      pasos: [
+        { pre: "Vertical con g: ", math: "y = v_{0y} t - \\tfrac12 g t^2" }
+      ]
+    },
+
+    {
+      id: "tp5",
+      tipo: "ejercicio",
+      etiqueta: "Cinemática · Tiro parabólico · Reactivo 5 / 6",
+      pregunta: "Una pelota se lanza horizontalmente a 4 m/s y tarda 2 s en caer. ¿Qué distancia horizontal recorre? (g = 10 m/s²)",
+      opciones: ["8 m", "4 m", "20 m", "2 m"],
+      correcta: 0,
+      explicacion: "En el eje horizontal hay MRU: x = v₀ₓ·t = (4)(2) = 8 m.",
+      pasos: [
+        { pre: "Horizontal (MRU): ", math: "x = v_{0x}\\,t = (4)(2) = 8\\ m" }
+      ]
+    },
+
+    {
+      id: "tp6",
+      tipo: "ejercicio",
+      etiqueta: "Cinemática · Tiro parabólico · Reactivo 6 / 6",
+      pregunta: "Los movimientos horizontal y vertical de un proyectil son independientes, pero comparten:",
+      opciones: ["El tiempo", "La velocidad", "La aceleración", "La distancia"],
+      correcta: 0,
+      explicacion: "Aunque cada eje se analiza por separado, ambos ocurren simultáneamente: lo único que tienen en común es el tiempo de vuelo.",
+      pasos: [
+        { pre: "Variable común: ", math: "t_{horizontal} = t_{vertical}" }
       ]
     },
 

@@ -4180,7 +4180,6 @@ function DosMonedasSVG({ tema }) {
           </g>
         );
       })}
-      <text x={140} y={82} fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">3 de 4 tienen al menos una cara</text>
     </svg>
   );
 }

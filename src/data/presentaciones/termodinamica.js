@@ -467,7 +467,7 @@ export const PRESENTACION = {
       svgDiagram: "ter-transferencia",
       enunciado:
         "Acercas la mano a una fogata, sin tocarla y sin estar sobre el aire caliente que sube, y sientes el calor. ¿Por qué mecanismo te llega?",
-      math: "\\text{conducción · convección · radiación}",
+      math: "\\text{conducción ⋅ convección ⋅ radiación}",
       por_que:
         "El calor que sientes sin contacto y sin un fluido que lo transporte llega por radiación: ondas electromagnéticas (infrarrojas) que viajan sin necesitar un medio material.",
       math_razon: "\\text{sin contacto y sin fluido} \\Rightarrow \\text{radiación}",
@@ -492,7 +492,7 @@ export const PRESENTACION = {
       id: "t14",
       tipo: "ejercicio",
       svgDiagram: "ter-transferencia",
-      etiqueta: "Termodinámica · Transferencia de calor · Reactivo 2 / 3",
+      etiqueta: "Termodinámica ⋅ Transferencia de calor ⋅ Reactivo 2 / 3",
       pregunta:
         "El calor del Sol llega a la Tierra atravesando el vacío del espacio. ¿Por qué mecanismo?",
       opciones: ["Radiación", "Conducción", "Convección", "Combustión"],

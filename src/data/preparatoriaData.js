@@ -559,6 +559,17 @@ export const SUBJECTS_PREP = [
           },
         ],
       },
+      {
+        id: "sesion-prob",
+        name: "Probabilidad",
+        children: [
+          {
+            id: "sesion-1",
+            name: "Sesión 1 - Probabilidad",
+            video: "https://youtu.be/M61YvjBRfRM",
+          },
+        ],
+      },
     ],
   },
   {

@@ -168,6 +168,7 @@ export const SUBJECTS_UNI = [
       { id: "bio-celula", name: "La Célula", presentacion: "/ver/biologia-celula" },
       { id: "bio-bioquimica", name: "Bioquímica y Metabolismo", presentacion: "/ver/biologia-bioquimica" },
       { id: "bio-reproduccion", name: "Reproducción", presentacion: "/ver/biologia-reproduccion" },
+      { id: "bio-genetica", name: "Genética y Biotecnología", presentacion: "/ver/biologia-genetica" },
       {
         id: "celula",
         name: "La Célula (cuestionarios)",

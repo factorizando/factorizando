@@ -176,6 +176,7 @@ function SlidePortadaDiagram({ slide, tema }) {
   if (slide.svgDiagram === "cel-portada") return <CelPortadaSVG tema={tema} />;
   if (slide.svgDiagram === "bq-portada") return <BqPortadaSVG tema={tema} />;
   if (slide.svgDiagram === "rep-portada") return <RepPortadaSVG tema={tema} />;
+  if (slide.svgDiagram === "gen-portada") return <GenPortadaSVG tema={tema} />;
   const DecoSVG = tema.DecoSVG;
   return <DecoSVG tema={tema} />;
 }
@@ -712,6 +713,12 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "rep-asexual"              && <RepAsexualSVG            tema={tema} />}
       {slide.svgDiagram === "rep-sexual"               && <RepSexualSVG             tema={tema} />}
       {slide.svgDiagram === "rep-planta"               && <RepPlantaSVG             tema={tema} />}
+      {slide.svgDiagram === "gen-portada"              && <GenPortadaSVG            tema={tema} />}
+      {slide.svgDiagram === "gen-adn"                  && <GenAdnSVG                tema={tema} />}
+      {slide.svgDiagram === "gen-dogma"                && <GenDogmaSVG              tema={tema} />}
+      {slide.svgDiagram === "gen-punnett"              && <GenPunnettSVG            tema={tema} />}
+      {slide.svgDiagram === "gen-mutacion"             && <GenMutacionSVG           tema={tema} />}
+      {slide.svgDiagram === "gen-biotecnologia"        && <GenBiotecnologiaSVG      tema={tema} />}
 
       <div style={{ display: "flex", flexDirection: "column", gap: compact ? 8 : 10 }}>
         {slide.items.map((item, i) => {
@@ -2006,6 +2013,12 @@ function SlideCriterioDetalle({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "rep-asexual"              && <RepAsexualSVG          tema={tema} />}
       {slide.svgDiagram === "rep-sexual"               && <RepSexualSVG           tema={tema} />}
       {slide.svgDiagram === "rep-planta"               && <RepPlantaSVG           tema={tema} />}
+      {slide.svgDiagram === "gen-portada"              && <GenPortadaSVG          tema={tema} />}
+      {slide.svgDiagram === "gen-adn"                  && <GenAdnSVG              tema={tema} />}
+      {slide.svgDiagram === "gen-dogma"                && <GenDogmaSVG            tema={tema} />}
+      {slide.svgDiagram === "gen-punnett"              && <GenPunnettSVG          tema={tema} />}
+      {slide.svgDiagram === "gen-mutacion"             && <GenMutacionSVG         tema={tema} />}
+      {slide.svgDiagram === "gen-biotecnologia"        && <GenBiotecnologiaSVG    tema={tema} />}
       {slide.svgDiagram === "din-segunda-ley"          && <DinSegundaLeySVG       tema={tema} />}
       {slide.svgDiagram === "din-tercera-ley"          && <DinTerceraLeySVG       tema={tema} />}
       {slide.svgDiagram === "din-hooke"                && <DinHookeSVG            tema={tema} />}
@@ -5548,6 +5561,12 @@ function renderEjercicioSVG(svgDiagram, tema) {
   if (svgDiagram === "rep-asexual")        return <RepAsexualSVG       tema={tema} />;
   if (svgDiagram === "rep-sexual")         return <RepSexualSVG        tema={tema} />;
   if (svgDiagram === "rep-planta")         return <RepPlantaSVG        tema={tema} />;
+  if (svgDiagram === "gen-portada")        return <GenPortadaSVG       tema={tema} />;
+  if (svgDiagram === "gen-adn")            return <GenAdnSVG           tema={tema} />;
+  if (svgDiagram === "gen-dogma")          return <GenDogmaSVG         tema={tema} />;
+  if (svgDiagram === "gen-punnett")        return <GenPunnettSVG       tema={tema} />;
+  if (svgDiagram === "gen-mutacion")       return <GenMutacionSVG      tema={tema} />;
+  if (svgDiagram === "gen-biotecnologia")  return <GenBiotecnologiaSVG tema={tema} />;
   if (svgDiagram === "cin-graf-xt")        return <CinGrafXtSVG        tema={tema} />;
   if (svgDiagram === "cin-ej-dt")          return <CinEjDtSVG          tema={tema} />;
   if (svgDiagram === "cin-caida-libre")    return <CinCaidaLibreSVG    tema={tema} />;
@@ -9438,6 +9457,183 @@ function RepPlantaSVG({ tema }) {
       <text x={84} y={130} textAnchor="middle" fill={mu} fontSize="7" fontFamily="'DM Sans',sans-serif">fruto + semilla</text>
       <text x={158} y={104} textAnchor="middle" fill={T} fontSize="7.5" fontFamily="'DM Sans',sans-serif">polinización</text>
       <text x={158} y={116} textAnchor="middle" fill={mu} fontSize="7" fontFamily="'DM Sans',sans-serif">→ semilla → fruto</text>
+    </svg>
+  );
+}
+
+// ══ BIOLOGÍA · GENÉTICA Y BIOTECNOLOGÍA ═══════════════════════════════════════
+function GenDobleHelice({ tema, x0 = 0, w = 220, h = 130 }) {
+  const a = tema.acento, bl = tema.azul;
+  const cx = x0 + w / 2;
+  const rungs = [];
+  const N = 9;
+  for (let i = 0; i < N; i++) {
+    const t = i / (N - 1);
+    const y = 14 + t * (h - 28);
+    const phase = t * Math.PI * 2.4;
+    const xL = cx + 26 * Math.sin(phase);
+    const xR = cx - 26 * Math.sin(phase);
+    rungs.push({ y, xL, xR, front: Math.cos(phase) > 0 });
+  }
+  return (
+    <>
+      <path d={`M ${rungs[0].xL} ${rungs[0].y} ` + rungs.map(r => `L ${r.xL} ${r.y}`).join(" ")} fill="none" stroke={a} strokeWidth="2.4" />
+      <path d={`M ${rungs[0].xR} ${rungs[0].y} ` + rungs.map(r => `L ${r.xR} ${r.y}`).join(" ")} fill="none" stroke={bl} strokeWidth="2.4" />
+      {rungs.map((r, i) => (
+        <line key={i} x1={r.xL} y1={r.y} x2={r.xR} y2={r.y} stroke={r.front ? a : bl} strokeWidth="1.6" opacity={r.front ? 0.7 : 0.35} />
+      ))}
+    </>
+  );
+}
+
+function GenPortadaSVG({ tema }) {
+  const mu = tema.muted;
+  return (
+    <svg viewBox="0 0 220 140" width="100%" style={{ display: "block", maxHeight: 140, maxWidth: 240 }}>
+      <GenDobleHelice tema={tema} x0={0} w={220} h={120} />
+      <text x={110} y={134} textAnchor="middle" fill={mu} fontSize="8.5" fontFamily="'DM Sans',sans-serif">la información de la vida</text>
+    </svg>
+  );
+}
+
+function GenAdnSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto;
+  const pairs = [["A", "T"], ["C", "G"], ["T", "A"], ["G", "C"], ["A", "T"]];
+  return (
+    <svg viewBox="0 0 260 130" width="100%" style={{ display: "block", maxHeight: 140 }}>
+      {/* dos columnas */}
+      <line x1={92} y1={14} x2={92} y2={116} stroke={a} strokeWidth="2.4" />
+      <line x1={168} y1={14} x2={168} y2={116} stroke={bl} strokeWidth="2.4" />
+      {pairs.map(([l, r], i) => {
+        const y = 24 + i * 22;
+        return (
+          <g key={i}>
+            <line x1={92} y1={y} x2={168} y2={y} stroke={mu} strokeWidth="1.2" />
+            <circle cx={114} cy={y} r={8} fill="rgba(52,211,153,0.18)" stroke={a} strokeWidth="1.3" />
+            <text x={114} y={y + 3} textAnchor="middle" fill={a} fontSize="8" fontFamily="'DM Sans',sans-serif">{l}</text>
+            <circle cx={146} cy={y} r={8} fill="rgba(134,239,172,0.18)" stroke={bl} strokeWidth="1.3" />
+            <text x={146} y={y + 3} textAnchor="middle" fill={bl} fontSize="8" fontFamily="'DM Sans',sans-serif">{r}</text>
+          </g>
+        );
+      })}
+      <text x={30} y={66} textAnchor="middle" fill={T} fontSize="8" fontFamily="'DM Sans',sans-serif">A–T</text>
+      <text x={232} y={66} textAnchor="middle" fill={T} fontSize="8" fontFamily="'DM Sans',sans-serif">C–G</text>
+      <text x={130} y={128} textAnchor="middle" fill={mu} fontSize="7.5" fontFamily="'DM Sans',sans-serif">bases complementarias</text>
+    </svg>
+  );
+}
+
+function GenDogmaSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto;
+  const box = (x, label, color, fill) => (
+    <g>
+      <rect x={x} y={48} width={50} height={26} rx={5} fill={fill} stroke={color} strokeWidth="1.8" />
+      <text x={x + 25} y={65} textAnchor="middle" fill={color} fontSize="8.5" fontFamily="'DM Sans',sans-serif" fontWeight="700">{label}</text>
+    </g>
+  );
+  return (
+    <svg viewBox="0 0 280 110" width="100%" style={{ display: "block", maxHeight: 120 }}>
+      {box(14, "ADN", a, "rgba(52,211,153,0.12)")}
+      {box(115, "ARN", bl, "rgba(134,239,172,0.12)")}
+      {box(216, "Proteína", T, "rgba(255,255,255,0.06)")}
+      <line x1={64} y1={61} x2={113} y2={61} stroke={mu} strokeWidth="2" />
+      <polygon points={arrowHead(64, 61, 113, 61, 7)} fill={mu} />
+      <text x={89} y={54} textAnchor="middle" fill={mu} fontSize="6.5" fontFamily="'DM Sans',sans-serif">transcripción</text>
+      <line x1={165} y1={61} x2={214} y2={61} stroke={mu} strokeWidth="2" />
+      <polygon points={arrowHead(165, 61, 214, 61, 7)} fill={mu} />
+      <text x={190} y={54} textAnchor="middle" fill={mu} fontSize="6.5" fontFamily="'DM Sans',sans-serif">traducción</text>
+      {/* replicación loop */}
+      <path d="M 22 48 q -14 -22 17 -22 q 31 0 17 22" fill="none" stroke={a} strokeWidth="1.4" strokeDasharray="3 2" />
+      <polygon points={arrowHead(50, 30, 56, 48, 6)} fill={a} />
+      <text x={39} y={16} textAnchor="middle" fill={a} fontSize="6.5" fontFamily="'DM Sans',sans-serif">replicación</text>
+      <text x={140} y={98} textAnchor="middle" fill={mu} fontSize="7.5" fontFamily="'DM Sans',sans-serif">el dogma central de la biología molecular</text>
+    </svg>
+  );
+}
+
+function GenPunnettSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto;
+  const inner = [
+    { gx: 1, gy: 1, g: "AA", domin: true }, { gx: 2, gy: 1, g: "Aa", domin: true },
+    { gx: 1, gy: 2, g: "Aa", domin: true }, { gx: 2, gy: 2, g: "aa", domin: false },
+  ];
+  const S = 38, ox = 60, oy = 22;
+  return (
+    <svg viewBox="0 0 220 150" width="100%" style={{ display: "block", maxHeight: 158, maxWidth: 240 }}>
+      {/* encabezados columnas (padre Aa) */}
+      {["A", "a"].map((g, i) => (
+        <text key={i} x={ox + S / 2 + i * S} y={oy - 6} textAnchor="middle" fill={a} fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700">{g}</text>
+      ))}
+      {/* encabezados filas (madre Aa) */}
+      {["A", "a"].map((g, i) => (
+        <text key={i} x={ox - 12} y={oy + S / 2 + 5 + i * S} textAnchor="middle" fill={bl} fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700">{g}</text>
+      ))}
+      {inner.map((c, i) => {
+        const x = ox + (c.gx - 1) * S, y = oy + (c.gy - 1) * S;
+        return (
+          <g key={i}>
+            <rect x={x} y={y} width={S} height={S} fill={c.domin ? "rgba(52,211,153,0.14)" : "rgba(248,113,113,0.16)"} stroke={c.domin ? a : tema.rojo} strokeWidth="1.6" />
+            <text x={x + S / 2} y={y + S / 2 + 5} textAnchor="middle" fill={c.domin ? a : tema.rojo} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700">{c.g}</text>
+          </g>
+        );
+      })}
+      <text x={110} y={oy + 2 * S + 22} textAnchor="middle" fill={T} fontSize="9" fontFamily="'DM Sans',sans-serif">Aa × Aa → 1 AA : 2 Aa : 1 aa</text>
+      <text x={110} y={oy + 2 * S + 36} textAnchor="middle" fill={mu} fontSize="8" fontFamily="'DM Sans',sans-serif">fenotipo 3 dominante : 1 recesivo</text>
+    </svg>
+  );
+}
+
+function GenMutacionSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto;
+  const seqA = ["A", "T", "G", "C", "A"];
+  const seqB = ["A", "T", "T", "C", "A"];
+  return (
+    <svg viewBox="0 0 260 110" width="100%" style={{ display: "block", maxHeight: 120 }}>
+      <text x={130} y={14} textAnchor="middle" fill={mu} fontSize="8" fontFamily="'DM Sans',sans-serif">un cambio en una base = mutación</text>
+      {seqA.map((b, i) => (
+        <g key={i}>
+          <rect x={28 + i * 42} y={26} width={28} height={20} rx={4} fill="rgba(52,211,153,0.12)" stroke={a} strokeWidth="1.4" />
+          <text x={42 + i * 42} y={40} textAnchor="middle" fill={a} fontSize="9" fontFamily="'DM Sans',sans-serif">{b}</text>
+        </g>
+      ))}
+      <text x={14} y={40} fill={mu} fontSize="8" fontFamily="'DM Sans',sans-serif">original</text>
+      {seqB.map((b, i) => {
+        const changed = b !== seqA[i];
+        return (
+          <g key={i}>
+            <rect x={28 + i * 42} y={64} width={28} height={20} rx={4} fill={changed ? "rgba(248,113,113,0.2)" : "rgba(134,239,172,0.10)"} stroke={changed ? tema.rojo : bl} strokeWidth={changed ? 2 : 1.4} />
+            <text x={42 + i * 42} y={78} textAnchor="middle" fill={changed ? tema.rojo : bl} fontSize="9" fontFamily="'DM Sans',sans-serif">{b}</text>
+          </g>
+        );
+      })}
+      <text x={14} y={78} fill={mu} fontSize="8" fontFamily="'DM Sans',sans-serif">mutada</text>
+      <text x={210} y={104} textAnchor="middle" fill={tema.rojo} fontSize="7.5" fontFamily="'DM Sans',sans-serif">G → T</text>
+    </svg>
+  );
+}
+
+function GenBiotecnologiaSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto;
+  return (
+    <svg viewBox="0 0 280 130" width="100%" style={{ display: "block", maxHeight: 140 }}>
+      {/* gen humano */}
+      <rect x={20} y={20} width={56} height={18} rx={4} fill="rgba(52,211,153,0.14)" stroke={a} strokeWidth="1.6" />
+      <text x={48} y={33} textAnchor="middle" fill={a} fontSize="7.5" fontFamily="'DM Sans',sans-serif">gen humano</text>
+      {/* plásmido */}
+      <circle cx={120} cy={66} r={26} fill="none" stroke={bl} strokeWidth="2.4" strokeDasharray="6 3" />
+      <text x={120} y={102} textAnchor="middle" fill={bl} fontSize="7.5" fontFamily="'DM Sans',sans-serif">plásmido</text>
+      <line x1={70} y1={40} x2={104} y2={56} stroke={mu} strokeWidth="1.4" />
+      <polygon points={arrowHead(70, 40, 104, 56, 6)} fill={mu} />
+      {/* insertado */}
+      <rect x={108} y={42} width={24} height={9} rx={2} fill="rgba(52,211,153,0.3)" stroke={a} strokeWidth="1.2" />
+      {/* flecha a bacteria */}
+      <line x1={150} y1={66} x2={188} y2={66} stroke={mu} strokeWidth="2" />
+      <polygon points={arrowHead(150, 66, 188, 66, 7)} fill={mu} />
+      {/* bacteria */}
+      <ellipse cx={222} cy={66} rx={30} ry={18} fill="rgba(134,239,172,0.08)" stroke={a} strokeWidth="1.8" />
+      <circle cx={222} cy={66} r={9} fill="none" stroke={a} strokeWidth="1.2" strokeDasharray="3 2" />
+      <text x={222} y={98} textAnchor="middle" fill={T} fontSize="7.5" fontFamily="'DM Sans',sans-serif">bacteria</text>
+      <text x={140} y={122} textAnchor="middle" fill={mu} fontSize="7.5" fontFamily="'DM Sans',sans-serif">la bacteria fabrica la proteína (insulina)</text>
     </svg>
   );
 }

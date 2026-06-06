@@ -31,6 +31,7 @@ import { PRESENTACION as FLUIDOS } from "./fluidos.js";
 import { PRESENTACION as FISICA_MODERNA } from "./fisica-moderna.js";
 import { PRESENTACION as BIOLOGIA_CELULA } from "./biologia-celula.js";
 import { PRESENTACION as BIOLOGIA_BIOQUIMICA } from "./biologia-bioquimica.js";
+import { PRESENTACION as BIOLOGIA_REPRODUCCION } from "./biologia-reproduccion.js";
 
 export const PRESENTACIONES_INDEX = {
   "semejanza-triangulos": SEMEJANZA_TRIANGULOS,
@@ -62,6 +63,7 @@ export const PRESENTACIONES_INDEX = {
   "fisica-moderna": FISICA_MODERNA,
   "biologia-celula": BIOLOGIA_CELULA,
   "biologia-bioquimica": BIOLOGIA_BIOQUIMICA,
+  "biologia-reproduccion": BIOLOGIA_REPRODUCCION,
 };
 
 export function buscarPresentacion(id) {

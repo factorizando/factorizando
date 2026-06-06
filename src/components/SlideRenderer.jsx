@@ -175,6 +175,7 @@ function SlidePortadaDiagram({ slide, tema }) {
   if (slide.svgDiagram === "mod-portada") return <ModPortadaSVG tema={tema} />;
   if (slide.svgDiagram === "cel-portada") return <CelPortadaSVG tema={tema} />;
   if (slide.svgDiagram === "bq-portada") return <BqPortadaSVG tema={tema} />;
+  if (slide.svgDiagram === "rep-portada") return <RepPortadaSVG tema={tema} />;
   const DecoSVG = tema.DecoSVG;
   return <DecoSVG tema={tema} />;
 }
@@ -707,6 +708,10 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "bq-atp"                   && <BqAtpSVG                 tema={tema} />}
       {slide.svgDiagram === "bq-respiracion"           && <BqRespiracionSVG         tema={tema} />}
       {slide.svgDiagram === "bq-fotosintesis"          && <BqFotosintesisSVG        tema={tema} />}
+      {slide.svgDiagram === "rep-portada"              && <RepPortadaSVG            tema={tema} />}
+      {slide.svgDiagram === "rep-asexual"              && <RepAsexualSVG            tema={tema} />}
+      {slide.svgDiagram === "rep-sexual"               && <RepSexualSVG             tema={tema} />}
+      {slide.svgDiagram === "rep-planta"               && <RepPlantaSVG             tema={tema} />}
 
       <div style={{ display: "flex", flexDirection: "column", gap: compact ? 8 : 10 }}>
         {slide.items.map((item, i) => {
@@ -1997,6 +2002,10 @@ function SlideCriterioDetalle({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "bq-atp"                   && <BqAtpSVG               tema={tema} />}
       {slide.svgDiagram === "bq-respiracion"           && <BqRespiracionSVG       tema={tema} />}
       {slide.svgDiagram === "bq-fotosintesis"          && <BqFotosintesisSVG      tema={tema} />}
+      {slide.svgDiagram === "rep-portada"              && <RepPortadaSVG          tema={tema} />}
+      {slide.svgDiagram === "rep-asexual"              && <RepAsexualSVG          tema={tema} />}
+      {slide.svgDiagram === "rep-sexual"               && <RepSexualSVG           tema={tema} />}
+      {slide.svgDiagram === "rep-planta"               && <RepPlantaSVG           tema={tema} />}
       {slide.svgDiagram === "din-segunda-ley"          && <DinSegundaLeySVG       tema={tema} />}
       {slide.svgDiagram === "din-tercera-ley"          && <DinTerceraLeySVG       tema={tema} />}
       {slide.svgDiagram === "din-hooke"                && <DinHookeSVG            tema={tema} />}
@@ -5535,6 +5544,10 @@ function renderEjercicioSVG(svgDiagram, tema) {
   if (svgDiagram === "bq-atp")             return <BqAtpSVG            tema={tema} />;
   if (svgDiagram === "bq-respiracion")     return <BqRespiracionSVG    tema={tema} />;
   if (svgDiagram === "bq-fotosintesis")    return <BqFotosintesisSVG   tema={tema} />;
+  if (svgDiagram === "rep-portada")        return <RepPortadaSVG       tema={tema} />;
+  if (svgDiagram === "rep-asexual")        return <RepAsexualSVG       tema={tema} />;
+  if (svgDiagram === "rep-sexual")         return <RepSexualSVG        tema={tema} />;
+  if (svgDiagram === "rep-planta")         return <RepPlantaSVG        tema={tema} />;
   if (svgDiagram === "cin-graf-xt")        return <CinGrafXtSVG        tema={tema} />;
   if (svgDiagram === "cin-ej-dt")          return <CinEjDtSVG          tema={tema} />;
   if (svgDiagram === "cin-caida-libre")    return <CinCaidaLibreSVG    tema={tema} />;
@@ -9329,6 +9342,102 @@ function BqFotosintesisSVG({ tema }) {
       <text x={255} y={56} textAnchor="middle" fill={a} fontSize="8" fontFamily="'DM Sans',sans-serif" fontWeight="700">glucosa</text>
       <text x={255} y={88} textAnchor="middle" fill={bl} fontSize="8" fontFamily="'DM Sans',sans-serif">O₂</text>
       <text x={145} y={122} textAnchor="middle" fill={mu} fontSize="7.5" fontFamily="'DM Sans',sans-serif">6CO₂ + 6H₂O + luz → glucosa + 6O₂</text>
+    </svg>
+  );
+}
+
+// ══ BIOLOGÍA · REPRODUCCIÓN ═══════════════════════════════════════════════════
+function RepPortadaSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted;
+  return (
+    <svg viewBox="0 0 220 140" width="100%" style={{ display: "block", maxHeight: 140, maxWidth: 280 }}>
+      {/* célula madre que se divide */}
+      <circle cx={60} cy={70} r={30} fill="rgba(52,211,153,0.06)" stroke={a} strokeWidth="2" />
+      <circle cx={52} cy={70} r={11} fill={bl} opacity="0.4" />
+      <circle cx={68} cy={70} r={11} fill={bl} opacity="0.4" />
+      <path d="M 60 42 v 56" stroke={a} strokeWidth="1.4" strokeDasharray="3 3" />
+      <line x1={96} y1={70} x2={130} y2={70} stroke={a} strokeWidth="2" />
+      <polygon points={arrowHead(96, 70, 130, 70, 8)} fill={a} />
+      <circle cx={158} cy={50} r={18} fill="rgba(52,211,153,0.06)" stroke={a} strokeWidth="1.8" />
+      <circle cx={158} cy={50} r={7} fill={bl} opacity="0.45" />
+      <circle cx={158} cy={92} r={18} fill="rgba(52,211,153,0.06)" stroke={a} strokeWidth="1.8" />
+      <circle cx={158} cy={92} r={7} fill={bl} opacity="0.45" />
+      <text x={110} y={128} textAnchor="middle" fill={mu} fontSize="8.5" fontFamily="'DM Sans',sans-serif">cómo se perpetúa la vida</text>
+    </svg>
+  );
+}
+
+function RepAsexualSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto;
+  const cell = (cx, cy, r) => <circle cx={cx} cy={cy} r={r} fill="rgba(52,211,153,0.07)" stroke={a} strokeWidth="1.6" />;
+  return (
+    <svg viewBox="0 0 290 130" width="100%" style={{ display: "block", maxHeight: 140 }}>
+      {/* Bipartición */}
+      {cell(34, 36, 14)}{cell(58, 36, 9)}
+      <text x={44} y={62} textAnchor="middle" fill={T} fontSize="7" fontFamily="'DM Sans',sans-serif">bipartición</text>
+      {/* Gemación */}
+      {cell(118, 36, 15)}<circle cx={138} cy={26} r={7} fill="rgba(134,239,172,0.18)" stroke={bl} strokeWidth="1.4" />
+      <text x={124} y={62} textAnchor="middle" fill={T} fontSize="7" fontFamily="'DM Sans',sans-serif">gemación</text>
+      {/* Esporulación */}
+      {cell(204, 34, 14)}
+      {[[226,24],[232,34],[226,44]].map(([x,y],i)=><circle key={i} cx={x} cy={y} r={3} fill={a} opacity="0.6" />)}
+      <text x={210} y={62} textAnchor="middle" fill={T} fontSize="7" fontFamily="'DM Sans',sans-serif">esporulación</text>
+      {/* Fragmentación */}
+      <path d="M 40 86 q 18 -8 36 0" fill="none" stroke={a} strokeWidth="3" />
+      <path d="M 86 86 q 12 -6 24 0" fill="none" stroke={a} strokeWidth="3" />
+      <text x={70} y={112} textAnchor="middle" fill={T} fontSize="7" fontFamily="'DM Sans',sans-serif">fragmentación</text>
+      <text x={210} y={100} textAnchor="middle" fill={mu} fontSize="7.5" fontFamily="'DM Sans',sans-serif">1 progenitor →</text>
+      <text x={210} y={112} textAnchor="middle" fill={bl} fontSize="7.5" fontFamily="'DM Sans',sans-serif">clones idénticos</text>
+    </svg>
+  );
+}
+
+function RepSexualSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto;
+  return (
+    <svg viewBox="0 0 280 120" width="100%" style={{ display: "block", maxHeight: 130 }}>
+      {/* óvulo */}
+      <circle cx={42} cy={60} r={20} fill="rgba(52,211,153,0.10)" stroke={a} strokeWidth="2" />
+      <circle cx={42} cy={60} r={7} fill={a} opacity="0.5" />
+      <text x={42} y={96} textAnchor="middle" fill={T} fontSize="7.5" fontFamily="'DM Sans',sans-serif">óvulo (n)</text>
+      {/* espermatozoide */}
+      <circle cx={120} cy={42} r={8} fill="rgba(134,239,172,0.2)" stroke={bl} strokeWidth="1.6" />
+      <path d="M 128 42 q 16 6 30 -2 q -14 10 -30 6" fill="none" stroke={bl} strokeWidth="1.6" />
+      <text x={140} y={28} textAnchor="middle" fill={T} fontSize="7.5" fontFamily="'DM Sans',sans-serif">esperma (n)</text>
+      <line x1={104} y1={50} x2={66} y2={58} stroke={bl} strokeWidth="1.6" strokeDasharray="3 2" />
+      {/* flecha fecundación */}
+      <line x1={150} y1={70} x2={196} y2={70} stroke={a} strokeWidth="2" />
+      <polygon points={arrowHead(150, 70, 196, 70, 8)} fill={a} />
+      <text x={172} y={62} textAnchor="middle" fill={a} fontSize="7" fontFamily="'DM Sans',sans-serif">fecundación</text>
+      {/* cigoto */}
+      <circle cx={236} cy={70} r={22} fill="rgba(52,211,153,0.12)" stroke={a} strokeWidth="2.2" />
+      <circle cx={230} cy={70} r={7} fill={a} opacity="0.5" />
+      <circle cx={242} cy={70} r={7} fill={bl} opacity="0.5" />
+      <text x={236} y={106} textAnchor="middle" fill={bl} fontSize="8" fontFamily="'DM Sans',sans-serif" fontWeight="700">cigoto (2n)</text>
+    </svg>
+  );
+}
+
+function RepPlantaSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto, gold = "#f5c842";
+  return (
+    <svg viewBox="0 0 240 140" width="100%" style={{ display: "block", maxHeight: 150, maxWidth: 300 }}>
+      {/* pétalos */}
+      {[0,1,2,3,4].map(i => { const ang = -Math.PI/2 + i*2*Math.PI/5; const cx=110+24*Math.cos(ang), cy=50+24*Math.sin(ang); return <ellipse key={i} cx={cx} cy={cy} rx={13} ry={8} fill="rgba(134,239,172,0.18)" stroke={bl} strokeWidth="1.4" transform={`rotate(${ang*180/Math.PI+90} ${cx} ${cy})`} />; })}
+      {/* centro/pistilo */}
+      <circle cx={110} cy={50} r={11} fill="rgba(245,200,66,0.25)" stroke={gold} strokeWidth="1.6" />
+      {/* estambres */}
+      {[-1,0,1].map((d,i) => <g key={i}><line x1={110+d*8} y1={50} x2={110+d*14} y2={32} stroke={a} strokeWidth="1.3" /><circle cx={110+d*14} cy={32} r={3} fill={a} /></g>)}
+      <text x={150} y={30} fill={a} fontSize="7" fontFamily="'DM Sans',sans-serif">estambre (polen)</text>
+      <text x={146} y={54} fill={gold} fontSize="7" fontFamily="'DM Sans',sans-serif">pistilo (óvulo)</text>
+      {/* tallo */}
+      <line x1={110} y1={61} x2={110} y2={120} stroke={tema.verde} strokeWidth="2.5" />
+      {/* fruto/semilla */}
+      <ellipse cx={84} cy={104} rx={11} ry={9} fill="rgba(52,211,153,0.2)" stroke={a} strokeWidth="1.6" />
+      <circle cx={84} cy={104} r={3.5} fill={bl} />
+      <text x={84} y={130} textAnchor="middle" fill={mu} fontSize="7" fontFamily="'DM Sans',sans-serif">fruto + semilla</text>
+      <text x={158} y={104} textAnchor="middle" fill={T} fontSize="7.5" fontFamily="'DM Sans',sans-serif">polinización</text>
+      <text x={158} y={116} textAnchor="middle" fill={mu} fontSize="7" fontFamily="'DM Sans',sans-serif">→ semilla → fruto</text>
     </svg>
   );
 }

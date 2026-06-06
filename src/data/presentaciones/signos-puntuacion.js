@@ -1,5 +1,6 @@
 // Datos de la presentación: Signos de Puntuación
 // Introducción + 12 reglas para el EXANI-I — Ortografía
+// Cada subtema incluye un bloque de teoría (regla_rica) y de 6 a 8 reactivos.
 
 export const PRESENTACION = {
   id: "signos-puntuacion",
@@ -94,10 +95,62 @@ export const PRESENTACION = {
       explicacion: "La raya (—) introduce cada parlamento en un diálogo. Las comillas se usan para citas textuales y otros usos (metalingüístico, ironía). El guion corto une compuestos léxicos.",
       pasos: []
     },
+    {
+      id: 5,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Introducción",
+      pregunta: "¿Qué signo anuncia una enumeración, una cita textual o una consecuencia de lo dicho?",
+      opciones: ["Los dos puntos (:)", "El punto y coma (;)", "Los puntos suspensivos (…)"],
+      correcta: 0,
+      explicacion: "Los dos puntos (:) detienen el enunciado para anunciar lo que sigue: una lista, una cita o la causa/consecuencia de lo expresado. El punto y coma marca pausa media; los puntos suspensivos indican suspenso o enumeración incompleta.",
+      pasos: []
+    },
+    {
+      id: 6,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — Introducción",
+      pregunta: "¿Cuál es la función principal del paréntesis ( )?",
+      opciones: [
+        "Cerrar un enunciado interrogativo",
+        "Encerrar una aclaración o dato accesorio que podría suprimirse",
+        "Separar proposiciones independientes con pausa media"
+      ],
+      correcta: 1,
+      explicacion: "El paréntesis encierra información accesoria —aclaraciones, datos, incisos— que podría suprimirse sin afectar la idea principal. Cerrar enunciados es función del punto o de los signos dobles; la pausa media corresponde al punto y coma.",
+      pasos: []
+    },
+    {
+      id: 7,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 6 — Introducción",
+      pregunta: "¿Cómo se llama el signo « » y para qué se emplea principalmente?",
+      opciones: [
+        "Corchetes; para incisos dentro de un paréntesis",
+        "Comillas; para citas textuales, ironía o uso metalingüístico",
+        "Raya; para introducir diálogos"
+      ],
+      correcta: 1,
+      explicacion: "« » son las comillas (angulares o latinas), preferidas en español. Se usan para citas textuales, ironía, uso metalingüístico y títulos de obras cortas. Los corchetes son [ ] y la raya es —.",
+      pasos: []
+    },
+    {
+      id: 8,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 7 — Introducción",
+      pregunta: "En la oración «Estudió matemáticas, física, química y biología», la coma cumple la función de…",
+      opciones: [
+        "anunciar una cita textual",
+        "separar los elementos de una enumeración",
+        "marcar el cierre del enunciado"
+      ],
+      correcta: 1,
+      explicacion: "La coma separa los elementos de la serie (matemáticas, física, química), sin coma antes de la «y» final. Anunciar citas es función de los dos puntos; cerrar el enunciado, del punto.",
+      pasos: []
+    },
 
     // ── Regla 1: El punto ─────────────────────────────────────────────────────
     {
-      id: 5,
+      id: 9,
       tipo: "regla_rica",
       etiqueta: "Regla 1 / 12",
       titulo: "El punto — y seguido, y aparte, final",
@@ -140,7 +193,7 @@ export const PRESENTACION = {
       ]
     },
     {
-      id: 6,
+      id: 10,
       tipo: "ejercicio",
       etiqueta: "Reactivo 1 — Regla 1",
       pregunta: "«Terminó la presentación__ Los asistentes aplaudieron durante varios minutos.» ¿Qué signo corresponde en el espacio?",
@@ -150,7 +203,7 @@ export const PRESENTACION = {
       pasos: []
     },
     {
-      id: 7,
+      id: 11,
       tipo: "ejercicio",
       etiqueta: "Reactivo 2 — Regla 1",
       pregunta: "¿Cuál de estas opciones representa el uso correcto del punto en un título?",
@@ -164,7 +217,7 @@ export const PRESENTACION = {
       pasos: []
     },
     {
-      id: 8,
+      id: 12,
       tipo: "ejercicio",
       etiqueta: "Reactivo 3 — Regla 1",
       pregunta: "«El informe fue entregado a tiempo. __ comité lo revisará esta semana.» ¿Qué corresponde en el espacio para que la mayúscula sea correcta?",
@@ -173,10 +226,58 @@ export const PRESENTACION = {
       explicacion: "«El» — después de punto siempre se escribe con mayúscula inicial. «el» en minúscula después de punto es una falta ortográfica.",
       pasos: []
     },
+    {
+      id: 13,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Regla 1",
+      pregunta: "¿Cuál de las siguientes abreviaturas usa CORRECTAMENTE el punto?",
+      opciones: ["Dr Pérez atenderá hoy", "Dr. Pérez atenderá hoy", "Dr· Pérez atenderá hoy"],
+      correcta: 1,
+      explicacion: "«Dr.» — la abreviatura se cierra con punto. «Dr» sin punto es incorrecto y el signo «·» no es el punto de abreviatura. Otras abreviaturas con punto: Sra., pág., aprox.",
+      pasos: []
+    },
+    {
+      id: 14,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — Regla 1",
+      pregunta: "Cuando un párrafo termina y comienza otro con un tema o idea distinta, el signo que los separa se llama…",
+      opciones: ["punto y seguido", "punto y aparte", "punto final"],
+      correcta: 1,
+      explicacion: "Punto y aparte — separa párrafos: la idea concluye y se abre uno nuevo. El punto y seguido continúa en el mismo párrafo; el punto final cierra todo el texto.",
+      pasos: []
+    },
+    {
+      id: 15,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 6 — Regla 1",
+      pregunta: "«El acto se realizó en el auditorio (según el programa oficial)__» ¿Dónde se coloca el punto final del enunciado?",
+      opciones: [
+        "Dentro del paréntesis: «…oficial.)»",
+        "Fuera del paréntesis: «…oficial).»",
+        "No lleva punto porque el paréntesis ya cierra"
+      ],
+      correcta: 1,
+      explicacion: "El punto final va FUERA del paréntesis de cierre cuando este se incluye dentro de un enunciado mayor: «…(según el programa oficial).». Lo mismo ocurre con las comillas de cierre.",
+      pasos: []
+    },
+    {
+      id: 16,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 7 — Regla 1",
+      pregunta: "¿Cuál de las siguientes opciones está CORRECTAMENTE puntuada?",
+      opciones: [
+        "Aprobó el examen. después celebró con su familia.",
+        "Aprobó el examen. Después celebró con su familia.",
+        "Aprobó el examen, Después celebró con su familia."
+      ],
+      correcta: 1,
+      explicacion: "«Aprobó el examen. Después celebró con su familia.» — son dos enunciados independientes separados por punto y seguido, y tras el punto se escribe con mayúscula. La coma no basta para separar dos oraciones completas.",
+      pasos: []
+    },
 
     // ── Regla 2: La coma — usos principales ──────────────────────────────────
     {
-      id: 9,
+      id: 17,
       tipo: "regla_rica",
       etiqueta: "Regla 2 / 12",
       titulo: "La coma — seis usos principales",
@@ -220,7 +321,7 @@ export const PRESENTACION = {
       ]
     },
     {
-      id: 10,
+      id: 18,
       tipo: "ejercicio",
       etiqueta: "Reactivo 1 — Regla 2",
       pregunta: "«__ cuéntame qué ocurrió en la reunión de ayer con el comité evaluador.» ¿Qué corresponde al inicio para que el vocativo esté bien puntuado?",
@@ -230,7 +331,7 @@ export const PRESENTACION = {
       pasos: []
     },
     {
-      id: 11,
+      id: 19,
       tipo: "ejercicio",
       etiqueta: "Reactivo 2 — Regla 2",
       pregunta: "«El coordinador __ que llegó tarde __ abrió la sesión sin disculparse ante el grupo.» ¿Qué signos corresponden?",
@@ -244,7 +345,7 @@ export const PRESENTACION = {
       pasos: []
     },
     {
-      id: 12,
+      id: 20,
       tipo: "ejercicio",
       etiqueta: "Reactivo 3 — Regla 2",
       pregunta: "«__ el proyecto fue aprobado por unanimidad en la sesión plenaria.» ¿Qué conector con coma puede iniciar correctamente esta oración?",
@@ -253,10 +354,62 @@ export const PRESENTACION = {
       explicacion: "«Sin embargo, el proyecto fue aprobado…» — los conectores adversativos y ordenadores del discurso (sin embargo, no obstante, por lo tanto, es decir…) van seguidos de coma cuando encabezan el enunciado.",
       pasos: []
     },
+    {
+      id: 21,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Regla 2",
+      pregunta: "¿Cuál de las siguientes enumeraciones está CORRECTAMENTE puntuada?",
+      opciones: [
+        "Compró cuadernos, lápices, gomas, y reglas.",
+        "Compró cuadernos, lápices, gomas y reglas.",
+        "Compró cuadernos lápices gomas y reglas."
+      ],
+      correcta: 1,
+      explicacion: "«Compró cuadernos, lápices, gomas y reglas.» — la coma separa los elementos de la serie, pero NO se escribe coma antes de la «y» que une el último elemento. Omitir todas las comas también es incorrecto.",
+      pasos: []
+    },
+    {
+      id: 22,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — Regla 2",
+      pregunta: "«En cuanto al presupuesto__ el comité tomará una decisión la próxima semana.» ¿Qué corresponde en el espacio?",
+      opciones: ["nada (sin signo)", ",", ":"],
+      correcta: 1,
+      explicacion: "Coma — cuando un complemento circunstancial se antepone al sujeto y al verbo («En cuanto al presupuesto…»), se separa del resto de la oración con coma. Es el uso de la coma por dislocación del orden natural.",
+      pasos: []
+    },
+    {
+      id: 23,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 6 — Regla 2",
+      pregunta: "«Él estudió matemáticas; ella__ química.» La coma del segundo segmento sustituye a…",
+      opciones: [
+        "un sustantivo omitido",
+        "el verbo omitido «estudió» (elipsis verbal)",
+        "una conjunción"
+      ],
+      correcta: 1,
+      explicacion: "La coma marca la elipsis verbal: «ella, química» equivale a «ella estudió química». La coma ocupa el lugar del verbo sobrentendido para evitar repetirlo.",
+      pasos: []
+    },
+    {
+      id: 24,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 7 — Regla 2",
+      pregunta: "¿En cuál de estas oraciones la coma marca correctamente un conector explicativo?",
+      opciones: [
+        "El plazo vence el viernes es decir en tres días.",
+        "El plazo vence el viernes, es decir, en tres días.",
+        "El plazo vence el viernes, es decir en tres días."
+      ],
+      correcta: 1,
+      explicacion: "«El plazo vence el viernes, es decir, en tres días.» — el conector «es decir» se enmarca entre comas (una antes y otra después). Omitir cualquiera de las dos comas es incorrecto.",
+      pasos: []
+    },
 
     // ── Regla 3: La coma — prohibiciones ─────────────────────────────────────
     {
-      id: 13,
+      id: 25,
       tipo: "regla_rica",
       etiqueta: "Regla 3 / 12",
       titulo: "La coma — prohibiciones y casos especiales",
@@ -299,7 +452,7 @@ export const PRESENTACION = {
       ]
     },
     {
-      id: 14,
+      id: 26,
       tipo: "ejercicio",
       etiqueta: "Reactivo 1 — Regla 3",
       pregunta: "¿Cuál de las siguientes oraciones tiene un uso INCORRECTO de la coma?",
@@ -313,7 +466,7 @@ export const PRESENTACION = {
       pasos: []
     },
     {
-      id: 15,
+      id: 27,
       tipo: "ejercicio",
       etiqueta: "Reactivo 2 — Regla 3",
       pregunta: "«El comité dijo__ que el proyecto había sido aprobado sin modificaciones.» ¿Qué corresponde en el espacio?",
@@ -323,7 +476,7 @@ export const PRESENTACION = {
       pasos: []
     },
     {
-      id: 16,
+      id: 28,
       tipo: "ejercicio",
       etiqueta: "Reactivo 3 — Regla 3",
       pregunta: "«Llegó temprano__ pero el auditorio ya estaba completamente lleno de asistentes.» ¿Qué corresponde en el espacio?",
@@ -332,10 +485,62 @@ export const PRESENTACION = {
       explicacion: "Coma — «pero» une dos cláusulas con verbo propio («llegó» / «estaba»). Cuando une dos proposiciones completas, la coma antes de «pero» es obligatoria.",
       pasos: []
     },
+    {
+      id: 29,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Regla 3",
+      pregunta: "¿Cuál de las siguientes oraciones está puntuada CORRECTAMENTE?",
+      opciones: [
+        "Entregó, el informe completo a la dirección.",
+        "Entregó el informe completo a la dirección.",
+        "Entregó el informe completo, a la dirección."
+      ],
+      correcta: 1,
+      explicacion: "«Entregó el informe completo a la dirección.» — no debe separarse el verbo de su complemento directo («el informe») con coma. Las opciones con coma rompen indebidamente la unidad verbo-complemento.",
+      pasos: []
+    },
+    {
+      id: 30,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — Regla 3",
+      pregunta: "«Estudió__ descansó__ y aprobó el examen.» ¿Qué signos corresponden para una serie simple?",
+      opciones: [
+        ", / , (coma en ambos)",
+        ", / nada (coma solo en el primero)",
+        "nada / , (coma solo antes de «y»)"
+      ],
+      correcta: 1,
+      explicacion: "«Estudió, descansó y aprobó el examen.» — la coma separa los dos primeros elementos, pero NO se pone coma antes de la «y» que une el último elemento de una serie simple.",
+      pasos: []
+    },
+    {
+      id: 31,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 6 — Regla 3",
+      pregunta: "¿En cuál de estas oraciones la coma es INCORRECTA?",
+      opciones: [
+        "La nueva convocatoria del examen, se publicó ayer.",
+        "La nueva convocatoria del examen, según el boletín, ya se publicó.",
+        "Ayer, sin previo aviso, se publicó la convocatoria."
+      ],
+      correcta: 0,
+      explicacion: "«La nueva convocatoria del examen, se publicó ayer» es incorrecta: separa el sujeto («La nueva convocatoria del examen») del verbo («se publicó») con una coma injustificada. En las otras dos, las comas enmarcan incisos o complementos antepuestos.",
+      pasos: []
+    },
+    {
+      id: 32,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 7 — Regla 3",
+      pregunta: "«Trabajó mucho__ pero sin éxito en sus resultados.» ¿Qué corresponde en el espacio?",
+      opciones: ["nada (sin signo)", ",", ";"],
+      correcta: 0,
+      explicacion: "Sin signo — «pero sin éxito» no tiene un segundo verbo explícito (no hay segunda cláusula), por lo que «pero» NO lleva coma. Solo llevaría coma si uniera dos proposiciones con verbo propio.",
+      pasos: []
+    },
 
     // ── Regla 4: El punto y coma ──────────────────────────────────────────────
     {
-      id: 17,
+      id: 33,
       tipo: "regla_rica",
       etiqueta: "Regla 4 / 12",
       titulo: "El punto y coma — pausa media",
@@ -377,7 +582,7 @@ export const PRESENTACION = {
       ]
     },
     {
-      id: 18,
+      id: 34,
       tipo: "ejercicio",
       etiqueta: "Reactivo 1 — Regla 4",
       pregunta: "«El primer bloque fue sencillo__ el segundo resultó mucho más complejo de lo esperado.» ¿Qué signo conecta mejor las dos proposiciones relacionadas?",
@@ -387,7 +592,7 @@ export const PRESENTACION = {
       pasos: []
     },
     {
-      id: 19,
+      id: 35,
       tipo: "ejercicio",
       etiqueta: "Reactivo 2 — Regla 4",
       pregunta: "«Asistieron representantes de Jalisco, Guadalajara__ Nuevo León, Monterrey__ y la Ciudad de México.» ¿Qué signos corresponden?",
@@ -401,7 +606,7 @@ export const PRESENTACION = {
       pasos: []
     },
     {
-      id: 20,
+      id: 36,
       tipo: "ejercicio",
       etiqueta: "Reactivo 3 — Regla 4",
       pregunta: "¿Cuál de las siguientes opciones usa CORRECTAMENTE el punto y coma?",
@@ -414,10 +619,48 @@ export const PRESENTACION = {
       explicacion: "«El examen fue difícil; sin embargo, todos aprobaron.» — el punto y coma precede correctamente a un conector adversativo que introduce una proposición contrastante. Ante «y» y «porque» no se usa punto y coma.",
       pasos: []
     },
+    {
+      id: 37,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Regla 4",
+      pregunta: "«El equipo de la mañana revisó las pruebas escritas__ el de la tarde, las orales.» ¿Qué signo corresponde para marcar la elipsis del verbo?",
+      opciones: [", (coma)", "; (punto y coma)", ": (dos puntos)"],
+      correcta: 1,
+      explicacion: "Punto y coma — separa dos proposiciones relacionadas donde la segunda tiene elipsis verbal («el de la tarde [revisó], las orales»). El punto y coma evita la confusión con la coma interna de la elipsis.",
+      pasos: []
+    },
+    {
+      id: 38,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — Regla 4",
+      pregunta: "¿Cuál es la diferencia de fuerza de pausa entre la coma, el punto y coma y el punto?",
+      opciones: [
+        "Las tres marcan la misma pausa; cambia solo la posición.",
+        "La coma marca pausa breve; el punto y coma, pausa media; el punto, pausa mayor.",
+        "El punto marca la pausa más breve y la coma la mayor."
+      ],
+      correcta: 1,
+      explicacion: "La jerarquía de pausas es: coma (breve) < punto y coma (media) < punto (mayor). El punto y coma ocupa el punto intermedio entre la coma y el punto.",
+      pasos: []
+    },
+    {
+      id: 39,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 6 — Regla 4",
+      pregunta: "¿En cuál de estas opciones el punto y coma está MAL empleado?",
+      opciones: [
+        "Llegaron los documentos; faltaba solo la firma.",
+        "Quiero un café; con leche.",
+        "Unos optaron por quedarse; otros, por marcharse."
+      ],
+      correcta: 1,
+      explicacion: "«Quiero un café; con leche» es incorrecto: «con leche» es solo un complemento, no una proposición independiente, así que el punto y coma separa demasiado. Bastaría una coma o ningún signo. Las otras dos unen proposiciones relacionadas o con elipsis verbal.",
+      pasos: []
+    },
 
     // ── Regla 5: Los dos puntos ───────────────────────────────────────────────
     {
-      id: 21,
+      id: 40,
       tipo: "regla_rica",
       etiqueta: "Regla 5 / 12",
       titulo: "Los dos puntos — anuncio y relación",
@@ -460,7 +703,7 @@ export const PRESENTACION = {
       ]
     },
     {
-      id: 22,
+      id: 41,
       tipo: "ejercicio",
       etiqueta: "Reactivo 1 — Regla 5",
       pregunta: "«Los documentos solicitados son los siguientes__ cédula, acta de nacimiento y comprobante de domicilio.» ¿Qué signo corresponde?",
@@ -470,7 +713,7 @@ export const PRESENTACION = {
       pasos: []
     },
     {
-      id: 23,
+      id: 42,
       tipo: "ejercicio",
       etiqueta: "Reactivo 2 — Regla 5",
       pregunta: "«El comité rechazó la propuesta__ no cumplía con los criterios establecidos en la convocatoria.» ¿Qué signo corresponde?",
@@ -480,7 +723,7 @@ export const PRESENTACION = {
       pasos: []
     },
     {
-      id: 24,
+      id: 43,
       tipo: "ejercicio",
       etiqueta: "Reactivo 3 — Regla 5",
       pregunta: "¿Cuál de las siguientes opciones usa INCORRECTAMENTE los dos puntos?",
@@ -493,10 +736,50 @@ export const PRESENTACION = {
       explicacion: "«Para el registro necesitarás: llevar…» es incorrecto — el verbo «necesitarás» rige directamente el infinitivo «llevar» sin anunciador. Los dos puntos son superfluos. La forma correcta: «Para el registro necesitarás llevar identificación oficial vigente».",
       pasos: []
     },
+    {
+      id: 44,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Regla 5",
+      pregunta: "En una cita textual introducida por dos puntos, la primera palabra de la cita se escribe…",
+      opciones: ["siempre en minúscula", "con mayúscula inicial", "como esté en el original, sin regla fija"],
+      correcta: 1,
+      explicacion: "Con mayúscula inicial: «El rector declaró: «El proyecto fue aprobado».». Tras los dos puntos que anuncian una cita textual directa, esta comienza con mayúscula.",
+      pasos: []
+    },
+    {
+      id: 45,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — Regla 5",
+      pregunta: "¿Cuál es la forma CORRECTA de puntuar el encabezamiento de una carta formal?",
+      opciones: ["Estimado director, ", "Estimado director:", "Estimado director."],
+      correcta: 1,
+      explicacion: "«Estimado director:» — en español, el saludo o encabezamiento de cartas y documentos se cierra con dos puntos, no con coma (uso del inglés) ni con punto. El texto continúa con mayúscula en la línea siguiente.",
+      pasos: []
+    },
+    {
+      id: 46,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 6 — Regla 5",
+      pregunta: "«Solo existe una salida__ renunciar al cargo de inmediato.» ¿Qué signo introduce este apósito que resume lo dicho?",
+      opciones: [", (coma)", ": (dos puntos)", "; (punto y coma)"],
+      correcta: 1,
+      explicacion: "Dos puntos (:) — introducen un apósito o aclaración que concreta o resume lo anunciado antes: «una salida: renunciar». Los dos puntos marcan que lo que sigue explica o especifica el elemento previo.",
+      pasos: []
+    },
+    {
+      id: 47,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 7 — Regla 5",
+      pregunta: "Tras los dos puntos que anuncian una enumeración (no una cita), la palabra siguiente se escribe normalmente…",
+      opciones: ["en mayúscula", "en minúscula", "siempre entre comillas"],
+      correcta: 1,
+      explicacion: "En minúscula: «Los requisitos son: acta, CURP y comprobante.». Solo se usa mayúscula tras los dos puntos en citas textuales y en el encabezamiento de cartas; en las enumeraciones se continúa en minúscula.",
+      pasos: []
+    },
 
     // ── Regla 6: Los puntos suspensivos ──────────────────────────────────────
     {
-      id: 25,
+      id: 48,
       tipo: "regla_rica",
       etiqueta: "Regla 6 / 12",
       titulo: "Los puntos suspensivos — pausa, suspenso e incompletitud",
@@ -539,17 +822,17 @@ export const PRESENTACION = {
       ]
     },
     {
-      id: 26,
+      id: 49,
       tipo: "ejercicio",
       etiqueta: "Reactivo 1 — Regla 6",
-      pregunta: "«El examen incluía temas de gramática, ortografía, comprensión lectora__ ¿Qué signo completa la enumeración incompleta?",
+      pregunta: "«El examen incluía temas de gramática, ortografía, comprensión lectora__» ¿Qué signo completa la enumeración incompleta?",
       opciones: [", etcétera.", "…", ", entre otros muchos."],
       correcta: 1,
       explicacion: "«…» — los puntos suspensivos indican enumeración incompleta. No deben usarse junto a «etcétera» porque son equivalentes; combinarlos es redundante.",
       pasos: []
     },
     {
-      id: 27,
+      id: 50,
       tipo: "ejercicio",
       etiqueta: "Reactivo 2 — Regla 6",
       pregunta: "¿Cuál de las siguientes opciones usa CORRECTAMENTE los puntos suspensivos?",
@@ -563,7 +846,7 @@ export const PRESENTACION = {
       pasos: []
     },
     {
-      id: 28,
+      id: 51,
       tipo: "ejercicio",
       etiqueta: "Reactivo 3 — Regla 6",
       pregunta: "¿Qué corresponde al final de la oración «No quedaba nada por hacer»?",
@@ -572,10 +855,48 @@ export const PRESENTACION = {
       explicacion: "«…» sin punto adicional — los puntos suspensivos ya cierran el enunciado cuando van al final. No se añade un cuarto punto. Además, los «…» se escriben sin espacios entre ellos ni antes de ellos.",
       pasos: []
     },
+    {
+      id: 52,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Regla 6",
+      pregunta: "¿Cuántos puntos componen siempre los puntos suspensivos?",
+      opciones: ["Dos", "Tres", "Los que el autor considere necesarios"],
+      correcta: 1,
+      explicacion: "Siempre tres, ni más ni menos. Escribir dos («..») o cuatro («....») es incorrecto. Los puntos suspensivos son un signo fijo de exactamente tres puntos.",
+      pasos: []
+    },
+    {
+      id: 53,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — Regla 6",
+      pregunta: "Dentro de una cita textual, ¿cómo se indica que se ha omitido un fragmento del original?",
+      opciones: [
+        "Con puntos suspensivos solos: …",
+        "Con puntos suspensivos entre corchetes: […]",
+        "Con una raya: —"
+      ],
+      correcta: 1,
+      explicacion: "«[…]» — la omisión editorial en una cita textual se marca con puntos suspensivos entre corchetes: «El rector […] aprobó el proyecto». Los puntos solos no distinguirían si la pausa es del autor original o una supresión del editor.",
+      pasos: []
+    },
+    {
+      id: 54,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 6 — Regla 6",
+      pregunta: "«—Quería decirte que__ mejor lo dejamos así.» ¿Qué uso de los puntos suspensivos aparece aquí?",
+      opciones: [
+        "Enumeración incompleta",
+        "Interrupción o duda del hablante",
+        "Omisión en una cita textual"
+      ],
+      correcta: 1,
+      explicacion: "Interrupción o duda — los puntos suspensivos reflejan que el hablante se interrumpe o titubea antes de continuar: «Quería decirte que… mejor lo dejamos así». No hay enumeración ni se trata de una cita.",
+      pasos: []
+    },
 
     // ── Regla 7: Interrogación y exclamación ─────────────────────────────────
     {
-      id: 29,
+      id: 55,
       tipo: "regla_rica",
       etiqueta: "Regla 7 / 12",
       titulo: "Interrogación y exclamación — signos dobles obligatorios",
@@ -618,7 +939,7 @@ export const PRESENTACION = {
       ]
     },
     {
-      id: 30,
+      id: 56,
       tipo: "ejercicio",
       etiqueta: "Reactivo 1 — Regla 7",
       pregunta: "¿Cuál de las siguientes opciones está CORRECTAMENTE puntuada?",
@@ -632,7 +953,7 @@ export const PRESENTACION = {
       pasos: []
     },
     {
-      id: 31,
+      id: 57,
       tipo: "ejercicio",
       etiqueta: "Reactivo 2 — Regla 7",
       pregunta: "«Ya entregaste el informe, __ y cuándo te dieron la calificación __» ¿Qué signos hacen falta?",
@@ -642,7 +963,7 @@ export const PRESENTACION = {
       pasos: []
     },
     {
-      id: 32,
+      id: 58,
       tipo: "ejercicio",
       etiqueta: "Reactivo 3 — Regla 7",
       pregunta: "«¿Quién fue el autor del informe, cuándo se entregó y qué secciones incluía?» — ¿Por qué esta oración es cuestionable?",
@@ -655,10 +976,52 @@ export const PRESENTACION = {
       explicacion: "Cuando son preguntas independientes, cada una debe llevar sus propios signos: «¿Quién fue el autor? ¿Cuándo se entregó? ¿Qué secciones incluía?». Agrupar preguntas distintas bajo un solo «¿?» puede causar ambigüedad.",
       pasos: []
     },
+    {
+      id: 59,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Regla 7",
+      pregunta: "¿Cuál de las siguientes oraciones omite el signo de apertura obligatorio en español?",
+      opciones: [
+        "¿Te inscribiste ya al examen?",
+        "Te inscribiste ya al examen?",
+        "¡Por fin se publicaron los resultados!"
+      ],
+      correcta: 1,
+      explicacion: "«Te inscribiste ya al examen?» omite el signo de apertura «¿», obligatorio en español. La forma correcta es «¿Te inscribiste ya al examen?». A diferencia del inglés, el español exige siempre el signo de apertura.",
+      pasos: []
+    },
+    {
+      id: 60,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — Regla 7",
+      pregunta: "¿Cuál es la forma CORRECTA de combinar una afirmación con una exclamación parcial al final?",
+      opciones: [
+        "¡Aprobaste el examen, qué alegría!",
+        "Aprobaste el examen, ¡qué alegría!",
+        "Aprobaste el examen ¡qué alegría"
+      ],
+      correcta: 1,
+      explicacion: "«Aprobaste el examen, ¡qué alegría!» — la primera parte es afirmativa y la exclamación parcial («¡qué alegría!») abre su signo justo donde inicia el tono exclamativo. Abrir «¡» desde el principio incluiría indebidamente la parte afirmativa.",
+      pasos: []
+    },
+    {
+      id: 61,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 6 — Regla 7",
+      pregunta: "¿Cuál de estas oraciones usa de forma INCORRECTA y descuadrada los signos dobles?",
+      opciones: [
+        "¿Cómo te fue en la entrevista?",
+        "¿Cómo te fue en la entrevista! ¡Espero que bien?",
+        "¡Espero que te haya ido bien!"
+      ],
+      correcta: 1,
+      explicacion: "«¿Cómo te fue en la entrevista! ¡Espero que bien?» mezcla los signos: abre con «¿» y cierra con «!», y al revés. Cada enunciado debe abrir y cerrar con el mismo par: interrogación con «¿…?» y exclamación con «¡…!».",
+      pasos: []
+    },
 
     // ── Regla 8: Las comillas ─────────────────────────────────────────────────
     {
-      id: 33,
+      id: 62,
       tipo: "regla_rica",
       etiqueta: "Regla 8 / 12",
       titulo: "Las comillas — cita, énfasis y uso metalingüístico",
@@ -701,7 +1064,7 @@ export const PRESENTACION = {
       ]
     },
     {
-      id: 34,
+      id: 63,
       tipo: "ejercicio",
       etiqueta: "Reactivo 1 — Regla 8",
       pregunta: "¿Cuál de las siguientes opciones usa CORRECTAMENTE las comillas en una cita textual?",
@@ -715,7 +1078,7 @@ export const PRESENTACION = {
       pasos: []
     },
     {
-      id: 35,
+      id: 64,
       tipo: "ejercicio",
       etiqueta: "Reactivo 2 — Regla 8",
       pregunta: '«La palabra __ ortografía __ proviene del griego y significa "escritura correcta".» ¿Qué signos enmarcan la palabra estudiada?',
@@ -725,7 +1088,7 @@ export const PRESENTACION = {
       pasos: []
     },
     {
-      id: 36,
+      id: 65,
       tipo: "ejercicio",
       etiqueta: "Reactivo 3 — Regla 8",
       pregunta: "¿Cuál de los siguientes títulos usa CORRECTAMENTE las comillas?",
@@ -738,10 +1101,52 @@ export const PRESENTACION = {
       explicacion: "«La canción del pirata» es un poema (obra corta) → comillas angulares, correcto. Los títulos de obras largas —novelas, películas, discos— van en cursiva, no entre comillas: Don Quijote de la Mancha, El Quijote.",
       pasos: []
     },
+    {
+      id: 66,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Regla 8",
+      pregunta: "En la oración «Su «brillante» idea costó miles de pesos», ¿qué función cumplen las comillas en «brillante»?",
+      opciones: [
+        "Señalan una cita textual",
+        "Marcan ironía: el sentido es el contrario al literal",
+        "Indican un título de obra corta"
+      ],
+      correcta: 1,
+      explicacion: "Ironía o distancia — las comillas indican que «brillante» debe leerse con sentido contrario al literal: la idea no fue buena. Es uno de los usos expresivos de las comillas.",
+      pasos: []
+    },
+    {
+      id: 67,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — Regla 8",
+      pregunta: "Según la norma hispánica, cuando una cita entrecomillada termina una oración, el punto se coloca…",
+      opciones: [
+        "dentro de las comillas: «…satisfactorios.»",
+        "fuera de las comillas: «…satisfactorios».",
+        "se omite el punto"
+      ],
+      correcta: 1,
+      explicacion: "Fuera de las comillas: «…satisfactorios». — en español el punto se escribe después de las comillas de cierre. Colocar el punto dentro es la norma anglosajona, incorrecta en español.",
+      pasos: []
+    },
+    {
+      id: 68,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 6 — Regla 8",
+      pregunta: "Para una cita dentro de otra cita, ¿cuál es la jerarquía CORRECTA de comillas en español?",
+      opciones: [
+        "«angulares» dentro de «angulares»",
+        "«angulares» con \"inglesas\" dentro, y 'simples' en el tercer nivel",
+        "'simples' dentro de \"inglesas\""
+      ],
+      correcta: 1,
+      explicacion: "La jerarquía es «angulares» > \"inglesas\" > 'simples'. Ejemplo: «El documento dice \"aprobado por unanimidad\" en la sección final». Repetir comillas angulares anidadas es incorrecto.",
+      pasos: []
+    },
 
     // ── Regla 9: Paréntesis y corchetes ──────────────────────────────────────
     {
-      id: 37,
+      id: 69,
       tipo: "regla_rica",
       etiqueta: "Regla 9 / 12",
       titulo: "Paréntesis ( ) y corchetes [ ] — incisos y aclaraciones",
@@ -784,7 +1189,7 @@ export const PRESENTACION = {
       ]
     },
     {
-      id: 38,
+      id: 70,
       tipo: "ejercicio",
       etiqueta: "Reactivo 1 — Regla 9",
       pregunta: "«La RAE (Real Academia Española__ define la ortografía como el conjunto de normas que regulan la escritura.» ¿Qué signo cierra el paréntesis?",
@@ -794,7 +1199,7 @@ export const PRESENTACION = {
       pasos: []
     },
     {
-      id: 39,
+      id: 71,
       tipo: "ejercicio",
       etiqueta: "Reactivo 2 — Regla 9",
       pregunta: "«El proyecto fue aprobado en la sesión del lunes (según consta en el acta oficial)__» ¿Dónde va el punto final?",
@@ -808,7 +1213,7 @@ export const PRESENTACION = {
       pasos: []
     },
     {
-      id: 40,
+      id: 72,
       tipo: "ejercicio",
       etiqueta: "Reactivo 3 — Regla 9",
       pregunta: "«El director afirmó: «El presupuesto __ se aprobó sin modificaciones».» ¿Qué signo indica que se omitió parte de la cita?",
@@ -817,10 +1222,48 @@ export const PRESENTACION = {
       explicacion: "«[…]» — dentro de una cita textual, la omisión editorial se marca con corchetes y puntos suspensivos. Los puntos solos (…) no distinguen si la pausa es del autor original o una omisión del editor.",
       pasos: []
     },
+    {
+      id: 73,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Regla 9",
+      pregunta: "¿Cuál es la forma CORRECTA de aportar las fechas biográficas de un autor?",
+      opciones: [
+        "Sor Juana Inés de la Cruz, 1648-1695, fue una gran poeta.",
+        "Sor Juana Inés de la Cruz (1648-1695) fue una gran poeta.",
+        "Sor Juana Inés de la Cruz: 1648-1695: fue una gran poeta."
+      ],
+      correcta: 1,
+      explicacion: "«Sor Juana Inés de la Cruz (1648-1695) fue una gran poeta.» — los datos biográficos accesorios, como las fechas de nacimiento y muerte, se encierran entre paréntesis. Es un dato que podría suprimirse sin afectar la oración.",
+      pasos: []
+    },
+    {
+      id: 74,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — Regla 9",
+      pregunta: "Cuando se necesita intercalar una aclaración DENTRO de un texto que ya va entre paréntesis, ¿qué signo se usa?",
+      opciones: ["Otro par de paréntesis", "Corchetes [ ]", "Comillas « »"],
+      correcta: 1,
+      explicacion: "Corchetes [ ] — para un inciso dentro de un paréntesis se usan corchetes, evitando paréntesis anidados: «(quien [según fuentes] rechazó la propuesta)». Anidar paréntesis dentro de paréntesis es incorrecto.",
+      pasos: []
+    },
+    {
+      id: 75,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 6 — Regla 9",
+      pregunta: "¿Cuál es la «prueba» para saber si un paréntesis está bien usado?",
+      opciones: [
+        "Que contenga al menos cinco palabras",
+        "Que la oración principal siga siendo correcta y completa si se suprime el paréntesis",
+        "Que vaya siempre al final de la oración"
+      ],
+      correcta: 1,
+      explicacion: "La prueba infalible: si al eliminar lo que está entre paréntesis la oración principal se mantiene correcta y con sentido, el paréntesis está bien usado. «El director (quien llegó tarde) presidió la reunión» → «El director presidió la reunión» sigue siendo correcta.",
+      pasos: []
+    },
 
     // ── Regla 10: El guion y la raya ─────────────────────────────────────────
     {
-      id: 41,
+      id: 76,
       tipo: "regla_rica",
       etiqueta: "Regla 10 / 12",
       titulo: "El guion (-) y la raya (—) — signos distintos, usos distintos",
@@ -864,7 +1307,7 @@ export const PRESENTACION = {
       ]
     },
     {
-      id: 42,
+      id: 77,
       tipo: "ejercicio",
       etiqueta: "Reactivo 1 — Regla 10",
       pregunta: "¿Cuál de las siguientes opciones usa CORRECTAMENTE la raya?",
@@ -878,7 +1321,7 @@ export const PRESENTACION = {
       pasos: []
     },
     {
-      id: 43,
+      id: 78,
       tipo: "ejercicio",
       etiqueta: "Reactivo 2 — Regla 10",
       pregunta: "«El acuerdo __ que nadie esperaba __ cambió el rumbo de las negociaciones.» ¿Qué signos corresponden para un inciso extenso y enfático?",
@@ -888,7 +1331,7 @@ export const PRESENTACION = {
       pasos: []
     },
     {
-      id: 44,
+      id: 79,
       tipo: "ejercicio",
       etiqueta: "Reactivo 3 — Regla 10",
       pregunta: "¿Cuál es el uso CORRECTO del guion corto?",
@@ -901,10 +1344,44 @@ export const PRESENTACION = {
       explicacion: "«teórico-práctico» — el guion corto une los dos adjetivos del compuesto sin espacios a los lados. Espacios alrededor del guion son incorrectos. La raya (—) no se usa para formar compuestos léxicos.",
       pasos: []
     },
+    {
+      id: 80,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Regla 10",
+      pregunta: "¿Cuál es la forma CORRECTA de unir un prefijo con una sigla?",
+      opciones: ["El movimiento antiOTAN", "El movimiento anti-OTAN", "El movimiento anti OTAN"],
+      correcta: 1,
+      explicacion: "«anti-OTAN» — cuando un prefijo se une a una sigla o a un nombre propio (que conserva su mayúscula), se emplea guion corto sin espacios. Pegarlo sin guion («antiOTAN») o separarlo con espacio es incorrecto.",
+      pasos: []
+    },
+    {
+      id: 81,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — Regla 10",
+      pregunta: "En «—Llegué a tiempo —dijo el coordinador», la segunda raya introduce…",
+      opciones: [
+        "una segunda intervención del diálogo",
+        "la acotación del narrador (quién habla)",
+        "un inciso aclaratorio dentro del parlamento"
+      ],
+      correcta: 1,
+      explicacion: "La segunda raya introduce la acotación del narrador: «—dijo el coordinador». La primera raya abre la intervención del personaje; la segunda separa el comentario del narrador que indica quién habla.",
+      pasos: []
+    },
+    {
+      id: 82,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 6 — Regla 10",
+      pregunta: "¿Qué signo se usa para dividir una palabra al final de un renglón cuando no cabe completa?",
+      opciones: ["La raya (—)", "El guion corto (-)", "Los puntos suspensivos (…)"],
+      correcta: 1,
+      explicacion: "El guion corto (-) — divide la palabra por sílabas al final de la línea: «con-/venio». La raya tiene usos distintos (diálogos, incisos) y los puntos suspensivos no sirven para dividir palabras.",
+      pasos: []
+    },
 
     // ── Regla 11: Compatibilidad entre signos ─────────────────────────────────
     {
-      id: 45,
+      id: 83,
       tipo: "regla_rica",
       etiqueta: "Regla 11 / 12",
       titulo: "Combinación de signos — compatibilidad e incompatibilidad",
@@ -949,7 +1426,7 @@ export const PRESENTACION = {
       ]
     },
     {
-      id: 46,
+      id: 84,
       tipo: "ejercicio",
       etiqueta: "Reactivo 1 — Regla 11",
       pregunta: "¿Cuál de las siguientes combinaciones de signos es CORRECTA?",
@@ -963,7 +1440,7 @@ export const PRESENTACION = {
       pasos: []
     },
     {
-      id: 47,
+      id: 85,
       tipo: "ejercicio",
       etiqueta: "Reactivo 2 — Regla 11",
       pregunta: "«Cuando dijo «aprobado»__ todos lanzaron un grito de alegría.» ¿Puede ir una coma después de las comillas de cierre?",
@@ -977,7 +1454,7 @@ export const PRESENTACION = {
       pasos: []
     },
     {
-      id: 48,
+      id: 86,
       tipo: "ejercicio",
       etiqueta: "Reactivo 3 — Regla 11",
       pregunta: "«¡Qué resultado tan inesperado__ nadie lo vio venir.» ¿Qué signo(s) corresponden al espacio?",
@@ -986,10 +1463,52 @@ export const PRESENTACION = {
       explicacion: "«¡Qué resultado tan inesperado! Nadie lo vio venir.» — el signo de exclamación ya cierra el enunciado; no se añade punto ni coma. El enunciado siguiente comienza con mayúscula.",
       pasos: []
     },
+    {
+      id: 87,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Regla 11",
+      pregunta: "¿Cuál de las siguientes combinaciones NO es válida en español?",
+      opciones: [
+        "Dos puntos seguidos de comillas de apertura: Declaró: «…»",
+        "Puntos suspensivos seguidos de punto: …. ",
+        "Paréntesis de cierre seguido de coma: (…), "
+      ],
+      correcta: 1,
+      explicacion: "«….» no es válida: los puntos suspensivos ya cierran el enunciado y no admiten un punto adicional. En cambio, los dos puntos sí pueden preceder comillas de apertura, y la coma sí puede seguir a un paréntesis de cierre.",
+      pasos: []
+    },
+    {
+      id: 88,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — Regla 11",
+      pregunta: "Para expresar una pregunta con tono de duda o suspenso, ¿cómo se combinan los signos?",
+      opciones: [
+        "¿Y si no llegara a tiempo?…",
+        "¿Y si no llegara a tiempo…?",
+        "…¿Y si no llegara a tiempo?"
+      ],
+      correcta: 1,
+      explicacion: "«¿Y si no llegara a tiempo…?» — los puntos suspensivos van DENTRO de los signos de interrogación, antes del signo de cierre, para combinar suspenso e interrogación. Colocar el «?» antes de los puntos rompe la unidad de la pregunta.",
+      pasos: []
+    },
+    {
+      id: 89,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 6 — Regla 11",
+      pregunta: "¿Cuál de las siguientes oraciones combina CORRECTAMENTE los dos puntos con una cita entre comillas?",
+      opciones: [
+        "La directora declaró «todo está listo».",
+        "La directora declaró: «Todo está listo».",
+        "La directora declaró: todo está listo."
+      ],
+      correcta: 1,
+      explicacion: "«La directora declaró: «Todo está listo».» — los dos puntos anuncian la cita textual, que abre con comillas y mayúscula inicial. Sin los dos puntos o sin comillas, la cita directa queda mal marcada.",
+      pasos: []
+    },
 
     // ── Regla 12: Coma ante conjunciones coordinantes ─────────────────────────
     {
-      id: 49,
+      id: 90,
       tipo: "regla_rica",
       etiqueta: "Regla 12 / 12",
       titulo: "Coma ante conjunciones — «pero», «sino», «y», «o», «aunque»",
@@ -1034,7 +1553,7 @@ export const PRESENTACION = {
       ]
     },
     {
-      id: 50,
+      id: 91,
       tipo: "ejercicio",
       etiqueta: "Reactivo 1 — Regla 12",
       pregunta: "«No fue la directora quien firmó el convenio__ sino su representante legal designado.» ¿Qué signo corresponde?",
@@ -1044,7 +1563,7 @@ export const PRESENTACION = {
       pasos: []
     },
     {
-      id: 51,
+      id: 92,
       tipo: "ejercicio",
       etiqueta: "Reactivo 2 — Regla 12",
       pregunta: "«Estudió toda la noche__ y aun así no logró aprobar el examen de admisión.» ¿Qué corresponde?",
@@ -1054,7 +1573,7 @@ export const PRESENTACION = {
       pasos: []
     },
     {
-      id: 52,
+      id: 93,
       tipo: "ejercicio",
       etiqueta: "Reactivo 3 — Regla 12",
       pregunta: "¿Cuál de las siguientes oraciones usa CORRECTAMENTE «sino» o «si no»?",
@@ -1065,6 +1584,40 @@ export const PRESENTACION = {
       ],
       correcta: 0,
       explicacion: "«Si no estudias, no aprobarás…» — «si no» (dos palabras) es condición negativa, correcto. La opción 2 omite la coma obligatoria antes de «sino». La opción 3 usa «sino» (conjunción) donde corresponde «si no» (condición).",
+      pasos: []
+    },
+    {
+      id: 94,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Regla 12",
+      pregunta: "«Se presentó al examen__ aunque no se sentía preparado del todo.» ¿Qué corresponde en el espacio?",
+      opciones: ["nada (sin signo)", ",", ":"],
+      correcta: 1,
+      explicacion: "Coma — «aunque» introduce una proposición concesiva con verbo propio («no se sentía preparado»), por lo que va precedido de coma. Como las demás conjunciones, lleva coma cuando une dos cláusulas con verbo explícito.",
+      pasos: []
+    },
+    {
+      id: 95,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — Regla 12",
+      pregunta: "«No solo entregó el informe__ sino que también presentó el análisis completo.» ¿Qué corresponde?",
+      opciones: ["nada (sin signo)", ",", ";"],
+      correcta: 1,
+      explicacion: "Coma — «sino que» introduce una segunda cláusula con verbo nuevo y explícito («presentó»), por lo que va precedido de coma. La construcción «no solo…, sino que también…» exige la coma antes de «sino que».",
+      pasos: []
+    },
+    {
+      id: 96,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 6 — Regla 12",
+      pregunta: "¿En cuál de estas oraciones es INCORRECTO poner coma antes de la conjunción?",
+      opciones: [
+        "Estudió mucho, pero no aprobó.",
+        "Compró cuadernos, lápices, y gomas.",
+        "Fue al examen, aunque no estaba listo."
+      ],
+      correcta: 1,
+      explicacion: "«Compró cuadernos, lápices, y gomas» es incorrecto: no se pone coma antes de la «y» que cierra una serie simple. En las otras dos, «pero» y «aunque» unen cláusulas con verbo propio y sí exigen coma.",
       pasos: []
     }
   ]

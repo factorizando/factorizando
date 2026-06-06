@@ -174,6 +174,7 @@ function SlidePortadaDiagram({ slide, tema }) {
   if (slide.svgDiagram === "flu-portada") return <FluPortadaSVG tema={tema} />;
   if (slide.svgDiagram === "mod-portada") return <ModPortadaSVG tema={tema} />;
   if (slide.svgDiagram === "cel-portada") return <CelPortadaSVG tema={tema} />;
+  if (slide.svgDiagram === "cel-historia") return <CelHistoriaSVG tema={tema} />;
   if (slide.svgDiagram === "bq-portada") return <BqPortadaSVG tema={tema} />;
   if (slide.svgDiagram === "rep-portada") return <RepPortadaSVG tema={tema} />;
   if (slide.svgDiagram === "gen-portada") return <GenPortadaSVG tema={tema} />;
@@ -705,6 +706,7 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "cel-transporte"           && <CelTransporteSVG         tema={tema} />}
       {slide.svgDiagram === "cel-mitosis"              && <CelMitosisSVG            tema={tema} />}
       {slide.svgDiagram === "cel-meiosis"              && <CelMeiosisSVG            tema={tema} />}
+      {slide.svgDiagram === "cel-historia"             && <CelHistoriaSVG           tema={tema} />}
       {slide.svgDiagram === "bq-portada"               && <BqPortadaSVG             tema={tema} />}
       {slide.svgDiagram === "bq-biomoleculas"          && <BqBiomoleculasSVG        tema={tema} />}
       {slide.svgDiagram === "bq-enzima"                && <BqEnzimaSVG              tema={tema} />}
@@ -2016,6 +2018,7 @@ function SlideCriterioDetalle({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "cel-transporte"           && <CelTransporteSVG       tema={tema} />}
       {slide.svgDiagram === "cel-mitosis"              && <CelMitosisSVG          tema={tema} />}
       {slide.svgDiagram === "cel-meiosis"              && <CelMeiosisSVG          tema={tema} />}
+      {slide.svgDiagram === "cel-historia"             && <CelHistoriaSVG         tema={tema} />}
       {slide.svgDiagram === "bq-portada"               && <BqPortadaSVG           tema={tema} />}
       {slide.svgDiagram === "bq-biomoleculas"          && <BqBiomoleculasSVG      tema={tema} />}
       {slide.svgDiagram === "bq-enzima"                && <BqEnzimaSVG            tema={tema} />}
@@ -5575,6 +5578,7 @@ function renderEjercicioSVG(svgDiagram, tema) {
   if (svgDiagram === "cel-transporte")     return <CelTransporteSVG    tema={tema} />;
   if (svgDiagram === "cel-mitosis")        return <CelMitosisSVG       tema={tema} />;
   if (svgDiagram === "cel-meiosis")        return <CelMeiosisSVG       tema={tema} />;
+  if (svgDiagram === "cel-historia")       return <CelHistoriaSVG      tema={tema} />;
   if (svgDiagram === "bq-portada")         return <BqPortadaSVG        tema={tema} />;
   if (svgDiagram === "bq-biomoleculas")    return <BqBiomoleculasSVG   tema={tema} />;
   if (svgDiagram === "bq-enzima")          return <BqEnzimaSVG         tema={tema} />;
@@ -9258,6 +9262,32 @@ function CelMeiosisSVG({ tema }) {
       ))}
       <text x={258} y={66} fill={mu} fontSize="8" fontFamily="'DM Sans',sans-serif">4 gametos</text>
       <text x={258} y={78} fill={mu} fontSize="8" fontFamily="'DM Sans',sans-serif">(n cada uno)</text>
+    </svg>
+  );
+}
+
+function CelHistoriaSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto;
+  const hitos = [
+    { x: 24, y: 40, año: "1665", quien: "Hooke", que: "«célula» (corcho)" },
+    { x: 92, y: 40, año: "1674", quien: "Leeuwenhoek", que: "microorganismos" },
+    { x: 162, y: 40, año: "1838-39", quien: "Schleiden / Schwann", que: "teoría celular" },
+    { x: 236, y: 40, año: "1855", quien: "Virchow", que: "célula de célula" },
+  ];
+  return (
+    <svg viewBox="0 0 270 120" width="100%" style={{ display: "block", maxHeight: 130 }}>
+      {/* línea del tiempo */}
+      <line x1={14} y1={58} x2={256} y2={58} stroke={mu} strokeWidth="1.6" />
+      <polygon points={`262,58 254,54 254,62`} fill={mu} />
+      {hitos.map(({ x, año, quien, que }, i) => (
+        <g key={i}>
+          <circle cx={x} cy={58} r={5} fill={a} opacity="0.6" stroke={a} strokeWidth="1.4" />
+          <text x={x} y={34} textAnchor="middle" fill={bl} fontSize="7.5" fontFamily="'DM Sans',sans-serif" fontWeight="700">{año}</text>
+          <text x={x} y={74} textAnchor="middle" fill={T} fontSize="7" fontFamily="'DM Sans',sans-serif" fontWeight="600">{quien}</text>
+          <text x={x} y={84} textAnchor="middle" fill={mu} fontSize="6" fontFamily="'DM Sans',sans-serif">{que}</text>
+        </g>
+      ))}
+      <text x={135} y={108} textAnchor="middle" fill={mu} fontSize="7.5" fontFamily="'DM Sans',sans-serif">así se construyó la teoría celular</text>
     </svg>
   );
 }

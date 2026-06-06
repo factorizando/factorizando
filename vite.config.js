@@ -35,7 +35,7 @@ export default defineConfig({
         ],
       },
       workbox: {
-        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
+        maximumFileSizeToCacheInBytes: 8 * 1024 * 1024,
         globPatterns: ['**/*.{js,css,html,png,svg,woff2}'],
         navigateFallback: '/factorizando/index.html',
         navigateFallbackDenylist: [/^\/factorizando\/guias\//],

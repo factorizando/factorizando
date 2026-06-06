@@ -33,6 +33,7 @@ import { PRESENTACION as BIOLOGIA_CELULA } from "./biologia-celula.js";
 import { PRESENTACION as BIOLOGIA_BIOQUIMICA } from "./biologia-bioquimica.js";
 import { PRESENTACION as BIOLOGIA_REPRODUCCION } from "./biologia-reproduccion.js";
 import { PRESENTACION as BIOLOGIA_GENETICA } from "./biologia-genetica.js";
+import { PRESENTACION as BIOLOGIA_EVOLUCION } from "./biologia-evolucion.js";
 
 export const PRESENTACIONES_INDEX = {
   "semejanza-triangulos": SEMEJANZA_TRIANGULOS,
@@ -66,6 +67,7 @@ export const PRESENTACIONES_INDEX = {
   "biologia-bioquimica": BIOLOGIA_BIOQUIMICA,
   "biologia-reproduccion": BIOLOGIA_REPRODUCCION,
   "biologia-genetica": BIOLOGIA_GENETICA,
+  "biologia-evolucion": BIOLOGIA_EVOLUCION,
 };
 
 export function buscarPresentacion(id) {

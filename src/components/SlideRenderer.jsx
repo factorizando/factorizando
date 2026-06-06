@@ -177,6 +177,7 @@ function SlidePortadaDiagram({ slide, tema }) {
   if (slide.svgDiagram === "bq-portada") return <BqPortadaSVG tema={tema} />;
   if (slide.svgDiagram === "rep-portada") return <RepPortadaSVG tema={tema} />;
   if (slide.svgDiagram === "gen-portada") return <GenPortadaSVG tema={tema} />;
+  if (slide.svgDiagram === "evo-portada") return <EvoPortadaSVG tema={tema} />;
   const DecoSVG = tema.DecoSVG;
   return <DecoSVG tema={tema} />;
 }
@@ -719,6 +720,12 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "gen-punnett"              && <GenPunnettSVG            tema={tema} />}
       {slide.svgDiagram === "gen-mutacion"             && <GenMutacionSVG           tema={tema} />}
       {slide.svgDiagram === "gen-biotecnologia"        && <GenBiotecnologiaSVG      tema={tema} />}
+      {slide.svgDiagram === "evo-portada"              && <EvoPortadaSVG            tema={tema} />}
+      {slide.svgDiagram === "evo-origen-vida"          && <EvoOrigenVidaSVG         tema={tema} />}
+      {slide.svgDiagram === "evo-darwin-lamarck"       && <EvoDarwinLamarckSVG      tema={tema} />}
+      {slide.svgDiagram === "evo-pruebas"              && <EvoPruebasSVG            tema={tema} />}
+      {slide.svgDiagram === "evo-reinos"               && <EvoReinosSVG             tema={tema} />}
+      {slide.svgDiagram === "evo-taxonomia"            && <EvoTaxonomiaSVG          tema={tema} />}
 
       <div style={{ display: "flex", flexDirection: "column", gap: compact ? 8 : 10 }}>
         {slide.items.map((item, i) => {
@@ -2019,6 +2026,12 @@ function SlideCriterioDetalle({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "gen-punnett"              && <GenPunnettSVG          tema={tema} />}
       {slide.svgDiagram === "gen-mutacion"             && <GenMutacionSVG         tema={tema} />}
       {slide.svgDiagram === "gen-biotecnologia"        && <GenBiotecnologiaSVG    tema={tema} />}
+      {slide.svgDiagram === "evo-portada"              && <EvoPortadaSVG          tema={tema} />}
+      {slide.svgDiagram === "evo-origen-vida"          && <EvoOrigenVidaSVG       tema={tema} />}
+      {slide.svgDiagram === "evo-darwin-lamarck"       && <EvoDarwinLamarckSVG    tema={tema} />}
+      {slide.svgDiagram === "evo-pruebas"              && <EvoPruebasSVG          tema={tema} />}
+      {slide.svgDiagram === "evo-reinos"               && <EvoReinosSVG           tema={tema} />}
+      {slide.svgDiagram === "evo-taxonomia"            && <EvoTaxonomiaSVG        tema={tema} />}
       {slide.svgDiagram === "din-segunda-ley"          && <DinSegundaLeySVG       tema={tema} />}
       {slide.svgDiagram === "din-tercera-ley"          && <DinTerceraLeySVG       tema={tema} />}
       {slide.svgDiagram === "din-hooke"                && <DinHookeSVG            tema={tema} />}
@@ -5567,6 +5580,12 @@ function renderEjercicioSVG(svgDiagram, tema) {
   if (svgDiagram === "gen-punnett")        return <GenPunnettSVG       tema={tema} />;
   if (svgDiagram === "gen-mutacion")       return <GenMutacionSVG      tema={tema} />;
   if (svgDiagram === "gen-biotecnologia")  return <GenBiotecnologiaSVG tema={tema} />;
+  if (svgDiagram === "evo-portada")        return <EvoPortadaSVG       tema={tema} />;
+  if (svgDiagram === "evo-origen-vida")    return <EvoOrigenVidaSVG    tema={tema} />;
+  if (svgDiagram === "evo-darwin-lamarck") return <EvoDarwinLamarckSVG tema={tema} />;
+  if (svgDiagram === "evo-pruebas")        return <EvoPruebasSVG       tema={tema} />;
+  if (svgDiagram === "evo-reinos")         return <EvoReinosSVG        tema={tema} />;
+  if (svgDiagram === "evo-taxonomia")      return <EvoTaxonomiaSVG     tema={tema} />;
   if (svgDiagram === "cin-graf-xt")        return <CinGrafXtSVG        tema={tema} />;
   if (svgDiagram === "cin-ej-dt")          return <CinEjDtSVG          tema={tema} />;
   if (svgDiagram === "cin-caida-libre")    return <CinCaidaLibreSVG    tema={tema} />;
@@ -9634,6 +9653,150 @@ function GenBiotecnologiaSVG({ tema }) {
       <circle cx={222} cy={66} r={9} fill="none" stroke={a} strokeWidth="1.2" strokeDasharray="3 2" />
       <text x={222} y={98} textAnchor="middle" fill={T} fontSize="7.5" fontFamily="'DM Sans',sans-serif">bacteria</text>
       <text x={140} y={122} textAnchor="middle" fill={mu} fontSize="7.5" fontFamily="'DM Sans',sans-serif">la bacteria fabrica la proteína (insulina)</text>
+    </svg>
+  );
+}
+
+// ══ BIOLOGÍA · EVOLUCIÓN Y CLASIFICACIÓN ══════════════════════════════════════
+function EvoPortadaSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted;
+  // árbol filogenético sencillo
+  return (
+    <svg viewBox="0 0 220 140" width="100%" style={{ display: "block", maxHeight: 140, maxWidth: 260 }}>
+      <line x1={110} y1={122} x2={110} y2={86} stroke={a} strokeWidth="2.6" />
+      <path d="M 110 86 q -40 -6 -56 -34 M 110 86 q 40 -6 56 -34 M 110 86 q 0 -20 0 -40" fill="none" stroke={a} strokeWidth="2.2" />
+      <path d="M 54 52 q -14 -6 -22 -24 M 54 52 q 12 -8 22 -22 M 166 52 q 14 -6 22 -24 M 166 52 q -12 -8 -22 -22 M 110 46 q -10 -8 -18 -22 M 110 46 q 10 -8 18 -22" fill="none" stroke={bl} strokeWidth="1.8" />
+      {[[32,28],[76,30],[92,24],[128,24],[144,30],[188,28]].map(([x,y],i)=><circle key={i} cx={x} cy={y} r={5.5} fill={a} opacity="0.5" stroke={a} strokeWidth="1.3" />)}
+      <circle cx={110} cy={124} r={4} fill={bl} />
+      <text x={110} y={138} textAnchor="middle" fill={mu} fontSize="8.5" fontFamily="'DM Sans',sans-serif">un ancestro común, muchas ramas</text>
+    </svg>
+  );
+}
+
+function EvoOrigenVidaSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto, gold = "#f5c842";
+  const stages = [
+    { x: 32, label: "moléculas", sub: "simples" },
+    { x: 110, label: "orgánicas", sub: "(aminoácidos)" },
+    { x: 196, label: "1ª célula", sub: "(vida)" },
+  ];
+  return (
+    <svg viewBox="0 0 250 120" width="100%" style={{ display: "block", maxHeight: 130 }}>
+      {/* rayo */}
+      <polygon points="20,12 12,40 22,38 14,60 34,30 22,32 30,12" fill={gold} opacity="0.7" />
+      {stages.map(({ x, label, sub }, i) => (
+        <g key={i}>
+          <circle cx={x} cy={58} r={i === 0 ? 9 : i === 1 ? 13 : 18} fill="rgba(52,211,153,0.10)" stroke={i === 2 ? a : bl} strokeWidth="1.8" />
+          {i === 2 && <circle cx={x} cy={58} r={6} fill={a} opacity="0.5" />}
+          <text x={x} y={92} textAnchor="middle" fill={T} fontSize="8" fontFamily="'DM Sans',sans-serif" fontWeight="600">{label}</text>
+          <text x={x} y={103} textAnchor="middle" fill={mu} fontSize="6.5" fontFamily="'DM Sans',sans-serif">{sub}</text>
+          {i < 2 && <><line x1={x + 18} y1={58} x2={stages[i + 1].x - 20} y2={58} stroke={a} strokeWidth="1.8" /><polygon points={arrowHead(x + 18, 58, stages[i + 1].x - 20, 58, 6)} fill={a} /></>}
+        </g>
+      ))}
+      <text x={125} y={16} textAnchor="middle" fill={mu} fontSize="7.5" fontFamily="'DM Sans',sans-serif">teoría quimiosintética (Oparin-Haldane)</text>
+    </svg>
+  );
+}
+
+function EvoDarwinLamarckSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted;
+  const jirafa = (x, neck, color) => (
+    <g>
+      <line x1={x} y1={86} x2={x} y2={86 - neck} stroke={color} strokeWidth="3" strokeLinecap="round" />
+      <circle cx={x} cy={86 - neck - 4} r={5} fill={color} opacity="0.6" />
+      <rect x={x - 6} y={86} width={12} height={16} rx={2} fill={color} opacity="0.3" stroke={color} strokeWidth="1.2" />
+      {[-4, 0, 4].map((d, i) => <line key={i} x1={x + d} y1={102} x2={x + d} y2={112} stroke={color} strokeWidth="1.4" />)}
+    </g>
+  );
+  return (
+    <svg viewBox="0 0 240 130" width="100%" style={{ display: "block", maxHeight: 140 }}>
+      {/* suelo */}
+      <line x1={10} y1={113} x2={230} y2={113} stroke={mu} strokeWidth="1" />
+      {/* población con variabilidad */}
+      {jirafa(40, 24, bl)}
+      {jirafa(70, 44, a)}
+      {jirafa(100, 34, bl)}
+      <text x={70} y={128} textAnchor="middle" fill={mu} fontSize="7.5" fontFamily="'DM Sans',sans-serif">población con variabilidad</text>
+      {/* flecha selección */}
+      <line x1={130} y1={70} x2={166} y2={70} stroke={a} strokeWidth="2" />
+      <polygon points={arrowHead(130, 70, 166, 70, 7)} fill={a} />
+      <text x={148} y={62} textAnchor="middle" fill={a} fontSize="6.5" fontFamily="'DM Sans',sans-serif">selección</text>
+      {/* sobreviven cuello largo */}
+      {jirafa(190, 46, a)}
+      {jirafa(214, 48, a)}
+      <text x={202} y={128} textAnchor="middle" fill={mu} fontSize="7.5" fontFamily="'DM Sans',sans-serif">sobreviven los aptos</text>
+    </svg>
+  );
+}
+
+function EvoPruebasSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto;
+  // brazo homólogo esquemático: húmero + dos huesos + dígitos
+  const limb = (x, label) => (
+    <g>
+      <line x1={x} y1={24} x2={x} y2={44} stroke={a} strokeWidth="3.4" strokeLinecap="round" />
+      <line x1={x} y1={44} x2={x - 7} y2={64} stroke={bl} strokeWidth="2.6" strokeLinecap="round" />
+      <line x1={x} y1={44} x2={x + 7} y2={64} stroke={bl} strokeWidth="2.6" strokeLinecap="round" />
+      {[-8, -3, 2, 7].map((d, i) => <line key={i} x1={x - 7 + (i < 2 ? 0 : 14)} y1={64} x2={x - 10 + i * 5} y2={78} stroke={a} strokeWidth="1.5" strokeLinecap="round" />)}
+      <text x={x} y={92} textAnchor="middle" fill={T} fontSize="7" fontFamily="'DM Sans',sans-serif">{label}</text>
+    </g>
+  );
+  return (
+    <svg viewBox="0 0 250 110" width="100%" style={{ display: "block", maxHeight: 120 }}>
+      <text x={125} y={14} textAnchor="middle" fill={mu} fontSize="8" fontFamily="'DM Sans',sans-serif">órganos homólogos: mismos huesos, distinta función</text>
+      {limb(50, "humano")}
+      {limb(125, "murciélago")}
+      {limb(200, "ballena")}
+      <text x={125} y={104} textAnchor="middle" fill={a} fontSize="7.5" fontFamily="'DM Sans',sans-serif">→ ancestro común</text>
+    </svg>
+  );
+}
+
+function EvoReinosSVG({ tema }) {
+  const a = tema.acento, mu = tema.muted, T = tema.texto;
+  const reinos = [
+    { label: "Monera", sub: "bacterias", c: "#f5c842" },
+    { label: "Protista", sub: "algas", c: "#22d3ee" },
+    { label: "Fungi", sub: "hongos", c: "#c084fc" },
+    { label: "Plantae", sub: "plantas", c: "#4ade80" },
+    { label: "Animalia", sub: "animales", c: "#fb7185" },
+  ];
+  return (
+    <svg viewBox="0 0 280 110" width="100%" style={{ display: "block", maxHeight: 120 }}>
+      {reinos.map(({ label, sub, c }, i) => {
+        const x = 12 + i * 53;
+        return (
+          <g key={i}>
+            <rect x={x} y={28} width={46} height={44} rx={7} fill={`${c}22`} stroke={c} strokeWidth="1.8" />
+            <circle cx={x + 23} cy={44} r={8} fill={`${c}44`} stroke={c} strokeWidth="1.3" />
+            <text x={x + 23} y={84} textAnchor="middle" fill={T} fontSize="7.5" fontFamily="'DM Sans',sans-serif" fontWeight="600">{label}</text>
+            <text x={x + 23} y={94} textAnchor="middle" fill={mu} fontSize="6.5" fontFamily="'DM Sans',sans-serif">{sub}</text>
+          </g>
+        );
+      })}
+      <text x={140} y={16} textAnchor="middle" fill={a} fontSize="8" fontFamily="'DM Sans',sans-serif">los cinco reinos (Whittaker)</text>
+    </svg>
+  );
+}
+
+function EvoTaxonomiaSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto;
+  const niveles = ["Reino", "Filo", "Clase", "Orden", "Familia", "Género", "Especie"];
+  return (
+    <svg viewBox="0 0 220 150" width="100%" style={{ display: "block", maxHeight: 158, maxWidth: 250 }}>
+      {niveles.map((n, i) => {
+        const w = 150 - i * 18;
+        const x = (220 - w) / 2;
+        const y = 14 + i * 19;
+        const last = i === niveles.length - 1;
+        return (
+          <g key={i}>
+            <rect x={x} y={y} width={w} height={15} rx={3} fill={last ? "rgba(52,211,153,0.2)" : "rgba(134,239,172,0.08)"} stroke={last ? a : bl} strokeWidth={last ? 2 : 1.3} />
+            <text x={110} y={y + 11} textAnchor="middle" fill={last ? a : T} fontSize="8.5" fontFamily="'DM Sans',sans-serif" fontWeight={last ? 700 : 500}>{n}</text>
+          </g>
+        );
+      })}
+      <text x={196} y={24} fill={mu} fontSize="7" fontFamily="'DM Sans',sans-serif" transform="rotate(90 196 24)">menos específico → más específico</text>
     </svg>
   );
 }

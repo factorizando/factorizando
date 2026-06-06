@@ -166,6 +166,7 @@ export const SUBJECTS_UNI = [
     color: "#f97316",
     children: [
       { id: "bio-celula", name: "La Célula", presentacion: "/ver/biologia-celula" },
+      { id: "bio-bioquimica", name: "Bioquímica y Metabolismo", presentacion: "/ver/biologia-bioquimica" },
       {
         id: "celula",
         name: "La Célula (cuestionarios)",

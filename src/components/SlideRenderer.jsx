@@ -174,6 +174,7 @@ function SlidePortadaDiagram({ slide, tema }) {
   if (slide.svgDiagram === "flu-portada") return <FluPortadaSVG tema={tema} />;
   if (slide.svgDiagram === "mod-portada") return <ModPortadaSVG tema={tema} />;
   if (slide.svgDiagram === "cel-portada") return <CelPortadaSVG tema={tema} />;
+  if (slide.svgDiagram === "bq-portada") return <BqPortadaSVG tema={tema} />;
   const DecoSVG = tema.DecoSVG;
   return <DecoSVG tema={tema} />;
 }
@@ -700,6 +701,12 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "cel-transporte"           && <CelTransporteSVG         tema={tema} />}
       {slide.svgDiagram === "cel-mitosis"              && <CelMitosisSVG            tema={tema} />}
       {slide.svgDiagram === "cel-meiosis"              && <CelMeiosisSVG            tema={tema} />}
+      {slide.svgDiagram === "bq-portada"               && <BqPortadaSVG             tema={tema} />}
+      {slide.svgDiagram === "bq-biomoleculas"          && <BqBiomoleculasSVG        tema={tema} />}
+      {slide.svgDiagram === "bq-enzima"                && <BqEnzimaSVG              tema={tema} />}
+      {slide.svgDiagram === "bq-atp"                   && <BqAtpSVG                 tema={tema} />}
+      {slide.svgDiagram === "bq-respiracion"           && <BqRespiracionSVG         tema={tema} />}
+      {slide.svgDiagram === "bq-fotosintesis"          && <BqFotosintesisSVG        tema={tema} />}
 
       <div style={{ display: "flex", flexDirection: "column", gap: compact ? 8 : 10 }}>
         {slide.items.map((item, i) => {
@@ -1984,6 +1991,12 @@ function SlideCriterioDetalle({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "cel-transporte"           && <CelTransporteSVG       tema={tema} />}
       {slide.svgDiagram === "cel-mitosis"              && <CelMitosisSVG          tema={tema} />}
       {slide.svgDiagram === "cel-meiosis"              && <CelMeiosisSVG          tema={tema} />}
+      {slide.svgDiagram === "bq-portada"               && <BqPortadaSVG           tema={tema} />}
+      {slide.svgDiagram === "bq-biomoleculas"          && <BqBiomoleculasSVG      tema={tema} />}
+      {slide.svgDiagram === "bq-enzima"                && <BqEnzimaSVG            tema={tema} />}
+      {slide.svgDiagram === "bq-atp"                   && <BqAtpSVG               tema={tema} />}
+      {slide.svgDiagram === "bq-respiracion"           && <BqRespiracionSVG       tema={tema} />}
+      {slide.svgDiagram === "bq-fotosintesis"          && <BqFotosintesisSVG      tema={tema} />}
       {slide.svgDiagram === "din-segunda-ley"          && <DinSegundaLeySVG       tema={tema} />}
       {slide.svgDiagram === "din-tercera-ley"          && <DinTerceraLeySVG       tema={tema} />}
       {slide.svgDiagram === "din-hooke"                && <DinHookeSVG            tema={tema} />}
@@ -5516,6 +5529,12 @@ function renderEjercicioSVG(svgDiagram, tema) {
   if (svgDiagram === "cel-transporte")     return <CelTransporteSVG    tema={tema} />;
   if (svgDiagram === "cel-mitosis")        return <CelMitosisSVG       tema={tema} />;
   if (svgDiagram === "cel-meiosis")        return <CelMeiosisSVG       tema={tema} />;
+  if (svgDiagram === "bq-portada")         return <BqPortadaSVG        tema={tema} />;
+  if (svgDiagram === "bq-biomoleculas")    return <BqBiomoleculasSVG   tema={tema} />;
+  if (svgDiagram === "bq-enzima")          return <BqEnzimaSVG         tema={tema} />;
+  if (svgDiagram === "bq-atp")             return <BqAtpSVG            tema={tema} />;
+  if (svgDiagram === "bq-respiracion")     return <BqRespiracionSVG    tema={tema} />;
+  if (svgDiagram === "bq-fotosintesis")    return <BqFotosintesisSVG   tema={tema} />;
   if (svgDiagram === "cin-graf-xt")        return <CinGrafXtSVG        tema={tema} />;
   if (svgDiagram === "cin-ej-dt")          return <CinEjDtSVG          tema={tema} />;
   if (svgDiagram === "cin-caida-libre")    return <CinCaidaLibreSVG    tema={tema} />;
@@ -9172,6 +9191,144 @@ function CelMeiosisSVG({ tema }) {
       ))}
       <text x={258} y={66} fill={mu} fontSize="8" fontFamily="'DM Sans',sans-serif">4 gametos</text>
       <text x={258} y={78} fill={mu} fontSize="8" fontFamily="'DM Sans',sans-serif">(n cada uno)</text>
+    </svg>
+  );
+}
+
+// ══ BIOLOGÍA · BIOQUÍMICA Y METABOLISMO ═══════════════════════════════════════
+function BqPortadaSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted;
+  // hexágono tipo molécula con nodos
+  const cx = 110, cy = 70, r = 38;
+  const pts = [];
+  for (let i = 0; i < 6; i++) {
+    const ang = Math.PI / 6 + i * Math.PI / 3;
+    pts.push([cx + r * Math.cos(ang), cy + r * Math.sin(ang)]);
+  }
+  return (
+    <svg viewBox="0 0 220 140" width="100%" style={{ display: "block", maxHeight: 140, maxWidth: 280 }}>
+      <polygon points={pts.map(p => p.join(",")).join(" ")} fill="rgba(52,211,153,0.06)" stroke={a} strokeWidth="2" />
+      {pts.map(([x, y], i) => <circle key={i} cx={x} cy={y} r={6} fill={a} opacity="0.55" stroke={a} strokeWidth="1.5" />)}
+      <line x1={cx} y1={cy} x2={pts[0][0]} y2={pts[0][1]} stroke={bl} strokeWidth="1.4" />
+      <line x1={cx} y1={cy} x2={pts[3][0]} y2={pts[3][1]} stroke={bl} strokeWidth="1.4" />
+      <circle cx={cx} cy={cy} r={7} fill={bl} opacity="0.6" />
+      <text x={cx} y={128} textAnchor="middle" fill={mu} fontSize="8.5" fontFamily="'DM Sans',sans-serif">las moléculas y la energía de la vida</text>
+    </svg>
+  );
+}
+
+function BqBiomoleculasSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, T = tema.texto;
+  const cols = [
+    { x: 30, label: "Carbohidratos", sub: "energía" },
+    { x: 100, label: "Lípidos", sub: "membranas" },
+    { x: 170, label: "Proteínas", sub: "estructura" },
+    { x: 240, label: "Ác. nucleicos", sub: "info." },
+  ];
+  return (
+    <svg viewBox="0 0 290 120" width="100%" style={{ display: "block", maxHeight: 130 }}>
+      {cols.map(({ x, label, sub }, i) => (
+        <g key={i}>
+          {/* iconos esquemáticos */}
+          {i === 0 && <polygon points={`${x},20 ${x+10},26 ${x+10},38 ${x},44 ${x-10},38 ${x-10},26`} fill="rgba(52,211,153,0.18)" stroke={a} strokeWidth="1.6" />}
+          {i === 1 && <g><circle cx={x} cy={26} r={5} fill={a} opacity="0.5" /><line x1={x-2} y1={30} x2={x-2} y2={44} stroke={a} strokeWidth="1.5" /><line x1={x+2} y1={30} x2={x+2} y2={44} stroke={a} strokeWidth="1.5" /></g>}
+          {i === 2 && <path d={`M ${x-12} 40 q 6 -22 12 0 q 6 22 12 0`} fill="none" stroke={a} strokeWidth="2" />}
+          {i === 3 && <g><path d={`M ${x-8} 18 q 16 12 0 24 q -16 12 0 0`} fill="none" stroke={a} strokeWidth="1.8" /><path d={`M ${x+8} 18 q -16 12 0 24 q 16 12 0 0`} fill="none" stroke={bl} strokeWidth="1.8" /></g>}
+          <text x={x} y={66} textAnchor="middle" fill={T} fontSize="7.5" fontFamily="'DM Sans',sans-serif" fontWeight="600">{label}</text>
+          <text x={x} y={78} textAnchor="middle" fill={bl} fontSize="6.5" fontFamily="'DM Sans',sans-serif">{sub}</text>
+        </g>
+      ))}
+      <text x={145} y={104} textAnchor="middle" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif">monómeros que se unen en polímeros</text>
+    </svg>
+  );
+}
+
+function BqEnzimaSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto;
+  return (
+    <svg viewBox="0 0 280 120" width="100%" style={{ display: "block", maxHeight: 130 }}>
+      <text x={140} y={14} textAnchor="middle" fill={mu} fontSize="8" fontFamily="'DM Sans',sans-serif">modelo llave-cerradura</text>
+      {/* enzima con hueco */}
+      <path d="M 30 40 h 70 v 14 a 12 12 0 0 0 24 0 v -14 h 30 v 56 H 30 Z" fill="rgba(52,211,153,0.10)" stroke={a} strokeWidth="2" />
+      <text x={62} y={92} fill={a} fontSize="8" fontFamily="'DM Sans',sans-serif">enzima</text>
+      <text x={112} y={48} textAnchor="middle" fill={mu} fontSize="6.5" fontFamily="'DM Sans',sans-serif">sitio activo</text>
+      {/* sustrato que encaja */}
+      <path d="M 112 26 a 12 12 0 0 1 0 -2 v -8 h -24 v 8 a 12 12 0 0 1 0 2 Z" fill="rgba(134,239,172,0.25)" stroke={bl} strokeWidth="1.8" transform="translate(0 6)" />
+      <text x={100} y={22} textAnchor="middle" fill={bl} fontSize="7" fontFamily="'DM Sans',sans-serif">sustrato</text>
+      {/* flecha → productos */}
+      <line x1={176} y1={70} x2={214} y2={70} stroke={T} strokeWidth="2" />
+      <polygon points={arrowHead(176, 70, 214, 70, 7)} fill={T} />
+      <circle cx={232} cy={62} r={6} fill={a} opacity="0.5" />
+      <circle cx={248} cy={74} r={6} fill={bl} opacity="0.5" />
+      <text x={240} y={96} textAnchor="middle" fill={mu} fontSize="7" fontFamily="'DM Sans',sans-serif">productos</text>
+    </svg>
+  );
+}
+
+function BqAtpSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto;
+  return (
+    <svg viewBox="0 0 260 120" width="100%" style={{ display: "block", maxHeight: 130 }}>
+      {/* ADP */}
+      <rect x={20} y={48} width={34} height={22} rx={4} fill="rgba(134,239,172,0.12)" stroke={bl} strokeWidth="1.6" />
+      <text x={37} y={63} textAnchor="middle" fill={bl} fontSize="9" fontFamily="'DM Sans',sans-serif" fontWeight="700">ADP</text>
+      <circle cx={68} cy={59} r={9} fill="rgba(52,211,153,0.25)" stroke={a} strokeWidth="1.6" />
+      <text x={68} y={62} textAnchor="middle" fill={a} fontSize="8" fontFamily="'DM Sans',sans-serif">Pᵢ</text>
+      {/* flechas reversibles */}
+      <path d="M 88 50 q 44 -16 84 0" fill="none" stroke={a} strokeWidth="2" />
+      <polygon points={arrowHead(150, 42, 172, 50, 7)} fill={a} />
+      <text x={130} y={34} textAnchor="middle" fill={a} fontSize="7" fontFamily="'DM Sans',sans-serif">+ energía (carga)</text>
+      <path d="M 172 74 q -44 16 -84 0" fill="none" stroke={tema.rojo} strokeWidth="2" />
+      <polygon points={arrowHead(110, 82, 88, 74, 7)} fill={tema.rojo} />
+      <text x={130} y={98} textAnchor="middle" fill={tema.rojo} fontSize="7" fontFamily="'DM Sans',sans-serif">− energía (uso)</text>
+      {/* ATP */}
+      <rect x={186} y={48} width={50} height={22} rx={4} fill="rgba(52,211,153,0.14)" stroke={a} strokeWidth="1.8" />
+      <text x={211} y={63} textAnchor="middle" fill={a} fontSize="9" fontFamily="'DM Sans',sans-serif" fontWeight="700">ATP</text>
+      <text x={130} y={116} textAnchor="middle" fill={mu} fontSize="7" fontFamily="'DM Sans',sans-serif">la moneda energética de la célula</text>
+    </svg>
+  );
+}
+
+function BqRespiracionSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto;
+  return (
+    <svg viewBox="0 0 290 130" width="100%" style={{ display: "block", maxHeight: 140 }}>
+      {/* mitocondria */}
+      <ellipse cx={145} cy={66} rx={120} ry={46} fill="rgba(248,113,113,0.06)" stroke={tema.rojo} strokeWidth="2" />
+      <path d="M 50 50 q 18 16 0 32 M 95 46 q 18 20 0 40 M 145 44 q 18 22 0 44 M 195 46 q 18 20 0 40 M 240 50 q 18 16 0 32" fill="none" stroke={tema.rojo} strokeWidth="1.2" opacity="0.5" />
+      {/* entradas */}
+      <text x={28} y={40} textAnchor="middle" fill={a} fontSize="8" fontFamily="'DM Sans',sans-serif">glucosa</text>
+      <text x={28} y={96} textAnchor="middle" fill={bl} fontSize="8" fontFamily="'DM Sans',sans-serif">O₂</text>
+      {/* etapas */}
+      <text x={145} y={60} textAnchor="middle" fill={T} fontSize="7.5" fontFamily="'DM Sans',sans-serif" fontWeight="600">glucólisis → Krebs →</text>
+      <text x={145} y={74} textAnchor="middle" fill={T} fontSize="7.5" fontFamily="'DM Sans',sans-serif" fontWeight="600">cadena (citocromos)</text>
+      {/* salidas */}
+      <text x={262} y={40} textAnchor="middle" fill={mu} fontSize="8" fontFamily="'DM Sans',sans-serif">CO₂ + H₂O</text>
+      <text x={262} y={96} textAnchor="middle" fill={a} fontSize="9" fontFamily="'DM Sans',sans-serif" fontWeight="700">ATP</text>
+      <text x={145} y={124} textAnchor="middle" fill={mu} fontSize="7.5" fontFamily="'DM Sans',sans-serif">respiración aerobia (en la mitocondria)</text>
+    </svg>
+  );
+}
+
+function BqFotosintesisSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto, gold = "#f5c842";
+  return (
+    <svg viewBox="0 0 290 130" width="100%" style={{ display: "block", maxHeight: 140 }}>
+      {/* sol */}
+      <circle cx={36} cy={28} r={11} fill="rgba(245,200,66,0.3)" stroke={gold} strokeWidth="1.6" />
+      {[0,1,2,3,4,5,6,7].map(i => { const ang = i*Math.PI/4; return <line key={i} x1={36+13*Math.cos(ang)} y1={28+13*Math.sin(ang)} x2={36+18*Math.cos(ang)} y2={28+18*Math.sin(ang)} stroke={gold} strokeWidth="1.4" />; })}
+      <text x={60} y={20} fill={gold} fontSize="7.5" fontFamily="'DM Sans',sans-serif">luz</text>
+      {/* cloroplasto (hoja) */}
+      <ellipse cx={145} cy={70} rx={70} ry={38} fill="rgba(74,222,128,0.10)" stroke={tema.verde} strokeWidth="2" />
+      <path d="M 145 36 q -10 34 0 68 M 110 56 q 35 10 70 0 M 110 84 q 35 -10 70 0" fill="none" stroke={tema.verde} strokeWidth="1" opacity="0.5" />
+      <text x={145} y={66} textAnchor="middle" fill={T} fontSize="8" fontFamily="'DM Sans',sans-serif" fontWeight="600">clorofila</text>
+      <text x={145} y={78} textAnchor="middle" fill={mu} fontSize="6.5" fontFamily="'DM Sans',sans-serif">(cloroplasto)</text>
+      {/* entradas */}
+      <text x={40} y={86} textAnchor="middle" fill={mu} fontSize="8" fontFamily="'DM Sans',sans-serif">CO₂ + H₂O</text>
+      {/* salidas */}
+      <text x={255} y={56} textAnchor="middle" fill={a} fontSize="8" fontFamily="'DM Sans',sans-serif" fontWeight="700">glucosa</text>
+      <text x={255} y={88} textAnchor="middle" fill={bl} fontSize="8" fontFamily="'DM Sans',sans-serif">O₂</text>
+      <text x={145} y={122} textAnchor="middle" fill={mu} fontSize="7.5" fontFamily="'DM Sans',sans-serif">6CO₂ + 6H₂O + luz → glucosa + 6O₂</text>
     </svg>
   );
 }

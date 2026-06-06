@@ -29,6 +29,7 @@ import { PRESENTACION as ONDAS } from "./ondas.js";
 import { PRESENTACION as ELECTRICIDAD } from "./electricidad.js";
 import { PRESENTACION as FLUIDOS } from "./fluidos.js";
 import { PRESENTACION as FISICA_MODERNA } from "./fisica-moderna.js";
+import { PRESENTACION as BIOLOGIA_CELULA } from "./biologia-celula.js";
 
 export const PRESENTACIONES_INDEX = {
   "semejanza-triangulos": SEMEJANZA_TRIANGULOS,
@@ -58,6 +59,7 @@ export const PRESENTACIONES_INDEX = {
   "electricidad": ELECTRICIDAD,
   "fluidos": FLUIDOS,
   "fisica-moderna": FISICA_MODERNA,
+  "biologia-celula": BIOLOGIA_CELULA,
 };
 
 export function buscarPresentacion(id) {

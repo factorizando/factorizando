@@ -165,9 +165,10 @@ export const SUBJECTS_UNI = [
     name: "Biología",
     color: "#f97316",
     children: [
+      { id: "bio-celula", name: "La Célula", presentacion: "/ver/biologia-celula" },
       {
         id: "celula",
-        name: "La Célula",
+        name: "La Célula (cuestionarios)",
         children: [
           {
             id: "celula-bas",

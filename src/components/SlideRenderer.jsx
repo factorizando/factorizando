@@ -173,6 +173,7 @@ function SlidePortadaDiagram({ slide, tema }) {
   if (slide.svgDiagram === "ele-portada") return <ElePortadaSVG tema={tema} />;
   if (slide.svgDiagram === "flu-portada") return <FluPortadaSVG tema={tema} />;
   if (slide.svgDiagram === "mod-portada") return <ModPortadaSVG tema={tema} />;
+  if (slide.svgDiagram === "cel-portada") return <CelPortadaSVG tema={tema} />;
   const DecoSVG = tema.DecoSVG;
   return <DecoSVG tema={tema} />;
 }
@@ -692,6 +693,13 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "flu-continuidad"          && <FluContinuidadSVG        tema={tema} />}
       {slide.svgDiagram === "mod-atomo"                && <ModAtomoSVG              tema={tema} />}
       {slide.svgDiagram === "mod-espectro"             && <ModEspectroSVG           tema={tema} />}
+      {slide.svgDiagram === "cel-portada"              && <CelPortadaSVG            tema={tema} />}
+      {slide.svgDiagram === "cel-proc-euc"             && <CelProcEucSVG            tema={tema} />}
+      {slide.svgDiagram === "cel-animal-vegetal"       && <CelAnimalVegetalSVG      tema={tema} />}
+      {slide.svgDiagram === "cel-membrana"             && <CelMembranaSVG           tema={tema} />}
+      {slide.svgDiagram === "cel-transporte"           && <CelTransporteSVG         tema={tema} />}
+      {slide.svgDiagram === "cel-mitosis"              && <CelMitosisSVG            tema={tema} />}
+      {slide.svgDiagram === "cel-meiosis"              && <CelMeiosisSVG            tema={tema} />}
 
       <div style={{ display: "flex", flexDirection: "column", gap: compact ? 8 : 10 }}>
         {slide.items.map((item, i) => {
@@ -1969,6 +1977,13 @@ function SlideCriterioDetalle({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "cin-graf-vt"              && <CinGrafVtSVG           tema={tema} />}
       {slide.svgDiagram === "cin-caida-libre"          && <CinCaidaLibreSVG       tema={tema} />}
       {slide.svgDiagram === "cin-tiro-parabolico"      && <CinTiroParabolicoSVG   tema={tema} />}
+      {slide.svgDiagram === "cel-portada"              && <CelPortadaSVG          tema={tema} />}
+      {slide.svgDiagram === "cel-proc-euc"             && <CelProcEucSVG          tema={tema} />}
+      {slide.svgDiagram === "cel-animal-vegetal"       && <CelAnimalVegetalSVG    tema={tema} />}
+      {slide.svgDiagram === "cel-membrana"             && <CelMembranaSVG         tema={tema} />}
+      {slide.svgDiagram === "cel-transporte"           && <CelTransporteSVG       tema={tema} />}
+      {slide.svgDiagram === "cel-mitosis"              && <CelMitosisSVG          tema={tema} />}
+      {slide.svgDiagram === "cel-meiosis"              && <CelMeiosisSVG          tema={tema} />}
       {slide.svgDiagram === "din-segunda-ley"          && <DinSegundaLeySVG       tema={tema} />}
       {slide.svgDiagram === "din-tercera-ley"          && <DinTerceraLeySVG       tema={tema} />}
       {slide.svgDiagram === "din-hooke"                && <DinHookeSVG            tema={tema} />}
@@ -5494,6 +5509,13 @@ function renderEjercicioSVG(svgDiagram, tema) {
   if (svgDiagram === "ej-est-rango")       return <Ej_EstRangoSVG      tema={tema} />;
   if (svgDiagram === "ej-est-tabla")       return <TablaFrecuenciasEst tema={tema} />;
   if (svgDiagram === "ej-est-mediana-par") return <Ej_EstMedianaParSVG tema={tema} />;
+  if (svgDiagram === "cel-portada")        return <CelPortadaSVG       tema={tema} />;
+  if (svgDiagram === "cel-proc-euc")       return <CelProcEucSVG       tema={tema} />;
+  if (svgDiagram === "cel-animal-vegetal") return <CelAnimalVegetalSVG tema={tema} />;
+  if (svgDiagram === "cel-membrana")       return <CelMembranaSVG      tema={tema} />;
+  if (svgDiagram === "cel-transporte")     return <CelTransporteSVG    tema={tema} />;
+  if (svgDiagram === "cel-mitosis")        return <CelMitosisSVG       tema={tema} />;
+  if (svgDiagram === "cel-meiosis")        return <CelMeiosisSVG       tema={tema} />;
   if (svgDiagram === "cin-graf-xt")        return <CinGrafXtSVG        tema={tema} />;
   if (svgDiagram === "cin-ej-dt")          return <CinEjDtSVG          tema={tema} />;
   if (svgDiagram === "cin-caida-libre")    return <CinCaidaLibreSVG    tema={tema} />;
@@ -8978,6 +9000,178 @@ function BiologiaCadenaTroficaSVG({ tema }) {
         );
       })}
       <text x="160" y="124" textAnchor="middle" fill="rgba(255,255,255,0.2)" fontSize="4.5" fontFamily="monospace">cada flecha: "es alimento de" — la energía siempre fluye hacia arriba</text>
+    </svg>
+  );
+}
+
+// ══ BIOLOGÍA · LA CÉLULA ══════════════════════════════════════════════════════
+function CelPortadaSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted;
+  return (
+    <svg viewBox="0 0 220 150" width="100%" style={{ display: "block", maxHeight: 150, maxWidth: 280 }}>
+      {/* membrana */}
+      <ellipse cx={110} cy={75} rx={96} ry={62} fill="rgba(52,211,153,0.06)" stroke={a} strokeWidth="2.5" />
+      {/* núcleo */}
+      <circle cx={108} cy={72} r={30} fill="rgba(134,239,172,0.10)" stroke={bl} strokeWidth="2" />
+      <circle cx={108} cy={72} r={11} fill={a} opacity="0.45" />
+      <text x={108} y={45} textAnchor="middle" fill={bl} fontSize="8" fontFamily="'DM Sans',sans-serif">núcleo</text>
+      {/* mitocondrias */}
+      <ellipse cx={56} cy={48} rx={15} ry={7.5} fill="rgba(248,113,113,0.18)" stroke={tema.rojo} strokeWidth="1.6" transform="rotate(-20 56 48)" />
+      <ellipse cx={160} cy={104} rx={15} ry={7.5} fill="rgba(248,113,113,0.18)" stroke={tema.rojo} strokeWidth="1.6" transform="rotate(15 160 104)" />
+      {/* organelos varios */}
+      <circle cx={60} cy={100} r={6} fill={a} opacity="0.3" stroke={a} strokeWidth="1.2" />
+      <circle cx={156} cy={44} r={5} fill={bl} opacity="0.35" stroke={bl} strokeWidth="1.2" />
+      <path d="M 138 96 q 10 -4 18 2 q -8 6 -18 -2 z" fill={a} opacity="0.25" stroke={a} strokeWidth="1" />
+      <text x={110} y={146} textAnchor="middle" fill={mu} fontSize="8.5" fontFamily="'DM Sans',sans-serif">la unidad de la vida</text>
+    </svg>
+  );
+}
+
+function CelProcEucSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto;
+  return (
+    <svg viewBox="0 0 280 130" width="100%" style={{ display: "block", maxHeight: 140 }}>
+      {/* Procariota */}
+      <rect x={20} y={36} width={96} height={58} rx={26} fill="rgba(52,211,153,0.05)" stroke={a} strokeWidth="2" />
+      <path d="M 44 66 q 12 -10 24 0 q 12 10 24 0" fill="none" stroke={bl} strokeWidth="2" />
+      <text x={68} y={28} textAnchor="middle" fill={T} fontSize="9" fontFamily="'DM Sans',sans-serif" fontWeight="600">Procariota</text>
+      <text x={68} y={108} textAnchor="middle" fill={mu} fontSize="7.5" fontFamily="'DM Sans',sans-serif">ADN libre · sin núcleo</text>
+      {/* Eucariota */}
+      <ellipse cx={216} cy={65} rx={52} ry={34} fill="rgba(52,211,153,0.05)" stroke={a} strokeWidth="2" />
+      <circle cx={214} cy={64} r={17} fill="rgba(134,239,172,0.12)" stroke={bl} strokeWidth="1.8" />
+      <circle cx={214} cy={64} r={6} fill={a} opacity="0.5" />
+      <ellipse cx={186} cy={48} rx={8} ry={4} fill="rgba(248,113,113,0.2)" stroke={tema.rojo} strokeWidth="1.2" />
+      <text x={216} y={28} textAnchor="middle" fill={T} fontSize="9" fontFamily="'DM Sans',sans-serif" fontWeight="600">Eucariota</text>
+      <text x={216} y={113} textAnchor="middle" fill={mu} fontSize="7.5" fontFamily="'DM Sans',sans-serif">núcleo + organelos</text>
+    </svg>
+  );
+}
+
+function CelAnimalVegetalSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, T = tema.texto;
+  return (
+    <svg viewBox="0 0 290 140" width="100%" style={{ display: "block", maxHeight: 150 }}>
+      {/* Animal */}
+      <ellipse cx={70} cy={70} rx={56} ry={48} fill="rgba(52,211,153,0.05)" stroke={a} strokeWidth="2" />
+      <circle cx={68} cy={66} r={18} fill="rgba(134,239,172,0.12)" stroke={bl} strokeWidth="1.8" />
+      <circle cx={68} cy={66} r={6} fill={a} opacity="0.5" />
+      <ellipse cx={38} cy={96} rx={10} ry={5} fill="rgba(248,113,113,0.2)" stroke={tema.rojo} strokeWidth="1.3" transform="rotate(-20 38 96)" />
+      <circle cx={98} cy={42} r={5} fill={a} opacity="0.3" stroke={a} strokeWidth="1" />
+      <text x={70} y={20} textAnchor="middle" fill={T} fontSize="9.5" fontFamily="'DM Sans',sans-serif" fontWeight="600">Animal</text>
+      {/* Vegetal — pared rígida rectangular */}
+      <rect x={166} y={26} width={104} height={88} rx={6} fill="none" stroke={tema.verde} strokeWidth="3" />
+      <rect x={172} y={32} width={92} height={76} rx={4} fill="rgba(52,211,153,0.05)" stroke={a} strokeWidth="1.6" />
+      <circle cx={210} cy={64} r={15} fill="rgba(134,239,172,0.12)" stroke={bl} strokeWidth="1.6" />
+      <circle cx={210} cy={64} r={5} fill={a} opacity="0.5" />
+      {/* cloroplastos */}
+      <ellipse cx={244} cy={46} rx={9} ry={4.5} fill="rgba(74,222,128,0.3)" stroke={tema.verde} strokeWidth="1.3" transform="rotate(25 244 46)" />
+      <ellipse cx={238} cy={92} rx={9} ry={4.5} fill="rgba(74,222,128,0.3)" stroke={tema.verde} strokeWidth="1.3" transform="rotate(-15 238 92)" />
+      <text x={218} y={20} textAnchor="middle" fill={T} fontSize="9.5" fontFamily="'DM Sans',sans-serif" fontWeight="600">Vegetal</text>
+      <text x={218} y={128} textAnchor="middle" fill={tema.verde} fontSize="7.5" fontFamily="'DM Sans',sans-serif">pared · cloroplastos · vacuola</text>
+    </svg>
+  );
+}
+
+function CelMembranaSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted;
+  const xs = [];
+  for (let i = 0; i < 13; i++) xs.push(24 + i * 18);
+  return (
+    <svg viewBox="0 0 260 120" width="100%" style={{ display: "block", maxHeight: 130 }}>
+      <text x={130} y={16} textAnchor="middle" fill={mu} fontSize="8" fontFamily="'DM Sans',sans-serif">bicapa de fosfolípidos (mosaico fluido)</text>
+      {xs.map((x, i) => (
+        <g key={i}>
+          {/* cabeza arriba */}
+          <circle cx={x} cy={40} r={5.5} fill={a} opacity="0.5" />
+          <line x1={x - 2} y1={45} x2={x - 2} y2={58} stroke={a} strokeWidth="1.4" />
+          <line x1={x + 2} y1={45} x2={x + 2} y2={58} stroke={a} strokeWidth="1.4" />
+          {/* cabeza abajo */}
+          <circle cx={x} cy={92} r={5.5} fill={a} opacity="0.5" />
+          <line x1={x - 2} y1={87} x2={x - 2} y2={74} stroke={a} strokeWidth="1.4" />
+          <line x1={x + 2} y1={87} x2={x + 2} y2={74} stroke={a} strokeWidth="1.4" />
+        </g>
+      ))}
+      {/* proteína integral */}
+      <rect x={104} y={36} width={26} height={60} rx={9} fill="rgba(134,239,172,0.18)" stroke={bl} strokeWidth="2" />
+      <text x={117} y={112} textAnchor="middle" fill={bl} fontSize="7.5" fontFamily="'DM Sans',sans-serif">proteína</text>
+    </svg>
+  );
+}
+
+function CelTransporteSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto;
+  return (
+    <svg viewBox="0 0 280 130" width="100%" style={{ display: "block", maxHeight: 140 }}>
+      {/* membrana central */}
+      <rect x={132} y={14} width={16} height={104} fill="rgba(52,211,153,0.10)" stroke={a} strokeWidth="1.6" />
+      {/* Pasivo — flecha a favor (de muchos puntos a pocos) */}
+      <text x={66} y={24} textAnchor="middle" fill={tema.verde} fontSize="8.5" fontFamily="'DM Sans',sans-serif" fontWeight="600">Pasivo (sin ATP)</text>
+      {[34, 46, 58, 42, 54].map((y, i) => <circle key={i} cx={30 + (i % 3) * 12} cy={y} r={3} fill={a} opacity="0.6" />)}
+      <line x1={70} y1={46} x2={128} y2={46} stroke={tema.verde} strokeWidth="2.2" />
+      <polygon points={arrowHead(70, 46, 128, 46, 8)} fill={tema.verde} />
+      <text x={88} y={40} textAnchor="middle" fill={tema.verde} fontSize="7" fontFamily="'DM Sans',sans-serif">a favor</text>
+      {/* Activo — flecha en contra con ATP */}
+      <text x={62} y={88} textAnchor="middle" fill={tema.rojo} fontSize="8.5" fontFamily="'DM Sans',sans-serif" fontWeight="600">Activo (con ATP)</text>
+      <line x1={128} y1={104} x2={70} y2={104} stroke={tema.rojo} strokeWidth="2.2" />
+      <polygon points={arrowHead(128, 104, 70, 104, 8)} fill={tema.rojo} />
+      <text x={150} y={104} fill={bl} fontSize="9" fontFamily="'DM Sans',sans-serif" fontWeight="700">ATP</text>
+      <text x={92} y={98} textAnchor="middle" fill={tema.rojo} fontSize="7" fontFamily="'DM Sans',sans-serif">en contra</text>
+      <text x={210} y={66} textAnchor="middle" fill={mu} fontSize="7.5" fontFamily="'DM Sans',sans-serif">gradiente de</text>
+      <text x={210} y={77} textAnchor="middle" fill={mu} fontSize="7.5" fontFamily="'DM Sans',sans-serif">concentración</text>
+    </svg>
+  );
+}
+
+function CelMitosisSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted;
+  return (
+    <svg viewBox="0 0 280 110" width="100%" style={{ display: "block", maxHeight: 120 }}>
+      {/* madre */}
+      <circle cx={48} cy={55} r={28} fill="rgba(52,211,153,0.05)" stroke={a} strokeWidth="2" />
+      <line x1={40} y1={48} x2={50} y2={62} stroke={bl} strokeWidth="3" strokeLinecap="round" />
+      <line x1={56} y1={48} x2={46} y2={62} stroke={bl} strokeWidth="3" strokeLinecap="round" />
+      <text x={48} y={98} textAnchor="middle" fill={mu} fontSize="8" fontFamily="'DM Sans',sans-serif">madre (2n)</text>
+      {/* flecha */}
+      <line x1={84} y1={55} x2={150} y2={55} stroke={a} strokeWidth="2" />
+      <polygon points={arrowHead(84, 55, 150, 55, 8)} fill={a} />
+      <text x={117} y={48} textAnchor="middle" fill={a} fontSize="8" fontFamily="'DM Sans',sans-serif">mitosis</text>
+      {/* dos hijas idénticas */}
+      {[ [196, 30], [196, 80] ].map(([cx, cy], i) => (
+        <g key={i}>
+          <circle cx={cx} cy={cy} r={20} fill="rgba(52,211,153,0.05)" stroke={a} strokeWidth="1.8" />
+          <line x1={cx - 6} y1={cy - 5} x2={cx + 2} y2={cy + 6} stroke={bl} strokeWidth="2.4" strokeLinecap="round" />
+          <line x1={cx + 5} y1={cy - 5} x2={cx - 3} y2={cy + 6} stroke={bl} strokeWidth="2.4" strokeLinecap="round" />
+        </g>
+      ))}
+      <text x={244} y={58} fill={mu} fontSize="8" fontFamily="'DM Sans',sans-serif">2 idénticas</text>
+      <text x={244} y={70} fill={mu} fontSize="8" fontFamily="'DM Sans',sans-serif">(2n cada una)</text>
+    </svg>
+  );
+}
+
+function CelMeiosisSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted;
+  const hijas = [ [232, 20], [232, 52], [232, 84], [232, 116] ];
+  return (
+    <svg viewBox="0 0 290 136" width="100%" style={{ display: "block", maxHeight: 150 }}>
+      {/* madre */}
+      <circle cx={44} cy={68} r={28} fill="rgba(52,211,153,0.05)" stroke={a} strokeWidth="2" />
+      <line x1={36} y1={61} x2={46} y2={75} stroke={bl} strokeWidth="3" strokeLinecap="round" />
+      <line x1={52} y1={61} x2={42} y2={75} stroke={bl} strokeWidth="3" strokeLinecap="round" />
+      <text x={44} y={110} textAnchor="middle" fill={mu} fontSize="8" fontFamily="'DM Sans',sans-serif">madre (2n)</text>
+      {/* flecha doble división */}
+      <line x1={78} y1={68} x2={196} y2={68} stroke={a} strokeWidth="2" />
+      <polygon points={arrowHead(78, 68, 196, 68, 8)} fill={a} />
+      <text x={134} y={60} textAnchor="middle" fill={a} fontSize="8" fontFamily="'DM Sans',sans-serif">meiosis (2 divisiones)</text>
+      {/* cuatro hijas con la mitad */}
+      {hijas.map(([cx, cy], i) => (
+        <g key={i}>
+          <circle cx={cx} cy={cy} r={13} fill="rgba(52,211,153,0.05)" stroke={a} strokeWidth="1.6" />
+          <line x1={cx - 3} y1={cy - 4} x2={cx + 3} y2={cy + 4} stroke={bl} strokeWidth="2.2" strokeLinecap="round" />
+        </g>
+      ))}
+      <text x={258} y={66} fill={mu} fontSize="8" fontFamily="'DM Sans',sans-serif">4 gametos</text>
+      <text x={258} y={78} fill={mu} fontSize="8" fontFamily="'DM Sans',sans-serif">(n cada uno)</text>
     </svg>
   );
 }

@@ -178,6 +178,7 @@ function SlidePortadaDiagram({ slide, tema }) {
   if (slide.svgDiagram === "rep-portada") return <RepPortadaSVG tema={tema} />;
   if (slide.svgDiagram === "gen-portada") return <GenPortadaSVG tema={tema} />;
   if (slide.svgDiagram === "evo-portada") return <EvoPortadaSVG tema={tema} />;
+  if (slide.svgDiagram === "eco-portada") return <EcoPortadaSVG tema={tema} />;
   const DecoSVG = tema.DecoSVG;
   return <DecoSVG tema={tema} />;
 }
@@ -726,6 +727,11 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "evo-pruebas"              && <EvoPruebasSVG            tema={tema} />}
       {slide.svgDiagram === "evo-reinos"               && <EvoReinosSVG             tema={tema} />}
       {slide.svgDiagram === "evo-taxonomia"            && <EvoTaxonomiaSVG          tema={tema} />}
+      {slide.svgDiagram === "eco-portada"              && <EcoPortadaSVG            tema={tema} />}
+      {slide.svgDiagram === "eco-niveles"              && <EcoNivelesSVG            tema={tema} />}
+      {slide.svgDiagram === "eco-piramide"             && <EcoPiramideSVG           tema={tema} />}
+      {slide.svgDiagram === "eco-ciclo-carbono"        && <EcoCicloCarbonoSVG       tema={tema} />}
+      {slide.svgDiagram === "eco-biomas"               && <EcoBiomasSVG             tema={tema} />}
 
       <div style={{ display: "flex", flexDirection: "column", gap: compact ? 8 : 10 }}>
         {slide.items.map((item, i) => {
@@ -2032,6 +2038,11 @@ function SlideCriterioDetalle({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "evo-pruebas"              && <EvoPruebasSVG          tema={tema} />}
       {slide.svgDiagram === "evo-reinos"               && <EvoReinosSVG           tema={tema} />}
       {slide.svgDiagram === "evo-taxonomia"            && <EvoTaxonomiaSVG        tema={tema} />}
+      {slide.svgDiagram === "eco-portada"              && <EcoPortadaSVG          tema={tema} />}
+      {slide.svgDiagram === "eco-niveles"              && <EcoNivelesSVG          tema={tema} />}
+      {slide.svgDiagram === "eco-piramide"             && <EcoPiramideSVG         tema={tema} />}
+      {slide.svgDiagram === "eco-ciclo-carbono"        && <EcoCicloCarbonoSVG     tema={tema} />}
+      {slide.svgDiagram === "eco-biomas"               && <EcoBiomasSVG           tema={tema} />}
       {slide.svgDiagram === "din-segunda-ley"          && <DinSegundaLeySVG       tema={tema} />}
       {slide.svgDiagram === "din-tercera-ley"          && <DinTerceraLeySVG       tema={tema} />}
       {slide.svgDiagram === "din-hooke"                && <DinHookeSVG            tema={tema} />}
@@ -5586,6 +5597,11 @@ function renderEjercicioSVG(svgDiagram, tema) {
   if (svgDiagram === "evo-pruebas")        return <EvoPruebasSVG       tema={tema} />;
   if (svgDiagram === "evo-reinos")         return <EvoReinosSVG        tema={tema} />;
   if (svgDiagram === "evo-taxonomia")      return <EvoTaxonomiaSVG     tema={tema} />;
+  if (svgDiagram === "eco-portada")        return <EcoPortadaSVG       tema={tema} />;
+  if (svgDiagram === "eco-niveles")        return <EcoNivelesSVG       tema={tema} />;
+  if (svgDiagram === "eco-piramide")       return <EcoPiramideSVG      tema={tema} />;
+  if (svgDiagram === "eco-ciclo-carbono")  return <EcoCicloCarbonoSVG  tema={tema} />;
+  if (svgDiagram === "eco-biomas")         return <EcoBiomasSVG        tema={tema} />;
   if (svgDiagram === "cin-graf-xt")        return <CinGrafXtSVG        tema={tema} />;
   if (svgDiagram === "cin-ej-dt")          return <CinEjDtSVG          tema={tema} />;
   if (svgDiagram === "cin-caida-libre")    return <CinCaidaLibreSVG    tema={tema} />;
@@ -9797,6 +9813,134 @@ function EvoTaxonomiaSVG({ tema }) {
         );
       })}
       <text x={196} y={24} fill={mu} fontSize="7" fontFamily="'DM Sans',sans-serif" transform="rotate(90 196 24)">menos específico → más específico</text>
+    </svg>
+  );
+}
+
+// ══ BIOLOGÍA · ECOLOGÍA ═══════════════════════════════════════════════════════
+function EcoPortadaSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, gold = "#f5c842";
+  return (
+    <svg viewBox="0 0 220 140" width="100%" style={{ display: "block", maxHeight: 140, maxWidth: 260 }}>
+      {/* sol */}
+      <circle cx={40} cy={32} r={12} fill="rgba(245,200,66,0.3)" stroke={gold} strokeWidth="1.6" />
+      {/* suelo */}
+      <path d="M 0 110 q 110 -22 220 0 v 30 H 0 Z" fill="rgba(74,222,128,0.10)" stroke={tema.verde} strokeWidth="1.6" />
+      {/* árbol */}
+      <line x1={90} y1={110} x2={90} y2={78} stroke={a} strokeWidth="3" />
+      <circle cx={90} cy={70} r={16} fill="rgba(52,211,153,0.2)" stroke={a} strokeWidth="1.6" />
+      {/* animal (esquemático) */}
+      <ellipse cx={150} cy={100} rx={14} ry={8} fill="rgba(134,239,172,0.2)" stroke={bl} strokeWidth="1.5" />
+      <line x1={142} y1={106} x2={142} y2={112} stroke={bl} strokeWidth="1.4" />
+      <line x1={158} y1={106} x2={158} y2={112} stroke={bl} strokeWidth="1.4" />
+      <circle cx={164} cy={96} r={4} fill="rgba(134,239,172,0.3)" stroke={bl} strokeWidth="1.2" />
+      <text x={110} y={134} textAnchor="middle" fill={mu} fontSize="8.5" fontFamily="'DM Sans',sans-serif">los seres vivos y su ambiente</text>
+    </svg>
+  );
+}
+
+function EcoNivelesSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, T = tema.texto;
+  const niveles = ["individuo", "población", "comunidad", "ecosistema", "biosfera"];
+  return (
+    <svg viewBox="0 0 280 110" width="100%" style={{ display: "block", maxHeight: 120 }}>
+      {niveles.map((n, i) => {
+        const x = 26 + i * 56;
+        const r = 6 + i * 4;
+        const last = i === niveles.length - 1;
+        return (
+          <g key={i}>
+            <circle cx={x} cy={48} r={r} fill={last ? "rgba(52,211,153,0.16)" : "rgba(134,239,172,0.08)"} stroke={last ? a : bl} strokeWidth="1.7" />
+            <text x={x} y={80} textAnchor="middle" fill={T} fontSize="7.5" fontFamily="'DM Sans',sans-serif" fontWeight={last ? 700 : 500}>{n}</text>
+            {i < niveles.length - 1 && <><line x1={x + r + 3} y1={48} x2={x + 56 - (6 + (i + 1) * 4) - 3} y2={48} stroke={a} strokeWidth="1.6" /><polygon points={arrowHead(x + r + 3, 48, x + 56 - (6 + (i + 1) * 4) - 3, 48, 6)} fill={a} /></>}
+          </g>
+        );
+      })}
+      <text x={140} y={100} textAnchor="middle" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif">de lo simple a lo complejo</text>
+    </svg>
+  );
+}
+
+function EcoPiramideSVG({ tema }) {
+  const a = tema.acento, mu = tema.muted, T = tema.texto;
+  const niveles = [
+    { label: "Productores", pct: "100%", w: 200, c: "#4ade80" },
+    { label: "Cons. 1.°", pct: "10%", w: 150, c: "#34d399" },
+    { label: "Cons. 2.°", pct: "1%", w: 100, c: "#f5c842" },
+    { label: "Cons. 3.°", pct: "0.1%", w: 56, c: "#fb7185" },
+  ];
+  const H = 22, ox = 140, oy = 26;
+  return (
+    <svg viewBox="0 0 280 130" width="100%" style={{ display: "block", maxHeight: 140 }}>
+      <text x={140} y={14} textAnchor="middle" fill={a} fontSize="8" fontFamily="'DM Sans',sans-serif">pirámide trófica — regla del 10 %</text>
+      {niveles.map(({ label, pct, w, c }, i) => {
+        const y = oy + (niveles.length - 1 - i) * H;
+        return (
+          <g key={i}>
+            <rect x={ox - w / 2} y={y} width={w} height={H - 3} rx={2} fill={`${c}28`} stroke={c} strokeWidth="1.5" />
+            <text x={ox} y={y + 14} textAnchor="middle" fill={c} fontSize="7.5" fontFamily="'DM Sans',sans-serif" fontWeight="600">{label}</text>
+            <text x={ox - w / 2 + 5} y={y + 14} fill={c} fontSize="7" fontFamily="'DM Sans',sans-serif">{pct}</text>
+          </g>
+        );
+      })}
+      <text x={140} y={124} textAnchor="middle" fill={mu} fontSize="7.5" fontFamily="'DM Sans',sans-serif">la energía fluye hacia arriba; ~90 % se pierde como calor</text>
+    </svg>
+  );
+}
+
+function EcoCicloCarbonoSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto;
+  return (
+    <svg viewBox="0 0 260 130" width="100%" style={{ display: "block", maxHeight: 140 }}>
+      {/* atmósfera CO2 */}
+      <rect x={86} y={12} width={88} height={22} rx={6} fill="rgba(255,255,255,0.05)" stroke={mu} strokeWidth="1.4" />
+      <text x={130} y={27} textAnchor="middle" fill={T} fontSize="9" fontFamily="'DM Sans',sans-serif" fontWeight="600">CO₂ atmósfera</text>
+      {/* planta */}
+      <line x1={60} y1={104} x2={60} y2={78} stroke={a} strokeWidth="2.5" />
+      <circle cx={60} cy={72} r={12} fill="rgba(52,211,153,0.18)" stroke={a} strokeWidth="1.5" />
+      <text x={60} y={120} textAnchor="middle" fill={a} fontSize="7.5" fontFamily="'DM Sans',sans-serif">planta</text>
+      {/* animal */}
+      <ellipse cx={200} cy={96} rx={16} ry={9} fill="rgba(134,239,172,0.18)" stroke={bl} strokeWidth="1.5" />
+      <text x={200} y={120} textAnchor="middle" fill={bl} fontSize="7.5" fontFamily="'DM Sans',sans-serif">animal</text>
+      {/* flecha fotosíntesis (atmósfera → planta) */}
+      <path d="M 96 30 q -36 8 -36 28" fill="none" stroke={a} strokeWidth="1.7" />
+      <polygon points={arrowHead(64, 50, 60, 58, 6)} fill={a} />
+      <text x={56} y={48} textAnchor="end" fill={a} fontSize="6.5" fontFamily="'DM Sans',sans-serif">fotosíntesis</text>
+      {/* flecha respiración (animal → atmósfera) */}
+      <path d="M 200 86 q 0 -34 -28 -52" fill="none" stroke={tema.rojo} strokeWidth="1.7" />
+      <polygon points={arrowHead(184, 44, 172, 34, 6)} fill={tema.rojo} />
+      <text x={214} y={62} fill={tema.rojo} fontSize="6.5" fontFamily="'DM Sans',sans-serif">respiración</text>
+      {/* planta → animal */}
+      <line x1={76} y1={92} x2={180} y2={94} stroke={mu} strokeWidth="1.4" strokeDasharray="3 2" />
+      <polygon points={arrowHead(76, 92, 180, 94, 6)} fill={mu} />
+    </svg>
+  );
+}
+
+function EcoBiomasSVG({ tema }) {
+  const mu = tema.muted, T = tema.texto;
+  const biomas = [
+    { label: "Selva", sub: "cálido-húmedo", c: "#4ade80" },
+    { label: "Bosque", sub: "templado", c: "#34d399" },
+    { label: "Desierto", sub: "árido", c: "#f5c842" },
+    { label: "Manglar", sub: "costa salina", c: "#22d3ee" },
+  ];
+  return (
+    <svg viewBox="0 0 280 110" width="100%" style={{ display: "block", maxHeight: 120 }}>
+      <text x={140} y={14} textAnchor="middle" fill={tema.acento} fontSize="8" fontFamily="'DM Sans',sans-serif">biomas de México (país megadiverso)</text>
+      {biomas.map(({ label, sub, c }, i) => {
+        const x = 14 + i * 66;
+        return (
+          <g key={i}>
+            <rect x={x} y={26} width={58} height={48} rx={7} fill={`${c}1e`} stroke={c} strokeWidth="1.8" />
+            {/* iconito de vegetación */}
+            <line x1={x + 29} y1={62} x2={x + 29} y2={48} stroke={c} strokeWidth="2" />
+            <circle cx={x + 29} cy={44} r={i === 2 ? 4 : 8} fill={`${c}44`} stroke={c} strokeWidth="1.2" />
+            <text x={x + 29} y={86} textAnchor="middle" fill={T} fontSize="7.5" fontFamily="'DM Sans',sans-serif" fontWeight="600">{label}</text>
+            <text x={x + 29} y={96} textAnchor="middle" fill={mu} fontSize="6.3" fontFamily="'DM Sans',sans-serif">{sub}</text>
+          </g>
+        );
+      })}
     </svg>
   );
 }

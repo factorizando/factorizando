@@ -180,6 +180,8 @@ function SlidePortadaDiagram({ slide, tema }) {
   if (slide.svgDiagram === "gen-portada") return <GenPortadaSVG tema={tema} />;
   if (slide.svgDiagram === "evo-portada") return <EvoPortadaSVG tema={tema} />;
   if (slide.svgDiagram === "eco-portada") return <EcoPortadaSVG tema={tema} />;
+  if (slide.svgDiagram === "qf-portada") return <QfPortadaSVG tema={tema} />;
+  if (slide.svgDiagram === "qaa-portada") return <QaaPortadaSVG tema={tema} />;
   const DecoSVG = tema.DecoSVG;
   return <DecoSVG tema={tema} />;
 }
@@ -734,6 +736,17 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "eco-piramide"             && <EcoPiramideSVG           tema={tema} />}
       {slide.svgDiagram === "eco-ciclo-carbono"        && <EcoCicloCarbonoSVG       tema={tema} />}
       {slide.svgDiagram === "eco-biomas"               && <EcoBiomasSVG             tema={tema} />}
+      {slide.svgDiagram === "qf-mezclas"               && <QfMezclasSVG             tema={tema} />}
+      {slide.svgDiagram === "qf-atomo"                 && <QfAtomoSVG               tema={tema} />}
+      {slide.svgDiagram === "qf-tabla"                 && <QfTablaSVG               tema={tema} />}
+      {slide.svgDiagram === "qf-compuestos"            && <QfCompuestosSVG          tema={tema} />}
+      {slide.svgDiagram === "qf-mol"                   && <QfMolSVG                 tema={tema} />}
+      {slide.svgDiagram === "qaa-agua"                 && <QaaAguaSVG               tema={tema} />}
+      {slide.svgDiagram === "qaa-ph"                   && <QaaPhSVG                 tema={tema} />}
+      {slide.svgDiagram === "qaa-aire"                 && <QaaAireSVG               tema={tema} />}
+      {slide.svgDiagram === "qaa-contaminacion"        && <QaaContaminacionSVG      tema={tema} />}
+      {slide.svgDiagram === "qaa-alimentos"            && <QaaAlimentosSVG          tema={tema} />}
+      {slide.svgDiagram === "qaa-energia"              && <QaaEnergiaSVG            tema={tema} />}
 
       <div style={{ display: "flex", flexDirection: "column", gap: compact ? 8 : 10 }}>
         {slide.items.map((item, i) => {
@@ -5606,6 +5619,19 @@ function renderEjercicioSVG(svgDiagram, tema) {
   if (svgDiagram === "eco-piramide")       return <EcoPiramideSVG      tema={tema} />;
   if (svgDiagram === "eco-ciclo-carbono")  return <EcoCicloCarbonoSVG  tema={tema} />;
   if (svgDiagram === "eco-biomas")         return <EcoBiomasSVG        tema={tema} />;
+  if (svgDiagram === "qf-portada")         return <QfPortadaSVG        tema={tema} />;
+  if (svgDiagram === "qf-mezclas")         return <QfMezclasSVG        tema={tema} />;
+  if (svgDiagram === "qf-atomo")           return <QfAtomoSVG          tema={tema} />;
+  if (svgDiagram === "qf-tabla")           return <QfTablaSVG          tema={tema} />;
+  if (svgDiagram === "qf-compuestos")      return <QfCompuestosSVG     tema={tema} />;
+  if (svgDiagram === "qf-mol")             return <QfMolSVG            tema={tema} />;
+  if (svgDiagram === "qaa-portada")        return <QaaPortadaSVG       tema={tema} />;
+  if (svgDiagram === "qaa-agua")           return <QaaAguaSVG          tema={tema} />;
+  if (svgDiagram === "qaa-ph")             return <QaaPhSVG            tema={tema} />;
+  if (svgDiagram === "qaa-aire")           return <QaaAireSVG          tema={tema} />;
+  if (svgDiagram === "qaa-contaminacion")  return <QaaContaminacionSVG tema={tema} />;
+  if (svgDiagram === "qaa-alimentos")      return <QaaAlimentosSVG     tema={tema} />;
+  if (svgDiagram === "qaa-energia")        return <QaaEnergiaSVG       tema={tema} />;
   if (svgDiagram === "cin-graf-xt")        return <CinGrafXtSVG        tema={tema} />;
   if (svgDiagram === "cin-ej-dt")          return <CinEjDtSVG          tema={tema} />;
   if (svgDiagram === "cin-caida-libre")    return <CinCaidaLibreSVG    tema={tema} />;
@@ -9971,6 +9997,328 @@ function EcoBiomasSVG({ tema }) {
           </g>
         );
       })}
+    </svg>
+  );
+}
+
+// ══ QUÍMICA · FUNDAMENTOS (Unidad 1) ══════════════════════════════════════════
+function QfPortadaSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted;
+  return (
+    <svg viewBox="0 0 220 140" width="100%" style={{ display: "block", maxHeight: 140, maxWidth: 280 }}>
+      {/* núcleo + órbitas (átomo) */}
+      <ellipse cx={110} cy={70} rx={48} ry={20} fill="none" stroke={a} strokeWidth="1.4" opacity="0.6" />
+      <ellipse cx={110} cy={70} rx={48} ry={20} fill="none" stroke={bl} strokeWidth="1.4" opacity="0.6" transform="rotate(60 110 70)" />
+      <ellipse cx={110} cy={70} rx={48} ry={20} fill="none" stroke={a} strokeWidth="1.4" opacity="0.6" transform="rotate(120 110 70)" />
+      <circle cx={110} cy={70} r={11} fill="rgba(192,132,252,0.25)" stroke={a} strokeWidth="2" />
+      <circle cx={158} cy={70} r={3.5} fill={bl} />
+      <circle cx={86} cy={42} r={3.5} fill={a} />
+      <circle cx={86} cy={98} r={3.5} fill={bl} />
+      <text x={110} y={128} textAnchor="middle" fill={mu} fontSize="8.5" fontFamily="'DM Sans',sans-serif">de qué está hecha la materia</text>
+    </svg>
+  );
+}
+
+function QfMezclasSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto;
+  return (
+    <svg viewBox="0 0 290 120" width="100%" style={{ display: "block", maxHeight: 130 }}>
+      {/* sustancia pura: partículas iguales */}
+      <rect x={18} y={20} width={56} height={64} rx={5} fill="rgba(192,132,252,0.06)" stroke={a} strokeWidth="1.6" />
+      {[[34,40],[54,40],[34,60],[54,60],[44,76]].map(([cx,cy],i)=>(<circle key={i} cx={cx} cy={cy} r={5} fill={a} opacity="0.7" />))}
+      <text x={46} y={98} textAnchor="middle" fill={T} fontSize="7.5" fontFamily="'DM Sans',sans-serif" fontWeight="600">sustancia pura</text>
+      <text x={46} y={108} textAnchor="middle" fill={mu} fontSize="6.3" fontFamily="'DM Sans',sans-serif">partículas iguales</text>
+      {/* mezcla homogénea: dos tipos, repartidos */}
+      <rect x={117} y={20} width={56} height={64} rx={5} fill="rgba(244,114,182,0.06)" stroke={bl} strokeWidth="1.6" />
+      {[[133,40],[153,40],[133,60],[153,60],[143,76]].map(([cx,cy],i)=>(<circle key={i} cx={cx} cy={cy} r={5} fill={i%2?bl:a} opacity="0.7" />))}
+      <text x={145} y={98} textAnchor="middle" fill={T} fontSize="7.5" fontFamily="'DM Sans',sans-serif" fontWeight="600">mezcla homogénea</text>
+      <text x={145} y={108} textAnchor="middle" fill={mu} fontSize="6.3" fontFamily="'DM Sans',sans-serif">una sola fase</text>
+      {/* mezcla heterogénea: dos capas */}
+      <rect x={216} y={20} width={56} height={64} rx={5} fill="rgba(244,114,182,0.04)" stroke={bl} strokeWidth="1.6" />
+      <path d="M 216 56 h 56" stroke={bl} strokeWidth="1" strokeDasharray="3 2" opacity="0.6" />
+      {[[232,32],[252,32],[244,44]].map(([cx,cy],i)=>(<circle key={i} cx={cx} cy={cy} r={5} fill={a} opacity="0.7" />))}
+      {[[232,70],[252,70],[244,80]].map(([cx,cy],i)=>(<circle key={i} cx={cx} cy={cy} r={5} fill={bl} opacity="0.7" />))}
+      <text x={244} y={98} textAnchor="middle" fill={T} fontSize="7.5" fontFamily="'DM Sans',sans-serif" fontWeight="600">mezcla heterogénea</text>
+      <text x={244} y={108} textAnchor="middle" fill={mu} fontSize="6.3" fontFamily="'DM Sans',sans-serif">fases visibles</text>
+    </svg>
+  );
+}
+
+function QfAtomoSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto, grn = tema.verde;
+  return (
+    <svg viewBox="0 0 280 130" width="100%" style={{ display: "block", maxHeight: 140 }}>
+      {/* órbitas */}
+      <ellipse cx={120} cy={65} rx={62} ry={26} fill="none" stroke={mu} strokeWidth="1" opacity="0.5" />
+      <ellipse cx={120} cy={65} rx={40} ry={16} fill="none" stroke={mu} strokeWidth="1" opacity="0.5" />
+      {/* núcleo: protones (+) y neutrones (0) */}
+      <circle cx={114} cy={60} r={7} fill="rgba(192,132,252,0.5)" stroke={a} strokeWidth="1.4" />
+      <text x={114} y={63} textAnchor="middle" fill={a} fontSize="8" fontFamily="'DM Sans',sans-serif" fontWeight="700">+</text>
+      <circle cx={126} cy={64} r={7} fill="rgba(120,120,140,0.4)" stroke={mu} strokeWidth="1.4" />
+      <text x={126} y={67} textAnchor="middle" fill={mu} fontSize="7" fontFamily="'DM Sans',sans-serif">0</text>
+      <circle cx={120} cy={72} r={7} fill="rgba(192,132,252,0.5)" stroke={a} strokeWidth="1.4" />
+      <text x={120} y={75} textAnchor="middle" fill={a} fontSize="8" fontFamily="'DM Sans',sans-serif" fontWeight="700">+</text>
+      {/* electrones */}
+      <circle cx={182} cy={65} r={4} fill={bl} /><text x={182} y={56} textAnchor="middle" fill={bl} fontSize="7" fontFamily="'DM Sans',sans-serif">−</text>
+      <circle cx={80} cy={49} r={4} fill={bl} />
+      {/* leyendas */}
+      <text x={20} y={108} fill={a} fontSize="7.5" fontFamily="'DM Sans',sans-serif">protón (+)</text>
+      <text x={108} y={108} fill={mu} fontSize="7.5" fontFamily="'DM Sans',sans-serif">neutrón (0)</text>
+      <text x={196} y={108} fill={bl} fontSize="7.5" fontFamily="'DM Sans',sans-serif">electrón (−)</text>
+      <text x={140} y={124} textAnchor="middle" fill={grn} fontSize="7.5" fontFamily="'DM Sans',sans-serif" fontWeight="600">Z = protones · A = protones + neutrones</text>
+    </svg>
+  );
+}
+
+function QfTablaSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto;
+  return (
+    <svg viewBox="0 0 290 125" width="100%" style={{ display: "block", maxHeight: 135 }}>
+      {/* iónico: transferencia */}
+      <text x={72} y={14} textAnchor="middle" fill={a} fontSize="8.5" fontFamily="'DM Sans',sans-serif" fontWeight="700">ENLACE IÓNICO</text>
+      <circle cx={42} cy={46} r={15} fill="rgba(192,132,252,0.12)" stroke={a} strokeWidth="1.6" />
+      <text x={42} y={49} textAnchor="middle" fill={a} fontSize="9" fontFamily="'DM Sans',sans-serif" fontWeight="600">Na⁺</text>
+      <circle cx={104} cy={46} r={15} fill="rgba(244,114,182,0.12)" stroke={bl} strokeWidth="1.6" />
+      <text x={104} y={49} textAnchor="middle" fill={bl} fontSize="9" fontFamily="'DM Sans',sans-serif" fontWeight="600">Cl⁻</text>
+      <line x1={60} y1={40} x2={86} y2={40} stroke={mu} strokeWidth="1.5" />
+      <polygon points={arrowHead(60, 40, 86, 40, 6)} fill={mu} />
+      <text x={73} y={34} textAnchor="middle" fill={mu} fontSize="6" fontFamily="'DM Sans',sans-serif">cede e⁻</text>
+      <text x={72} y={72} textAnchor="middle" fill={mu} fontSize="6.5" fontFamily="'DM Sans',sans-serif">metal + no metal · transfiere</text>
+      {/* covalente: comparte */}
+      <text x={216} y={14} textAnchor="middle" fill={bl} fontSize="8.5" fontFamily="'DM Sans',sans-serif" fontWeight="700">ENLACE COVALENTE</text>
+      <circle cx={196} cy={46} r={15} fill="rgba(192,132,252,0.10)" stroke={a} strokeWidth="1.6" />
+      <text x={196} y={49} textAnchor="middle" fill={a} fontSize="9" fontFamily="'DM Sans',sans-serif" fontWeight="600">H</text>
+      <circle cx={238} cy={46} r={15} fill="rgba(192,132,252,0.10)" stroke={a} strokeWidth="1.6" />
+      <text x={238} y={49} textAnchor="middle" fill={a} fontSize="9" fontFamily="'DM Sans',sans-serif" fontWeight="600">H</text>
+      <circle cx={213} cy={46} r={3} fill={bl} /><circle cx={221} cy={46} r={3} fill={bl} />
+      <text x={216} y={72} textAnchor="middle" fill={mu} fontSize="6.5" fontFamily="'DM Sans',sans-serif">no metal + no metal · comparte</text>
+      <text x={145} y={104} textAnchor="middle" fill={T} fontSize="7.5" fontFamily="'DM Sans',sans-serif" fontWeight="600">regla del octeto: 8 e⁻ de valencia → estabilidad</text>
+      <text x={145} y={118} textAnchor="middle" fill={mu} fontSize="6.8" fontFamily="'DM Sans',sans-serif">electronegatividad ↑ hacia la derecha y arriba</text>
+    </svg>
+  );
+}
+
+function QfCompuestosSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto;
+  const fila = (y, izq, der, c) => (
+    <g>
+      <rect x={20} y={y} width={108} height={20} rx={4} fill={`${c}1e`} stroke={c} strokeWidth="1.3" />
+      <text x={74} y={y + 13} textAnchor="middle" fill={T} fontSize="7.5" fontFamily="'DM Sans',sans-serif" fontWeight="600">{izq}</text>
+      <text x={150} y={y + 13} textAnchor="middle" fill={mu} fontSize="6.6" fontFamily="'DM Sans',sans-serif">→</text>
+      <text x={220} y={y + 13} textAnchor="middle" fill={c} fontSize="7.3" fontFamily="'DM Sans',sans-serif">{der}</text>
+    </g>
+  );
+  return (
+    <svg viewBox="0 0 290 125" width="100%" style={{ display: "block", maxHeight: 135 }}>
+      {fila(8, "metal + O₂", "óxido básico", a)}
+      {fila(32, "no metal + O₂", "óxido ácido (anhídrido)", bl)}
+      {fila(56, "H + no metal", "ácido (libera H⁺)", a)}
+      {fila(80, "metal + OH", "base / hidróxido (OH⁻)", bl)}
+      {fila(104, "ácido + base", "sal + agua", a)}
+    </svg>
+  );
+}
+
+function QfMolSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto, grn = tema.verde;
+  return (
+    <svg viewBox="0 0 280 120" width="100%" style={{ display: "block", maxHeight: 130 }}>
+      <rect x={20} y={30} width={70} height={40} rx={6} fill="rgba(192,132,252,0.08)" stroke={a} strokeWidth="1.6" />
+      <text x={55} y={48} textAnchor="middle" fill={T} fontSize="8" fontFamily="'DM Sans',sans-serif" fontWeight="600">masa (g)</text>
+      <text x={55} y={62} textAnchor="middle" fill={mu} fontSize="6.5" fontFamily="'DM Sans',sans-serif">m</text>
+      <text x={110} y={54} textAnchor="middle" fill={a} fontSize="9" fontFamily="'DM Sans',sans-serif">÷ M</text>
+      <line x1={92} y1={50} x2={128} y2={50} stroke={mu} strokeWidth="1.4" />
+      <polygon points={arrowHead(92, 50, 128, 50, 6)} fill={mu} />
+      <rect x={130} y={30} width={60} height={40} rx={6} fill="rgba(74,222,128,0.10)" stroke={grn} strokeWidth="1.8" />
+      <text x={160} y={48} textAnchor="middle" fill={grn} fontSize="8.5" fontFamily="'DM Sans',sans-serif" fontWeight="700">moles</text>
+      <text x={160} y={62} textAnchor="middle" fill={mu} fontSize="6.5" fontFamily="'DM Sans',sans-serif">n = m/M</text>
+      <line x1={192} y1={50} x2={224} y2={50} stroke={mu} strokeWidth="1.4" />
+      <polygon points={arrowHead(192, 50, 224, 50, 6)} fill={mu} />
+      <text x={208} y={44} textAnchor="middle" fill={bl} fontSize="6" fontFamily="'DM Sans',sans-serif">× Nₐ</text>
+      <rect x={226} y={30} width={48} height={40} rx={6} fill="rgba(244,114,182,0.08)" stroke={bl} strokeWidth="1.6" />
+      <text x={250} y={47} textAnchor="middle" fill={bl} fontSize="7.5" fontFamily="'DM Sans',sans-serif" fontWeight="600">partículas</text>
+      <text x={250} y={60} textAnchor="middle" fill={mu} fontSize="6" fontFamily="'DM Sans',sans-serif">N</text>
+      <text x={140} y={96} textAnchor="middle" fill={T} fontSize="7.8" fontFamily="'DM Sans',sans-serif" fontWeight="600">1 mol = 6.022 × 10²³ partículas</text>
+      <text x={140} y={110} textAnchor="middle" fill={mu} fontSize="6.8" fontFamily="'DM Sans',sans-serif">masa molar = suma de masas atómicas (H₂O = 18 g/mol)</text>
+    </svg>
+  );
+}
+
+// ══ QUÍMICA · AGUA, AIRE, ALIMENTOS Y ENERGÍA (Unidades 2–5) ══════════════════
+function QaaPortadaSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted;
+  return (
+    <svg viewBox="0 0 220 140" width="100%" style={{ display: "block", maxHeight: 140, maxWidth: 280 }}>
+      {/* gota de agua */}
+      <path d="M 70 30 C 92 60 92 78 70 88 C 48 78 48 60 70 30 Z" fill="rgba(244,114,182,0.14)" stroke={bl} strokeWidth="2" />
+      <circle cx={64} cy={66} r={4} fill={bl} opacity="0.6" />
+      {/* molécula O-H-H pequeña */}
+      <circle cx={150} cy={52} r={11} fill="rgba(192,132,252,0.25)" stroke={a} strokeWidth="1.8" />
+      <text x={150} y={56} textAnchor="middle" fill={a} fontSize="9" fontFamily="'DM Sans',sans-serif" fontWeight="700">O</text>
+      <circle cx={134} cy={68} r={6} fill="rgba(244,114,182,0.2)" stroke={bl} strokeWidth="1.4" />
+      <circle cx={166} cy={68} r={6} fill="rgba(244,114,182,0.2)" stroke={bl} strokeWidth="1.4" />
+      <line x1={143} y1={60} x2={137} y2={65} stroke={a} strokeWidth="1.6" />
+      <line x1={157} y1={60} x2={163} y2={65} stroke={a} strokeWidth="1.6" />
+      <text x={110} y={120} textAnchor="middle" fill={mu} fontSize="8.5" fontFamily="'DM Sans',sans-serif">la química de la vida cotidiana</text>
+    </svg>
+  );
+}
+
+function QaaAguaSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto;
+  return (
+    <svg viewBox="0 0 280 130" width="100%" style={{ display: "block", maxHeight: 140 }}>
+      {/* molécula angular */}
+      <circle cx={90} cy={50} r={18} fill="rgba(192,132,252,0.22)" stroke={a} strokeWidth="2" />
+      <text x={90} y={55} textAnchor="middle" fill={a} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700">O</text>
+      <text x={108} y={42} fill={tema.rojo} fontSize="8" fontFamily="'DM Sans',sans-serif">δ⁻</text>
+      <circle cx={58} cy={78} r={10} fill="rgba(244,114,182,0.18)" stroke={bl} strokeWidth="1.6" />
+      <text x={58} y={82} textAnchor="middle" fill={bl} fontSize="9" fontFamily="'DM Sans',sans-serif" fontWeight="600">H</text>
+      <circle cx={122} cy={78} r={10} fill="rgba(244,114,182,0.18)" stroke={bl} strokeWidth="1.6" />
+      <text x={122} y={82} textAnchor="middle" fill={bl} fontSize="9" fontFamily="'DM Sans',sans-serif" fontWeight="600">H</text>
+      <line x1={78} y1={62} x2={66} y2={71} stroke={a} strokeWidth="2.5" />
+      <line x1={102} y1={62} x2={114} y2={71} stroke={a} strokeWidth="2.5" />
+      <text x={42} y={96} fill={tema.verde} fontSize="7" fontFamily="'DM Sans',sans-serif">δ⁺</text>
+      <text x={130} y={96} fill={tema.verde} fontSize="7" fontFamily="'DM Sans',sans-serif">δ⁺</text>
+      <text x={90} y={114} textAnchor="middle" fill={mu} fontSize="7" fontFamily="'DM Sans',sans-serif">molécula angular (~104.5°) y polar</text>
+      {/* puente de hidrógeno a otra molécula */}
+      <line x1={132} y1={80} x2={186} y2={62} stroke={mu} strokeWidth="1.3" strokeDasharray="3 2" />
+      <text x={150} y={56} fill={mu} fontSize="6" fontFamily="'DM Sans',sans-serif">puente de H</text>
+      <circle cx={206} cy={56} r={14} fill="rgba(192,132,252,0.15)" stroke={a} strokeWidth="1.6" />
+      <text x={206} y={60} textAnchor="middle" fill={a} fontSize="9" fontFamily="'DM Sans',sans-serif" fontWeight="700">O</text>
+      <circle cx={234} cy={42} r={7} fill="rgba(244,114,182,0.15)" stroke={bl} strokeWidth="1.3" />
+      <circle cx={234} cy={72} r={7} fill="rgba(244,114,182,0.15)" stroke={bl} strokeWidth="1.3" />
+      <line x1={218} y1={50} x2={228} y2={45} stroke={a} strokeWidth="1.8" />
+      <line x1={218} y1={63} x2={228} y2={68} stroke={a} strokeWidth="1.8" />
+      <text x={210} y={114} textAnchor="middle" fill={mu} fontSize="7" fontFamily="'DM Sans',sans-serif">puentes de H entre moléculas</text>
+    </svg>
+  );
+}
+
+function QaaPhSVG({ tema }) {
+  const T = tema.texto, mu = tema.muted;
+  const segs = [
+    { x: 12, c: "#f87171" }, { x: 38, c: "#fb923c" }, { x: 64, c: "#fbbf24" },
+    { x: 90, c: "#facc15" }, { x: 116, c: "#a3e635" }, { x: 142, c: "#4ade80" },
+    { x: 168, c: "#34d399" }, { x: 194, c: "#22d3ee" }, { x: 220, c: "#60a5fa" }, { x: 246, c: "#a78bfa" },
+  ];
+  return (
+    <svg viewBox="0 0 290 110" width="100%" style={{ display: "block", maxHeight: 120 }}>
+      <text x={145} y={14} textAnchor="middle" fill={mu} fontSize="8" fontFamily="'DM Sans',sans-serif">escala de pH (0 – 14)</text>
+      {segs.map(({ x, c }, i) => (
+        <g key={i}>
+          <rect x={x} y={24} width={24} height={22} fill={c} opacity="0.8" />
+          <text x={x + 12} y={39} textAnchor="middle" fill="#0d0810" fontSize="8" fontFamily="'DM Sans',sans-serif" fontWeight="700">{[0,1,3,5,6,7,8,10,12,14][i]}</text>
+        </g>
+      ))}
+      <text x={50} y={66} textAnchor="middle" fill="#f87171" fontSize="9" fontFamily="'DM Sans',sans-serif" fontWeight="700">ÁCIDO</text>
+      <text x={50} y={78} textAnchor="middle" fill={mu} fontSize="6.5" fontFamily="'DM Sans',sans-serif">pH &lt; 7 · H⁺</text>
+      <text x={155} y={66} textAnchor="middle" fill="#4ade80" fontSize="9" fontFamily="'DM Sans',sans-serif" fontWeight="700">NEUTRO 7</text>
+      <text x={245} y={66} textAnchor="middle" fill="#60a5fa" fontSize="9" fontFamily="'DM Sans',sans-serif" fontWeight="700">BÁSICO</text>
+      <text x={245} y={78} textAnchor="middle" fill={mu} fontSize="6.5" fontFamily="'DM Sans',sans-serif">pH &gt; 7 · OH⁻</text>
+      <text x={145} y={98} textAnchor="middle" fill={T} fontSize="7" fontFamily="'DM Sans',sans-serif">limón · vinagre  |  agua pura  |  bicarbonato · jabón</text>
+    </svg>
+  );
+}
+
+function QaaAireSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto, grn = tema.verde, rojo = tema.rojo;
+  return (
+    <svg viewBox="0 0 290 125" width="100%" style={{ display: "block", maxHeight: 135 }}>
+      {/* composición del aire (barra) */}
+      <text x={70} y={14} textAnchor="middle" fill={mu} fontSize="7.5" fontFamily="'DM Sans',sans-serif">composición del aire</text>
+      <rect x={14} y={22} width={86} height={18} rx={3} fill="rgba(192,132,252,0.5)" stroke={a} strokeWidth="1" />
+      <text x={57} y={35} textAnchor="middle" fill="#0d0810" fontSize="8" fontFamily="'DM Sans',sans-serif" fontWeight="700">N₂ 78%</text>
+      <rect x={102} y={22} width={26} height={18} rx={3} fill="rgba(244,114,182,0.6)" stroke={bl} strokeWidth="1" />
+      <text x={115} y={35} textAnchor="middle" fill="#0d0810" fontSize="7" fontFamily="'DM Sans',sans-serif" fontWeight="700">O₂</text>
+      <text x={115} y={52} textAnchor="middle" fill={bl} fontSize="6" fontFamily="'DM Sans',sans-serif">21%</text>
+      {/* combustión */}
+      <text x={150} y={70} textAnchor="middle" fill={mu} fontSize="7.5" fontFamily="'DM Sans',sans-serif">combustión (con O₂)</text>
+      <text x={42} y={88} fill={T} fontSize="8" fontFamily="'DM Sans',sans-serif">combustible + O₂</text>
+      <line x1={120} y1={84} x2={150} y2={84} stroke={rojo} strokeWidth="1.6" />
+      <polygon points={arrowHead(120, 84, 150, 84, 6)} fill={rojo} />
+      <text x={196} y={88} fill={T} fontSize="8" fontFamily="'DM Sans',sans-serif">CO₂ + H₂O</text>
+      <text x={150} y={104} textAnchor="middle" fill={rojo} fontSize="7.5" fontFamily="'DM Sans',sans-serif" fontWeight="600">+ energía (exotérmica)</text>
+      <text x={145} y={120} textAnchor="middle" fill={grn} fontSize="7" fontFamily="'DM Sans',sans-serif">redox: se oxida (pierde e⁻) / se reduce (gana e⁻)</text>
+    </svg>
+  );
+}
+
+function QaaContaminacionSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto, rojo = tema.rojo;
+  return (
+    <svg viewBox="0 0 290 125" width="100%" style={{ display: "block", maxHeight: 135 }}>
+      {/* lluvia ácida */}
+      <text x={72} y={14} textAnchor="middle" fill={rojo} fontSize="8" fontFamily="'DM Sans',sans-serif" fontWeight="700">LLUVIA ÁCIDA</text>
+      <rect x={28} y={20} width={88} height={16} rx={6} fill="rgba(120,120,140,0.25)" stroke={mu} strokeWidth="1.2" />
+      <text x={72} y={31} textAnchor="middle" fill={T} fontSize="6.5" fontFamily="'DM Sans',sans-serif">SO₂ · NOₓ + H₂O</text>
+      {[40,58,76,94].map((x,i)=>(<line key={i} x1={x} y1={40} x2={x-4} y2={56} stroke={bl} strokeWidth="1.4" />))}
+      <line x1={34} y1={62} x2={110} y2={62} stroke={mu} strokeWidth="1.5" />
+      <text x={72} y={74} textAnchor="middle" fill={mu} fontSize="6.3" fontFamily="'DM Sans',sans-serif">ácidos → daña suelos,</text>
+      <text x={72} y={83} textAnchor="middle" fill={mu} fontSize="6.3" fontFamily="'DM Sans',sans-serif">bosques y edificios</text>
+      {/* inversión térmica */}
+      <text x={216} y={14} textAnchor="middle" fill={a} fontSize="8" fontFamily="'DM Sans',sans-serif" fontWeight="700">INVERSIÓN TÉRMICA</text>
+      <rect x={160} y={20} width={112} height={14} rx={3} fill="rgba(244,114,182,0.18)" stroke={bl} strokeWidth="1" />
+      <text x={216} y={30} textAnchor="middle" fill={bl} fontSize="6" fontFamily="'DM Sans',sans-serif">aire caliente (tapa)</text>
+      <rect x={160} y={36} width={112} height={26} rx={3} fill="rgba(120,120,140,0.3)" stroke={mu} strokeWidth="1" />
+      <text x={216} y={47} textAnchor="middle" fill={T} fontSize="6.3" fontFamily="'DM Sans',sans-serif">aire frío + contaminantes</text>
+      {[180,200,220,240].map((x,i)=>(<text key={i} x={x} y={58} textAnchor="middle" fill={mu} fontSize="7">•</text>))}
+      <line x1={160} y1={62} x2={272} y2={62} stroke={mu} strokeWidth="1.5" />
+      <text x={216} y={74} textAnchor="middle" fill={mu} fontSize="6.3" fontFamily="'DM Sans',sans-serif">suelo (ciudad)</text>
+      {/* pie */}
+      <text x={145} y={98} textAnchor="middle" fill={T} fontSize="7" fontFamily="'DM Sans',sans-serif" fontWeight="600">Agua: contaminación física · química · biológica</text>
+      <text x={145} y={112} textAnchor="middle" fill={mu} fontSize="6.6" fontFamily="'DM Sans',sans-serif">fuentes: industrial · urbana · agrícola</text>
+    </svg>
+  );
+}
+
+function QaaAlimentosSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto;
+  const cols = [
+    { x: 40, label: "Carbohidratos", sub: "energía inmediata" },
+    { x: 110, label: "Lípidos", sub: "almacén" },
+    { x: 180, label: "Proteínas", sub: "estructura" },
+    { x: 250, label: "Vit. / min.", sub: "regulan" },
+  ];
+  return (
+    <svg viewBox="0 0 290 120" width="100%" style={{ display: "block", maxHeight: 130 }}>
+      {cols.map(({ x, label, sub }, i) => (
+        <g key={i}>
+          {i === 0 && [[-9,30],[0,26],[9,30]].map(([dx,cy],j)=>(<circle key={j} cx={x+dx} cy={cy} r={5} fill={a} opacity="0.6" />))}
+          {i === 1 && <g><circle cx={x} cy={26} r={6} fill={a} opacity="0.5" /><line x1={x-3} y1={30} x2={x-3} y2={42} stroke={a} strokeWidth="1.6" /><line x1={x+3} y1={30} x2={x+3} y2={42} stroke={a} strokeWidth="1.6" /></g>}
+          {i === 2 && <path d={`M ${x-13} 40 q 6.5 -22 13 0 q 6.5 22 13 0`} fill="none" stroke={a} strokeWidth="2" />}
+          {i === 3 && <g><circle cx={x} cy={32} r={9} fill="none" stroke={bl} strokeWidth="1.6" /><text x={x} y={36} textAnchor="middle" fill={bl} fontSize="9" fontFamily="'DM Sans',sans-serif" fontWeight="700">+</text></g>}
+          <text x={x} y={62} textAnchor="middle" fill={T} fontSize="7.5" fontFamily="'DM Sans',sans-serif" fontWeight="600">{label}</text>
+          <text x={x} y={74} textAnchor="middle" fill={bl} fontSize="6.3" fontFamily="'DM Sans',sans-serif">{sub}</text>
+        </g>
+      ))}
+      <text x={145} y={100} textAnchor="middle" fill={mu} fontSize="7.3" fontFamily="'DM Sans',sans-serif">proteína = aminoácidos unidos por enlace peptídico</text>
+      <text x={145} y={113} textAnchor="middle" fill={mu} fontSize="6.8" fontFamily="'DM Sans',sans-serif">(−NH₂ + −COOH → enlace peptídico + H₂O)</text>
+    </svg>
+  );
+}
+
+function QaaEnergiaSVG({ tema }) {
+  const bl = tema.azul, mu = tema.muted, T = tema.texto, rojo = tema.rojo;
+  return (
+    <svg viewBox="0 0 290 125" width="100%" style={{ display: "block", maxHeight: 135 }}>
+      {/* exotérmica */}
+      <text x={72} y={14} textAnchor="middle" fill={rojo} fontSize="8.5" fontFamily="'DM Sans',sans-serif" fontWeight="700">EXOTÉRMICA</text>
+      <path d="M 20 30 H 50 C 64 30 64 60 78 60 H 124" fill="none" stroke={rojo} strokeWidth="2" />
+      <text x={30} y={26} fill={mu} fontSize="6.5" fontFamily="'DM Sans',sans-serif">reactivos</text>
+      <text x={104} y={72} fill={mu} fontSize="6.5" fontFamily="'DM Sans',sans-serif">productos</text>
+      <line x1={92} y1={36} x2={92} y2={58} stroke={rojo} strokeWidth="1.2" strokeDasharray="2 2" />
+      <text x={96} y={50} fill={rojo} fontSize="6.3" fontFamily="'DM Sans',sans-serif">libera</text>
+      <text x={72} y={92} textAnchor="middle" fill={mu} fontSize="6.5" fontFamily="'DM Sans',sans-serif">libera calor</text>
+      {/* endotérmica */}
+      <text x={218} y={14} textAnchor="middle" fill={bl} fontSize="8.5" fontFamily="'DM Sans',sans-serif" fontWeight="700">ENDOTÉRMICA</text>
+      <path d="M 166 60 H 212 C 226 60 226 30 240 30 H 270" fill="none" stroke={bl} strokeWidth="2" />
+      <text x={170} y={72} fill={mu} fontSize="6.5" fontFamily="'DM Sans',sans-serif">reactivos</text>
+      <text x={250} y={26} fill={mu} fontSize="6.5" fontFamily="'DM Sans',sans-serif">productos</text>
+      <line x1={238} y1={36} x2={238} y2={58} stroke={bl} strokeWidth="1.2" strokeDasharray="2 2" />
+      <text x={214} y={50} textAnchor="end" fill={bl} fontSize="6.3" fontFamily="'DM Sans',sans-serif">absorbe</text>
+      <text x={218} y={92} textAnchor="middle" fill={mu} fontSize="6.5" fontFamily="'DM Sans',sans-serif">absorbe calor</text>
+      <text x={145} y={112} textAnchor="middle" fill={T} fontSize="7.3" fontFamily="'DM Sans',sans-serif" fontWeight="600">exo: combustión, respiración · endo: fotosíntesis, cocción</text>
     </svg>
   );
 }

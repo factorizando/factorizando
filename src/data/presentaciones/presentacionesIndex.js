@@ -35,6 +35,8 @@ import { PRESENTACION as BIOLOGIA_REPRODUCCION } from "./biologia-reproduccion.j
 import { PRESENTACION as BIOLOGIA_GENETICA } from "./biologia-genetica.js";
 import { PRESENTACION as BIOLOGIA_EVOLUCION } from "./biologia-evolucion.js";
 import { PRESENTACION as BIOLOGIA_ECOLOGIA } from "./biologia-ecologia.js";
+import { PRESENTACION as QUIMICA_FUNDAMENTOS } from "./quimica-fundamentos.js";
+import { PRESENTACION as QUIMICA_AGUA_AIRE_ALIMENTOS } from "./quimica-agua-aire-alimentos.js";
 
 export const PRESENTACIONES_INDEX = {
   "semejanza-triangulos": SEMEJANZA_TRIANGULOS,
@@ -70,6 +72,8 @@ export const PRESENTACIONES_INDEX = {
   "biologia-genetica": BIOLOGIA_GENETICA,
   "biologia-evolucion": BIOLOGIA_EVOLUCION,
   "biologia-ecologia": BIOLOGIA_ECOLOGIA,
+  "quimica-fundamentos": QUIMICA_FUNDAMENTOS,
+  "quimica-agua-aire-alimentos": QUIMICA_AGUA_AIRE_ALIMENTOS,
 };
 
 export function buscarPresentacion(id) {

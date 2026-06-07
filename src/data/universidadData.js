@@ -194,7 +194,6 @@ export const SUBJECTS_UNI = [
     name: "Química",
     color: "#f43f5e",
     children: [
-      { id: "qui-pc", name: "Pensamiento Científico", presentacion: "/ver/quimica-pensamiento-cientifico" },
       { id: "qui-fundamentos", name: "Materia, Átomo y Enlace", presentacion: "/ver/quimica-fundamentos" },
       { id: "qui-aaa", name: "Agua, Aire, Alimentos y Energía", presentacion: "/ver/quimica-agua-aire-alimentos" },
     ],

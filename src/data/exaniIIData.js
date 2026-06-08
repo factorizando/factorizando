@@ -72,7 +72,7 @@ export const SUBJECTS_EXANI_II = [
         children: [
           { id: "ei-pm-razones", name: "Razones, proporciones, porcentaje y unidades", presentacion: "/ver/razones-proporciones" },
           { id: "ei-pm-exponentes", name: "Leyes de los exponentes y expresiones algebraicas", presentacion: "/ver/exponentes-algebra" },
-          { id: "ei-pm-inecuaciones", name: "Inecuaciones lineales" },
+          { id: "ei-pm-inecuaciones", name: "Inecuaciones lineales", presentacion: "/ver/ecuaciones-lineales" },
           { id: "ei-pm-razones-trig", name: "Razones trigonométricas" },
           { id: "ei-pm-area", name: "Ejes de simetría y área", presentacion: "/ver/cuadrilateros-poligonos" },
           { id: "ei-pm-probabilidad", name: "Frecuencias y probabilidad clásica", presentacion: "/ver/probabilidad" },
@@ -83,7 +83,7 @@ export const SUBJECTS_EXANI_II = [
         id: "ei-pm-matematizacion",
         name: "Matematización",
         children: [
-          { id: "ei-pm-ec-lineales", name: "Ecuaciones lineales y variación lineal" },
+          { id: "ei-pm-ec-lineales", name: "Ecuaciones lineales y variación lineal", presentacion: "/ver/ecuaciones-lineales" },
           { id: "ei-pm-polinomios", name: "Polinomios y sistemas de ecuaciones lineales" },
           { id: "ei-pm-cuadraticas", name: "Funciones cuadráticas" },
           { id: "ei-pm-relaciones-trig", name: "Relaciones trigonométricas" },

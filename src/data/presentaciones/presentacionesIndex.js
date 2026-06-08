@@ -41,6 +41,7 @@ import { PRESENTACION as REGISTRO_LINGUISTICO } from "./registro-linguistico.js"
 import { PRESENTACION as GENERO_TEXTUAL } from "./genero-textual.js";
 import { PRESENTACION as RAZONES_PROPORCIONES } from "./razones-proporciones.js";
 import { PRESENTACION as EXPONENTES_ALGEBRA } from "./exponentes-algebra.js";
+import { PRESENTACION as ECUACIONES_LINEALES } from "./ecuaciones-lineales.js";
 
 export const PRESENTACIONES_INDEX = {
   "semejanza-triangulos": SEMEJANZA_TRIANGULOS,
@@ -82,6 +83,7 @@ export const PRESENTACIONES_INDEX = {
   "genero-textual": GENERO_TEXTUAL,
   "razones-proporciones": RAZONES_PROPORCIONES,
   "exponentes-algebra": EXPONENTES_ALGEBRA,
+  "ecuaciones-lineales": ECUACIONES_LINEALES,
 };
 
 export function buscarPresentacion(id) {

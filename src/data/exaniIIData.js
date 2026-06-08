@@ -36,8 +36,8 @@ export const SUBJECTS_EXANI_II = [
         id: "ei-ri-comunicativa",
         name: "Comunicativa",
         children: [
-          { id: "ei-ri-registro", name: "Registro lingüístico" },
-          { id: "ei-ri-genero", name: "Género textual (prólogo, ensayo, reseña, artículo de opinión, crónica, noticia)" },
+          { id: "ei-ri-registro", name: "Registro lingüístico", presentacion: "/ver/registro-linguistico" },
+          { id: "ei-ri-genero", name: "Género textual (prólogo, ensayo, reseña, artículo de opinión, crónica, noticia)", presentacion: "/ver/genero-textual" },
         ],
       },
       {

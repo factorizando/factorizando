@@ -39,6 +39,7 @@ import { PRESENTACION as QUIMICA_FUNDAMENTOS } from "./quimica-fundamentos.js";
 import { PRESENTACION as QUIMICA_AGUA_AIRE_ALIMENTOS } from "./quimica-agua-aire-alimentos.js";
 import { PRESENTACION as REGISTRO_LINGUISTICO } from "./registro-linguistico.js";
 import { PRESENTACION as GENERO_TEXTUAL } from "./genero-textual.js";
+import { PRESENTACION as RAZONES_PROPORCIONES } from "./razones-proporciones.js";
 
 export const PRESENTACIONES_INDEX = {
   "semejanza-triangulos": SEMEJANZA_TRIANGULOS,
@@ -78,6 +79,7 @@ export const PRESENTACIONES_INDEX = {
   "quimica-agua-aire-alimentos": QUIMICA_AGUA_AIRE_ALIMENTOS,
   "registro-linguistico": REGISTRO_LINGUISTICO,
   "genero-textual": GENERO_TEXTUAL,
+  "razones-proporciones": RAZONES_PROPORCIONES,
 };
 
 export function buscarPresentacion(id) {

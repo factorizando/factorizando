@@ -131,4 +131,46 @@ export const SUBJECTS_EXANI_II = [
       },
     ],
   },
+
+  // ───────────── MÓDULO DISCIPLINAR GENERAL · CIENCIAS EXPERIMENTALES ──────────
+  {
+    id: "ei-exp",
+    name: "Ciencias Experimentales (módulo)",
+    color: "#22d3ee",
+    children: [
+      {
+        id: "ei-exp-qui",
+        name: "Química",
+        children: [
+          { id: "ei-exp-qui-materia", name: "Estructura y cambios de la materia", presentacion: "/ver/quimica-fundamentos" },
+          { id: "ei-exp-qui-nomenclatura", name: "Lenguaje químico inorgánico y reacciones" },
+          { id: "ei-exp-qui-estequiometria", name: "Cuantificación en las reacciones (estequiometría)" },
+          { id: "ei-exp-qui-organica", name: "Compuestos del carbono y macromoléculas" },
+        ],
+      },
+      {
+        id: "ei-exp-fis",
+        name: "Física",
+        children: [
+          { id: "ei-exp-fis-cinematica", name: "Cinemática", presentacion: "/ver/cinematica" },
+          { id: "ei-exp-fis-dinamica", name: "Dinámica (Leyes de Newton)", presentacion: "/ver/dinamica" },
+          { id: "ei-exp-fis-termologia", name: "Termología", presentacion: "/ver/termodinamica" },
+          { id: "ei-exp-fis-electricidad", name: "Electricidad y magnetismo", presentacion: "/ver/electricidad" },
+        ],
+      },
+      {
+        id: "ei-exp-bio",
+        name: "Biología",
+        children: [
+          { id: "ei-exp-bio-celula", name: "Estructura celular", presentacion: "/ver/biologia-celula" },
+          { id: "ei-exp-bio-metabolismo", name: "Metabolismo celular", presentacion: "/ver/biologia-bioquimica" },
+          { id: "ei-exp-bio-reproductor", name: "Sistema reproductor", presentacion: "/ver/biologia-reproduccion" },
+          { id: "ei-exp-bio-sistemas", name: "Sistemas nervioso y endócrino" },
+          { id: "ei-exp-bio-genetica", name: "Genética y sus aplicaciones", presentacion: "/ver/biologia-genetica" },
+          { id: "ei-exp-bio-evolucion", name: "Evolución y diversidad biológica", presentacion: "/ver/biologia-evolucion" },
+          { id: "ei-exp-bio-biodiversidad", name: "Biodiversidad y su preservación", presentacion: "/ver/biologia-ecologia" },
+        ],
+      },
+    ],
+  },
 ];

@@ -165,7 +165,7 @@ export const SUBJECTS_EXANI_II = [
           { id: "ei-exp-bio-celula", name: "Estructura celular", presentacion: "/ver/biologia-celula" },
           { id: "ei-exp-bio-metabolismo", name: "Metabolismo celular", presentacion: "/ver/biologia-bioquimica" },
           { id: "ei-exp-bio-reproductor", name: "Sistema reproductor", presentacion: "/ver/biologia-reproduccion" },
-          { id: "ei-exp-bio-sistemas", name: "Sistemas nervioso y endócrino" },
+          { id: "ei-exp-bio-sistemas", name: "Sistemas nervioso y endócrino", presentacion: "/ver/sistemas-nervioso-endocrino" },
           { id: "ei-exp-bio-genetica", name: "Genética y sus aplicaciones", presentacion: "/ver/biologia-genetica" },
           { id: "ei-exp-bio-evolucion", name: "Evolución y diversidad biológica", presentacion: "/ver/biologia-evolucion" },
           { id: "ei-exp-bio-biodiversidad", name: "Biodiversidad y su preservación", presentacion: "/ver/biologia-ecologia" },

@@ -51,6 +51,7 @@ import { PRESENTACION as CALCULO_DIFERENCIAL } from "./calculo-diferencial.js";
 import { PRESENTACION as NOMENCLATURA_REACCIONES } from "./nomenclatura-reacciones.js";
 import { PRESENTACION as ESTEQUIOMETRIA } from "./estequiometria.js";
 import { PRESENTACION as QUIMICA_ORGANICA } from "./quimica-organica.js";
+import { PRESENTACION as SISTEMAS_NERVIOSO_ENDOCRINO } from "./sistemas-nervioso-endocrino.js";
 
 export const PRESENTACIONES_INDEX = {
   "semejanza-triangulos": SEMEJANZA_TRIANGULOS,
@@ -102,6 +103,7 @@ export const PRESENTACIONES_INDEX = {
   "nomenclatura-reacciones": NOMENCLATURA_REACCIONES,
   "estequiometria": ESTEQUIOMETRIA,
   "quimica-organica": QUIMICA_ORGANICA,
+  "sistemas-nervioso-endocrino": SISTEMAS_NERVIOSO_ENDOCRINO,
 };
 
 export function buscarPresentacion(id) {

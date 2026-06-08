@@ -143,7 +143,7 @@ export const SUBJECTS_EXANI_II = [
         name: "Química",
         children: [
           { id: "ei-exp-qui-materia", name: "Estructura y cambios de la materia", presentacion: "/ver/quimica-fundamentos" },
-          { id: "ei-exp-qui-nomenclatura", name: "Lenguaje químico inorgánico y reacciones" },
+          { id: "ei-exp-qui-nomenclatura", name: "Lenguaje químico inorgánico y reacciones", presentacion: "/ver/nomenclatura-reacciones" },
           { id: "ei-exp-qui-estequiometria", name: "Cuantificación en las reacciones (estequiometría)" },
           { id: "ei-exp-qui-organica", name: "Compuestos del carbono y macromoléculas" },
         ],

@@ -48,6 +48,7 @@ import { PRESENTACION as TRIGONOMETRIA } from "./trigonometria.js";
 import { PRESENTACION as TRIGONOMETRIA_ANALITICA } from "./trigonometria-analitica.js";
 import { PRESENTACION as ALGEBRA_SUPERIOR } from "./algebra-superior.js";
 import { PRESENTACION as CALCULO_DIFERENCIAL } from "./calculo-diferencial.js";
+import { PRESENTACION as NOMENCLATURA_REACCIONES } from "./nomenclatura-reacciones.js";
 
 export const PRESENTACIONES_INDEX = {
   "semejanza-triangulos": SEMEJANZA_TRIANGULOS,
@@ -96,6 +97,7 @@ export const PRESENTACIONES_INDEX = {
   "trigonometria-analitica": TRIGONOMETRIA_ANALITICA,
   "algebra-superior": ALGEBRA_SUPERIOR,
   "calculo-diferencial": CALCULO_DIFERENCIAL,
+  "nomenclatura-reacciones": NOMENCLATURA_REACCIONES,
 };
 
 export function buscarPresentacion(id) {

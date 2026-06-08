@@ -222,10 +222,16 @@ function SubjectBlock({ subject, onQuizOpen }) {
   );
 }
 
-export default function SubjectPage({ level, subjects }) {
+export default function SubjectPage({ level, subjects, tabs }) {
   const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState("all");
+  const [activeTab, setActiveTab] = useState(tabs ? tabs[0].id : null);
   const levelLabel = level === "preparatoria" ? "Preparatoria" : "Universidad";
+
+  // Si se reciben tabs, las materias mostradas dependen de la pestaña activa.
+  const currentSubjects = tabs
+    ? (tabs.find((t) => t.id === activeTab)?.subjects ?? [])
+    : subjects;
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -237,9 +243,14 @@ export default function SubjectPage({ level, subjects }) {
     navigate(`/selector/${id}`);
   };
 
+  const handleTabChange = (id) => {
+    setActiveTab(id);
+    setActiveFilter("all");
+  };
+
   const filtered = activeFilter === "all"
-    ? subjects
-    : subjects.filter((s) => s.id === activeFilter);
+    ? currentSubjects
+    : currentSubjects.filter((s) => s.id === activeFilter);
 
   return (
     <>
@@ -254,6 +265,14 @@ export default function SubjectPage({ level, subjects }) {
           cursor: pointer; transition: all .2s; font-family: 'DM Sans', sans-serif;
         }
         .filter-btn.active, .filter-btn:hover { background: rgba(59,158,255,.12); border-color: #3b9eff; color: #e8eaf0; }
+        .tab-btn {
+          padding: .55rem 1.4rem; background: transparent;
+          border: 1px solid #252830; border-bottom: 2px solid transparent; border-radius: 6px 6px 0 0;
+          color: #5a6070; font-size: .88rem; font-weight: 600; letter-spacing: .04em;
+          cursor: pointer; transition: all .2s; font-family: 'DM Sans', sans-serif;
+        }
+        .tab-btn:hover { color: #c8cad4; }
+        .tab-btn.active { background: rgba(59,158,255,.1); border-color: #3b9eff; border-bottom-color: #3b9eff; color: #e8eaf0; }
         @media(max-width:600px){
           .page-title { font-size: 1.8rem !important; }
           .content-wrap { padding: 1rem !important; }
@@ -313,6 +332,23 @@ export default function SubjectPage({ level, subjects }) {
         </div>
       </div>
 
+      {tabs && (
+        <div className="tab-bar" style={{
+          display: "flex", gap: ".5rem", flexWrap: "wrap",
+          padding: "1rem 2rem .2rem", maxWidth: 960, width: "100%", margin: "0 auto",
+        }}>
+          {tabs.map((t) => (
+            <button
+              key={t.id}
+              className={`tab-btn${activeTab === t.id ? " active" : ""}`}
+              onClick={() => handleTabChange(t.id)}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+      )}
+
       <div className="filter-bar" style={{
         display: "flex", gap: ".5rem", flexWrap: "wrap",
         padding: "1.2rem 2rem", borderBottom: "1px solid #252830",
@@ -320,7 +356,7 @@ export default function SubjectPage({ level, subjects }) {
         background: "rgba(13,15,17,.92)", backdropFilter: "blur(8px)",
       }}>
         <button className={`filter-btn${activeFilter === "all" ? " active" : ""}`} onClick={() => setActiveFilter("all")}>Todas</button>
-        {subjects.map((s) => (
+        {currentSubjects.map((s) => (
           <button key={s.id} className={`filter-btn${activeFilter === s.id ? " active" : ""}`} onClick={() => setActiveFilter(s.id)}>
             {s.name}
           </button>

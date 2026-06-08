@@ -1,0 +1,128 @@
+// src/data/exaniIIData.js
+// ─────────────────────────────────────────────────────────────────────────────
+// Árbol de contenido para el EXANI-II · Área de Ingenierías y Ciencias Exactas (EPIU)
+//
+// Estructura del examen (138 reactivos que cuentan para el puntaje global):
+//   ÁREAS TRANSVERSALES (iguales para todos los sustentantes)
+//     · Comprensión lectora      (30 reactivos)
+//     · Redacción indirecta      (30 reactivos)
+//     · Pensamiento matemático   (30 reactivos)
+//   MÓDULO DISCIPLINAR EPIU      (24 reactivos)
+//     · Matemáticas avanzadas y cálculo diferencial (10)
+//     · Física fundamental aplicada                 (10)
+//     · Fundamentos de química y estructura          (4)
+//
+// Mismo formato recursivo que universidadData.js / preparatoriaData.js.
+// ─────────────────────────────────────────────────────────────────────────────
+
+export const SUBJECTS_EXANI_II = [
+  // ───────────────────────────── ÁREAS TRANSVERSALES ─────────────────────────
+  {
+    id: "ei-cl",
+    name: "Comprensión lectora",
+    color: "#3b9eff",
+    children: [
+      { id: "ei-cl-estudio", name: "Ámbito de estudio (argumentativo y ensayo académico)" },
+      { id: "ei-cl-literario", name: "Ámbito literario (cuento y poema)" },
+      { id: "ei-cl-social", name: "Ámbito de participación social (noticia y documento administrativo)" },
+    ],
+  },
+  {
+    id: "ei-ri",
+    name: "Redacción indirecta",
+    color: "#a78bfa",
+    children: [
+      {
+        id: "ei-ri-comunicativa",
+        name: "Comunicativa",
+        children: [
+          { id: "ei-ri-registro", name: "Registro lingüístico" },
+          { id: "ei-ri-genero", name: "Género textual (prólogo, ensayo, reseña, artículo de opinión, crónica, noticia)" },
+        ],
+      },
+      {
+        id: "ei-ri-gramatical",
+        name: "Gramatical y semántica",
+        children: [
+          { id: "ei-ri-concordancia", name: "Concordancia nominal y verbal", presentacion: "/ver/concordancia-verbal" },
+          { id: "ei-ri-coh-gram", name: "Cohesión gramatical", presentacion: "/ver/cohesion-gramatical" },
+          { id: "ei-ri-coh-lex", name: "Cohesión léxico-semántica", presentacion: "/ver/cohesion-lexico-semantica" },
+          { id: "ei-ri-coh-text", name: "Cohesión textual (marcadores)", presentacion: "/ver/marcadores-textuales" },
+        ],
+      },
+      {
+        id: "ei-ri-ortografica",
+        name: "Ortográfica",
+        children: [
+          { id: "ei-ri-grafofonetica", name: "Grafofonética", presentacion: "/ver/grafofonetica" },
+          { id: "ei-ri-puntuacion", name: "Puntuación", presentacion: "/ver/signos-puntuacion" },
+          { id: "ei-ri-acentuacion", name: "Acentuación", presentacion: "/ver/acentuacion" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "ei-pm",
+    name: "Pensamiento matemático",
+    color: "#34d399",
+    children: [
+      {
+        id: "ei-pm-comprension",
+        name: "Comprensión de lo matemático",
+        children: [
+          { id: "ei-pm-probabilidad", name: "Probabilidad clásica de eventos simples", presentacion: "/ver/probabilidad" },
+          { id: "ei-pm-estadistica", name: "Media aritmética y desviación estándar", presentacion: "/ver/estadistica" },
+          { id: "ei-pm-area", name: "Área y geometría", presentacion: "/ver/cuadrilateros-poligonos" },
+          { id: "ei-pm-razones", name: "Razones, proporciones, exponentes y porcentaje" },
+        ],
+      },
+      {
+        id: "ei-pm-matematizacion",
+        name: "Matematización",
+        children: [
+          { id: "ei-pm-tendencia", name: "Medidas de tendencia central y dispersión", presentacion: "/ver/estadistica" },
+          { id: "ei-pm-posicion", name: "Medidas de posición (cuartiles, deciles, percentiles)", presentacion: "/ver/estadistica" },
+          { id: "ei-pm-cuadraticas", name: "Funciones cuadráticas y relaciones trigonométricas" },
+          { id: "ei-pm-polinomios", name: "Polinomios y sistemas de ecuaciones lineales" },
+        ],
+      },
+    ],
+  },
+
+  // ─────────────────────── MÓDULO DISCIPLINAR · EPIU ──────────────────────────
+  {
+    id: "ei-disc",
+    name: "Ingenierías y Ciencias Exactas (módulo)",
+    color: "#f43f5e",
+    children: [
+      {
+        id: "ei-disc-mat",
+        name: "Matemáticas avanzadas y cálculo diferencial",
+        children: [
+          { id: "ei-disc-trig", name: "Trigonometría analítica" },
+          { id: "ei-disc-algebra", name: "Álgebra superior" },
+          { id: "ei-disc-calculo", name: "Cálculo diferencial y optimización" },
+        ],
+      },
+      {
+        id: "ei-disc-fis",
+        name: "Física fundamental aplicada",
+        children: [
+          { id: "ei-disc-cinematica", name: "Mecánica clásica: cinemática", presentacion: "/ver/cinematica" },
+          { id: "ei-disc-dinamica", name: "Dinámica: Leyes de Newton", presentacion: "/ver/dinamica" },
+          { id: "ei-disc-energia", name: "Trabajo y energía", presentacion: "/ver/energia" },
+          { id: "ei-disc-termo", name: "Física térmica y termodinámica clásica", presentacion: "/ver/termodinamica" },
+          { id: "ei-disc-electro", name: "Electromagnetismo básico", presentacion: "/ver/electricidad" },
+        ],
+      },
+      {
+        id: "ei-disc-qui",
+        name: "Fundamentos de química y estructura de la materia",
+        children: [
+          { id: "ei-disc-atomo", name: "Estructura atómica y periodicidad", presentacion: "/ver/quimica-fundamentos" },
+          { id: "ei-disc-enlaces", name: "Interacciones químicas (enlaces y reacciones)", presentacion: "/ver/quimica-fundamentos" },
+        ],
+      },
+    ],
+  },
+];

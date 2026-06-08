@@ -221,17 +221,6 @@ export const SUBJECTS_UNI = [
     ],
   },
   {
-    id: "exani-ii",
-    name: "Simuladores tipo EXANI-II",
-    color: "#43a8b1",
-    children: [
-      {
-        id: "simulador-1",
-        name: "Simulador por definir",
-      },
-    ],
-  },
-  {
     id: "sim",
     name: "Simuladores de Examen",
     color: "#e879f9",

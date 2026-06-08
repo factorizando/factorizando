@@ -50,6 +50,7 @@ import { PRESENTACION as ALGEBRA_SUPERIOR } from "./algebra-superior.js";
 import { PRESENTACION as CALCULO_DIFERENCIAL } from "./calculo-diferencial.js";
 import { PRESENTACION as NOMENCLATURA_REACCIONES } from "./nomenclatura-reacciones.js";
 import { PRESENTACION as ESTEQUIOMETRIA } from "./estequiometria.js";
+import { PRESENTACION as QUIMICA_ORGANICA } from "./quimica-organica.js";
 
 export const PRESENTACIONES_INDEX = {
   "semejanza-triangulos": SEMEJANZA_TRIANGULOS,
@@ -100,6 +101,7 @@ export const PRESENTACIONES_INDEX = {
   "calculo-diferencial": CALCULO_DIFERENCIAL,
   "nomenclatura-reacciones": NOMENCLATURA_REACCIONES,
   "estequiometria": ESTEQUIOMETRIA,
+  "quimica-organica": QUIMICA_ORGANICA,
 };
 
 export function buscarPresentacion(id) {

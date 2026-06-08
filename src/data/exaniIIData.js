@@ -22,9 +22,9 @@ export const SUBJECTS_EXANI_II = [
     name: "Comprensión lectora",
     color: "#3b9eff",
     children: [
-      { id: "ei-cl-estudio", name: "Ámbito de estudio (argumentativo y ensayo académico)" },
-      { id: "ei-cl-literario", name: "Ámbito literario (cuento y poema)" },
-      { id: "ei-cl-social", name: "Ámbito de participación social (noticia y documento administrativo)" },
+      { id: "ei-cl-estudio", name: "Ámbito de estudio (argumentativo y ensayo académico)", quiz: "/cuestionario/cl-ambito-estudio" },
+      { id: "ei-cl-literario", name: "Ámbito literario (cuento y poema)", quiz: "/cuestionario/cl-ambito-literario" },
+      { id: "ei-cl-social", name: "Ámbito de participación social (noticia y documento administrativo)", quiz: "/cuestionario/cl-participacion-social" },
     ],
   },
   {

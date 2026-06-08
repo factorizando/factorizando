@@ -32,6 +32,9 @@ import SIMULADOR_EXANI_I_3 from "./preparatoria/simuladores/simulador-exani-i-3.
 import SUJETO_PREDICADO from "./preparatoria/espanol/sujeto-predicado-exani-i.js";
 import ESTRUCTURA_ORACION_UNI from "./universidad/espanol/estructura-oracion-uni.js";
 import ESTRUCTURA_ORACION_PREPA from "./preparatoria/espanol/estructura-oracion-prepa.js";
+import CL_AMBITO_ESTUDIO from "./universidad/exani-ii/cl-ambito-estudio.js";
+import CL_AMBITO_LITERARIO from "./universidad/exani-ii/cl-ambito-literario.js";
+import CL_PARTICIPACION_SOCIAL from "./universidad/exani-ii/cl-participacion-social.js";
 
 export const CUESTIONARIOS_INDEX = {
   // ──────────────────────────────────────────────────────────────────────────
@@ -323,6 +326,35 @@ export const CUESTIONARIOS_INDEX = {
   // UNIVERSIDAD
   // ──────────────────────────────────────────────────────────────────────────
   universidad: {
+    exaniII: {
+      icon: "📝",
+      label: "EXANI-II",
+
+      comprensionLectora: {
+        icon: "📖",
+        label: "Comprensión lectora",
+        cuestionarios: [
+          {
+            id: "cl-ambito-estudio",
+            titulo: "Ámbito de estudio",
+            description: "Textos argumentativo-periodístico y ensayo académico",
+            data: CL_AMBITO_ESTUDIO,
+          },
+          {
+            id: "cl-ambito-literario",
+            titulo: "Ámbito literario",
+            description: "Textos: cuento y poema",
+            data: CL_AMBITO_LITERARIO,
+          },
+          {
+            id: "cl-participacion-social",
+            titulo: "Ámbito de participación social",
+            description: "Textos: noticia y documento administrativo",
+            data: CL_PARTICIPACION_SOCIAL,
+          },
+        ],
+      },
+    },
     matematicas: {
       icon: "🔢",
       label: "Matemáticas",

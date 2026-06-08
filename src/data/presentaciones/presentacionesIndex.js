@@ -43,6 +43,7 @@ import { PRESENTACION as RAZONES_PROPORCIONES } from "./razones-proporciones.js"
 import { PRESENTACION as EXPONENTES_ALGEBRA } from "./exponentes-algebra.js";
 import { PRESENTACION as ECUACIONES_LINEALES } from "./ecuaciones-lineales.js";
 import { PRESENTACION as POLINOMIOS_SISTEMAS } from "./polinomios-sistemas.js";
+import { PRESENTACION as FUNCIONES_CUADRATICAS } from "./funciones-cuadraticas.js";
 
 export const PRESENTACIONES_INDEX = {
   "semejanza-triangulos": SEMEJANZA_TRIANGULOS,
@@ -86,6 +87,7 @@ export const PRESENTACIONES_INDEX = {
   "exponentes-algebra": EXPONENTES_ALGEBRA,
   "ecuaciones-lineales": ECUACIONES_LINEALES,
   "polinomios-sistemas": POLINOMIOS_SISTEMAS,
+  "funciones-cuadraticas": FUNCIONES_CUADRATICAS,
 };
 
 export function buscarPresentacion(id) {

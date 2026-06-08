@@ -85,7 +85,7 @@ export const SUBJECTS_EXANI_II = [
         children: [
           { id: "ei-pm-ec-lineales", name: "Ecuaciones lineales y variación lineal", presentacion: "/ver/ecuaciones-lineales" },
           { id: "ei-pm-polinomios", name: "Polinomios y sistemas de ecuaciones lineales", presentacion: "/ver/polinomios-sistemas" },
-          { id: "ei-pm-cuadraticas", name: "Funciones cuadráticas" },
+          { id: "ei-pm-cuadraticas", name: "Funciones cuadráticas", presentacion: "/ver/funciones-cuadraticas" },
           { id: "ei-pm-relaciones-trig", name: "Relaciones trigonométricas" },
           { id: "ei-pm-grafica-info", name: "Representación gráfica de información", presentacion: "/ver/estadistica" },
           { id: "ei-pm-tendencia", name: "Medidas de tendencia central y dispersión", presentacion: "/ver/estadistica" },

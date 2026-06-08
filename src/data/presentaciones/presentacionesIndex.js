@@ -49,6 +49,7 @@ import { PRESENTACION as TRIGONOMETRIA_ANALITICA } from "./trigonometria-analiti
 import { PRESENTACION as ALGEBRA_SUPERIOR } from "./algebra-superior.js";
 import { PRESENTACION as CALCULO_DIFERENCIAL } from "./calculo-diferencial.js";
 import { PRESENTACION as NOMENCLATURA_REACCIONES } from "./nomenclatura-reacciones.js";
+import { PRESENTACION as ESTEQUIOMETRIA } from "./estequiometria.js";
 
 export const PRESENTACIONES_INDEX = {
   "semejanza-triangulos": SEMEJANZA_TRIANGULOS,
@@ -98,6 +99,7 @@ export const PRESENTACIONES_INDEX = {
   "algebra-superior": ALGEBRA_SUPERIOR,
   "calculo-diferencial": CALCULO_DIFERENCIAL,
   "nomenclatura-reacciones": NOMENCLATURA_REACCIONES,
+  "estequiometria": ESTEQUIOMETRIA,
 };
 
 export function buscarPresentacion(id) {

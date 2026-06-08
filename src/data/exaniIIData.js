@@ -105,7 +105,7 @@ export const SUBJECTS_EXANI_II = [
         id: "ei-disc-mat",
         name: "Matemáticas avanzadas y cálculo diferencial",
         children: [
-          { id: "ei-disc-trig", name: "Trigonometría analítica" },
+          { id: "ei-disc-trig", name: "Trigonometría analítica", presentacion: "/ver/trigonometria-analitica" },
           { id: "ei-disc-algebra", name: "Álgebra superior" },
           { id: "ei-disc-calculo", name: "Cálculo diferencial y optimización" },
         ],

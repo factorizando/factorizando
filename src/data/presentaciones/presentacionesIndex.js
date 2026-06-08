@@ -45,6 +45,7 @@ import { PRESENTACION as ECUACIONES_LINEALES } from "./ecuaciones-lineales.js";
 import { PRESENTACION as POLINOMIOS_SISTEMAS } from "./polinomios-sistemas.js";
 import { PRESENTACION as FUNCIONES_CUADRATICAS } from "./funciones-cuadraticas.js";
 import { PRESENTACION as TRIGONOMETRIA } from "./trigonometria.js";
+import { PRESENTACION as TRIGONOMETRIA_ANALITICA } from "./trigonometria-analitica.js";
 
 export const PRESENTACIONES_INDEX = {
   "semejanza-triangulos": SEMEJANZA_TRIANGULOS,
@@ -90,6 +91,7 @@ export const PRESENTACIONES_INDEX = {
   "polinomios-sistemas": POLINOMIOS_SISTEMAS,
   "funciones-cuadraticas": FUNCIONES_CUADRATICAS,
   "trigonometria": TRIGONOMETRIA,
+  "trigonometria-analitica": TRIGONOMETRIA_ANALITICA,
 };
 
 export function buscarPresentacion(id) {

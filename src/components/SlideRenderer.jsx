@@ -75,7 +75,29 @@ function Encabezado({ titulo, etiqueta, tema }) {
   );
 }
 
-function HistogramaVotos({ votos, totalVotos, opciones, correcta, tema }) {
+function HistogramaVotos({ votos, totalVotos, opciones, correcta, votantes, perfiles, shuffledOrder, tema }) {
+  // Deduplicar por alumno (último voto gana) y ordenar por nombre.
+  const porUsuario = new Map();
+  const anonimos = [];
+  (votantes || []).forEach((v) => {
+    if (v.userId) porUsuario.set(v.userId, v.opcion);
+    else anonimos.push(v);
+  });
+  const lista = [
+    ...Array.from(porUsuario, ([userId, opcion]) => ({ userId, opcion })),
+    ...anonimos,
+  ].map((v) => {
+    const displayIdx = shuffledOrder ? shuffledOrder.indexOf(v.opcion) : v.opcion;
+    return {
+      ...v,
+      nombre: perfiles?.[v.userId] || "Anónimo",
+      letra: String.fromCharCode(65 + displayIdx),
+      ok: displayIdx === correcta,
+    };
+  });
+  lista.sort((a, b) => a.nombre.localeCompare(b.nombre));
+  const aciertos = lista.filter((a) => a.ok).length;
+
   return (
     <div
       style={{
@@ -155,6 +177,70 @@ function HistogramaVotos({ votos, totalVotos, opciones, correcta, tema }) {
           </div>
         );
       })}
+
+      {lista.length > 0 && (
+        <div
+          style={{
+            borderTop: `1px solid ${tema.border}`,
+            paddingTop: 12,
+            display: "flex",
+            flexDirection: "column",
+            gap: 8
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              fontFamily: tema.mono,
+              fontSize: 10,
+              letterSpacing: "0.18em",
+              color: tema.muted,
+              textTransform: "uppercase"
+            }}
+          >
+            <span>Respuestas</span>
+            <span style={{ color: tema.verde }}>
+              {aciertos}/{lista.length} ✓
+            </span>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 4,
+              maxHeight: 260,
+              overflowY: "auto"
+            }}
+          >
+            {lista.map((a, idx) => {
+              const col = a.ok ? tema.verde : tema.rojo;
+              return (
+                <div
+                  key={a.userId || `anon-${idx}`}
+                  style={{ display: "flex", alignItems: "center", gap: 7, fontSize: 12 }}
+                >
+                  <span style={{ color: col, flexShrink: 0, width: 10 }}>{a.ok ? "✓" : "✗"}</span>
+                  <span
+                    style={{
+                      color: tema.sub,
+                      flex: 1,
+                      minWidth: 0,
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap"
+                    }}
+                    title={a.nombre}
+                  >
+                    {a.nombre}
+                  </span>
+                  <span style={{ color: col, fontFamily: tema.mono, flexShrink: 0 }}>{a.letra}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -5951,7 +6037,7 @@ function renderEjercicioSVG(svgDiagram, tema) {
   return null;
 }
 
-function SlideEjercicio({ slide, modo, votos, totalVotos, respuestaDada, onResponder, tema, resaltadoIdx, onResaltar }) {
+function SlideEjercicio({ slide, modo, votos, votantes, perfiles, totalVotos, respuestaDada, onResponder, tema, resaltadoIdx, onResaltar }) {
   const done = respuestaDada !== null && respuestaDada !== undefined;
   const correcta = slide.correcta;
 
@@ -6152,6 +6238,9 @@ function SlideEjercicio({ slide, modo, votos, totalVotos, respuestaDada, onRespo
           totalVotos={totalVotos}
           opciones={opcionesDisplay}
           correcta={correctaDisplay}
+          votantes={votantes}
+          perfiles={perfiles}
+          shuffledOrder={shuffledOrder}
           tema={tema}
         />
       )}
@@ -11471,6 +11560,8 @@ export default function SlideRenderer({
   tema = TEMAS.matematicas,
   modo = "alumno",
   votos,
+  votantes,
+  perfiles,
   totalVotos,
   respuestaDada,
   onResponder,
@@ -11480,7 +11571,7 @@ export default function SlideRenderer({
   useKaTeX();
   useFuentesTema(tema);
 
-  const props = { slide, tema, modo, votos, totalVotos, respuestaDada, onResponder, resaltadoIdx, onResaltar };
+  const props = { slide, tema, modo, votos, votantes, perfiles, totalVotos, respuestaDada, onResponder, resaltadoIdx, onResaltar };
 
   switch (slide.tipo) {
     case "portada":

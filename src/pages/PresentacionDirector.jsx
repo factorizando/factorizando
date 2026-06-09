@@ -25,6 +25,8 @@ export default function PresentacionDirector() {
   const [sesion, setSesion] = useState(null);
   const [slideIdx, setSlideIdx] = useState(0);
   const [votos, setVotos] = useState({}); // { [slideId]: { [opcionIdx]: count } }
+  const [votantes, setVotantes] = useState({}); // { [slideId]: [ { userId, opcion } ] }
+  const [perfiles, setPerfiles] = useState({}); // { [userId]: nombre }
   const [cargando, setCargando] = useState(false);
   const [error, setError] = useState("");
   const [resaltado, setResaltado] = useState(null);
@@ -56,10 +58,23 @@ export default function PresentacionDirector() {
   useEffect(() => {
     if (!sesion) return;
 
+    // Cargar nombres de los alumnos (para la lista de respuestas en vivo)
+    supabase.rpc("get_all_profiles").then(({ data, error }) => {
+      if (error) {
+        console.error("[Director] Error cargando perfiles:", error);
+        return;
+      }
+      const map = {};
+      (data || []).forEach((p) => {
+        map[p.id] = p.nombre || p.email || String(p.id).slice(0, 8);
+      });
+      setPerfiles(map);
+    });
+
     // Cargar votos existentes (por si el director recarga la página)
     supabase
       .from("respuestas_presentacion")
-      .select("slide_id, opcion_elegida")
+      .select("slide_id, opcion_elegida, user_id")
       .eq("sesion_id", sesion.id)
       .then(({ data, error }) => {
         if (error) {
@@ -68,13 +83,16 @@ export default function PresentacionDirector() {
         }
         if (!data) return;
         const agg = {};
-        data.forEach(({ slide_id, opcion_elegida }) => {
+        const det = {};
+        data.forEach(({ slide_id, opcion_elegida, user_id }) => {
           const key = String(slide_id);
           if (!agg[key]) agg[key] = {};
-          agg[key][opcion_elegida] =
-            (agg[key][opcion_elegida] || 0) + 1;
+          agg[key][opcion_elegida] = (agg[key][opcion_elegida] || 0) + 1;
+          if (!det[key]) det[key] = [];
+          det[key].push({ userId: user_id, opcion: opcion_elegida });
         });
         setVotos(agg);
+        setVotantes(det);
       });
 
     // Suscripción Realtime a nuevos votos
@@ -91,12 +109,17 @@ export default function PresentacionDirector() {
         (payload) => {
           const key = String(payload.new.slide_id);
           const opcion = payload.new.opcion_elegida;
+          const userId = payload.new.user_id;
           setVotos((prev) => ({
             ...prev,
             [key]: {
               ...(prev[key] || {}),
               [opcion]: ((prev[key] || {})[opcion] || 0) + 1
             }
+          }));
+          setVotantes((prev) => ({
+            ...prev,
+            [key]: [...(prev[key] || []), { userId, opcion }]
           }));
         }
       )
@@ -195,6 +218,7 @@ export default function PresentacionDirector() {
     setSesion(data);
     setSlideIdx(0);
     setVotos({});
+    setVotantes({});
   }
 
   async function terminarSesion() {
@@ -206,6 +230,7 @@ export default function PresentacionDirector() {
     setSesion(null);
     setSlideIdx(0);
     setVotos({});
+    setVotantes({});
   }
 
   async function irASlide(nuevoIdx) {
@@ -433,6 +458,8 @@ export default function PresentacionDirector() {
           tema={tema}
           modo="director"
           votos={votos[slideKey]}
+          votantes={votantes[slideKey]}
+          perfiles={perfiles}
           totalVotos={totalVotosSlide}
           resaltadoIdx={resaltado}
           onResaltar={resaltar}

@@ -20,6 +20,8 @@ import { PRESENTACION as BIOLOGIA_PENSAMIENTO_CIENTIFICO } from "./biologia/biol
 import { PRESENTACION as CIRCULO } from "./matematicas/circulo.js";
 import { PRESENTACION as PROBABILIDAD } from "./matematicas/probabilidad.js";
 import { PRESENTACION as ESTADISTICA } from "./matematicas/estadistica.js";
+import { PRESENTACION as PROBABILIDAD_EXANI_II } from "./matematicas/probabilidad-exani-ii.js";
+import { PRESENTACION as ESTADISTICA_EXANI_II } from "./matematicas/estadistica-exani-ii.js";
 import { PRESENTACION as VOCABULARIO_UNAM } from "./espanol/vocabulario-unam.js";
 import { PRESENTACION as CINEMATICA } from "./fisica/cinematica.js";
 import { PRESENTACION as DINAMICA } from "./fisica/dinamica.js";
@@ -72,6 +74,8 @@ export const PRESENTACIONES_INDEX = {
   "circulo": CIRCULO,
   "probabilidad": PROBABILIDAD,
   "estadistica": ESTADISTICA,
+  "probabilidad-exani-ii": PROBABILIDAD_EXANI_II,
+  "estadistica-exani-ii": ESTADISTICA_EXANI_II,
   "vocabulario-unam": VOCABULARIO_UNAM,
   "cinematica": CINEMATICA,
   "dinamica": DINAMICA,

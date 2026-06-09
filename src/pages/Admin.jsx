@@ -278,6 +278,158 @@ function MateriaAccordion({ materia, presentaciones: items }) {
 }
 
 // ── Resultados de una presentación ───────────────────────────────────────────
+// Tabla de una sesión: alumnos (filas) × preguntas (columnas) con ✓/✗.
+function DesgloseSesion({ sesion }) {
+  const th = (align) => ({
+    color: C.dim, fontWeight: 600, textAlign: align,
+    padding: "4px 8px", fontSize: 10,
+    textTransform: "uppercase", letterSpacing: 1, whiteSpace: "nowrap",
+  });
+  return (
+    <div style={{ marginTop: 14 }}>
+      <div style={{ color: C.dim, fontSize: 11, fontFamily: font, marginBottom: 6 }}>
+        Sesión <strong style={{ color: C.purple }}>{sesion.codigo}</strong> · {fmtDate(sesion.created_at)} · {sesion.rows.length} alumno{sesion.rows.length === 1 ? "" : "s"}
+      </div>
+      <div style={{ overflowX: "auto" }}>
+        <table style={{ borderCollapse: "collapse", fontSize: 12, fontFamily: font }}>
+          <thead>
+            <tr>
+              <th style={th("left")}>Alumno</th>
+              {sesion.cols.map((c) => (
+                <th key={c.sid} title={c.pregunta} style={{ ...th("center"), minWidth: 30, cursor: "help" }}>
+                  P{c.n}
+                </th>
+              ))}
+              <th style={th("center")}>Aciertos</th>
+            </tr>
+          </thead>
+          <tbody>
+            {sesion.rows.map((r) => {
+              const pct = r.respondidas ? Math.round((r.aciertos / r.respondidas) * 100) : 0;
+              return (
+                <tr key={r.uid} style={{ borderTop: `1px solid ${C.border}` }}>
+                  <td style={{ padding: "6px 8px", color: C.text, whiteSpace: "nowrap" }}>{r.nombre}</td>
+                  {sesion.cols.map((c) => {
+                    const v = r.cells[c.sid];
+                    const col = v === "ok" ? C.green : v === "bad" ? C.red : C.muted;
+                    const g = v === "ok" ? "✓" : v === "bad" ? "✗" : "·";
+                    return (
+                      <td key={c.sid} style={{ padding: "6px 6px", textAlign: "center", color: col, fontWeight: 700 }}>
+                        {g}
+                      </td>
+                    );
+                  })}
+                  <td style={{ padding: "6px 8px", textAlign: "center", color: pctColor(pct), fontWeight: 700, whiteSpace: "nowrap" }}>
+                    {r.aciertos}/{r.respondidas}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+// Carga (bajo demanda) el detalle por pregunta a partir de respuestas_presentacion.
+function DesglosePresentacion({ presentacion, profiles }) {
+  const [estado, setEstado] = useState("idle"); // idle | cargando | listo | error
+  const [sesiones, setSesiones] = useState([]);
+
+  async function cargar() {
+    setEstado("cargando");
+    const fullPres = buscarPresentacion(presentacion.id);
+    const ejercicios = (fullPres?.slides || []).filter((s) => s.tipo === "ejercicio");
+    const numEj = new Map(ejercicios.map((e, i) => [String(e.id), i + 1]));
+    const correctaEj = new Map(ejercicios.map((e) => [String(e.id), e.correcta]));
+    const preguntaEj = new Map(ejercicios.map((e) => [String(e.id), e.pregunta]));
+
+    const { data: ses, error: e1 } = await supabase
+      .from("sesiones_presentacion")
+      .select("id, codigo, created_at")
+      .eq("presentacion_id", presentacion.id)
+      .order("created_at", { ascending: false });
+    if (e1) { console.error("[Admin] sesiones:", e1); setEstado("error"); return; }
+
+    const ids = (ses || []).map((s) => s.id);
+    if (ids.length === 0) { setSesiones([]); setEstado("listo"); return; }
+
+    const { data: resp, error: e2 } = await supabase
+      .from("respuestas_presentacion")
+      .select("sesion_id, slide_id, opcion_elegida, user_id")
+      .in("sesion_id", ids);
+    if (e2) { console.error("[Admin] respuestas:", e2); setEstado("error"); return; }
+
+    const bySes = {};
+    (resp || []).forEach((r) => { (bySes[r.sesion_id] ||= []).push(r); });
+
+    const armadas = (ses || []).map((s) => {
+      const rs = bySes[s.id] || [];
+      if (rs.length === 0) return null;
+
+      const slidesAnswered = [...new Set(rs.map((r) => String(r.slide_id)))]
+        .filter((sid) => numEj.has(sid))
+        .sort((a, b) => numEj.get(a) - numEj.get(b));
+      if (slidesAnswered.length === 0) return null;
+
+      const byUser = {};
+      rs.forEach((r) => {
+        const sid = String(r.slide_id);
+        if (!numEj.has(sid)) return;
+        (byUser[r.user_id] ||= {})[sid] = r.opcion_elegida;
+      });
+
+      const rows = Object.entries(byUser).map(([uid, answers]) => {
+        let aciertos = 0, respondidas = 0;
+        const cells = {};
+        slidesAnswered.forEach((sid) => {
+          if (answers[sid] === undefined) { cells[sid] = null; return; }
+          respondidas++;
+          const ok = answers[sid] === correctaEj.get(sid);
+          if (ok) aciertos++;
+          cells[sid] = ok ? "ok" : "bad";
+        });
+        const prof = profiles[uid] || {};
+        return { uid, nombre: prof.nombre || prof.email || uid.slice(0, 8), cells, aciertos, respondidas };
+      }).sort((a, b) => a.nombre.localeCompare(b.nombre));
+
+      const cols = slidesAnswered.map((sid) => ({ sid, n: numEj.get(sid), pregunta: preguntaEj.get(sid) }));
+      return { id: s.id, codigo: s.codigo, created_at: s.created_at, cols, rows };
+    }).filter(Boolean);
+
+    setSesiones(armadas);
+    setEstado("listo");
+  }
+
+  const btn = {
+    background: C.blue + "18", color: C.blue, border: `1px solid ${C.blue}44`,
+    borderRadius: 6, padding: "6px 12px", fontSize: 12, cursor: "pointer",
+    fontFamily: font, marginTop: 12,
+  };
+
+  if (estado === "idle") {
+    return <button onClick={cargar} style={btn}>Ver desglose por pregunta ✦</button>;
+  }
+  if (estado === "cargando") {
+    return <p style={{ color: C.muted, fontSize: 13, fontFamily: font, marginTop: 12 }}>Cargando desglose…</p>;
+  }
+  if (estado === "error") {
+    return <p style={{ color: C.red, fontSize: 13, fontFamily: font, marginTop: 12 }}>No se pudo cargar el desglose (permisos o conexión).</p>;
+  }
+  if (sesiones.length === 0) {
+    return <p style={{ color: C.muted, fontSize: 13, fontFamily: font, marginTop: 12 }}>No hay respuestas registradas por pregunta para esta presentación.</p>;
+  }
+  return (
+    <div style={{ marginTop: 14, borderTop: `1px dashed ${C.border}`, paddingTop: 8 }}>
+      <div style={{ color: C.dim, fontSize: 11, fontFamily: font, textTransform: "uppercase", letterSpacing: 1, marginBottom: 2 }}>
+        Desglose por pregunta
+      </div>
+      {sesiones.map((s) => <DesgloseSesion key={s.id} sesion={s} />)}
+    </div>
+  );
+}
+
 function ResultadosPresentacion({ presentacion, resultados, profiles, onDelete, onUpdate }) {
   const [open, setOpen] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
@@ -421,6 +573,7 @@ function ResultadosPresentacion({ presentacion, resultados, profiles, onDelete, 
               </tbody>
             </table>
           )}
+          <DesglosePresentacion presentacion={presentacion} profiles={profiles} />
         </div>
       )}
     </div>

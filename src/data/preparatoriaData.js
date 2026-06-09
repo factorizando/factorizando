@@ -11,12 +11,18 @@
 //   - Si un nodo tiene children → muestra acordeón
 //   - Si un nodo tiene quiz/video/teoria → muestra pills de recursos
 //   - Un nodo puede tener ambos al mismo tiempo
+//
+// NIVEL 1 = áreas oficiales del EXANI-I (Guía Ceneval):
+//   Pensamiento matemático · Pensamiento científico · Comprensión lectora ·
+//   Redacción indirecta · Inglés (diagnóstico).  + Sesiones grabadas y Simuladores.
+// (Geografía se retiró: no es un área del EXANI-I.)
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const SUBJECTS_PREP = [
+  // ── ÁREA: PENSAMIENTO MATEMÁTICO (40 reactivos) ──────────────────────────────
   {
     id: "mat",
-    name: "Matemáticas",
+    name: "Pensamiento Matemático",
     color: "#3b9eff",
     children: [
       {
@@ -69,12 +75,6 @@ export const SUBJECTS_PREP = [
             name: "Números Racionales",
             quiz: "/cuestionario/racionales-prepa",
             teoria: "/teoria/fracciones-decimales",
-            // children: [
-            //   {
-            //     id: "numeros-racionales-suma",
-            //     name: "Suma de Números Racionales",
-            //   },
-            // ],
           },
           {
             id: "numeros-reales",
@@ -129,9 +129,90 @@ export const SUBJECTS_PREP = [
       },
     ],
   },
+
+  // ── ÁREA: PENSAMIENTO CIENTÍFICO (30 reactivos) ──────────────────────────────
+  // El EXANI-I evalúa biología, química y física como razonamiento científico.
+  // Se conservan como sub-secciones separadas dentro del área.
+  {
+    id: "cien",
+    name: "Pensamiento Científico",
+    color: "#34d399",
+    children: [
+      {
+        id: "cien-fisica",
+        name: "Física",
+        children: [
+          {
+            id: "fisica-pc",
+            name: "Pensamiento Científico",
+            presentacion: "/ver/fisica-pensamiento-cientifico",
+          },
+          {
+            id: "mru-bas",
+            name: "Conceptos Básicos de MRU y MRUA",
+            teoria: "/teoria/cinematica-velocidad-aceleracion",
+          },
+          {
+            id: "newton-bas",
+            name: "Leyes de Newton",
+            teoria: "/teoria/leyes-de-newton",
+          },
+        ],
+      },
+      {
+        id: "cien-quimica",
+        name: "Química",
+        children: [
+          {
+            id: "qui-pc",
+            name: "Pensamiento Científico",
+            presentacion: "/ver/quimica-pensamiento-cientifico",
+          },
+          {
+            id: "tabla-bas",
+            name: "Tabla Periódica: Organización y Grupos",
+          },
+        ],
+      },
+      {
+        id: "cien-biologia",
+        name: "Biología",
+        children: [
+          {
+            id: "bio-pc",
+            name: "Pensamiento Científico",
+            presentacion: "/ver/biologia-pensamiento-cientifico",
+          },
+          {
+            id: "cel-bas",
+            name: "La Célula: Estructura Celular",
+          },
+          {
+            id: "gen-bas",
+            name: "Genética y Herencia: Leyes de Mendel",
+          },
+        ],
+      },
+    ],
+  },
+
+  // ── ÁREA: COMPRENSIÓN LECTORA (30 reactivos) ─────────────────────────────────
+  {
+    id: "comprension-lectora",
+    name: "Comprensión Lectora",
+    color: "#fbbf24",
+    children: [
+      {
+        id: "cl-prox",
+        name: "Próximamente: reactivos de comprensión lectora",
+      },
+    ],
+  },
+
+  // ── ÁREA: REDACCIÓN INDIRECTA (30 reactivos) ─────────────────────────────────
   {
     id: "esp",
-    name: "Español",
+    name: "Redacción Indirecta",
     color: "#a78bfa",
     children: [
       {
@@ -214,114 +295,21 @@ export const SUBJECTS_PREP = [
       },
     ],
   },
+
+  // ── ÁREA: INGLÉS (diagnóstico, no cuenta para el puntaje global) ─────────────
   {
-    id: "fis",
-    name: "Física",
-    color: "#34d399",
+    id: "ingles",
+    name: "Inglés (diagnóstico)",
+    color: "#f472b6",
     children: [
       {
-        id: "mru",
-        name: "Cinemática",
-        children: [
-          {
-            id: "mru-bas",
-            name: "Conceptos Básicos de MRU y MRUA",
-            teoria: "/teoria/cinematica-velocidad-aceleracion",
-          },
-          {
-            id: "fisica-pc",
-            name: "Pensamiento Científico",
-            presentacion: "/ver/fisica-pensamiento-cientifico",
-          },
-        ],
-      },
-      {
-        id: "newton",
-        name: "Leyes de Newton",
-        children: [
-          {
-            id: "newton-bas",
-            name: "Las Tres Leyes",
-            teoria: "/teoria/leyes-de-newton",
-          },
-        ],
+        id: "ing-prox",
+        name: "Próximamente: comprensión lectora y redacción en inglés (nivel A2)",
       },
     ],
   },
-  {
-    id: "bio",
-    name: "Biología",
-    color: "#f97316",
-    children: [
-      {
-        id: "cel",
-        name: "La Célula",
-        children: [
-          {
-            id: "cel-bas",
-            name: "Estructura Celular",
-            //quiz: "/cuestionario/celula",
-            //video: "https://www.youtube.com/watch?v=XXXXXXX",
-          },
-        ],
-      },
-      {
-        id: "gen",
-        name: "Genética y Herencia",
-        children: [{ id: "gen-bas", name: "Leyes de Mendel" }],
-      },
-      {
-        id: "bio-pc",
-        name: "Pensamiento Científico",
-        presentacion: "/ver/biologia-pensamiento-cientifico",
-      },
-    ],
-  },
-  {
-    id: "qui",
-    name: "Química",
-    color: "#f43f5e",
-    children: [
-      {
-        id: "tabla",
-        name: "Tabla Periódica",
-        children: [
-          {
-            id: "tabla-bas",
-            name: "Organización y Grupos",
-            //quiz: "/cuestionario/tabla-periodica",
-          },
-          {
-            id: "qui-pc",
-            name: "Pensamiento Científico",
-            presentacion: "/ver/quimica-pensamiento-cientifico",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    id: "geo",
-    name: "Geografía",
-    color: "#4ade80",
-    children: [
-      {
-        id: "geo-tierra",
-        name: "La Tierra: Geografía Física",
-        presentacion: "/ver/geografia-tierra",
-      },
-      {
-        id: "geo-humana",
-        name: "Geografía Humana",
-        presentacion: "/ver/geografia-humana",
-      },
-      {
-        id: "geo-complemento",
-        name: "Recursos, Mar y Política",
-        presentacion: "/ver/geografia-complemento",
-      },
-    ],
-  },
+
+  // ── SESIONES GRABADAS (videos del curso) ─────────────────────────────────────
   {
     id: "Sesiones",
     name: "Sesiones Grabadas",
@@ -572,6 +560,8 @@ export const SUBJECTS_PREP = [
       },
     ],
   },
+
+  // ── SIMULADORES TIPO EXANI-I ─────────────────────────────────────────────────
   {
     id: "exani-i",
     name: "Simuladores tipo EXANI-I",
@@ -594,21 +584,4 @@ export const SUBJECTS_PREP = [
       },
     ],
   },
-  // {
-  //   id: "sim",
-  //   name: "Simuladores de Examen",
-  //   color: "#8b5cf6",
-  //   children: [
-  //     {
-  //       id: "sim-prepa-1",
-  //       name: "Simulador 1",
-  //       quiz: "/cuestionario/simulador-prepa-1",
-  //     },
-  //     {
-  //       id: "sim-prepa-2",
-  //       name: "Simulador 2",
-  //       quiz: "/cuestionario/simulador-prepa-2",
-  //     },
-  //   ],
-  // },
 ];

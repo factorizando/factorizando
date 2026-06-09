@@ -198,14 +198,34 @@ export const PRESENTACION = {
       id: "permut-combin",
       tipo: "concepto",
       titulo: "Permutaciones y Combinaciones",
-      etiqueta: "¿Importa el orden?",
+      etiqueta: "¿Importa el orden? · toca cada tarjeta",
       formula: "n! = n\\cdot(n-1)\\cdots 2\\cdot 1",
       svgDiagram: "orden-importa",
       items: [
-        { math: "P(n,r) = \\dfrac{n!}{(n-r)!}", texto: "permutaciones: el orden SÍ importa (AB ≠ BA)" },
-        { math: "C(n,r) = \\dfrac{n!}{r!\\,(n-r)!}", texto: "combinaciones: el orden NO importa (AB = BA)" }
+        {
+          math: "P(n,r)",
+          texto: "Permutación: arreglo ORDENADO de r objetos elegidos de n. Como el orden distingue, intercambiar dos objetos crea otra permutación — AB y BA son distintas.",
+          expandable: true,
+          detalles: [
+            "Palabras clave: «ordenar», «en fila», «podio», «primero/segundo», «contraseña»",
+            "El orden cambia el resultado: AB ≠ BA",
+            "Ejemplo: P(3,2) = 6 → AB, BA, AC, CA, BC, CB",
+            "Fórmula: P(n,r) = n! / (n−r)!"
+          ]
+        },
+        {
+          math: "C(n,r)",
+          texto: "Combinación: selección de r objetos elegidos de n SIN importar el orden. Reacomodar los mismos objetos no crea un grupo nuevo — AB y BA son la misma.",
+          expandable: true,
+          detalles: [
+            "Palabras clave: «grupo», «equipo», «comité», «escoger», «seleccionar»",
+            "El orden no cambia nada: AB = BA",
+            "Ejemplo: C(3,2) = 3 → {A,B}, {A,C}, {B,C}",
+            "Fórmula: C(n,r) = n! / (r!·(n−r)!)"
+          ]
+        }
       ],
-      nota: "Elegir 2 letras de {A, B, C}: como permutación hay P(3,2) = 6 (AB, BA, AC, CA, BC, CB); como combinación hay C(3,2) = 3 ({A,B}, {A,C}, {B,C})."
+      nota: "Misma idea, una pregunta decide: ¿el orden importa? Elegir 2 letras de {A, B, C} da P(3,2) = 6 permutaciones (AB, BA, AC, CA, BC, CB), pero solo C(3,2) = 3 combinaciones ({A,B}, {A,C}, {B,C}), porque AB y BA son el mismo grupo."
     },
 
     {

@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import { listaPresentaciones, buscarPresentacion } from "../data/presentaciones/presentacionesIndex.js";
 import { obtenerTema } from "../data/presentaciones/temas.jsx";
+import { SUBJECTS_PREP } from "../data/preparatoriaData.js";
+import { SUBJECTS_UNI } from "../data/universidadData.js";
+import { SUBJECTS_EXANI_II } from "../data/exaniIIData.js";
 
 const C = {
   bg:      "#0e0f11",
@@ -38,41 +41,67 @@ function fmtDate(iso) {
   });
 }
 
-// ── Stat card ─────────────────────────────────────────────────────────────────
-function StatCard({ label, value, color, sub }) {
+// ── Índice inverso: en qué nivel(es) se usa cada presentación ─────────────────
+function recolectarSlugs(nodos, set) {
+  for (const n of nodos || []) {
+    if (typeof n.presentacion === "string") {
+      const m = n.presentacion.match(/\/ver\/([a-z0-9-]+)/i);
+      if (m) set.add(m[1]);
+    }
+    if (n.children) recolectarSlugs(n.children, set);
+  }
+}
+
+const NIVELES = ["Prepa", "UNAM", "EXANI-II"];
+
+const NIVELES_POR_SLUG = (() => {
+  const map = {};
+  const add = (subjects, nivel) => {
+    const set = new Set();
+    recolectarSlugs(subjects, set);
+    set.forEach((slug) => { (map[slug] ||= []).push(nivel); });
+  };
+  add(SUBJECTS_PREP, "Prepa");
+  add(SUBJECTS_UNI, "UNAM");
+  add(SUBJECTS_EXANI_II, "EXANI-II");
+  return map; // slug -> [niveles]
+})();
+
+const NIVEL_COLOR = { "Prepa": "#3b9eff", "UNAM": "#a78bfa", "EXANI-II": "#34d399" };
+
+function NivelBadges({ niveles }) {
+  if (!niveles || niveles.length === 0) return null;
+  return (
+    <>
+      {niveles.map((n) => (
+        <span key={n} style={{
+          background: NIVEL_COLOR[n] + "22", color: NIVEL_COLOR[n],
+          borderRadius: 5, padding: "1px 7px", fontSize: 10, fontWeight: 700,
+          fontFamily: font, whiteSpace: "nowrap",
+        }}>{n}</span>
+      ))}
+    </>
+  );
+}
+
+// ── Stat compacto (tira horizontal) ──────────────────────────────────────────
+function CompactStat({ label, value, color, last }) {
   return (
     <div style={{
-      background: C.surface,
-      border: `1px solid ${C.border}`,
-      borderRadius: 14,
-      padding: "20px 22px",
+      flex: "1 1 120px",
+      minWidth: 110,
+      padding: "6px 18px",
+      borderRight: last ? "none" : `1px solid ${C.border}`,
+      display: "flex",
+      alignItems: "baseline",
+      gap: 8,
     }}>
-      <div style={{
-        color: color || C.text,
-        fontWeight: 900,
-        fontSize: 32,
-        letterSpacing: "-1.5px",
-        lineHeight: 1,
-        fontFamily: font,
-      }}>
+      <span style={{ color: color || C.text, fontWeight: 800, fontSize: 21, letterSpacing: "-0.5px", fontFamily: font, lineHeight: 1 }}>
         {value}
-      </div>
-      <div style={{
-        color: C.muted,
-        fontSize: 11,
-        fontWeight: 700,
-        textTransform: "uppercase",
-        letterSpacing: 1,
-        marginTop: 8,
-        fontFamily: font,
-      }}>
+      </span>
+      <span style={{ color: C.muted, fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: 0.5, fontFamily: font }}>
         {label}
-      </div>
-      {sub && (
-        <div style={{ color: C.dim, fontSize: 11, marginTop: 4, fontFamily: font }}>
-          {sub}
-        </div>
-      )}
+      </span>
     </div>
   );
 }
@@ -149,6 +178,11 @@ function PresentacionCard({ id, titulo, materia, subtema }) {
             {subtema}
           </div>
         )}
+      </div>
+
+      {/* Niveles donde se usa */}
+      <div style={{ display: "flex", gap: 4, flexShrink: 0 }}>
+        <NivelBadges niveles={NIVELES_POR_SLUG[id]} />
       </div>
 
       {/* Conteos */}
@@ -580,12 +614,105 @@ function ResultadosPresentacion({ presentacion, resultados, profiles, onDelete, 
   );
 }
 
-// ── Resumen por alumno (Cuestionarios) ───────────────────────────────────────
-function ResumenAlumno({ nombre, nivel, resultados, onDelete, onUpdate }) {
-  const [open, setOpen] = useState(false);
+// ── Tabla de intentos (reutilizable: cuestionarios o presentaciones) ──────────
+function TablaIntentos({ rows, primeraCol, getTitulo, onDelete, onUpdate }) {
   const [deletingId, setDeletingId] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [editValues, setEditValues] = useState({ puntaje: 0, total: 0 });
+  const inp = { width: 44, background: C.surface, border: `1px solid ${C.blue}66`, borderRadius: 4, color: C.text, padding: "2px 5px", fontSize: 12, fontFamily: font, textAlign: "center" };
+  return (
+    <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, fontFamily: font }}>
+      <thead>
+        <tr>
+          {[primeraCol, "Puntaje", "%", "Fecha", ""].map((h, i) => (
+            <th key={i} style={{
+              color: C.dim, fontWeight: 600, textAlign: "left",
+              padding: "4px 8px", fontSize: 11,
+              textTransform: "uppercase", letterSpacing: 1,
+            }}>{h}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((r) => {
+          const editing = editingId === r.id;
+          const pct = editing
+            ? Math.round((editValues.puntaje / editValues.total) * 100)
+            : Math.round((r.puntaje / r.total) * 100);
+          const confirming = deletingId === r.id;
+          return (
+            <tr key={r.id} style={{ borderTop: `1px solid ${C.border}` }}>
+              <td style={{ padding: "8px 8px", color: C.text, maxWidth: 260 }}>
+                {getTitulo(r)}
+              </td>
+              <td style={{ padding: "8px 8px", color: C.dim }}>
+                {editing ? (
+                  <span style={{ display: "flex", gap: 4, alignItems: "center" }}>
+                    <input type="number" min={0} value={editValues.puntaje} onChange={(e) => setEditValues((v) => ({ ...v, puntaje: Number(e.target.value) }))} style={inp} />
+                    <span style={{ color: C.muted }}>/</span>
+                    <input type="number" min={1} value={editValues.total} onChange={(e) => setEditValues((v) => ({ ...v, total: Number(e.target.value) }))} style={inp} />
+                  </span>
+                ) : (
+                  `${r.puntaje}/${r.total}`
+                )}
+              </td>
+              <td style={{ padding: "8px 8px" }}>
+                <span style={{
+                  background: pctColor(pct) + "22",
+                  color: pctColor(pct),
+                  borderRadius: 6,
+                  padding: "2px 10px",
+                  fontWeight: 700,
+                  fontSize: 12,
+                }}>
+                  {pct}%
+                </span>
+              </td>
+              <td style={{ padding: "8px 8px", color: C.muted, fontSize: 12, whiteSpace: "nowrap" }}>
+                {fmtDate(r.created_at)}
+              </td>
+              <td style={{ padding: "8px 8px", textAlign: "right", whiteSpace: "nowrap" }}>
+                {editing ? (
+                  <span style={{ display: "flex", gap: 6, justifyContent: "flex-end", alignItems: "center" }}>
+                    <button onClick={() => { onUpdate(r.id, editValues); setEditingId(null); }} style={{ background: C.blue + "22", color: C.blue, border: `1px solid ${C.blue}44`, borderRadius: 5, padding: "2px 8px", fontSize: 11, cursor: "pointer", fontFamily: font }}>Guardar</button>
+                    <button onClick={() => setEditingId(null)} style={{ background: "none", color: C.muted, border: `1px solid ${C.border}`, borderRadius: 5, padding: "2px 8px", fontSize: 11, cursor: "pointer", fontFamily: font }}>Cancelar</button>
+                  </span>
+                ) : confirming ? (
+                  <span style={{ display: "flex", gap: 6, justifyContent: "flex-end", alignItems: "center" }}>
+                    <span style={{ color: C.muted, fontSize: 11 }}>¿Eliminar?</span>
+                    <button onClick={() => { onDelete(r.id); setDeletingId(null); }} style={{ background: C.red + "22", color: C.red, border: `1px solid ${C.red}44`, borderRadius: 5, padding: "2px 8px", fontSize: 11, cursor: "pointer", fontFamily: font }}>Sí</button>
+                    <button onClick={() => setDeletingId(null)} style={{ background: "none", color: C.muted, border: `1px solid ${C.border}`, borderRadius: 5, padding: "2px 8px", fontSize: 11, cursor: "pointer", fontFamily: font }}>No</button>
+                  </span>
+                ) : (
+                  <span style={{ display: "flex", gap: 4, justifyContent: "flex-end" }}>
+                    <button onClick={() => { setEditingId(r.id); setEditValues({ puntaje: r.puntaje, total: r.total }); }} style={{ background: "none", color: C.dim, border: "none", cursor: "pointer", fontSize: 13, padding: "2px 4px", lineHeight: 1, borderRadius: 4 }} title="Editar puntaje">✎</button>
+                    <button onClick={() => setDeletingId(r.id)} style={{ background: "none", color: C.muted, border: "none", cursor: "pointer", fontSize: 14, padding: "2px 4px", lineHeight: 1, borderRadius: 4 }} title="Eliminar registro">✕</button>
+                  </span>
+                )}
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  );
+}
+
+function SubTitulo({ children }) {
+  return (
+    <div style={{
+      color: C.dim, fontSize: 10, fontWeight: 700,
+      textTransform: "uppercase", letterSpacing: "0.12em",
+      fontFamily: font, padding: "0 2px 8px",
+    }}>
+      {children}
+    </div>
+  );
+}
+
+// ── Resumen por alumno (cuestionarios + presentaciones) ──────────────────────
+function ResumenAlumno({ nombre, nivel, resultados, onDelete, onUpdate }) {
+  const [open, setOpen] = useState(false);
   const intentos  = resultados.length;
   const promedio  = intentos
     ? Math.round(resultados.reduce((s, r) => s + Math.round((r.puntaje / r.total) * 100), 0) / intentos)
@@ -597,6 +724,18 @@ function ResumenAlumno({ nombre, nivel, resultados, onDelete, onUpdate }) {
   const nivelColor =
     nivel === "preparatoria" ? C.blue :
     nivel === "universidad"  ? C.purple : C.green;
+
+  // Separar cuestionarios de presentaciones (estas llevan id "presentacion-…")
+  const esPres = (r) => typeof r.cuestionario_id === "string" && r.cuestionario_id.startsWith("presentacion-");
+  const ordenar = (arr) => [...arr].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+  const cuests = ordenar(resultados.filter((r) => !esPres(r)));
+  const preses = ordenar(resultados.filter(esPres));
+
+  const tituloPres = (r) => {
+    if (r.cuestionario_titulo) return r.cuestionario_titulo;
+    const slug = r.cuestionario_id.replace(/^presentacion-/, "");
+    return buscarPresentacion(slug)?.titulo || r.cuestionario_id;
+  };
 
   return (
     <div style={{ border: `1px solid ${C.border}`, borderRadius: 12, overflow: "hidden", marginBottom: 10 }}>
@@ -665,80 +804,20 @@ function ResumenAlumno({ nombre, nivel, resultados, onDelete, onUpdate }) {
           {resultados.length === 0 ? (
             <p style={{ color: C.muted, fontSize: 13, fontFamily: font }}>Sin resultados registrados.</p>
           ) : (
-            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, fontFamily: font }}>
-              <thead>
-                <tr>
-                  {["Cuestionario", "Puntaje", "%", "Fecha", ""].map((h) => (
-                    <th key={h} style={{
-                      color: C.dim, fontWeight: 600, textAlign: "left",
-                      padding: "4px 8px", fontSize: 11,
-                      textTransform: "uppercase", letterSpacing: 1,
-                    }}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {resultados.map((r) => {
-                  const editing = editingId === r.id;
-                  const pct = editing
-                    ? Math.round((editValues.puntaje / editValues.total) * 100)
-                    : Math.round((r.puntaje / r.total) * 100);
-                  const confirming = deletingId === r.id;
-                  return (
-                    <tr key={r.id} style={{ borderTop: `1px solid ${C.border}` }}>
-                      <td style={{ padding: "8px 8px", color: C.text, maxWidth: 260 }}>
-                        {r.cuestionario_titulo || r.cuestionario_id}
-                      </td>
-                      <td style={{ padding: "8px 8px", color: C.dim }}>
-                        {editing ? (
-                          <span style={{ display: "flex", gap: 4, alignItems: "center" }}>
-                            <input type="number" min={0} value={editValues.puntaje} onChange={(e) => setEditValues((v) => ({ ...v, puntaje: Number(e.target.value) }))} style={{ width: 44, background: C.surface, border: `1px solid ${C.blue}66`, borderRadius: 4, color: C.text, padding: "2px 5px", fontSize: 12, fontFamily: font, textAlign: "center" }} />
-                            <span style={{ color: C.muted }}>/</span>
-                            <input type="number" min={1} value={editValues.total} onChange={(e) => setEditValues((v) => ({ ...v, total: Number(e.target.value) }))} style={{ width: 44, background: C.surface, border: `1px solid ${C.blue}66`, borderRadius: 4, color: C.text, padding: "2px 5px", fontSize: 12, fontFamily: font, textAlign: "center" }} />
-                          </span>
-                        ) : (
-                          `${r.puntaje}/${r.total}`
-                        )}
-                      </td>
-                      <td style={{ padding: "8px 8px" }}>
-                        <span style={{
-                          background: pctColor(pct) + "22",
-                          color: pctColor(pct),
-                          borderRadius: 6,
-                          padding: "2px 10px",
-                          fontWeight: 700,
-                          fontSize: 12,
-                        }}>
-                          {pct}%
-                        </span>
-                      </td>
-                      <td style={{ padding: "8px 8px", color: C.muted, fontSize: 12, whiteSpace: "nowrap" }}>
-                        {fmtDate(r.created_at)}
-                      </td>
-                      <td style={{ padding: "8px 8px", textAlign: "right", whiteSpace: "nowrap" }}>
-                        {editing ? (
-                          <span style={{ display: "flex", gap: 6, justifyContent: "flex-end", alignItems: "center" }}>
-                            <button onClick={() => { onUpdate(r.id, editValues); setEditingId(null); }} style={{ background: C.blue + "22", color: C.blue, border: `1px solid ${C.blue}44`, borderRadius: 5, padding: "2px 8px", fontSize: 11, cursor: "pointer", fontFamily: font }}>Guardar</button>
-                            <button onClick={() => setEditingId(null)} style={{ background: "none", color: C.muted, border: `1px solid ${C.border}`, borderRadius: 5, padding: "2px 8px", fontSize: 11, cursor: "pointer", fontFamily: font }}>Cancelar</button>
-                          </span>
-                        ) : confirming ? (
-                          <span style={{ display: "flex", gap: 6, justifyContent: "flex-end", alignItems: "center" }}>
-                            <span style={{ color: C.muted, fontSize: 11 }}>¿Eliminar?</span>
-                            <button onClick={() => { onDelete(r.id); setDeletingId(null); }} style={{ background: C.red + "22", color: C.red, border: `1px solid ${C.red}44`, borderRadius: 5, padding: "2px 8px", fontSize: 11, cursor: "pointer", fontFamily: font }}>Sí</button>
-                            <button onClick={() => setDeletingId(null)} style={{ background: "none", color: C.muted, border: `1px solid ${C.border}`, borderRadius: 5, padding: "2px 8px", fontSize: 11, cursor: "pointer", fontFamily: font }}>No</button>
-                          </span>
-                        ) : (
-                          <span style={{ display: "flex", gap: 4, justifyContent: "flex-end" }}>
-                            <button onClick={() => { setEditingId(r.id); setEditValues({ puntaje: r.puntaje, total: r.total }); }} style={{ background: "none", color: C.dim, border: "none", cursor: "pointer", fontSize: 13, padding: "2px 4px", lineHeight: 1, borderRadius: 4 }} title="Editar puntaje">✎</button>
-                            <button onClick={() => setDeletingId(r.id)} style={{ background: "none", color: C.muted, border: "none", cursor: "pointer", fontSize: 14, padding: "2px 4px", lineHeight: 1, borderRadius: 4 }} title="Eliminar registro">✕</button>
-                          </span>
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+            <>
+              {cuests.length > 0 && (
+                <div style={{ marginBottom: preses.length ? 20 : 0 }}>
+                  <SubTitulo>Cuestionarios · {cuests.length}</SubTitulo>
+                  <TablaIntentos rows={cuests} primeraCol="Cuestionario" getTitulo={(r) => r.cuestionario_titulo || r.cuestionario_id} onDelete={onDelete} onUpdate={onUpdate} />
+                </div>
+              )}
+              {preses.length > 0 && (
+                <div>
+                  <SubTitulo>Presentaciones · {preses.length}</SubTitulo>
+                  <TablaIntentos rows={preses} primeraCol="Presentación" getTitulo={tituloPres} onDelete={onDelete} onUpdate={onUpdate} />
+                </div>
+              )}
+            </>
           )}
         </div>
       )}
@@ -754,6 +833,8 @@ export default function Admin() {
   const [profiles, setProfiles] = useState({});
   const [filtroNivel, setFiltroNivel] = useState("todos");
   const [busqueda, setBusqueda] = useState("");
+  const [presBusqueda, setPresBusqueda] = useState("");
+  const [presNivel, setPresNivel] = useState("todas");
 
   const presentaciones = listaPresentaciones();
 
@@ -863,33 +944,21 @@ export default function Admin() {
 
       <div style={{ maxWidth: 980, margin: "0 auto", padding: "32px 16px" }}>
 
-        {/* ── Stats globales ──────────────────────────────────────────────── */}
+        {/* ── Stats globales (tira compacta) ──────────────────────────────── */}
         <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-          gap: 14,
-          marginBottom: 32,
+          display: "flex",
+          flexWrap: "wrap",
+          alignItems: "center",
+          background: C.surface,
+          border: `1px solid ${C.border}`,
+          borderRadius: 12,
+          padding: "8px 4px",
+          marginBottom: 28,
         }}>
-          <StatCard
-            label="Alumnos registrados"
-            value={Object.keys(byUser).length}
-          />
-          <StatCard
-            label="Intentos totales"
-            value={totalIntentos}
-            sub="en todos los cuestionarios"
-          />
-          <StatCard
-            label="Promedio global"
-            value={`${promedioGlobal}%`}
-            color={promedioGlobal > 0 ? pctColor(promedioGlobal) : C.muted}
-          />
-          <StatCard
-            label="Presentaciones"
-            value={presentaciones.length}
-            color={C.purple}
-            sub="disponibles"
-          />
+          <CompactStat label="Alumnos"   value={Object.keys(byUser).length} />
+          <CompactStat label="Intentos"  value={totalIntentos} />
+          <CompactStat label="Promedio"  value={`${promedioGlobal}%`} color={promedioGlobal > 0 ? pctColor(promedioGlobal) : C.muted} />
+          <CompactStat label="Presentaciones" value={presentaciones.length} color={C.purple} last />
         </div>
 
         {/* ── Tabs ───────────────────────────────────────────────────────── */}
@@ -904,7 +973,7 @@ export default function Admin() {
             onClick={() => setTab("cuestionarios")}
             badge={Object.keys(byUser).length}
           >
-            Cuestionarios
+            Alumnos
           </TabBtn>
           <TabBtn
             active={tab === "presentaciones"}
@@ -1016,18 +1085,76 @@ export default function Admin() {
               </div>
             ) : (
               <>
-                <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                  {(() => {
-                    const byMateria = {};
-                    presentaciones.forEach((p) => {
-                      if (!byMateria[p.materia]) byMateria[p.materia] = [];
-                      byMateria[p.materia].push(p);
-                    });
-                    return Object.entries(byMateria).map(([materia, items]) => (
-                      <MateriaAccordion key={materia} materia={materia} presentaciones={items} />
-                    ));
-                  })()}
+                {/* Buscador + filtro de nivel */}
+                <div style={{ display: "flex", gap: 10, marginBottom: 18, flexWrap: "wrap", alignItems: "center" }}>
+                  <div style={{ position: "relative", flex: "1 1 220px", maxWidth: 340 }}>
+                    <span style={{
+                      position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)",
+                      color: C.muted, fontSize: 14, pointerEvents: "none",
+                    }}>⌕</span>
+                    <input
+                      value={presBusqueda}
+                      onChange={(e) => setPresBusqueda(e.target.value)}
+                      placeholder="Buscar presentación…"
+                      style={{
+                        width: "100%", background: C.surface, border: `1px solid ${C.border}`,
+                        borderRadius: 9, padding: "9px 14px 9px 34px", color: C.text,
+                        fontSize: 13, fontFamily: font, outline: "none", boxSizing: "border-box",
+                      }}
+                      onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }}
+                      onBlur={(e)  => { e.target.style.borderColor = C.border; }}
+                    />
+                  </div>
+                  <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                    {["todas", ...NIVELES].map((n) => {
+                      const activo = presNivel === n;
+                      const col = n === "todas" ? C.blue : NIVEL_COLOR[n];
+                      return (
+                        <button
+                          key={n}
+                          onClick={() => setPresNivel(n)}
+                          style={{
+                            border: activo ? "none" : `1px solid ${C.border}`,
+                            borderRadius: 99, padding: "8px 16px", fontSize: 12, fontWeight: 700,
+                            cursor: "pointer", background: activo ? col : C.surface,
+                            color: activo ? "#fff" : C.muted, fontFamily: font,
+                            transition: "background .15s, color .15s",
+                          }}
+                        >
+                          {n === "todas" ? "Todas" : n}
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
+
+                {(() => {
+                  const presFiltradas = presentaciones.filter((p) => {
+                    const nivs = NIVELES_POR_SLUG[p.id] || [];
+                    if (presNivel !== "todas" && !nivs.includes(presNivel)) return false;
+                    if (presBusqueda) {
+                      const q = presBusqueda.toLowerCase();
+                      if (!`${p.titulo} ${p.materia} ${p.subtema || ""}`.toLowerCase().includes(q)) return false;
+                    }
+                    return true;
+                  });
+                  if (presFiltradas.length === 0) {
+                    return (
+                      <div style={{ textAlign: "center", padding: "40px 20px", color: C.muted, fontSize: 14, fontFamily: font }}>
+                        Ninguna presentación coincide con la búsqueda o el filtro.
+                      </div>
+                    );
+                  }
+                  const byMateria = {};
+                  presFiltradas.forEach((p) => { (byMateria[p.materia] ||= []).push(p); });
+                  return (
+                    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                      {Object.entries(byMateria).map(([materia, items]) => (
+                        <MateriaAccordion key={materia} materia={materia} presentaciones={items} />
+                      ))}
+                    </div>
+                  );
+                })()}
 
                 {/* Historial de puntuaciones */}
                 <div style={{ marginTop: 40 }}>

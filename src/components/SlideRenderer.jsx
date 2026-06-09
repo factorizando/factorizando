@@ -2011,6 +2011,15 @@ function SlideCriterioDetalle({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "angulo-inscrito"          && <AnguloInscritoSVG      tema={tema} />}
       {slide.svgDiagram === "escala-probabilidad"      && <EscalaProbabilidadSVG  tema={tema} />}
       {slide.svgDiagram === "arbol-multiplicativo"     && <ProbArbolMultiplicativo  tema={tema} />}
+      {slide.svgDiagram === "una-moneda"               && <UnaMonedaSVG           tema={tema} />}
+      {slide.svgDiagram === "espacio-muestral"         && <EspacioMuestralSVG     tema={tema} />}
+      {slide.svgDiagram === "dardo-diana"              && <DardoDianaSVG          tema={tema} />}
+      {slide.svgDiagram === "buffon"                   && <BuffonSVG              tema={tema} />}
+      {slide.svgDiagram === "tachuela"                 && <TachuelaSVG            tema={tema} />}
+      {slide.svgDiagram === "cumpleanos"               && <CumpleanosSVG          tema={tema} />}
+      {slide.svgDiagram === "monty-hall"               && <MontyHallSVG           tema={tema} />}
+      {slide.svgDiagram === "permutaciones-casillas"   && <PermutacionesCasillasSVG tema={tema} />}
+      {slide.svgDiagram === "combinaciones-casillas"   && <CombinacionesCasillasSVG tema={tema} />}
       {slide.svgDiagram === "arbol-tres-monedas"      && <ProbArbolTresMonedas     tema={tema} />}
       {slide.svgDiagram === "complemento"              && <ComplementoSVG         tema={tema} />}
       {slide.svgDiagram === "regla-suma"               && <ReglaSumaSVG           tema={tema} />}
@@ -3901,6 +3910,57 @@ function EscalaProbabilidadSVG({ tema }) {
   );
 }
 
+// Una moneda: dos resultados igualmente probables, «cara» favorable resaltada.
+function UnaMonedaSVG({ tema }) {
+  const a = tema.acento, mu = tema.muted, T = tema.texto;
+  return (
+    <svg viewBox="0 0 250 124" width="100%" style={{ display: "block", maxHeight: 134 }}>
+      {/* Cara (caso favorable) */}
+      <circle cx="66" cy="52" r="42" fill={tema.acentoMed} stroke={a} strokeWidth="2.5"/>
+      <circle cx="66" cy="52" r="33" fill="none" stroke={a} strokeWidth="1" opacity="0.5"/>
+      <text x="66" y="63" fill={a} fontSize="32" fontFamily="Georgia,serif" textAnchor="middle">C</text>
+      <text x="66" y="112" fill={a} fontSize="12.5" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">cara · favorable</text>
+      {/* Cruz */}
+      <circle cx="184" cy="52" r="42" fill={tema.card} stroke={tema.border} strokeWidth="2"/>
+      <circle cx="184" cy="52" r="33" fill="none" stroke={mu} strokeWidth="1" opacity="0.4"/>
+      <text x="184" y="63" fill={mu} fontSize="32" fontFamily="Georgia,serif" textAnchor="middle">X</text>
+      <text x="184" y="112" fill={mu} fontSize="12.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">cruz</text>
+      <text x="125" y="38" fill={T} fontSize="15" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">1</text>
+      <line x1="118" y1="44" x2="132" y2="44" stroke={T} strokeWidth="1.4"/>
+      <text x="125" y="62" fill={T} fontSize="15" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">2</text>
+    </svg>
+  );
+}
+
+// Dardo en diana circular: probabilidad geométrica (área del blanco / área total).
+function DardoDianaSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, rj = tema.rojo, T = tema.texto;
+  const cx = 84, cy = 88, R = 72, r = 36;
+  return (
+    <svg viewBox="0 0 250 182" width="100%" style={{ display: "block", maxHeight: 194 }}>
+      {/* Diana (área total) */}
+      <circle cx={cx} cy={cy} r={R} fill={tema.azulSuave} stroke={bl} strokeWidth="2.5"/>
+      <circle cx={cx} cy={cy} r={R * 0.72} fill="none" stroke={bl} strokeWidth="1" opacity="0.35"/>
+      {/* Blanco (área favorable) */}
+      <circle cx={cx} cy={cy} r={r} fill={`${rj}40`} stroke={rj} strokeWidth="2"/>
+      {/* Radios R y r */}
+      <line x1={cx} y1={cy} x2={cx + R} y2={cy} stroke={bl} strokeWidth="1.4" strokeDasharray="4 3"/>
+      <line x1={cx} y1={cy} x2={cx} y2={cy - r} stroke={rj} strokeWidth="1.8"/>
+      <text x={cx + R / 2} y={cy - 7} fill={bl} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">R</text>
+      <text x={cx - 11} y={cy - r / 2 + 5} fill={rj} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">r</text>
+      {/* Centro e impacto del dardo */}
+      <circle cx={cx} cy={cy} r="2.5" fill={rj}/>
+      <circle cx={cx + 13} cy={cy - 10} r="3.8" fill={T}/>
+      {/* Etiquetas */}
+      <text x="176" y="58" fill={rj} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="600">blanco</text>
+      <text x="176" y="76" fill={T} fontSize="14" fontFamily="'IBM Plex Mono',monospace">πr²</text>
+      <text x="176" y="106" fill={bl} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="600">diana</text>
+      <text x="176" y="124" fill={T} fontSize="14" fontFamily="'IBM Plex Mono',monospace">πR²</text>
+      <text x="176" y="156" fill={a} fontSize="15" fontFamily="'IBM Plex Mono',monospace">P = ¼</text>
+    </svg>
+  );
+}
+
 // Rejilla 6×6 de dos dados (36 resultados; diagonal suma = 7 resaltada).
 function DosDadosSVG({ tema }) {
   const a = tema.acento, bl = tema.azul;
@@ -4360,6 +4420,174 @@ function CombinaPersonasSVG({ tema }) {
       {pts.map((p, i) => <circle key={i} cx={p[0].toFixed(1)} cy={p[1].toFixed(1)} r="7.5" fill={tema.azulSuave} stroke={bl} strokeWidth="2"/>)}
       <text x="180" y="74" fill={a} fontSize="13" fontFamily="'DM Sans',sans-serif">C(5,2)</text>
       <text x="180" y="95" fill={T} fontSize="16" fontFamily="'IBM Plex Mono',monospace">= 10</text>
+    </svg>
+  );
+}
+
+// Aguja de Buffon: líneas paralelas y agujas; las que cruzan una línea resaltadas.
+function BuffonSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto;
+  const xs = 12, xe = 188, ys = [30, 66, 102, 138];
+  const L = 16;
+  // {cx, cy, ang°, cruza}
+  const agujas = [
+    [46, 66, 75, true], [120, 102, 60, true], [150, 30, 105, true], [96, 138, 88, true],
+    [82, 48, 8, false], [164, 84, 0, false], [60, 120, 16, false],
+  ];
+  return (
+    <svg viewBox="0 0 250 168" width="100%" style={{ display: "block", maxHeight: 180 }}>
+      {ys.map((y, i) => (
+        <line key={i} x1={xs} y1={y} x2={xe} y2={y} stroke={bl} strokeWidth="1.4" opacity="0.55"/>
+      ))}
+      {agujas.map(([cx, cy, ang, cruza], i) => {
+        const rad = ang * Math.PI / 180;
+        const dx = L * Math.cos(rad), dy = L * Math.sin(rad);
+        const col = cruza ? a : mu;
+        return (
+          <line key={`n${i}`} x1={(cx - dx).toFixed(1)} y1={(cy - dy).toFixed(1)} x2={(cx + dx).toFixed(1)} y2={(cy + dy).toFixed(1)}
+            stroke={col} strokeWidth="2.6" strokeLinecap="round" opacity={cruza ? 1 : 0.7}/>
+        );
+      })}
+      {/* separación d */}
+      <line x1={206} y1={30} x2={206} y2={66} stroke={T} strokeWidth="1" strokeDasharray="3 2"/>
+      <text x={214} y={52} fill={T} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">d</text>
+      <text x={200} y={92} fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif">cruza</text>
+      <text x={200} y={108} fill={mu} fontSize="11" fontFamily="'DM Sans',sans-serif">no cruza</text>
+      <text x={200} y={138} fill={T} fontSize="12.5" fontFamily="'IBM Plex Mono',monospace">P=2ℓ/πd</text>
+    </svg>
+  );
+}
+
+// Tachuela: dos resultados NO equiprobables — barras de frecuencia desiguales.
+function TachuelaSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto;
+  const base = 120, scale = 110; // px por unidad de probabilidad
+  const bars = [
+    { x: 50, p: 0.62, col: a, bd: tema.acento, label: "punta arriba" },
+    { x: 138, p: 0.38, col: bl, bd: tema.azul, label: "de lado" },
+  ];
+  const bw = 56, yMedio = base - 0.5 * scale;
+  return (
+    <svg viewBox="0 0 250 156" width="100%" style={{ display: "block", maxHeight: 168 }}>
+      <line x1="24" y1={base} x2="226" y2={base} stroke={tema.border} strokeWidth="1.5"/>
+      {/* referencia ½ */}
+      <line x1="24" y1={yMedio} x2="226" y2={yMedio} stroke={mu} strokeWidth="1.2" strokeDasharray="5 4"/>
+      <text x="228" y={yMedio + 4} fill={mu} fontSize="11" fontFamily="Georgia,serif" textAnchor="start">½</text>
+      {bars.map((b, i) => {
+        const h = b.p * scale;
+        return (
+          <g key={i}>
+            <rect x={b.x} y={base - h} width={bw} height={h} rx={5} fill={`${b.col}33`} stroke={b.bd} strokeWidth="1.8"/>
+            <text x={b.x + bw / 2} y={base - h - 8} fill={b.bd} fontSize="14" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">{b.p.toFixed(2)}</text>
+            <text x={b.x + bw / 2} y={base + 16} fill={T} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{b.label}</text>
+          </g>
+        );
+      })}
+      <text x="125" y="150" fill={mu} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">no son ½ y ½ → se mide</text>
+    </svg>
+  );
+}
+
+// Paradoja del cumpleaños: P(coincidencia) crece y cruza ½ en n = 23.
+function CumpleanosSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto;
+  const pts = [];
+  let prod = 1;
+  for (let n = 1; n <= 60; n++) { prod *= (365 - (n - 1)) / 365; pts.push({ n, p: 1 - prod }); }
+  const X = (n) => 38 + (n / 60) * 196;
+  const Y = (p) => 126 - p * 108;
+  const path = pts.map((d, i) => `${i ? "L" : "M"} ${X(d.n).toFixed(1)} ${Y(d.p).toFixed(1)}`).join(" ");
+  const p23 = pts.find((d) => d.n === 23).p;
+  return (
+    <svg viewBox="0 0 252 156" width="100%" style={{ display: "block", maxHeight: 168 }}>
+      {/* ejes */}
+      <line x1="38" y1="14" x2="38" y2="126" stroke={tema.border} strokeWidth="1.2"/>
+      <line x1="38" y1="126" x2="240" y2="126" stroke={tema.border} strokeWidth="1.2"/>
+      {/* referencia ½ */}
+      <line x1="38" y1={Y(0.5)} x2="240" y2={Y(0.5)} stroke={mu} strokeWidth="1" strokeDasharray="5 4"/>
+      <text x="34" y={Y(0.5) + 4} fill={mu} fontSize="11" fontFamily="Georgia,serif" textAnchor="end">½</text>
+      <text x="34" y={Y(1) + 4} fill={mu} fontSize="10" fontFamily="Georgia,serif" textAnchor="end">1</text>
+      {/* curva */}
+      <path d={path} fill="none" stroke={bl} strokeWidth="2.4"/>
+      {/* punto n=23 */}
+      <line x1={X(23)} y1={126} x2={X(23)} y2={Y(p23)} stroke={a} strokeWidth="1" strokeDasharray="3 2"/>
+      <circle cx={X(23)} cy={Y(p23)} r="4.5" fill={a} stroke={tema.bg} strokeWidth="1.4"/>
+      <text x={X(23)} y={140} fill={a} fontSize="11" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">23</text>
+      <text x={X(23) + 8} y={Y(p23) - 6} fill={a} fontSize="11" fontFamily="'IBM Plex Mono',monospace">≈0.51</text>
+      <text x="232" y="150" fill={mu} fontSize="10.5" fontFamily="'DM Sans',sans-serif" textAnchor="end">personas →</text>
+    </svg>
+  );
+}
+
+// Monty Hall: 3 puertas equiprobables; quedarte (1/3) vs cambiar (2/3).
+function MontyHallSVG({ tema }) {
+  const gr = tema.verde, rj = tema.rojo, mu = tema.muted, T = tema.texto;
+  const puertas = [40, 92, 144];
+  return (
+    <svg viewBox="0 0 250 168" width="100%" style={{ display: "block", maxHeight: 180 }}>
+      {puertas.map((x, i) => (
+        <g key={i}>
+          <rect x={x} y={12} width={42} height={58} rx={4} fill={tema.card} stroke={tema.border} strokeWidth="1.6"/>
+          <circle cx={x + 33} cy={42} r="2.6" fill={mu}/>
+          <text x={x + 21} y={86} fill={mu} fontSize="11" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">1/3</text>
+        </g>
+      ))}
+      <text x="208" y="44" fill={mu} fontSize="11" fontFamily="'DM Sans',sans-serif">3 puertas</text>
+      {/* estrategias */}
+      <rect x={28} y={104} width={88} height={46} rx={9} fill={`${rj}1f`} stroke={rj} strokeWidth="1.8"/>
+      <text x={72} y={122} fill={rj} fontSize="11.5" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">Te quedas</text>
+      <text x={72} y={142} fill={rj} fontSize="17" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">1/3</text>
+      <rect x={134} y={104} width={88} height={46} rx={9} fill={`${gr}26`} stroke={gr} strokeWidth="2.2"/>
+      <text x={178} y={122} fill={gr} fontSize="11.5" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">Cambias</text>
+      <text x={178} y={142} fill={gr} fontSize="17" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">2/3</text>
+    </svg>
+  );
+}
+
+// Permutaciones: llenar 3 casillas (podio) eligiendo de 5 → 5×4×3 = 5!/2!.
+function PermutacionesCasillasSVG({ tema }) {
+  const a = tema.acento, T = tema.texto, mu = tema.muted;
+  const slots = [{ pos: "1.º", n: 5 }, { pos: "2.º", n: 4 }, { pos: "3.º", n: 3 }];
+  const bw = 54, gap = 30, x0 = 30, by = 50;
+  return (
+    <svg viewBox="0 0 250 150" width="100%" style={{ display: "block", maxHeight: 162 }}>
+      {slots.map((s, i) => {
+        const x = x0 + i * (bw + gap);
+        return (
+          <g key={i}>
+            <text x={x + bw / 2} y={by - 14} fill={a} fontSize="22" fontFamily="'IBM Plex Mono',monospace" fontWeight="700" textAnchor="middle">{s.n}</text>
+            <text x={x + bw / 2} y={by - 30} fill={mu} fontSize="9.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">opciones</text>
+            <rect x={x} y={by} width={bw} height={42} rx={8} fill={tema.acentoMed} stroke={a} strokeWidth="1.8"/>
+            <text x={x + bw / 2} y={by + 27} fill={T} fontSize="15" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">{s.pos}</text>
+            {i < 2 && <text x={x + bw + gap / 2} y={by + 28} fill={T} fontSize="18" textAnchor="middle">×</text>}
+          </g>
+        );
+      })}
+      <text x="125" y="124" fill={T} fontSize="13.5" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">5 × 4 × 3 = 60 = 5!/2!</text>
+      <text x="125" y="142" fill={mu} fontSize="10.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">cada casilla quita una opción</text>
+    </svg>
+  );
+}
+
+// Combinaciones: las 3! ordenaciones de {A,B,C} son el mismo grupo → ÷ r!.
+function CombinacionesCasillasSVG({ tema }) {
+  const a = tema.acento, gr = tema.verde, mu = tema.muted, T = tema.texto;
+  const perms = ["ABC", "ACB", "BAC", "BCA", "CAB", "CBA"];
+  return (
+    <svg viewBox="0 0 250 158" width="100%" style={{ display: "block", maxHeight: 170 }}>
+      {perms.map((p, i) => (
+        <text key={i} x={44} y={22 + i * 21} fill={mu} fontSize="14" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">{p}</text>
+      ))}
+      {/* corchete */}
+      <path d="M 74 14 L 80 14 L 80 138 L 74 138" fill="none" stroke={mu} strokeWidth="1.4"/>
+      <text x="86" y="80" fill={a} fontSize="11" fontFamily="'IBM Plex Mono',monospace">3! = 6</text>
+      {/* flecha */}
+      <text x="130" y="80" fill={T} fontSize="22" textAnchor="middle">→</text>
+      {/* comité */}
+      <rect x={158} y={56} width={80} height={42} rx={10} fill={`${gr}22`} stroke={gr} strokeWidth="2"/>
+      <text x={198} y={82} fill={gr} fontSize="15" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">{"{A,B,C}"}</text>
+      <text x={198} y={116} fill={mu} fontSize="10.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">1 grupo</text>
+      <text x="125" y="150" fill={T} fontSize="12.5" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">6 órdenes ÷ 3! = 1</text>
     </svg>
   );
 }

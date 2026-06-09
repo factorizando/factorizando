@@ -97,6 +97,56 @@ export const PRESENTACION = {
       math_razon: "0 \\le P(E) \\le 1, \\qquad P(\\text{imposible}) = 0,\\quad P(\\text{seguro}) = 1"
     },
 
+    // ── EJEMPLOS CLÁSICOS DE LAPLACE ──────────────────────────────────────────
+
+    {
+      id: "ej-moneda",
+      tipo: "criterio_detalle",
+      titulo: "Ejemplo 1 · Lanzar una Moneda",
+      etiqueta: "El caso más simple de Laplace",
+      svgDiagram: "una-moneda",
+      enunciado: "Se lanza una moneda justa una sola vez. ¿Cuál es la probabilidad de que salga cara? El espacio muestral tiene apenas dos resultados igualmente probables: Ω = {cara, cruz}.",
+      math: "P(\\text{cara}) = \\dfrac{\\#E}{\\#\\Omega} = \\dfrac{1}{2} = 0.5 = 50\\%",
+      por_que: "Hay 1 caso favorable (cara) entre 2 posibles. Como la moneda no está cargada, ambos resultados pesan igual, así que a cada uno le toca ½. Es la regla de Laplace en su forma más pura: basta contar 1 entre 2.",
+      math_razon: "\\#E = 1,\\quad \\#\\Omega = 2 \\;\\Rightarrow\\; P = \\tfrac{1}{2}"
+    },
+
+    {
+      id: "ej-dado",
+      tipo: "criterio_detalle",
+      titulo: "Ejemplo 2 · Tirar un Dado",
+      etiqueta: "Primero contar el evento, luego dividir",
+      svgDiagram: "espacio-muestral",
+      enunciado: "Se lanza un dado de seis caras. ¿Cuál es la probabilidad de obtener un número par? El espacio muestral es Ω = {1, 2, 3, 4, 5, 6} y el evento «par» es E = {2, 4, 6} (las caras resaltadas).",
+      math: "P(\\text{par}) = \\dfrac{\\#E}{\\#\\Omega} = \\dfrac{3}{6} = \\dfrac{1}{2}",
+      por_que: "De los 6 resultados posibles, 3 cumplen «ser par». A diferencia de la moneda, aquí primero tuvimos que CONTAR cuántas caras forman el evento. Cambiando el evento cambia la cuenta: P(sale 5) = 1/6, P(mayor que 4) = 2/6 = 1/3.",
+      math_razon: "E = \\{2,4,6\\},\\ \\#E = 3 \\;\\Rightarrow\\; P = \\tfrac{3}{6} = \\tfrac{1}{2}"
+    },
+
+    {
+      id: "ej-dardo",
+      tipo: "criterio_detalle",
+      titulo: "Ejemplo 3 · Dardo en una Diana",
+      etiqueta: "Probabilidad geométrica: área entre área",
+      svgDiagram: "dardo-diana",
+      enunciado: "Se lanza un dardo al azar sobre una diana circular de radio R. En el centro hay un blanco rojo de radio r = R/2. Si el dardo cae en un punto cualquiera, ¿cuál es la probabilidad de dar en el blanco? Aquí los resultados son infinitos (cualquier punto del círculo), así que en vez de contar, comparamos áreas.",
+      math: "P(\\text{blanco}) = \\dfrac{\\text{área favorable}}{\\text{área total}} = \\dfrac{\\pi r^2}{\\pi R^2} = \\left(\\dfrac{r}{R}\\right)^2",
+      por_que: "Cuando los casos no se pueden contar uno por uno, Laplace se generaliza usando áreas. Con r = R/2: P = (½)² = ¼. ¡Ojo! El radio es la mitad, pero el área es solo la cuarta parte: por eso apenas el 25 % de los lanzamientos dan en el blanco.",
+      math_razon: "\\dfrac{\\pi (R/2)^2}{\\pi R^2} = \\dfrac{R^2/4}{R^2} = \\dfrac{1}{4} = 25\\%"
+    },
+
+    {
+      id: "ej-buffon",
+      tipo: "criterio_detalle",
+      titulo: "Ejemplo 4 · La Aguja de Buffon",
+      etiqueta: "Probabilidad geométrica que estima π",
+      svgDiagram: "buffon",
+      enunciado: "Se deja caer una aguja de longitud ℓ sobre un piso con líneas paralelas separadas una distancia d (con ℓ ≤ d). ¿Cuál es la probabilidad de que la aguja cruce alguna línea? Otra vez hay infinitas posiciones y ángulos, así que es probabilidad geométrica.",
+      math: "P(\\text{cruza}) = \\dfrac{2\\,\\ell}{\\pi\\,d}",
+      por_que: "El que cruce depende de dónde cae el centro y de su ángulo; al promediar sobre todos los casos aparece π. Lo asombroso: si ℓ = d, entonces P = 2/π ≈ 0.637, así que lanzando muchas agujas y contando cruces se puede ESTIMAR π. Es un puente entre azar y geometría.",
+      math_razon: "\\ell = d \\;\\Rightarrow\\; P = \\dfrac{2}{\\pi} \\approx 0.637 \\;\\Rightarrow\\; \\pi \\approx \\dfrac{2}{P}"
+    },
+
     // ── PRINCIPIO MULTIPLICATIVO ──────────────────────────────────────────────
 
     {
@@ -158,6 +208,30 @@ export const PRESENTACION = {
       nota: "Elegir 2 letras de {A, B, C}: como permutación hay P(3,2) = 6 (AB, BA, AC, CA, BC, CB); como combinación hay C(3,2) = 3 ({A,B}, {A,C}, {B,C})."
     },
 
+    {
+      id: "permutaciones",
+      tipo: "criterio_detalle",
+      titulo: "Permutaciones · Llenar Casillas",
+      etiqueta: "El orden SÍ importa — deducir la fórmula",
+      svgDiagram: "permutaciones-casillas",
+      enunciado: "No hay que memorizar la fórmula: es solo el principio multiplicativo. Para premiar a 3 de 5 corredores con oro, plata y bronce, llenamos 3 casillas. El oro tiene 5 candidatos; ya elegido, quedan 4 para la plata; luego 3 para el bronce.",
+      math: "P(n,r) = \\underbrace{n\\cdot(n-1)\\cdots(n-r+1)}_{r\\text{ factores}} = \\dfrac{n!}{(n-r)!}",
+      por_que: "Cada casilla quita una opción para la siguiente: 5 × 4 × 3 = 60 podios distintos. Escribirlo con factoriales solo «recorta» 5! quitándole el 2! que sobra: 5×4×3 = 5!/2!. La fórmula nace de contar casillas, no al revés.",
+      math_razon: "P(5,3) = 5\\cdot4\\cdot3 = \\dfrac{5!}{2!} = 60"
+    },
+
+    {
+      id: "combinaciones",
+      tipo: "criterio_detalle",
+      titulo: "Combinaciones · Quitar Repetidos",
+      etiqueta: "El orden NO importa — deducir la fórmula",
+      svgDiagram: "combinaciones-casillas",
+      enunciado: "Ahora elegimos un comité de 3 de esas 5 personas, sin cargos. Empezamos con las mismas 60 permutaciones, pero {A, B, C} y sus reordenamientos (ABC, ACB, BAC…) son el MISMO comité. Cada grupo de 3 se contó 3! = 6 veces.",
+      math: "C(n,r) = \\dfrac{P(n,r)}{r!} = \\dfrac{n!}{r!\\,(n-r)!}",
+      por_que: "Como cada grupo aparece r! veces (todas sus ordenaciones), basta dividir las permutaciones entre r! para quitar los repetidos. Así la combinación siempre es más chica que la permutación. Aquí: 60 ÷ 3! = 60 ÷ 6 = 10 comités distintos.",
+      math_razon: "C(5,3) = \\dfrac{60}{3!} = \\dfrac{60}{6} = 10"
+    },
+
     // ── EVENTO COMPLEMENTARIO ─────────────────────────────────────────────────
 
     {
@@ -170,6 +244,18 @@ export const PRESENTACION = {
       math: "P(E') = 1 - P(E)",
       por_que: "Muchas veces es más fácil calcular la probabilidad de que algo NO pase. Ejemplo: al lanzar 2 dados, P(al menos un 6) = 1 − P(ningún 6) = 1 − 25/36 = 11/36.",
       math_razon: "P(E) + P(E') = 1"
+    },
+
+    {
+      id: "ej-cumpleanos",
+      tipo: "criterio_detalle",
+      titulo: "Ejemplo · Paradoja del Cumpleaños",
+      etiqueta: "El complemento en acción",
+      svgDiagram: "cumpleanos",
+      enunciado: "En un grupo de 23 personas, ¿qué probabilidad hay de que al menos dos cumplan años el mismo día? La intuición grita «poquísima»… pero se equivoca.",
+      math: "P(\\text{coincidencia}) = 1 - \\dfrac{365}{365}\\cdot\\dfrac{364}{365}\\cdots\\dfrac{343}{365} \\approx 0.51",
+      por_que: "Calcular «al menos dos iguales» de frente es un caos; el complemento lo vuelve fácil: P(todos distintos) multiplica 365/365 × 364/365 × … quitando un día disponible cada vez. Con 23 personas ese producto cae por debajo de ½, así que P(coincidencia) supera el 50 %. Con 50 personas ya es 97 %.",
+      math_razon: "P(\\text{coincidencia}) = 1 - P(\\text{todos distintos}) > \\tfrac{1}{2}"
     },
 
     // ── REGLA DE LA SUMA ──────────────────────────────────────────────────────
@@ -212,6 +298,30 @@ export const PRESENTACION = {
       math: "P(A \\cap B) = P(A)\\cdot P(B\\mid A)",
       por_que: "Urna con 2 rojas y 3 azules. Con reemplazo los eventos son independientes (el denominador sigue en 5). Sin reemplazo, tras sacar una roja quedan 1 roja y 4 bolas, así que la segunda rama cambia a /4.",
       math_razon: "P(\\text{RR}) = \\tfrac{2}{5}\\cdot\\tfrac{1}{4} = \\tfrac{1}{10}"
+    },
+
+    {
+      id: "ej-monty",
+      tipo: "criterio_detalle",
+      titulo: "Ejemplo · El Problema de Monty Hall",
+      etiqueta: "Probabilidad condicional contraintuitiva",
+      svgDiagram: "monty-hall",
+      enunciado: "Hay 3 puertas: tras una está un auto, tras las otras dos hay cabras. Eliges una puerta. El presentador, que SABE dónde está el auto, abre otra puerta con una cabra y te ofrece cambiar. ¿Conviene cambiar?",
+      math: "P(\\text{ganar al cambiar}) = \\dfrac{2}{3} \\;>\\; P(\\text{ganar al quedarte}) = \\dfrac{1}{3}",
+      por_que: "¡Sí conviene cambiar! Tu primera elección acierta solo 1 de cada 3 veces. Las otras 2 de 3, el auto está en otra puerta y, como el presentador elimina la cabra, cambiar te lleva justo al auto. Cambiar gana 2 de cada 3 partidas: duplica tu probabilidad.",
+      math_razon: "\\text{quedarte: } \\tfrac{1}{3}, \\quad \\text{cambiar: } 1 - \\tfrac{1}{3} = \\tfrac{2}{3}"
+    },
+
+    {
+      id: "ej-tachuela",
+      tipo: "criterio_detalle",
+      titulo: "Ejemplo · Lanzar una Tachuela",
+      etiqueta: "Cuando Laplace NO se puede aplicar",
+      svgDiagram: "tachuela",
+      enunciado: "Una tachuela cae de dos formas: con la punta hacia arriba o de lado. El espacio muestral Ω = {arriba, de lado} tiene dos resultados, igual que una moneda. ¿Podemos decir entonces que P(arriba) = ½?",
+      math: "P(\\text{arriba}) \\neq \\tfrac{1}{2} \\quad(\\text{los casos NO son equiprobables})",
+      por_que: "¡No! Laplace exige que todos los resultados sean igualmente probables, y la forma de la tachuela hace que caiga más de un lado que del otro. Como la fórmula no aplica, estimamos la probabilidad lanzándola muchas veces y midiendo su frecuencia. Esto motiva la probabilidad frecuentista.",
+      math_razon: "P(\\text{arriba}) \\approx \\dfrac{\\text{veces «arriba»}}{\\text{total de lanzamientos}}"
     },
 
     // ── PROBABILIDAD FRECUENTISTA ─────────────────────────────────────────────

@@ -680,6 +680,7 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "porciones-circulo"        && <PorcionesCirculoSVG        tema={tema} />}
       {slide.svgDiagram === "areas-estrategia"         && <AreasEstrategiaSVG         tema={tema} />}
       {slide.svgDiagram === "espacio-muestral"         && <EspacioMuestralSVG         tema={tema} />}
+      {slide.svgDiagram === "escala-probabilidad"      && <EscalaProbabilidadSVG     tema={tema} />}
       {slide.svgDiagram === "dos-dados"                && <DosDadosSVG                tema={tema} />}
       {slide.svgDiagram === "orden-importa"            && <OrdenImportaSVG            tema={tema} />}
       {slide.svgDiagram === "frecuencias-dado"         && <FrecuenciasDadoChart       tema={tema} />}

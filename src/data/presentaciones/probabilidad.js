@@ -147,6 +147,155 @@ export const PRESENTACION = {
       math_razon: "\\ell = d \\;\\Rightarrow\\; P = \\dfrac{2}{\\pi} \\approx 0.637 \\;\\Rightarrow\\; \\pi \\approx \\dfrac{2}{P}"
     },
 
+    // ── EJERCICIOS BÁSICOS (LAPLACE) ──────────────────────────────────────────
+
+    {
+      id: "eb1",
+      tipo: "ejercicio",
+      etiqueta: "Básico · 1 / 12",
+      pregunta: "Se lanza una moneda. ¿Cuál es la probabilidad de que salga cruz?",
+      math_pregunta: "\\Omega = \\{\\text{cara}, \\text{cruz}\\}",
+      opciones: ["1/2", "1/4", "1"],
+      correcta: 0,
+      explicacion: "Hay 1 caso favorable (cruz) entre 2 posibles: P = 1/2.",
+      pasos: [{ pre: "Laplace: ", math: "P = \\dfrac{1}{2}" }]
+    },
+
+    {
+      id: "eb2",
+      tipo: "ejercicio",
+      etiqueta: "Básico · 2 / 12",
+      pregunta: "Al lanzar un dado, ¿cuál es la probabilidad de obtener un número impar?",
+      math_pregunta: "\\Omega = \\{1,2,3,4,5,6\\}",
+      opciones: ["1/2", "1/3", "1/6"],
+      correcta: 0,
+      explicacion: "Los impares son {1, 3, 5}: 3 casos de 6. P = 3/6 = 1/2.",
+      pasos: [{ pre: "Favorables {1,3,5}: ", math: "P = \\dfrac{3}{6} = \\dfrac{1}{2}" }]
+    },
+
+    {
+      id: "eb3",
+      tipo: "ejercicio",
+      etiqueta: "Básico · 3 / 12",
+      pregunta: "Al lanzar un dado, ¿cuál es la probabilidad de obtener un múltiplo de 3?",
+      math_pregunta: "\\Omega = \\{1,2,3,4,5,6\\}",
+      opciones: ["1/3", "1/2", "1/6"],
+      correcta: 0,
+      explicacion: "Múltiplos de 3 entre 1 y 6: {3, 6} → 2 casos. P = 2/6 = 1/3.",
+      pasos: [{ pre: "Favorables {3,6}: ", math: "P = \\dfrac{2}{6} = \\dfrac{1}{3}" }]
+    },
+
+    {
+      id: "eb4",
+      tipo: "ejercicio",
+      svgDiagram: "ej-dado-mayor4",
+      etiqueta: "Básico · 4 / 12",
+      pregunta: "Al lanzar un dado, ¿cuál es la probabilidad de obtener un número menor o igual que 4?",
+      math_pregunta: "\\Omega = \\{1,2,3,4,5,6\\}",
+      opciones: ["2/3", "1/2", "1/3"],
+      correcta: 0,
+      explicacion: "Los favorables son {1, 2, 3, 4}: 4 casos de 6. P = 4/6 = 2/3.",
+      pasos: [{ pre: "Favorables {1,2,3,4}: ", math: "P = \\dfrac{4}{6} = \\dfrac{2}{3}" }]
+    },
+
+    {
+      id: "eb5",
+      tipo: "ejercicio",
+      svgDiagram: "ej-carta-as",
+      etiqueta: "Básico · 5 / 12",
+      pregunta: "De una baraja de 52 cartas, ¿cuál es la probabilidad de sacar una carta de corazones?",
+      math_pregunta: "\\#\\Omega = 52,\\quad 13\\text{ corazones}",
+      opciones: ["1/4", "1/13", "1/2"],
+      correcta: 0,
+      explicacion: "Hay 13 corazones en 52 cartas (un palo de cuatro). P = 13/52 = 1/4.",
+      pasos: [{ pre: "Un palo de cuatro: ", math: "P = \\dfrac{13}{52} = \\dfrac{1}{4}" }]
+    },
+
+    {
+      id: "eb6",
+      tipo: "ejercicio",
+      etiqueta: "Básico · 6 / 12",
+      pregunta: "De una baraja de 52 cartas, ¿cuál es la probabilidad de sacar una figura (J, Q o K)?",
+      math_pregunta: "3\\text{ figuras} \\times 4\\text{ palos} = 12",
+      opciones: ["3/13", "1/4", "1/13"],
+      correcta: 0,
+      explicacion: "Hay 3 figuras por cada palo y 4 palos: 12 cartas. P = 12/52 = 3/13.",
+      pasos: [{ pre: "Favorables / posibles: ", math: "P = \\dfrac{12}{52} = \\dfrac{3}{13}" }]
+    },
+
+    {
+      id: "eb7",
+      tipo: "ejercicio",
+      etiqueta: "Básico · 7 / 12",
+      pregunta: "Una urna tiene 3 bolas rojas y 2 azules. Si se saca una al azar, ¿cuál es la probabilidad de que sea azul?",
+      math_pregunta: "\\#\\Omega = 3 + 2 = 5",
+      opciones: ["2/5", "3/5", "1/2"],
+      correcta: 0,
+      explicacion: "Hay 2 azules de 5 bolas. P = 2/5.",
+      pasos: [{ pre: "Favorables / posibles: ", math: "P = \\dfrac{2}{5}" }]
+    },
+
+    {
+      id: "eb8",
+      tipo: "ejercicio",
+      etiqueta: "Básico · 8 / 12",
+      pregunta: "Se elige al azar un número del 1 al 10. ¿Cuál es la probabilidad de que sea primo?",
+      math_pregunta: "\\Omega = \\{1, 2, \\dots, 10\\}",
+      opciones: ["2/5", "1/2", "3/10"],
+      correcta: 0,
+      explicacion: "Primos del 1 al 10: 2, 3, 5, 7 → 4 casos. P = 4/10 = 2/5. (El 1 no es primo.)",
+      pasos: [{ pre: "Favorables {2,3,5,7}: ", math: "P = \\dfrac{4}{10} = \\dfrac{2}{5}" }]
+    },
+
+    {
+      id: "eb9",
+      tipo: "ejercicio",
+      svgDiagram: "ej-ruleta",
+      etiqueta: "Básico · 9 / 12",
+      pregunta: "Una ruleta tiene 8 sectores iguales numerados del 1 al 8. ¿Cuál es la probabilidad de caer en un número mayor que 5?",
+      math_pregunta: "\\#\\Omega = 8",
+      opciones: ["3/8", "1/2", "5/8"],
+      correcta: 0,
+      explicacion: "Mayores que 5: {6, 7, 8} → 3 casos. P = 3/8.",
+      pasos: [{ pre: "Favorables {6,7,8}: ", math: "P = \\dfrac{3}{8}" }]
+    },
+
+    {
+      id: "eb10",
+      tipo: "ejercicio",
+      etiqueta: "Básico · 10 / 12",
+      pregunta: "Se elige un día de la semana al azar. ¿Cuál es la probabilidad de que sea fin de semana (sábado o domingo)?",
+      math_pregunta: "\\#\\Omega = 7\\text{ días}",
+      opciones: ["2/7", "1/7", "5/7"],
+      correcta: 0,
+      explicacion: "Fin de semana: sábado y domingo → 2 casos de 7. P = 2/7.",
+      pasos: [{ pre: "Favorables / posibles: ", math: "P = \\dfrac{2}{7}" }]
+    },
+
+    {
+      id: "eb11",
+      tipo: "ejercicio",
+      etiqueta: "Básico · 11 / 12",
+      pregunta: "Una bolsa tiene 4 dulces de menta y 6 de fresa. Si tomas uno al azar, ¿cuál es la probabilidad de que sea de menta?",
+      math_pregunta: "\\#\\Omega = 4 + 6 = 10",
+      opciones: ["2/5", "2/3", "3/5"],
+      correcta: 0,
+      explicacion: "Hay 4 de menta de 10 dulces. P = 4/10 = 2/5.",
+      pasos: [{ pre: "Simplificando: ", math: "P = \\dfrac{4}{10} = \\dfrac{2}{5}" }]
+    },
+
+    {
+      id: "eb12",
+      tipo: "ejercicio",
+      etiqueta: "Básico · 12 / 12",
+      pregunta: "Se elige un mes del año al azar. ¿Cuál es la probabilidad de que su nombre empiece con la letra J?",
+      math_pregunta: "\\#\\Omega = 12\\text{ meses}",
+      opciones: ["1/6", "1/4", "1/12"],
+      correcta: 0,
+      explicacion: "Empiezan con J: junio y julio → 2 casos de 12. P = 2/12 = 1/6.",
+      pasos: [{ pre: "Favorables {junio, julio}: ", math: "P = \\dfrac{2}{12} = \\dfrac{1}{6}" }]
+    },
+
     // ── PRINCIPIO MULTIPLICATIVO ──────────────────────────────────────────────
 
     {
@@ -185,11 +334,29 @@ export const PRESENTACION = {
       formula: "\\#\\Omega = 6 \\times 6 = 36",
       svgDiagram: "dos-dados",
       items: [
-        { math: "\\#\\Omega = 36", texto: "todos los pares (dado 1, dado 2)" },
-        { math: "E:\\ \\text{suma} = 7", texto: "casos favorables en la diagonal resaltada" },
-        { math: "P(E) = \\dfrac{6}{36} = \\dfrac{1}{6}", texto: "seis pares suman 7" }
+        { math: "\\#\\Omega = 36", texto: "los 36 pares ordenados (dado 1, dado 2): principio multiplicativo 6×6" },
+        { math: "P(\\text{suma}=7) = \\dfrac{6}{36} = \\dfrac{1}{6}", texto: "la suma 7 es la MÁS probable: 6 pares en la diagonal resaltada" },
+        { math: "P(\\text{suma}=2)=P(\\text{suma}=12)=\\dfrac{1}{36}", texto: "las sumas 2 y 12 son las menos probables: un solo par cada una" },
+        {
+          math: "\\text{suma} \\in \\{2,\\dots,12\\}",
+          texto: "11 sumas posibles, pero NO igualmente probables — toca para ver la distribución completa",
+          expandable: true,
+          detalles: [
+            "Suma 2 → 1 par → 1/36",
+            "Suma 3 → 2 pares → 2/36",
+            "Suma 4 → 3 pares → 3/36",
+            "Suma 5 → 4 pares → 4/36",
+            "Suma 6 → 5 pares → 5/36",
+            "Suma 7 → 6 pares → 6/36 (máxima)",
+            "Suma 8 → 5 pares → 5/36",
+            "Suma 9 → 4 pares → 4/36",
+            "Suma 10 → 3 pares → 3/36",
+            "Suma 11 → 2 pares → 2/36",
+            "Suma 12 → 1 par → 1/36"
+          ]
+        }
       ],
-      nota: "La rejilla 6×6 es el principio multiplicativo en acción: 6 resultados del primer dado por 6 del segundo."
+      nota: "A diferencia de un solo dado (donde cada cara vale 1/6), las sumas de dos dados forman un «triángulo»: suben hasta el 7 y luego bajan. Por eso el 7 es el número estrella en juegos de dados, y para contar los favorables de cada suma basta seguir las diagonales de la rejilla."
     },
 
     // ── PERMUTACIONES Y COMBINACIONES ─────────────────────────────────────────
@@ -332,6 +499,23 @@ export const PRESENTACION = {
       math_razon: "\\text{quedarte: } \\tfrac{1}{3}, \\quad \\text{cambiar: } 1 - \\tfrac{1}{3} = \\tfrac{2}{3}"
     },
 
+    // ── PROBABILIDAD AXIOMÁTICA ───────────────────────────────────────────────
+
+    {
+      id: "axiomatica",
+      tipo: "concepto",
+      titulo: "Probabilidad Axiomática",
+      etiqueta: "Las 3 reglas que TODA probabilidad cumple (Kolmogorov)",
+      formula: "P:\\ \\text{eventos} \\to [0, 1]",
+      svgDiagram: "escala-probabilidad",
+      items: [
+        { math: "P(E) \\ge 0", texto: "No negatividad: ninguna probabilidad es negativa; lo mínimo es 0 (evento imposible)." },
+        { math: "P(\\Omega) = 1", texto: "Normalización: el evento seguro —todo el espacio muestral— vale 1 = 100 %." },
+        { math: "P(E \\cup F) = P(E) + P(F)", texto: "Aditividad: si E y F son excluyentes (no pueden ocurrir juntos), sus probabilidades se suman." }
+      ],
+      nota: "Estos 3 axiomas de Kolmogorov son la definición MODERNA de probabilidad: cualquier función que los cumpla es una probabilidad válida. Laplace, la geométrica y la frecuentista no son definiciones rivales, sino tres maneras de asignar P que satisfacen los mismos axiomas — por eso todas son probabilidades de verdad."
+    },
+
     {
       id: "ej-tachuela",
       tipo: "criterio_detalle",
@@ -358,7 +542,7 @@ export const PRESENTACION = {
         { math: "n \\to \\infty", texto: "ley de los grandes números: f_r se acerca a P(E)" },
         { math: "P \\approx \\tfrac{1}{6}", texto: "cada cara del dado tiende a 1/6 ≈ 0.167" }
       ],
-      nota: "Con pocos lanzamientos las frecuencias son irregulares; con muchos se emparejan cerca de 1/6. Así se conecta la probabilidad teórica (Laplace) con la experimental."
+      nota: "Con pocos lanzamientos las frecuencias son irregulares; con muchos se emparejan cerca de 1/6. Y la frecuencia relativa cumple los 3 axiomas (es ≥ 0, vale 1 sobre todo Ω y es aditiva), así que NO es solo una estimación: es una probabilidad de hecho. Así se conecta la probabilidad teórica (Laplace) con la experimental."
     },
 
     // ── EJERCICIOS EXANI-I ────────────────────────────────────────────────────
@@ -519,6 +703,7 @@ export const PRESENTACION = {
         { math: "P(E \\cup F) = P(E) + P(F) - P(E \\cap F)", texto: "regla de la suma (si son excluyentes, la resta es 0)" },
         { math: "P(E \\cap F) = P(E)\\cdot P(F)", texto: "regla del producto para eventos independientes" },
         { titulo: "Sin reemplazo", texto: "el denominador cambia: P(A)·P(B|A)" },
+        { math: "P(E)\\ge 0,\\ P(\\Omega)=1", texto: "axiomas de Kolmogorov: toda probabilidad los cumple" },
         { titulo: "Frecuentista", texto: "con muchos intentos, la frecuencia relativa → P(E)" }
       ]
     }

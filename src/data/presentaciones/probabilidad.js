@@ -507,7 +507,7 @@ export const PRESENTACION = {
       titulo: "Probabilidad Axiomática",
       etiqueta: "Las 3 reglas que TODA probabilidad cumple (Kolmogorov)",
       formula: "P:\\ \\text{eventos} \\to [0, 1]",
-      svgDiagram: "escala-probabilidad",
+      svgDiagram: "tres-axiomas",
       items: [
         { math: "P(E) \\ge 0", texto: "No negatividad: ninguna probabilidad es negativa; lo mínimo es 0 (evento imposible)." },
         { math: "P(\\Omega) = 1", texto: "Normalización: el evento seguro —todo el espacio muestral— vale 1 = 100 %." },

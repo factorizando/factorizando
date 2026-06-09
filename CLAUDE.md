@@ -53,7 +53,7 @@ export const PRESENTACION = {
   slides: [ /* array of slide objects */ ]
 }
 ```
-Presentations are registered in `src/data/presentaciones/presentacionesIndex.js`.
+Presentation modules live in `src/data/presentaciones/<materia>/<slug>.js`, organized by subject (`matematicas`, `fisica`, `quimica`, `biologia`, `espanol`, `geografia`) — **not** by exam, because ~half are shared across exams (EXANI-I / EXANI-II / UNAM). The `/ver/:id` route resolves by `id` through `presentacionesIndex.js`, so the folder is purely organizational. All modules are registered in `src/data/presentaciones/presentacionesIndex.js`.
 
 **Slide types:** `portada`, `definicion`, `concepto`, `lista_criterios`, `criterio_detalle`, `ejercicio`, `resumen`.
 
@@ -104,6 +104,6 @@ The following libraries are installed for math and science content:
 
 ## Adding a new presentation
 
-1. Create `src/data/presentaciones/<slug>.js` exporting a `PRESENTACION` object.
+1. Create `src/data/presentaciones/<materia>/<slug>.js` (subject folder: `matematicas`, `fisica`, `quimica`, `biologia`, `espanol`, `geografia`) exporting a `PRESENTACION` object.
 2. Import it in `src/data/presentaciones/presentacionesIndex.js` and add it to the index.
 3. Add SVG or JSXGraph diagram components to `src/components/SlideRenderer.jsx` for any `svgDiagram` keys used in the slides.

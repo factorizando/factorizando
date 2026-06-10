@@ -124,6 +124,12 @@ export const SUBJECTS_PREP = [
           {
             id: "probabilidad",
             name: "Probabilidad",
+            presentacion: "/ver/probabilidad",
+          },
+          {
+            id: "estadistica",
+            name: "Estadística",
+            presentacion: "/ver/estadistica",
           },
         ],
       },

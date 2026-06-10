@@ -257,6 +257,11 @@ export const SUBJECTS_PREP = [
             quiz: "/cuestionario/sujeto-predicado-exani-i",
           },
           {
+            id: "concordancia-nominal",
+            name: "Concordancia Nominal",
+            presentacion: "/ver/concordancia-nominal",
+          },
+          {
             id: "concordancia-verbal",
             name: "Concordancia Verbal",
             presentacion: "/ver/concordancia-verbal",

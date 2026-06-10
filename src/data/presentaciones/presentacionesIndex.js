@@ -4,6 +4,9 @@
 
 import { PRESENTACION as SEMEJANZA_TRIANGULOS } from "./matematicas/semejanza-triangulos.js";
 import { PRESENTACION as CONCORDANCIA_VERBAL } from "./espanol/concordancia-verbal.js";
+import { PRESENTACION as CONCORDANCIA_NOMINAL } from "./espanol/concordancia-nominal.js";
+import { PRESENTACION as CONCORDANCIA_NOMINAL_AVANZADA } from "./espanol/concordancia-nominal-avanzada.js";
+import { PRESENTACION as CONCORDANCIA_VERBAL_AVANZADA } from "./espanol/concordancia-verbal-avanzada.js";
 import { PRESENTACION as ACENTUACION } from "./espanol/acentuacion.js";
 import { PRESENTACION as SIGNOS_PUNTUACION } from "./espanol/signos-puntuacion.js";
 import { PRESENTACION as CUADRILATEROS_POLIGONOS } from "./matematicas/cuadrilateros-poligonos.js";
@@ -58,6 +61,9 @@ import { PRESENTACION as SISTEMAS_NERVIOSO_ENDOCRINO } from "./biologia/sistemas
 export const PRESENTACIONES_INDEX = {
   "semejanza-triangulos": SEMEJANZA_TRIANGULOS,
   "concordancia-verbal": CONCORDANCIA_VERBAL,
+  "concordancia-nominal": CONCORDANCIA_NOMINAL,
+  "concordancia-nominal-avanzada": CONCORDANCIA_NOMINAL_AVANZADA,
+  "concordancia-verbal-avanzada": CONCORDANCIA_VERBAL_AVANZADA,
   "acentuacion": ACENTUACION,
   "signos-puntuacion": SIGNOS_PUNTUACION,
   "cuadrilateros-poligonos": CUADRILATEROS_POLIGONOS,

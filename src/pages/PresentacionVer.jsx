@@ -1,6 +1,6 @@
 // Vista de repaso autónomo: el alumno navega la presentación a su propio ritmo.
 // No requiere sesión activa ni código. Respuestas se guardan solo localmente.
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { buscarPresentacion } from "../data/presentaciones/presentacionesIndex.js";
 import { obtenerTema } from "../data/presentaciones/temas.jsx";
@@ -14,20 +14,90 @@ export default function PresentacionVer() {
 
   const [slideIdx, setSlideIdx] = useState(0);
   const [respuestas, setRespuestas] = useState({});
+  const [resaltado, setResaltado] = useState(null);
+  const [expandido, setExpandido] = useState({});
+  const highlightInicialRef = useRef(null);
 
   const slides = PRESENTACION?.slides ?? [];
   const slide = slides[slideIdx];
 
+  // Nº de tarjetas navegables del slide según su tipo.
+  function numTarjetas(s) {
+    if (!s) return 0;
+    if (Array.isArray(s.items)) return s.items.length;
+    if (Array.isArray(s.bloques)) return s.bloques.length;
+    if (Array.isArray(s.puntos)) return s.puntos.length;
+    return 0;
+  }
+  // ¿La tarjeta de índice idx es desplegable? (solo los items de tipo concepto lo son)
+  function tarjetaExpandible(s, idx) {
+    return !!(s && idx != null && Array.isArray(s.items) && s.items[idx] && s.items[idx].expandable);
+  }
+  function toggleExpandir(idx, abierto) {
+    setExpandido(prev => ({ ...prev, [idx]: abierto }));
+  }
+  // Cruza de diapositiva (dir = ±1) dejando resaltada la primera/última tarjeta.
+  function avanzarSlide(dir) {
+    const nuevo = slideIdx + dir;
+    if (nuevo < 0 || nuevo >= slides.length) return;
+    const m = numTarjetas(slides[nuevo]);
+    highlightInicialRef.current = m > 0 ? (dir > 0 ? 0 : m - 1) : null;
+    setSlideIdx(nuevo);
+  }
+
+  // Navegación con teclado:
+  //   ↑/↓  recorren las tarjetas del slide; al pasar el borde cruzan de diapositiva (flujo continuo).
+  //   →/←  despliegan/contraen la tarjeta resaltada si es desplegable; si no, cambian de slide.
+  //   AvPág/RePág saltan de diapositiva directo (apuntador).
   useEffect(() => {
     function onKey(e) {
       const t = e.target;
       if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.isContentEditable)) return;
-      if (e.key === "ArrowRight" || e.key === "ArrowDown" || e.key === "PageDown") { e.preventDefault(); setSlideIdx(i => Math.min(i + 1, slides.length - 1)); }
-      if (e.key === "ArrowLeft"  || e.key === "ArrowUp"   || e.key === "PageUp")   { e.preventDefault(); setSlideIdx(i => Math.max(i - 1, 0)); }
+      const n = numTarjetas(slide);
+      const cur = resaltado;
+      switch (e.key) {
+        case "ArrowDown":
+          e.preventDefault();
+          if (n > 0 && (cur === null || cur < n - 1)) setResaltado(cur === null ? 0 : cur + 1);
+          else avanzarSlide(1);
+          break;
+        case "ArrowUp":
+          e.preventDefault();
+          if (n > 0 && cur !== null && cur > 0) setResaltado(cur - 1);
+          else avanzarSlide(-1);
+          break;
+        case "ArrowRight":
+          e.preventDefault();
+          if (tarjetaExpandible(slide, cur) && !expandido[cur]) toggleExpandir(cur, true);
+          else avanzarSlide(1);
+          break;
+        case "ArrowLeft":
+          e.preventDefault();
+          if (tarjetaExpandible(slide, cur) && expandido[cur]) toggleExpandir(cur, false);
+          else avanzarSlide(-1);
+          break;
+        case "PageDown":
+          e.preventDefault();
+          avanzarSlide(1);
+          break;
+        case "PageUp":
+          e.preventDefault();
+          avanzarSlide(-1);
+          break;
+        default:
+          break;
+      }
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [slides.length]);
+  }, [slide, slideIdx, slides.length, resaltado, expandido]);
+
+  // Al cambiar de slide: limpiar despliegues y tomar el resaltado inicial pendiente.
+  useEffect(() => {
+    setResaltado(highlightInicialRef.current);
+    highlightInicialRef.current = null;
+    setExpandido({});
+  }, [slideIdx]);
 
   if (!PRESENTACION) {
     return (
@@ -83,6 +153,10 @@ export default function PresentacionVer() {
           modo="alumno"
           respuestaDada={respuestaDada}
           onResponder={responder}
+          resaltadoIdx={resaltado}
+          onResaltar={(idx) => setResaltado(prev => (prev === idx ? null : idx))}
+          expandidos={expandido}
+          onExpandir={toggleExpandir}
         />
       </div>
 

@@ -35,6 +35,7 @@ export default function PresentacionDirector() {
   const canalRef = useRef(null);
   const salaRef = useRef(null);
   const anotacionInputRef = useRef(null);
+  const highlightInicialRef = useRef(null); // tarjeta a resaltar al aterrizar en un slide nuevo
 
   if (!PRESENTACION) {
     return (
@@ -55,23 +56,52 @@ export default function PresentacionDirector() {
       ? Object.values(votos[slideKey] || {}).reduce((a, b) => a + b, 0)
       : 0;
 
-  // Navegación con teclado (flechas / espacio / AvPág-RePág)
+  // Navegación con teclado:
+  //   ↑/↓  recorren las tarjetas del slide; al pasar el borde cruzan de diapositiva (flujo continuo).
+  //   →/←  despliegan/contraen la tarjeta resaltada si es desplegable; si no, cambian de slide.
+  //   AvPág/RePág saltan de diapositiva directo (apuntador).
   useEffect(() => {
     function onKey(e) {
-      // No interferir mientras se escribe en un campo de texto (anotaciones, etc.)
       const t = e.target;
       if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.isContentEditable)) return;
-      if (e.key === "ArrowRight" || e.key === "ArrowDown" || e.key === "PageDown") {
-        e.preventDefault();
-        irASlide(slideIdx + 1);
-      } else if (e.key === "ArrowLeft" || e.key === "ArrowUp" || e.key === "PageUp") {
-        e.preventDefault();
-        irASlide(slideIdx - 1);
+      const n = numTarjetas(slide);
+      const cur = resaltado;
+      switch (e.key) {
+        case "ArrowDown":
+          e.preventDefault();
+          if (n > 0 && (cur === null || cur < n - 1)) emitirResaltado(cur === null ? 0 : cur + 1);
+          else avanzarSlide(1);
+          break;
+        case "ArrowUp":
+          e.preventDefault();
+          if (n > 0 && cur !== null && cur > 0) emitirResaltado(cur - 1);
+          else avanzarSlide(-1);
+          break;
+        case "ArrowRight":
+          e.preventDefault();
+          if (tarjetaExpandible(slide, cur) && !expandido[cur]) expandir(cur, true);
+          else avanzarSlide(1);
+          break;
+        case "ArrowLeft":
+          e.preventDefault();
+          if (tarjetaExpandible(slide, cur) && expandido[cur]) expandir(cur, false);
+          else avanzarSlide(-1);
+          break;
+        case "PageDown":
+          e.preventDefault();
+          avanzarSlide(1);
+          break;
+        case "PageUp":
+          e.preventDefault();
+          avanzarSlide(-1);
+          break;
+        default:
+          break;
       }
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [slideIdx, slides.length, sesion]);
+  }, [slide, slideIdx, slides.length, resaltado, expandido, sesion]);
 
   // Suscripción a votos cuando hay sesión activa
   useEffect(() => {
@@ -156,20 +186,48 @@ export default function PresentacionDirector() {
     };
   }, [sesion]);
 
-  // Limpiar resaltado y tarjetas desplegadas al cambiar de slide
+  // Limpiar tarjetas desplegadas al cambiar de slide; el resaltado toma el valor
+  // pendiente (primera/última tarjeta) si venimos del flujo continuo con flechas.
   useEffect(() => {
-    setResaltado(null);
+    setResaltado(highlightInicialRef.current);
+    highlightInicialRef.current = null;
     setExpandido({});
   }, [slideIdx]);
 
-  function resaltar(idx) {
-    const nuevo = resaltado === idx ? null : idx;
+  // Nº de tarjetas navegables del slide según su tipo.
+  function numTarjetas(s) {
+    if (!s) return 0;
+    if (Array.isArray(s.items)) return s.items.length;
+    if (Array.isArray(s.bloques)) return s.bloques.length;
+    if (Array.isArray(s.puntos)) return s.puntos.length;
+    return 0;
+  }
+  // ¿La tarjeta de índice idx es desplegable? (solo los items de tipo concepto lo son)
+  function tarjetaExpandible(s, idx) {
+    return !!(s && idx != null && Array.isArray(s.items) && s.items[idx] && s.items[idx].expandable);
+  }
+
+  function emitirResaltado(nuevo) {
     setResaltado(nuevo);
     salaRef.current?.send({
       type: "broadcast",
       event: "resaltado",
       payload: { idx: nuevo },
     });
+  }
+
+  function resaltar(idx) {
+    emitirResaltado(resaltado === idx ? null : idx);
+  }
+
+  // Cruza de diapositiva (dir = ±1) dejando resaltada la primera/última tarjeta.
+  function avanzarSlide(dir) {
+    const nuevo = slideIdx + dir;
+    if (nuevo < 0 || nuevo >= slides.length) return;
+    const m = numTarjetas(slides[nuevo]);
+    highlightInicialRef.current = m > 0 ? (dir > 0 ? 0 : m - 1) : null;
+    irASlide(nuevo);
+    if (highlightInicialRef.current !== null) emitirResaltado(highlightInicialRef.current);
   }
 
   // Desplegar/plegar una tarjeta expandible y avisar a los alumnos.

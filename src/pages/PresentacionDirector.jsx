@@ -30,6 +30,7 @@ export default function PresentacionDirector() {
   const [cargando, setCargando] = useState(false);
   const [error, setError] = useState("");
   const [resaltado, setResaltado] = useState(null);
+  const [expandido, setExpandido] = useState({}); // { [itemIdx]: bool } tarjetas desplegadas
   const [anotacion, setAnotacion] = useState("");
   const canalRef = useRef(null);
   const salaRef = useRef(null);
@@ -137,9 +138,10 @@ export default function PresentacionDirector() {
     };
   }, [sesion]);
 
-  // Limpiar resaltado al cambiar de slide
+  // Limpiar resaltado y tarjetas desplegadas al cambiar de slide
   useEffect(() => {
     setResaltado(null);
+    setExpandido({});
   }, [slideIdx]);
 
   function resaltar(idx) {
@@ -149,6 +151,16 @@ export default function PresentacionDirector() {
       type: "broadcast",
       event: "resaltado",
       payload: { idx: nuevo },
+    });
+  }
+
+  // Desplegar/plegar una tarjeta expandible y avisar a los alumnos.
+  function expandir(idx, abierto) {
+    setExpandido((prev) => ({ ...prev, [idx]: abierto }));
+    salaRef.current?.send({
+      type: "broadcast",
+      event: "expandir",
+      payload: { idx, abierto },
     });
   }
 
@@ -463,6 +475,8 @@ export default function PresentacionDirector() {
           totalVotos={totalVotosSlide}
           resaltadoIdx={resaltado}
           onResaltar={resaltar}
+          expandidos={expandido}
+          onExpandir={expandir}
         />
         <AnotacionOverlay texto={anotacion} tema={tema} />
       </div>

@@ -724,11 +724,13 @@ function AnguloExteriorFormulaSVG({ tema }) {
   );
 }
 
-function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar }) {
+function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar, expandidos, onExpandir }) {
   const compact = !!slide.svgDiagram;
   const winW = useWindowWidth();
   const narrow = winW < 500;
-  const [expanded, setExpanded] = useState({});
+  const [localExpanded, setLocalExpanded] = useState({});
+  // Si llega `expandidos` (controlado por director/alumno) se usa ese; si no, estado local.
+  const expanded = expandidos ?? localExpanded;
   return (
     <div
       style={{
@@ -854,8 +856,11 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar }) {
           >
             <div
               onClick={() => {
-                if (item.expandable) setExpanded(prev => ({ ...prev, [i]: !prev[i] }));
-                else if (onResaltar) onResaltar(i);
+                if (item.expandable) {
+                  const abierto = !expanded[i];
+                  if (onExpandir) onExpandir(i, abierto);          // director → broadcast
+                  if (!expandidos) setLocalExpanded(prev => ({ ...prev, [i]: abierto })); // modo standalone
+                } else if (onResaltar) onResaltar(i);
               }}
               style={{
                 display: "flex",
@@ -11567,11 +11572,13 @@ export default function SlideRenderer({
   onResponder,
   resaltadoIdx = null,
   onResaltar = null,
+  expandidos = null,
+  onExpandir = null,
 }) {
   useKaTeX();
   useFuentesTema(tema);
 
-  const props = { slide, tema, modo, votos, votantes, perfiles, totalVotos, respuestaDada, onResponder, resaltadoIdx, onResaltar };
+  const props = { slide, tema, modo, votos, votantes, perfiles, totalVotos, respuestaDada, onResponder, resaltadoIdx, onResaltar, expandidos, onExpandir };
 
   switch (slide.tipo) {
     case "portada":

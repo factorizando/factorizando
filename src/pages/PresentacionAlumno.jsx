@@ -19,6 +19,7 @@ export default function PresentacionAlumno() {
   // Respuestas dadas: { [slideId]: opcionIdx }
   const [respuestas, setRespuestas] = useState({});
   const [resaltado, setResaltado] = useState(null);
+  const [expandido, setExpandido] = useState({}); // { [itemIdx]: bool } tarjetas desplegadas por el maestro
   const [anotacion, setAnotacion] = useState("");
   const [user, setUser] = useState(null);
   const [puntajeFinal, setPuntajeFinal] = useState(null);
@@ -158,6 +159,9 @@ export default function PresentacionAlumno() {
       .on("broadcast", { event: "resaltado" }, ({ payload }) => {
         setResaltado(payload.idx);
       })
+      .on("broadcast", { event: "expandir" }, ({ payload }) => {
+        setExpandido((prev) => ({ ...prev, [payload.idx]: payload.abierto }));
+      })
       .on("broadcast", { event: "anotacion" }, ({ payload }) => {
         setAnotacion(payload.texto);
       })
@@ -169,9 +173,10 @@ export default function PresentacionAlumno() {
     };
   }, [sesion]);
 
-  // Limpiar resaltado al cambiar de slide
+  // Limpiar resaltado y tarjetas desplegadas al cambiar de slide
   useEffect(() => {
     setResaltado(null);
+    setExpandido({});
   }, [slideIdx]);
 
   async function responder(opcionIdx) {
@@ -486,6 +491,7 @@ export default function PresentacionAlumno() {
           respuestaDada={respuestas[slide.id] ?? null}
           onResponder={responder}
           resaltadoIdx={resaltado}
+          expandidos={expandido}
         />
         <AnotacionOverlay texto={anotacion} tema={tema} />
       </div>

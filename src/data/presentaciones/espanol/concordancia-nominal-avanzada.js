@@ -73,6 +73,36 @@ export const PRESENTACION = {
       explicacion: "«asistió» — al haber elegido el singular en «expresó», la coherencia obliga a mantenerlo: «asistió». Cambiar a plural produciría una sílepsis incoherente dentro de la misma oración.",
       pasos: []
     },
+    {
+      id: 100,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 3 — Caso 1",
+      pregunta: "«Un grupo de manifestantes __ frente al palacio de gobierno durante toda la tarde.»",
+      opciones: ["permaneció", "permanecieron", "permanecían"],
+      correcta: 0,
+      explicacion: "«permaneció» — el núcleo es «un grupo» (singular). El EXANI-II prefiere la concordancia gramatical en registro formal.",
+      pasos: []
+    },
+    {
+      id: 101,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Caso 1",
+      pregunta: "«El equipo directivo evaluó la propuesta y __ su rechazo por unanimidad.»",
+      opciones: ["comunicó", "comunicaron", "comunicaba"],
+      correcta: 0,
+      explicacion: "«comunicó» — al haber empezado con singular («evaluó»), la coherencia obliga a mantener el singular. Cambiar a plural sería una sílepsis incoherente.",
+      pasos: []
+    },
+    {
+      id: 102,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — Caso 1",
+      pregunta: "«El 25 % de la población encuestada __ desconfianza hacia las instituciones públicas.»",
+      opciones: ["manifestó", "manifestaron", "manifiestan"],
+      correcta: 0,
+      explicacion: "«manifestó» — con «el X % de…» (núcleo singular determinado), el EXANI-II registra como correcta la concordancia gramatical en singular.",
+      pasos: []
+    },
 
     // ── Caso 2: Doble adjetivo a un sustantivo plural ────────────────────────
     {
@@ -126,6 +156,36 @@ export const PRESENTACION = {
       explicacion: "«mexicano / canadiense» — distributivos en singular sobre un sustantivo plural; cada adjetivo identifica un gobierno distinto.",
       pasos: []
     },
+    {
+      id: 103,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 3 — Caso 2",
+      pregunta: "«Se firmaron los acuerdos __ y __ en una misma ceremonia.» (comercial, cultural)",
+      opciones: ["comerciales / culturales", "comercial / cultural", "comercial / culturales"],
+      correcta: 1,
+      explicacion: "«comercial / cultural» — el sustantivo va en plural («los acuerdos»), pero cada adjetivo nombra una entidad distinta y queda en singular.",
+      pasos: []
+    },
+    {
+      id: 104,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Caso 2",
+      pregunta: "«Las selecciones __ y __ disputarán la final del torneo continental.» (brasileña, argentina)",
+      opciones: ["brasileña / argentina", "brasileñas / argentinas", "brasileña / argentinas"],
+      correcta: 0,
+      explicacion: "«brasileña / argentina» — sobre el sustantivo plural «las selecciones», cada adjetivo distributivo permanece en singular.",
+      pasos: []
+    },
+    {
+      id: 105,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — Caso 2",
+      pregunta: "«Los partidos __ y __ acordaron una alianza parlamentaria inédita.» (conservador, liberal)",
+      opciones: ["conservadores / liberales", "conservador / liberal", "conservador / liberales"],
+      correcta: 1,
+      explicacion: "«conservador / liberal» — el sustantivo es plural («los partidos»), pero cada adjetivo identifica un partido distinto → singular.",
+      pasos: []
+    },
 
     // ── Caso 3: Concordancia en la aposición explicativa ─────────────────────
     {
@@ -177,6 +237,36 @@ export const PRESENTACION = {
       opciones: ["valorado", "valoradas", "valorada"],
       correcta: 0,
       explicacion: "«valorado» — el participio concuerda con el núcleo del sujeto «un repertorio» (masc. sing.), no con «obras». La distancia busca inducir el error de atracción.",
+      pasos: []
+    },
+    {
+      id: 106,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 3 — Caso 3",
+      pregunta: "«El director, junto con sus asesores, fue __ por la prensa al salir del recinto.»",
+      opciones: ["abordado", "abordada", "abordados"],
+      correcta: 0,
+      explicacion: "«abordado» — el participio concuerda con el sujeto «el director» (masc. sing.); «junto con sus asesores» es un inciso que no suma sujetos.",
+      pasos: []
+    },
+    {
+      id: 107,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Caso 3",
+      pregunta: "«Una colección de manuscritos antiguos fue __ al archivo nacional el año pasado.»",
+      opciones: ["donado", "donada", "donados"],
+      correcta: 1,
+      explicacion: "«donada» — el participio concuerda con el núcleo «una colección» (fem. sing.), no con «manuscritos». Es un error de atracción frecuente.",
+      pasos: []
+    },
+    {
+      id: 108,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — Caso 3",
+      pregunta: "«La ministra, acompañada de varios diputados, se mostró __ ante los medios.»",
+      opciones: ["cauteloso", "cautelosa", "cautelosos"],
+      correcta: 1,
+      explicacion: "«cautelosa» — el predicativo concuerda con el sujeto «la ministra» (fem. sing.); el inciso intercalado no altera la concordancia.",
       pasos: []
     },
 
@@ -234,6 +324,36 @@ export const PRESENTACION = {
       opciones: ["sentado", "sentada", "sentados"],
       correcta: 1,
       explicacion: "«sentada» — aunque «Su Majestad» es fórmula femenina, aquí el referente real es la reina, de modo que el adjetivo va en femenino singular y todo coincide.",
+      pasos: []
+    },
+    {
+      id: 109,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 3 — Caso 4",
+      pregunta: "«Su Excelencia se mostró __ con los términos del acuerdo. (referente: el embajador)»",
+      opciones: ["complacido", "complacida", "complacidos"],
+      correcta: 0,
+      explicacion: "«complacido» — aunque «Su Excelencia» es fórmula femenina, el adjetivo concuerda con el sexo del referente, un varón → masculino.",
+      pasos: []
+    },
+    {
+      id: 110,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Caso 4",
+      pregunta: "«Su Majestad fue __ con honores militares a su llegada al país. (referente: la reina)»",
+      opciones: ["recibido", "recibida", "recibidos"],
+      correcta: 1,
+      explicacion: "«recibida» — el referente es la reina, así que el participio va en femenino singular, en coincidencia con la fórmula.",
+      pasos: []
+    },
+    {
+      id: 111,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — Caso 4",
+      pregunta: "«Su Señoría permaneció __ durante la lectura de la sentencia. (referente: una jueza)»",
+      opciones: ["impasible", "impasibles", "impasibla"],
+      correcta: 0,
+      explicacion: "«impasible» — adjetivo de una sola terminación (vale para ambos géneros) en singular; concuerda con el referente individual.",
       pasos: []
     },
 
@@ -294,6 +414,36 @@ export const PRESENTACION = {
       explicacion: "«decisivos» — «tanto… como» suma referentes; al mezclarse femenino (fuentes) y masculino (archivo), el adjetivo va en masculino plural.",
       pasos: []
     },
+    {
+      id: 112,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 3 — Caso 5",
+      pregunta: "«Ni la planeación ni la ejecución __ por la dirección resultaron adecuadas.»",
+      opciones: ["supervisado", "supervisadas", "supervisados"],
+      correcta: 1,
+      explicacion: "«supervisadas» — «ni… ni» suma dos referentes femeninos (planeación, ejecución) → adjetivo en femenino plural.",
+      pasos: []
+    },
+    {
+      id: 113,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Caso 5",
+      pregunta: "«Tanto el guion como la fotografía __ por la crítica fueron premiados en el festival.»",
+      opciones: ["elogiado", "elogiados", "elogiadas"],
+      correcta: 1,
+      explicacion: "«elogiados» — «tanto… como» suma referentes de distinto género (guion/fotografía) → masculino plural.",
+      pasos: []
+    },
+    {
+      id: 114,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — Caso 5",
+      pregunta: "«Ni el aula ni el laboratorio __ cumplían las normas de seguridad vigentes.»",
+      opciones: ["inspeccionado", "inspeccionados", "inspeccionadas"],
+      correcta: 1,
+      explicacion: "«inspeccionados» — «ni… ni» suma «aula» (femenino, con «el» de eufonía) y «laboratorio» (masculino); al mezclarse géneros, predomina el masculino plural.",
+      pasos: []
+    },
 
     // ── Caso 6: «medio», «mismo», «sendos» y cuantificadores cultos ──────────
     {
@@ -350,6 +500,36 @@ export const PRESENTACION = {
       opciones: ["ambos", "sendos", "sendas"],
       correcta: 1,
       explicacion: "«sendos» — significa «uno cada uno» (un trabajo por ponente). «Ambos» significaría «los dos juntos» y no encaja con el sentido distributivo.",
+      pasos: []
+    },
+    {
+      id: 115,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 3 — Caso 6",
+      pregunta: "«Los atletas cruzaron la meta __ desfallecidos por el esfuerzo de la jornada.»",
+      opciones: ["medios", "medio", "media"],
+      correcta: 1,
+      explicacion: "«medio» — aquí modifica al adjetivo «desfallecidos», funciona como adverbio y permanece invariable.",
+      pasos: []
+    },
+    {
+      id: 116,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Caso 6",
+      pregunta: "«Las dos instituciones suscribieron __ convenios de cooperación académica.»",
+      opciones: ["ambos", "sendos", "sendas"],
+      correcta: 1,
+      explicacion: "«sendos» — significa «uno cada una» (un convenio por institución). Concuerda con «convenios» (masc. pl.).",
+      pasos: []
+    },
+    {
+      id: 117,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — Caso 6",
+      pregunta: "«Las ventanas quedaron __ entornadas tras la fuerte ráfaga de viento.»",
+      opciones: ["medias", "medio", "media"],
+      correcta: 1,
+      explicacion: "«medio» — modifica al adjetivo «entornadas»; como adverbio es invariable, pese a que «ventanas» sea femenino plural.",
       pasos: []
     },
 

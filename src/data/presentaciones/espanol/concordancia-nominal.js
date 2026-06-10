@@ -78,6 +78,36 @@ export const PRESENTACION = {
       explicacion: "«preliminar» — adjetivo de una sola terminación que concuerda en número con «el informe» (singular).",
       pasos: []
     },
+    {
+      id: 100,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 3 — Regla 1",
+      pregunta: "«Los materiales __ resistieron las pruebas de laboratorio sin deformarse.»",
+      opciones: ["sintético", "sintéticos", "sintéticas"],
+      correcta: 1,
+      explicacion: "«sintéticos» — el adjetivo concuerda con «los materiales» (masc. pl.) → masculino plural.",
+      pasos: []
+    },
+    {
+      id: 101,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Regla 1",
+      pregunta: "«La estructura __ soportó el peso sin presentar fisuras visibles.»",
+      opciones: ["metálico", "metálica", "metálicos"],
+      correcta: 1,
+      explicacion: "«metálica» — el adjetivo concuerda con «la estructura» (fem. sing.) → femenino singular.",
+      pasos: []
+    },
+    {
+      id: 102,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — Regla 1",
+      pregunta: "«Presentaron unas conclusiones __ que el jurado calificó de notables.»",
+      opciones: ["riguroso", "rigurosas", "rigurosos"],
+      correcta: 1,
+      explicacion: "«rigurosas» — el adjetivo concuerda con «conclusiones» (fem. pl.) → femenino plural.",
+      pasos: []
+    },
 
     // ── Regla 2: Determinante y sustantivo ───────────────────────────────────
     {
@@ -134,6 +164,36 @@ export const PRESENTACION = {
       opciones: ["nuestros", "nuestras", "nuestro"],
       correcta: 1,
       explicacion: "«nuestras» — el posesivo concuerda con «conclusiones» (fem. pl.) → femenino plural.",
+      pasos: []
+    },
+    {
+      id: 103,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 3 — Regla 2",
+      pregunta: "«__ mano del estudiante temblaba al recibir el reconocimiento al mérito.»",
+      opciones: ["El", "La", "Los"],
+      correcta: 1,
+      explicacion: "«La» — «mano» es femenino pese a terminar en -o; el determinante va en femenino singular.",
+      pasos: []
+    },
+    {
+      id: 104,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Regla 2",
+      pregunta: "«Analizamos __ sistemas operativos durante el taller de cómputo.»",
+      opciones: ["esta", "estos", "estas"],
+      correcta: 1,
+      explicacion: "«estos» — «sistemas» es masculino plural; el demostrativo concuerda en masculino plural.",
+      pasos: []
+    },
+    {
+      id: 105,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — Regla 2",
+      pregunta: "«__ idioma extranjero se imparte en el primer semestre del programa.»",
+      opciones: ["Esa", "Ese", "Esas"],
+      correcta: 1,
+      explicacion: "«Ese» — «idioma» es masculino pese a terminar en -a; el demostrativo va en masculino singular.",
       pasos: []
     },
 
@@ -194,6 +254,36 @@ export const PRESENTACION = {
       explicacion: "«redactadas» — ambos sustantivos son femeninos → el adjetivo va en femenino plural.",
       pasos: []
     },
+    {
+      id: 106,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 3 — Regla 3",
+      pregunta: "«La biblioteca y el laboratorio __ permanecerán cerrados por mantenimiento.»",
+      opciones: ["renovadas", "renovados", "renovado"],
+      correcta: 1,
+      explicacion: "«renovados» — un sustantivo femenino y uno masculino coordinados → el adjetivo va en masculino plural.",
+      pasos: []
+    },
+    {
+      id: 107,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Regla 3",
+      pregunta: "«Compraron una impresora y un escáner __ para la oficina administrativa.»",
+      opciones: ["nuevos", "nuevas", "nuevo"],
+      correcta: 0,
+      explicacion: "«nuevos» — coordinación de género mixto (impresora + escáner) → predomina el masculino plural.",
+      pasos: []
+    },
+    {
+      id: 108,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — Regla 3",
+      pregunta: "«La constancia y la dedicación __ fueron reconocidas por el tutor del grupo.»",
+      opciones: ["mostrados", "mostradas", "mostrado"],
+      correcta: 1,
+      explicacion: "«mostradas» — ambos sustantivos son femeninos → el adjetivo va en femenino plural.",
+      pasos: []
+    },
 
     // ── Regla 4: Adjetivo antepuesto a varios sustantivos ────────────────────
     {
@@ -245,6 +335,36 @@ export const PRESENTACION = {
       opciones: ["admirable", "admirables", "admirada"],
       correcta: 1,
       explicacion: "«admirables» — el adjetivo va POSPUESTO a dos sustantivos coordinados → plural (Regla 3).",
+      pasos: []
+    },
+    {
+      id: 109,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 3 — Regla 4",
+      pregunta: "«Se valoró su __ esfuerzo y constancia a lo largo de todo el curso.»",
+      opciones: ["enorme", "enormes", "enorma"],
+      correcta: 0,
+      explicacion: "«enorme» — el adjetivo antepuesto concuerda con el sustantivo más cercano, «esfuerzo» (masc. sing.).",
+      pasos: []
+    },
+    {
+      id: 110,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Regla 4",
+      pregunta: "«Mostró una __ paciencia y tolerancia ante las críticas recibidas.»",
+      opciones: ["admirable", "admirables", "admirada"],
+      correcta: 0,
+      explicacion: "«admirable» — antepuesto, concuerda con «paciencia» (singular). Es adjetivo de una terminación: solo varía el número.",
+      pasos: []
+    },
+    {
+      id: 111,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — Regla 4",
+      pregunta: "«Demostraron un talento y una creatividad __ en el proyecto final del curso.»",
+      opciones: ["excepcional", "excepcionales", "excepcionalas"],
+      correcta: 1,
+      explicacion: "«excepcionales» — aquí el adjetivo va POSPUESTO a dos sustantivos coordinados → plural (contraste con el adjetivo antepuesto).",
       pasos: []
     },
 
@@ -305,6 +425,36 @@ export const PRESENTACION = {
       explicacion: "«El» — ante «aula» (femenino con a- tónica) se usa «el» en singular para evitar la cacofonía «la aula».",
       pasos: []
     },
+    {
+      id: 112,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 3 — Regla 5",
+      pregunta: "«El agua __ se almacena en cisternas selladas para su posterior análisis.»",
+      opciones: ["tratado", "tratada", "tratados"],
+      correcta: 1,
+      explicacion: "«tratada» — «agua» es femenino aunque lleve «el» por eufonía; el adjetivo va en femenino singular.",
+      pasos: []
+    },
+    {
+      id: 113,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Regla 5",
+      pregunta: "«El área __ del museo alberga las piezas más valiosas de la colección.»",
+      opciones: ["restringido", "restringida", "restringidos"],
+      correcta: 1,
+      explicacion: "«restringida» — «área» es femenino con a- tónica: lleva «el», pero el adjetivo concuerda en femenino.",
+      pasos: []
+    },
+    {
+      id: 114,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — Regla 5",
+      pregunta: "«__ hacha que encontraron los arqueólogos databa del periodo clásico.»",
+      opciones: ["El", "La", "Una"],
+      correcta: 0,
+      explicacion: "«El» — «hacha» empieza por «ha-» tónica, así que en singular toma «el» para evitar la cacofonía «la hacha».",
+      pasos: []
+    },
 
     // ── Regla 6: Sustantivos de género común y epiceno ───────────────────────
     {
@@ -361,6 +511,36 @@ export const PRESENTACION = {
       opciones: ["destacado", "destacada", "destacados"],
       correcta: 1,
       explicacion: "«destacada» — «estudiante» es común; aquí el determinante «la» marca femenino, así que el adjetivo va en femenino.",
+      pasos: []
+    },
+    {
+      id: 115,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 3 — Regla 6",
+      pregunta: "«La víctima del asalto, un joven de veinte años, fue __ de inmediato al hospital.»",
+      opciones: ["atendido", "atendida", "atendidos"],
+      correcta: 1,
+      explicacion: "«atendida» — «víctima» es epiceno femenino; el adjetivo va en femenino aunque el referente sea un varón.",
+      pasos: []
+    },
+    {
+      id: 116,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Regla 6",
+      pregunta: "«El personaje principal fue __ por una actriz de amplia trayectoria.»",
+      opciones: ["interpretado", "interpretada", "interpretados"],
+      correcta: 0,
+      explicacion: "«interpretado» — «personaje» es epiceno masculino; el adjetivo va en masculino aunque lo encarne una mujer.",
+      pasos: []
+    },
+    {
+      id: 117,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — Regla 6",
+      pregunta: "«La persona __ como vocera resultó ser un hombre de gran experiencia.»",
+      opciones: ["elegido", "elegida", "elegidos"],
+      correcta: 1,
+      explicacion: "«elegida» — «persona» es epiceno femenino; el adjetivo concuerda con el género gramatical, no con el sexo del referente.",
       pasos: []
     },
 
@@ -421,6 +601,36 @@ export const PRESENTACION = {
       explicacion: "«veintiuna» — ante sustantivo femenino, «veintiuno» toma la forma «veintiuna»: «veintiuna cajas».",
       pasos: []
     },
+    {
+      id: 118,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 3 — Regla 7",
+      pregunta: "«El censo contabilizó __ familias en la zona rural del municipio.»",
+      opciones: ["quinientos", "quinientas", "quinienta"],
+      correcta: 1,
+      explicacion: "«quinientas» — la centena concuerda en género con «familias» (femenino) → «quinientas».",
+      pasos: []
+    },
+    {
+      id: 119,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Regla 7",
+      pregunta: "«Se inscribieron __ alumnos en el primer día del periodo de admisión.»",
+      opciones: ["veintiún", "veintiuna", "veintiunos"],
+      correcta: 0,
+      explicacion: "«veintiún» — ante sustantivo masculino, «veintiuno» se apocopa en «veintiún»: «veintiún alumnos».",
+      pasos: []
+    },
+    {
+      id: 120,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — Regla 7",
+      pregunta: "«La colecta reunió __ toneladas de alimentos para los damnificados.»",
+      opciones: ["doscientos", "doscientas", "doscienta"],
+      correcta: 1,
+      explicacion: "«doscientas» — la centena concuerda con «toneladas» (femenino) → «doscientas».",
+      pasos: []
+    },
 
     // ── Regla 8: Atributo y predicativo ──────────────────────────────────────
     {
@@ -477,6 +687,36 @@ export const PRESENTACION = {
       opciones: ["adecuadas", "adecuado", "adecuados"],
       correcta: 1,
       explicacion: "«adecuado» — el atributo concuerda con el núcleo del sujeto «el nivel» (masc. sing.), no con «participaciones».",
+      pasos: []
+    },
+    {
+      id: 121,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 3 — Regla 8",
+      pregunta: "«Los resultados del experimento parecieron __ a los revisores externos del proyecto.»",
+      opciones: ["concluyente", "concluyentes", "concluyenta"],
+      correcta: 1,
+      explicacion: "«concluyentes» — el atributo concuerda con el sujeto «los resultados» (masc. pl.); el adjetivo de una terminación solo varía en número.",
+      pasos: []
+    },
+    {
+      id: 122,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Regla 8",
+      pregunta: "«La actitud de los participantes fue __ durante toda la jornada de trabajo.»",
+      opciones: ["ejemplar", "ejemplares", "ejemplara"],
+      correcta: 0,
+      explicacion: "«ejemplar» — el atributo concuerda con el núcleo del sujeto «la actitud» (singular), no con «participantes».",
+      pasos: []
+    },
+    {
+      id: 123,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — Regla 8",
+      pregunta: "«Las instalaciones del centro resultaron __ para el número de asistentes.»",
+      opciones: ["insuficiente", "insuficientes", "insuficienta"],
+      correcta: 1,
+      explicacion: "«insuficientes» — el predicativo concuerda con el sujeto «las instalaciones» (fem. pl.) → plural.",
       pasos: []
     },
 
@@ -537,6 +777,36 @@ export const PRESENTACION = {
       explicacion: "«revisado» — con «haber» el participio es invariable y termina en -o, aunque el complemento sea femenino plural.",
       pasos: []
     },
+    {
+      id: 124,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 3 — Regla 9",
+      pregunta: "«Las propuestas fueron __ por el consejo en menos de una semana.»",
+      opciones: ["evaluado", "evaluadas", "evaluados"],
+      correcta: 1,
+      explicacion: "«evaluadas» — pasiva con «ser»: el participio concuerda con el sujeto «las propuestas» (fem. pl.).",
+      pasos: []
+    },
+    {
+      id: 125,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Regla 9",
+      pregunta: "«Los técnicos han __ todas las incidencias reportadas por los usuarios.»",
+      opciones: ["resuelto", "resueltas", "resueltos"],
+      correcta: 0,
+      explicacion: "«resuelto» — con «haber» el participio es invariable y termina en -o, aunque «incidencias» sea femenino plural.",
+      pasos: []
+    },
+    {
+      id: 126,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — Regla 9",
+      pregunta: "«Las cuentas del ejercicio ya fueron __ por el área de auditoría interna.»",
+      opciones: ["revisado", "revisadas", "revisados"],
+      correcta: 1,
+      explicacion: "«revisadas» — pasiva con «ser»: el participio concuerda con el sujeto «las cuentas» (fem. pl.).",
+      pasos: []
+    },
 
     // ── Regla 10: Aposición y construcciones tipo «ciudad capital» ────────────
     {
@@ -593,6 +863,36 @@ export const PRESENTACION = {
       opciones: ["transitado", "transitadas", "transitados"],
       correcta: 1,
       explicacion: "«transitadas» — el adjetivo concuerda con «las estaciones» (fem. pl.); «pico» permanece invariable.",
+      pasos: []
+    },
+    {
+      id: 127,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 3 — Regla 10",
+      pregunta: "«Los casos límite __ exigieron criterios excepcionales por parte del comité.»",
+      opciones: ["detallado", "detallados", "detalladas"],
+      correcta: 1,
+      explicacion: "«detallados» — el núcleo es «los casos» (masc. pl.); «límite» es modificador invariable y el adjetivo concuerda con el núcleo.",
+      pasos: []
+    },
+    {
+      id: 128,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Regla 10",
+      pregunta: "«Las ciudades __ experimentaron un notable auge comercial en la última década.»",
+      opciones: ["fronterizo", "fronterizas", "fronterizos"],
+      correcta: 1,
+      explicacion: "«fronterizas» — el adjetivo concuerda con el núcleo «las ciudades» (fem. pl.).",
+      pasos: []
+    },
+    {
+      id: 129,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — Regla 10",
+      pregunta: "«Los hombres rana __ inspeccionaron el casco del barco antes del zarpe.»",
+      opciones: ["entrenado", "entrenados", "entrenadas"],
+      correcta: 1,
+      explicacion: "«entrenados» — el núcleo es «los hombres» (masc. pl.); «rana» permanece invariable y el adjetivo concuerda con el núcleo.",
       pasos: []
     },
 

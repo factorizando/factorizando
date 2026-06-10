@@ -73,6 +73,36 @@ export const PRESENTACION = {
       explicacion: "«definimos» — «mi asesora» (3.ª) + «yo» (1.ª). La 1.ª persona prevalece sobre la 3.ª → 1.ª plural: «nosotros definimos».",
       pasos: []
     },
+    {
+      id: 100,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 3 — Caso 1",
+      pregunta: "«Mis compañeros y yo __ la exposición la próxima semana ante el comité.»",
+      opciones: ["prepararán", "prepararemos", "preparará"],
+      correcta: 1,
+      explicacion: "«prepararemos» — «mis compañeros» (3.ª) + «yo» (1.ª). La 1.ª persona prevalece → 1.ª plural: «nosotros prepararemos».",
+      pasos: []
+    },
+    {
+      id: 101,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Caso 1",
+      pregunta: "«Tú y tu hermano __ los encargados de organizar el evento escolar.»",
+      opciones: ["serán", "serás", "seré"],
+      correcta: 0,
+      explicacion: "«serán» — «tú» (2.ª) + «tu hermano» (3.ª). La 2.ª prevalece sobre la 3.ª; en el trato de «ustedes» se realiza como «serán».",
+      pasos: []
+    },
+    {
+      id: 102,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — Caso 1",
+      pregunta: "«Ni ella ni yo __ dispuestos a renunciar al proyecto antes de tiempo.»",
+      opciones: ["estaban", "estamos", "estábamos"],
+      correcta: 1,
+      explicacion: "«estamos» — «ella» (3.ª) + «yo» (1.ª). La 1.ª persona prevalece → 1.ª plural: «nosotros estamos».",
+      pasos: []
+    },
 
     // ── Caso 2: Pasiva refleja con «se» ──────────────────────────────────────
     {
@@ -129,6 +159,36 @@ export const PRESENTACION = {
       opciones: ["se evaluaron", "se evaluó", "se evalúan"],
       correcta: 1,
       explicacion: "«se evaluó» — hay «a» ante complemento de persona → construcción impersonal, verbo en singular fijo, aunque «candidatos» sea plural.",
+      pasos: []
+    },
+    {
+      id: 103,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 3 — Caso 2",
+      pregunta: "«En el comunicado __ las medidas que entrarán en vigor el próximo mes.»",
+      opciones: ["se detalló", "se detallaron", "se detallaba"],
+      correcta: 1,
+      explicacion: "«se detallaron» — pasiva refleja: «las medidas» es el sujeto gramatical (plural), así que el verbo concuerda en plural.",
+      pasos: []
+    },
+    {
+      id: 104,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Caso 2",
+      pregunta: "«Durante la jornada __ a los aspirantes provenientes de otros estados del país.»",
+      opciones: ["se recibió", "se recibieron", "se reciben"],
+      correcta: 0,
+      explicacion: "«se recibió» — hay «a» ante complemento de persona → construcción impersonal: verbo en singular fijo, aunque «aspirantes» sea plural.",
+      pasos: []
+    },
+    {
+      id: 105,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — Caso 2",
+      pregunta: "«En la planta __ piezas de alta precisión para la industria aeronáutica.»",
+      opciones: ["se fabrica", "se fabrican", "se fabricaba"],
+      correcta: 1,
+      explicacion: "«se fabrican» — pasiva refleja: «piezas» es el sujeto gramatical (plural) → el verbo concuerda en plural.",
       pasos: []
     },
 
@@ -189,6 +249,36 @@ export const PRESENTACION = {
       explicacion: "«fue descartada» — con «la mitad de» (núcleo singular determinado), el EXANI-II prefiere la concordancia gramatical en singular en registro formal. El plural es admisible, pero la opción evaluada como correcta es la gramatical.",
       pasos: []
     },
+    {
+      id: 106,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 3 — Caso 3",
+      pregunta: "«Lo que más __ a los vecinos es la falta de alumbrado público en la colonia.»",
+      opciones: ["inquietan", "inquieta", "inquietaban"],
+      correcta: 1,
+      explicacion: "«inquieta» — el sujeto es «lo que» (singular); el verbo concuerda con él, no con «los vecinos» (complemento).",
+      pasos: []
+    },
+    {
+      id: 107,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Caso 3",
+      pregunta: "«Un tercio de los encuestados __ no haber recibido información oportuna del proceso.»",
+      opciones: ["afirmó", "afirmaron", "afirmaban"],
+      correcta: 0,
+      explicacion: "«afirmó» — con «un tercio de…» (núcleo singular), el registro formal del EXANI-II prefiere la concordancia gramatical en singular.",
+      pasos: []
+    },
+    {
+      id: 108,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — Caso 3",
+      pregunta: "«Lo que ocurrió aquella noche __ difícil de explicar incluso para los testigos.»",
+      opciones: ["fueron", "fue", "eran"],
+      correcta: 1,
+      explicacion: "«fue» — el sujeto es «lo que» (singular); el verbo va en singular pese a la complejidad de la oración.",
+      pasos: []
+    },
 
     // ── Caso 4: Verbo «ser» entre sujeto y atributo de distinto número ──────
     {
@@ -240,6 +330,36 @@ export const PRESENTACION = {
       opciones: ["fue", "fueron", "había sido"],
       correcta: 1,
       explicacion: "«fueron» — sujeto «lo más valioso» (singular) + atributo plural «las entrevistas»: el verbo «ser» se acomoda al predicado plural.",
+      pasos: []
+    },
+    {
+      id: 109,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 3 — Caso 4",
+      pregunta: "«El motivo de las protestas __ los recortes al presupuesto educativo del estado.»",
+      opciones: ["fue", "fueron", "fuera"],
+      correcta: 1,
+      explicacion: "«fueron» — con «ser», ante el atributo plural «los recortes», el verbo concuerda con el plural pese a que el sujeto «el motivo» sea singular.",
+      pasos: []
+    },
+    {
+      id: 110,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Caso 4",
+      pregunta: "«Las conferencias magistrales __ el verdadero atractivo del simposio internacional.»",
+      opciones: ["fue", "fueron", "era"],
+      correcta: 1,
+      explicacion: "«fueron» — el sujeto «las conferencias» (plural) impone el plural al verbo «ser», aunque el atributo «el atractivo» sea singular.",
+      pasos: []
+    },
+    {
+      id: 111,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — Caso 4",
+      pregunta: "«La causa de tantos retrasos __ las fallas en el sistema informático del registro.»",
+      opciones: ["fue", "fueron", "había sido"],
+      correcta: 1,
+      explicacion: "«fueron» — con «ser», el atributo plural «las fallas» impone el plural, pese a que el sujeto «la causa» sea singular.",
       pasos: []
     },
 
@@ -300,6 +420,36 @@ export const PRESENTACION = {
       explicacion: "«tiene» — con «quien», el verbo de la relativa va en 3.ª persona singular, en concordancia con el relativo, no con «usted» como interlocutor.",
       pasos: []
     },
+    {
+      id: 112,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 3 — Caso 5",
+      pregunta: "«Fuiste uno de los pocos que __ el problema desde el inicio de la gestión.»",
+      opciones: ["entendió", "entendieron", "entendías"],
+      correcta: 1,
+      explicacion: "«entendieron» — el relativo «que» remite a «los pocos» (plural), no a «uno». La relativa va en plural.",
+      pasos: []
+    },
+    {
+      id: 113,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Caso 5",
+      pregunta: "«Ustedes son quienes __ la última palabra en la votación del consejo.»",
+      opciones: ["tienen", "tenemos", "tiene"],
+      correcta: 0,
+      explicacion: "«tienen» — «quienes» (plural) rige el verbo en 3.ª persona plural: «quienes tienen».",
+      pasos: []
+    },
+    {
+      id: 114,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — Caso 5",
+      pregunta: "«Ella fue una de las estudiantes que __ la beca de excelencia ese año.»",
+      opciones: ["obtuvo", "obtuvieron", "obtenía"],
+      correcta: 1,
+      explicacion: "«obtuvieron» — «que» remite a «las estudiantes» (plural). La construcción «una de las que» lleva la relativa en plural.",
+      pasos: []
+    },
 
     // ── Caso 6: «haber» y «hacer» impersonales en perífrasis ─────────────────
     {
@@ -356,6 +506,36 @@ export const PRESENTACION = {
       opciones: ["van", "va", "vienen"],
       correcta: 1,
       explicacion: "«va» — la perífrasis «ir a haber» es impersonal: el auxiliar permanece en singular («va a haber»), no concuerda con «observaciones».",
+      pasos: []
+    },
+    {
+      id: 115,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 3 — Caso 6",
+      pregunta: "«En esos archivos tan antiguos __ haber datos incompletos o erróneos.»",
+      opciones: ["suelen", "suele", "solían"],
+      correcta: 1,
+      explicacion: "«suele» — en la perífrasis «soler haber», el auxiliar hereda la impersonalidad de «haber» y queda en singular, aunque «datos» sea plural.",
+      pasos: []
+    },
+    {
+      id: 116,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Caso 6",
+      pregunta: "«Tras el sismo __ a haber réplicas de menor intensidad durante varios días.»",
+      opciones: ["van", "va", "iban"],
+      correcta: 1,
+      explicacion: "«va» — la perífrasis «ir a haber» es impersonal: el auxiliar permanece en singular, no concuerda con «réplicas».",
+      pasos: []
+    },
+    {
+      id: 117,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — Caso 6",
+      pregunta: "«En reuniones tan prolongadas __ haber momentos de tensión entre los asistentes.»",
+      opciones: ["pueden", "puede", "podían"],
+      correcta: 1,
+      explicacion: "«puede» — en la perífrasis «poder haber», el auxiliar es impersonal y queda en singular, pese a que «momentos» sea plural.",
       pasos: []
     },
 

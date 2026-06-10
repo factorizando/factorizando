@@ -222,29 +222,19 @@ export const SUBJECTS_PREP = [
     color: "#a78bfa",
     children: [
       {
-        id: "gramatica",
-        name: "Gramática",
+        id: "ri-comunicativa",
+        name: "Comunicativa",
         children: [
           {
-            id: "sintaxis",
-            name: "Sintaxis",
-            quiz: "/cuestionario/sujeto-predicado-exani-i",
-          },
-          {
-            id: "categorias-gramaticales",
-            name: "Estructura de la Oración",
-            quiz: "/cuestionario/estructura-oracion-prepa",
-          },
-          {
-            id: "concordancia-verbal",
-            name: "Concordancia Verbal",
-            presentacion: "/ver/concordancia-verbal",
+            id: "redaccion-indirecta",
+            name: "Registro Lingüístico y Género Textual",
+            teoria: `${import.meta.env.BASE_URL}guias/EXANI-I_RedaccionIndirecta.html`,
           },
         ],
       },
       {
-        id: "teoria-gramatica",
-        name: "Teoría Gramatical",
+        id: "ri-gramatical-semantica",
+        name: "Gramatical y Semántica",
         children: [
           {
             id: "categorias-gramaticales",
@@ -257,31 +247,20 @@ export const SUBJECTS_PREP = [
             teoria: "/teoria/estructuraoracion",
           },
           {
-            id: "redaccion-indirecta",
-            name: "Redacción Indirecta",
-            teoria: `${import.meta.env.BASE_URL}guias/EXANI-I_RedaccionIndirecta.html`,
+            id: "estructura-oracion-quiz",
+            name: "Estructura de la Oración (quiz)",
+            quiz: "/cuestionario/estructura-oracion-prepa",
           },
           {
-            id: "grafofonetica",
-            name: "Grafofonética",
-            presentacion: "/ver/grafofonetica",
+            id: "sintaxis",
+            name: "Sintaxis: Sujeto y Predicado",
+            quiz: "/cuestionario/sujeto-predicado-exani-i",
           },
           {
-            id: "acentuacion",
-            name: "Acentuación",
-            presentacion: "/ver/acentuacion",
+            id: "concordancia-verbal",
+            name: "Concordancia Verbal",
+            presentacion: "/ver/concordancia-verbal",
           },
-          {
-            id: "signos-puntuacion",
-            name: "Signos de Puntuación",
-            presentacion: "/ver/signos-puntuacion",
-          },
-        ],
-      },
-      {
-        id: "cohesion-redaccion",
-        name: "Cohesión y Redacción",
-        children: [
           {
             id: "cohesion-gramatical",
             name: "Cohesión Gramatical",
@@ -296,6 +275,27 @@ export const SUBJECTS_PREP = [
             id: "marcadores-textuales",
             name: "Marcadores Textuales",
             presentacion: "/ver/marcadores-textuales",
+          },
+        ],
+      },
+      {
+        id: "ri-ortografica",
+        name: "Ortográfica",
+        children: [
+          {
+            id: "grafofonetica",
+            name: "Grafofonética",
+            presentacion: "/ver/grafofonetica",
+          },
+          {
+            id: "acentuacion",
+            name: "Acentuación",
+            presentacion: "/ver/acentuacion",
+          },
+          {
+            id: "signos-puntuacion",
+            name: "Signos de Puntuación",
+            presentacion: "/ver/signos-puntuacion",
           },
         ],
       },

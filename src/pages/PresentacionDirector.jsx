@@ -55,6 +55,24 @@ export default function PresentacionDirector() {
       ? Object.values(votos[slideKey] || {}).reduce((a, b) => a + b, 0)
       : 0;
 
+  // Navegación con teclado (flechas / espacio / AvPág-RePág)
+  useEffect(() => {
+    function onKey(e) {
+      // No interferir mientras se escribe en un campo de texto (anotaciones, etc.)
+      const t = e.target;
+      if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.isContentEditable)) return;
+      if (e.key === "ArrowRight" || e.key === "ArrowDown" || e.key === "PageDown") {
+        e.preventDefault();
+        irASlide(slideIdx + 1);
+      } else if (e.key === "ArrowLeft" || e.key === "ArrowUp" || e.key === "PageUp") {
+        e.preventDefault();
+        irASlide(slideIdx - 1);
+      }
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [slideIdx, slides.length, sesion]);
+
   // Suscripción a votos cuando hay sesión activa
   useEffect(() => {
     if (!sesion) return;

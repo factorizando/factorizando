@@ -20,8 +20,10 @@ export default function PresentacionVer() {
 
   useEffect(() => {
     function onKey(e) {
-      if (e.key === "ArrowRight" || e.key === "ArrowDown") setSlideIdx(i => Math.min(i + 1, slides.length - 1));
-      if (e.key === "ArrowLeft"  || e.key === "ArrowUp")   setSlideIdx(i => Math.max(i - 1, 0));
+      const t = e.target;
+      if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.isContentEditable)) return;
+      if (e.key === "ArrowRight" || e.key === "ArrowDown" || e.key === "PageDown") { e.preventDefault(); setSlideIdx(i => Math.min(i + 1, slides.length - 1)); }
+      if (e.key === "ArrowLeft"  || e.key === "ArrowUp"   || e.key === "PageUp")   { e.preventDefault(); setSlideIdx(i => Math.max(i - 1, 0)); }
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);

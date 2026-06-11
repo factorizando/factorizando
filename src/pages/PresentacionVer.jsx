@@ -25,17 +25,19 @@ export default function PresentacionVer() {
   // En concepto, el recuadro de fórmula cuenta como una tarjeta (índice 0).
   function numTarjetas(s) {
     if (!s) return 0;
-    if (s.tipo === "criterio_detalle") return s.por_que ? 2 : 1;
-    if (Array.isArray(s.items)) return (s.formula ? 1 : 0) + s.items.length;
+    const svg = s.svgDiagram ? 1 : 0;
+    if (s.tipo === "criterio_detalle") return 1 + svg + (s.por_que ? 1 : 0);
+    if (Array.isArray(s.items)) return (s.formula ? 1 : 0) + svg + s.items.length;
     if (Array.isArray(s.bloques)) return s.bloques.length;
     if (Array.isArray(s.puntos)) return s.puntos.length;
     return 0;
   }
   // ¿La tarjeta de índice idx es desplegable? (solo los items de tipo concepto lo son;
-  // se descuenta el desplazamiento de la fórmula).
+  // se descuenta el desplazamiento de la fórmula y del diagrama).
   function tarjetaExpandible(s, idx) {
     if (!s || idx == null || !Array.isArray(s.items)) return false;
-    const it = s.items[idx - (s.formula ? 1 : 0)];
+    const off = (s.formula ? 1 : 0) + (s.svgDiagram ? 1 : 0);
+    const it = s.items[idx - off];
     return !!(it && it.expandable);
   }
   function toggleExpandir(idx, abierto) {

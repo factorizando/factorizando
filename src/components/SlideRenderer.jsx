@@ -731,8 +731,10 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar, expandidos, onEx
   const [localExpanded, setLocalExpanded] = useState({});
   // Si llega `expandidos` (controlado por director/alumno) se usa ese; si no, estado local.
   const expanded = expandidos ?? localExpanded;
-  // El recuadro de fórmula es la tarjeta índice 0 (si existe); los items siguen desde 1.
-  const off = slide.formula ? 1 : 0;
+  // Tarjetas resaltables en orden: fórmula (0), diagrama, items.
+  const offFormula = slide.formula ? 1 : 0;
+  const svgIndex = offFormula;                          // el diagrama va justo después de la fórmula
+  const off = offFormula + (slide.svgDiagram ? 1 : 0);  // los items empiezan después del diagrama
   return (
     <div
       style={{
@@ -764,6 +766,18 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar, expandidos, onEx
         <M>{slide.formula}</M>
       </div>
 
+      {slide.svgDiagram && (
+        <div
+          onClick={() => onResaltar && onResaltar(svgIndex)}
+          style={{
+            borderRadius: 10,
+            border: `1px solid ${resaltadoIdx === svgIndex ? tema.acento : "transparent"}`,
+            boxShadow: resaltadoIdx === svgIndex ? `0 0 0 2px ${tema.acentoBorde}, 0 0 16px ${tema.acentoBorde}` : "none",
+            padding: 4,
+            transition: "all 0.2s",
+            cursor: onResaltar ? "pointer" : "default"
+          }}
+        >
       {slide.svgDiagram === "razon-semejanza"          && <RazonSemejanzaSVG          tema={tema} />}
       {slide.svgDiagram === "paralelogramo-formulas"   && <ParalelogramoFormulasSVG   tema={tema} />}
       {slide.svgDiagram === "trapecio-formulas"        && <TrapecioFormulasSVG        tema={tema} />}
@@ -850,6 +864,8 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar, expandidos, onEx
       {slide.svgDiagram === "qaa-contaminacion"        && <QaaContaminacionSVG      tema={tema} />}
       {slide.svgDiagram === "qaa-alimentos"            && <QaaAlimentosSVG          tema={tema} />}
       {slide.svgDiagram === "qaa-energia"              && <QaaEnergiaSVG            tema={tema} />}
+        </div>
+      )}
 
       <div style={{ display: "flex", flexDirection: "column", gap: compact ? 8 : 10 }}>
         {slide.items.map((item, i) => {
@@ -2056,6 +2072,9 @@ function SlideCriterioDetalle({ slide, tema, resaltadoIdx, onResaltar }) {
   const compact = !!slide.svgDiagram;
   const winW = useWindowWidth();
   const narrow = winW < 500;
+  // Tarjetas resaltables en orden: definición (0), diagrama, ¿por qué?
+  const svgIndex = 1;
+  const porQueIndex = 1 + (slide.svgDiagram ? 1 : 0);
   return (
     <div
       style={{
@@ -2099,6 +2118,18 @@ function SlideCriterioDetalle({ slide, tema, resaltadoIdx, onResaltar }) {
         </div>
       </div>
 
+      {slide.svgDiagram && (
+        <div
+          onClick={() => onResaltar && onResaltar(svgIndex)}
+          style={{
+            borderRadius: 10,
+            border: `1px solid ${resaltadoIdx === svgIndex ? tema.acento : "transparent"}`,
+            boxShadow: resaltadoIdx === svgIndex ? `0 0 0 2px ${tema.acentoBorde}, 0 0 16px ${tema.acentoBorde}` : "none",
+            padding: 4,
+            transition: "all 0.2s",
+            cursor: onResaltar ? "pointer" : "default"
+          }}
+        >
       {slide.svgDiagram === "aa-detalle"               && <CriterioAADetalleSVG   tema={tema} />}
       {slide.svgDiagram === "lll-detalle"              && <CriterioLLLDetalleSVG  tema={tema} />}
       {slide.svgDiagram === "lal-detalle"              && <CriterioLALDetalleSVG  tema={tema} />}
@@ -2196,15 +2227,17 @@ function SlideCriterioDetalle({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "mod-atomo"                && <ModAtomoSVG            tema={tema} />}
       {slide.svgDiagram === "mod-fotoelectrico"        && <ModFotoelectricoSVG    tema={tema} />}
       {slide.svgDiagram === "mod-radioactividad"       && <ModRadioactividadSVG   tema={tema} />}
+        </div>
+      )}
 
       <div
-        onClick={() => onResaltar && onResaltar(1)}
+        onClick={() => onResaltar && onResaltar(porQueIndex)}
         style={{
           background: tema.azulSuave,
-          border: `1px solid ${resaltadoIdx === 1 ? tema.azul : tema.azulBorde}`,
+          border: `1px solid ${resaltadoIdx === porQueIndex ? tema.azul : tema.azulBorde}`,
           borderRadius: 10,
           padding: compact ? "12px 20px" : "18px 24px",
-          boxShadow: resaltadoIdx === 1 ? `0 0 0 2px ${tema.azulBorde}, 0 0 16px ${tema.azulBorde}` : "none",
+          boxShadow: resaltadoIdx === porQueIndex ? `0 0 0 2px ${tema.azulBorde}, 0 0 16px ${tema.azulBorde}` : "none",
           transform: "none",
           transition: "all 0.2s",
           cursor: onResaltar ? "pointer" : "default"

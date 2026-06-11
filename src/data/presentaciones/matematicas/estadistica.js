@@ -343,6 +343,168 @@ export const PRESENTACION = {
       math_razon: "\\bar{x} = \\dfrac{2+2+6+7+8}{5} = \\dfrac{25}{5} = 5"
     },
 
+    // ── MEDIA · EJEMPLOS ──────────────────────────────────────────────────────
+    {
+      id: "med-ej1",
+      tipo: "concepto",
+      titulo: "Media · Ejemplo 1",
+      etiqueta: "Media · Ejemplo 1 / 5",
+      formula: "\\bar{x} = \\dfrac{7+8+9+6+10}{5} = \\dfrac{40}{5} = 8",
+      svgDiagram: "dotplot-media",
+      diagramData: [7, 8, 9, 6, 10],
+      items: [],
+      nota: "Sumamos los 5 datos (40) y dividimos entre cuántos son (5). La media, 8, es el punto de equilibrio: los datos se reparten alrededor de ella."
+    },
+    {
+      id: "med-ej2",
+      tipo: "concepto",
+      titulo: "Media · Ejemplo 2 (resultado decimal)",
+      etiqueta: "Media · Ejemplo 2 / 5",
+      formula: "\\bar{x} = \\dfrac{6+7+8+10}{4} = \\dfrac{31}{4} = 7.75",
+      svgDiagram: "dotplot-media",
+      diagramData: [6, 7, 8, 10],
+      items: [],
+      nota: "La media no tiene que ser uno de los datos ni un número entero: aquí cae en 7.75, entre el 7 y el 8."
+    },
+    {
+      id: "med-ej3",
+      tipo: "concepto",
+      titulo: "Media · Ejemplo 3 (valor extremo)",
+      etiqueta: "Media · Ejemplo 3 / 5",
+      formula: "\\bar{x} = \\dfrac{5+6+7+8+24}{5} = \\dfrac{50}{5} = 10",
+      svgDiagram: "dotplot-media",
+      diagramData: [5, 6, 7, 8, 24],
+      items: [],
+      nota: "Cuatro datos están entre 5 y 8, pero el 24 «jala» la media hasta 10, lejos de la mayoría. Por eso decimos que la media es sensible a los valores extremos."
+    },
+    {
+      id: "med-ej4",
+      tipo: "concepto",
+      titulo: "Media · Ejemplo 4 (seis datos)",
+      etiqueta: "Media · Ejemplo 4 / 5",
+      formula: "\\bar{x} = \\dfrac{15+18+12+20+10+15}{6} = \\dfrac{90}{6} = 15",
+      svgDiagram: "dotplot-media",
+      diagramData: [15, 18, 12, 20, 10, 15],
+      items: [],
+      nota: "El procedimiento es el mismo con cualquier cantidad de datos: suma total entre el número de datos."
+    },
+    {
+      id: "med-ej5",
+      tipo: "concepto",
+      titulo: "Media · Ejemplo 5 (dato faltante)",
+      etiqueta: "Media · Ejemplo 5 / 5",
+      formula: "\\sum x = \\bar{x}\\cdot n = 8\\times 4 = 32",
+      items: [
+        { math: "1", texto: "Tiene 9, 7 y 8 en tres exámenes: suman 24" },
+        { math: "2", texto: "Para promediar 8 en 4 exámenes necesita 8 × 4 = 32 en total" },
+        { math: "3", texto: "Le falta 32 − 24 = 8 en el cuarto examen" }
+      ],
+      nota: "Este tipo de problema «al revés» (conocer el promedio y buscar un dato) aparece muy seguido en el EXANI-I. La clave: la suma de los datos es igual a la media por el número de datos."
+    },
+
+    // ── MEDIA · EJERCICIOS ────────────────────────────────────────────────────
+    {
+      id: "med-q1",
+      tipo: "ejercicio",
+      svgDiagram: "ej-est-media",
+      etiqueta: "Media · Ejercicio 1 / 10",
+      pregunta: "Las calificaciones de un alumno fueron 8, 6, 7, 9 y 10. ¿Cuál es su promedio?",
+      opciones: ["8", "7.5", "9"],
+      correcta: 0,
+      explicacion: "La suma es 40 y hay 5 datos: x̄ = 40/5 = 8.",
+      pasos: [{ pre: "Media: ", math: "\\bar{x} = \\dfrac{40}{5} = 8" }]
+    },
+    {
+      id: "med-q2",
+      tipo: "ejercicio",
+      etiqueta: "Media · Ejercicio 2 / 10",
+      pregunta: "¿Cuál es la media de 4, 8, 6 y 10?",
+      opciones: ["7", "6.5", "8"],
+      correcta: 0,
+      explicacion: "La suma es 28 y hay 4 datos: 28/4 = 7.",
+      pasos: [{ pre: "Media: ", math: "\\bar{x} = \\dfrac{28}{4} = 7" }]
+    },
+    {
+      id: "med-q3",
+      tipo: "ejercicio",
+      etiqueta: "Media · Ejercicio 3 / 10",
+      pregunta: "¿Cuál es la media de 5, 5, 5, 5 y 5?",
+      opciones: ["5", "1", "25"],
+      correcta: 0,
+      explicacion: "Si todos los datos son iguales, la media es ese mismo valor: 5.",
+      pasos: []
+    },
+    {
+      id: "med-q4",
+      tipo: "ejercicio",
+      etiqueta: "Media · Ejercicio 4 / 10",
+      pregunta: "¿Cuál es la media de 2, 4, 6 y 8?",
+      opciones: ["5", "4", "6"],
+      correcta: 0,
+      explicacion: "La suma es 20 y hay 4 datos: 20/4 = 5.",
+      pasos: [{ pre: "Media: ", math: "\\bar{x} = \\dfrac{20}{4} = 5" }]
+    },
+    {
+      id: "med-q5",
+      tipo: "ejercicio",
+      etiqueta: "Media · Ejercicio 5 / 10",
+      pregunta: "¿Cuál es el promedio de 10, 20 y 30?",
+      opciones: ["20", "15", "30"],
+      correcta: 0,
+      explicacion: "La suma es 60 y hay 3 datos: 60/3 = 20.",
+      pasos: []
+    },
+    {
+      id: "med-q6",
+      tipo: "ejercicio",
+      etiqueta: "Media · Ejercicio 6 / 10",
+      pregunta: "¿Cuál es la media de 7, 8, 9 y 9?",
+      opciones: ["8.25", "8.5", "8"],
+      correcta: 0,
+      explicacion: "La suma es 33 y hay 4 datos: 33/4 = 8.25.",
+      pasos: [{ pre: "Media: ", math: "\\bar{x} = \\dfrac{33}{4} = 8.25" }]
+    },
+    {
+      id: "med-q7",
+      tipo: "ejercicio",
+      etiqueta: "Media · Ejercicio 7 / 10",
+      pregunta: "El promedio de 4 exámenes es 8. ¿Cuánto suman las 4 calificaciones?",
+      opciones: ["32", "16", "8"],
+      correcta: 0,
+      explicacion: "La suma es la media por el número de datos: 8 × 4 = 32.",
+      pasos: [{ pre: "Suma: ", math: "\\sum x = 8 \\times 4 = 32" }]
+    },
+    {
+      id: "med-q8",
+      tipo: "ejercicio",
+      etiqueta: "Media · Ejercicio 8 / 10",
+      pregunta: "El promedio de 5 números es 12. ¿Cuánto suman?",
+      opciones: ["60", "17", "12"],
+      correcta: 0,
+      explicacion: "Suma = media × n = 12 × 5 = 60.",
+      pasos: [{ pre: "Suma: ", math: "\\sum x = 12 \\times 5 = 60" }]
+    },
+    {
+      id: "med-q9",
+      tipo: "ejercicio",
+      etiqueta: "Media · Ejercicio 9 / 10",
+      pregunta: "Un alumno tiene 9, 7 y 8. ¿Qué necesita en un cuarto examen para promediar 8?",
+      opciones: ["8", "9", "10"],
+      correcta: 0,
+      explicacion: "Necesita 8 × 4 = 32 en total; ya lleva 24, así que le falta 32 − 24 = 8.",
+      pasos: [{ pre: "Falta: ", math: "32 - 24 = 8" }]
+    },
+    {
+      id: "med-q10",
+      tipo: "ejercicio",
+      etiqueta: "Media · Ejercicio 10 / 10",
+      pregunta: "¿Cuál medida de tendencia central es la más afectada por un valor extremo?",
+      opciones: ["la media", "la mediana", "la moda"],
+      correcta: 0,
+      explicacion: "La media usa todos los datos en la suma, así que un valor muy grande o muy pequeño la desplaza; la mediana y la moda casi no cambian.",
+      pasos: []
+    },
+
     // ── MEDIANA ───────────────────────────────────────────────────────────────
     {
       id: "mediana",
@@ -354,6 +516,95 @@ export const PRESENTACION = {
       math: "n\\ \\text{impar}: \\quad \\text{Me} = x_{\\frac{n+1}{2}}",
       por_que: "Primero se ordenan los datos. En {2, 2, 6, 7, 8} el del centro es 6. Si n es par, la mediana es el promedio de los dos valores centrales. A diferencia de la media, no le afectan los valores extremos.",
       math_razon: "n\\ \\text{par}: \\quad \\text{Me} = \\dfrac{x_{n/2} + x_{n/2+1}}{2}"
+    },
+
+    // ── MEDIANA · EJEMPLOS ────────────────────────────────────────────────────
+    {
+      id: "mdn-ej1",
+      tipo: "concepto",
+      titulo: "Mediana · Ejemplo 1 (n impar)",
+      etiqueta: "Mediana · Ejemplo 1 / 3",
+      formula: "3,\\ 4,\\ \\boxed{5},\\ 7,\\ 9 \\;\\Rightarrow\\; \\text{Me} = 5",
+      svgDiagram: "dotplot-mediana",
+      diagramData: [3, 7, 5, 9, 4],
+      items: [],
+      nota: "Primero se ordenan los datos. Con 5 datos (número impar) la mediana es el del centro: el tercero, 5. Deja dos datos a cada lado."
+    },
+    {
+      id: "mdn-ej2",
+      tipo: "concepto",
+      titulo: "Mediana · Ejemplo 2 (n par)",
+      etiqueta: "Mediana · Ejemplo 2 / 3",
+      formula: "\\text{Me} = \\dfrac{20+30}{2} = 25",
+      svgDiagram: "dotplot-mediana",
+      diagramData: [10, 20, 30, 40],
+      items: [],
+      nota: "Con 4 datos (número par) no hay un único centro: la mediana es el promedio de los dos valores centrales, 20 y 30, es decir 25."
+    },
+    {
+      id: "mdn-ej3",
+      tipo: "concepto",
+      titulo: "Mediana · Ejemplo 3 (resiste extremos)",
+      etiqueta: "Mediana · Ejemplo 3 / 3",
+      formula: "4,\\ 5,\\ \\boxed{6},\\ 7,\\ 100 \\;\\Rightarrow\\; \\text{Me} = 6",
+      svgDiagram: "dotplot-mediana",
+      diagramData: [4, 5, 6, 7, 100],
+      items: [],
+      nota: "Aunque el 100 es enorme, la mediana sigue siendo 6 (el valor central). A diferencia de la media, la mediana no se deja arrastrar por los valores extremos."
+    },
+
+    // ── MEDIANA · EJERCICIOS ──────────────────────────────────────────────────
+    {
+      id: "mdn-q1",
+      tipo: "ejercicio",
+      svgDiagram: "ej-est-mediana",
+      etiqueta: "Mediana · Ejercicio 1 / 5",
+      pregunta: "¿Cuál es la mediana del conjunto 3, 7, 5, 9, 4?",
+      opciones: ["5", "7", "6"],
+      correcta: 0,
+      explicacion: "Ordenados: 3, 4, 5, 7, 9. El valor central es 5.",
+      pasos: [{ pre: "Ordenar: ", math: "3,\\ 4,\\ \\boxed{5},\\ 7,\\ 9" }]
+    },
+    {
+      id: "mdn-q2",
+      tipo: "ejercicio",
+      svgDiagram: "ej-est-mediana-par",
+      etiqueta: "Mediana · Ejercicio 2 / 5",
+      pregunta: "¿Cuál es la mediana de 10, 20, 30 y 40?",
+      opciones: ["25", "30", "20"],
+      correcta: 0,
+      explicacion: "Número par de datos: la mediana es el promedio de los dos centrales (20 y 30) = 25.",
+      pasos: [{ pre: "Mediana: ", math: "\\dfrac{20+30}{2} = 25" }]
+    },
+    {
+      id: "mdn-q3",
+      tipo: "ejercicio",
+      etiqueta: "Mediana · Ejercicio 3 / 5",
+      pregunta: "¿Cuál es la mediana de 8, 3 y 5?",
+      opciones: ["5", "3", "8"],
+      correcta: 0,
+      explicacion: "Ordenados: 3, 5, 8. El valor central es 5.",
+      pasos: [{ pre: "Ordenar: ", math: "3,\\ \\boxed{5},\\ 8" }]
+    },
+    {
+      id: "mdn-q4",
+      tipo: "ejercicio",
+      etiqueta: "Mediana · Ejercicio 4 / 5",
+      pregunta: "¿Cuál es la mediana de 2, 4, 6, 8, 10 y 12?",
+      opciones: ["7", "6", "8"],
+      correcta: 0,
+      explicacion: "Seis datos: promedio de los dos centrales (6 y 8) = 7.",
+      pasos: [{ pre: "Mediana: ", math: "\\dfrac{6+8}{2} = 7" }]
+    },
+    {
+      id: "mdn-q5",
+      tipo: "ejercicio",
+      etiqueta: "Mediana · Ejercicio 5 / 5",
+      pregunta: "La mediana de un conjunto de datos es el valor que:",
+      opciones: ["deja la mitad de los datos por debajo y la mitad por encima", "se repite con más frecuencia", "es el promedio de todos los datos"],
+      correcta: 0,
+      explicacion: "La mediana es el valor central de los datos ordenados: divide el conjunto en dos mitades iguales.",
+      pasos: []
     },
 
     // ── MODA ──────────────────────────────────────────────────────────────────
@@ -369,71 +620,91 @@ export const PRESENTACION = {
       math_razon: "\\{2, 2, 6, 7, 8\\} \\;\\Rightarrow\\; \\text{Mo} = 2"
     },
 
-    // ── EJERCICIOS · TENDENCIA CENTRAL ────────────────────────────────────────
+    // ── MODA · EJEMPLOS ───────────────────────────────────────────────────────
     {
-      id: "eb1",
-      tipo: "ejercicio",
-      svgDiagram: "ej-est-media",
-      etiqueta: "Tendencia Central · Ejercicio 1 / 5",
-      pregunta: "Las calificaciones de un alumno fueron 8, 6, 7, 9 y 10. ¿Cuál es su promedio (media)?",
-      opciones: ["8", "7.5", "9"],
-      correcta: 0,
-      explicacion: "La suma es 40 y hay 5 datos: x̄ = 40/5 = 8.",
-      pasos: [
-        { pre: "Suma: ", math: "8+6+7+9+10 = 40" },
-        { pre: "Media: ", math: "\\bar{x} = \\dfrac{40}{5} = 8" }
-      ]
+      id: "mod-ej1",
+      tipo: "concepto",
+      titulo: "Moda · Ejemplo 1 (unimodal)",
+      etiqueta: "Moda · Ejemplo 1 / 3",
+      formula: "\\{2,4,4,5,6,4,7\\} \\;\\Rightarrow\\; \\text{Mo} = 4",
+      svgDiagram: "barras-moda",
+      diagramData: [2, 4, 4, 5, 6, 4, 7],
+      items: [],
+      nota: "Contamos cuántas veces aparece cada dato. El 4 aparece 3 veces, más que cualquier otro: es la moda. La barra más alta marca la moda."
     },
     {
-      id: "eb2",
-      tipo: "ejercicio",
-      svgDiagram: "ej-est-mediana",
-      etiqueta: "Tendencia Central · Ejercicio 2 / 5",
-      pregunta: "¿Cuál es la mediana del conjunto 3, 7, 5, 9, 4?",
-      opciones: ["5", "7", "6"],
-      correcta: 0,
-      explicacion: "Ordenados: 3, 4, 5, 7, 9. El valor central es 5.",
-      pasos: [
-        { pre: "Ordenar: ", math: "3,\\ 4,\\ \\boxed{5},\\ 7,\\ 9" },
-        { pre: "Valor central: ", math: "\\text{Me} = 5" }
-      ]
+      id: "mod-ej2",
+      tipo: "concepto",
+      titulo: "Moda · Ejemplo 2 (bimodal)",
+      etiqueta: "Moda · Ejemplo 2 / 3",
+      formula: "\\{1,2,2,3,3,4\\} \\;\\Rightarrow\\; \\text{Mo} = 2\\ \\text{y}\\ 3",
+      svgDiagram: "barras-moda",
+      diagramData: [1, 2, 2, 3, 3, 4],
+      items: [],
+      nota: "Aquí el 2 y el 3 empatan con dos apariciones cada uno: el conjunto es bimodal (tiene dos modas). Un conjunto puede tener una, varias o ninguna moda."
     },
     {
-      id: "eb3",
+      id: "mod-ej3",
+      tipo: "concepto",
+      titulo: "Moda · Ejemplo 3 (datos cualitativos)",
+      etiqueta: "Moda · Ejemplo 3 / 3",
+      formula: "\\text{Mo} = \\text{rojo}",
+      svgDiagram: "barras-moda",
+      diagramData: ["rojo", "azul", "rojo", "verde", "rojo"],
+      items: [],
+      nota: "La moda es la única medida que funciona con datos cualitativos: aquí el color que más se repite es «rojo» (3 veces). No tendría sentido sacar la media de un color."
+    },
+
+    // ── MODA · EJERCICIOS ─────────────────────────────────────────────────────
+    {
+      id: "mod-q1",
       tipo: "ejercicio",
       svgDiagram: "ej-est-moda",
-      etiqueta: "Tendencia Central · Ejercicio 3 / 5",
+      etiqueta: "Moda · Ejercicio 1 / 5",
       pregunta: "En la serie 2, 4, 4, 5, 6, 4, 7, ¿cuál es la moda?",
       opciones: ["4", "5", "2"],
       correcta: 0,
       explicacion: "El 4 aparece 3 veces, más que cualquier otro dato: la moda es 4.",
-      pasos: [
-        { pre: "Frecuencia mayor: ", math: "4 \\to 3 \\text{ veces}" },
-        { pre: "Moda: ", math: "\\text{Mo} = 4" }
-      ]
+      pasos: [{ pre: "Mayor frecuencia: ", math: "4 \\to 3 \\text{ veces}" }]
     },
     {
-      id: "eb6",
+      id: "mod-q2",
       tipo: "ejercicio",
-      svgDiagram: "ej-est-mediana-par",
-      etiqueta: "Tendencia Central · Ejercicio 4 / 5",
-      pregunta: "¿Cuál es la mediana de 10, 20, 30 y 40?",
-      opciones: ["25", "30", "20"],
+      etiqueta: "Moda · Ejercicio 2 / 5",
+      pregunta: "¿Cuál es la moda de 1, 3, 3, 3, 5 y 7?",
+      opciones: ["3", "1", "7"],
       correcta: 0,
-      explicacion: "Como hay un número par de datos, la mediana es el promedio de los dos centrales: (20+30)/2 = 25.",
-      pasos: [
-        { pre: "Dos centrales: ", math: "20 \\text{ y } 30" },
-        { pre: "Promedio: ", math: "\\text{Me} = \\dfrac{20+30}{2} = 25" }
-      ]
+      explicacion: "El 3 aparece 3 veces, más que los demás datos: la moda es 3.",
+      pasos: []
     },
     {
-      id: "ec5",
+      id: "mod-q3",
       tipo: "ejercicio",
-      etiqueta: "Tendencia Central · Ejercicio 5 / 5",
-      pregunta: "¿Cuál medida de tendencia central se puede usar con datos cualitativos, como el color favorito?",
-      opciones: ["la media", "la moda", "la mediana"],
-      correcta: 1,
-      explicacion: "La media y la mediana necesitan números; la moda solo cuenta cuál se repite más, así que también sirve para datos cualitativos.",
+      etiqueta: "Moda · Ejercicio 3 / 5",
+      pregunta: "En una encuesta, los colores favoritos fueron: rojo, azul, rojo, verde, rojo. ¿Cuál es la moda?",
+      opciones: ["rojo", "azul", "verde"],
+      correcta: 0,
+      explicacion: "«Rojo» aparece 3 veces, más que los demás: es la moda. La moda también sirve para datos cualitativos.",
+      pasos: []
+    },
+    {
+      id: "mod-q4",
+      tipo: "ejercicio",
+      etiqueta: "Moda · Ejercicio 4 / 5",
+      pregunta: "¿Cuál es la moda del conjunto 2, 2, 5, 5, 8?",
+      opciones: ["2 y 5 (bimodal)", "8", "no tiene moda"],
+      correcta: 0,
+      explicacion: "El 2 y el 5 aparecen dos veces cada uno: el conjunto es bimodal, con modas 2 y 5.",
+      pasos: []
+    },
+    {
+      id: "mod-q5",
+      tipo: "ejercicio",
+      etiqueta: "Moda · Ejercicio 5 / 5",
+      pregunta: "¿Cuál es la moda del conjunto 1, 2, 3, 4, 5?",
+      opciones: ["no tiene moda", "1", "5"],
+      correcta: 0,
+      explicacion: "Todos los datos aparecen una sola vez, así que ninguno se repite más: el conjunto no tiene moda.",
       pasos: []
     },
 

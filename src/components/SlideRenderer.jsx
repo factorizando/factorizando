@@ -783,6 +783,9 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar, expandidos, onEx
       {slide.svgDiagram === "ej-barras-deporte"        && <EjBarrasDeporteSVG        tema={tema} />}
       {slide.svgDiagram === "ej-histograma-estatura"   && <EjHistogramaEstaturaSVG   tema={tema} />}
       {slide.svgDiagram === "ej-circular-transporte"   && <EjCircularTransporteSVG   tema={tema} />}
+      {slide.svgDiagram === "dotplot-media"            && <DotPlotMediaSVG           tema={tema} data={slide.diagramData} />}
+      {slide.svgDiagram === "dotplot-mediana"          && <DotPlotMedianaSVG         tema={tema} data={slide.diagramData} />}
+      {slide.svgDiagram === "barras-moda"              && <BarrasModaSVG             tema={tema} data={slide.diagramData} />}
       {slide.svgDiagram === "cin-desplazamiento"       && <CinDesplazamientoSVG     tema={tema} />}
       {slide.svgDiagram === "din-fuerza-neta"          && <DinFuerzaNetaSVG         tema={tema} />}
       {slide.svgDiagram === "din-friccion"             && <DinFriccionSVG           tema={tema} />}
@@ -5104,6 +5107,91 @@ function EjCircularTransporteSVG({ tema }) {
           <text x="150" y="2" fill={tema.muted} fontSize="10.5" fontFamily="'IBM Plex Mono',monospace" textAnchor="end">{s.g}</text>
         </g>
       ))}
+    </svg>
+  );
+}
+
+// Dot-plot genérico para la MEDIA: puntos sobre una recta + línea en la media.
+function DotPlotMediaSVG({ tema, data }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted;
+  const vals = Array.isArray(data) ? data : [];
+  const n = vals.length;
+  const mean = n ? vals.reduce((s, v) => s + v, 0) / n : 0;
+  const lo = Math.min(...vals, mean), hi = Math.max(...vals, mean);
+  const pad = (hi - lo) * 0.12 || 1;
+  const minX = lo - pad, maxX = hi + pad;
+  const W = 296, x0 = 16, axisY = 94;
+  const X = (v) => x0 + ((v - minX) / (maxX - minX)) * W;
+  const counts = {};
+  const meanLabel = Number.isInteger(mean) ? mean : mean.toFixed(2);
+  return (
+    <svg viewBox="0 0 328 132" width="100%" style={{ display: "block", maxHeight: 152 }}>
+      <line x1={x0} y1={axisY} x2={x0 + W} y2={axisY} stroke={tema.border} strokeWidth="1.5" />
+      {[...new Set(vals)].sort((p, q) => p - q).map((v, i) => (
+        <text key={i} x={X(v)} y={axisY + 15} fill={mu} fontSize="9.5" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">{v}</text>
+      ))}
+      {vals.map((v, i) => {
+        counts[v] = (counts[v] || 0) + 1;
+        const cy = axisY - 10 - (counts[v] - 1) * 12;
+        return <circle key={i} cx={X(v)} cy={cy} r="5" fill={`${a}55`} stroke={a} strokeWidth="1.5" />;
+      })}
+      <line x1={X(mean)} y1={axisY - 64} x2={X(mean)} y2={axisY + 4} stroke={bl} strokeWidth="1.8" strokeDasharray="4 3" />
+      <text x={X(mean)} y={axisY - 68} fill={bl} fontSize="11.5" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">x̄ = {meanLabel}</text>
+    </svg>
+  );
+}
+
+// Dot-plot genérico para la MEDIANA: datos ordenados, resaltando el/los central(es).
+function DotPlotMedianaSVG({ tema, data }) {
+  const a = tema.acento, gr = tema.verde, mu = tema.muted;
+  const vals = [...(Array.isArray(data) ? data : [])].sort((p, q) => p - q);
+  const n = vals.length;
+  const centro = n % 2 ? [(n - 1) / 2] : [n / 2 - 1, n / 2];
+  const median = n % 2 ? vals[centro[0]] : (vals[centro[0]] + vals[centro[1]]) / 2;
+  const W = 296, x0 = 16, step = n > 1 ? W / (n - 1) : 0, y = 72;
+  const X = (i) => x0 + i * step;
+  const medLabel = Number.isInteger(median) ? median : median.toFixed(1);
+  return (
+    <svg viewBox="0 0 328 120" width="100%" style={{ display: "block", maxHeight: 140 }}>
+      <line x1={x0} y1={y} x2={x0 + W} y2={y} stroke={tema.border} strokeWidth="1.5" />
+      {vals.map((v, i) => {
+        const hi = centro.includes(i);
+        return (
+          <g key={i}>
+            <circle cx={X(i)} cy={y} r={hi ? 7 : 5.5} fill={hi ? `${gr}55` : `${a}33`} stroke={hi ? gr : a} strokeWidth={hi ? 2 : 1.4} />
+            <text x={X(i)} y={y + 20} fill={hi ? gr : mu} fontSize="11" fontFamily="'IBM Plex Mono',monospace" fontWeight={hi ? 700 : 400} textAnchor="middle">{v}</text>
+          </g>
+        );
+      })}
+      <text x={x0 + W / 2} y={y - 24} fill={gr} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">Me = {medLabel}</text>
+    </svg>
+  );
+}
+
+// Barras de frecuencia genéricas para la MODA: resalta la(s) barra(s) más alta(s).
+function BarrasModaSVG({ tema, data }) {
+  const a = tema.acento, mu = tema.muted, gr = tema.verde;
+  const vals = Array.isArray(data) ? data : [];
+  const freq = {};
+  vals.forEach((v) => { freq[v] = (freq[v] || 0) + 1; });
+  const keys = Object.keys(freq);
+  const maxF = Math.max(1, ...Object.values(freq));
+  const base = 104, k = 17, slot = Math.min(70, 300 / keys.length), bw = Math.min(44, slot - 16);
+  const x0 = (328 - keys.length * slot) / 2;
+  return (
+    <svg viewBox="0 0 328 132" width="100%" style={{ display: "block", maxHeight: 152 }}>
+      <line x1="12" y1={base} x2="316" y2={base} stroke={tema.border} strokeWidth="1.5" />
+      {keys.map((kk, i) => {
+        const f = freq[kk], hi = f === maxF;
+        const h = f * k, cx = x0 + i * slot + slot / 2, y = base - h;
+        return (
+          <g key={i}>
+            <rect x={cx - bw / 2} y={y} width={bw} height={h} rx="4" fill={hi ? `${gr}cc` : `${a}99`} stroke={hi ? gr : a} strokeWidth="1.4" />
+            <text x={cx} y={y - 5} fill={hi ? gr : a} fontSize="11.5" fontFamily="'IBM Plex Mono',monospace" fontWeight="700" textAnchor="middle">{f}</text>
+            <text x={cx} y={base + 15} fill={mu} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{kk}</text>
+          </g>
+        );
+      })}
     </svg>
   );
 }

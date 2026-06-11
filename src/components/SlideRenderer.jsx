@@ -4807,7 +4807,8 @@ function TablaFrecuenciasEst({ tema }) {
     ["9", 4, "0.20", "20%", 19],
     ["10", 1, "0.05", "5%", 20],
   ];
-  const th = { padding: "7px 12px", color: tema.acento, fontFamily: tema.mono, fontSize: 11, letterSpacing: "0.06em", textTransform: "uppercase", borderBottom: `1px solid ${tema.acentoBorde}`, textAlign: "center" };
+  // Sin uppercase: la distinción f (absoluta) vs F (acumulada) es semántica y debe conservarse.
+  const th = { padding: "7px 12px", color: tema.acento, fontFamily: tema.mono, fontSize: 12, letterSpacing: "0.06em", borderBottom: `1px solid ${tema.acentoBorde}`, textAlign: "center" };
   const td = { padding: "6px 12px", fontFamily: tema.mono, fontSize: 13, textAlign: "center", borderBottom: `1px solid ${tema.border}` };
   const tot = { ...td, color: tema.acento, fontWeight: 700, borderBottom: "none" };
   return (

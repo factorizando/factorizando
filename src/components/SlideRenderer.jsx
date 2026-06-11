@@ -4773,20 +4773,26 @@ function TiposVariableSVG({ tema }) {
     </g>
   );
   const ln = (x1, y1, x2, y2) => <line x1={x1} y1={y1} x2={x2} y2={y2} stroke={mu} strokeWidth="1.4" opacity="0.5" />;
+  const ej = (x, label) => <text x={x} y="159" fill={mu} fontSize="8.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{label}</text>;
   return (
-    <svg viewBox="0 0 360 168" width="100%" style={{ display: "block", maxHeight: 176 }}>
-      {ln(180, 32, 84, 62)}
-      {ln(180, 32, 264, 62)}
-      {ln(264, 90, 204, 122)}
-      {ln(264, 90, 310, 122)}
-      {caja(180, 18, 96, "Variable", a)}
-      {caja(84, 76, 112, "Cualitativa", bl)}
-      {caja(264, 76, 120, "Cuantitativa", a)}
-      {caja(204, 136, 96, "Discreta", a)}
-      {caja(310, 136, 96, "Continua", a)}
-      <text x="84" y="101" fill={mu} fontSize="9" fontFamily="'DM Sans',sans-serif" textAnchor="middle">color, sexo, marca</text>
-      <text x="204" y="161" fill={mu} fontSize="9" fontFamily="'DM Sans',sans-serif" textAnchor="middle">nº de hijos, goles</text>
-      <text x="310" y="161" fill={mu} fontSize="9" fontFamily="'DM Sans',sans-serif" textAnchor="middle">peso, tiempo</text>
+    <svg viewBox="0 0 380 172" width="100%" style={{ display: "block", maxHeight: 184 }}>
+      {ln(190, 32, 94, 58)}
+      {ln(190, 32, 286, 58)}
+      {ln(94, 86, 46, 116)}
+      {ln(94, 86, 142, 116)}
+      {ln(286, 86, 238, 116)}
+      {ln(286, 86, 334, 116)}
+      {caja(190, 18, 96, "Variable", a)}
+      {caja(94, 72, 116, "Cualitativa", bl)}
+      {caja(286, 72, 124, "Cuantitativa", a)}
+      {caja(46, 130, 84, "Nominal", bl)}
+      {caja(142, 130, 84, "Ordinal", bl)}
+      {caja(238, 130, 84, "Discreta", a)}
+      {caja(334, 130, 84, "Continua", a)}
+      {ej(46, "color, sexo")}
+      {ej(142, "escolaridad")}
+      {ej(238, "nº de hijos")}
+      {ej(334, "peso, tiempo")}
     </svg>
   );
 }
@@ -5952,6 +5958,7 @@ function renderEjercicioSVG(svgDiagram, tema) {
   if (svgDiagram === "ej-est-rango")       return <Ej_EstRangoSVG      tema={tema} />;
   if (svgDiagram === "ej-est-tabla")       return <TablaFrecuenciasEst tema={tema} />;
   if (svgDiagram === "ej-est-mediana-par") return <Ej_EstMedianaParSVG tema={tema} />;
+  if (svgDiagram === "graficas-barras")    return <EstBarrasChart      tema={tema} />;
   if (svgDiagram === "cel-portada")        return <CelPortadaSVG       tema={tema} />;
   if (svgDiagram === "cel-proc-euc")       return <CelProcEucSVG       tema={tema} />;
   if (svgDiagram === "cel-animal-vegetal") return <CelAnimalVegetalSVG tema={tema} />;

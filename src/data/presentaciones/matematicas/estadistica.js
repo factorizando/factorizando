@@ -17,6 +17,23 @@ export const PRESENTACION = {
       svgDiagram: "est-portada",
     },
 
+    // ── EJEMPLO ANCLA ─────────────────────────────────────────────────────────
+    {
+      id: "ejemplo",
+      tipo: "concepto",
+      titulo: "Un ejemplo para tener en mente",
+      etiqueta: "Antes de las definiciones",
+      formula: "N = 300 \\text{ (población)}, \\qquad n = 5 \\text{ (muestra)}",
+      svgDiagram: "ejemplo-estudiantes",
+      items: [
+        { math: "\\text{individuo}", texto: "cada estudiante de la tabla (una fila): Ana, Luis, Sofía…" },
+        { math: "\\text{dato}", texto: "cada valor registrado: «Mujer», «Intermedio», 2, 1.60 m" },
+        { math: "\\text{cualitativas}", texto: "sexo (nominal) y nivel de inglés (ordinal): describen cualidades" },
+        { math: "\\text{cuantitativas}", texto: "nº de hermanos (discreta) y estatura (continua): son números" }
+      ],
+      nota: "Queremos saber cómo son los 300 estudiantes de tercer grado (la población), pero solo medimos a 5 (la muestra). De cada estudiante (individuo) registramos varias variables, y cada valor anotado es un dato. Guarda esta tabla en mente: en las siguientes diapositivas definimos uno por uno cada concepto que aparece aquí."
+    },
+
     // ── VARIABLES Y DATOS ─────────────────────────────────────────────────────
     {
       id: "variables",

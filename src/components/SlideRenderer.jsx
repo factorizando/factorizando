@@ -780,6 +780,9 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar, expandidos, onEx
       {slide.svgDiagram === "tendencia-central"        && <TendenciaCentralSVG       tema={tema} />}
       {slide.svgDiagram === "dispersion"               && <DispersionSVG             tema={tema} />}
       {slide.svgDiagram === "graficas-circular"        && <EstCircularSVG            tema={tema} />}
+      {slide.svgDiagram === "ej-barras-deporte"        && <EjBarrasDeporteSVG        tema={tema} />}
+      {slide.svgDiagram === "ej-histograma-estatura"   && <EjHistogramaEstaturaSVG   tema={tema} />}
+      {slide.svgDiagram === "ej-circular-transporte"   && <EjCircularTransporteSVG   tema={tema} />}
       {slide.svgDiagram === "cin-desplazamiento"       && <CinDesplazamientoSVG     tema={tema} />}
       {slide.svgDiagram === "din-fuerza-neta"          && <DinFuerzaNetaSVG         tema={tema} />}
       {slide.svgDiagram === "din-friccion"             && <DinFriccionSVG           tema={tema} />}
@@ -5010,6 +5013,95 @@ function EstCircularSVG({ tema }) {
           <rect x="0" y="-9" width="13" height="13" rx="3" fill={`${s.c}cc`} />
           <text x="20" y="2" fill={tema.texto} fontSize="11.5" fontFamily="'DM Sans',sans-serif">{s.lab}</text>
           <text x="120" y="2" fill={s.c} fontSize="11.5" fontFamily="'IBM Plex Mono',monospace" fontWeight="600" textAnchor="end">{s.p}%</text>
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+// Ejemplo de gráfica de BARRAS (separadas): deporte favorito de 20 alumnos.
+function EjBarrasDeporteSVG({ tema }) {
+  const a = tema.acento, mu = tema.muted;
+  const base = 132, k = 12.5, bw = 46;
+  const bars = [
+    { cx: 52,  f: 8, lab: "Fútbol" },
+    { cx: 130, f: 5, lab: "Básquet" },
+    { cx: 208, f: 4, lab: "Voleibol" },
+    { cx: 286, f: 3, lab: "Natación" },
+  ];
+  return (
+    <svg viewBox="0 0 332 164" width="100%" style={{ display: "block", maxHeight: 196 }}>
+      <text x="14" y="13" fill={mu} fontSize="9.5" fontFamily="'DM Sans',sans-serif">frecuencia</text>
+      <line x1="14" y1={base} x2="326" y2={base} stroke={tema.border} strokeWidth="1.5" />
+      {bars.map((b, i) => {
+        const h = b.f * k, y = base - h;
+        return (
+          <g key={i}>
+            <rect x={b.cx - bw / 2} y={y} width={bw} height={h} rx="4" fill={`${a}cc`} stroke={a} strokeWidth="1.4" />
+            <text x={b.cx} y={y - 5} fill={a} fontSize="12" fontFamily="'IBM Plex Mono',monospace" fontWeight="700" textAnchor="middle">{b.f}</text>
+            <text x={b.cx} y={base + 15} fill={mu} fontSize="10.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{b.lab}</text>
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+// Ejemplo de HISTOGRAMA (barras juntas): estatura en cm de 20 alumnos, por intervalos.
+function EjHistogramaEstaturaSVG({ tema }) {
+  const a = tema.acento, mu = tema.muted;
+  const base = 130, k = 11, x0 = 50, bw = 58;
+  const ints = [
+    { f: 4, lab: "150–160" },
+    { f: 9, lab: "160–170" },
+    { f: 5, lab: "170–180" },
+    { f: 2, lab: "180–190" },
+  ];
+  return (
+    <svg viewBox="0 0 332 168" width="100%" style={{ display: "block", maxHeight: 196 }}>
+      <text x={x0} y="13" fill={mu} fontSize="9.5" fontFamily="'DM Sans',sans-serif">frecuencia</text>
+      <line x1={x0} y1={base} x2={x0 + ints.length * bw} y2={base} stroke={tema.border} strokeWidth="1.5" />
+      {ints.map((b, i) => {
+        const h = b.f * k, y = base - h, x = x0 + i * bw;
+        return (
+          <g key={i}>
+            <rect x={x} y={y} width={bw} height={h} fill={`${a}cc`} stroke={tema.bg} strokeWidth="1.3" />
+            <text x={x + bw / 2} y={y - 5} fill={a} fontSize="12" fontFamily="'IBM Plex Mono',monospace" fontWeight="700" textAnchor="middle">{b.f}</text>
+            <text x={x + bw / 2} y={base + 15} fill={mu} fontSize="9.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{b.lab}</text>
+          </g>
+        );
+      })}
+      <text x={x0 + ints.length * bw / 2} y={base + 31} fill={mu} fontSize="9.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">estatura (cm)</text>
+    </svg>
+  );
+}
+
+// Ejemplo de gráfica CIRCULAR: medio de transporte de 20 alumnos, con % y grados.
+function EjCircularTransporteSVG({ tema }) {
+  const segs = [
+    { lab: "Camión", p: 50, g: "180°", c: tema.acento },
+    { lab: "Auto",   p: 30, g: "108°", c: tema.azul },
+    { lab: "Bici",   p: 20, g: "72°",  c: tema.verde },
+  ];
+  const cx = 82, cy = 82, r = 62;
+  let ang = -Math.PI / 2;
+  const paths = segs.map((s, i) => {
+    const a0 = ang, a1 = ang + (s.p / 100) * 2 * Math.PI;
+    ang = a1;
+    const x0 = cx + r * Math.cos(a0), y0 = cy + r * Math.sin(a0);
+    const x1 = cx + r * Math.cos(a1), y1 = cy + r * Math.sin(a1);
+    const large = (a1 - a0) > Math.PI ? 1 : 0;
+    return <path key={i} d={`M ${cx} ${cy} L ${x0.toFixed(2)} ${y0.toFixed(2)} A ${r} ${r} 0 ${large} 1 ${x1.toFixed(2)} ${y1.toFixed(2)} Z`} fill={`${s.c}cc`} stroke={tema.bg} strokeWidth="1.5" />;
+  });
+  return (
+    <svg viewBox="0 0 320 172" width="100%" style={{ display: "block", maxHeight: 182 }}>
+      {paths}
+      {segs.map((s, i) => (
+        <g key={i} transform={`translate(176 ${44 + i * 30})`}>
+          <rect x="0" y="-9" width="13" height="13" rx="3" fill={`${s.c}cc`} />
+          <text x="20" y="2" fill={tema.texto} fontSize="11.5" fontFamily="'DM Sans',sans-serif">{s.lab}</text>
+          <text x="116" y="2" fill={s.c} fontSize="11.5" fontFamily="'IBM Plex Mono',monospace" fontWeight="600" textAnchor="end">{s.p}%</text>
+          <text x="150" y="2" fill={tema.muted} fontSize="10.5" fontFamily="'IBM Plex Mono',monospace" textAnchor="end">{s.g}</text>
         </g>
       ))}
     </svg>

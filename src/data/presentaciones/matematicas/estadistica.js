@@ -212,6 +212,54 @@ export const PRESENTACION = {
       nota: "Esta gráfica de barras representa la misma tabla anterior: cada barra es la frecuencia de una calificación. La más alta (el 8) es el valor más común."
     },
 
+    // ── EJEMPLO: GRÁFICA DE BARRAS ────────────────────────────────────────────
+    {
+      id: "ej-barras",
+      tipo: "concepto",
+      titulo: "Ejemplo: Gráfica de Barras",
+      etiqueta: "Comparar categorías",
+      formula: "\\text{Deporte favorito de 20 alumnos}",
+      svgDiagram: "ej-barras-deporte",
+      items: [
+        { math: "1", texto: "Eje horizontal: las categorías (fútbol, básquet, voleibol, natación)" },
+        { math: "2", texto: "Eje vertical: la frecuencia, cuántos alumnos eligieron cada una" },
+        { math: "3", texto: "Barras separadas: son categorías distintas (variable cualitativa)" }
+      ],
+      nota: "El fútbol, con 8 alumnos, es la barra más alta: la categoría más frecuente (la moda). Las barras van separadas porque las categorías no son números. Las alturas suman el total: 8 + 5 + 4 + 3 = 20."
+    },
+
+    // ── EJEMPLO: HISTOGRAMA ───────────────────────────────────────────────────
+    {
+      id: "ej-histograma",
+      tipo: "concepto",
+      titulo: "Ejemplo: Histograma",
+      etiqueta: "Datos continuos en intervalos",
+      formula: "\\text{Estatura (cm) de 20 alumnos}",
+      svgDiagram: "ej-histograma-estatura",
+      items: [
+        { math: "1", texto: "La variable es continua (estatura), así que se agrupa en intervalos o clases" },
+        { math: "2", texto: "Cada barra es la frecuencia de un intervalo: [160, 170) tiene 9 alumnos" },
+        { math: "3", texto: "Las barras se tocan (van juntas) porque los intervalos son continuos" }
+      ],
+      nota: "El intervalo [160, 170), con 9 alumnos, es el más frecuente (la clase modal). A diferencia de la gráfica de barras, aquí las barras se tocan: no hay huecos entre los intervalos. Las frecuencias suman 4 + 9 + 5 + 2 = 20."
+    },
+
+    // ── EJEMPLO: GRÁFICA CIRCULAR ─────────────────────────────────────────────
+    {
+      id: "ej-circular",
+      tipo: "concepto",
+      titulo: "Ejemplo: Gráfica Circular",
+      etiqueta: "Proporción del total",
+      formula: "\\text{sector} = f_r \\times 360°",
+      svgDiagram: "ej-circular-transporte",
+      items: [
+        { math: "f_r = f/N", texto: "Frecuencia relativa de cada categoría: Camión 10/20 = 0.50" },
+        { math: "\\times 360°", texto: "Por 360° se obtiene el ángulo del sector: 0.50 × 360° = 180°" },
+        { math: "\\times 100", texto: "Por 100 se obtiene el porcentaje: 0.50 × 100 = 50 %" }
+      ],
+      nota: "Camión: 10/20 = 0.50 → 180° (50 %). Auto: 6/20 = 0.30 → 108° (30 %). Bici: 4/20 = 0.20 → 72° (20 %). El sector más grande (camión) es el más frecuente, y todos juntos suman 360° (100 %)."
+    },
+
     // ── EJERCICIOS · GRÁFICAS ESTADÍSTICAS ────────────────────────────────────
     {
       id: "eg1",

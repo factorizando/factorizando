@@ -731,6 +731,8 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar, expandidos, onEx
   const [localExpanded, setLocalExpanded] = useState({});
   // Si llega `expandidos` (controlado por director/alumno) se usa ese; si no, estado local.
   const expanded = expandidos ?? localExpanded;
+  // El recuadro de fórmula es la tarjeta índice 0 (si existe); los items siguen desde 1.
+  const off = slide.formula ? 1 : 0;
   return (
     <div
       style={{
@@ -746,13 +748,17 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar, expandidos, onEx
       <Encabezado titulo={slide.titulo} etiqueta={slide.etiqueta} tema={tema} />
 
       <div
+        onClick={() => slide.formula && onResaltar && onResaltar(0)}
         style={{
           background: "rgba(0,0,0,0.45)",
-          border: `2px solid ${tema.acentoFuerte}`,
+          border: `2px solid ${resaltadoIdx === 0 && slide.formula ? tema.acento : tema.acentoFuerte}`,
           borderRadius: 12,
           padding: compact ? "14px 24px" : "22px 28px",
           textAlign: "center",
-          fontSize: compact ? "1.6em" : "1.9em"
+          fontSize: compact ? "1.6em" : "1.9em",
+          boxShadow: resaltadoIdx === 0 && slide.formula ? `0 0 0 2px ${tema.acentoBorde}, 0 0 16px ${tema.acentoBorde}` : "none",
+          transition: "all 0.2s",
+          cursor: slide.formula && onResaltar ? "pointer" : "default"
         }}
       >
         <M>{slide.formula}</M>
@@ -847,8 +853,9 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar, expandidos, onEx
 
       <div style={{ display: "flex", flexDirection: "column", gap: compact ? 8 : 10 }}>
         {slide.items.map((item, i) => {
-          const activo = resaltadoIdx === i;
-          const isOpen = !!expanded[i];
+          const idx = i + off;
+          const activo = resaltadoIdx === idx;
+          const isOpen = !!expanded[idx];
           return (
           <div
             key={i}
@@ -864,10 +871,10 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar, expandidos, onEx
             <div
               onClick={() => {
                 if (item.expandable) {
-                  const abierto = !expanded[i];
-                  if (onExpandir) onExpandir(i, abierto);          // director → broadcast
-                  if (!expandidos) setLocalExpanded(prev => ({ ...prev, [i]: abierto })); // modo standalone
-                } else if (onResaltar) onResaltar(i);
+                  const abierto = !expanded[idx];
+                  if (onExpandir) onExpandir(idx, abierto);          // director → broadcast
+                  if (!expandidos) setLocalExpanded(prev => ({ ...prev, [idx]: abierto })); // modo standalone
+                } else if (onResaltar) onResaltar(idx);
               }}
               style={{
                 display: "flex",

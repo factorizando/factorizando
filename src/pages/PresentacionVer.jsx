@@ -22,16 +22,21 @@ export default function PresentacionVer() {
   const slide = slides[slideIdx];
 
   // Nº de tarjetas navegables del slide según su tipo.
+  // En concepto, el recuadro de fórmula cuenta como una tarjeta (índice 0).
   function numTarjetas(s) {
     if (!s) return 0;
-    if (Array.isArray(s.items)) return s.items.length;
+    if (s.tipo === "criterio_detalle") return s.por_que ? 2 : 1;
+    if (Array.isArray(s.items)) return (s.formula ? 1 : 0) + s.items.length;
     if (Array.isArray(s.bloques)) return s.bloques.length;
     if (Array.isArray(s.puntos)) return s.puntos.length;
     return 0;
   }
-  // ¿La tarjeta de índice idx es desplegable? (solo los items de tipo concepto lo son)
+  // ¿La tarjeta de índice idx es desplegable? (solo los items de tipo concepto lo son;
+  // se descuenta el desplazamiento de la fórmula).
   function tarjetaExpandible(s, idx) {
-    return !!(s && idx != null && Array.isArray(s.items) && s.items[idx] && s.items[idx].expandable);
+    if (!s || idx == null || !Array.isArray(s.items)) return false;
+    const it = s.items[idx - (s.formula ? 1 : 0)];
+    return !!(it && it.expandable);
   }
   function toggleExpandir(idx, abierto) {
     setExpandido(prev => ({ ...prev, [idx]: abierto }));

@@ -2881,7 +2881,9 @@ function SlideEjemplo({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "se-lll-ej2"  && <SeLllEj2SVG   tema={tema} />}
       {slide.svgDiagram === "se-lal-ej1"  && <SeLalEj1SVG   tema={tema} />}
       {slide.svgDiagram === "se-lal-ej2"  && <SeLalEj2SVG   tema={tema} />}
-      {slide.svgDiagram === "se-lal-s2"   && <SeLalS2SVG    tema={tema} />}
+      {slide.svgDiagram === "se-lal-s2"           && <SeLalS2SVG              tema={tema} />}
+      {slide.svgDiagram === "fisica-cambios-estado" && <FisicaCambiosEstadoSVG  tema={tema} />}
+      {slide.svgDiagram === "fisica-caida-libre"    && <FisicaCaidaLibreSVG     tema={tema} />}
 
       <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
         {slide.pasos.map((p, i) => {
@@ -6920,7 +6922,9 @@ function SlideReglaRica({ slide, tema, modo, resaltadoIdx, onResaltar }) {
             "fisica-sistema-solar":     <FisicaSistemaSolarSVG      tema={tema} />,
             "fisica-energia-mecanica":  <FisicaEnergiaMecanicaSVG   tema={tema} />,
             "fisica-circuito":          <FisicaCircuitoSVG          tema={tema} />,
-            "fisica-transformaciones":  <FisicaTransformacionesSVG  tema={tema} />,
+            "fisica-transformaciones":    <FisicaTransformacionesSVG    tema={tema} />,
+            "fisica-cambios-estado":      <FisicaCambiosEstadoSVG       tema={tema} />,
+            "fisica-caida-libre":         <FisicaCaidaLibreSVG          tema={tema} />,
           };
           return (
             <div key={i} onClick={handleClick}
@@ -11907,6 +11911,141 @@ function FisicaTransformacionesSVG({ tema }) {
       <text x="160" y="114" textAnchor="middle" fill={a} fontSize="6" fontFamily="monospace" fontWeight="600">
         La energía no se crea ni se destruye, solo se transforma
       </text>
+    </svg>
+  );
+}
+
+// ── Física: Cambios de estado ─────────────────────────────────────────────────
+function FisicaCambiosEstadoSVG({ tema }) {
+  const a = tema.acento, grn = "#4ab890", gold = "#f5c842", org = "#ff7755", blu = "#88aaff";
+  const BY = 46, BH = 36, BW = 70;
+  const xs = [8, 125, 242];
+  const BCY = BY + BH / 2; // 64
+  const labels = [
+    { label: "SÓLIDO",  sub: "forma y vol. fijos",  color: a    },
+    { label: "LÍQUIDO", sub: "vol. fijo, forma var", color: grn  },
+    { label: "GAS",     sub: "forma y vol. var.",    color: gold },
+  ];
+  const arrowR = (y, x1, x2, color) => (
+    <g>
+      <line x1={x1} y1={y} x2={x2-5} y2={y} stroke={color} strokeWidth="1.5"/>
+      <polygon points={`${x2-5},${y-3.5} ${x2-5},${y+3.5} ${x2},${y}`} fill={color}/>
+    </g>
+  );
+  const arrowL = (y, x1, x2, color) => (
+    <g>
+      <line x1={x1} y1={y} x2={x2+5} y2={y} stroke={color} strokeWidth="1.5"/>
+      <polygon points={`${x2+5},${y-3.5} ${x2+5},${y+3.5} ${x2},${y}`} fill={color}/>
+    </g>
+  );
+  return (
+    <svg viewBox="0 0 320 130" width="100%" style={{ display:"block" }}>
+      <rect x="0" y="0" width="320" height="130" rx="5"
+        fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="160" y="11" textAnchor="middle" fill={a}
+        fontSize="6.5" fontFamily="monospace" fontWeight="700">CAMBIOS DE ESTADO</text>
+      {labels.map(({ label, sub, color }, i) => (
+        <g key={i}>
+          <rect x={xs[i]} y={BY} width={BW} height={BH} rx="4"
+            fill={`${color}20`} stroke={color} strokeWidth="1.5"/>
+          <text x={xs[i]+BW/2} y={BY+15} textAnchor="middle" fill={color}
+            fontSize="8" fontFamily="monospace" fontWeight="700">{label}</text>
+          <text x={xs[i]+BW/2} y={BY+27} textAnchor="middle" fill="rgba(255,255,255,0.4)"
+            fontSize="4.8" fontFamily="monospace">{sub}</text>
+        </g>
+      ))}
+      {/* SÓLIDO (right=78) ↔ LÍQUIDO (left=125) */}
+      {arrowR(BCY-5, 80, 123, grn)}
+      <text x="101" y={BCY-8} textAnchor="middle" fill={grn} fontSize="5" fontFamily="monospace">Fusión</text>
+      {arrowL(BCY+5, 123, 80, a)}
+      <text x="101" y={BCY+14} textAnchor="middle" fill={a} fontSize="5" fontFamily="monospace">Solidificación</text>
+      {/* LÍQUIDO (right=195) ↔ GAS (left=242) */}
+      {arrowR(BCY-5, 197, 240, gold)}
+      <text x="218" y={BCY-8} textAnchor="middle" fill={gold} fontSize="5" fontFamily="monospace">Vaporización</text>
+      {arrowL(BCY+5, 240, 197, grn)}
+      <text x="218" y={BCY+14} textAnchor="middle" fill={grn} fontSize="5" fontFamily="monospace">Condensación</text>
+      {/* Arc SÓLIDO top-center (43,46) → GAS top-center (277,46): Sublimación */}
+      <path d="M 43,46 Q 160,18 277,46" fill="none" stroke={org} strokeWidth="1.5" strokeDasharray="3,2"/>
+      <polygon points="272,42 272,50 278,46" fill={org}/>
+      <text x="160" y="25" textAnchor="middle" fill={org} fontSize="5.5" fontFamily="monospace" fontWeight="600">Sublimación (S→G) →</text>
+      {/* Arc GAS bottom (277,82) → SÓLIDO bottom (43,82): Deposición */}
+      <path d="M 277,82 Q 160,110 43,82" fill="none" stroke={blu} strokeWidth="1.5" strokeDasharray="3,2"/>
+      <polygon points="48,78 48,86 42,82" fill={blu}/>
+      <text x="160" y="120" textAnchor="middle" fill={blu} fontSize="5.5" fontFamily="monospace">← Deposición (G→S)</text>
+    </svg>
+  );
+}
+
+// ── Física: Caída libre ───────────────────────────────────────────────────────
+function FisicaCaidaLibreSVG({ tema }) {
+  const a = tema.acento, grn = "#4ab890", gold = "#f5c842";
+  const ballX = 75;
+  const rows = [
+    { y: 22,  h: 20, v: 0,  t: 0, color: a,    ec: "mín" },
+    { y: 62,  h: 15, v: 10, t: 1, color: grn,  ec: "↑" },
+    { y: 102, h: 0,  v: 20, t: 2, color: gold, ec: "máx" },
+  ];
+  const arrowDn = (x, y1, y2, color) => (
+    <g>
+      <line x1={x} y1={y1} x2={x} y2={y2-4} stroke={color} strokeWidth="1.5"/>
+      <polygon points={`${x-3},${y2-4} ${x+3},${y2-4} ${x},${y2}`} fill={color}/>
+    </g>
+  );
+  return (
+    <svg viewBox="0 0 320 128" width="100%" style={{ display:"block" }}>
+      <rect x="0" y="0" width="320" height="128" rx="5"
+        fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="160" y="11" textAnchor="middle" fill={a}
+        fontSize="6.5" fontFamily="monospace" fontWeight="700">CAÍDA LIBRE (g = 10 m/s²)</text>
+      {/* Left panel */}
+      <rect x="8" y="15" width="144" height="110" rx="4"
+        fill="rgba(0,0,0,0.18)" stroke="rgba(255,255,255,0.05)" strokeWidth="0.5"/>
+      {/* Ground */}
+      <line x1="16" y1="110" x2="144" y2="110" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5"/>
+      {[18,26,34,42,50,58,66,74,82,90,98,106,114,122,130,138].map(x=>(
+        <line key={x} x1={x} y1="110" x2={x-4} y2="116" stroke="rgba(255,255,255,0.12)" strokeWidth="0.7"/>
+      ))}
+      {/* Gravity arrow */}
+      {arrowDn(116, 24, 54, "rgba(255,255,255,0.25)")}
+      <text x="122" y="40" fill="rgba(255,255,255,0.25)" fontSize="5.5" fontFamily="monospace">g↓</text>
+      {/* Trajectory dashed line */}
+      <line x1={ballX} y1="22" x2={ballX} y2="100" stroke="rgba(255,255,255,0.12)" strokeWidth="1" strokeDasharray="2,3"/>
+      {/* Balls and velocity arrows */}
+      {rows.map(({ y, h, v, color }, i) => (
+        <g key={i}>
+          <circle cx={ballX} cy={y} r="8" fill={color} opacity="0.85"/>
+          <text x={ballX} y={y+3} textAnchor="middle" fill="white" fontSize="6.5" fontWeight="700">{i+1}</text>
+          <text x="18" y={y+3} fill={color} fontSize="5.5" fontFamily="monospace">h={h}m</text>
+          {v > 0 && arrowDn(ballX-16, y+8, Math.min(y+8+v*1.6, 106), color)}
+          <text x="90" y={y-1} fill={color} fontSize="5.5" fontFamily="monospace">v={v} m/s</text>
+        </g>
+      ))}
+      {/* Right panel: table */}
+      <rect x="162" y="15" width="150" height="110" rx="4"
+        fill="rgba(0,0,0,0.18)" stroke="rgba(255,255,255,0.05)" strokeWidth="0.5"/>
+      <text x="237" y="27" textAnchor="middle" fill={a}
+        fontSize="6" fontFamily="monospace" fontWeight="700">VALORES POR INSTANTE</text>
+      {/* Header */}
+      {[["t (s)",166],["h (m)",200],["v (m/s)",240],["Ep",285]].map(([txt,x])=>(
+        <text key={x} x={x} y="40" fill="rgba(255,255,255,0.45)" fontSize="5.5" fontFamily="monospace">{txt}</text>
+      ))}
+      <line x1="166" y1="43" x2="308" y2="43" stroke="rgba(255,255,255,0.15)" strokeWidth="0.7"/>
+      {rows.map(({ h, v, t, color, ec }, i) => {
+        const ry = 58 + i * 20;
+        return (
+          <g key={i}>
+            <text x="172" y={ry} fill={color} fontSize="7" fontFamily="monospace" fontWeight="600">{t}</text>
+            <text x="203" y={ry} fill={color} fontSize="7" fontFamily="monospace" fontWeight="600">{h}</text>
+            <text x="240" y={ry} fill={color} fontSize="7" fontFamily="monospace" fontWeight="600">{v}</text>
+            <text x="285" y={ry} fill={color} fontSize="7" fontFamily="monospace">{ec}</text>
+          </g>
+        );
+      })}
+      <line x1="166" y1="103" x2="308" y2="103" stroke="rgba(255,255,255,0.1)" strokeWidth="0.5"/>
+      <text x="237" y="113" textAnchor="middle"
+        fill="rgba(255,255,255,0.3)" fontSize="5" fontFamily="monospace">v = g·t</text>
+      <text x="237" y="121" textAnchor="middle"
+        fill="rgba(255,255,255,0.3)" fontSize="5" fontFamily="monospace">h_caída = ½·g·t²</text>
     </svg>
   );
 }

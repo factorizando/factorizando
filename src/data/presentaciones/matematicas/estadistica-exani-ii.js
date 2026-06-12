@@ -160,6 +160,36 @@ export const PRESENTACION = {
         }
       ]
     },
+    // ── Dispersión: cálculo paso a paso ───────────────────────────────────────
+    {
+      id: "dispersion-proceso",
+      tipo: "regla_rica",
+      etiqueta: "Bloque 3 · Dispersión (cálculo)",
+      titulo: "Cómo calcular σ paso a paso",
+      bloques: [
+        {
+          tipo: "texto",
+          texto: "Pasos para calcular σ: ① calcula la media x̄; ② resta x̄ a cada dato (x − x̄); ③ eleva cada diferencia al cuadrado; ④ suma los cuadrados; ⑤ divide entre n (esto es la varianza σ²); ⑥ saca la raíz cuadrada (esto es σ). La varianza y la desviación son distintas: σ es siempre la raíz de σ²."
+        },
+        {
+          tipo: "tabla",
+          titulo: "Ejemplo con {4, 6, 8}, x̄ = 6",
+          columnas: ["Dato x", "x − x̄", "(x − x̄)²"],
+          filas: [
+            { tiempo: "4",  correcto: "−2",  error: "4"  },
+            { tiempo: "6",  correcto: " 0",  error: "0"  },
+            { tiempo: "8",  correcto: "+2",  error: "4"  },
+            { tiempo: "Σ",  correcto: " —",  error: "8  →  σ² = 8/3 ≈ 2.67  →  σ ≈ 1.63" }
+          ]
+        },
+        {
+          tipo: "par",
+          etiqueta: "σ es la raíz de la varianza, no la varianza misma",
+          correcto: "σ² = 8/3 ≈ 2.67; σ = √2.67 ≈ 1.63. Son valores distintos.",
+          incorrecto: "Reportar σ = 2.67 (la varianza) → falta sacar la raíz cuadrada"
+        }
+      ]
+    },
     {
       id: 7,
       tipo: "ejercicio",

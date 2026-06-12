@@ -2167,6 +2167,8 @@ function SlideCriterioDetalle({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "mediana-detalle"          && <MedianaDetalleSVG      tema={tema} />}
       {slide.svgDiagram === "moda-detalle"             && <ModaDetalleSVG         tema={tema} />}
       {slide.svgDiagram === "desviacion-detalle"       && <DesviacionDetalleSVG   tema={tema} />}
+      {slide.svgDiagram === "rango-outlier"            && <RangoOutlierSVG        tema={tema} />}
+      {slide.svgDiagram === "proceso-sigma"            && <ProcesoSigmaSVG        tema={tema} />}
       {slide.svgDiagram === "cin-graf-xt"              && <CinGrafXtSVG           tema={tema} />}
       {slide.svgDiagram === "cin-graf-vt"              && <CinGrafVtSVG           tema={tema} />}
       {slide.svgDiagram === "cin-caida-libre"          && <CinCaidaLibreSVG       tema={tema} />}
@@ -5025,6 +5027,83 @@ function DesviacionDetalleSVG({ tema }) {
           </g>
         );
       })}
+    </svg>
+  );
+}
+
+// Dos rectas numéricas: A={3,4,5,6,7} R=4 vs B={3,4,5,6,23} R=20 — muestra cómo un outlier infla el rango.
+function RangoOutlierSVG({ tema }) {
+  const gr = tema.verde, rj = tema.rojo, mu = tema.muted;
+  const X = (v) => 25 + (v - 1) * (270 / 22);
+  const axisA = 68, axisB = 120;
+  const setA = [3, 4, 5, 6, 7];
+  const setB = [3, 4, 5, 6];
+  const outlier = 23;
+  return (
+    <svg viewBox="0 0 320 154" width="100%" style={{ display: "block", maxHeight: 162 }}>
+      {/* Set A */}
+      <text x="22" y={axisA - 22} fill={gr} fontSize="10" fontFamily="'DM Sans',sans-serif" fontWeight="600">{"A = {3, 4, 5, 6, 7}"}</text>
+      <line x1={X(1)} y1={axisA} x2={X(25)} y2={axisA} stroke={tema.border} strokeWidth="1.3" />
+      {setA.map((v, i) => (
+        <g key={i}>
+          <circle cx={X(v)} cy={axisA} r="5.5" fill={`${gr}33`} stroke={gr} strokeWidth="1.6" />
+          <text x={X(v)} y={axisA + 16} fill={mu} fontSize="9" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">{v}</text>
+        </g>
+      ))}
+      <line x1={X(3)} y1={axisA - 9} x2={X(7)} y2={axisA - 9} stroke={gr} strokeWidth="1.8" />
+      <line x1={X(3)} y1={axisA - 13} x2={X(3)} y2={axisA - 5} stroke={gr} strokeWidth="1.6" />
+      <line x1={X(7)} y1={axisA - 13} x2={X(7)} y2={axisA - 5} stroke={gr} strokeWidth="1.6" />
+      <text x={(X(3) + X(7)) / 2} y={axisA - 19} fill={gr} fontSize="9.5" fontFamily="'IBM Plex Mono',monospace" fontWeight="700" textAnchor="middle">R = 4</text>
+      {/* Set B */}
+      <text x="22" y={axisB - 22} fill={rj} fontSize="10" fontFamily="'DM Sans',sans-serif" fontWeight="600">{"B = {3, 4, 5, 6, 23}"}</text>
+      <line x1={X(1)} y1={axisB} x2={X(25)} y2={axisB} stroke={tema.border} strokeWidth="1.3" />
+      {setB.map((v, i) => (
+        <g key={i}>
+          <circle cx={X(v)} cy={axisB} r="5.5" fill={`${rj}22`} stroke={`${rj}88`} strokeWidth="1.6" />
+          <text x={X(v)} y={axisB + 16} fill={mu} fontSize="9" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">{v}</text>
+        </g>
+      ))}
+      <circle cx={X(outlier)} cy={axisB} r="5.5" fill={`${rj}44`} stroke={rj} strokeWidth="2" />
+      <text x={X(outlier)} y={axisB + 16} fill={rj} fontSize="9" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">{outlier}</text>
+      <line x1={X(3)} y1={axisB - 9} x2={X(outlier)} y2={axisB - 9} stroke={rj} strokeWidth="1.8" />
+      <line x1={X(3)} y1={axisB - 13} x2={X(3)} y2={axisB - 5} stroke={rj} strokeWidth="1.6" />
+      <line x1={X(outlier)} y1={axisB - 13} x2={X(outlier)} y2={axisB - 5} stroke={rj} strokeWidth="1.6" />
+      <text x={(X(3) + X(outlier)) / 2} y={axisB - 19} fill={rj} fontSize="9.5" fontFamily="'IBM Plex Mono',monospace" fontWeight="700" textAnchor="middle">R = 20</text>
+    </svg>
+  );
+}
+
+// Tabla de cálculo de σ con {4,6,8}: columnas x, x−x̄, (x−x̄)².
+function ProcesoSigmaSVG({ tema }) {
+  const bl = tema.azul, gr = tema.verde, a = tema.acento, mu = tema.muted, bor = tema.border;
+  const C = [57, 160, 263];
+  const rows = [
+    { x: "4", dx: "−2", dx2: "4" },
+    { x: "6", dx: " 0", dx2: "0" },
+    { x: "8", dx: "+2", dx2: "4" },
+  ];
+  const rowsY = [49, 70, 91];
+  return (
+    <svg viewBox="0 0 320 148" width="100%" style={{ display: "block", maxHeight: 156 }}>
+      <rect x="14" y="8" width="292" height="106" rx="6" fill="none" stroke={bor} strokeWidth="1" />
+      <rect x="14" y="8" width="292" height="24" rx="6" fill={`${bl}22`} />
+      <rect x="14" y="99" width="292" height="15" rx="0" fill={`${gr}1a`} />
+      {[100, 200].map(x => <line key={x} x1={x} y1="8" x2={x} y2="114" stroke={bor} strokeWidth="0.8" />)}
+      {[32, 57, 78, 99].map(y => <line key={y} x1="14" y1={y} x2="306" y2={y} stroke={bor} strokeWidth="0.8" />)}
+      <text x={C[0]} y={26} fill={bl} fontSize="11" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">x</text>
+      <text x={C[1]} y={26} fill={bl} fontSize="10.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{"x − x̅"}</text>
+      <text x={C[2]} y={26} fill={bl} fontSize="10.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{"(x − x̅)²"}</text>
+      {rows.map((r, i) => (
+        <g key={i}>
+          <text x={C[0]} y={rowsY[i]} fill={tema.texto} fontSize="12" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">{r.x}</text>
+          <text x={C[1]} y={rowsY[i]} fill={a} fontSize="12" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">{r.dx}</text>
+          <text x={C[2]} y={rowsY[i]} fill={gr} fontSize="12" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">{r.dx2}</text>
+        </g>
+      ))}
+      <text x={C[0]} y={110} fill={mu} fontSize="10.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">Σ</text>
+      <text x={C[1]} y={110} fill={mu} fontSize="10.5" textAnchor="middle">—</text>
+      <text x={C[2]} y={110} fill={gr} fontSize="12.5" fontFamily="'IBM Plex Mono',monospace" fontWeight="700" textAnchor="middle">8</text>
+      <text x="160" y="136" fill={a} fontSize="10.5" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">{"σ² = 8/3 ≈ 2.67  →  σ = √2.67 ≈ 1.63"}</text>
     </svg>
   );
 }

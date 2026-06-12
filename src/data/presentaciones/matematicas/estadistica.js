@@ -855,6 +855,19 @@ export const PRESENTACION = {
       nota: "Dos conjuntos pueden tener la misma media (8) y verse muy distintos: arriba los datos están juntos (poca dispersión) y abajo, muy separados (mucha dispersión). Este tema aparece sobre todo en el EXANI-II; en el EXANI-I casi no se pregunta."
     },
 
+    // ── LIMITACIÓN DEL RANGO ──────────────────────────────────────────────────
+    {
+      id: "rango-limite",
+      tipo: "criterio_detalle",
+      titulo: "Limitación del Rango",
+      etiqueta: "Un outlier puede engañar",
+      svgDiagram: "rango-outlier",
+      enunciado: "El rango solo usa los dos valores extremos e ignora cómo se distribuyen los demás. Un único dato atípico basta para inflar el rango aunque el resto esté muy junto.",
+      math: "R = x_{\\max} - x_{\\min} \\quad \\text{(solo depende de dos datos)}",
+      por_que: "A = {3,4,5,6,7}: cuatro datos agrupados entre 3 y 7, R = 4. B = {3,4,5,6,23}: cuatro datos siguen entre 3 y 6, pero el 23 dispara el rango a 20. El rango «miente» por culpa de ese único valor extremo.",
+      math_razon: "A\\!: R = 7-3 = 4 \\qquad B\\!: R = 23-3 = 20"
+    },
+
     // ── DESVIACIÓN ESTÁNDAR ───────────────────────────────────────────────────
     {
       id: "desviacion",
@@ -866,6 +879,19 @@ export const PRESENTACION = {
       math: "\\sigma = \\sqrt{\\dfrac{\\sum (x - \\bar{x})^2}{n}}",
       por_que: "Con {2, 4, 6, 8, 10} la media es 6. Las distancias a 6 son −4, −2, 0, 2, 4; sus cuadrados suman 40. La varianza es 40/5 = 8 y la desviación estándar es √8 ≈ 2.83.",
       math_razon: "\\sigma^2 = \\dfrac{16+4+0+4+16}{5} = 8, \\quad \\sigma = \\sqrt{8} \\approx 2.83"
+    },
+
+    // ── PROCESO DE CÁLCULO DE σ ───────────────────────────────────────────────
+    {
+      id: "proceso-sigma",
+      tipo: "criterio_detalle",
+      titulo: "Cómo Calcular la Desviación Estándar",
+      etiqueta: "Paso a paso con {4, 6, 8}",
+      svgDiagram: "proceso-sigma",
+      enunciado: "① Calcula la media  ② Resta la media a cada dato (x − x̄)  ③ Eleva al cuadrado  ④ Suma los cuadrados  ⑤ Divide entre n (varianza)  ⑥ Saca la raíz cuadrada.",
+      math: "\\sigma = \\sqrt{\\dfrac{\\sum (x - \\bar{x})^2}{n}}",
+      por_que: "Para {4, 6, 8}: media = 6. Distancias: −2, 0, +2. Cuadrados: 4, 0, 4. Suma = 8. Varianza = 8/3 ≈ 2.67. Desviación estándar = √2.67 ≈ 1.63.",
+      math_razon: "\\sigma = \\sqrt{\\dfrac{4+0+4}{3}} = \\sqrt{\\dfrac{8}{3}} \\approx 1.63"
     },
 
     // ── EJERCICIOS · DISPERSIÓN ───────────────────────────────────────────────
@@ -887,23 +913,32 @@ export const PRESENTACION = {
       id: "ed2",
       tipo: "ejercicio",
       etiqueta: "Dispersión · Ejercicio 2 / 5",
-      pregunta: "¿Cuál es el rango del conjunto 4, 9, 2, 7?",
-      opciones: ["7", "9", "5"],
+      pregunta: "El conjunto {2, 3, 4, 5, 30} tiene rango 28. ¿Es ese rango un buen indicador de la dispersión típica del conjunto?",
+      opciones: [
+        "No: un solo dato extremo infla el rango aunque los demás estén muy juntos",
+        "Sí: el rango siempre refleja bien cómo están distribuidos todos los datos",
+        "Sí: si el rango es grande, todos los datos deben estar dispersos"
+      ],
       correcta: 0,
-      explicacion: "Rango = mayor − menor = 9 − 2 = 7.",
+      explicacion: "Cuatro de los cinco datos (2, 3, 4, 5) están muy juntos; solo el 30 es atípico. El rango captura ese extremo, pero no describe la dispersión del resto. Por eso se prefiere la desviación estándar, que considera todos los datos.",
       pasos: [
-        { pre: "Rango: ", math: "R = 9 - 2 = 7" }
+        { pre: "Rango: ", math: "R = 30 - 2 = 28" },
+        { pre: "Pero 4 de 5 datos caben en: ", math: "[2,\\ 5], \\text{ amplitud apenas } 3" }
       ]
     },
     {
       id: "ed3",
       tipo: "ejercicio",
       etiqueta: "Dispersión · Ejercicio 3 / 5",
-      pregunta: "Si la desviación estándar de un conjunto de datos es muy pequeña, significa que los datos:",
-      opciones: ["están muy dispersos", "están agrupados cerca de la media", "no tienen media"],
-      correcta: 1,
-      explicacion: "Una desviación estándar pequeña indica poca separación respecto al promedio: los datos están agrupados cerca de la media.",
-      pasos: []
+      pregunta: "Para el conjunto {3, 6, 9}, la media es 6. ¿Cuál es la desviación estándar?",
+      opciones: ["√6 ≈ 2.45", "6", "√18 ≈ 4.24"],
+      correcta: 0,
+      explicacion: "Distancias a la media: 3−6=−3, 6−6=0, 9−6=+3. Cuadrados: 9, 0, 9. Suma = 18. Varianza = 18/3 = 6. Desviación estándar = √6 ≈ 2.45.",
+      pasos: [
+        { pre: "Cuadrados de distancias: ", math: "(-3)^2 + 0^2 + 3^2 = 9+0+9 = 18" },
+        { pre: "Varianza: ", math: "\\sigma^2 = \\tfrac{18}{3} = 6" },
+        { pre: "Desviación estándar: ", math: "\\sigma = \\sqrt{6} \\approx 2.45" }
+      ]
     },
     {
       id: "ed4",

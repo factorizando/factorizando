@@ -12,7 +12,7 @@ export const PRESENTACION = {
       id: 0,
       tipo: "portada",
       titulo: "Estadística",
-      subtitulo: "Tablas de frecuencia, gráficas, medidas de tendencia central y de dispersión",
+      subtitulo: "Tablas de frecuencia, medidas de tendencia central, gráficas y medidas de dispersión",
       etiqueta: "Pensamiento Matemático · EXANI-I",
       svgDiagram: "est-portada",
     },
@@ -194,197 +194,6 @@ export const PRESENTACION = {
       correcta: 1,
       explicacion: "Las frecuencias absolutas cuentan los datos, así que su suma es el total N. (Las que suman 1 son las relativas.)",
       pasos: []
-    },
-
-    // ── GRÁFICAS ESTADÍSTICAS ─────────────────────────────────────────────────
-    {
-      id: "graficas",
-      tipo: "concepto",
-      titulo: "Gráficas Estadísticas",
-      etiqueta: "Ver los datos de un vistazo",
-      formula: "\\text{altura de la barra} \\;\\propto\\; f",
-      svgDiagram: "graficas-barras",
-      items: [
-        { math: "\\text{barras}", texto: "compara categorías con barras separadas (cualitativos o discretos)" },
-        { math: "\\text{histograma}", texto: "datos agrupados en intervalos, con barras juntas (continuos)" },
-        { math: "\\text{circular}", texto: "muestra la proporción de cada parte respecto al total" }
-      ],
-      nota: "Esta gráfica de barras representa la misma tabla anterior: cada barra es la frecuencia de una calificación. La más alta (el 8) es el valor más común."
-    },
-
-    // ── EJEMPLO: GRÁFICA DE BARRAS ────────────────────────────────────────────
-    {
-      id: "ej-barras",
-      tipo: "concepto",
-      titulo: "Ejemplo: Gráfica de Barras",
-      etiqueta: "Comparar categorías",
-      formula: "\\text{Deporte favorito de 20 alumnos}",
-      svgDiagram: "ej-barras-deporte",
-      items: [
-        { math: "1", texto: "Eje horizontal: las categorías (fútbol, básquet, voleibol, natación)" },
-        { math: "2", texto: "Eje vertical: la frecuencia, cuántos alumnos eligieron cada una" },
-        { math: "3", texto: "Barras separadas: son categorías distintas (variable cualitativa)" }
-      ],
-      nota: "El fútbol, con 8 alumnos, es la barra más alta: la categoría más frecuente (la moda). Las barras van separadas porque las categorías no son números. Las alturas suman el total: 8 + 5 + 4 + 3 = 20."
-    },
-
-    // ── EJEMPLO: HISTOGRAMA ───────────────────────────────────────────────────
-    {
-      id: "ej-histograma",
-      tipo: "concepto",
-      titulo: "Ejemplo: Histograma",
-      etiqueta: "Datos continuos en intervalos",
-      formula: "\\text{Estatura (cm) de 20 alumnos}",
-      svgDiagram: "ej-histograma-estatura",
-      items: [
-        { math: "1", texto: "La variable es continua (estatura), así que se agrupa en intervalos o clases" },
-        { math: "2", texto: "Cada barra es la frecuencia de un intervalo: [160, 170) tiene 9 alumnos" },
-        { math: "3", texto: "Las barras se tocan (van juntas) porque los intervalos son continuos" }
-      ],
-      nota: "El intervalo [160, 170), con 9 alumnos, es el más frecuente (la clase modal). A diferencia de la gráfica de barras, aquí las barras se tocan: no hay huecos entre los intervalos. Las frecuencias suman 4 + 9 + 5 + 2 = 20."
-    },
-
-    // ── EJEMPLO: GRÁFICA CIRCULAR ─────────────────────────────────────────────
-    {
-      id: "ej-circular",
-      tipo: "concepto",
-      titulo: "Ejemplo: Gráfica Circular",
-      etiqueta: "Proporción del total",
-      formula: "\\text{sector} = f_r \\times 360°",
-      svgDiagram: "ej-circular-transporte",
-      items: [
-        { math: "f_r = f/N", texto: "Frecuencia relativa de cada categoría: Camión 10/20 = 0.50" },
-        { math: "\\times 360°", texto: "Por 360° se obtiene el ángulo del sector: 0.50 × 360° = 180°" },
-        { math: "\\times 100", texto: "Por 100 se obtiene el porcentaje: 0.50 × 100 = 50 %" }
-      ],
-      nota: "Camión: 10/20 = 0.50 → 180° (50 %). Auto: 6/20 = 0.30 → 108° (30 %). Bici: 4/20 = 0.20 → 72° (20 %). El sector más grande (camión) es el más frecuente, y todos juntos suman 360° (100 %)."
-    },
-
-    // ── EJERCICIOS · GRÁFICAS ESTADÍSTICAS ────────────────────────────────────
-    {
-      id: "eg1",
-      tipo: "ejercicio",
-      etiqueta: "Gráficas Estadísticas · Ejercicio 1 / 5",
-      pregunta: "¿Qué gráfica conviene para datos continuos agrupados en intervalos?",
-      opciones: ["gráfica de barras separadas", "histograma", "gráfica circular"],
-      correcta: 1,
-      explicacion: "El histograma usa barras juntas (sin espacio) porque los intervalos son continuos.",
-      pasos: []
-    },
-    {
-      id: "eg2",
-      tipo: "ejercicio",
-      etiqueta: "Gráficas Estadísticas · Ejercicio 2 / 5",
-      pregunta: "¿Qué gráfica muestra la proporción de cada parte respecto al total?",
-      opciones: ["la gráfica circular", "la gráfica de barras", "el histograma"],
-      correcta: 0,
-      explicacion: "La gráfica circular (de pastel) divide el círculo en sectores proporcionales a cada categoría.",
-      pasos: []
-    },
-    {
-      id: "eg3",
-      tipo: "ejercicio",
-      etiqueta: "Gráficas Estadísticas · Ejercicio 3 / 5",
-      pregunta: "En una gráfica de barras de frecuencias, la barra más alta corresponde a:",
-      opciones: ["la media", "la moda", "la mediana"],
-      correcta: 1,
-      explicacion: "La barra más alta es la del dato que más se repite, es decir, la moda.",
-      pasos: []
-    },
-    {
-      id: "eg4",
-      tipo: "ejercicio",
-      etiqueta: "Gráficas Estadísticas · Ejercicio 4 / 5",
-      pregunta: "¿Cuál es la diferencia principal entre una gráfica de barras y un histograma?",
-      opciones: ["el histograma usa barras juntas para datos continuos", "no hay ninguna diferencia", "la gráfica de barras solo sirve para porcentajes"],
-      correcta: 0,
-      explicacion: "Las barras van separadas (categorías o datos discretos); el histograma las pone juntas porque representa intervalos continuos.",
-      pasos: []
-    },
-    {
-      id: "eg5",
-      tipo: "ejercicio",
-      etiqueta: "Gráficas Estadísticas · Ejercicio 5 / 5",
-      pregunta: "En una gráfica circular, una categoría con frecuencia relativa 0.25 abarca un sector de:",
-      opciones: ["25°", "90°", "180°"],
-      correcta: 1,
-      explicacion: "El sector = fᵣ × 360° = 0.25 × 360° = 90°.",
-      pasos: [
-        { pre: "Sector: ", math: "0.25 \\times 360° = 90°" }
-      ]
-    },
-
-    // ── INTERPRETAR GRÁFICAS ──────────────────────────────────────────────────
-    {
-      id: "interpretar",
-      tipo: "concepto",
-      titulo: "Interpretar Gráficas",
-      etiqueta: "Leer y sacar conclusiones",
-      formula: "\\text{sector} = \\dfrac{f}{N} \\times 360°",
-      svgDiagram: "graficas-circular",
-      items: [
-        { math: "\\text{lee los ejes}", texto: "identifica qué representa cada eje y en qué unidades" },
-        { math: "\\text{compara}", texto: "la barra o sector más grande es el valor más frecuente (la moda)" },
-        { math: "f_r \\times 100", texto: "en la gráfica circular cada sector es un porcentaje del total" }
-      ],
-      nota: "En esta gráfica circular, el sector más grande (40 %) corresponde a la calificación 8: fue la más frecuente. Los sectores siempre suman 100 % (360°)."
-    },
-
-    // ── EJERCICIOS · INTERPRETAR GRÁFICAS ─────────────────────────────────────
-    {
-      id: "ei1",
-      tipo: "ejercicio",
-      etiqueta: "Interpretar Gráficas · Ejercicio 1 / 5",
-      pregunta: "En una gráfica circular, un sector de 90° representa qué porcentaje del total?",
-      opciones: ["25 %", "50 %", "90 %"],
-      correcta: 0,
-      explicacion: "El círculo completo es 360° = 100 %. Entonces 90° es 90/360 = 0.25, es decir, 25 %.",
-      pasos: [
-        { pre: "Porcentaje: ", math: "\\dfrac{90°}{360°} = 25\\,\\%" }
-      ]
-    },
-    {
-      id: "ei2",
-      tipo: "ejercicio",
-      etiqueta: "Interpretar Gráficas · Ejercicio 2 / 5",
-      pregunta: "El sector más grande de una gráfica circular corresponde a:",
-      opciones: ["el valor más frecuente", "el valor menos frecuente", "la media de los datos"],
-      correcta: 0,
-      explicacion: "El sector más grande tiene la mayor frecuencia, es decir, la categoría que más se repite (la moda).",
-      pasos: []
-    },
-    {
-      id: "ei3",
-      tipo: "ejercicio",
-      etiqueta: "Interpretar Gráficas · Ejercicio 3 / 5",
-      pregunta: "Los sectores de una gráfica circular siempre suman:",
-      opciones: ["100 % (360°)", "depende de los datos", "50 %"],
-      correcta: 0,
-      explicacion: "La gráfica circular reparte el total: todos los sectores juntos forman el círculo completo, 360° o 100 %.",
-      pasos: []
-    },
-    {
-      id: "ei4",
-      tipo: "ejercicio",
-      svgDiagram: "graficas-barras",
-      etiqueta: "Interpretar Gráficas · Ejercicio 4 / 5",
-      pregunta: "En la gráfica de barras de las calificaciones, ¿cuál fue la calificación más frecuente?",
-      opciones: ["8", "10", "6"],
-      correcta: 0,
-      explicacion: "La barra más alta corresponde al 8 (con frecuencia 8), así que fue la calificación más común.",
-      pasos: []
-    },
-    {
-      id: "ei5",
-      tipo: "ejercicio",
-      etiqueta: "Interpretar Gráficas · Ejercicio 5 / 5",
-      pregunta: "Una categoría representa el 30 % del total. ¿Cuántos grados abarca su sector en una gráfica circular?",
-      opciones: ["108°", "30°", "300°"],
-      correcta: 0,
-      explicacion: "Sector = porcentaje × 360° = 0.30 × 360° = 108°.",
-      pasos: [
-        { pre: "Sector: ", math: "0.30 \\times 360° = 108°" }
-      ]
     },
 
     // ── TENDENCIA CENTRAL (PANORAMA) ──────────────────────────────────────────
@@ -779,6 +588,255 @@ export const PRESENTACION = {
       correcta: 0,
       explicacion: "Todos los datos aparecen una sola vez, así que ninguno se repite más: el conjunto no tiene moda.",
       pasos: []
+    },
+
+    // ── GRÁFICAS ESTADÍSTICAS ─────────────────────────────────────────────────
+    {
+      id: "graficas",
+      tipo: "concepto",
+      titulo: "Gráficas Estadísticas",
+      etiqueta: "Ver los datos de un vistazo",
+      formula: "\\text{altura de la barra} \\;\\propto\\; f",
+      svgDiagram: "graficas-barras",
+      items: [
+        { math: "\\text{barras}", texto: "compara categorías con barras separadas (cualitativos o discretos)" },
+        { math: "\\text{histograma}", texto: "datos agrupados en intervalos, con barras juntas (continuos)" },
+        { math: "\\text{circular}", texto: "muestra la proporción de cada parte respecto al total" }
+      ],
+      nota: "Esta gráfica de barras representa la tabla de frecuencias de calificaciones que vimos antes: cada barra es la frecuencia de una calificación. La más alta (el 8) es el valor más común, es decir, la moda."
+    },
+
+    // ── EJEMPLO: GRÁFICA DE BARRAS ────────────────────────────────────────────
+    {
+      id: "ej-barras",
+      tipo: "concepto",
+      titulo: "Ejemplo: Gráfica de Barras",
+      etiqueta: "Comparar categorías",
+      formula: "\\text{Deporte favorito de 20 alumnos}",
+      svgDiagram: "ej-barras-deporte",
+      items: [
+        { math: "1", texto: "Eje horizontal: las categorías (fútbol, básquet, voleibol, natación)" },
+        { math: "2", texto: "Eje vertical: la frecuencia, cuántos alumnos eligieron cada una" },
+        { math: "3", texto: "Barras separadas: son categorías distintas (variable cualitativa)" }
+      ],
+      nota: "El fútbol, con 8 alumnos, es la barra más alta: la categoría más frecuente (la moda). Las barras van separadas porque las categorías no son números. Las alturas suman el total: 8 + 5 + 4 + 3 = 20."
+    },
+
+    // ── EJEMPLO: HISTOGRAMA ───────────────────────────────────────────────────
+    {
+      id: "ej-histograma",
+      tipo: "concepto",
+      titulo: "Ejemplo: Histograma",
+      etiqueta: "Datos continuos en intervalos",
+      formula: "\\text{Estatura (cm) de 20 alumnos}",
+      svgDiagram: "ej-histograma-estatura",
+      items: [
+        { math: "1", texto: "La variable es continua (estatura), así que se agrupa en intervalos o clases" },
+        { math: "2", texto: "Cada barra es la frecuencia de un intervalo: [160, 170) tiene 9 alumnos" },
+        { math: "3", texto: "Las barras se tocan (van juntas) porque los intervalos son continuos" }
+      ],
+      nota: "El intervalo [160, 170), con 9 alumnos, es el más frecuente (la clase modal). A diferencia de la gráfica de barras, aquí las barras se tocan: no hay huecos entre los intervalos. Las frecuencias suman 4 + 9 + 5 + 2 = 20."
+    },
+
+    // ── EJEMPLO: GRÁFICA CIRCULAR ─────────────────────────────────────────────
+    {
+      id: "ej-circular",
+      tipo: "concepto",
+      titulo: "Ejemplo: Gráfica Circular",
+      etiqueta: "Proporción del total",
+      formula: "\\text{sector} = f_r \\times 360°",
+      svgDiagram: "ej-circular-transporte",
+      items: [
+        { math: "f_r = f/N", texto: "Frecuencia relativa de cada categoría: Camión 10/20 = 0.50" },
+        { math: "\\times 360°", texto: "Por 360° se obtiene el ángulo del sector: 0.50 × 360° = 180°" },
+        { math: "\\times 100", texto: "Por 100 se obtiene el porcentaje: 0.50 × 100 = 50 %" }
+      ],
+      nota: "Camión: 10/20 = 0.50 → 180° (50 %). Auto: 6/20 = 0.30 → 108° (30 %). Bici: 4/20 = 0.20 → 72° (20 %). El sector más grande (camión) es el más frecuente, y todos juntos suman 360° (100 %)."
+    },
+
+    // ── EJERCICIOS · GRÁFICAS ESTADÍSTICAS ────────────────────────────────────
+    {
+      id: "eg1",
+      tipo: "ejercicio",
+      etiqueta: "Gráficas Estadísticas · Ejercicio 1 / 5",
+      pregunta: "¿Qué gráfica conviene para datos continuos agrupados en intervalos?",
+      opciones: ["gráfica de barras separadas", "histograma", "gráfica circular"],
+      correcta: 1,
+      explicacion: "El histograma usa barras juntas (sin espacio) porque los intervalos son continuos.",
+      pasos: []
+    },
+    {
+      id: "eg2",
+      tipo: "ejercicio",
+      etiqueta: "Gráficas Estadísticas · Ejercicio 2 / 5",
+      pregunta: "¿Qué gráfica muestra la proporción de cada parte respecto al total?",
+      opciones: ["la gráfica circular", "la gráfica de barras", "el histograma"],
+      correcta: 0,
+      explicacion: "La gráfica circular (de pastel) divide el círculo en sectores proporcionales a cada categoría.",
+      pasos: []
+    },
+    {
+      id: "eg3",
+      tipo: "ejercicio",
+      etiqueta: "Gráficas Estadísticas · Ejercicio 3 / 5",
+      pregunta: "En una gráfica de barras de frecuencias, la barra más alta corresponde a:",
+      opciones: ["la media", "la moda", "la mediana"],
+      correcta: 1,
+      explicacion: "La barra más alta es la del dato que más se repite, es decir, la moda.",
+      pasos: []
+    },
+    {
+      id: "eg4",
+      tipo: "ejercicio",
+      etiqueta: "Gráficas Estadísticas · Ejercicio 4 / 5",
+      pregunta: "¿Cuál es la diferencia principal entre una gráfica de barras y un histograma?",
+      opciones: ["el histograma usa barras juntas para datos continuos", "no hay ninguna diferencia", "la gráfica de barras solo sirve para porcentajes"],
+      correcta: 0,
+      explicacion: "Las barras van separadas (categorías o datos discretos); el histograma las pone juntas porque representa intervalos continuos.",
+      pasos: []
+    },
+    {
+      id: "eg5",
+      tipo: "ejercicio",
+      etiqueta: "Gráficas Estadísticas · Ejercicio 5 / 5",
+      pregunta: "En una gráfica circular, una categoría con frecuencia relativa 0.25 abarca un sector de:",
+      opciones: ["25°", "90°", "180°"],
+      correcta: 1,
+      explicacion: "El sector = fᵣ × 360° = 0.25 × 360° = 90°.",
+      pasos: [
+        { pre: "Sector: ", math: "0.25 \\times 360° = 90°" }
+      ]
+    },
+
+    // ── INTERPRETAR GRÁFICAS ──────────────────────────────────────────────────
+    {
+      id: "interpretar",
+      tipo: "concepto",
+      titulo: "Interpretar Gráficas",
+      etiqueta: "Leer y sacar conclusiones",
+      formula: "\\text{sector} = \\dfrac{f}{N} \\times 360°",
+      svgDiagram: "graficas-circular",
+      items: [
+        { math: "\\text{lee los ejes}", texto: "identifica qué representa cada eje y en qué unidades" },
+        { math: "\\text{compara}", texto: "la barra o sector más grande es el valor más frecuente (la moda)" },
+        { math: "f_r \\times 100", texto: "en la gráfica circular cada sector es un porcentaje del total" }
+      ],
+      nota: "En esta gráfica circular, el sector más grande (40 %) corresponde a la calificación 8: fue la más frecuente. Los sectores siempre suman 100 % (360°)."
+    },
+
+    // ── INTERPRETAR · EJEMPLOS ────────────────────────────────────────────────
+    {
+      id: "int-ej1",
+      tipo: "concepto",
+      titulo: "Interpretar · Ejemplo 1 (datos cualitativos)",
+      etiqueta: "Barras con categorías",
+      formula: "\\text{Deporte favorito de 20 alumnos}",
+      svgDiagram: "ej-barras-deporte",
+      items: [
+        { math: "\\text{Mo}", texto: "Sí podemos leer la moda: fútbol (8) es la barra más alta, la categoría favorita" },
+        { math: "N = 8+5+4+3", texto: "Sí podemos obtener el total: sumando las alturas, N = 20 alumnos" },
+        { math: "8 - 3 = 5", texto: "Sí podemos comparar: 5 alumnos más prefieren fútbol que natación" }
+      ],
+      nota: "Cuando los datos son cualitativos (categorías como deportes o colores), la gráfica solo permite contar y comparar frecuencias. NO tiene sentido calcular media ni mediana: no se puede «promediar» fútbol con natación. La única medida de tendencia central disponible es la moda."
+    },
+    {
+      id: "int-ej2",
+      tipo: "concepto",
+      titulo: "Interpretar · Ejemplo 2 (datos cuantitativos)",
+      etiqueta: "Barras con números",
+      formula: "\\bar{x} = \\dfrac{6(2)+7(5)+8(8)+9(4)+10(1)}{20} = \\dfrac{157}{20} = 7.85",
+      svgDiagram: "graficas-barras",
+      items: [
+        { math: "\\text{tabla}", texto: "La gráfica permite reconstruir la tabla: el 6 salió 2 veces, el 7 cinco, el 8 ocho, el 9 cuatro y el 10 una" },
+        { math: "\\bar{x},\\ \\text{Me},\\ \\text{Mo}", texto: "Como los datos son números, podemos calcular las tres medidas: media 7.85, mediana 8 y moda 8" },
+        { math: "5+8+4+1 = 18", texto: "También responder preguntas acumuladas: 18 alumnos sacaron 7 o más" }
+      ],
+      nota: "Misma gráfica de barras, pero ahora las categorías son números (calificaciones): eso lo desbloquea todo. Cada barra dice cuántas veces salió cada valor, así que la gráfica contiene los 20 datos completos y podemos calcular cualquier medida a partir de ella."
+    },
+    {
+      id: "int-ej3",
+      tipo: "concepto",
+      titulo: "Interpretar · Ejemplo 3 (datos agrupados)",
+      etiqueta: "Histograma de intervalos",
+      formula: "\\text{Estatura (cm) de 20 alumnos}",
+      svgDiagram: "ej-histograma-estatura",
+      items: [
+        { math: "[160, 170)", texto: "Sí podemos leer la clase modal: el intervalo más frecuente, con 9 alumnos" },
+        { math: "4 + 9 = 13", texto: "Sí podemos acumular: 13 alumnos miden menos de 170 cm" },
+        { math: "x = \\;?", texto: "NO podemos recuperar los datos exactos: solo sabemos que 9 miden «entre 160 y 170»" }
+      ],
+      nota: "Al agrupar datos continuos en intervalos se gana claridad pero se pierde detalle: el histograma ya no dice las estaturas individuales. Por eso de un histograma solo se obtienen aproximaciones de la media o la mediana, no sus valores exactos. A cambio, la forma de las barras muestra de un vistazo dónde se concentran los datos."
+    },
+    {
+      id: "int-ej4",
+      tipo: "concepto",
+      titulo: "Interpretar · Ejemplo 4 (porcentajes)",
+      etiqueta: "Gráfica circular",
+      formula: "f = f_r \\times N = 0.40 \\times 20 = 8",
+      svgDiagram: "graficas-circular",
+      items: [
+        { math: "f_r", texto: "La circular muestra proporciones, no cantidades: el 8 fue el 40 % de las calificaciones" },
+        { math: "0.40 \\times 20 = 8", texto: "Si conocemos el total (N = 20), recuperamos las frecuencias: 40 % de 20 = 8 alumnos" },
+        { math: "40+20+5 = 65\\,\\%", texto: "Y podemos sumar sectores: el 65 % del grupo sacó 8 o más" }
+      ],
+      nota: "Sin el total N, una gráfica circular solo permite hablar de porcentajes («el 40 % sacó 8»), no de cantidades («8 alumnos sacaron 8»). Es la misma información de la gráfica de barras del ejemplo 2, pero vista como proporción: por eso la circular es ideal para preguntas tipo «¿qué parte del total…?»."
+    },
+
+    // ── EJERCICIOS · INTERPRETAR GRÁFICAS ─────────────────────────────────────
+    {
+      id: "ei1",
+      tipo: "ejercicio",
+      etiqueta: "Interpretar Gráficas · Ejercicio 1 / 5",
+      pregunta: "En una gráfica circular, un sector de 90° representa qué porcentaje del total?",
+      opciones: ["25 %", "50 %", "90 %"],
+      correcta: 0,
+      explicacion: "El círculo completo es 360° = 100 %. Entonces 90° es 90/360 = 0.25, es decir, 25 %.",
+      pasos: [
+        { pre: "Porcentaje: ", math: "\\dfrac{90°}{360°} = 25\\,\\%" }
+      ]
+    },
+    {
+      id: "ei2",
+      tipo: "ejercicio",
+      etiqueta: "Interpretar Gráficas · Ejercicio 2 / 5",
+      pregunta: "El sector más grande de una gráfica circular corresponde a:",
+      opciones: ["el valor más frecuente", "el valor menos frecuente", "la media de los datos"],
+      correcta: 0,
+      explicacion: "El sector más grande tiene la mayor frecuencia, es decir, la categoría que más se repite (la moda).",
+      pasos: []
+    },
+    {
+      id: "ei3",
+      tipo: "ejercicio",
+      etiqueta: "Interpretar Gráficas · Ejercicio 3 / 5",
+      pregunta: "Los sectores de una gráfica circular siempre suman:",
+      opciones: ["100 % (360°)", "depende de los datos", "50 %"],
+      correcta: 0,
+      explicacion: "La gráfica circular reparte el total: todos los sectores juntos forman el círculo completo, 360° o 100 %.",
+      pasos: []
+    },
+    {
+      id: "ei4",
+      tipo: "ejercicio",
+      svgDiagram: "graficas-barras",
+      etiqueta: "Interpretar Gráficas · Ejercicio 4 / 5",
+      pregunta: "En la gráfica de barras de las calificaciones, ¿cuál fue la calificación más frecuente?",
+      opciones: ["8", "10", "6"],
+      correcta: 0,
+      explicacion: "La barra más alta corresponde al 8 (con frecuencia 8), así que fue la calificación más común.",
+      pasos: []
+    },
+    {
+      id: "ei5",
+      tipo: "ejercicio",
+      etiqueta: "Interpretar Gráficas · Ejercicio 5 / 5",
+      pregunta: "Una categoría representa el 30 % del total. ¿Cuántos grados abarca su sector en una gráfica circular?",
+      opciones: ["108°", "30°", "300°"],
+      correcta: 0,
+      explicacion: "Sector = porcentaje × 360° = 0.30 × 360° = 108°.",
+      pasos: [
+        { pre: "Sector: ", math: "0.30 \\times 360° = 108°" }
+      ]
     },
 
     // ── DISPERSIÓN (PANORAMA) ─────────────────────────────────────────────────

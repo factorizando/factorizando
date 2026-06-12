@@ -314,6 +314,79 @@ export const PRESENTACION = {
       ]
     },
 
+    // ── INTERPRETAR GRÁFICAS ──────────────────────────────────────────────────
+    {
+      id: "interpretar",
+      tipo: "concepto",
+      titulo: "Interpretar Gráficas",
+      etiqueta: "Leer y sacar conclusiones",
+      formula: "\\text{sector} = \\dfrac{f}{N} \\times 360°",
+      svgDiagram: "graficas-circular",
+      items: [
+        { math: "\\text{lee los ejes}", texto: "identifica qué representa cada eje y en qué unidades" },
+        { math: "\\text{compara}", texto: "la barra o sector más grande es el valor más frecuente (la moda)" },
+        { math: "f_r \\times 100", texto: "en la gráfica circular cada sector es un porcentaje del total" }
+      ],
+      nota: "En esta gráfica circular, el sector más grande (40 %) corresponde a la calificación 8: fue la más frecuente. Los sectores siempre suman 100 % (360°)."
+    },
+
+    // ── EJERCICIOS · INTERPRETAR GRÁFICAS ─────────────────────────────────────
+    {
+      id: "ei1",
+      tipo: "ejercicio",
+      etiqueta: "Interpretar Gráficas · Ejercicio 1 / 5",
+      pregunta: "En una gráfica circular, un sector de 90° representa qué porcentaje del total?",
+      opciones: ["25 %", "50 %", "90 %"],
+      correcta: 0,
+      explicacion: "El círculo completo es 360° = 100 %. Entonces 90° es 90/360 = 0.25, es decir, 25 %.",
+      pasos: [
+        { pre: "Porcentaje: ", math: "\\dfrac{90°}{360°} = 25\\,\\%" }
+      ]
+    },
+    {
+      id: "ei2",
+      tipo: "ejercicio",
+      etiqueta: "Interpretar Gráficas · Ejercicio 2 / 5",
+      pregunta: "El sector más grande de una gráfica circular corresponde a:",
+      opciones: ["el valor más frecuente", "el valor menos frecuente", "la media de los datos"],
+      correcta: 0,
+      explicacion: "El sector más grande tiene la mayor frecuencia, es decir, la categoría que más se repite (la moda).",
+      pasos: []
+    },
+    {
+      id: "ei3",
+      tipo: "ejercicio",
+      etiqueta: "Interpretar Gráficas · Ejercicio 3 / 5",
+      pregunta: "Los sectores de una gráfica circular siempre suman:",
+      opciones: ["100 % (360°)", "depende de los datos", "50 %"],
+      correcta: 0,
+      explicacion: "La gráfica circular reparte el total: todos los sectores juntos forman el círculo completo, 360° o 100 %.",
+      pasos: []
+    },
+    {
+      id: "ei4",
+      tipo: "ejercicio",
+      svgDiagram: "graficas-barras",
+      etiqueta: "Interpretar Gráficas · Ejercicio 4 / 5",
+      pregunta: "En la gráfica de barras de las calificaciones, ¿cuál fue la calificación más frecuente?",
+      opciones: ["8", "10", "6"],
+      correcta: 0,
+      explicacion: "La barra más alta corresponde al 8 (con frecuencia 8), así que fue la calificación más común.",
+      pasos: []
+    },
+    {
+      id: "ei5",
+      tipo: "ejercicio",
+      etiqueta: "Interpretar Gráficas · Ejercicio 5 / 5",
+      pregunta: "Una categoría representa el 30 % del total. ¿Cuántos grados abarca su sector en una gráfica circular?",
+      opciones: ["108°", "30°", "300°"],
+      correcta: 0,
+      explicacion: "Sector = porcentaje × 360° = 0.30 × 360° = 108°.",
+      pasos: [
+        { pre: "Sector: ", math: "0.30 \\times 360° = 108°" }
+      ]
+    },
+
     // ── TENDENCIA CENTRAL (PANORAMA) ──────────────────────────────────────────
     {
       id: "tendencia",
@@ -721,7 +794,7 @@ export const PRESENTACION = {
         { math: "\\sigma^2\\ \\text{(varianza)}", texto: "promedio de los cuadrados de las distancias a la media" },
         { math: "\\sigma\\ \\text{(desv. estándar)}", texto: "raíz de la varianza; en las mismas unidades que los datos" }
       ],
-      nota: "Dos conjuntos pueden tener la misma media (8) y verse muy distintos: arriba los datos están juntos (poca dispersión) y abajo, muy separados (mucha dispersión)."
+      nota: "Dos conjuntos pueden tener la misma media (8) y verse muy distintos: arriba los datos están juntos (poca dispersión) y abajo, muy separados (mucha dispersión). Este tema aparece sobre todo en el EXANI-II; en el EXANI-I casi no se pregunta."
     },
 
     // ── DESVIACIÓN ESTÁNDAR ───────────────────────────────────────────────────
@@ -795,79 +868,6 @@ export const PRESENTACION = {
       correcta: 0,
       explicacion: "La varianza queda en unidades al cuadrado; al sacar la raíz, la desviación estándar vuelve a las unidades originales de los datos.",
       pasos: []
-    },
-
-    // ── INTERPRETAR GRÁFICAS ──────────────────────────────────────────────────
-    {
-      id: "interpretar",
-      tipo: "concepto",
-      titulo: "Interpretar Gráficas",
-      etiqueta: "Leer y sacar conclusiones",
-      formula: "\\text{sector} = \\dfrac{f}{N} \\times 360°",
-      svgDiagram: "graficas-circular",
-      items: [
-        { math: "\\text{lee los ejes}", texto: "identifica qué representa cada eje y en qué unidades" },
-        { math: "\\text{compara}", texto: "la barra o sector más grande es el valor más frecuente (la moda)" },
-        { math: "f_r \\times 100", texto: "en la gráfica circular cada sector es un porcentaje del total" }
-      ],
-      nota: "En esta gráfica circular, el sector más grande (40 %) corresponde a la calificación 8: fue la más frecuente. Los sectores siempre suman 100 % (360°)."
-    },
-
-    // ── EJERCICIOS · INTERPRETAR GRÁFICAS ─────────────────────────────────────
-    {
-      id: "ei1",
-      tipo: "ejercicio",
-      etiqueta: "Interpretar Gráficas · Ejercicio 1 / 5",
-      pregunta: "En una gráfica circular, un sector de 90° representa qué porcentaje del total?",
-      opciones: ["25 %", "50 %", "90 %"],
-      correcta: 0,
-      explicacion: "El círculo completo es 360° = 100 %. Entonces 90° es 90/360 = 0.25, es decir, 25 %.",
-      pasos: [
-        { pre: "Porcentaje: ", math: "\\dfrac{90°}{360°} = 25\\,\\%" }
-      ]
-    },
-    {
-      id: "ei2",
-      tipo: "ejercicio",
-      etiqueta: "Interpretar Gráficas · Ejercicio 2 / 5",
-      pregunta: "El sector más grande de una gráfica circular corresponde a:",
-      opciones: ["el valor más frecuente", "el valor menos frecuente", "la media de los datos"],
-      correcta: 0,
-      explicacion: "El sector más grande tiene la mayor frecuencia, es decir, la categoría que más se repite (la moda).",
-      pasos: []
-    },
-    {
-      id: "ei3",
-      tipo: "ejercicio",
-      etiqueta: "Interpretar Gráficas · Ejercicio 3 / 5",
-      pregunta: "Los sectores de una gráfica circular siempre suman:",
-      opciones: ["100 % (360°)", "depende de los datos", "50 %"],
-      correcta: 0,
-      explicacion: "La gráfica circular reparte el total: todos los sectores juntos forman el círculo completo, 360° o 100 %.",
-      pasos: []
-    },
-    {
-      id: "ei4",
-      tipo: "ejercicio",
-      svgDiagram: "graficas-barras",
-      etiqueta: "Interpretar Gráficas · Ejercicio 4 / 5",
-      pregunta: "En la gráfica de barras de las calificaciones, ¿cuál fue la calificación más frecuente?",
-      opciones: ["8", "10", "6"],
-      correcta: 0,
-      explicacion: "La barra más alta corresponde al 8 (con frecuencia 8), así que fue la calificación más común.",
-      pasos: []
-    },
-    {
-      id: "ei5",
-      tipo: "ejercicio",
-      etiqueta: "Interpretar Gráficas · Ejercicio 5 / 5",
-      pregunta: "Una categoría representa el 30 % del total. ¿Cuántos grados abarca su sector en una gráfica circular?",
-      opciones: ["108°", "30°", "300°"],
-      correcta: 0,
-      explicacion: "Sector = porcentaje × 360° = 0.30 × 360° = 108°.",
-      pasos: [
-        { pre: "Sector: ", math: "0.30 \\times 360° = 108°" }
-      ]
     },
 
     // ── RESUMEN ───────────────────────────────────────────────────────────────

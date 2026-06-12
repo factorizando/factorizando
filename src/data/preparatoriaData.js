@@ -86,16 +86,36 @@ export const SUBJECTS_PREP = [
               },
             ],
           },
+          {
+            id: "razones-proporciones",
+            name: "Razones, Proporciones y Porcentaje",
+            presentacion: "/ver/razones-proporciones",
+          },
         ],
       },
       {
         id: "algebra",
-        name: "Álgebra",
+        name: "Álgebra y Funciones",
         children: [
           {
             id: "algebra-all",
             name: "Suma, Producto, etc",
             quiz: "/cuestionario/algebra-prepa",
+          },
+          {
+            id: "ecuaciones-lineales",
+            name: "Ecuaciones e Inecuaciones Lineales",
+            presentacion: "/ver/ecuaciones-lineales",
+          },
+          {
+            id: "polinomios-sistemas",
+            name: "Polinomios y Sistemas de Ecuaciones",
+            presentacion: "/ver/polinomios-sistemas",
+          },
+          {
+            id: "funciones-cuadraticas",
+            name: "Funciones Cuadráticas",
+            presentacion: "/ver/funciones-cuadraticas",
           },
         ],
       },

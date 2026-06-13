@@ -57,6 +57,11 @@ import { PRESENTACION as NOMENCLATURA_REACCIONES } from "./quimica/nomenclatura-
 import { PRESENTACION as ESTEQUIOMETRIA } from "./quimica/estequiometria.js";
 import { PRESENTACION as QUIMICA_ORGANICA } from "./quimica/quimica-organica.js";
 import { PRESENTACION as SISTEMAS_NERVIOSO_ENDOCRINO } from "./biologia/sistemas-nervioso-endocrino.js";
+import { PRESENTACION as PERIMETROS_AREAS_VOLUMENES } from "./matematicas/perimetros-areas-volumenes.js";
+import { PRESENTACION as TRANSFORMACIONES_CONGRUENCIA } from "./matematicas/transformaciones-congruencia.js";
+import { PRESENTACION as TRIANGULOS_PITAGORAS } from "./matematicas/triangulos-pitagoras.js";
+import { PRESENTACION as COMPRENSION_LECTORA } from "./comprension/comprension-lectora.js";
+import { PRESENTACION as FISICA_COMPLEMENTO_CIENTIFICO } from "./fisica/fisica-complemento-cientifico.js";
 
 export const PRESENTACIONES_INDEX = {
   "semejanza-triangulos": SEMEJANZA_TRIANGULOS,
@@ -114,6 +119,11 @@ export const PRESENTACIONES_INDEX = {
   "estequiometria": ESTEQUIOMETRIA,
   "quimica-organica": QUIMICA_ORGANICA,
   "sistemas-nervioso-endocrino": SISTEMAS_NERVIOSO_ENDOCRINO,
+  "perimetros-areas-volumenes": PERIMETROS_AREAS_VOLUMENES,
+  "transformaciones-congruencia": TRANSFORMACIONES_CONGRUENCIA,
+  "triangulos-pitagoras": TRIANGULOS_PITAGORAS,
+  "comprension-lectora": COMPRENSION_LECTORA,
+  "fisica-complemento-cientifico": FISICA_COMPLEMENTO_CIENTIFICO,
 };
 
 export function buscarPresentacion(id) {

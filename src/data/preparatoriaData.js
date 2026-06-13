@@ -123,17 +123,31 @@ export const SUBJECTS_PREP = [
         id: "geometria",
         name: "Geometría",
         children: [
-          { id: "angulos", name: "Ángulos" },
+          {
+            id: "triangulos-pitagoras",
+            name: "Triángulos: Ángulos y Pitágoras",
+            presentacion: "/ver/triangulos-pitagoras",
+          },
           {
             id: "semejanza",
             name: "Semejanza de Triángulos",
             presentacion: "/ver/semejanza-triangulos",
+          },
+          {
+            id: "transformaciones-congruencia",
+            name: "Transformaciones y Congruencia",
+            presentacion: "/ver/transformaciones-congruencia",
           },
           { id: "circulo", name: "El Círculo", presentacion: "/ver/circulo" },
           {
             id: "cuadrilateros",
             name: "Cuadriláteros y Polígonos",
             presentacion: "/ver/cuadrilateros-poligonos",
+          },
+          {
+            id: "perimetros-areas-volumenes",
+            name: "Perímetros, Áreas y Volúmenes",
+            presentacion: "/ver/perimetros-areas-volumenes",
           },
         ],
       },
@@ -172,6 +186,11 @@ export const SUBJECTS_PREP = [
             id: "fisica-pc",
             name: "Pensamiento Científico",
             presentacion: "/ver/fisica-pensamiento-cientifico",
+          },
+          {
+            id: "fisica-complemento",
+            name: "Electricidad Estática, Ondas y Calor",
+            presentacion: "/ver/fisica-complemento-cientifico",
           },
           {
             id: "mru-bas",
@@ -229,8 +248,9 @@ export const SUBJECTS_PREP = [
     color: "#fbbf24",
     children: [
       {
-        id: "cl-prox",
-        name: "Próximamente: reactivos de comprensión lectora",
+        id: "cl-estrategias",
+        name: "Estrategias de Lectura",
+        presentacion: "/ver/comprension-lectora",
       },
     ],
   },

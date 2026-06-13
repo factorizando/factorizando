@@ -26,3 +26,15 @@ body {
   height: 100vh;
   height: 100dvh;
 }
+
+/* Ícono del aviso "gira tu teléfono": el teléfono rota de vertical a horizontal */
+.aviso-rotar-girar {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: aviso-rotar-girar 2.4s ease-in-out infinite;
+}
+@keyframes aviso-rotar-girar {
+  0%, 28%   { transform: rotate(0deg); }
+  52%, 78%  { transform: rotate(90deg); }
+  100%      { transform: rotate(0deg); }
+}

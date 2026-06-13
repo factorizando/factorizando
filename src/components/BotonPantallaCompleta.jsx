@@ -9,12 +9,43 @@ const soportaFullscreen = () =>
   typeof document !== "undefined" &&
   (document.fullscreenEnabled || document.webkitFullscreenEnabled);
 
+function bloquearHorizontal() {
+  const o = typeof window !== "undefined" && window.screen && window.screen.orientation;
+  if (o && o.lock) {
+    // Algunos dispositivos aceptan "landscape"; otros requieren "landscape-primary".
+    o.lock("landscape").catch(() => {
+      o.lock("landscape-primary").catch(() => {
+        /* el dispositivo no permite bloquear la orientación (p. ej. iOS) */
+      });
+    });
+  }
+}
+
+function liberarOrientacion() {
+  const o = typeof window !== "undefined" && window.screen && window.screen.orientation;
+  if (o && o.unlock) {
+    try {
+      o.unlock();
+    } catch {
+      /* sin bloqueo previo */
+    }
+  }
+}
+
 export default function BotonPantallaCompleta({ targetRef, tema, size = 18 }) {
   const [activo, setActivo] = useState(false);
 
+  // El bloqueo de orientación se hace AQUÍ, al confirmarse la pantalla completa.
+  // Hacerlo encadenado tras `await requestFullscreen()` suele fallar en Android
+  // porque se pierde la activación de usuario; el evento fullscreenchange es el
+  // momento fiable.
   useEffect(() => {
-    const onChange = () =>
-      setActivo(!!(document.fullscreenElement || document.webkitFullscreenElement));
+    const onChange = () => {
+      const fs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+      setActivo(fs);
+      if (fs) bloquearHorizontal();
+      else liberarOrientacion();
+    };
     document.addEventListener("fullscreenchange", onChange);
     document.addEventListener("webkitfullscreenchange", onChange);
     return () => {
@@ -31,24 +62,15 @@ export default function BotonPantallaCompleta({ targetRef, tema, size = 18 }) {
     try {
       if (el.requestFullscreen) await el.requestFullscreen();
       else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
-      // Bloquear horizontal donde se permita (Android en pantalla completa).
-      // En iOS/escritorio no existe y se ignora silenciosamente.
-      try {
-        await window.screen?.orientation?.lock?.("landscape");
-      } catch {
-        /* orientación no bloqueable en este dispositivo */
-      }
     } catch {
       /* el usuario canceló o el navegador no lo permitió */
     }
+    // Refuerzo: algunos navegadores también aceptan el bloqueo aquí.
+    bloquearHorizontal();
   };
 
   const salir = async () => {
-    try {
-      window.screen?.orientation?.unlock?.();
-    } catch {
-      /* sin bloqueo previo */
-    }
+    liberarOrientacion();
     try {
       if (document.exitFullscreen) await document.exitFullscreen();
       else if (document.webkitExitFullscreen) document.webkitExitFullscreen();

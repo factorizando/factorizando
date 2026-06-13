@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import BotonPantallaCompleta from "../components/BotonPantallaCompleta.jsx";
+import AvisoRotar from "../components/AvisoRotar.jsx";
 import { supabase } from "../lib/supabase.js";
 import { buscarPresentacion } from "../data/presentaciones/presentacionesIndex.js";
 import { obtenerTema } from "../data/presentaciones/temas.jsx";
@@ -428,6 +429,8 @@ export default function PresentacionAlumno() {
         overflow: "hidden"
       }}
     >
+      <AvisoRotar tema={tema} />
+
       {/* Barra superior mínima */}
       <div
         style={{

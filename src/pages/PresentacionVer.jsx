@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import BotonPantallaCompleta from "../components/BotonPantallaCompleta.jsx";
+import AvisoRotar from "../components/AvisoRotar.jsx";
 import { buscarPresentacion } from "../data/presentaciones/presentacionesIndex.js";
 import { obtenerTema } from "../data/presentaciones/temas.jsx";
 import SlideRenderer from "../components/SlideRenderer.jsx";
@@ -135,6 +136,7 @@ export default function PresentacionVer() {
 
   return (
     <div ref={rootRef} className="pantalla-completa" style={{ background: tema.bg, display: "flex", flexDirection: "column", fontFamily: tema.body, overflow: "hidden" }}>
+      <AvisoRotar tema={tema} />
 
       {/* Barra superior */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 20px", height: 52, borderBottom: `1px solid ${tema.border}`, background: "rgba(0,0,0,0.5)", flexShrink: 0, gap: 16 }}>

@@ -455,9 +455,8 @@ export default function PresentacionDirector() {
   // ── Sesión activa: vista completa ─────────────────────────────────────────
   return (
     <div
+      className="pantalla-completa"
       style={{
-        minHeight: "100vh",
-        height: "100vh",
         background: tema.bg,
         display: "flex",
         flexDirection: "column",

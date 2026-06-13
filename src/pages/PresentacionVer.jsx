@@ -132,7 +132,7 @@ export default function PresentacionVer() {
   const respuestaDada = slide ? (respuestas[String(slide.id)] ?? null) : null;
 
   return (
-    <div style={{ minHeight: "100vh", height: "100vh", background: tema.bg, display: "flex", flexDirection: "column", fontFamily: tema.body, overflow: "hidden" }}>
+    <div className="pantalla-completa" style={{ background: tema.bg, display: "flex", flexDirection: "column", fontFamily: tema.body, overflow: "hidden" }}>
 
       {/* Barra superior */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 20px", height: 52, borderBottom: `1px solid ${tema.border}`, background: "rgba(0,0,0,0.5)", flexShrink: 0, gap: 16 }}>

@@ -35,6 +35,8 @@ import ESTRUCTURA_ORACION_PREPA from "./preparatoria/espanol/estructura-oracion-
 import CL_AMBITO_ESTUDIO from "./universidad/exani-ii/cl-ambito-estudio.js";
 import CL_AMBITO_LITERARIO from "./universidad/exani-ii/cl-ambito-literario.js";
 import CL_PARTICIPACION_SOCIAL from "./universidad/exani-ii/cl-participacion-social.js";
+import CL_EXANI_I_1 from "./preparatoria/comprension/cl-exani-i-1.js";
+import CL_EXANI_I_2 from "./preparatoria/comprension/cl-exani-i-2.js";
 
 export const CUESTIONARIOS_INDEX = {
   // ──────────────────────────────────────────────────────────────────────────
@@ -317,6 +319,25 @@ export const CUESTIONARIOS_INDEX = {
           titulo: "Simulador de Examen 2",
           description: "",
           data: SIMULADOR_PREPA_2,
+        },
+      ],
+    },
+
+    comprensionLectora: {
+      icon: "📖",
+      label: "Comprensión Lectora",
+      cuestionarios: [
+        {
+          id: "cl-exani-i-1",
+          titulo: "Textos informativos y cotidianos",
+          description: "Texto expositivo, anuncio publicitario y tabla de datos",
+          data: CL_EXANI_I_1,
+        },
+        {
+          id: "cl-exani-i-2",
+          titulo: "Textos narrativos y literarios",
+          description: "Relato, fragmento de teatro e instructivo",
+          data: CL_EXANI_I_2,
         },
       ],
     },

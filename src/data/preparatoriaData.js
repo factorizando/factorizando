@@ -252,6 +252,16 @@ export const SUBJECTS_PREP = [
         name: "Estrategias de Lectura",
         presentacion: "/ver/comprension-lectora",
       },
+      {
+        id: "cl-practica-1",
+        name: "Práctica: Textos Informativos y Cotidianos",
+        quiz: "/cuestionario/cl-exani-i-1",
+      },
+      {
+        id: "cl-practica-2",
+        name: "Práctica: Textos Narrativos y Literarios",
+        quiz: "/cuestionario/cl-exani-i-2",
+      },
     ],
   },
 

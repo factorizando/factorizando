@@ -569,6 +569,7 @@ function SlideDefinicion({ slide, tema, resaltadoIdx, onResaltar }) {
           <div
             key={i}
             onClick={() => onResaltar && onResaltar(i)}
+            data-resaltado={activo ? "true" : undefined}
             style={{
               background: activo ? tema.acentoSuave : (c.destacado ? tema.acentoMed : tema.card),
               border: `1px solid ${activo ? tema.acento : (c.destacado ? tema.acentoBorde : tema.border)}`,
@@ -751,6 +752,7 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar, expandidos, onEx
 
       <div
         onClick={() => slide.formula && onResaltar && onResaltar(0)}
+        data-resaltado={resaltadoIdx === 0 && slide.formula ? "true" : undefined}
         style={{
           background: "rgba(0,0,0,0.45)",
           border: `2px solid ${resaltadoIdx === 0 && slide.formula ? tema.acento : tema.acentoFuerte}`,
@@ -769,6 +771,7 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar, expandidos, onEx
       {slide.svgDiagram && (
         <div
           onClick={() => onResaltar && onResaltar(svgIndex)}
+          data-resaltado={resaltadoIdx === svgIndex ? "true" : undefined}
           style={{
             borderRadius: 10,
             border: `1px solid ${resaltadoIdx === svgIndex ? tema.acento : "transparent"}`,
@@ -875,6 +878,7 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar, expandidos, onEx
           return (
           <div
             key={i}
+            data-resaltado={activo ? "true" : undefined}
             style={{
               background: activo ? tema.acentoSuave : tema.card,
               border: `1px solid ${activo ? tema.acento : tema.border}`,
@@ -1373,6 +1377,7 @@ function SlideListaCriterios({ slide, tema, resaltadoIdx, onResaltar }) {
           <div
             key={i}
             onClick={() => onResaltar && onResaltar(i)}
+            data-resaltado={activo ? "true" : undefined}
             style={{
               display: "flex", flexDirection: "column", gap: 6,
               borderRadius: narrow ? 8 : 10,
@@ -2091,6 +2096,7 @@ function SlideCriterioDetalle({ slide, tema, resaltadoIdx, onResaltar }) {
 
       <div
         onClick={() => onResaltar && onResaltar(0)}
+        data-resaltado={resaltadoIdx === 0 ? "true" : undefined}
         style={{
           background: tema.acentoSuave,
           border: `1px solid ${resaltadoIdx === 0 ? tema.acento : tema.acentoBorde}`,
@@ -2121,6 +2127,7 @@ function SlideCriterioDetalle({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram && (
         <div
           onClick={() => onResaltar && onResaltar(svgIndex)}
+          data-resaltado={resaltadoIdx === svgIndex ? "true" : undefined}
           style={{
             borderRadius: 10,
             border: `1px solid ${resaltadoIdx === svgIndex ? tema.acento : "transparent"}`,
@@ -2234,6 +2241,7 @@ function SlideCriterioDetalle({ slide, tema, resaltadoIdx, onResaltar }) {
 
       <div
         onClick={() => onResaltar && onResaltar(porQueIndex)}
+        data-resaltado={resaltadoIdx === porQueIndex ? "true" : undefined}
         style={{
           background: tema.azulSuave,
           border: `1px solid ${resaltadoIdx === porQueIndex ? tema.azul : tema.azulBorde}`,
@@ -2892,6 +2900,7 @@ function SlideEjemplo({ slide, tema, resaltadoIdx, onResaltar }) {
           <div
             key={i}
             onClick={() => onResaltar && onResaltar(i)}
+            data-resaltado={activo ? "true" : undefined}
             style={{
               display: "flex", gap: 14, alignItems: "flex-start",
               background: activo ? tema.acentoSuave : "transparent",
@@ -6519,6 +6528,7 @@ function SlideEjercicio({ slide, modo, votos, votantes, perfiles, totalVotos, re
             return (
               <button
                 key={origIdx}
+                data-resaltado={resaltado ? "true" : undefined}
                 onClick={() => {
                   if (modo === "alumno" && !done) onResponder(origIdx);
                   if (modo === "director" && onResaltar) onResaltar(origIdx);
@@ -6628,6 +6638,7 @@ function SlideResumen({ slide, tema, resaltadoIdx, onResaltar }) {
           <div
             key={i}
             onClick={() => onResaltar && onResaltar(i)}
+            data-resaltado={activo ? "true" : undefined}
             style={{
               background: activo ? tema.acentoSuave : tema.card,
               border: `1px solid ${activo ? tema.acento : tema.border}`,
@@ -6740,6 +6751,7 @@ function SlideReglaRica({ slide, tema, modo, resaltadoIdx, onResaltar }) {
             <div
               key={i}
               onClick={handleClick}
+              data-resaltado={activo ? "true" : undefined}
               style={{
                 background: tema.acentoSuave,
                 border: activo ? `2px solid ${tema.acento}` : `1px solid ${tema.acentoBorde}`,
@@ -6761,6 +6773,7 @@ function SlideReglaRica({ slide, tema, modo, resaltadoIdx, onResaltar }) {
             <div
               key={i}
               onClick={handleClick}
+              data-resaltado={activo ? "true" : undefined}
               style={{
                 background: activo ? tema.acentoSuave : tema.card,
                 border: activo ? `2px solid ${tema.acento}` : `1px solid ${tema.border}`,
@@ -6802,6 +6815,7 @@ function SlideReglaRica({ slide, tema, modo, resaltadoIdx, onResaltar }) {
             <div
               key={i}
               onClick={handleClick}
+              data-resaltado={activo ? "true" : undefined}
               style={{
                 background: "rgba(0,0,0,0.35)",
                 border: activo ? `2px solid ${tema.acento}` : `1px solid ${tema.border}`,
@@ -6937,7 +6951,7 @@ function SlideReglaRica({ slide, tema, modo, resaltadoIdx, onResaltar }) {
             "geo-desigualdad":      <GeoDesigualdadSVG     tema={tema} />,
           };
           return (
-            <div key={i} onClick={handleClick}
+            <div key={i} onClick={handleClick} data-resaltado={activo ? "true" : undefined}
               style={{
                 background: "rgba(0,0,0,0.25)",
                 border: activo ? `2px solid ${tema.acento}` : `1px solid ${tema.border}`,
@@ -6960,6 +6974,7 @@ function SlideReglaRica({ slide, tema, modo, resaltadoIdx, onResaltar }) {
             <div
               key={i}
               onClick={handleClick}
+              data-resaltado={activo ? "true" : undefined}
               style={{
                 display: "flex",
                 gap: 12,
@@ -8136,6 +8151,7 @@ function SlideRegla({ slide, tema, modo, resaltadoIdx, onResaltar }) {
           <div
             key={i}
             onClick={() => modo === "director" && onResaltar && onResaltar(i)}
+            data-resaltado={activo ? "true" : undefined}
             style={{
               background: activo ? tema.acentoSuave : tema.card,
               border: `1px solid ${activo ? tema.acento : tema.border}`,
@@ -12335,6 +12351,23 @@ function FisicaCaidaLibreSVG({ tema }) {
 
 // ── Exportación principal ─────────────────────────────────────────────────────
 
+// Lleva la tarjeta resaltada por el director al campo de visión, tanto en la
+// vista del director como en la del alumno (que la recibe por el evento
+// "resaltado"). Como solo se monta un SlideRenderer por página, basta con buscar
+// el único elemento marcado con data-resaltado. Se usa block:"nearest", que
+// respeta el contenedor con scroll real y no hace nada si la tarjeta ya está
+// visible (evita saltos innecesarios).
+function useScrollResaltadoIntoView(resaltadoIdx, slideId) {
+  useEffect(() => {
+    if (resaltadoIdx == null) return;
+    const raf = requestAnimationFrame(() => {
+      const el = document.querySelector('[data-resaltado="true"]');
+      if (el) el.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [resaltadoIdx, slideId]);
+}
+
 export default function SlideRenderer({
   slide,
   tema = TEMAS.matematicas,
@@ -12352,6 +12385,7 @@ export default function SlideRenderer({
 }) {
   useKaTeX();
   useFuentesTema(tema);
+  useScrollResaltadoIntoView(resaltadoIdx, slide?.id);
 
   const props = { slide, tema, modo, votos, votantes, perfiles, totalVotos, respuestaDada, onResponder, resaltadoIdx, onResaltar, expandidos, onExpandir };
 

@@ -29,6 +29,11 @@ export const PRESENTACION = {
           texto: "Una transformación isométrica cambia la posición de una figura pero conserva su forma y su tamaño: la figura resultante es idéntica a la original. Hay tres movimientos básicos: la traslación (deslizar en línea recta), la rotación (girar alrededor de un punto) y la reflexión (voltear como en un espejo). En todas ellas se conservan las distancias y los ángulos; solo cambia dónde —o cómo está orientada— la figura."
         },
         {
+          tipo: "diagrama",
+          id: "geo-isometrias",
+          titulo: "Traslación, rotación y reflexión"
+        },
+        {
           tipo: "tabla",
           titulo: "Los tres movimientos en el plano",
           columnas: ["Movimiento", "Qué hace", "Lo que define"],
@@ -86,6 +91,11 @@ export const PRESENTACION = {
           texto: "Una figura tiene simetría axial si una recta (eje de simetría) la divide en dos mitades que son reflejo una de la otra. Tiene simetría central si al girarla 180° sobre un punto queda igual. Una figura puede tener varios ejes de simetría: el cuadrado tiene 4, el rectángulo solo 2, el círculo tiene infinitos. Contar correctamente los ejes es un reactivo típico."
         },
         {
+          tipo: "diagrama",
+          id: "geo-ejes-simetria",
+          titulo: "Cuadrado vs. rectángulo"
+        },
+        {
           tipo: "tabla",
           titulo: "Ejes de simetría de figuras regulares",
           columnas: ["Figura", "Ejes de simetría", "Nota"],
@@ -133,6 +143,11 @@ export const PRESENTACION = {
         {
           tipo: "texto",
           texto: "Dos figuras son congruentes si tienen la misma forma y el mismo tamaño: una se puede llevar exactamente sobre la otra mediante traslación, rotación o reflexión. Son semejantes si tienen la misma forma pero distinto tamaño (sus lados son proporcionales y sus ángulos iguales). Toda figura congruente es también semejante (con razón 1), pero no al revés. Para triángulos, basta verificar ciertos criterios sin medir todo."
+        },
+        {
+          tipo: "diagrama",
+          id: "geo-congruencia",
+          titulo: "Congruentes vs. semejantes"
         },
         {
           tipo: "tabla",

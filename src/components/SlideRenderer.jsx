@@ -6925,6 +6925,16 @@ function SlideReglaRica({ slide, tema, modo, resaltadoIdx, onResaltar }) {
             "fisica-transformaciones":    <FisicaTransformacionesSVG    tema={tema} />,
             "fisica-cambios-estado":      <FisicaCambiosEstadoSVG       tema={tema} />,
             "fisica-caida-libre":         <FisicaCaidaLibreSVG          tema={tema} />,
+            // Geometría — Preparatoria (EXANI-I)
+            "geo-figuras-planas":   <GeoFigurasPlanasSVG   tema={tema} />,
+            "geo-cuerpos-volumen":  <GeoCuerposVolumenSVG  tema={tema} />,
+            "geo-cubo-desarrollo":  <GeoCuboDesarrolloSVG  tema={tema} />,
+            "geo-isometrias":       <GeoIsometriasSVG      tema={tema} />,
+            "geo-ejes-simetria":    <GeoEjesSimetriaSVG    tema={tema} />,
+            "geo-congruencia":      <GeoCongruenciaSVG     tema={tema} />,
+            "geo-triangulo-angulos": <GeoTrianguloAngulosSVG tema={tema} />,
+            "geo-pitagoras":        <GeoPitagorasSVG       tema={tema} />,
+            "geo-desigualdad":      <GeoDesigualdadSVG     tema={tema} />,
           };
           return (
             <div key={i} onClick={handleClick}
@@ -11625,6 +11635,279 @@ function FisicaFuerzasSVG({ tema }) {
       <text x="249" y="92" fill={gold} fontSize="7" fontFamily="monospace" fontWeight="700">W ↓</text>
       <text x="242" y="116" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="5.5" fontFamily="monospace">E = peso fluido desplazado</text>
       <text x="242" y="125" textAnchor="middle" fill={grn} fontSize="5.5" fontFamily="monospace" fontWeight="600">E = W → flota en equilibrio</text>
+    </svg>
+  );
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// Geometría: diagramas para las presentaciones de Preparatoria (EXANI-I)
+// ══════════════════════════════════════════════════════════════════════════════
+
+// Figuras planas: rectángulo, triángulo y círculo con sus fórmulas de área
+function GeoFigurasPlanasSVG({ tema }) {
+  const az = tema.azul, a = tema.acento, gr = tema.verde, mut = "rgba(255,255,255,0.4)";
+  const Cell = ({ x, label }) => (
+    <g>
+      <rect x={x} y="1" width="102" height="128" rx="5" fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x={x + 51} y="12" textAnchor="middle" fill={a} fontSize="6.5" fontFamily="monospace" fontWeight="700">{label}</text>
+    </g>
+  );
+  return (
+    <svg viewBox="0 0 320 130" width="100%" style={{ display: "block" }}>
+      <Cell x={1} label="RECTÁNGULO" />
+      <rect x="28" y="34" width="56" height="36" fill={`${az}22`} stroke={az} strokeWidth="1.6" />
+      <text x="56" y="82" textAnchor="middle" fill={gr} fontSize="7" fontFamily="monospace">b</text>
+      <text x="20" y="55" textAnchor="middle" fill={gr} fontSize="7" fontFamily="monospace">h</text>
+      <text x="52" y="103" textAnchor="middle" fill={a} fontSize="8.5" fontFamily="monospace" fontWeight="700">A = b·h</text>
+      <text x="52" y="115" textAnchor="middle" fill={mut} fontSize="5.5" fontFamily="monospace">P = 2(b+h)</text>
+
+      <Cell x={109} label="TRIÁNGULO" />
+      <polygon points="124,72 188,72 150,36" fill={`${az}22`} stroke={az} strokeWidth="1.6" />
+      <line x1="150" y1="36" x2="150" y2="72" stroke={gr} strokeWidth="1.1" strokeDasharray="3,2" />
+      <text x="157" y="57" fill={gr} fontSize="7" fontFamily="monospace">h</text>
+      <text x="155" y="84" textAnchor="middle" fill={gr} fontSize="7" fontFamily="monospace">b</text>
+      <text x="160" y="103" textAnchor="middle" fill={a} fontSize="8.5" fontFamily="monospace" fontWeight="700">A = b·h / 2</text>
+
+      <Cell x={216} label="CÍRCULO" />
+      <circle cx="267" cy="52" r="26" fill={`${az}22`} stroke={az} strokeWidth="1.6" />
+      <line x1="267" y1="52" x2="293" y2="52" stroke={a} strokeWidth="1.6" />
+      <text x="277" y="48" fill={a} fontSize="7" fontFamily="monospace" fontStyle="italic">r</text>
+      <circle cx="267" cy="52" r="2" fill={a} />
+      <text x="267" y="103" textAnchor="middle" fill={a} fontSize="8.5" fontFamily="monospace" fontWeight="700">A = πr²</text>
+      <text x="267" y="115" textAnchor="middle" fill={mut} fontSize="5.5" fontFamily="monospace">P = 2πr</text>
+    </svg>
+  );
+}
+
+// Cuerpos geométricos: cubo, cilindro y esfera con sus volúmenes
+function GeoCuerposVolumenSVG({ tema }) {
+  const az = tema.azul, a = tema.acento, mut = "rgba(255,255,255,0.4)";
+  const Cell = ({ x, label }) => (
+    <g>
+      <rect x={x} y="1" width="102" height="128" rx="5" fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x={x + 51} y="12" textAnchor="middle" fill={a} fontSize="6.5" fontFamily="monospace" fontWeight="700">{label}</text>
+    </g>
+  );
+  return (
+    <svg viewBox="0 0 320 130" width="100%" style={{ display: "block" }}>
+      <Cell x={1} label="CUBO" />
+      <polygon points="30,46 70,46 70,86 30,86" fill={`${az}22`} stroke={az} strokeWidth="1.5" />
+      <polygon points="30,46 44,32 84,32 70,46" fill={`${az}33`} stroke={az} strokeWidth="1.5" />
+      <polygon points="70,46 84,32 84,72 70,86" fill={`${az}18`} stroke={az} strokeWidth="1.5" />
+      <text x="50" y="100" textAnchor="middle" fill={mut} fontSize="6" fontFamily="monospace">arista a</text>
+      <text x="52" y="114" textAnchor="middle" fill={a} fontSize="9" fontFamily="monospace" fontWeight="700">V = a³</text>
+
+      <Cell x={109} label="CILINDRO" />
+      <ellipse cx="160" cy="40" rx="22" ry="7" fill={`${az}33`} stroke={az} strokeWidth="1.5" />
+      <line x1="138" y1="40" x2="138" y2="76" stroke={az} strokeWidth="1.5" />
+      <line x1="182" y1="40" x2="182" y2="76" stroke={az} strokeWidth="1.5" />
+      <path d="M 138,76 A 22,7 0 0 0 182,76" fill="none" stroke={az} strokeWidth="1.5" />
+      <line x1="160" y1="40" x2="182" y2="40" stroke={a} strokeWidth="1.3" />
+      <text x="170" y="36" fill={a} fontSize="6.5" fontFamily="monospace" fontStyle="italic">r</text>
+      <text x="190" y="60" fill={mut} fontSize="6.5" fontFamily="monospace" fontStyle="italic">h</text>
+      <text x="160" y="100" textAnchor="middle" fill={a} fontSize="8.5" fontFamily="monospace" fontWeight="700">V = πr²·h</text>
+
+      <Cell x={216} label="ESFERA" />
+      <circle cx="267" cy="54" r="26" fill={`${az}22`} stroke={az} strokeWidth="1.5" />
+      <ellipse cx="267" cy="54" rx="26" ry="8" fill="none" stroke={az} strokeWidth="1" strokeDasharray="2,2" opacity="0.6" />
+      <line x1="267" y1="54" x2="293" y2="54" stroke={a} strokeWidth="1.5" />
+      <text x="277" y="50" fill={a} fontSize="6.5" fontFamily="monospace" fontStyle="italic">r</text>
+      <circle cx="267" cy="54" r="2" fill={a} />
+      <text x="267" y="100" textAnchor="middle" fill={a} fontSize="8" fontFamily="monospace" fontWeight="700">V = 4/3·πr³</text>
+    </svg>
+  );
+}
+
+// Desarrollo plano del cubo: 6 caras → área total = 6a²
+function GeoCuboDesarrolloSVG({ tema }) {
+  const az = tema.azul, a = tema.acento, mut = "rgba(255,255,255,0.4)";
+  const s = 22;
+  const face = (x, y) => <rect x={x} y={y} width={s} height={s} fill={`${az}22`} stroke={az} strokeWidth="1.4" />;
+  return (
+    <svg viewBox="0 0 320 130" width="100%" style={{ display: "block" }}>
+      {/* Izquierda: desarrollo (cruz de 6 cuadrados) */}
+      <rect x="1" y="1" width="190" height="128" rx="5" fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="96" y="13" textAnchor="middle" fill={a} fontSize="6.5" fontFamily="monospace" fontWeight="700">DESARROLLO (6 CARAS)</text>
+      {face(74, 24)}
+      {face(52, 46)}{face(74, 46)}{face(96, 46)}{face(118, 46)}
+      {face(74, 68)}
+      <text x="96" y="108" textAnchor="middle" fill={mut} fontSize="6" fontFamily="monospace">se despliega el cubo</text>
+      <text x="96" y="120" textAnchor="middle" fill={mut} fontSize="6" fontFamily="monospace">en sus 6 caras iguales</text>
+      {/* Derecha: cubo y fórmula */}
+      <rect x="199" y="1" width="120" height="128" rx="5" fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <polygon points="232,46 268,46 268,82 232,82" fill={`${az}22`} stroke={az} strokeWidth="1.5" />
+      <polygon points="232,46 246,33 282,33 268,46" fill={`${az}33`} stroke={az} strokeWidth="1.5" />
+      <polygon points="268,46 282,33 282,69 268,82" fill={`${az}18`} stroke={az} strokeWidth="1.5" />
+      <text x="259" y="103" textAnchor="middle" fill={a} fontSize="9" fontFamily="monospace" fontWeight="700">A = 6·a²</text>
+      <text x="259" y="116" textAnchor="middle" fill={mut} fontSize="5.5" fontFamily="monospace">superficie (cm²)</text>
+    </svg>
+  );
+}
+
+// Transformaciones isométricas: traslación, rotación y reflexión de una figura «L»
+function GeoIsometriasSVG({ tema }) {
+  const az = tema.azul, a = tema.acento, gr = tema.verde, faint = "rgba(255,255,255,0.18)";
+  const pts = "0,0 0,30 20,30 20,22 8,22 8,0";
+  const Cell = ({ x, label }) => (
+    <g>
+      <rect x={x} y="1" width="102" height="128" rx="5" fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x={x + 51} y="12" textAnchor="middle" fill={a} fontSize="6.5" fontFamily="monospace" fontWeight="700">{label}</text>
+    </g>
+  );
+  return (
+    <svg viewBox="0 0 320 130" width="100%" style={{ display: "block" }}>
+      <Cell x={1} label="TRASLACIÓN" />
+      <g transform="translate(16,42)"><polygon points={pts} fill="none" stroke={faint} strokeWidth="1.5" strokeDasharray="3,2" /></g>
+      <g transform="translate(58,42)"><polygon points={pts} fill={`${gr}22`} stroke={gr} strokeWidth="1.6" /></g>
+      <line x1="40" y1="58" x2="56" y2="58" stroke={a} strokeWidth="1.3" />
+      <polygon points="56,55 56,61 61,58" fill={a} />
+      <text x="52" y="112" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="5.5" fontFamily="monospace">desliza (mismo sentido)</text>
+
+      <Cell x={109} label="ROTACIÓN 90°" />
+      <g transform="translate(128,44)"><polygon points={pts} fill="none" stroke={faint} strokeWidth="1.5" strokeDasharray="3,2" /></g>
+      <g transform="translate(186,44) rotate(90)"><polygon points={pts} fill={`${gr}22`} stroke={gr} strokeWidth="1.6" /></g>
+      <path d="M 150,40 A 26,26 0 0 1 176,46" fill="none" stroke={a} strokeWidth="1.3" />
+      <polygon points="173,42 179,48 171,49" fill={a} />
+      <text x="160" y="112" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="5.5" fontFamily="monospace">gira sobre un punto</text>
+
+      <Cell x={216} label="REFLEXIÓN" />
+      <g transform="translate(238,44)"><polygon points={pts} fill="none" stroke={faint} strokeWidth="1.5" strokeDasharray="3,2" /></g>
+      <line x1="268" y1="30" x2="268" y2="86" stroke={a} strokeWidth="1" strokeDasharray="4,2" />
+      <g transform="translate(298,44) scale(-1,1)"><polygon points={pts} fill={`${gr}22`} stroke={gr} strokeWidth="1.6" /></g>
+      <text x="267" y="112" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="5.5" fontFamily="monospace">espejo (se invierte)</text>
+    </svg>
+  );
+}
+
+// Ejes de simetría: cuadrado (4 ejes) vs rectángulo (2 ejes)
+function GeoEjesSimetriaSVG({ tema }) {
+  const az = tema.azul, a = tema.acento, gold = "#f5c842";
+  return (
+    <svg viewBox="0 0 320 130" width="100%" style={{ display: "block" }}>
+      <rect x="1" y="1" width="154" height="128" rx="5" fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="78" y="13" textAnchor="middle" fill={a} fontSize="6.5" fontFamily="monospace" fontWeight="700">CUADRADO · 4 EJES</text>
+      <rect x="48" y="32" width="60" height="60" fill={`${az}1e`} stroke={az} strokeWidth="1.6" />
+      <line x1="78" y1="26" x2="78" y2="98" stroke={gold} strokeWidth="1.1" strokeDasharray="4,2" />
+      <line x1="42" y1="62" x2="114" y2="62" stroke={gold} strokeWidth="1.1" strokeDasharray="4,2" />
+      <line x1="44" y1="28" x2="112" y2="96" stroke={gold} strokeWidth="1.1" strokeDasharray="4,2" />
+      <line x1="112" y1="28" x2="44" y2="96" stroke={gold} strokeWidth="1.1" strokeDasharray="4,2" />
+      <text x="78" y="116" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="6" fontFamily="monospace">2 medianas + 2 diagonales</text>
+
+      <rect x="165" y="1" width="154" height="128" rx="5" fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="242" y="13" textAnchor="middle" fill={a} fontSize="6.5" fontFamily="monospace" fontWeight="700">RECTÁNGULO · 2 EJES</text>
+      <rect x="198" y="40" width="88" height="44" fill={`${az}1e`} stroke={az} strokeWidth="1.6" />
+      <line x1="242" y1="34" x2="242" y2="90" stroke={gold} strokeWidth="1.1" strokeDasharray="4,2" />
+      <line x1="192" y1="62" x2="292" y2="62" stroke={gold} strokeWidth="1.1" strokeDasharray="4,2" />
+      <line x1="198" y1="40" x2="286" y2="84" stroke="#ff7755" strokeWidth="1" strokeDasharray="3,3" opacity="0.7" />
+      <text x="242" y="108" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="6" fontFamily="monospace">solo las medianas</text>
+      <text x="242" y="120" textAnchor="middle" fill="#ff7755" fontSize="5.5" fontFamily="monospace">la diagonal NO es eje</text>
+    </svg>
+  );
+}
+
+// Congruencia vs semejanza
+function GeoCongruenciaSVG({ tema }) {
+  const az = tema.azul, a = tema.acento, gr = tema.verde;
+  return (
+    <svg viewBox="0 0 320 130" width="100%" style={{ display: "block" }}>
+      <rect x="1" y="1" width="154" height="128" rx="5" fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="78" y="13" textAnchor="middle" fill={gr} fontSize="6.5" fontFamily="monospace" fontWeight="700">CONGRUENTES</text>
+      <polygon points="24,90 64,90 24,52" fill={`${gr}22`} stroke={gr} strokeWidth="1.6" />
+      <polygon points="132,52 92,52 132,90" fill={`${gr}22`} stroke={gr} strokeWidth="1.6" />
+      <text x="78" y="74" textAnchor="middle" fill={gr} fontSize="13" fontFamily="monospace" fontWeight="700">≅</text>
+      <text x="78" y="108" textAnchor="middle" fill="rgba(255,255,255,0.42)" fontSize="6" fontFamily="monospace">misma forma Y tamaño</text>
+      <text x="78" y="120" textAnchor="middle" fill="rgba(255,255,255,0.3)" fontSize="5.5" fontFamily="monospace">una girada sobre la otra</text>
+
+      <rect x="165" y="1" width="154" height="128" rx="5" fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="242" y="13" textAnchor="middle" fill={a} fontSize="6.5" fontFamily="monospace" fontWeight="700">SEMEJANTES</text>
+      <polygon points="188,88 212,88 188,68" fill={`${az}22`} stroke={az} strokeWidth="1.6" />
+      <polygon points="258,90 306,90 258,50" fill={`${az}22`} stroke={az} strokeWidth="1.6" />
+      <text x="237" y="76" textAnchor="middle" fill={a} fontSize="12" fontFamily="monospace" fontWeight="700">~</text>
+      <text x="242" y="108" textAnchor="middle" fill="rgba(255,255,255,0.42)" fontSize="6" fontFamily="monospace">misma forma, otro tamaño</text>
+      <text x="242" y="120" textAnchor="middle" fill="rgba(255,255,255,0.3)" fontSize="5.5" fontFamily="monospace">lados proporcionales</text>
+    </svg>
+  );
+}
+
+// Suma de ángulos: triángulo (180°) y triángulo rectángulo (agudos complementarios)
+function GeoTrianguloAngulosSVG({ tema }) {
+  const az = tema.azul, a = tema.acento, gold = "#f5c842";
+  return (
+    <svg viewBox="0 0 320 130" width="100%" style={{ display: "block" }}>
+      <rect x="1" y="1" width="154" height="128" rx="5" fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="78" y="13" textAnchor="middle" fill={a} fontSize="6.5" fontFamily="monospace" fontWeight="700">ÁNGULOS INTERNOS</text>
+      <polygon points="26,92 130,92 60,38" fill={`${az}1e`} stroke={az} strokeWidth="1.6" />
+      <text x="36" y="86" fill={gold} fontSize="8" fontFamily="monospace" fontWeight="700">A</text>
+      <text x="118" y="86" fill={gold} fontSize="8" fontFamily="monospace" fontWeight="700">B</text>
+      <text x="58" y="52" fill={gold} fontSize="8" fontFamily="monospace" fontWeight="700">C</text>
+      <text x="78" y="114" textAnchor="middle" fill={a} fontSize="8.5" fontFamily="monospace" fontWeight="700">A + B + C = 180°</text>
+
+      <rect x="165" y="1" width="154" height="128" rx="5" fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="242" y="13" textAnchor="middle" fill={a} fontSize="6.5" fontFamily="monospace" fontWeight="700">RECTÁNGULO</text>
+      <polygon points="196,92 290,92 196,42" fill={`${az}1e`} stroke={az} strokeWidth="1.6" />
+      <path d="M 196,84 L 204,84 L 204,92" fill="none" stroke="#ff7755" strokeWidth="1.4" />
+      <text x="208" y="80" fill="#ff7755" fontSize="7" fontFamily="monospace" fontWeight="700">90°</text>
+      <text x="270" y="86" fill={gold} fontSize="8" fontFamily="monospace" fontWeight="700">α</text>
+      <text x="200" y="52" fill={gold} fontSize="8" fontFamily="monospace" fontWeight="700">β</text>
+      <text x="242" y="114" textAnchor="middle" fill={a} fontSize="8" fontFamily="monospace" fontWeight="700">α + β = 90°</text>
+    </svg>
+  );
+}
+
+// Teorema de Pitágoras: triángulo 3-4-5 con los cuadrados sobre sus lados
+function GeoPitagorasSVG({ tema }) {
+  const az = tema.azul, a = tema.acento, gr = tema.verde, gold = "#f5c842";
+  return (
+    <svg viewBox="0 0 320 130" width="100%" style={{ display: "block" }}>
+      <rect x="1" y="1" width="318" height="128" rx="5" fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      {/* Cuadrado sobre el cateto vertical (b² = 9) */}
+      <polygon points="150,54 150,84 120,84 120,54" fill={`${gr}1e`} stroke={gr} strokeWidth="1.3" />
+      <text x="135" y="73" textAnchor="middle" fill={gr} fontSize="8" fontFamily="monospace" fontWeight="700">9</text>
+      {/* Cuadrado sobre el cateto horizontal (a² = 16) */}
+      <polygon points="150,84 190,84 190,124 150,124" fill={`${gold}1e`} stroke={gold} strokeWidth="1.3" />
+      <text x="170" y="108" textAnchor="middle" fill={gold} fontSize="8" fontFamily="monospace" fontWeight="700">16</text>
+      {/* Cuadrado sobre la hipotenusa (c² = 25) */}
+      <polygon points="150,54 190,84 220,44 180,14" fill={`${a}1e`} stroke={a} strokeWidth="1.3" />
+      <text x="185" y="50" textAnchor="middle" fill={a} fontSize="8" fontFamily="monospace" fontWeight="700">25</text>
+      {/* Triángulo rectángulo 3-4-5 */}
+      <polygon points="150,84 190,84 150,54" fill={`${az}33`} stroke={az} strokeWidth="1.8" />
+      <path d="M 150,76 L 158,76 L 158,84" fill="none" stroke="#ff7755" strokeWidth="1.3" />
+      <text x="142" y="72" textAnchor="end" fill={gr} fontSize="7" fontFamily="monospace">3</text>
+      <text x="170" y="96" textAnchor="middle" fill={gold} fontSize="7" fontFamily="monospace">4</text>
+      <text x="166" y="64" fill={a} fontSize="7" fontFamily="monospace">5</text>
+      {/* Texto / fórmula */}
+      <text x="248" y="52" fill={a} fontSize="9" fontFamily="monospace" fontWeight="700">c² = a² + b²</text>
+      <text x="248" y="70" fill="rgba(255,255,255,0.5)" fontSize="7.5" fontFamily="monospace">3² + 4² = 5²</text>
+      <text x="248" y="84" fill="rgba(255,255,255,0.5)" fontSize="7.5" fontFamily="monospace">9 + 16 = 25</text>
+      <text x="248" y="104" fill="rgba(255,255,255,0.3)" fontSize="6" fontFamily="monospace">la hipotenusa (c)</text>
+      <text x="248" y="114" fill="rgba(255,255,255,0.3)" fontSize="6" fontFamily="monospace">es el lado mayor</text>
+    </svg>
+  );
+}
+
+// Desigualdad triangular: 5,5,8 cierra ; 5,5,12 no cierra
+function GeoDesigualdadSVG({ tema }) {
+  const az = tema.azul, a = tema.acento, gr = tema.verde, red = "#ff7755";
+  return (
+    <svg viewBox="0 0 320 130" width="100%" style={{ display: "block" }}>
+      <rect x="1" y="1" width="154" height="128" rx="5" fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="78" y="13" textAnchor="middle" fill={gr} fontSize="6.5" fontFamily="monospace" fontWeight="700">5, 5, 8 ✓</text>
+      <polygon points="24,88 88,88 56,40" fill={`${gr}1e`} stroke={gr} strokeWidth="1.8" />
+      <text x="40" y="70" fill={gr} fontSize="6.5" fontFamily="monospace">5</text>
+      <text x="76" y="70" fill={gr} fontSize="6.5" fontFamily="monospace">5</text>
+      <text x="56" y="100" textAnchor="middle" fill={gr} fontSize="6.5" fontFamily="monospace">8</text>
+      <text x="78" y="118" textAnchor="middle" fill="rgba(255,255,255,0.42)" fontSize="5.5" fontFamily="monospace">8 &lt; 5+5 → cierra</text>
+
+      <rect x="165" y="1" width="154" height="128" rx="5" fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
+      <text x="242" y="13" textAnchor="middle" fill={red} fontSize="6.5" fontFamily="monospace" fontWeight="700">5, 5, 12 ✗</text>
+      <line x1="180" y1="84" x2="304" y2="84" stroke={az} strokeWidth="1.8" />
+      <line x1="180" y1="84" x2="216" y2="56" stroke={red} strokeWidth="1.8" />
+      <line x1="304" y1="84" x2="268" y2="56" stroke={red} strokeWidth="1.8" />
+      <line x1="216" y1="56" x2="268" y2="56" stroke={red} strokeWidth="1" strokeDasharray="3,2" />
+      <text x="194" y="66" fill={red} fontSize="6.5" fontFamily="monospace">5</text>
+      <text x="286" y="66" fill={red} fontSize="6.5" fontFamily="monospace">5</text>
+      <text x="242" y="98" textAnchor="middle" fill={az} fontSize="6.5" fontFamily="monospace">12</text>
+      <text x="242" y="118" textAnchor="middle" fill="rgba(255,255,255,0.42)" fontSize="5.5" fontFamily="monospace">12 &gt; 5+5 → no cierra</text>
     </svg>
   );
 }

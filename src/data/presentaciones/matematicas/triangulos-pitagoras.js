@@ -29,6 +29,11 @@ export const PRESENTACION = {
           texto: "Los triángulos se clasifican por sus lados (equilátero: 3 lados iguales; isósceles: 2 iguales; escaleno: todos distintos) y por sus ángulos (acutángulo: todos menores de 90°; rectángulo: uno de 90°; obtusángulo: uno mayor de 90°). En todo triángulo, la suma de los tres ángulos internos es siempre 180°. Esa regla permite hallar un ángulo faltante cuando se conocen los otros dos."
         },
         {
+          tipo: "diagrama",
+          id: "geo-triangulo-angulos",
+          titulo: "Suma de ángulos internos"
+        },
+        {
           tipo: "tabla",
           titulo: "Clasificación de triángulos",
           columnas: ["Criterio", "Tipos", "Característica"],
@@ -87,6 +92,11 @@ export const PRESENTACION = {
           texto: "En todo triángulo rectángulo, el cuadrado de la hipotenusa (el lado opuesto al ángulo de 90°, siempre el más largo) es igual a la suma de los cuadrados de los catetos: c² = a² + b². Sirve para hallar un lado cuando se conocen los otros dos. Para encontrar un cateto, se despeja restando: a² = c² − b². Conviene recordar las ternas pitagóricas, que aparecen una y otra vez."
         },
         {
+          tipo: "diagrama",
+          id: "geo-pitagoras",
+          titulo: "El triángulo 3-4-5 y sus cuadrados"
+        },
+        {
           tipo: "tabla",
           titulo: "Ternas pitagóricas frecuentes",
           columnas: ["Catetos", "Hipotenusa", "Comprobación"],
@@ -143,6 +153,11 @@ export const PRESENTACION = {
         {
           tipo: "texto",
           texto: "Tres longitudes forman un triángulo solo si cada lado es menor que la suma de los otros dos. Basta comprobar el lado más largo: si el lado mayor es menor que la suma de los otros dos, el triángulo existe; si es igual o mayor, no se cierra. Es una verificación rápida que aparece como reactivo de «¿cuáles valores forman un triángulo?»."
+        },
+        {
+          tipo: "diagrama",
+          id: "geo-desigualdad",
+          titulo: "¿Cierra el triángulo?"
         },
         {
           tipo: "tabla",

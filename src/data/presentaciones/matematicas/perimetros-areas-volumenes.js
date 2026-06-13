@@ -29,6 +29,11 @@ export const PRESENTACION = {
           texto: "El perímetro es la suma de los lados: mide el contorno y se da en unidades de longitud (m, cm). El área mide la superficie encerrada y se da en unidades cuadradas (m², cm²). Cada figura tiene su fórmula de área, pero todas las áreas de polígonos se reducen a «base por altura» (entera para el rectángulo, la mitad para el triángulo). Reconocer la figura y su altura correcta es el primer paso."
         },
         {
+          tipo: "diagrama",
+          id: "geo-figuras-planas",
+          titulo: "Rectángulo, triángulo y círculo"
+        },
+        {
           tipo: "tabla",
           titulo: "Fórmulas de área de las figuras básicas",
           columnas: ["Figura", "Área", "Perímetro"],
@@ -86,6 +91,11 @@ export const PRESENTACION = {
         {
           tipo: "texto",
           texto: "El volumen mide el espacio que ocupa un cuerpo y se da en unidades cúbicas (m³, cm³). Para los prismas y el cilindro, el volumen es «área de la base por la altura». Para la pirámide y el cono, es un tercio de ese producto. La esfera tiene su propia fórmula. Un litro equivale a un decímetro cúbico: 1 L = 1 dm³ = 1000 cm³."
+        },
+        {
+          tipo: "diagrama",
+          id: "geo-cuerpos-volumen",
+          titulo: "Cubo, cilindro y esfera"
         },
         {
           tipo: "tabla",
@@ -146,6 +156,11 @@ export const PRESENTACION = {
         {
           tipo: "texto",
           texto: "El área total (o superficie) de un cuerpo es la suma de las áreas de todas sus caras; se mide en unidades cuadradas, no cúbicas. Sirve, por ejemplo, para saber cuánto material se necesita para forrar o pintar un objeto. Conviene imaginar el cuerpo «desplegado» (su desarrollo plano) y sumar cada cara."
+        },
+        {
+          tipo: "diagrama",
+          id: "geo-cubo-desarrollo",
+          titulo: "Desarrollo plano del cubo"
         },
         {
           tipo: "tabla",

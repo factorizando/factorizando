@@ -2,6 +2,7 @@
 // en tiempo real. Requiere autenticación.
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import BotonPantallaCompleta from "../components/BotonPantallaCompleta.jsx";
 import { supabase } from "../lib/supabase.js";
 import { buscarPresentacion } from "../data/presentaciones/presentacionesIndex.js";
 import { obtenerTema } from "../data/presentaciones/temas.jsx";
@@ -25,6 +26,7 @@ export default function PresentacionAlumno() {
   const [puntajeFinal, setPuntajeFinal] = useState(null);
   const canalRef = useRef(null);
   const savedRef = useRef(false);
+  const rootRef = useRef(null);
   // Ref con los valores más recientes: permite guardar desde cleanup sin closures stale
   const latestRef = useRef({});
   latestRef.current = { user, presentacion, sesion, slideIdx, respuestas };
@@ -416,6 +418,7 @@ export default function PresentacionAlumno() {
   // ── Vista sincronizada con el maestro ─────────────────────────────────────
   return (
     <div
+      ref={rootRef}
       className="pantalla-completa"
       style={{
         background: tema.bg,
@@ -470,15 +473,18 @@ export default function PresentacionAlumno() {
           ))}
         </div>
 
-        <span
-          style={{
-            fontFamily: tema.mono,
-            fontSize: 10.5,
-            color: "#3a3830"
-          }}
-        >
-          {slideIdx + 1}/{slides.length}
-        </span>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
+          <BotonPantallaCompleta targetRef={rootRef} tema={tema} size={16} />
+          <span
+            style={{
+              fontFamily: tema.mono,
+              fontSize: 10.5,
+              color: "#3a3830"
+            }}
+          >
+            {slideIdx + 1}/{slides.length}
+          </span>
+        </div>
       </div>
 
       {/* Diapositiva actual */}

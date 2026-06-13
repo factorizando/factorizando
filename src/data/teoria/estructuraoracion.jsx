@@ -1036,7 +1036,7 @@ export default function GrammarStudyGuide() {
             width: "280px",
             minWidth: "280px",
             background: "#131417",
-            height: "100vh",
+            height: "100dvh",
             position: "sticky",
             top: 0,
             overflowY: "auto",

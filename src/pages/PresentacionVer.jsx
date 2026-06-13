@@ -2,6 +2,7 @@
 // No requiere sesión activa ni código. Respuestas se guardan solo localmente.
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import BotonPantallaCompleta from "../components/BotonPantallaCompleta.jsx";
 import { buscarPresentacion } from "../data/presentaciones/presentacionesIndex.js";
 import { obtenerTema } from "../data/presentaciones/temas.jsx";
 import SlideRenderer from "../components/SlideRenderer.jsx";
@@ -17,6 +18,7 @@ export default function PresentacionVer() {
   const [resaltado, setResaltado] = useState(null);
   const [expandido, setExpandido] = useState({});
   const highlightInicialRef = useRef(null);
+  const rootRef = useRef(null);
 
   const slides = PRESENTACION?.slides ?? [];
   const slide = slides[slideIdx];
@@ -132,7 +134,7 @@ export default function PresentacionVer() {
   const respuestaDada = slide ? (respuestas[String(slide.id)] ?? null) : null;
 
   return (
-    <div className="pantalla-completa" style={{ background: tema.bg, display: "flex", flexDirection: "column", fontFamily: tema.body, overflow: "hidden" }}>
+    <div ref={rootRef} className="pantalla-completa" style={{ background: tema.bg, display: "flex", flexDirection: "column", fontFamily: tema.body, overflow: "hidden" }}>
 
       {/* Barra superior */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 20px", height: 52, borderBottom: `1px solid ${tema.border}`, background: "rgba(0,0,0,0.5)", flexShrink: 0, gap: 16 }}>
@@ -142,14 +144,17 @@ export default function PresentacionVer() {
         <span style={{ fontFamily: tema.mono, fontSize: 12, color: tema.muted, flexShrink: 0 }}>
           {slideIdx + 1} / {slides.length}
         </span>
-        <button
-          onClick={() => navigate(-1)}
-          style={{ background: "none", border: "none", fontFamily: tema.mono, fontSize: 11, color: tema.muted, cursor: "pointer", letterSpacing: "0.08em", opacity: 0.7, flexShrink: 0, transition: "opacity 0.15s" }}
-          onMouseEnter={e => e.currentTarget.style.opacity = "1"}
-          onMouseLeave={e => e.currentTarget.style.opacity = "0.7"}
-        >
-          ← Salir
-        </button>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
+          <BotonPantallaCompleta targetRef={rootRef} tema={tema} />
+          <button
+            onClick={() => navigate(-1)}
+            style={{ background: "none", border: "none", fontFamily: tema.mono, fontSize: 11, color: tema.muted, cursor: "pointer", letterSpacing: "0.08em", opacity: 0.7, flexShrink: 0, transition: "opacity 0.15s" }}
+            onMouseEnter={e => e.currentTarget.style.opacity = "1"}
+            onMouseLeave={e => e.currentTarget.style.opacity = "0.7"}
+          >
+            ← Salir
+          </button>
+        </div>
       </div>
 
       {/* Diapositiva */}

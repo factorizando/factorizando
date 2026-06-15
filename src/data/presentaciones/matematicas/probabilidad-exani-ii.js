@@ -440,6 +440,127 @@ export const PRESENTACION = {
       nota: "Laplace, la geométrica y la frecuentista no son rivales: son tres maneras de asignar P que cumplen los mismos tres axiomas. Por eso todas son probabilidades de verdad."
     },
 
+    // ════════════════════════════════════════════════════════════════════════
+    // TEORÍA DE CONJUNTOS · cardinalidad, operaciones e inclusión-exclusión
+    // ════════════════════════════════════════════════════════════════════════
+    {
+      id: "conjuntos-concepto",
+      tipo: "concepto",
+      titulo: "Teoría de Conjuntos",
+      etiqueta: "El lenguaje de los eventos",
+      formula: "A \\cup B, \\quad A \\cap B, \\quad A', \\quad A - B",
+      svgDiagram: "conjuntos-venn",
+      items: [
+        { math: "A \\cup B", texto: "unión: los elementos que están en A O en B (o en ambos)" },
+        { math: "A \\cap B", texto: "intersección: los que están en A Y en B a la vez" },
+        { math: "A'", texto: "complemento: lo que NO está en A (respecto al universo Ω)" },
+        { math: "A - B", texto: "diferencia: lo que está en A pero NO en B" },
+        { math: "\\#A", texto: "cardinalidad: cuántos elementos tiene el conjunto A" }
+      ],
+      nota: "Un evento es un conjunto de resultados, así que las operaciones de conjuntos son las mismas que las de eventos: «E o F» es la unión, «E y F» la intersección y «no E» el complemento. Dominar estas operaciones es la base de las reglas de la suma y del producto que vienen a continuación."
+    },
+    {
+      id: "conjuntos-operaciones",
+      tipo: "criterio_detalle",
+      titulo: "Teoría de Conjuntos · Ejemplo 1",
+      etiqueta: "Operar con conjuntos explícitos",
+      svgDiagram: "conjuntos-venn",
+      enunciado: "Sean A = {1, 2, 3, 4, 6} y B = {2, 4, 6, 8}. Calcula la unión, la intersección y la diferencia A − B.",
+      math: "A \\cup B = \\{1,2,3,4,6,8\\}, \\quad A \\cap B = \\{2,4,6\\}",
+      por_que: "La unión junta todos los elementos sin repetir (los comunes se escriben una sola vez). La intersección son solo los compartidos: 2, 4 y 6. La diferencia A − B quita de A lo que también está en B: {1,2,3,4,6} − {2,4,6} = {1, 3}.",
+      math_razon: "A - B = \\{1, 3\\}"
+    },
+    {
+      id: "conjuntos-cardinalidad",
+      tipo: "criterio_detalle",
+      titulo: "Teoría de Conjuntos · Ejemplo 2",
+      etiqueta: "Inclusión-exclusión con cardinalidades",
+      svgDiagram: "conjuntos-numerico",
+      enunciado: "En un grupo de 30 alumnos, 18 juegan fútbol, 15 básquet y 8 practican ambos deportes. ¿Cuántos juegan al menos uno y cuántos ninguno?",
+      math: "\\#(A \\cup B) = \\#A + \\#B - \\#(A \\cap B)",
+      por_que: "Sumar 18 + 15 contaría dos veces a los 8 que hacen ambos, así que se resta la intersección: 18 + 15 − 8 = 25 juegan al menos uno. Los que no practican ninguno son el resto: 30 − 25 = 5. El Venn lo muestra: 10 solo fútbol, 8 ambos, 7 solo básquet y 5 fuera.",
+      math_razon: "18 + 15 - 8 = 25 \\;\\Rightarrow\\; 30 - 25 = 5"
+    },
+    {
+      id: "conjuntos-demorgan",
+      tipo: "criterio_detalle",
+      titulo: "Teoría de Conjuntos · Ejemplo 3",
+      etiqueta: "Complemento y leyes de De Morgan",
+      enunciado: "Con Ω = {1,2,…,10}, A = {2,4,6,8,10} (pares) y B = {3,6,9} (múltiplos de 3). ¿Cuál es (A ∪ B)′?",
+      math: "(A \\cup B)' = A' \\cap B'",
+      por_que: "A ∪ B = {2,3,4,6,8,9,10}. Su complemento (lo que queda en Ω) es {1, 5, 7}. La ley de De Morgan confirma el resultado: «no estar en A ni en B» = A′ ∩ B′, justo los números de Ω que no son pares ni múltiplos de 3.",
+      math_razon: "(A \\cup B)' = \\{1, 5, 7\\}"
+    },
+
+    // ── TEORÍA DE CONJUNTOS · EJERCICIOS ──────────────────────────────────────
+    {
+      id: "conj-x1",
+      tipo: "ejercicio",
+      svgDiagram: "conjuntos-venn",
+      etiqueta: "Teoría de conjuntos · Ejercicio 1 / 7",
+      pregunta: "Si A = {1, 2, 3, 5} y B = {2, 3, 4}, ¿cuál es A ∩ B?",
+      opciones: ["{2, 3}", "{1, 2, 3, 4, 5}", "{1, 5}"],
+      correcta: 0,
+      explicacion: "La intersección son los elementos comunes a ambos conjuntos: 2 y 3.",
+    },
+    {
+      id: "conj-x2",
+      tipo: "ejercicio",
+      svgDiagram: "conjuntos-venn",
+      etiqueta: "Teoría de conjuntos · Ejercicio 2 / 7",
+      pregunta: "Con A = {1, 2, 3, 5} y B = {2, 3, 4}, ¿cuál es A ∪ B?",
+      opciones: ["{1, 2, 3, 4, 5}", "{2, 3}", "{1, 5}"],
+      correcta: 0,
+      explicacion: "La unión reúne todos los elementos sin repetir: {1, 2, 3, 4, 5}.",
+    },
+    {
+      id: "conj-x3",
+      tipo: "ejercicio",
+      etiqueta: "Teoría de conjuntos · Ejercicio 3 / 7",
+      pregunta: "Con A = {1, 2, 3, 5} y B = {2, 3, 4}, ¿cuál es la diferencia A − B?",
+      opciones: ["{1, 5}", "{4}", "{2, 3}"],
+      correcta: 0,
+      explicacion: "A − B quita de A los elementos que están en B: {1,2,3,5} − {2,3} = {1, 5}.",
+    },
+    {
+      id: "conj-x4",
+      tipo: "ejercicio",
+      etiqueta: "Teoría de conjuntos · Ejercicio 4 / 7",
+      pregunta: "Si Ω = {1,2,…,9} y A = {1, 3, 5, 7, 9}, ¿cuál es el complemento A′?",
+      opciones: ["{2, 4, 6, 8}", "{1, 3, 5, 7, 9}", "∅"],
+      correcta: 0,
+      explicacion: "El complemento son los elementos de Ω que no están en A: los pares {2, 4, 6, 8}.",
+    },
+    {
+      id: "conj-x5",
+      tipo: "ejercicio",
+      svgDiagram: "conjuntos-numerico",
+      etiqueta: "Teoría de conjuntos · Ejercicio 5 / 7",
+      pregunta: "De 40 personas, 25 hablan inglés, 18 francés y 10 ambos idiomas. ¿Cuántas hablan al menos uno?",
+      opciones: ["33", "43", "35"],
+      correcta: 0,
+      explicacion: "Inclusión-exclusión: #(A∪B) = 25 + 18 − 10 = 33.",
+    },
+    {
+      id: "conj-x6",
+      tipo: "ejercicio",
+      svgDiagram: "conjuntos-numerico",
+      etiqueta: "Teoría de conjuntos · Ejercicio 6 / 7",
+      pregunta: "En ese mismo grupo de 40 personas (33 hablan al menos un idioma), ¿cuántas no hablan ninguno de los dos?",
+      opciones: ["7", "10", "0"],
+      correcta: 0,
+      explicacion: "Las que no hablan ninguno son el total menos las que hablan al menos uno: 40 − 33 = 7.",
+    },
+    {
+      id: "conj-x7",
+      tipo: "ejercicio",
+      etiqueta: "Teoría de conjuntos · Ejercicio 7 / 7",
+      pregunta: "Si A ⊂ B (A está contenido en B), ¿cuánto vale A ∩ B?",
+      opciones: ["A", "B", "∅"],
+      correcta: 0,
+      explicacion: "Si todo elemento de A está también en B, lo común a ambos es el propio A: A ∩ B = A.",
+    },
+
     // ── EVENTOS COMPUESTOS ────────────────────────────────────────────────────
     {
       id: "complemento",
@@ -701,6 +822,115 @@ export const PRESENTACION = {
       math: "\\text{con: } \\tfrac{4}{52}\\cdot\\tfrac{4}{52} = \\tfrac{1}{169} \\;\\;|\\;\\; \\text{sin: } \\tfrac{4}{52}\\cdot\\tfrac{3}{51} = \\tfrac{1}{221}",
       por_que: "CON reemplazo los eventos son independientes: el segundo factor sigue en 4/52. SIN reemplazo, tras sacar un as quedan 3 ases de 51 cartas, así que el segundo factor baja a 3/51. Por eso «sin reemplazo» siempre da una probabilidad menor para repetir.",
       math_razon: "\\tfrac{1}{221} < \\tfrac{1}{169}"
+    },
+
+    // ════════════════════════════════════════════════════════════════════════
+    // DISTRIBUCIONES DE PROBABILIDAD · variable aleatoria, valor esperado y binomial
+    // ════════════════════════════════════════════════════════════════════════
+    {
+      id: "dist-concepto",
+      tipo: "concepto",
+      titulo: "Distribución de Probabilidad",
+      etiqueta: "Cómo se reparte la probabilidad",
+      formula: "\\textstyle\\sum P(X = x) = 1",
+      svgDiagram: "dist-suma-dados",
+      items: [
+        { math: "X", texto: "variable aleatoria: asigna un número a cada resultado (p. ej. la suma de dos dados)" },
+        { math: "P(X = x)", texto: "distribución: la probabilidad de cada valor posible de X" },
+        { math: "\\textstyle\\sum P = 1", texto: "todas las probabilidades suman 1 (cubren todo el espacio muestral)" },
+        { math: "0 \\le P(X=x) \\le 1", texto: "cada probabilidad está entre 0 y 1" }
+      ],
+      nota: "Una distribución de probabilidad es la tabla (o gráfica) que dice con qué probabilidad ocurre cada valor de la variable. La de la suma de dos dados tiene forma de triángulo: el 7 es el más probable (6/36) y los extremos 2 y 12 los menos (1/36). Siempre se cumple que todas las probabilidades suman 1."
+    },
+    {
+      id: "dist-ej1",
+      tipo: "criterio_detalle",
+      titulo: "Distribución · Ejemplo 1",
+      etiqueta: "Leer la distribución de la suma de dos dados",
+      svgDiagram: "dist-suma-dados",
+      enunciado: "Para la suma X de dos dados, ¿cuál es la probabilidad de que X = 7 y de que X ≥ 10?",
+      math: "P(X=7) = \\tfrac{6}{36} = \\tfrac{1}{6}",
+      por_que: "Cada barra es el nº de pares (de 36) que dan esa suma. El 7 ocurre con 6 pares: P = 6/36 = 1/6, la barra más alta. Para X ≥ 10 se suman las barras de 10, 11 y 12: 3 + 2 + 1 = 6 pares, así que P(X ≥ 10) = 6/36 = 1/6.",
+      math_razon: "P(X \\ge 10) = \\tfrac{3+2+1}{36} = \\tfrac{1}{6}"
+    },
+    {
+      id: "dist-ej2",
+      tipo: "criterio_detalle",
+      titulo: "Distribución · Ejemplo 2",
+      etiqueta: "Valor esperado (esperanza)",
+      enunciado: "Un juego de feria paga $50 con probabilidad 0.1, $10 con probabilidad 0.3 y $0 con probabilidad 0.6. ¿Cuál es la ganancia esperada por jugada?",
+      math: "E(X) = \\sum x\\cdot P(x)",
+      por_que: "El valor esperado pondera cada premio por su probabilidad y los suma: 50(0.1) + 10(0.3) + 0(0.6) = 5 + 3 + 0 = 8. En promedio, cada jugada deja $8; si el juego cuesta más de $8, a la larga el jugador pierde.",
+      math_razon: "50(0.1) + 10(0.3) + 0(0.6) = \\$8"
+    },
+    {
+      id: "dist-ej3",
+      tipo: "criterio_detalle",
+      titulo: "Distribución · Ejemplo 3",
+      etiqueta: "Distribución binomial",
+      svgDiagram: "dist-binomial",
+      enunciado: "Se lanza una moneda 4 veces. La variable X = nº de caras sigue una distribución binomial. ¿Cuál es la probabilidad de obtener exactamente 2 caras?",
+      math: "P(X=k) = C(n,k)\\,p^k(1-p)^{n-k}",
+      por_que: "Con n = 4 y p = ½: P(X=2) = C(4,2)(½)²(½)² = 6 · 1/16 = 6/16 = 3/8. La gráfica muestra la distribución completa: es simétrica y el valor más probable es 2 caras (6/16), porque hay más formas de repartir 2 caras que 0 o 4.",
+      math_razon: "C(4,2)\\left(\\tfrac12\\right)^4 = \\tfrac{6}{16} = \\tfrac{3}{8}"
+    },
+
+    // ── DISTRIBUCIONES · EJERCICIOS ───────────────────────────────────────────
+    {
+      id: "dist-x1",
+      tipo: "ejercicio",
+      etiqueta: "Distribuciones · Ejercicio 1 / 6",
+      pregunta: "Una variable X toma los valores 1, 2 y 3 con P(1) = 0.2, P(2) = 0.5 y P(3) = ?. Para que sea una distribución válida, P(3) debe valer:",
+      opciones: ["0.3", "0.5", "0.7"],
+      correcta: 0,
+      explicacion: "Las probabilidades deben sumar 1: P(3) = 1 − 0.2 − 0.5 = 0.3.",
+    },
+    {
+      id: "dist-x2",
+      tipo: "ejercicio",
+      svgDiagram: "dist-suma-dados",
+      etiqueta: "Distribuciones · Ejercicio 2 / 6",
+      pregunta: "Para la suma de dos dados, ¿cuál es la probabilidad de que la suma sea 5?",
+      opciones: ["4/36", "5/36", "1/36"],
+      correcta: 0,
+      explicacion: "La suma 5 se logra con 4 pares: (1,4),(2,3),(3,2),(4,1). P = 4/36 = 1/9.",
+    },
+    {
+      id: "dist-x3",
+      tipo: "ejercicio",
+      etiqueta: "Distribuciones · Ejercicio 3 / 6",
+      pregunta: "¿Cuál es el valor esperado al lanzar un dado equilibrado de 6 caras?",
+      opciones: ["3.5", "3", "6"],
+      correcta: 0,
+      explicacion: "E(X) = (1+2+3+4+5+6)/6 = 21/6 = 3.5. Cada cara pesa 1/6.",
+    },
+    {
+      id: "dist-x4",
+      tipo: "ejercicio",
+      etiqueta: "Distribuciones · Ejercicio 4 / 6",
+      pregunta: "Una rifa paga $100 con probabilidad 0.05 y $0 con probabilidad 0.95. ¿Cuál es la ganancia esperada por boleto?",
+      opciones: ["$5", "$50", "$95"],
+      correcta: 0,
+      explicacion: "E(X) = 100(0.05) + 0(0.95) = $5. Conviene comprar solo si el boleto cuesta menos de $5.",
+    },
+    {
+      id: "dist-x5",
+      tipo: "ejercicio",
+      svgDiagram: "dist-binomial",
+      etiqueta: "Distribuciones · Ejercicio 5 / 6",
+      pregunta: "Se lanza una moneda 4 veces. ¿Cuál es la probabilidad de obtener exactamente 3 caras?",
+      opciones: ["4/16", "6/16", "1/16"],
+      correcta: 0,
+      explicacion: "Binomial: C(4,3)(½)⁴ = 4 · 1/16 = 4/16 = 1/4.",
+    },
+    {
+      id: "dist-x6",
+      tipo: "ejercicio",
+      etiqueta: "Distribuciones · Ejercicio 6 / 6",
+      pregunta: "En toda distribución de probabilidad, ¿qué deben cumplir siempre las probabilidades de todos los valores?",
+      opciones: ["sumar 1", "sumar 0", "ser todas iguales"],
+      correcta: 0,
+      explicacion: "Una distribución cubre el espacio muestral completo, así que ΣP(X=x) = 1.",
     },
 
     // ── EJERCICIOS ────────────────────────────────────────────────────────────
@@ -1105,12 +1335,14 @@ export const PRESENTACION = {
       etiqueta: "Lo esencial de probabilidad",
       puntos: [
         { math: "P(E) = \\dfrac{\\#E}{\\#\\Omega},\\ 0 \\le P \\le 1", texto: "regla de Laplace (resultados equiprobables)" },
+        { math: "\\#(A\\cup B) = \\#A + \\#B - \\#(A\\cap B)", texto: "teoría de conjuntos: inclusión-exclusión para contar" },
         { math: "N = n_1 \\times n_2 \\times \\cdots", texto: "principio multiplicativo; P(n,r) ordena, C(n,r) no" },
         { math: "P(E') = 1 - P(E)", texto: "complemento: la vía rápida del «al menos uno»" },
         { math: "P(E \\cup F) = P(E) + P(F) - P(E \\cap F)", texto: "regla de la suma («o»); excluyentes: la resta es 0" },
         { math: "P(E \\cap F) = P(E)\\cdot P(F)", texto: "regla del producto («y») para independientes" },
         { math: "P(A \\cap B) = P(A)\\cdot P(B\\mid A)", texto: "condicional / sin reemplazo: cambia el denominador" },
-        { math: "f_r = \\dfrac{f}{n} \\to P(E)", texto: "frecuentista: estima P cuando Laplace no aplica" }
+        { math: "f_r = \\dfrac{f}{n} \\to P(E)", texto: "frecuentista: estima P cuando Laplace no aplica" },
+        { math: "E(X) = \\sum x\\cdot P(x),\\ \\textstyle\\sum P = 1", texto: "distribución: P suman 1; binomial C(n,k)pᵏ(1−p)ⁿ⁻ᵏ" }
       ]
     }
 

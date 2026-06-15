@@ -796,6 +796,10 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar, expandidos, onEx
       {slide.svgDiagram === "dos-dados"                && <DosDadosSVG                tema={tema} />}
       {slide.svgDiagram === "orden-importa"            && <OrdenImportaSVG            tema={tema} />}
       {slide.svgDiagram === "frecuencias-dado"         && <FrecuenciasDadoChart       tema={tema} />}
+      {slide.svgDiagram === "conjuntos-venn"           && <VennConjuntosSVG          tema={tema} />}
+      {slide.svgDiagram === "conjuntos-numerico"       && <VennNumericoSVG           tema={tema} />}
+      {slide.svgDiagram === "dist-suma-dados"          && <DistSumaDadosChart        tema={tema} />}
+      {slide.svgDiagram === "dist-binomial"            && <DistBinomialChart         tema={tema} />}
       {slide.svgDiagram === "tipos-variable"           && <TiposVariableSVG          tema={tema} />}
       {slide.svgDiagram === "tabla-frecuencias"        && <TablaFrecuenciasEst       tema={tema} />}
       {slide.svgDiagram === "ejemplo-estudiantes"      && <EjemploEstudiantesTabla   tema={tema} />}
@@ -2169,6 +2173,10 @@ function SlideCriterioDetalle({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "arbol-tres-monedas"      && <ProbArbolTresMonedas     tema={tema} />}
       {slide.svgDiagram === "complemento"              && <ComplementoSVG         tema={tema} />}
       {slide.svgDiagram === "regla-suma"               && <ReglaSumaSVG           tema={tema} />}
+      {slide.svgDiagram === "conjuntos-venn"           && <VennConjuntosSVG       tema={tema} />}
+      {slide.svgDiagram === "conjuntos-numerico"       && <VennNumericoSVG        tema={tema} />}
+      {slide.svgDiagram === "dist-suma-dados"          && <DistSumaDadosChart     tema={tema} />}
+      {slide.svgDiagram === "dist-binomial"            && <DistBinomialChart      tema={tema} />}
       {slide.svgDiagram === "arbol-monedas"            && <ProbArbolMonedas       tema={tema} />}
       {slide.svgDiagram === "arbol-urna"               && <ProbArbolUrna          tema={tema} />}
       {slide.svgDiagram === "media-detalle"            && <MediaDetalleSVG        tema={tema} />}
@@ -4317,6 +4325,88 @@ function ReglaSumaSVG({ tema }) {
   );
 }
 
+// ─── Teoría de conjuntos: Venn de dos conjuntos A y B en Ω (intersección sombreada) ──
+function VennConjuntosSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, gr = tema.verde, mu = tema.muted;
+  return (
+    <svg viewBox="0 0 300 158" width="100%" style={{ display: "block", maxHeight: 168 }}>
+      <rect x="8" y="12" width="284" height="134" rx="8" fill={tema.azulSuave} stroke={tema.border} strokeWidth="1.3" />
+      <text x="280" y="30" fill={mu} fontSize="14" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">Ω</text>
+      <defs><clipPath id="venn-conj-A"><circle cx="120" cy="86" r="58" /></clipPath></defs>
+      <circle cx="120" cy="86" r="58" fill={`${a}22`} stroke={a} strokeWidth="2" />
+      <circle cx="180" cy="86" r="58" fill={`${bl}22`} stroke={bl} strokeWidth="2" />
+      <circle cx="180" cy="86" r="58" fill={`${gr}55`} clipPath="url(#venn-conj-A)" />
+      <text x="82" y="92" fill={a} fontSize="18" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
+      <text x="218" y="92" fill={bl} fontSize="18" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">B</text>
+      <text x="150" y="90" fill={gr} fontSize="10" fontFamily="'IBM Plex Mono',monospace" fontWeight="700" textAnchor="middle">A∩B</text>
+    </svg>
+  );
+}
+
+// ─── Teoría de conjuntos: Venn con cardinalidades (problema de inclusión-exclusión) ──
+function VennNumericoSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, gr = tema.verde, mu = tema.muted;
+  return (
+    <svg viewBox="0 0 300 170" width="100%" style={{ display: "block", maxHeight: 178 }}>
+      <rect x="8" y="12" width="284" height="146" rx="8" fill={tema.azulSuave} stroke={tema.border} strokeWidth="1.3" />
+      <text x="280" y="30" fill={mu} fontSize="12.5" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">Ω = 30</text>
+      <defs><clipPath id="venn-num-A"><circle cx="120" cy="90" r="56" /></clipPath></defs>
+      <circle cx="120" cy="90" r="56" fill={`${a}1f`} stroke={a} strokeWidth="2" />
+      <circle cx="180" cy="90" r="56" fill={`${bl}1f`} stroke={bl} strokeWidth="2" />
+      <circle cx="180" cy="90" r="56" fill={`${gr}44`} clipPath="url(#venn-num-A)" />
+      <text x="92" y="36" fill={a} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle">Fútbol (18)</text>
+      <text x="208" y="36" fill={bl} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle">Básquet (15)</text>
+      <text x="86" y="96" fill={a} fontSize="17" fontFamily="'IBM Plex Mono',monospace" fontWeight="700" textAnchor="middle">10</text>
+      <text x="150" y="96" fill={gr} fontSize="17" fontFamily="'IBM Plex Mono',monospace" fontWeight="700" textAnchor="middle">8</text>
+      <text x="214" y="96" fill={bl} fontSize="17" fontFamily="'IBM Plex Mono',monospace" fontWeight="700" textAnchor="middle">7</text>
+      <text x="264" y="150" fill={mu} fontSize="13" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">5</text>
+    </svg>
+  );
+}
+
+// ─── Distribución de probabilidad: suma de dos dados (forma triangular, máx en 7) ──
+const DIST_SUMA_DADOS = [
+  { x: "2", n: 1 }, { x: "3", n: 2 }, { x: "4", n: 3 }, { x: "5", n: 4 },
+  { x: "6", n: 5 }, { x: "7", n: 6 }, { x: "8", n: 5 }, { x: "9", n: 4 },
+  { x: "10", n: 3 }, { x: "11", n: 2 }, { x: "12", n: 1 },
+];
+function DistSumaDadosChart({ tema }) {
+  return (
+    <div style={{ width: "100%", height: 200 }}>
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={DIST_SUMA_DADOS} margin={{ top: 16, right: 14, left: 0, bottom: 2 }}>
+          <CartesianGrid stroke="rgba(255,255,255,0.06)" vertical={false} />
+          <XAxis dataKey="x" tick={{ fill: tema.muted, fontSize: 11 }} axisLine={{ stroke: tema.border }} tickLine={false} />
+          <YAxis domain={[0, 6]} ticks={[0, 2, 4, 6]} tick={{ fill: tema.muted, fontSize: 9.5 }} axisLine={false} tickLine={false} width={34} tickFormatter={(v) => `${v}/36`} />
+          <ReferenceLine x="7" stroke={tema.verde} strokeDasharray="4 3" label={{ value: "máx", position: "top", fill: tema.verde, fontSize: 10 }} />
+          <Bar dataKey="n" fill={tema.acento} radius={[4, 4, 0, 0]} maxBarSize={24} />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
+
+// ─── Distribución binomial: nº de caras en 4 lanzamientos de moneda (p = ½) ────
+const DIST_BINOMIAL = [
+  { k: "0", p: 1 / 16 }, { k: "1", p: 4 / 16 }, { k: "2", p: 6 / 16 },
+  { k: "3", p: 4 / 16 }, { k: "4", p: 1 / 16 },
+];
+function DistBinomialChart({ tema }) {
+  return (
+    <div style={{ width: "100%", height: 200 }}>
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={DIST_BINOMIAL} margin={{ top: 16, right: 14, left: 0, bottom: 2 }}>
+          <CartesianGrid stroke="rgba(255,255,255,0.06)" vertical={false} />
+          <XAxis dataKey="k" tick={{ fill: tema.muted, fontSize: 12 }} axisLine={{ stroke: tema.border }} tickLine={false} />
+          <YAxis domain={[0, 0.4]} tick={{ fill: tema.muted, fontSize: 10 }} axisLine={false} tickLine={false} width={36} tickFormatter={(v) => v.toFixed(2)} />
+          <ReferenceLine x="2" stroke={tema.verde} strokeDasharray="4 3" label={{ value: "más probable", position: "top", fill: tema.verde, fontSize: 9 }} />
+          <Bar dataKey="p" fill={tema.acento} radius={[4, 4, 0, 0]} maxBarSize={40} />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
+
 // ─── Árbol de 2 lanzamientos de moneda (regla del producto) con React Flow ────
 function ProbArbolMonedas({ tema }) {
   const T = tema.texto, a = tema.acento, bl = tema.azul, gr = tema.verde;
@@ -6357,6 +6447,10 @@ function renderEjercicioSVG(svgDiagram, tema) {
   if (svgDiagram === "ej-urna-r5a3")   return <UrnaSinReempSVG tema={tema} />;
   if (svgDiagram === "ej-ruleta")      return <RuletaSVG      tema={tema} />;
   if (svgDiagram === "ej-combinatoria") return <CombinaPersonasSVG tema={tema} />;
+  if (svgDiagram === "conjuntos-venn")     return <VennConjuntosSVG    tema={tema} />;
+  if (svgDiagram === "conjuntos-numerico") return <VennNumericoSVG     tema={tema} />;
+  if (svgDiagram === "dist-suma-dados")    return <DistSumaDadosChart  tema={tema} />;
+  if (svgDiagram === "dist-binomial")      return <DistBinomialChart   tema={tema} />;
   if (svgDiagram === "ej-est-media")       return <Ej_EstMediaSVG      tema={tema} />;
   if (svgDiagram === "ej-est-mediana")     return <Ej_EstMedianaSVG    tema={tema} />;
   if (svgDiagram === "ej-est-moda")        return <Ej_EstModaSVG       tema={tema} />;

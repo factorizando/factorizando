@@ -901,6 +901,120 @@ export const PRESENTACION = {
       ]
     },
 
+    // ══ SUBTEMA 5 · LA PCR ════════════════════════════════════════════════════
+    {
+      id: "pcr",
+      tipo: "criterio_detalle",
+      titulo: "La PCR: reacción en cadena de la polimerasa",
+      etiqueta: "Copiar ADN millones de veces",
+      svgDiagram: "gen-pcr",
+      enunciado: "La PCR (reacción en cadena de la polimerasa) es la técnica que permite obtener miles de millones de copias de un fragmento específico de ADN en pocas horas. Repite ciclos de tres pasos: DESNATURALIZACIÓN (calor que separa las dos cadenas), HIBRIDACIÓN (los cebadores se unen al fragmento) y EXTENSIÓN (la enzima ADN-polimerasa copia la cadena). En cada ciclo el número de copias se duplica.",
+      math: "\\text{copias} = 2^{n}\\ \\ (n = \\text{n.\\!^{o}\\ de\\ ciclos})",
+      por_que: "La PCR NO necesita un vector viral ni bacteriano: solo requiere el ADN molde, los cebadores, los nucleótidos y la ADN-polimerasa, todo en un tubo. Por eso se distingue del ADN recombinante (que sí inserta el gen en un plásmido). La PCR sirve para diagnóstico de enfermedades, pruebas de paternidad y análisis forense.",
+      math_razon: "\\text{ADN molde} + \\text{cebadores} + \\text{polimerasa} \\to \\text{millones de copias}"
+    },
+
+    // Reactivos · PCR (8)
+    {
+      id: "pc1",
+      tipo: "ejercicio",
+      svgDiagram: "gen-pcr",
+      etiqueta: "Genética · PCR · Reactivo 1 / 8",
+      pregunta: "Es la técnica biotecnológica que permite obtener miles de millones de copias de un fragmento específico de ADN para identificar con rapidez una secuencia:",
+      opciones: ["Reacción en cadena de la polimerasa (PCR)", "ADN recombinante", "Secuenciación del ADN", "Clonación de organismos"],
+      correcta: 0,
+      explicacion: "La PCR amplifica (multiplica) un fragmento de ADN millones de veces. El ADN recombinante inserta genes en otro organismo, y la secuenciación lee el orden de las bases; ninguna de ellas tiene como fin principal copiar masivamente un fragmento.",
+      pasos: [
+        { pre: "Amplifica ADN: ", math: "\\text{PCR}" }
+      ]
+    },
+    {
+      id: "pc2",
+      tipo: "ejercicio",
+      etiqueta: "Genética · PCR · Reactivo 2 / 8",
+      pregunta: "A diferencia del ADN recombinante, la PCR para copiar el ADN NO requiere:",
+      opciones: ["Un vector viral o bacteriano", "La enzima ADN-polimerasa", "Cebadores (primers)", "Nucleótidos libres"],
+      correcta: 0,
+      explicacion: "La PCR se realiza por completo en un tubo, sin introducir el gen en una célula: no usa vectores virales ni bacterianos. Sí necesita la polimerasa, los cebadores y los nucleótidos.",
+      pasos: [
+        { pre: "PCR sin: ", math: "\\text{vector viral/bacteriano}" }
+      ]
+    },
+    {
+      id: "pc3",
+      tipo: "ejercicio",
+      svgDiagram: "gen-pcr",
+      etiqueta: "Genética · PCR · Reactivo 3 / 8",
+      pregunta: "La enzima que «lee» la cadena molde y fabrica la nueva copia de ADN en la PCR es la:",
+      opciones: ["ADN-polimerasa", "ATP-sintasa", "Amilasa", "Catalasa"],
+      correcta: 0,
+      explicacion: "La ADN-polimerasa (en la PCR, una termoestable como la Taq) sintetiza la nueva cadena a partir de los cebadores, copiando la cadena molde.",
+      pasos: [
+        { pre: "Copia el ADN: ", math: "\\text{ADN-polimerasa}" }
+      ]
+    },
+    {
+      id: "pc4",
+      tipo: "ejercicio",
+      svgDiagram: "gen-pcr",
+      etiqueta: "Genética · PCR · Reactivo 4 / 8",
+      pregunta: "El primer paso de cada ciclo de PCR, en el que el calor separa las dos cadenas del ADN, se llama:",
+      opciones: ["Desnaturalización", "Hibridación", "Extensión", "Transcripción"],
+      correcta: 0,
+      explicacion: "La desnaturalización usa calor (~95 °C) para romper los puentes de hidrógeno y separar la doble hélice en dos cadenas simples, que servirán de molde.",
+      pasos: [
+        { pre: "Calor separa cadenas: ", math: "\\text{desnaturalización}" }
+      ]
+    },
+    {
+      id: "pc5",
+      tipo: "ejercicio",
+      etiqueta: "Genética · PCR · Reactivo 5 / 8",
+      pregunta: "En cada ciclo de la PCR, la cantidad de copias del fragmento de ADN:",
+      opciones: ["Se duplica", "Se reduce a la mitad", "No cambia", "Se triplica"],
+      correcta: 0,
+      explicacion: "Cada ciclo duplica el número de copias; por eso el crecimiento es exponencial (2ⁿ). En unos 30 ciclos se obtienen millones de copias.",
+      pasos: [
+        { pre: "Crecimiento: ", math: "2^{n}" }
+      ]
+    },
+    {
+      id: "pc6",
+      tipo: "ejercicio",
+      etiqueta: "Genética · PCR · Reactivo 6 / 8",
+      pregunta: "Las cortas secuencias que se unen al ADN molde para indicar a la polimerasa dónde empezar a copiar son los:",
+      opciones: ["Cebadores (primers)", "Plásmidos", "Ribosomas", "Codones de paro"],
+      correcta: 0,
+      explicacion: "Los cebadores o primers son fragmentos cortos de ADN que se hibridan en los extremos del fragmento a copiar y dan a la polimerasa el punto de inicio.",
+      pasos: [
+        { pre: "Indican el inicio: ", math: "\\text{cebadores}" }
+      ]
+    },
+    {
+      id: "pc7",
+      tipo: "ejercicio",
+      etiqueta: "Genética · PCR · Reactivo 7 / 8",
+      pregunta: "Una aplicación frecuente de la PCR en medicina y criminalística es:",
+      opciones: ["Detectar el ADN de un virus o identificar a una persona", "Producir insulina en bacterias", "Fabricar vacunas vivas", "Clonar mamíferos completos"],
+      correcta: 0,
+      explicacion: "Al amplificar incluso cantidades mínimas de ADN, la PCR permite detectar patógenos (por ejemplo, virus) y obtener perfiles genéticos para identificación forense o pruebas de paternidad.",
+      pasos: [
+        { pre: "Amplifica para detectar: ", math: "\\text{diagnóstico y forense}" }
+      ]
+    },
+    {
+      id: "pc8",
+      tipo: "ejercicio",
+      etiqueta: "Genética · PCR · Reactivo 8 / 8",
+      pregunta: "Ordena correctamente los tres pasos de un ciclo de PCR:",
+      opciones: ["Desnaturalización → hibridación → extensión", "Extensión → desnaturalización → hibridación", "Hibridación → extensión → desnaturalización", "Traducción → transcripción → replicación"],
+      correcta: 0,
+      explicacion: "Cada ciclo: primero el calor separa las cadenas (desnaturalización), luego los cebadores se unen (hibridación) y por último la polimerasa copia (extensión).",
+      pasos: [
+        { pre: "Orden: ", math: "\\text{desnat.} \\to \\text{hibrid.} \\to \\text{extensión}" }
+      ]
+    },
+
     // ── RESUMEN ───────────────────────────────────────────────────────────────
     {
       id: "resumen",
@@ -913,7 +1027,8 @@ export const PRESENTACION = {
         { math: "Aa \\times Aa \\to 3:1", texto: "Mendel (chícharos): dominante/recesivo; el cuadro de Punnett predice la descendencia" },
         { math: "\\text{Genotipo / fenotipo}", texto: "genotipo = alelos; fenotipo = rasgo observable" },
         { math: "\\text{Mutación}", texto: "cambio heredable en el ADN; al azar; fuente de variabilidad y evolución" },
-        { math: "\\text{Biotecnología}", texto: "ADN recombinante (insulina), clonación (Dolly), transgénicos, terapia génica" }
+        { math: "\\text{Biotecnología}", texto: "ADN recombinante (insulina), clonación (Dolly), transgénicos, terapia génica" },
+        { math: "\\text{PCR } (2^{n})", texto: "amplifica un fragmento de ADN millones de veces; sin vector; diagnóstico y forense" }
       ]
     }
 

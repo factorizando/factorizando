@@ -170,6 +170,7 @@ export const SUBJECTS_EXANI_II = [
           { id: "ei-exp-bio-genetica", name: "Genética y sus aplicaciones", presentacion: "/ver/biologia-genetica" },
           { id: "ei-exp-bio-evolucion", name: "Evolución y diversidad biológica", presentacion: "/ver/biologia-evolucion" },
           { id: "ei-exp-bio-biodiversidad", name: "Biodiversidad y su preservación", presentacion: "/ver/biologia-ecologia" },
+          { id: "ei-exp-bio-anatomia", name: "Anatomía, fisiología y diversidad", presentacion: "/ver/biologia-anatomia-fisiologia" },
         ],
       },
     ],

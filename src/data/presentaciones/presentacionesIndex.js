@@ -62,6 +62,7 @@ import { PRESENTACION as TRANSFORMACIONES_CONGRUENCIA } from "./matematicas/tran
 import { PRESENTACION as TRIANGULOS_PITAGORAS } from "./matematicas/triangulos-pitagoras.js";
 import { PRESENTACION as COMPRENSION_LECTORA } from "./comprension/comprension-lectora.js";
 import { PRESENTACION as FISICA_COMPLEMENTO_CIENTIFICO } from "./fisica/fisica-complemento-cientifico.js";
+import { PRESENTACION as BIOLOGIA_ANATOMIA_FISIOLOGIA } from "./biologia/biologia-anatomia-fisiologia.js";
 
 export const PRESENTACIONES_INDEX = {
   "semejanza-triangulos": SEMEJANZA_TRIANGULOS,
@@ -124,6 +125,7 @@ export const PRESENTACIONES_INDEX = {
   "triangulos-pitagoras": TRIANGULOS_PITAGORAS,
   "comprension-lectora": COMPRENSION_LECTORA,
   "fisica-complemento-cientifico": FISICA_COMPLEMENTO_CIENTIFICO,
+  "biologia-anatomia-fisiologia": BIOLOGIA_ANATOMIA_FISIOLOGIA,
 };
 
 export function buscarPresentacion(id) {

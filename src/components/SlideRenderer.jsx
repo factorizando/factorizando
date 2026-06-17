@@ -268,6 +268,7 @@ function SlidePortadaDiagram({ slide, tema }) {
   if (slide.svgDiagram === "eco-portada") return <EcoPortadaSVG tema={tema} />;
   if (slide.svgDiagram === "qf-portada") return <QfPortadaSVG tema={tema} />;
   if (slide.svgDiagram === "qaa-portada") return <QaaPortadaSVG tema={tema} />;
+  if (slide.svgDiagram === "ana-portada") return <AnaPortadaSVG tema={tema} />;
   const DecoSVG = tema.DecoSVG;
   return <DecoSVG tema={tema} />;
 }
@@ -861,6 +862,12 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar, expandidos, onEx
       {slide.svgDiagram === "eco-piramide"             && <EcoPiramideSVG           tema={tema} />}
       {slide.svgDiagram === "eco-ciclo-carbono"        && <EcoCicloCarbonoSVG       tema={tema} />}
       {slide.svgDiagram === "eco-biomas"               && <EcoBiomasSVG             tema={tema} />}
+      {slide.svgDiagram === "gen-pcr"                  && <GenPcrSVG                tema={tema} />}
+      {slide.svgDiagram === "ana-portada"              && <AnaPortadaSVG            tema={tema} />}
+      {slide.svgDiagram === "ana-tejidos"              && <AnaTejidosSVG            tema={tema} />}
+      {slide.svgDiagram === "ana-vegetal"              && <AnaVegetalSVG            tema={tema} />}
+      {slide.svgDiagram === "ana-excrecion"            && <AnaExcrecionSVG          tema={tema} />}
+      {slide.svgDiagram === "ana-fungi"                && <AnaFungiSVG              tema={tema} />}
       {slide.svgDiagram === "qf-mezclas"               && <QfMezclasSVG             tema={tema} />}
       {slide.svgDiagram === "qf-atomo"                 && <QfAtomoSVG               tema={tema} />}
       {slide.svgDiagram === "qf-tabla"                 && <QfTablaSVG               tema={tema} />}
@@ -2224,6 +2231,12 @@ function SlideCriterioDetalle({ slide, tema, resaltadoIdx, onResaltar }) {
       {slide.svgDiagram === "eco-piramide"             && <EcoPiramideSVG         tema={tema} />}
       {slide.svgDiagram === "eco-ciclo-carbono"        && <EcoCicloCarbonoSVG     tema={tema} />}
       {slide.svgDiagram === "eco-biomas"               && <EcoBiomasSVG           tema={tema} />}
+      {slide.svgDiagram === "gen-pcr"                  && <GenPcrSVG              tema={tema} />}
+      {slide.svgDiagram === "ana-portada"              && <AnaPortadaSVG          tema={tema} />}
+      {slide.svgDiagram === "ana-tejidos"              && <AnaTejidosSVG          tema={tema} />}
+      {slide.svgDiagram === "ana-vegetal"              && <AnaVegetalSVG          tema={tema} />}
+      {slide.svgDiagram === "ana-excrecion"            && <AnaExcrecionSVG        tema={tema} />}
+      {slide.svgDiagram === "ana-fungi"                && <AnaFungiSVG            tema={tema} />}
       {slide.svgDiagram === "din-segunda-ley"          && <DinSegundaLeySVG       tema={tema} />}
       {slide.svgDiagram === "din-tercera-ley"          && <DinTerceraLeySVG       tema={tema} />}
       {slide.svgDiagram === "din-hooke"                && <DinHookeSVG            tema={tema} />}
@@ -6493,6 +6506,12 @@ function renderEjercicioSVG(svgDiagram, tema) {
   if (svgDiagram === "eco-piramide")       return <EcoPiramideSVG      tema={tema} />;
   if (svgDiagram === "eco-ciclo-carbono")  return <EcoCicloCarbonoSVG  tema={tema} />;
   if (svgDiagram === "eco-biomas")         return <EcoBiomasSVG        tema={tema} />;
+  if (svgDiagram === "gen-pcr")            return <GenPcrSVG           tema={tema} />;
+  if (svgDiagram === "ana-portada")        return <AnaPortadaSVG       tema={tema} />;
+  if (svgDiagram === "ana-tejidos")        return <AnaTejidosSVG       tema={tema} />;
+  if (svgDiagram === "ana-vegetal")        return <AnaVegetalSVG       tema={tema} />;
+  if (svgDiagram === "ana-excrecion")      return <AnaExcrecionSVG     tema={tema} />;
+  if (svgDiagram === "ana-fungi")          return <AnaFungiSVG         tema={tema} />;
   if (svgDiagram === "qf-portada")         return <QfPortadaSVG        tema={tema} />;
   if (svgDiagram === "qf-mezclas")         return <QfMezclasSVG        tema={tema} />;
   if (svgDiagram === "qf-atomo")           return <QfAtomoSVG          tema={tema} />;
@@ -10893,6 +10912,176 @@ function EcoBiomasSVG({ tema }) {
           </g>
         );
       })}
+    </svg>
+  );
+}
+
+// ══ BIOLOGÍA · ANATOMÍA, FISIOLOGÍA Y DIVERSIDAD ══════════════════════════════
+function AnaPortadaSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, gr = tema.verde, T = tema.texto;
+  return (
+    <svg viewBox="0 0 230 140" width="100%" style={{ display: "block", maxHeight: 140, maxWidth: 280 }}>
+      {/* hoja con estoma */}
+      <path d="M 30 86 q 18 -44 44 -2 q -18 30 -44 2 Z" fill="rgba(74,222,128,0.16)" stroke={gr} strokeWidth="1.6" />
+      <line x1={36} y1={78} x2={66} y2={50} stroke={gr} strokeWidth="1.2" />
+      <ellipse cx={52} cy={70} rx={5} ry={3} fill="none" stroke={a} strokeWidth="1.3" />
+      <text x={52} y={100} textAnchor="middle" fill={mu} fontSize="7" fontFamily="'DM Sans',sans-serif">estoma</text>
+      {/* tejido (rejilla de células) */}
+      <g>
+        {[0,1,2].map(i => [0,1,2].map(j => (
+          <rect key={`${i}-${j}`} x={104 + j*15} y={44 + i*15} width={13} height={13} rx={3} fill="rgba(96,165,250,0.12)" stroke={bl} strokeWidth="1.1" />
+        )))}
+      </g>
+      <text x={126} y={100} textAnchor="middle" fill={mu} fontSize="7" fontFamily="'DM Sans',sans-serif">tejido</text>
+      {/* hongo (seta) */}
+      <path d="M 178 64 q 18 -26 36 0 Z" fill="rgba(192,132,252,0.22)" stroke={a} strokeWidth="1.6" />
+      <rect x={192} y={64} width={8} height={20} rx={2} fill="rgba(192,132,252,0.18)" stroke={a} strokeWidth="1.4" />
+      <text x={196} y={100} textAnchor="middle" fill={mu} fontSize="7" fontFamily="'DM Sans',sans-serif">hongo</text>
+      <text x={115} y={128} textAnchor="middle" fill={mu} fontSize="8.5" fontFamily="'DM Sans',sans-serif">tejidos · plantas · animales · hongos</text>
+    </svg>
+  );
+}
+
+function AnaTejidosSVG({ tema }) {
+  const mu = tema.muted, T = tema.texto, ro = tema.rojo;
+  const paneles = [
+    { lab: "Epitelial", sub: "recubre", c: "#60a5fa" },
+    { lab: "Conectivo", sub: "sangre, hueso", c: "#fb7185" },
+    { lab: "Muscular", sub: "se contrae", c: "#f5c842" },
+    { lab: "Nervioso", sub: "transmite", c: "#34d399" },
+  ];
+  return (
+    <svg viewBox="0 0 290 120" width="100%" style={{ display: "block", maxHeight: 130 }}>
+      <text x={145} y={12} textAnchor="middle" fill={tema.acento} fontSize="8" fontFamily="'DM Sans',sans-serif">los cuatro tejidos animales</text>
+      {paneles.map(({ lab, sub, c }, i) => {
+        const x = 10 + i * 70;
+        return (
+          <g key={i}>
+            <rect x={x} y={22} width={62} height={52} rx={7} fill={`${c}1e`} stroke={c} strokeWidth="1.8" />
+            {/* iconito según tejido */}
+            {i === 0 && [0,1,2].map(k => <rect key={k} x={x+10+k*14} y={40} width={12} height={16} rx={2} fill={`${c}33`} stroke={c} strokeWidth="1.1" />)}
+            {i === 1 && [0,1,2,3].map(k => <circle key={k} cx={x+14+k*12} cy={48} r={5} fill={`${c}44`} stroke={c} strokeWidth="1.1" />)}
+            {i === 2 && [0,1,2].map(k => <line key={k} x1={x+12} y1={36+k*8} x2={x+50} y2={36+k*8} stroke={c} strokeWidth="2.4" />)}
+            {i === 3 && <><circle cx={x+31} cy={46} r={7} fill={`${c}44`} stroke={c} strokeWidth="1.2" /><line x1={x+38} y1={46} x2={x+54} y2={40} stroke={c} strokeWidth="1.4" /><line x1={x+24} y1={46} x2={x+10} y2={40} stroke={c} strokeWidth="1.4" /></>}
+            <text x={x+31} y={88} textAnchor="middle" fill={T} fontSize="7.6" fontFamily="'DM Sans',sans-serif" fontWeight="600">{lab}</text>
+            <text x={x+31} y={99} textAnchor="middle" fill={mu} fontSize="6.4" fontFamily="'DM Sans',sans-serif">{sub}</text>
+          </g>
+        );
+      })}
+      <text x={145} y={114} textAnchor="middle" fill={ro} fontSize="6.8" fontFamily="'DM Sans',sans-serif">la sangre es tejido conectivo: transporta gases y defiende</text>
+    </svg>
+  );
+}
+
+function AnaVegetalSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, gr = tema.verde, T = tema.texto;
+  return (
+    <svg viewBox="0 0 260 140" width="100%" style={{ display: "block", maxHeight: 150 }}>
+      {/* tallo */}
+      <rect x={120} y={40} width={10} height={74} fill="rgba(74,222,128,0.12)" stroke={gr} strokeWidth="1.4" />
+      {/* hoja con estoma */}
+      <path d="M 130 56 q 44 -22 64 4 q -44 22 -64 -4 Z" fill="rgba(74,222,128,0.16)" stroke={gr} strokeWidth="1.5" />
+      <ellipse cx={170} cy={58} rx={6} ry={3.4} fill="none" stroke={a} strokeWidth="1.4" />
+      <text x={196} y={50} fill={a} fontSize="7" fontFamily="'DM Sans',sans-serif">estoma</text>
+      <text x={196} y={60} fill={mu} fontSize="6" fontFamily="'DM Sans',sans-serif">(CO₂ / O₂)</text>
+      {/* raíz */}
+      <path d="M 125 114 l -10 18 M 125 114 l 0 22 M 125 114 l 10 18" fill="none" stroke="#b08968" strokeWidth="1.6" />
+      <text x={125} y={138} textAnchor="middle" fill={mu} fontSize="6.6" fontFamily="'DM Sans',sans-serif">raíz: absorbe agua</text>
+      {/* flecha xilema (sube, azul) */}
+      <line x1={113} y1={110} x2={113} y2={50} stroke={bl} strokeWidth="1.8" />
+      <polygon points={arrowHead(113, 70, 113, 50, 6)} fill={bl} />
+      <text x={70} y={70} textAnchor="middle" fill={bl} fontSize="7" fontFamily="'DM Sans',sans-serif">xilema</text>
+      <text x={70} y={80} textAnchor="middle" fill={mu} fontSize="6" fontFamily="'DM Sans',sans-serif">agua ↑</text>
+      {/* flecha floema (baja, acento) */}
+      <line x1={137} y1={52} x2={137} y2={108} stroke={a} strokeWidth="1.8" />
+      <polygon points={arrowHead(137, 90, 137, 108, 6)} fill={a} />
+      <text x={196} y={104} textAnchor="middle" fill={a} fontSize="7" fontFamily="'DM Sans',sans-serif">floema</text>
+      <text x={196} y={114} textAnchor="middle" fill={mu} fontSize="6" fontFamily="'DM Sans',sans-serif">azúcares ↓</text>
+    </svg>
+  );
+}
+
+function AnaExcrecionSVG({ tema }) {
+  const mu = tema.muted, T = tema.texto;
+  const filas = [
+    { org: "Lombriz", grp: "anélido", est: "Nefridios", c: "#fb7185" },
+    { org: "Saltamontes", grp: "insecto", est: "Túbulos de Malpighi", c: "#f5c842" },
+    { org: "Cangrejo", grp: "crustáceo", est: "Glándulas antenales", c: "#22d3ee" },
+    { org: "Pez / humano", grp: "vertebrado", est: "Riñones", c: "#34d399" },
+  ];
+  return (
+    <svg viewBox="0 0 290 130" width="100%" style={{ display: "block", maxHeight: 140 }}>
+      <text x={145} y={12} textAnchor="middle" fill={tema.acento} fontSize="8" fontFamily="'DM Sans',sans-serif">cada grupo animal, su estructura de excreción</text>
+      {filas.map(({ org, grp, est, c }, i) => {
+        const y = 22 + i * 26;
+        return (
+          <g key={i}>
+            <rect x={10} y={y} width={86} height={22} rx={5} fill={`${c}1e`} stroke={c} strokeWidth="1.5" />
+            <text x={16} y={y+13} fill={T} fontSize="7.4" fontFamily="'DM Sans',sans-serif" fontWeight="600">{org}</text>
+            <text x={16} y={y+20} fill={mu} fontSize="5.6" fontFamily="'DM Sans',sans-serif">{grp}</text>
+            <line x1={96} y1={y+11} x2={150} y2={y+11} stroke={c} strokeWidth="1.4" />
+            <polygon points={arrowHead(120, y+11, 150, y+11, 6)} fill={c} />
+            <rect x={150} y={y} width={130} height={22} rx={5} fill="rgba(255,255,255,0.04)" stroke={c} strokeWidth="1.5" />
+            <text x={158} y={y+15} fill={c} fontSize="8" fontFamily="'DM Sans',sans-serif" fontWeight="600">{est}</text>
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+function AnaFungiSVG({ tema }) {
+  const a = tema.acento, mu = tema.muted, T = tema.texto;
+  return (
+    <svg viewBox="0 0 240 140" width="100%" style={{ display: "block", maxHeight: 150 }}>
+      <text x={120} y={12} textAnchor="middle" fill={a} fontSize="8" fontFamily="'DM Sans',sans-serif">el cuerpo del hongo</text>
+      {/* línea de suelo */}
+      <line x1={10} y1={78} x2={230} y2={78} stroke={mu} strokeWidth="1.2" strokeDasharray="3 2" />
+      {/* sombrero */}
+      <path d="M 70 54 q 40 -34 80 0 Z" fill="rgba(192,132,252,0.22)" stroke={a} strokeWidth="1.8" />
+      {/* tallo */}
+      <rect x={100} y={54} width={20} height={24} rx={3} fill="rgba(192,132,252,0.16)" stroke={a} strokeWidth="1.5" />
+      <text x={166} y={40} fill={T} fontSize="7" fontFamily="'DM Sans',sans-serif">cuerpo</text>
+      <text x={166} y={49} fill={mu} fontSize="6.2" fontFamily="'DM Sans',sans-serif">fructífero</text>
+      {/* micelio: red de hifas bajo el suelo */}
+      {[0,1,2,3,4].map(k => (
+        <path key={k} d={`M 110 80 q ${-50 + k*25} 14 ${-44 + k*22} 44`} fill="none" stroke={a} strokeWidth="1.2" opacity="0.75" />
+      ))}
+      <text x={120} y={132} textAnchor="middle" fill={T} fontSize="7.4" fontFamily="'DM Sans',sans-serif" fontWeight="600">micelio = masa de hifas</text>
+      <text x={206} y={104} textAnchor="middle" fill={mu} fontSize="6.4" fontFamily="'DM Sans',sans-serif">pared de quitina</text>
+    </svg>
+  );
+}
+
+function GenPcrSVG({ tema }) {
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, ro = tema.rojo, T = tema.texto;
+  return (
+    <svg viewBox="0 0 290 130" width="100%" style={{ display: "block", maxHeight: 140 }}>
+      <text x={145} y={12} textAnchor="middle" fill={a} fontSize="8" fontFamily="'DM Sans',sans-serif">un ciclo de PCR (las copias se duplican)</text>
+      {/* paso 1: desnaturalización */}
+      <text x={48} y={28} textAnchor="middle" fill={ro} fontSize="7" fontFamily="'DM Sans',sans-serif" fontWeight="600">1. desnaturaliza</text>
+      <line x1={26} y1={36} x2={70} y2={36} stroke={bl} strokeWidth="2.4" />
+      <line x1={26} y1={58} x2={70} y2={58} stroke={a} strokeWidth="2.4" />
+      <text x={48} y={74} textAnchor="middle" fill={mu} fontSize="6" fontFamily="'DM Sans',sans-serif">calor separa</text>
+      {/* paso 2: hibridación */}
+      <text x={145} y={28} textAnchor="middle" fill={bl} fontSize="7" fontFamily="'DM Sans',sans-serif" fontWeight="600">2. hibrida</text>
+      <line x1={120} y1={40} x2={170} y2={40} stroke={bl} strokeWidth="2.4" />
+      <line x1={120} y1={40} x2={134} y2={40} stroke={ro} strokeWidth="3" />
+      <line x1={120} y1={56} x2={170} y2={56} stroke={a} strokeWidth="2.4" />
+      <line x1={156} y1={56} x2={170} y2={56} stroke={ro} strokeWidth="3" />
+      <text x={145} y={74} textAnchor="middle" fill={mu} fontSize="6" fontFamily="'DM Sans',sans-serif">cebadores</text>
+      {/* paso 3: extensión */}
+      <text x={242} y={28} textAnchor="middle" fill={a} fontSize="7" fontFamily="'DM Sans',sans-serif" fontWeight="600">3. extiende</text>
+      <line x1={218} y1={40} x2={266} y2={40} stroke={bl} strokeWidth="2.4" />
+      <line x1={218} y1={56} x2={266} y2={56} stroke={a} strokeWidth="2.4" />
+      <line x1={218} y1={48} x2={266} y2={48} stroke={tema.verde} strokeWidth="2" strokeDasharray="2 2" />
+      <text x={242} y={74} textAnchor="middle" fill={mu} fontSize="6" fontFamily="'DM Sans',sans-serif">polimerasa copia</text>
+      {/* flechas entre pasos */}
+      <polygon points={arrowHead(82, 47, 96, 47, 6)} fill={mu} />
+      <polygon points={arrowHead(182, 47, 196, 47, 6)} fill={mu} />
+      {/* crecimiento 2^n */}
+      <text x={145} y={104} textAnchor="middle" fill={T} fontSize="8" fontFamily="'DM Sans',sans-serif">1 → 2 → 4 → 8 → … = 2ⁿ copias</text>
+      <text x={145} y={120} textAnchor="middle" fill={mu} fontSize="6.6" fontFamily="'DM Sans',sans-serif">sin vector viral ni bacteriano: todo ocurre en un tubo</text>
     </svg>
   );
 }

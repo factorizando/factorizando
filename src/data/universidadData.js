@@ -171,6 +171,7 @@ export const SUBJECTS_UNI = [
       { id: "bio-genetica", name: "Genética y Biotecnología", presentacion: "/ver/biologia-genetica" },
       { id: "bio-evolucion", name: "Evolución y Clasificación", presentacion: "/ver/biologia-evolucion" },
       { id: "bio-ecologia", name: "Ecología", presentacion: "/ver/biologia-ecologia" },
+      { id: "bio-anatomia", name: "Anatomía, Fisiología y Diversidad", presentacion: "/ver/biologia-anatomia-fisiologia" },
       {
         id: "celula",
         name: "La Célula (cuestionarios)",

@@ -1,5 +1,5 @@
 // Presentación: Cohesión Gramatical — Relaciones de correferencia y elípticas
-// 7 mecanismos · 23 slides (0-23) — Redacción Indirecta · EXANI-I
+// 7 mecanismos + resumen + 16 reactivos de repaso · 41 slides (0-40) — Redacción Indirecta · EXANI-I
 
 export const PRESENTACION = {
   id: "cohesion-gramatical",
@@ -507,6 +507,217 @@ export const PRESENTACION = {
       ],
       correcta: 0,
       explicacion: "Repetir el sustantivo elimina la ambigüedad — «El presupuesto fue el más disputado» es inequívoco. «Él» es pronombre de persona (no aplica a «presupuesto»). «Aquel» señalaría al elemento más lejano en el texto (el proyecto, mencionado primero), no al presupuesto.",
+      pasos: []
+    },
+
+    // ── Resumen ───────────────────────────────────────────────────────────────
+    {
+      id: 24,
+      tipo: "resumen",
+      titulo: "Resumen",
+      etiqueta: "Los 7 mecanismos de cohesión gramatical",
+      puntos: [
+        { titulo: "1. Pronombres personales", texto: "Sustituyen al sustantivo; concuerdan en género y número con el antecedente. Cuidado con el leísmo (lo/la = OD; le = OI)." },
+        { titulo: "2. Demostrativos y relativos", texto: "este = lo más reciente, aquel = lo más lejano. «quien» solo personas; «que» personas y cosas; «cuyo» concuerda con lo poseído." },
+        { titulo: "3. Sustitución léxica", texto: "Sinónimo, hiperónimo, hipónimo o descripción. El sustituto debe ser semánticamente compatible con el contexto." },
+        { titulo: "4. Elipsis nominal", texto: "Se omite un sustantivo recuperable (det. + Ø + compl.). Solo vale si el referente es el mismo." },
+        { titulo: "5. Elipsis verbal", texto: "Se omite el verbo en coordinadas simétricas; la coma marca su lugar. Mismo tiempo y modo que el original." },
+        { titulo: "6. Elipsis oracional", texto: "Se omite la cláusula completa; marcadores: sí/no, también/tampoco. Recurso eficiente, no oración incompleta." },
+        { titulo: "7. Ambigüedad referencial", texto: "El error más evaluado: si el pronombre no señala un referente inequívoco, desambigua con repetición o sustitución léxica." }
+      ]
+    },
+
+    // ── Repaso general — 16 reactivos de todo el tema ─────────────────────────
+    {
+      id: 25,
+      tipo: "ejercicio",
+      etiqueta: "Repaso 1 / 16 · Pronombres personales",
+      pregunta: "«El jurado leyó los ensayos finalistas y __ calificó con rigor.» ¿Qué pronombre átono establece la correferencia correcta con «los ensayos finalistas»?",
+      opciones: ["las calificó", "los calificó", "le calificó"],
+      correcta: 1,
+      explicacion: "«los calificó» — el pronombre átono de OD concuerda en género (masculino) y número (plural) con «los ensayos finalistas». «Las» sería error de género; «le» es OI y no concuerda con un objeto inanimado plural.",
+      pasos: []
+    },
+    {
+      id: 26,
+      tipo: "ejercicio",
+      etiqueta: "Repaso 2 / 16 · Pronombres personales",
+      pregunta: "«Encontré a tu hermano en la fiesta y __ saludé con afecto.» Según la norma de la RAE, ¿cuál es la forma correcta del pronombre de objeto directo?",
+      opciones: ["lo saludé", "le saludé", "se saludé"],
+      correcta: 0,
+      explicacion: "«lo saludé» — «a tu hermano» es objeto directo masculino singular; la norma de la RAE pide «lo». «Le saludé» es leísmo (usar el pronombre de OI como OD), evaluado como error en redacción formal. «Se» es reflexivo y aquí no corresponde.",
+      pasos: []
+    },
+    {
+      id: 27,
+      tipo: "ejercicio",
+      etiqueta: "Repaso 3 / 16 · Demostrativos",
+      pregunta: "«El museo exhibe una colección de arte virreinal y una de arte contemporáneo. __ atrae sobre todo al público joven.» ¿Qué demostrativo refiere correctamente a la última colección mencionada?",
+      opciones: ["Aquella", "Esta", "Aquélla"],
+      correcta: 1,
+      explicacion: "«Esta» — el demostrativo de cercanía señala el elemento mencionado más recientemente (la colección de arte contemporáneo). «Aquella» apuntaría a lo más lejano en el texto (el arte virreinal), invirtiendo el sentido buscado.",
+      pasos: []
+    },
+    {
+      id: 28,
+      tipo: "ejercicio",
+      etiqueta: "Repaso 4 / 16 · Relativos",
+      pregunta: "«El autor __ novelas se traducen en todo el mundo visitará la feria del libro.» ¿Qué pronombre relativo completa la correferencia?",
+      opciones: ["que", "cuyo", "cuyas"],
+      correcta: 2,
+      explicacion: "«cuyas» — el relativo posesivo «cuyo» concuerda en género y número con la cosa poseída, no con el poseedor: aquí lo poseído es «novelas» (femenino plural) → «cuyas novelas». «Cuyo» sería masculino singular; «que» no expresa posesión.",
+      pasos: []
+    },
+    {
+      id: 29,
+      tipo: "ejercicio",
+      etiqueta: "Repaso 5 / 16 · Sustitución léxica",
+      pregunta: "«El roble del jardín tiene más de cien años. __ ha resistido tormentas y sequías.» ¿Qué sustituto léxico cohesiona correctamente?",
+      opciones: ["Esta flor", "Este árbol", "Este arbusto"],
+      correcta: 1,
+      explicacion: "«Este árbol» — «árbol» es el hiperónimo (categoría superior) de «roble», semánticamente compatible. «Flor» y «arbusto» nombran referentes distintos: un roble no es una flor ni un arbusto, así que romperían la correferencia.",
+      pasos: []
+    },
+    {
+      id: 30,
+      tipo: "ejercicio",
+      etiqueta: "Repaso 6 / 16 · Sustitución léxica",
+      pregunta: "«Sor Juana Inés de la Cruz escribió versos admirables. __ es una de las grandes voces del Siglo de Oro.» ¿Qué sustituto mantiene la cohesión con el contexto?",
+      opciones: ["La cantante", "La poetisa", "La pintora"],
+      correcta: 1,
+      explicacion: "«La poetisa» — es una descripción semánticamente compatible con «escribió versos» y con el referente. «Cantante» y «pintora» no corresponden a quien escribe versos: el sustituto léxico debe encajar con el contexto, no solo ser un nombre de persona.",
+      pasos: []
+    },
+    {
+      id: 31,
+      tipo: "ejercicio",
+      etiqueta: "Repaso 7 / 16 · Elipsis nominal",
+      pregunta: "«La temperatura de hoy es más alta que la __ ayer.» ¿Qué sustantivo está elidido tras «la»?",
+      opciones: ["día", "temperatura", "alta"],
+      correcta: 1,
+      explicacion: "«temperatura» — la forma completa sería «…más alta que la [temperatura] de ayer». El artículo «la» anticipa el sustantivo elidido, ya mencionado al inicio. Es el patrón de elipsis nominal en comparativa (art. + Ø + complemento).",
+      pasos: []
+    },
+    {
+      id: 32,
+      tipo: "ejercicio",
+      etiqueta: "Repaso 8 / 16 · Elipsis nominal",
+      pregunta: "«De los dos abrigos, compré el negro y regalé el [∅] gris.» ¿Qué elemento se recupera en la elipsis y de qué tipo es?",
+      opciones: [
+        "«abrigo» — elipsis nominal (det. + Ø + adj.)",
+        "«color» — elipsis adjetival",
+        "«regalé» — elipsis verbal"
+      ],
+      correcta: 0,
+      explicacion: "«abrigo» — la forma completa es «regalé el [abrigo] gris». El artículo «el» más el adjetivo «gris» rodean el sustantivo omitido, recuperable de «los dos abrigos». Es el patrón clásico de elipsis nominal det. + Ø + adjetivo.",
+      pasos: []
+    },
+    {
+      id: 33,
+      tipo: "ejercicio",
+      etiqueta: "Repaso 9 / 16 · Elipsis verbal",
+      pregunta: "«Mi hermana estudia medicina; yo, __ derecho.» ¿Qué verbo se recupera por elipsis y qué señal lo indica?",
+      opciones: [
+        "«estudio» — la coma tras «yo» marca el lugar del verbo elidido",
+        "«curso» — sinónimo contextual de estudiar",
+        "ninguno; la oración está incompleta y es incorrecta"
+      ],
+      correcta: 0,
+      explicacion: "«estudio» — en la coordinada simétrica, la coma tras «yo» ocupa el lugar del verbo suprimido: «yo, [estudio] derecho». El verbo recuperado se conjuga en la persona del nuevo sujeto (yo → estudio). La elipsis recupera el mismo verbo, no un sinónimo.",
+      pasos: []
+    },
+    {
+      id: 34,
+      tipo: "ejercicio",
+      etiqueta: "Repaso 10 / 16 · Elipsis verbal",
+      pregunta: "«Ana terminó la tarea ayer; Luis __ mañana.» ¿Por qué NO es posible elidir el verbo en la segunda cláusula?",
+      opciones: [
+        "Porque los tiempos verbales difieren: «terminó» (pasado) vs. la acción de mañana (futuro)",
+        "Porque falta una coma después de «Luis»",
+        "Porque «Luis» necesita un pronombre antes del verbo"
+      ],
+      correcta: 0,
+      explicacion: "Los tiempos difieren — «terminó» es pretérito y la acción de «mañana» es futura («terminará»). La elipsis verbal solo es válida cuando el verbo recuperado coincide en tiempo y modo con el original; al cambiar el tiempo, el verbo debe escribirse explícitamente.",
+      pasos: []
+    },
+    {
+      id: 35,
+      tipo: "ejercicio",
+      etiqueta: "Repaso 11 / 16 · Elipsis oracional",
+      pregunta: "«No me gustó el final de la película, y a mis amigos __.» ¿Qué adverbio completa la elipsis oracional manteniendo la negación?",
+      opciones: ["también", "tampoco", "siempre"],
+      correcta: 1,
+      explicacion: "«tampoco» — recupera la cláusula negativa elidida: «a mis amigos tampoco [les gustó el final]». «Tampoco» es el marcador de elipsis oracional que conserva la negación; «también» afirmaría, contradiciendo el «no» previo.",
+      pasos: []
+    },
+    {
+      id: 36,
+      tipo: "ejercicio",
+      etiqueta: "Repaso 12 / 16 · Elipsis oracional",
+      pregunta: "«Pensábamos que el plan fracasaría, pero no __.» ¿Qué cláusula se recupera por elipsis?",
+      opciones: [
+        "«fracasó» — recuperada de la cláusula anterior con ajuste de tiempo",
+        "«funcionó mal» — sinónimo introducido",
+        "«se canceló» — idea nueva"
+      ],
+      correcta: 0,
+      explicacion: "«fracasó» — la cláusula elidida se recupera de «el plan fracasaría» ajustando el tiempo: «pero no [fracasó]». El adverbio «no» contrasta con la expectativa previa y niega la proposición omitida. La elipsis recupera el verbo literal, no un sinónimo.",
+      pasos: []
+    },
+    {
+      id: 37,
+      tipo: "ejercicio",
+      etiqueta: "Repaso 13 / 16 · Ambigüedad referencial",
+      pregunta: "«Pedro le dijo a su padre que su coche estaba averiado.» ¿Por qué hay un problema de cohesión?",
+      opciones: [
+        "«su coche» es ambiguo: puede ser el de Pedro o el de su padre",
+        "No hay ambigüedad; «su coche» es necesariamente el de Pedro",
+        "El pronombre «le» está usado incorrectamente"
+      ],
+      correcta: 0,
+      explicacion: "Ambigüedad referencial — el posesivo «su» puede remitir a Pedro o a su padre, ambos posibles poseedores del coche. Para desambiguar habría que precisar: «…que el coche de Pedro estaba averiado» o «…que el coche de su padre estaba averiado».",
+      pasos: []
+    },
+    {
+      id: 38,
+      tipo: "ejercicio",
+      etiqueta: "Repaso 14 / 16 · Ambigüedad referencial",
+      pregunta: "¿Cuál opción elimina la ambigüedad de «La maestra felicitó a la alumna porque ella había mejorado»?",
+      opciones: [
+        "La maestra felicitó a la alumna porque esta había mejorado.",
+        "La maestra felicitó a la alumna porque había mejorado ella.",
+        "La maestra felicitó a la alumna porque ellas habían mejorado."
+      ],
+      correcta: 0,
+      explicacion: "«…porque esta había mejorado» — el demostrativo «esta» señala al antecedente más cercano (la alumna), eliminando la duda entre maestra y alumna. Cambiar el orden («había mejorado ella») no aclara el referente; «ellas» introduce un plural que altera el sentido.",
+      pasos: []
+    },
+    {
+      id: 39,
+      tipo: "ejercicio",
+      etiqueta: "Repaso 15 / 16 · Integrador",
+      pregunta: "«El gerente revisó los contratos y los firmó.» ¿Qué mecanismo de cohesión emplea «los»?",
+      opciones: [
+        "Correferencia por pronombre personal átono (OD)",
+        "Elipsis nominal",
+        "Sustitución léxica por hiperónimo"
+      ],
+      correcta: 0,
+      explicacion: "Correferencia por pronombre personal — «los» es un pronombre átono de objeto directo (masculino plural) que sustituye a «los contratos» para evitar repetirlo. No hay omisión (elipsis) ni un sustantivo nuevo (sustitución léxica): el referente se retoma mediante un pronombre.",
+      pasos: []
+    },
+    {
+      id: 40,
+      tipo: "ejercicio",
+      etiqueta: "Repaso 16 / 16 · Integrador",
+      pregunta: "«Marta prepara postres y su hermana, platillos salados.» ¿Qué mecanismo de cohesión opera en la segunda cláusula?",
+      opciones: [
+        "Elipsis verbal: se omite «prepara», marcado por la coma",
+        "Correferencia por pronombre personal",
+        "Sustitución léxica por sinónimo"
+      ],
+      correcta: 0,
+      explicacion: "Elipsis verbal — la coma tras «su hermana» ocupa el lugar del verbo omitido: «su hermana [prepara] platillos salados». Es una coordinada simétrica donde el segundo miembro comparte el verbo del primero. No hay pronombre ni sustitución de palabras.",
       pasos: []
     }
 

@@ -63,6 +63,8 @@ import { PRESENTACION as TRIANGULOS_PITAGORAS } from "./matematicas/triangulos-p
 import { PRESENTACION as COMPRENSION_LECTORA } from "./comprension/comprension-lectora.js";
 import { PRESENTACION as FISICA_COMPLEMENTO_CIENTIFICO } from "./fisica/fisica-complemento-cientifico.js";
 import { PRESENTACION as BIOLOGIA_ANATOMIA_FISIOLOGIA } from "./biologia/biologia-anatomia-fisiologia.js";
+import { PRESENTACION as COHESION_GRAMATICAL_EXANI_II } from "./espanol/cohesion-gramatical-exani-ii.js";
+import { PRESENTACION as COHESION_LEXICO_SEMANTICA_EXANI_II } from "./espanol/cohesion-lexico-semantica-exani-ii.js";
 
 export const PRESENTACIONES_INDEX = {
   "semejanza-triangulos": SEMEJANZA_TRIANGULOS,
@@ -126,6 +128,8 @@ export const PRESENTACIONES_INDEX = {
   "comprension-lectora": COMPRENSION_LECTORA,
   "fisica-complemento-cientifico": FISICA_COMPLEMENTO_CIENTIFICO,
   "biologia-anatomia-fisiologia": BIOLOGIA_ANATOMIA_FISIOLOGIA,
+  "cohesion-gramatical-exani-ii": COHESION_GRAMATICAL_EXANI_II,
+  "cohesion-lexico-semantica-exani-ii": COHESION_LEXICO_SEMANTICA_EXANI_II,
 };
 
 export function buscarPresentacion(id) {

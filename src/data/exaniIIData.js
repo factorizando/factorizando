@@ -46,8 +46,8 @@ export const SUBJECTS_EXANI_II = [
         children: [
           { id: "ei-ri-concordancia-nominal", name: "Concordancia nominal", presentacion: "/ver/concordancia-nominal-avanzada" },
           { id: "ei-ri-concordancia-verbal", name: "Concordancia verbal", presentacion: "/ver/concordancia-verbal-avanzada" },
-          { id: "ei-ri-coh-gram", name: "Cohesión gramatical", presentacion: "/ver/cohesion-gramatical" },
-          { id: "ei-ri-coh-lex", name: "Cohesión léxico-semántica", presentacion: "/ver/cohesion-lexico-semantica" },
+          { id: "ei-ri-coh-gram", name: "Cohesión gramatical", presentacion: "/ver/cohesion-gramatical-exani-ii" },
+          { id: "ei-ri-coh-lex", name: "Cohesión léxico-semántica", presentacion: "/ver/cohesion-lexico-semantica-exani-ii" },
           { id: "ei-ri-coh-text", name: "Cohesión textual (marcadores)", presentacion: "/ver/marcadores-textuales" },
         ],
       },

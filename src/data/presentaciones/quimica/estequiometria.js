@@ -220,6 +220,142 @@ export const PRESENTACION = {
       pasos: []
     },
 
+    // ── Concentración de disoluciones ──────────────────────────────────────────
+    {
+      id: 11,
+      tipo: "regla_rica",
+      etiqueta: "Bloque 5 · Disoluciones",
+      titulo: "Concentración de disoluciones",
+      bloques: [
+        {
+          tipo: "texto",
+          texto: "Una disolución tiene un soluto (lo que se disuelve) y un disolvente (lo que disuelve, casi siempre agua). La concentración mide cuánto soluto hay. La molaridad (M) son los moles de soluto por litro de disolución: M = mol soluto / L disolución. Las partes por millón (ppm) sirven para disoluciones muy diluidas y, en disoluciones acuosas, equivalen aproximadamente a los miligramos de soluto por litro: ppm ≈ mg soluto / L. Cualitativamente, una disolución es diluida (poco soluto), concentrada (mucho soluto) o saturada (la máxima cantidad que el disolvente admite a esa temperatura)."
+        },
+        {
+          tipo: "tabla",
+          titulo: "Medidas de concentración",
+          columnas: ["Medida", "Fórmula / criterio", "Ejemplo"],
+          filas: [
+            { tiempo: "Molaridad (M)", correcto: "mol soluto / L disolución", error: "2 mol en 1 L = 2 M" },
+            { tiempo: "ppm",           correcto: "≈ mg soluto / L (acuosa diluida)", error: "5 mg en 1 L ≈ 5 ppm" },
+            { tiempo: "Diluida",       correcto: "poco soluto",          error: "una pizca de azúcar en un vaso" },
+            { tiempo: "Concentrada",   correcto: "mucho soluto",         error: "jarabe espeso" },
+            { tiempo: "Saturada",      correcto: "máximo que admite",    error: "ya no se disuelve más" }
+          ]
+        },
+        {
+          tipo: "par",
+          etiqueta: "la molaridad usa LITROS de disolución; convierte los mililitros primero",
+          correcto: "1.59 mol en 1 300 mL → 1.300 L → 1.59 / 1.300 = 1.22 M",
+          incorrecto: "Dividir 1.59 / 1 300 sin pasar a litros → da un valor mil veces menor"
+        },
+        {
+          tipo: "trampa",
+          letra: "B",
+          titulo: "Diluida, concentrada y saturada son comparaciones cualitativas: dependen de cuánto soluto hay frente al disolvente, no del volumen total",
+          correcto: "Media cucharada de azúcar en 250 mL de agua → disolución diluida",
+          incorrecto: "Llamar «saturada» a una disolución solo porque hay bastante agua"
+        }
+      ]
+    },
+    {
+      id: 12,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 1 — Molaridad",
+      pregunta: "¿Cuál es la molaridad de una disolución con 1.59 mol de soluto en 1 300 mL de disolución?",
+      opciones: ["1.22 M", "0.00122 M", "2.07 M"],
+      correcta: 0,
+      explicacion: "Primero se pasan los mililitros a litros: 1 300 mL = 1.300 L. Luego M = mol / L = 1.59 / 1.300 = 1.22 M. La opción 0.00122 olvida convertir a litros.",
+      pasos: []
+    },
+    {
+      id: 13,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 2 — Partes por millón (ppm)",
+      pregunta: "Se disuelven 2.25 mg de sulfato en 350 mL de agua. ¿Cuál es la concentración en ppm? (ppm ≈ mg soluto / L)",
+      opciones: ["6.428 ppm", "0.00643 ppm", "787.5 ppm"],
+      correcta: 0,
+      explicacion: "Se pasan los mililitros a litros: 350 mL = 0.350 L. ppm ≈ mg / L = 2.25 / 0.350 = 6.428 ppm. La opción 0.00643 no convirtió a litros.",
+      pasos: []
+    },
+    {
+      id: 14,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 3 — Clasificación cualitativa",
+      pregunta: "Si endulzas 250 mL de agua con media cucharada de azúcar, ¿cómo se clasifica la disolución?",
+      opciones: ["Diluida", "Saturada", "Concentrada"],
+      correcta: 0,
+      explicacion: "Hay muy poco soluto (media cucharada de azúcar) frente a bastante disolvente (250 mL de agua): es una disolución diluida. Sería saturada si el agua ya no pudiera disolver más azúcar, y concentrada si tuviera mucho soluto.",
+      pasos: []
+    },
+    {
+      id: 15,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — Molaridad",
+      pregunta: "¿Qué molaridad tiene una disolución con 0.5 mol de soluto en 250 mL de disolución?",
+      opciones: ["2 M", "0.125 M", "0.5 M"],
+      correcta: 0,
+      explicacion: "250 mL = 0.250 L. M = mol / L = 0.5 / 0.250 = 2 M. La opción 0.125 multiplica en vez de dividir por el volumen.",
+      pasos: []
+    },
+
+    // ── Termoquímica ───────────────────────────────────────────────────────────
+    {
+      id: 16,
+      tipo: "regla_rica",
+      etiqueta: "Bloque 6 · Termoquímica",
+      titulo: "Entalpía y procesos exo/endotérmicos",
+      bloques: [
+        {
+          tipo: "texto",
+          texto: "La termoquímica estudia el calor que acompaña a las reacciones. La entalpía de reacción (ΔH) se calcula restando la entalpía de formación de los reactivos a la de los productos: ΔH = ΣHf(productos) − ΣHf(reactivos). Cada Hf se multiplica por su coeficiente. La Hf de un elemento en su forma estable (como O₂) vale 0. Si ΔH es negativa, la reacción LIBERA calor: es exotérmica. Si ΔH es positiva, la reacción ABSORBE calor del entorno: es endotérmica."
+        },
+        {
+          tipo: "tabla",
+          titulo: "Signo de ΔH",
+          columnas: ["Proceso", "Signo de ΔH", "Ejemplo"],
+          filas: [
+            { tiempo: "Exotérmico", correcto: "ΔH < 0 (libera calor)", error: "combustión, una fogata" },
+            { tiempo: "Endotérmico", correcto: "ΔH > 0 (absorbe calor)", error: "fundir hielo, cocer un alimento" },
+            { tiempo: "Hf de un elemento", correcto: "0 (forma estable)", error: "Hf(O₂) = 0" }
+          ]
+        },
+        {
+          tipo: "par",
+          etiqueta: "ΔH = productos − reactivos, con cada Hf por su coeficiente",
+          correcto: "CH₄ + 2O₂ → CO₂ + 2H₂O: ΔH = [−393.5 + 2(−285.8)] − [−74.81 + 0] = −890.29 kJ/mol",
+          incorrecto: "Restar productos a reactivos (al revés) → invierte el signo de ΔH"
+        },
+        {
+          tipo: "trampa",
+          letra: "A",
+          titulo: "Exotérmico significa que sale calor (ΔH negativa); endotérmico, que entra calor (ΔH positiva)",
+          correcto: "La combustión libera calor → exotérmica (ΔH < 0)",
+          incorrecto: "Pensar que un ΔH negativo significa que la reacción absorbe calor"
+        }
+      ]
+    },
+    {
+      id: 17,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 1 — Entalpía de reacción",
+      pregunta: "Para la combustión CH₄ + 2O₂ → CO₂ + 2H₂O, con Hf(O₂)=0, Hf(CH₄)=−74.81, Hf(H₂O,l)=−285.8 y Hf(CO₂)=−393.5 kJ/mol, ¿cuál es ΔH?",
+      opciones: ["−890.29 kJ/mol", "+890.29 kJ/mol", "−604.49 kJ/mol"],
+      correcta: 0,
+      explicacion: "ΔH = ΣHf(productos) − ΣHf(reactivos) = [(−393.5) + 2(−285.8)] − [(−74.81) + 2(0)] = (−965.1) − (−74.81) = −890.29 kJ/mol. El signo negativo indica que es exotérmica.",
+      pasos: []
+    },
+    {
+      id: 18,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 2 — Exo o endotérmico",
+      pregunta: "Al encender el gas metano en la estufa de la cocina se siente calor. ¿Qué tipo de proceso es?",
+      opciones: ["Exotérmico (libera calor)", "Endotérmico (absorbe calor)", "Ninguno: no hay cambio de energía"],
+      correcta: 0,
+      explicacion: "La combustión del metano libera calor al entorno (por eso se siente la flama caliente): es un proceso exotérmico, con ΔH negativa. Un proceso endotérmico, en cambio, absorbería calor.",
+      pasos: []
+    },
+
     // ── Cierre ────────────────────────────────────────────────────────────────
     {
       id: 10,
@@ -231,7 +367,9 @@ export const PRESENTACION = {
         { math: "\\text{moles} = \\dfrac{\\text{masa}}{\\text{masa molar}}", texto: "puente entre masa y moles" },
         { titulo: "Relación molar", texto: "los coeficientes dan la proporción en moles (ecuación balanceada)" },
         { titulo: "Reactivo limitante", texto: "el que rinde menos producto; determina lo que se forma" },
-        { math: "\\%\\,\\text{rend.}=\\dfrac{\\text{real}}{\\text{teórico}}\\times 100", texto: "rendimiento porcentual (≤ 100 %)" }
+        { math: "\\%\\,\\text{rend.}=\\dfrac{\\text{real}}{\\text{teórico}}\\times 100", texto: "rendimiento porcentual (≤ 100 %)" },
+        { titulo: "Concentración", texto: "molaridad M = mol soluto / L; ppm ≈ mg soluto / L; diluida / concentrada / saturada" },
+        { titulo: "Termoquímica", texto: "ΔH = ΣHf(productos) − ΣHf(reactivos); exotérmico ΔH<0, endotérmico ΔH>0" }
       ]
     }
 

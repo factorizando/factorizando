@@ -904,6 +904,156 @@ export const PRESENTACION = {
       ]
     },
 
+    // ══ SUBTEMA 9 · DINÁMICA ROTACIONAL ═══════════════════════════════════════
+    {
+      id: "rotacional",
+      tipo: "concepto",
+      titulo: "Dinámica Rotacional",
+      etiqueta: "Inercia, momento angular y torque",
+      formula: "I = \\sum m\\,r^2",
+      items: [
+        { math: "I = \\sum m r^2", texto: "momento de inercia: resistencia a girar (masas puntuales: masa por radio al cuadrado)" },
+        { math: "L = m\\,v\\,r", texto: "momento angular: cantidad de giro de una masa que se mueve a distancia r del eje" },
+        { math: "\\tau = F\\,r", texto: "torque o momento de fuerza: fuerza por su brazo de palanca r" }
+      ],
+      nota: "Cuanto más lejos del eje está la masa, mayor su momento de inercia (entra el radio al cuadrado). El torque mide la capacidad de una fuerza para hacer girar: a mayor brazo r, mayor torque. Es el principio de la palanca."
+    },
+
+    // Ejemplo · Momento de inercia
+    {
+      id: "ej-inercia-rot",
+      tipo: "criterio_detalle",
+      titulo: "Ejemplo · Momento de inercia",
+      etiqueta: "Masas puntuales que giran",
+      enunciado: "Un anemómetro tiene 3 copas de 0.2 kg cada una, montadas en varillas de 0.5 m. ¿Cuál es el momento de inercia del conjunto?",
+      math: "I = \\sum m\\,r^2",
+      por_que: "Se trata de masas puntuales todas a la misma distancia del eje. Se suma m·r² de cada copa: como son iguales, basta multiplicar por 3.",
+      math_razon: "I = 3\\,(0.2)(0.5)^2 = 3\\,(0.2)(0.25) = 0.15\\ \\text{kg}\\cdot\\text{m}^2"
+    },
+
+    // Reactivos · Dinámica rotacional (4)
+    {
+      id: "rot1",
+      tipo: "ejercicio",
+      etiqueta: "Leyes de Newton · Dinámica rotacional · Reactivo 1 / 4",
+      pregunta: "Un anemómetro tiene 3 copas de 0.2 kg en varillas de 0.5 m. ¿Cuál es su momento de inercia?",
+      opciones: ["0.15 kg·m²", "0.3 kg·m²", "0.6 kg·m²", "0.05 kg·m²"],
+      correcta: 0,
+      explicacion: "I = Σ m·r² = 3·(0.2)·(0.5)² = 3·(0.2)·(0.25) = 0.15 kg·m². Cada masa va al cuadrado del radio.",
+      pasos: [
+        { pre: "Momento de inercia: ", math: "I = 3\\,(0.2)(0.5)^2 = 0.15\\ \\text{kg}\\cdot\\text{m}^2" }
+      ]
+    },
+
+    {
+      id: "rot2",
+      tipo: "ejercicio",
+      etiqueta: "Leyes de Newton · Dinámica rotacional · Reactivo 2 / 4",
+      pregunta: "En un disco hay dos masas: 3 kg a 0.6 m del eje y 9 kg a 0.2 m. ¿Cuál es el momento de inercia total?",
+      opciones: ["1.44 kg·m²", "2.4 kg·m²", "7.2 kg·m²", "0.84 kg·m²"],
+      correcta: 0,
+      explicacion: "I = Σ m·r² = 3·(0.6)² + 9·(0.2)² = 3·0.36 + 9·0.04 = 1.08 + 0.36 = 1.44 kg·m².",
+      pasos: [
+        { pre: "Suma de m·r²: ", math: "I = 3(0.6)^2 + 9(0.2)^2 = 1.08 + 0.36 = 1.44\\ \\text{kg}\\cdot\\text{m}^2" }
+      ]
+    },
+
+    {
+      id: "rot3",
+      tipo: "ejercicio",
+      etiqueta: "Leyes de Newton · Dinámica rotacional · Reactivo 3 / 4",
+      pregunta: "Dos cuerpos de 1 kg giran en una barra a r = 0.3 m del eje, cada uno con v = 2 m/s. ¿Cuál es el momento angular total?",
+      opciones: ["1.2 kg·m²/s", "0.6 kg·m²/s", "2.4 kg·m²/s", "0.36 kg·m²/s"],
+      correcta: 0,
+      explicacion: "Para cada cuerpo L = m·v·r = 1·2·0.3 = 0.6 kg·m²/s. Como son dos, el total es 2·0.6 = 1.2 kg·m²/s.",
+      pasos: [
+        { pre: "Momento angular: ", math: "L = 2\\,(m\\,v\\,r) = 2\\,(1)(2)(0.3) = 1.2\\ \\text{kg}\\cdot\\text{m}^2/\\text{s}" }
+      ]
+    },
+
+    {
+      id: "rot4",
+      tipo: "ejercicio",
+      etiqueta: "Leyes de Newton · Dinámica rotacional · Reactivo 4 / 4",
+      pregunta: "Para aflojar una tuerca apretada con una llave, conviene tomar la llave:",
+      opciones: ["Lo más lejos posible del eje (mayor brazo)", "Lo más cerca posible del eje", "Justo sobre el eje", "Da igual dónde se tome"],
+      correcta: 0,
+      explicacion: "El torque es τ = F·r. Cuanto mayor sea el brazo r (más lejos del eje aplicas la fuerza), mayor es el torque y más fácil resulta girar la tuerca.",
+      pasos: [
+        { pre: "Mayor brazo, mayor torque: ", math: "\\tau = F\\,r \\Rightarrow r \\uparrow \\Rightarrow \\tau \\uparrow" }
+      ]
+    },
+
+    // ══ SUBTEMA 10 · PLANO INCLINADO, ESTÁTICA Y MOVIMIENTO CIRCULAR ═══════════
+    {
+      id: "plano-estatica-mcu",
+      tipo: "concepto",
+      titulo: "Plano Inclinado, Estática y MCU",
+      etiqueta: "Tres situaciones clásicas",
+      formula: "P_{\\parallel} = m\\,g\\,\\text{sen}\\,\\theta",
+      svgDiagram: "din-friccion",
+      items: [
+        { math: "m g\\,\\text{sen}\\,\\theta", texto: "componente del peso paralela al plano inclinado (la que tiende a deslizar el cuerpo)" },
+        { math: "m g\\,\\text{cos}\\,\\theta", texto: "componente del peso perpendicular al plano (la que aprieta contra la superficie)" },
+        { math: "\\sum \\vec{F} = 0", texto: "estática: en equilibrio, la suma de fuerzas y tensiones es cero" },
+        { math: "F_c = \\dfrac{m v^2}{r}", texto: "MCU: fuerza centrípeta; periodo T (una vuelta) y frecuencia f = 1/T" }
+      ],
+      nota: "En un plano inclinado el peso se descompone en m·g·senθ (a lo largo del plano) y m·g·cosθ (contra el plano). Si el cuerpo baja a velocidad constante, la fricción equilibra exactamente a m·g·senθ. En el MCU, el periodo T es el tiempo de una vuelta completa y la frecuencia es f = 1/T."
+    },
+
+    // Ejemplo · Plano inclinado
+    {
+      id: "ej-plano",
+      tipo: "criterio_detalle",
+      titulo: "Ejemplo · Deslizamiento uniforme",
+      etiqueta: "Fricción en un plano inclinado",
+      svgDiagram: "din-friccion",
+      enunciado: "Un cubo de 14 kg baja a velocidad constante por una rampa inclinada 30°. ¿Cuál es la fuerza de fricción que actúa sobre él? (g = 10 m/s²)",
+      math: "f = m\\,g\\,\\text{sen}\\,\\theta",
+      por_que: "Si baja a velocidad constante, la fuerza neta es cero: la fricción equilibra exactamente la componente del peso paralela al plano, m·g·senθ. Con sen 30° = 0.5.",
+      math_razon: "f = (14)(10)(0.5) = 70\\ \\text{N}"
+    },
+
+    // Reactivos · Plano, estática y MCU (3)
+    {
+      id: "pem1",
+      tipo: "ejercicio",
+      etiqueta: "Leyes de Newton · Plano inclinado y MCU · Reactivo 1 / 3",
+      pregunta: "Un cubo de 14 kg baja a velocidad constante por una rampa de 30°. ¿Cuál es la fuerza de fricción? (g = 10 m/s²)",
+      opciones: ["70 N", "140 N", "121 N", "35 N"],
+      correcta: 0,
+      explicacion: "A velocidad constante la fricción iguala a la componente del peso paralela: f = m·g·senθ = 14·10·sen30° = 14·10·0.5 = 70 N.",
+      pasos: [
+        { pre: "Equilibrio en el plano: ", math: "f = m\\,g\\,\\text{sen}\\,\\theta = (14)(10)(0.5) = 70\\ \\text{N}" }
+      ]
+    },
+
+    {
+      id: "pem2",
+      tipo: "ejercicio",
+      etiqueta: "Leyes de Newton · Plano inclinado y MCU · Reactivo 2 / 3",
+      pregunta: "Un objeto da una vuelta completa en una circunferencia en 0.1 s. Ese tiempo corresponde a su:",
+      opciones: ["Periodo (T)", "Frecuencia (f)", "Aceleración", "Radio"],
+      correcta: 0,
+      explicacion: "El periodo T es el tiempo que tarda en dar una vuelta completa: aquí T = 0.1 s. La frecuencia sería f = 1/T = 10 vueltas por segundo.",
+      pasos: [
+        { pre: "Una vuelta = periodo: ", math: "T = 0.1\\ \\text{s}, \\quad f = \\dfrac{1}{T} = 10\\ \\text{Hz}" }
+      ]
+    },
+
+    {
+      id: "pem3",
+      tipo: "ejercicio",
+      etiqueta: "Leyes de Newton · Plano inclinado y MCU · Reactivo 3 / 3",
+      pregunta: "Una bala de 1.2 kg atada a una cuerda de 0.8 m gira a 1.5 m/s. ¿Cuál es la fuerza centrípeta?",
+      opciones: ["≈ 3.4 N", "≈ 2.25 N", "≈ 1.8 N", "≈ 6.8 N"],
+      correcta: 0,
+      explicacion: "Fc = m·v²/r = (1.2)(1.5²)/0.8 = (1.2)(2.25)/0.8 = 2.7/0.8 ≈ 3.4 N.",
+      pasos: [
+        { pre: "Fuerza centrípeta: ", math: "F_c = \\dfrac{m v^2}{r} = \\dfrac{(1.2)(2.25)}{0.8} \\approx 3.4\\ \\text{N}" }
+      ]
+    },
+
     // ── RESUMEN ───────────────────────────────────────────────────────────────
     {
       id: "resumen",
@@ -918,6 +1068,8 @@ export const PRESENTACION = {
         { math: "f = \\mu N", texto: "fricción: se opone al movimiento; N es la normal" },
         { math: "F = k x", texto: "ley de Hooke: la fuerza del resorte es proporcional a x" },
         { math: "F_c = \\tfrac{m v^2}{r}", texto: "fuerza centrípeta: apunta al centro en el giro" },
+        { math: "I = \\sum m r^2", texto: "rotación: momento de inercia, momento angular L = m·v·r y torque τ = F·r" },
+        { math: "m g\\,\\text{sen}\\,\\theta", texto: "plano inclinado: la fricción equilibra a m·g·senθ si baja a velocidad constante" },
         { titulo: "Unidad", texto: "la fuerza se mide en newtons: 1 N = 1 kg·m/s²" }
       ]
     }

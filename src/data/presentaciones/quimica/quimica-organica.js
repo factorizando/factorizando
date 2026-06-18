@@ -131,7 +131,8 @@ export const PRESENTACION = {
             { tiempo: "–OH",   correcto: "Alcohol",            error: "Etanol CH₃CH₂OH" },
             { tiempo: "–COOH", correcto: "Ácido carboxílico",  error: "Ácido acético CH₃COOH" },
             { tiempo: "C=O",   correcto: "Aldehído / cetona",  error: "Acetona (cetona)" },
-            { tiempo: "–NH₂",  correcto: "Amina",              error: "Metilamina CH₃NH₂" }
+            { tiempo: "–NH₂",  correcto: "Amina",              error: "Metilamina CH₃NH₂" },
+            { tiempo: "–COO–", correcto: "Éster (-oato de -ilo)", error: "Propanoato de etilo" }
           ]
         },
         {
@@ -222,6 +223,205 @@ export const PRESENTACION = {
       pasos: []
     },
 
+    // ── Grupo funcional éster ──────────────────────────────────────────────────
+    {
+      id: 11,
+      tipo: "regla_rica",
+      etiqueta: "Bloque 5 · Ésteres",
+      titulo: "El grupo funcional éster",
+      bloques: [
+        {
+          tipo: "texto",
+          texto: "Un éster tiene el grupo funcional R–COO–R′: proviene de la reacción entre un ácido carboxílico y un alcohol (esterificación), perdiendo agua. A diferencia del ácido carboxílico (–COOH), en el éster el hidrógeno del –OH ha sido sustituido por una cadena de carbono (R′). Se nombran con la terminación «-oato de -ilo»: la parte «-oato» viene del ácido y «-ilo» del alcohol. Por ejemplo, propanoato de etilo proviene del ácido propanoico y del etanol. Muchos ésteres tienen olores frutales agradables."
+        },
+        {
+          tipo: "tabla",
+          titulo: "El éster frente al ácido",
+          columnas: ["Compuesto", "Grupo", "Nombre"],
+          filas: [
+            { tiempo: "Ácido carboxílico", correcto: "–COOH", error: "ácido propanoico" },
+            { tiempo: "Éster", correcto: "–COO– (R–COO–R′)", error: "propanoato de etilo" },
+            { tiempo: "Terminación del éster", correcto: "-oato de -ilo", error: "metanoato de metilo" }
+          ]
+        },
+        {
+          tipo: "par",
+          etiqueta: "el éster sustituye el H del –COOH por una cadena R′",
+          correcto: "Ácido propanoico (CH₃CH₂COOH) + etanol → propanoato de etilo (CH₃CH₂COOCH₂CH₃)",
+          incorrecto: "Confundir el éster con un ácido carboxílico → en el éster no queda el H ácido del –OH"
+        },
+        {
+          tipo: "trampa",
+          letra: "B",
+          titulo: "El nombre del éster lleva dos partes: «-oato» del ácido y «de -ilo» del alcohol; el orden importa",
+          correcto: "Propanoato de etilo = ácido propanoico + etanol",
+          incorrecto: "Decir «etanoato de propilo» para CH₃CH₂COOCH₂CH₃ → invierte ácido y alcohol"
+        }
+      ]
+    },
+    {
+      id: 12,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 1 — Éster",
+      pregunta: "¿Cuál es el grupo funcional característico de un éster como el propanoato de etilo?",
+      opciones: ["R–COO–R′", "–COOH", "–OH"],
+      correcta: 0,
+      explicacion: "El éster tiene el grupo R–COO–R′: el hidrógeno del ácido carboxílico (–COOH) está sustituido por una cadena de carbono. El –COOH es del ácido carboxílico y el –OH del alcohol.",
+      pasos: []
+    },
+
+    // ── Hibridación del carbono ─────────────────────────────────────────────────
+    {
+      id: 13,
+      tipo: "regla_rica",
+      etiqueta: "Bloque 6 · Hibridación",
+      titulo: "Hibridación del carbono",
+      bloques: [
+        {
+          tipo: "texto",
+          texto: "La hibridación describe cómo se combinan los orbitales del carbono según el tipo de enlaces que forma, y determina la geometría de la molécula. Si el carbono solo tiene enlaces simples es sp³ (geometría tetraédrica, ángulos de 109.5°). Si tiene un doble enlace es sp² (geometría trigonal plana, 120°). Si tiene un triple enlace (o dos dobles) es sp (geometría lineal, 180°). Un truco: cuenta las regiones de enlace; sp³ = 4, sp² = 3, sp = 2 direcciones distintas."
+        },
+        {
+          tipo: "tabla",
+          titulo: "Tipos de hibridación",
+          columnas: ["Hibridación", "Enlace", "Geometría"],
+          filas: [
+            { tiempo: "sp³", correcto: "enlace simple", error: "tetraédrica (109.5°), ej. CH₄" },
+            { tiempo: "sp²", correcto: "doble enlace",  error: "trigonal plana (120°), ej. eteno" },
+            { tiempo: "sp",  correcto: "triple enlace", error: "lineal (180°), ej. etino" }
+          ]
+        },
+        {
+          tipo: "par",
+          etiqueta: "el tipo de enlace múltiple revela la hibridación",
+          correcto: "El carbono del eteno (CH₂=CH₂) tiene un doble enlace → es sp² (trigonal plana)",
+          incorrecto: "Asignar sp³ a un carbono con doble enlace → el doble enlace lo hace sp²"
+        },
+        {
+          tipo: "trampa",
+          letra: "C",
+          titulo: "Más enlaces simples = más exponente: sp³ (simple), sp² (doble), sp (triple); a mayor insaturación, menor el número",
+          correcto: "Triple enlace → sp (lineal)",
+          incorrecto: "Pensar que el triple enlace es sp³"
+        }
+      ]
+    },
+    {
+      id: 14,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 1 — Hibridación",
+      pregunta: "¿Qué hibridación tiene cada carbono del eteno (CH₂=CH₂)?",
+      opciones: ["sp²", "sp³", "sp"],
+      correcta: 0,
+      explicacion: "Cada carbono del eteno participa en un doble enlace (C=C), lo que corresponde a hibridación sp² y geometría trigonal plana (ángulos de 120°). El sp³ sería con enlaces simples y el sp con un triple enlace.",
+      pasos: []
+    },
+
+    // ── Nomenclatura IUPAC e isomería ──────────────────────────────────────────
+    {
+      id: 15,
+      tipo: "regla_rica",
+      etiqueta: "Bloque 7 · IUPAC e isomería",
+      titulo: "Nomenclatura IUPAC e isomería cis–trans",
+      bloques: [
+        {
+          tipo: "texto",
+          texto: "Para nombrar un compuesto orgánico según la IUPAC: 1) se elige la cadena más larga que contenga el grupo funcional principal (cadena principal); 2) se numera la cadena empezando por el extremo que dé los localizadores más bajos al grupo funcional y a las ramificaciones; 3) se nombran las ramificaciones (sustituyentes) con su localizador, en orden alfabético, y por último la cadena principal con su sufijo. La isomería cis–trans (geométrica) aparece en dobles enlaces: cis si los grupos quedan del mismo lado, trans si quedan en lados opuestos."
+        },
+        {
+          tipo: "tabla",
+          titulo: "Pasos para nombrar",
+          columnas: ["Paso", "Acción", "Detalle"],
+          filas: [
+            { tiempo: "1. Cadena", correcto: "la más larga con el grupo principal", error: "fija el nombre base" },
+            { tiempo: "2. Numerar", correcto: "localizadores más bajos al grupo", error: "empieza por el extremo correcto" },
+            { tiempo: "3. Ramas",  correcto: "sustituyentes + localizador", error: "en orden alfabético" },
+            { tiempo: "Isomería",  correcto: "cis (mismo lado) / trans (opuestos)", error: "solo con doble enlace" }
+          ]
+        },
+        {
+          tipo: "par",
+          etiqueta: "el localizador indica en qué carbono está el grupo o la rama",
+          correcto: "CH₃CH₂CH₂–CO–CH(CH₃)–CH₃ → 2-metil-3-hexanona (cadena de 6 C, cetona en C3, metilo en C2)",
+          incorrecto: "Numerar desde el otro extremo y dar localizadores más altos al grupo carbonilo"
+        },
+        {
+          tipo: "trampa",
+          letra: "D",
+          titulo: "Se numera por el extremo que da los NÚMEROS MÁS BAJOS al grupo funcional, no necesariamente de izquierda a derecha",
+          correcto: "El doble enlace del 2-penteno está en el carbono 2",
+          incorrecto: "Empezar siempre por la izquierda sin comparar cuál extremo da el localizador menor"
+        }
+      ]
+    },
+    {
+      id: 16,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 1 — IUPAC (cetona)",
+      pregunta: "¿Cómo se nombra la cetona CH₃CH₂CH₂–CO–CH(CH₃)–CH₃ según la IUPAC?",
+      opciones: ["2-metil-3-hexanona", "5-metil-4-hexanona", "2-metilpentan-3-ona"],
+      correcta: 0,
+      explicacion: "La cadena más larga tiene 6 carbonos (hexanona). Numerando para dar el localizador más bajo al grupo carbonilo, el C=O queda en el carbono 3 y el metilo en el carbono 2: 2-metil-3-hexanona.",
+      pasos: []
+    },
+    {
+      id: 17,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 2 — Localizador del doble enlace",
+      pregunta: "El compuesto CH₃–CH=CH–CH₂–CH₃ se nombra como…",
+      opciones: ["2-penteno", "3-penteno", "1-penteno"],
+      correcta: 0,
+      explicacion: "La cadena tiene 5 carbonos (pent-) con un doble enlace (-eno). Numerando para dar el localizador más bajo, el doble enlace queda entre los carbonos 2 y 3, así que se nombra 2-penteno.",
+      pasos: []
+    },
+
+    // ── Disacáridos ─────────────────────────────────────────────────────────────
+    {
+      id: 18,
+      tipo: "regla_rica",
+      etiqueta: "Bloque 8 · Disacáridos",
+      titulo: "Disacáridos: glucosa + otro monosacárido",
+      bloques: [
+        {
+          tipo: "texto",
+          texto: "Los disacáridos son carbohidratos formados por la unión de dos monosacáridos. Los tres más comunes parten siempre de la glucosa: la sacarosa (el azúcar de mesa) es glucosa + fructosa; la lactosa (el azúcar de la leche) es glucosa + galactosa; y la maltosa (el azúcar de la malta) es glucosa + glucosa. Un truco para recordarlos: «la SaCarosa lleva fruCtosa, la Lactosa de la Leche lleva galactosa, y la Maltosa es glucosa Más glucosa»."
+        },
+        {
+          tipo: "tabla",
+          titulo: "Los tres disacáridos clave",
+          columnas: ["Disacárido", "Monosacáridos", "Dónde está"],
+          filas: [
+            { tiempo: "Sacarosa", correcto: "glucosa + fructosa", error: "azúcar de mesa" },
+            { tiempo: "Lactosa",  correcto: "glucosa + galactosa", error: "azúcar de la leche" },
+            { tiempo: "Maltosa",  correcto: "glucosa + glucosa", error: "azúcar de la malta" }
+          ]
+        },
+        {
+          tipo: "par",
+          etiqueta: "los tres comparten la glucosa; cambia el segundo monosacárido",
+          correcto: "Sacarosa = glucosa + fructosa",
+          incorrecto: "Decir que la sacarosa es glucosa + galactosa → esa es la lactosa"
+        },
+        {
+          tipo: "trampa",
+          letra: "A",
+          titulo: "La lactosa lleva galactosa y la sacarosa fructosa; no las intercambies",
+          correcto: "Lactosa (leche) = glucosa + galactosa",
+          incorrecto: "Confundir la fructosa de la sacarosa con la galactosa de la lactosa"
+        }
+      ]
+    },
+    {
+      id: 19,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 1 — Disacáridos",
+      pregunta: "La unión de glucosa + fructosa forma el disacárido llamado…",
+      opciones: ["Sacarosa", "Lactosa", "Maltosa"],
+      correcta: 0,
+      explicacion: "Glucosa + fructosa forman la sacarosa (el azúcar de mesa). La lactosa es glucosa + galactosa y la maltosa es glucosa + glucosa.",
+      pasos: []
+    },
+
     // ── Cierre ────────────────────────────────────────────────────────────────
     {
       id: 10,
@@ -233,7 +433,11 @@ export const PRESENTACION = {
         { titulo: "Hidrocarburos", texto: "alcanos (-ano), alquenos (-eno), alquinos (-ino); prefijo = n.º de C" },
         { titulo: "Grupos funcionales", texto: "–OH alcohol, –COOH ácido, C=O aldehído/cetona, –NH₂ amina" },
         { titulo: "Macromoléculas", texto: "carbohidratos, lípidos, proteínas y ácidos nucleicos" },
-        { titulo: "Monómeros", texto: "glucosa, ácidos grasos+glicerol, aminoácidos, nucleótidos" }
+        { titulo: "Monómeros", texto: "glucosa, ácidos grasos+glicerol, aminoácidos, nucleótidos" },
+        { titulo: "Éster", texto: "R–COO–R′; terminación -oato de -ilo (propanoato de etilo)" },
+        { titulo: "Hibridación", texto: "sp³ simple (tetraédrica), sp² doble (trigonal plana), sp triple (lineal)" },
+        { titulo: "IUPAC e isomería", texto: "cadena principal, localizadores bajos al grupo, ramas; cis–trans en dobles enlaces" },
+        { titulo: "Disacáridos", texto: "sacarosa = glucosa+fructosa; lactosa = glucosa+galactosa; maltosa = glucosa+glucosa" }
       ]
     }
 

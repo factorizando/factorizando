@@ -868,6 +868,86 @@ export const PRESENTACION = {
       ]
     },
 
+    // ══ SUBTEMA 5 · IMPACTO AMBIENTAL Y CONSERVACIÓN ══════════════════════════
+    {
+      id: "impacto",
+      tipo: "concepto",
+      titulo: "Impacto ambiental y conservación aplicada",
+      etiqueta: "Acciones que cuidan o dañan el ambiente",
+      formula: "\\text{acción humana} \\to \\text{proteger} \\;|\\; \\text{degradar}",
+      svgDiagram: "eco-biomas",
+      items: [
+        { math: "\\text{Proteger}", texto: "consumir productos orgánicos locales, control biológico de plagas, reducir emisiones" },
+        { math: "\\text{Preservar}", texto: "listas rojas (UICN) que registran y protegen especies amenazadas" },
+        { math: "\\text{Incrementar}", texto: "aprovechar de forma sustentable plantas endémicas; evitar especies invasoras" },
+        { math: "\\text{Degradar}", texto: "sobrepesca, herbicidas, gases de efecto invernadero, especies exóticas invasoras" }
+      ],
+      nota: "Cada decisión cotidiana tiene un impacto ambiental. Las acciones de conservación buscan proteger la biodiversidad (listas rojas de la UICN), incrementarla aprovechando especies endémicas de forma sustentable, y reducir la contaminación (control biológico en vez de pesticidas; menos emisiones de industrias y automóviles). El blanqueamiento de corales es un caso emblemático: se debe al aumento de la temperatura del océano por los gases de efecto invernadero, y su solución es disminuir esas emisiones."
+    },
+
+    // Reactivos · Impacto ambiental y conservación (5)
+    {
+      id: "im1",
+      tipo: "ejercicio",
+      etiqueta: "Ecología · Impacto ambiental · Reactivo 1 / 5",
+      pregunta: "¿Cuál de las siguientes acciones cotidianas protege el ambiente?",
+      opciones: ["Consumir productos orgánicos cultivados localmente", "Comprar agua embotellada en envases desechables", "Tirar los restos de comida al drenaje"],
+      correcta: 0,
+      explicacion: "Consumir productos orgánicos cultivados localmente reduce el uso de agroquímicos y las emisiones del transporte. El agua embotellada genera residuos plásticos y tirar comida al drenaje contamina el agua.",
+      pasos: [
+        { pre: "Menos químicos y transporte: ", math: "\\text{orgánico y local}" }
+      ]
+    },
+    {
+      id: "im2",
+      tipo: "ejercicio",
+      etiqueta: "Ecología · Impacto ambiental · Reactivo 2 / 5",
+      pregunta: "¿Qué acción contribuye a PRESERVAR la biodiversidad?",
+      opciones: ["Incluir especies amenazadas en la lista roja (UICN)", "Acidificar el agua de los ríos y mares", "Practicar la sobrepesca en las costas"],
+      correcta: 0,
+      explicacion: "La inclusión de especies en la lista roja de la UICN las registra como amenazadas y orienta su protección. La acidificación del agua y la sobrepesca, en cambio, reducen la biodiversidad.",
+      pasos: [
+        { pre: "Registra y protege especies: ", math: "\\text{lista roja (UICN)}" }
+      ]
+    },
+    {
+      id: "im3",
+      tipo: "ejercicio",
+      etiqueta: "Ecología · Impacto ambiental · Reactivo 3 / 5",
+      pregunta: "¿Cuál de las siguientes acciones ayuda a INCREMENTAR la biodiversidad de una región?",
+      opciones: ["Aprovechar de forma sustentable las plantas endémicas del lugar", "Introducir especies exóticas o invasoras", "Sustituir la vegetación nativa por una sola especie comercial"],
+      correcta: 0,
+      explicacion: "Aprovechar de manera sustentable las plantas endémicas favorece su conservación y la diversidad local. Las especies exóticas o invasoras desplazan a las nativas y reducen la biodiversidad.",
+      pasos: [
+        { pre: "Usar sin agotar lo propio: ", math: "\\text{endémicas sustentables}" }
+      ]
+    },
+    {
+      id: "im4",
+      tipo: "ejercicio",
+      etiqueta: "Ecología · Impacto ambiental · Reactivo 4 / 5",
+      pregunta: "Un método de control de plagas que NO daña el ambiente es el:",
+      opciones: ["Control biológico (usar enemigos naturales de la plaga)", "Uso intensivo de herbicidas", "Aplicación masiva de pesticidas químicos"],
+      correcta: 0,
+      explicacion: "El control biológico emplea depredadores o parásitos naturales de la plaga, sin contaminar. Los herbicidas y pesticidas químicos dañan otros organismos, el suelo y el agua.",
+      pasos: [
+        { pre: "Enemigos naturales: ", math: "\\text{control biológico}" }
+      ]
+    },
+    {
+      id: "im5",
+      tipo: "ejercicio",
+      etiqueta: "Ecología · Impacto ambiental · Reactivo 5 / 5",
+      pregunta: "El blanqueamiento de los corales se debe al aumento de la temperatura del océano por los gases de efecto invernadero. ¿Cuál es su principal solución?",
+      opciones: ["Disminuir las emisiones de industrias y automóviles", "Aumentar la pesca en los arrecifes", "Verter más nutrientes al mar"],
+      correcta: 0,
+      explicacion: "El calentamiento del océano (por los gases de efecto invernadero) provoca que los corales expulsen sus algas simbióticas y se blanqueen. La solución es reducir las emisiones de industrias y automóviles que generan esos gases.",
+      pasos: [
+        { pre: "Causa: ", math: "\\uparrow \\text{temperatura por gases invernadero}" },
+        { pre: "Solución: ", math: "\\downarrow \\text{emisiones}" }
+      ]
+    },
+
     // ── RESUMEN ───────────────────────────────────────────────────────────────
     {
       id: "resumen",
@@ -880,6 +960,7 @@ export const PRESENTACION = {
         { math: "\\text{Cadena trófica}", texto: "productores → consumidores → descomponedores; energía fluye (regla del 10 %)" },
         { math: "\\text{Materia} \\neq \\text{energía}", texto: "la materia se recicla (ciclos C, N, agua); la energía fluye y se pierde" },
         { math: "\\text{Biomas}", texto: "clima + vegetación: selvas, manglares (costa, salinidad), bosques, desiertos" },
+        { math: "\\text{Conservación}", texto: "proteger (lista roja UICN), incrementar (endémicas sustentables), control biológico, reducir emisiones" },
         { titulo: "México", texto: "país megadiverso: enorme variedad de especies y ecosistemas; conservar la biodiversidad" }
       ]
     }

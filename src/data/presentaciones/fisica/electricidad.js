@@ -469,6 +469,104 @@ export const PRESENTACION = {
       ]
     },
 
+    // ══ SUBTEMA 8 · MAGNETISMO CUANTITATIVO Y ONDAS ELECTROMAGNÉTICAS ═════════
+    {
+      id: "magnetismo-cuantitativo",
+      tipo: "concepto",
+      titulo: "Magnetismo Cuantitativo y Ondas EM",
+      etiqueta: "Flujo, fuerzas magnéticas y luz",
+      formula: "\\Phi = B\\,A",
+      svgDiagram: "ele-magnetismo",
+      items: [
+        { math: "\\Phi = B A", texto: "flujo magnético: campo B por el área A que atraviesa (en weber, Wb)" },
+        { math: "F = q\\,v\\,B", texto: "fuerza sobre una carga en movimiento perpendicular al campo" },
+        { math: "F = \\dfrac{\\mu_0 I_1 I_2 L}{2\\pi d}", texto: "fuerza entre dos conductores paralelos con corriente" },
+        { math: "B = \\mu \\tfrac{N}{L} I", texto: "campo en un solenoide; un imán en movimiento induce corriente" },
+        { math: "\\lambda = \\dfrac{c}{f}", texto: "longitud de onda de una onda electromagnética (luz, láser, radio)" }
+      ],
+      nota: "Una carga en movimiento dentro de un campo magnético siente una fuerza F = q·v·B (máxima cuando v es perpendicular a B). Dos cables con corriente se atraen o repelen según el sentido de sus corrientes. Las ondas electromagnéticas (como la luz del láser) viajan a c = 3×10⁸ m/s y cumplen λ = c/f. Se usa μ₀ = 4π×10⁻⁷."
+    },
+
+    // Ejemplo · Flujo magnético
+    {
+      id: "ej-flujo",
+      tipo: "criterio_detalle",
+      titulo: "Ejemplo · Flujo magnético",
+      etiqueta: "Campo por área",
+      svgDiagram: "ele-magnetismo",
+      enunciado: "Un imán produce un campo B = 2×10⁻³ T sobre la cara de una caja de área 0.05 m². ¿Cuál es el flujo magnético?",
+      math: "\\Phi = B\\,A",
+      por_que: "El flujo magnético es simplemente el campo multiplicado por el área que atraviesa perpendicularmente. El resultado se mide en weber (Wb).",
+      math_razon: "\\Phi = (2\\times 10^{-3})(0.05) = 1\\times 10^{-4}\\ \\text{Wb}"
+    },
+
+    // Reactivos · Magnetismo cuantitativo y ondas EM (5)
+    {
+      id: "magc1",
+      tipo: "ejercicio",
+      svgDiagram: "ele-magnetismo",
+      etiqueta: "Electricidad · Magnetismo cuantitativo · Reactivo 1 / 5",
+      pregunta: "Un imán produce B = 2×10⁻³ T sobre una cara de 0.05 m². ¿Cuál es el flujo magnético?",
+      opciones: ["1×10⁻⁴ Wb", "4×10⁻² Wb", "2.05×10⁻³ Wb", "1×10⁻² Wb"],
+      correcta: 0,
+      explicacion: "Φ = B·A = (2×10⁻³)·(0.05) = 1×10⁻⁴ Wb.",
+      pasos: [
+        { pre: "Flujo magnético: ", math: "\\Phi = B A = (2\\times 10^{-3})(0.05) = 1\\times 10^{-4}\\ \\text{Wb}" }
+      ]
+    },
+
+    {
+      id: "magc2",
+      tipo: "ejercicio",
+      etiqueta: "Electricidad · Magnetismo cuantitativo · Reactivo 2 / 5",
+      pregunta: "Una carga de 4 µC se mueve a 1500 m/s perpendicular a un campo de 0.12 T. ¿Qué fuerza magnética siente?",
+      opciones: ["7.2×10⁻⁴ N", "4.8×10⁻⁴ N", "7.2×10⁻² N", "1.8×10⁻³ N"],
+      correcta: 0,
+      explicacion: "F = q·v·B = (4×10⁻⁶)·(1500)·(0.12) = 7.2×10⁻⁴ N. Con v perpendicular a B la fuerza es máxima.",
+      pasos: [
+        { pre: "Fuerza magnética: ", math: "F = q\\,v\\,B = (4\\times 10^{-6})(1500)(0.12) = 7.2\\times 10^{-4}\\ \\text{N}" }
+      ]
+    },
+
+    {
+      id: "magc3",
+      tipo: "ejercicio",
+      etiqueta: "Electricidad · Magnetismo cuantitativo · Reactivo 3 / 5",
+      pregunta: "Dos conductores paralelos de 0.5 m, con 7 A cada uno, se atraen con 2.25×10⁻⁴ N. ¿Cuál es su separación d? (μ₀ = 4π×10⁻⁷)",
+      opciones: ["≈ 0.022 m", "≈ 0.22 m", "≈ 0.0022 m", "≈ 0.11 m"],
+      correcta: 0,
+      explicacion: "De F = μ₀·I₁·I₂·L/(2π·d) se despeja d = μ₀·I₁·I₂·L/(2π·F) = (4π×10⁻⁷·7·7·0.5)/(2π·2.25×10⁻⁴) ≈ 0.022 m.",
+      pasos: [
+        { pre: "Despejando d: ", math: "d = \\dfrac{\\mu_0 I_1 I_2 L}{2\\pi F} \\approx 0.022\\ \\text{m}" }
+      ]
+    },
+
+    {
+      id: "magc4",
+      tipo: "ejercicio",
+      etiqueta: "Electricidad · Magnetismo cuantitativo · Reactivo 4 / 5",
+      pregunta: "Una onda electromagnética tiene una frecuencia de 2.5×10¹³ Hz. ¿Cuál es su longitud de onda? (c = 3×10⁸ m/s)",
+      opciones: ["1.2×10⁻⁵ m", "1.2×10⁻⁴ m", "7.5×10²¹ m", "8.3×10⁴ m"],
+      correcta: 0,
+      explicacion: "λ = c/f = (3×10⁸)/(2.5×10¹³) = 1.2×10⁻⁵ m.",
+      pasos: [
+        { pre: "Longitud de onda: ", math: "\\lambda = \\dfrac{c}{f} = \\dfrac{3\\times 10^{8}}{2.5\\times 10^{13}} = 1.2\\times 10^{-5}\\ \\text{m}" }
+      ]
+    },
+
+    {
+      id: "magc5",
+      tipo: "ejercicio",
+      etiqueta: "Electricidad · Magnetismo cuantitativo · Reactivo 5 / 5",
+      pregunta: "¿Cuál de los siguientes dispositivos emplea ondas electromagnéticas?",
+      opciones: ["Un apuntador láser", "Un motor eléctrico", "Una bocina", "Un resorte"],
+      correcta: 0,
+      explicacion: "El apuntador láser emite luz, que es una onda electromagnética. El motor eléctrico y la bocina aprovechan campos magnéticos y movimiento, pero no emiten ondas electromagnéticas como función principal.",
+      pasos: [
+        { pre: "Emite luz (onda EM): ", math: "\\text{láser} \\Rightarrow \\text{onda electromagnética}" }
+      ]
+    },
+
     // ── RESUMEN ───────────────────────────────────────────────────────────────
     {
       id: "resumen",
@@ -483,6 +581,7 @@ export const PRESENTACION = {
         { math: "R_{serie} = R_1 + R_2", texto: "en serie se suman; en paralelo la total baja" },
         { math: "P = V I", texto: "potencia eléctrica en watts" },
         { titulo: "Magnetismo", texto: "polos iguales se repelen; toda corriente crea campo magnético" },
+        { math: "\\Phi = B A,\\ F = q v B", texto: "flujo magnético y fuerza sobre cargas; λ = c/f para ondas electromagnéticas (láser)" },
         { titulo: "Conductor/aislante", texto: "el conductor deja fluir la carga; el aislante se opone" }
       ]
     }

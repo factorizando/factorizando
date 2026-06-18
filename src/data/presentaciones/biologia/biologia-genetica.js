@@ -1015,6 +1015,38 @@ export const PRESENTACION = {
       ]
     },
 
+    // ══ SUBTEMA 6 · FUNCIONES DEL ADN ═════════════════════════════════════════
+    {
+      id: "funciones",
+      tipo: "concepto",
+      titulo: "Las tres funciones del ADN",
+      etiqueta: "Contener · transmitir · regular",
+      formula: "\\text{contener} \\;|\\; \\text{transmitir} \\;|\\; \\text{regular}",
+      svgDiagram: "gen-adn",
+      items: [
+        { math: "\\text{Contener}", texto: "almacena la información genética en la secuencia de bases (A, T, C, G)" },
+        { math: "\\text{Transmitir}", texto: "se replica y pasa la información a las células hijas en la división celular" },
+        { math: "\\text{Regular}", texto: "controla qué genes se expresan y cuándo (regulación de la expresión génica)" },
+        { math: "\\text{Clave}", texto: "transmitir ≠ contener ≠ regular: durante la división, el ADN TRANSMITE la información" }
+      ],
+      nota: "El ADN cumple tres funciones biológicas: contener o almacenar la información genética, transmitirla (al replicarse durante la división celular para que las células hijas reciban una copia) y regular la expresión génica (decidir qué proteínas se fabrican). Hay que distinguirlas: contener es guardar la información; regular es controlar su uso; transmitir es el resultado que ocurre cuando la célula se divide."
+    },
+
+    // Reactivos · Funciones del ADN (1)
+    {
+      id: "fn1",
+      tipo: "ejercicio",
+      svgDiagram: "gen-adn",
+      etiqueta: "Genética · Funciones del ADN · Reactivo 1 / 1",
+      pregunta: "Durante la división celular, un resultado de las funciones biológicas del ADN es:",
+      opciones: ["Transmitir la información genética a las células hijas", "Contener la información genética", "Regular la expresión de los genes"],
+      correcta: 0,
+      explicacion: "Al dividirse la célula, el ADN se replica y TRANSMITE una copia de la información genética a cada célula hija. Contener (almacenar) y regular (controlar la expresión) son funciones del ADN, pero el resultado propio de la división celular es la transmisión.",
+      pasos: [
+        { pre: "En la división: ", math: "\\text{replicación} \\to \\text{transmitir la información}" }
+      ]
+    },
+
     // ── RESUMEN ───────────────────────────────────────────────────────────────
     {
       id: "resumen",
@@ -1028,7 +1060,8 @@ export const PRESENTACION = {
         { math: "\\text{Genotipo / fenotipo}", texto: "genotipo = alelos; fenotipo = rasgo observable" },
         { math: "\\text{Mutación}", texto: "cambio heredable en el ADN; al azar; fuente de variabilidad y evolución" },
         { math: "\\text{Biotecnología}", texto: "ADN recombinante (insulina), clonación (Dolly), transgénicos, terapia génica" },
-        { math: "\\text{PCR } (2^{n})", texto: "amplifica un fragmento de ADN millones de veces; sin vector; diagnóstico y forense" }
+        { math: "\\text{PCR } (2^{n})", texto: "amplifica un fragmento de ADN millones de veces; sin vector; diagnóstico y forense" },
+        { math: "\\text{Funciones del ADN}", texto: "contener, transmitir (en la división) y regular la información genética" }
       ]
     }
 

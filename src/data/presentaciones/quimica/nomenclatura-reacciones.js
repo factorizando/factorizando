@@ -271,6 +271,100 @@ export const PRESENTACION = {
       pasos: []
     },
 
+    // ── Enlace iónico vs. covalente ────────────────────────────────────────────
+    {
+      id: 12,
+      tipo: "regla_rica",
+      etiqueta: "Bloque 6 · Enlaces",
+      titulo: "Enlace iónico y covalente: regla de la electronegatividad",
+      bloques: [
+        {
+          tipo: "texto",
+          texto: "El tipo de enlace entre dos átomos depende de la diferencia de electronegatividad (ΔEN) entre ellos. La regla numérica: si ΔEN > 1.7 el enlace es iónico (un átomo cede electrones al otro, formando iones); si ΔEN está entre 0.4 y 1.7 es covalente polar (comparten electrones de forma desigual); y si ΔEN < 0.4 es covalente no polar (comparten electrones casi por igual). En general, metal + no metal con gran diferencia de EN da enlace iónico; dos no metales suelen formar enlaces covalentes."
+        },
+        {
+          tipo: "tabla",
+          titulo: "Tipo de enlace según ΔEN",
+          columnas: ["ΔEN", "Tipo de enlace", "Ejemplo"],
+          filas: [
+            { tiempo: "ΔEN > 1.7",   correcto: "Iónico",            error: "NaCl (Na−Cl)" },
+            { tiempo: "0.4 ≤ ΔEN ≤ 1.7", correcto: "Covalente polar", error: "H₂O (O−H)" },
+            { tiempo: "ΔEN < 0.4",   correcto: "Covalente no polar", error: "Cl₂, H₂" }
+          ]
+        },
+        {
+          tipo: "par",
+          etiqueta: "compara la diferencia de electronegatividad, no la electronegatividad de un solo átomo",
+          correcto: "ΔEN = 2.1 (> 1.7) → enlace iónico",
+          incorrecto: "Decidir el tipo de enlace mirando un solo valor de EN → siempre se usa la DIFERENCIA"
+        },
+        {
+          tipo: "trampa",
+          letra: "D",
+          titulo: "El umbral 1.7 separa iónico de covalente polar, y el 0.4 separa polar de no polar; ubicar ΔEN entre esos límites da el tipo",
+          correcto: "ΔEN = 0.9 → covalente polar (entre 0.4 y 1.7)",
+          incorrecto: "Llamar iónico a un enlace con ΔEN = 0.9 → ese valor es covalente polar"
+        }
+      ]
+    },
+    {
+      id: 13,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 1 — Tipo de enlace",
+      pregunta: "Dos átomos forman un enlace con una diferencia de electronegatividad ΔEN = 2.1. ¿Qué tipo de enlace es?",
+      opciones: ["Iónico", "Covalente polar", "Covalente no polar"],
+      correcta: 0,
+      explicacion: "Como ΔEN = 2.1 es mayor que 1.7, el enlace es iónico: la gran diferencia de electronegatividad hace que un átomo ceda electrones al otro y se formen iones. Entre 0.4 y 1.7 sería covalente polar, y por debajo de 0.4, covalente no polar.",
+      pasos: []
+    },
+
+    // ── Equilibrio químico ─────────────────────────────────────────────────────
+    {
+      id: 14,
+      tipo: "regla_rica",
+      etiqueta: "Bloque 7 · Equilibrio",
+      titulo: "Equilibrio químico y constante Keq",
+      bloques: [
+        {
+          tipo: "texto",
+          texto: "Muchas reacciones son reversibles (⇌): ocurren a la vez hacia productos y hacia reactivos. En el equilibrio, las concentraciones dejan de cambiar. La constante de equilibrio relaciona las concentraciones de productos y reactivos: Keq = [productos] / [reactivos], donde cada concentración se eleva a su coeficiente en la ecuación balanceada. Una Keq grande indica que predominan los productos; una Keq pequeña, que predominan los reactivos."
+        },
+        {
+          tipo: "tabla",
+          titulo: "Constante de equilibrio",
+          columnas: ["Elemento", "Regla", "Ejemplo"],
+          filas: [
+            { tiempo: "Numerador",   correcto: "concentración de productos", error: "[CuS]·[HCl]²" },
+            { tiempo: "Denominador", correcto: "concentración de reactivos", error: "[CuCl₂]·[H₂S]" },
+            { tiempo: "Exponentes",  correcto: "los coeficientes de la ecuación", error: "2HCl → [HCl]²" }
+          ]
+        },
+        {
+          tipo: "par",
+          etiqueta: "cada concentración se eleva a su coeficiente",
+          correcto: "En CuCl₂ + H₂S ⇌ CuS + 2HCl: Keq = ([CuS]·[HCl]²) / ([CuCl₂]·[H₂S])",
+          incorrecto: "Olvidar el exponente 2 del HCl → la constante queda mal calculada"
+        },
+        {
+          tipo: "trampa",
+          letra: "E",
+          titulo: "Los coeficientes de la ecuación balanceada son los exponentes de cada concentración, no factores que multipliquen",
+          correcto: "2HCl aporta [HCl]² (exponente 2), no 2·[HCl]",
+          incorrecto: "Escribir 2·[HCl] en lugar de [HCl]²"
+        }
+      ]
+    },
+    {
+      id: 15,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 1 — Constante de equilibrio",
+      pregunta: "Para CuCl₂ + H₂S ⇌ CuS + 2HCl, con [CuCl₂]=1.2, [H₂S]=0.9, [CuS]=0.7 y [HCl]=1.3, ¿cuánto vale Keq?",
+      opciones: ["≈ 1.095", "≈ 0.913", "≈ 0.701"],
+      correcta: 0,
+      explicacion: "Keq = ([CuS]·[HCl]²) / ([CuCl₂]·[H₂S]) = (0.7·1.3²) / (1.2·0.9) = (0.7·1.69) / 1.08 = 1.183 / 1.08 ≈ 1.095. Hay que elevar [HCl] al cuadrado por su coeficiente 2.",
+      pasos: []
+    },
+
     // ── Cierre ────────────────────────────────────────────────────────────────
     {
       id: 11,
@@ -283,7 +377,9 @@ export const PRESENTACION = {
         { titulo: "IUPAC", texto: "no metal-uro + de + metal; número romano = número de oxidación" },
         { titulo: "Tipos de reacción", texto: "síntesis, descomposición, desplazamiento simple/doble y combustión" },
         { titulo: "Conservación de la masa", texto: "mismos átomos en reactivos y productos" },
-        { titulo: "Balanceo", texto: "ajusta coeficientes, nunca subíndices" }
+        { titulo: "Balanceo", texto: "ajusta coeficientes, nunca subíndices" },
+        { titulo: "Tipo de enlace", texto: "ΔEN > 1.7 iónico; 0.4–1.7 covalente polar; < 0.4 covalente no polar" },
+        { titulo: "Equilibrio químico", texto: "Keq = [productos] / [reactivos], cada concentración elevada a su coeficiente" }
       ]
     }
 

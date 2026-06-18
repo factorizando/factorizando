@@ -65,6 +65,7 @@ import { PRESENTACION as FISICA_COMPLEMENTO_CIENTIFICO } from "./fisica/fisica-c
 import { PRESENTACION as BIOLOGIA_ANATOMIA_FISIOLOGIA } from "./biologia/biologia-anatomia-fisiologia.js";
 import { PRESENTACION as COHESION_GRAMATICAL_EXANI_II } from "./espanol/cohesion-gramatical-exani-ii.js";
 import { PRESENTACION as COHESION_LEXICO_SEMANTICA_EXANI_II } from "./espanol/cohesion-lexico-semantica-exani-ii.js";
+import { PRESENTACION as COHESION_TEXTUAL_EXANI_II } from "./espanol/cohesion-textual-exani-ii.js";
 
 export const PRESENTACIONES_INDEX = {
   "semejanza-triangulos": SEMEJANZA_TRIANGULOS,
@@ -130,6 +131,7 @@ export const PRESENTACIONES_INDEX = {
   "biologia-anatomia-fisiologia": BIOLOGIA_ANATOMIA_FISIOLOGIA,
   "cohesion-gramatical-exani-ii": COHESION_GRAMATICAL_EXANI_II,
   "cohesion-lexico-semantica-exani-ii": COHESION_LEXICO_SEMANTICA_EXANI_II,
+  "cohesion-textual-exani-ii": COHESION_TEXTUAL_EXANI_II,
 };
 
 export function buscarPresentacion(id) {

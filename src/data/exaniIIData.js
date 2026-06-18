@@ -48,6 +48,7 @@ export const SUBJECTS_EXANI_II = [
           { id: "ei-ri-concordancia-verbal", name: "Concordancia verbal", presentacion: "/ver/concordancia-verbal-avanzada" },
           { id: "ei-ri-coh-gram", name: "Cohesión gramatical", presentacion: "/ver/cohesion-gramatical-exani-ii" },
           { id: "ei-ri-coh-lex", name: "Cohesión léxico-semántica", presentacion: "/ver/cohesion-lexico-semantica-exani-ii" },
+          { id: "ei-ri-coh-textual", name: "Cohesión textual", presentacion: "/ver/cohesion-textual-exani-ii" },
           { id: "ei-ri-coh-text", name: "Cohesión textual (marcadores)", presentacion: "/ver/marcadores-textuales" },
         ],
       },

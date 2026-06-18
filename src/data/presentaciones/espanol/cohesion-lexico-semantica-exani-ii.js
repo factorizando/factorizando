@@ -766,6 +766,102 @@ export const PRESENTACION = {
       pasos: [],
     },
 
+    // ── Precisión léxica · Numerales (ordinal vs. fraccionario) ─────────────────
+    {
+      id: 42,
+      tipo: "regla_rica",
+      etiqueta: "Precisión léxica · Numerales",
+      titulo: "Numerales: ordinal (orden) ≠ fraccionario (parte)",
+      bloques: [
+        {
+          tipo: "texto",
+          texto: "Los numerales no son intercambiables: cada tipo cumple una función. Los cardinales indican cantidad (uno, doce, quince). Los ordinales indican orden o posición (primero, duodécimo, decimoquinto). Los fraccionarios o partitivos indican una parte de un todo (un medio, un doceavo, la quinceava parte). El error más frecuente en el examen es usar un fraccionario donde corresponde un ordinal: «el quinceavo cumpleaños» en lugar de «el decimoquinto cumpleaños».",
+        },
+        {
+          tipo: "tabla",
+          titulo: "Tipos de numerales y su función",
+          columnas: ["Tipo", "Función", "Ejemplos"],
+          filas: [
+            { tiempo: "Cardinal", correcto: "Cantidad", error: "uno · dos · doce · quince · diecinueve" },
+            { tiempo: "Ordinal", correcto: "Orden o posición", error: "primero · duodécimo (12.º) · decimoquinto (15.º) · decimonoveno (19.º)" },
+            { tiempo: "Fraccionario / partitivo", correcto: "Parte de un todo", error: "un medio · un tercio · un doceavo (1/12) · la quinceava parte (1/15)" },
+          ],
+        },
+        {
+          tipo: "par",
+          etiqueta: "los terminados en -avo expresan fracción, no orden",
+          correcto: "Celebró su decimoquinto cumpleaños en el duodécimo piso.",
+          incorrecto: "Celebró su quinceavo cumpleaños en el doceavo piso.",
+        },
+        {
+          tipo: "trampa",
+          letra: "A",
+          titulo: "«-avo» = fracción; para el orden usa el ordinal (o el cardinal)",
+          correcto: "«la doceava parte» (1/12, fracción) · «el duodécimo lugar» o, en lengua corriente, «el lugar doce» (orden).",
+          incorrecto: "«el doceavo lugar», «el diecinueveavo piso»: los terminados en -avo no indican posición. A partir de cierto número se admite el cardinal: «el piso diecinueve».",
+        },
+      ],
+    },
+    {
+      id: 43,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 1 / 4 — Numerales",
+      pregunta: "¿Cuál oración está CORRECTAMENTE redactada?",
+      opciones: [
+        "La doceava parte de las ganancias se destinará a la reforestación.",
+        "El despacho ocupa el diecinueveavo piso de la torre.",
+        "Celebraron el quinceavo cumpleaños de Mariana.",
+      ],
+      correcta: 0,
+      explicacion: "«La doceava parte» usa correctamente el fraccionario (1/12). Las otras emplean fraccionarios («diecinueveavo», «quinceavo») donde corresponde un ordinal o un cardinal: «el decimonoveno piso / el piso diecinueve» y «su decimoquinto cumpleaños / sus quince años».",
+      pasos: [],
+    },
+    {
+      id: 44,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 2 / 4 — Numerales",
+      pregunta: "«El despacho se encuentra en el ____ piso.» ¿Qué numeral es apropiado para indicar posición?",
+      opciones: [
+        "decimonoveno (o, en lengua corriente, el piso diecinueve)",
+        "diecinueveavo",
+        "diecinueveava",
+        "diecinueve-avo",
+      ],
+      correcta: 0,
+      explicacion: "Para indicar orden se usa el ordinal «decimonoveno» o el cardinal «el piso diecinueve». «Diecinueveavo» es fraccionario (1/19) y no expresa posición.",
+      pasos: [],
+    },
+    {
+      id: 45,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 3 / 4 — Numerales",
+      pregunta: "Para referirse a la fiesta de los quince años, lo correcto es:",
+      opciones: [
+        "su decimoquinto cumpleaños / sus quince años",
+        "su quinceavo cumpleaños",
+        "su quinceava fiesta",
+        "su quinzavo cumpleaños",
+      ],
+      correcta: 0,
+      explicacion: "El orden se expresa con el ordinal «decimoquinto» o con el cardinal «quince años». «Quinceavo» es el fraccionario (1/15) y se reserva para fracciones: «la quinceava parte».",
+      pasos: [],
+    },
+    {
+      id: 46,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 / 4 — Numerales",
+      pregunta: "¿En qué oración el numeral fraccionario está bien empleado?",
+      opciones: [
+        "Solo recibió un octavo de la herencia.",
+        "Llegó en el quinceavo lugar de la competencia.",
+        "Vive en el doceavo piso del edificio.",
+        "Es la terceava vez que lo intenta.",
+      ],
+      correcta: 0,
+      explicacion: "«un octavo de la herencia» expresa una fracción (1/8): uso correcto del partitivo. Las otras usan fraccionarios donde va un ordinal o cardinal: «el decimoquinto lugar», «el duodécimo piso / el piso doce» y «la tercera vez».",
+      pasos: [],
+    },
+
     // ── Resumen ───────────────────────────────────────────────────────────────
     {
       id: 41,
@@ -779,6 +875,7 @@ export const PRESENTACION = {
         { titulo: "4. Antonimia contextual", texto: "Los adjetivos graduales (alto/bajo, largo/corto) dependen del marco de referencia implícito del texto." },
         { titulo: "5. Campo semántico", texto: "Hiperónimo (general) como sustituto cohesivo; el cohipónimo introduce un referente distinto y rompe la cohesión." },
         { titulo: "6. Trampas del EXANI-II", texto: "Falsos sinónimos (connotación incompatible) y ruptura de registro (mezclar formal y coloquial)." },
+        { titulo: "7. Precisión: numerales", texto: "Ordinal = orden (decimoquinto, duodécimo); fraccionario/partitivo = parte (un doceavo, la quinceava parte). No uses «-avo» para el orden: «su decimoquinto cumpleaños», no «quinceavo»." },
       ],
     },
 

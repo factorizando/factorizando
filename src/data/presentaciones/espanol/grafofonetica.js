@@ -1176,12 +1176,269 @@ export const PRESENTACION = {
     },
 
     // ════════════════════════════════════════════════════════════════════════
-    // CASO 9 · HOMÓFONOS — misma pronunciación, distinta grafía y significado
+    // CASO 9 · LA LETRA X — fonema /ks/ (la equis)
+    // ════════════════════════════════════════════════════════════════════════
+    {
+      id: 72,
+      tipo: "regla_rica",
+      etiqueta: "Caso 9 · La letra X · fonema /ks/",
+      titulo: "La X: una sola letra para el grupo /ks/",
+      bloques: [
+        {
+          tipo: "texto",
+          texto: "La letra x representa normalmente el grupo de dos sonidos /ks/ (a veces relajado en /gs/): examen, éxito, léxico, taxi. Como ese grupo «suena» parecido a «cs» o, relajado, a «s», es muy frecuente escribir mal estas palabras: «lécsico», «ésodo» o «esamen». La grafía correcta es siempre x. En posición inicial o ante consonante, la x suele pronunciarse solo /s/ (xilófono, extra), pero se sigue escribiendo x.",
+        },
+        {
+          tipo: "tabla",
+          titulo: "Sonidos de la x y su escritura",
+          columnas: ["Sonido", "Posición / contexto", "Ejemplos"],
+          filas: [
+            { tiempo: "/ks/ (o /gs/)", correcto: "Entre vocales", error: "examen · éxito · léxico · éxodo · axioma · próximo · taxi" },
+            { tiempo: "/s/", correcto: "Inicial o ante consonante", error: "xilófono · xenofobia · extra · experto · texto" },
+            { tiempo: "/x/ (jota)", correcto: "Topónimos y nombres de origen náhuatl (uso histórico)", error: "México · Oaxaca · Texas · Xavier" },
+          ],
+        },
+        {
+          tipo: "par",
+          etiqueta: "el grupo /ks/ se escribe x, nunca «cs» ni «s»",
+          correcto: "El léxico de ese texto exige un examen exhaustivo.",
+          incorrecto: "El lécsico de ese tecsto ecsige un esamen ecsaustivo.",
+        },
+        {
+          tipo: "trampa",
+          letra: "A",
+          titulo: "No confundas la equis /ks/ con la jota /x/",
+          correcto: "«léxico», «éxodo», «examen» llevan x porque suenan /ks/. En «México» u «Oaxaca» la x suena como jota /x/ por tradición ortográfica, pero también se escribe x.",
+          incorrecto: "Escribir «lécsico», «éksodo» o «ésodo»: el grupo /ks/ es siempre una sola letra, la x.",
+        },
+      ],
+    },
+    {
+      id: 73,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 1 — La letra X",
+      pregunta: "¿Cuál palabra está CORRECTAMENTE escrita?",
+      opciones: [
+        "léxico",
+        "lécsico",
+        "lésico",
+        "léksico",
+      ],
+      correcta: 0,
+      explicacion: "«léxico» se escribe con x porque representa el grupo /ks/. «Lécsico», «lésico» o «léksico» son errores: el sonido /ks/ no se separa en «cs» ni se reduce a «s».",
+      pasos: [],
+    },
+    {
+      id: 74,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 2 — La letra X",
+      pregunta: "Identifique la grafía correcta de la palabra que significa «emigración o salida masiva»:",
+      opciones: [
+        "éxodo",
+        "éxsodo",
+        "ésodo",
+        "écsodo",
+      ],
+      correcta: 0,
+      explicacion: "«éxodo» lleva x (/ks/). Las formas «éxsodo», «ésodo» o «écsodo» duplican o sustituyen el sonido de la x, que se escribe con una sola letra.",
+      pasos: [],
+    },
+    {
+      id: 75,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 3 — La letra X",
+      pregunta: "¿Cuál oración está CORRECTAMENTE escrita?",
+      opciones: [
+        "Tras aquel examen, su éxito fue inmediato.",
+        "Tras aquel esamen, su ésito fue inmediato.",
+        "Tras aquel ecsamen, su écsito fue inmediato.",
+        "Tras aquel exsamen, su éxsito fue inmediato.",
+      ],
+      correcta: 0,
+      explicacion: "«examen» y «éxito» se escriben con x (sonido /ks/). Las demás opciones lo sustituyen por «s», «cs» o «xs», todas incorrectas.",
+      pasos: [],
+    },
+    {
+      id: 76,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — La letra X",
+      pregunta: "La palabra que designa la ayuda o socorro se escribe:",
+      opciones: [
+        "auxilio",
+        "ausilio",
+        "aucsilio",
+        "auksilio",
+      ],
+      correcta: 0,
+      explicacion: "«auxilio» lleva x (/ks/). «Ausilio», «aucsilio» o «auksilio» son errores frecuentes por escribir el sonido tal como se relaja al hablar.",
+      pasos: [],
+    },
+    {
+      id: 77,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — La letra X",
+      pregunta: "En palabras como «xilófono» o «xenofobia», la x inicial se pronuncia:",
+      opciones: [
+        "/s/, aunque se escribe x",
+        "/ks/ obligatoriamente",
+        "como jota /x/",
+        "no se pronuncia",
+      ],
+      correcta: 0,
+      explicacion: "En posición inicial la x suele sonar /s/ (xilófono = «silófono»), pero la grafía correcta sigue siendo x. Escribir «silófono» o «senofobia» es incorrecto.",
+      pasos: [],
+    },
+    {
+      id: 78,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 6 — La letra X",
+      pregunta: "¿Por qué «México» se escribe con x si suena como «Méjico»?",
+      opciones: [
+        "Porque la x conserva un valor histórico de /x/ (jota) del español antiguo y de voces de origen náhuatl",
+        "Porque es un error tolerado",
+        "Porque la x siempre suena como jota",
+        "Porque debería escribirse con j",
+      ],
+      correcta: 0,
+      explicacion: "En «México», «Oaxaca» o «Texas» la x mantiene la grafía heredada del español antiguo y de voces de origen náhuatl, donde representaba el sonido /x/ (jota). Es correcto escribirlo con x, no con j.",
+      pasos: [],
+    },
+
+    // ════════════════════════════════════════════════════════════════════════
+    // CASO 10 · LL y Y — yeísmo (un mismo sonido, dos grafemas)
+    // ════════════════════════════════════════════════════════════════════════
+    {
+      id: 79,
+      tipo: "regla_rica",
+      etiqueta: "Caso 10 · LL y Y · yeísmo",
+      titulo: "LL y Y: dos grafemas, un mismo sonido (yeísmo)",
+      bloques: [
+        {
+          tipo: "texto",
+          texto: "Por el yeísmo —general en México y gran parte del mundo hispano— las letras ll y y representan el mismo sonido. No hay diferencia de pronunciación entre «halla» y «haya» o entre «calló» y «cayó». Como suenan igual, la grafía correcta depende de la palabra y de su significado, no del oído.",
+        },
+        {
+          tipo: "tabla",
+          titulo: "Cuándo usar LL y cuándo Y",
+          columnas: ["Grafema", "Contextos frecuentes", "Ejemplos"],
+          filas: [
+            { tiempo: "LL", correcto: "Terminaciones -illo/-illa, -ello/-ella; verbos en -llir/-llar; muchas voces patrimoniales", error: "cepillo · sombrilla · botella · cuello · bullir · hallar · calle · llave · lluvia · caballo · bulla" },
+            { tiempo: "Y", correcto: "Sílabas ya/ye/yi/yo/yu; formas verbales con y; terminación -eyo/-aya", error: "yate · yema · yodo · ayuda · cayó · leyó · oyendo · vaya · haya · leguleyo · plebeyo" },
+          ],
+        },
+        {
+          tipo: "par",
+          etiqueta: "misma pronunciación, distinta grafía según la palabra",
+          correcto: "Halló la llave en la calle bajo la lluvia.",
+          incorrecto: "Hayó la yave en la caye bajo la yuvia.",
+        },
+        {
+          tipo: "trampa",
+          letra: "A",
+          titulo: "Homófonos ll/y: el significado decide la grafía",
+          correcto: "haya (de haber / árbol) ≠ halla (de hallar) · vaya (de ir) ≠ valla (cerca) ≠ baya (fruto) · cayó (de caer) ≠ calló (de callar).",
+          incorrecto: "Elegir ll o y «de oído»: como el yeísmo las iguala, hay que pensar en el significado y en las reglas.",
+        },
+      ],
+    },
+    {
+      id: 80,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 1 — LL y Y",
+      pregunta: "Complete: «Mi primo, un legule__o empedernido…» ¿Qué grafía corresponde?",
+      opciones: [
+        "y (leguleyo)",
+        "ll (leguillo)",
+        "ll (legulello)",
+        "y/ll indistinto",
+      ],
+      correcta: 0,
+      explicacion: "«leguleyo» (persona que actúa como abogado sin serlo) se escribe con y. La terminación -eyo va con y, igual que «plebeyo».",
+      pasos: [],
+    },
+    {
+      id: 81,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 2 — LL y Y",
+      pregunta: "La palabra que significa «alboroto o ruido» se escribe:",
+      opciones: [
+        "bulla (con ll)",
+        "buya (con y)",
+        "bulla/buya indistinto",
+        "vulla (con v)",
+      ],
+      correcta: 0,
+      explicacion: "«bulla» (alboroto) se escribe con ll. Por el yeísmo suena igual que «buya», pero esta grafía no existe.",
+      pasos: [],
+    },
+    {
+      id: 82,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 3 — LL y Y",
+      pregunta: "El verbo que significa «encontrar» se escribe:",
+      opciones: [
+        "hallar (con h y ll)",
+        "hayar (con h y y)",
+        "ayar (con y)",
+        "allar (con ll)",
+      ],
+      correcta: 0,
+      explicacion: "«hallar» (encontrar) lleva h inicial y ll. No confundir con «haya» (de haber o el árbol), que va con y.",
+      pasos: [],
+    },
+    {
+      id: 83,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 4 — LL y Y",
+      pregunta: "«Ojalá ya __ terminado la tarea cuando lleguemos.» ¿Qué forma del verbo «haber» corresponde?",
+      opciones: [
+        "haya (con y)",
+        "halla (con ll)",
+        "aya (sin h)",
+        "haia",
+      ],
+      correcta: 0,
+      explicacion: "«haya» (con y) es del verbo haber. «Halla» (con ll) es del verbo hallar (encontrar). El contexto («terminado») exige el auxiliar haber: «haya terminado».",
+      pasos: [],
+    },
+    {
+      id: 84,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 5 — LL y Y",
+      pregunta: "«Espero que todo __ bien en el viaje.» ¿Cuál es la grafía correcta?",
+      opciones: [
+        "vaya (de ir, con v y y)",
+        "valla (cerca, con ll)",
+        "baya (fruto, con b)",
+        "valla/vaya indistinto",
+      ],
+      correcta: 0,
+      explicacion: "«vaya» es del verbo ir (con v y y). «Valla» (con ll) es una cerca; «baya» (con b) es un fruto. El contexto exige el verbo: «que todo vaya bien».",
+      pasos: [],
+    },
+    {
+      id: 85,
+      tipo: "ejercicio",
+      etiqueta: "Reactivo 6 — LL y Y",
+      pregunta: "¿Cuál oración está CORRECTAMENTE escrita?",
+      opciones: [
+        "El caballo halló la salida y se calló un instante en la calle.",
+        "El cabayo hayó la salida y se cayó un instante en la caye.",
+        "El caballo hayó la salida y se calló un instante en la caye.",
+        "El cabayo halló la salida y se cayó un instante en la calle.",
+      ],
+      correcta: 0,
+      explicacion: "«caballo», «halló» (encontró), «calló» (de callar, guardar silencio) y «calle» se escriben con ll. «Cayó» (de caer) iría con y, pero aquí el sentido es «guardó silencio» → calló.",
+      pasos: [],
+    },
+
+    // ════════════════════════════════════════════════════════════════════════
+    // CASO 11 · HOMÓFONOS — misma pronunciación, distinta grafía y significado
     // ════════════════════════════════════════════════════════════════════════
     {
       id: 63,
       tipo: "regla_rica",
-      etiqueta: "Caso 9 · Homófonos grafofonéticos",
+      etiqueta: "Caso 11 · Homófonos grafofonéticos",
       titulo: "Homófonos: suenan igual, se escriben distinto",
       bloques: [
         {
@@ -1322,6 +1579,8 @@ export const PRESENTACION = {
         { titulo: "R y RR", texto: "Dos fonemas: /r/ simple y /rr/ múltiple. rr solo entre vocales; r simple al inicio y tras n, l, s." },
         { titulo: "Secuencias y diéresis", texto: "que/qui y gue/gui: u muda. güe/güi: la diéresis marca que la u se pronuncia (pingüino). Nunca diéresis tras q." },
         { titulo: "La H muda", texto: "Única letra sin fonema. Siempre muda, pero obligatoria por etimología. No rompe diptongos ni hiatos." },
+        { titulo: "La letra X → /ks/", texto: "Una sola letra para el grupo /ks/: examen, éxito, léxico, éxodo. Nunca «cs» ni «s». Inicial suena /s/ (xilófono); en México u Oaxaca suena /x/ (jota)." },
+        { titulo: "LL y Y (yeísmo)", texto: "Suenan igual: halla/haya, calló/cayó. ll en -illo/-illa, -ello/-ella y voces como calle o llave; y en ya/ye/yi/yo/yu y formas verbales (cayó, vaya, haya, leguleyo)." },
         { titulo: "Homófonos", texto: "Suenan igual, se escriben distinto: tubo/tuvo, ola/hola, cocer/coser, echo/hecho. El contexto decide la grafía." },
       ],
     },

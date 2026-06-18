@@ -1,5 +1,6 @@
 // Sistema de temas por materia para las presentaciones.
 // Cada presentación declara `materia` y recibe su tema automáticamente.
+/* eslint-disable react-refresh/only-export-components -- este módulo agrupa a propósito SVGs decorativos, el mapa TEMAS y los helpers obtenerTema/useFuentesTema */
 import { useEffect } from "react";
 
 // ── SVGs decorativos de portada ───────────────────────────────────────────────
@@ -441,5 +442,6 @@ export function useFuentesTema(tema) {
     link.rel = "stylesheet";
     link.href = `https://fonts.googleapis.com/css2?${tema.googleFonts}&display=swap`;
     document.head.appendChild(link);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- tema.id determina por completo a tema.googleFonts
   }, [tema.id]);
 }

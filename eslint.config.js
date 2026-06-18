@@ -23,7 +23,17 @@ export default defineConfig([
       },
     },
     rules: {
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]', argsIgnorePattern: '^_', caughtErrors: 'none' }],
+      // El preset recomendado de eslint-plugin-react-hooks incluye reglas experimentales
+      // de React Compiler (compiler-readiness). Este proyecto no usa React Compiler y esas
+      // reglas marcan patrones deliberados (efectos con temporizador, Math.random para
+      // barajar, componentes de diagramas/gráficas definidos en línea). Se desactivan;
+      // se conservan las reglas clásicas valiosas (rules-of-hooks, exhaustive-deps).
+      'react-hooks/set-state-in-effect': 'off',
+      'react-hooks/static-components': 'off',
+      'react-hooks/immutability': 'off',
+      'react-hooks/purity': 'off',
+      'react-hooks/refs': 'off',
     },
   },
 ])

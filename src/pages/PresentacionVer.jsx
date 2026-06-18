@@ -100,6 +100,7 @@ export default function PresentacionVer() {
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- avanzarSlide está declarada en el cuerpo del componente y es estable
   }, [slide, slideIdx, slides.length, resaltado, expandido]);
 
   // Al cambiar de slide: limpiar despliegues y tomar el resaltado inicial pendiente.

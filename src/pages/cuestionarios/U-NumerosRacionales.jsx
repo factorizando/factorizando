@@ -98,6 +98,7 @@ function toLatex(s) {
   s = toLatexInner(s);
 
   // restore root placeholders
+  // eslint-disable-next-line no-control-regex -- \x05/\x06 son centinelas internos para proteger segmentos LaTeX
   s = s.replace(/\x05(\d+)\x06/g, (_, i) => saved[i]);
   return s;
 }
@@ -105,14 +106,14 @@ function toLatex(s) {
 function toLatexInner(s) {
   // 1. Exponente racional: base^(p/q) o base^(−p/q)
   //    base puede ser: dígitos, letra, ) o }
-  s = s.replace(/([\w\d\)\}])\^\(([−-]?\d+)\/(\d+)\)/g,
+  s = s.replace(/([\w\d)}])\^\(([−-]?\d+)\/(\d+)\)/g,
     (_, b, n, d) => b + '^{\\frac{' + n + '}{' + d + '}}');
 
   // 2. Exponente simple con paréntesis: base^(n)
-  s = s.replace(/([\w\d\)\}])\^\(([−-]?\d+)\)/g, (_, b, n) => b + '^{' + n + '}');
+  s = s.replace(/([\w\d)}])\^\(([−-]?\d+)\)/g, (_, b, n) => b + '^{' + n + '}');
 
   // 3. Superíndices Unicode numéricos y de letras
-  s = s.replace(/([a-zA-Z0-9\}\)])([\u2070\u00B9\u00B2\u00B3\u2074-\u2079\u207B\u207A\u1D43-\u1D63\u207F]+)/g,
+  s = s.replace(/([a-zA-Z0-9})])([\u2070\u00B9\u00B2\u00B3\u2074-\u2079\u207B\u207A\u1D43-\u1D63\u207F]+)/g,
     (_, base, sup) => {
       const exp = [...sup].map(c => SMAP[c] || c).join('');
       return base + '^{' + exp + '}';
@@ -142,7 +143,7 @@ function splitMath(text) {
   const s0 = String(text ?? '');
 
   // Proteger importes monetarios: $180, $1 200, $84 000
-  const [s1, mon] = protect(s0, /\$[\d\s,\.]+(?=[^\d/]|$)/g);
+  const [s1, mon] = protect(s0, /\$[\d\s,.]+(?=[^\d/]|$)/g);
 
   const out   = [];
   let   buf   = '';
@@ -151,7 +152,7 @@ function splitMath(text) {
   const flush = () => { if (buf) { out.push({ math: mMode, s: buf }); buf = ''; } };
 
   // Tokenizamos por espacios, comas, puntos, signos de puntuación
-  const tokens = s1.split(/(\s+|[,;:¿?¡!\.]+)/);
+  const tokens = s1.split(/(\s+|[,;:¿?¡!.]+)/);
 
   for (const tok of tokens) {
     const isMath = hasMath(tok);

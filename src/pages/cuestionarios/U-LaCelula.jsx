@@ -1166,7 +1166,7 @@ export default function CuestionarioCelula() {
   const [timerActive, setTimerActive] = useState(false);
   const [filterTopic, setFilterTopic] = useState("Todos");
   const [reviewFilter, setReviewFilter] = useState("todos"); // todos | correctas | incorrectas
-  const [showExplanation, setShowExplanation] = useState(false);
+  const [, setShowExplanation] = useState(false);
 
   const topics = ["Todos", ...Object.keys(TOPIC_COLORS)];
 
@@ -1370,7 +1370,6 @@ export default function CuestionarioCelula() {
   // ── REVIEW ────────────────────────────────────────────────────────────────
   if (mode === "review") {
     const q = reviewQuestions[current];
-    const isCorrect = q && answers[q.id] === q.answer;
 
     return (
       <div style={{ fontFamily: "'DM Sans', sans-serif", minHeight: "100vh", background: "transparent", padding: "24px 16px" }}>

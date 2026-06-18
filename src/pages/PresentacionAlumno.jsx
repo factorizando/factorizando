@@ -40,7 +40,7 @@ export default function PresentacionAlumno() {
   // conUI=true solo cuando el componente sigue montado (muestra resultado en pantalla).
   function guardar(conUI = false) {
     if (savedRef.current) return;
-    const { user: u, presentacion: p, sesion: s, slideIdx: idx, respuestas: resp } = latestRef.current;
+    const { user: u, presentacion: p, sesion: s, respuestas: resp } = latestRef.current;
     if (!u || !p || !s) return;
     savedRef.current = true;
 
@@ -72,13 +72,13 @@ export default function PresentacionAlumno() {
   useEffect(() => {
     if (!sesionTerminada) return;
     guardar(true);
-  }, [sesionTerminada, user, presentacion]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [sesionTerminada, user, presentacion]);
 
   // Guardar al salir de la página antes de que el maestro termine.
   // latestRef siempre tiene los valores actuales, así que el cleanup los lee correctamente.
   useEffect(() => {
     return () => guardar(false);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   // Polling de respaldo: si el WebSocket se cayó o el alumno no recibió el evento
   // de fin de sesión, esto detecta el cambio cada 15 s.

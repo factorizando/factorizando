@@ -295,10 +295,8 @@ function QuizScreenConSiguiente({
   onNext,
   currentIndex,
   totalQuestions,
-  correctCount,
   answers,
   onNavigate,
-  onBack,
   tiempoRestante,
   tiempoTotal,
   tiempoAgotado,
@@ -669,7 +667,6 @@ function ResultsScreen({
   correctCount,
   totalQuestions,
   tiempoUsado,
-  tiempoTotal,
   onRestart,
   onBack,
   questions,
@@ -944,8 +941,8 @@ function TiempoAgotadoScreen({
 // Componente Principal
 export default function QuestionarioGenerico({
   cuestionario,
-  modo = {},
   onBack,
+  onRetry,
 }) {
   const timePerQuestion = cuestionario.config?.timePerQuestion || 60;
   const initialTiempo = cuestionario.questions.length * timePerQuestion;
@@ -959,7 +956,7 @@ export default function QuestionarioGenerico({
   const [tiempoTotal] = useState(initialTiempo);
   const [tiempoAgotado, setTiempoAgotado] = useState(false);
   const [bloqueNombre] = useState(null);
-  const [indiceGlobal, setIndiceGlobal] = useState(null);
+  const [indiceGlobal] = useState(null);
   const savedRef = useRef(false);
 
   const guardarResultado = useCallback(async (puntaje, total) => {

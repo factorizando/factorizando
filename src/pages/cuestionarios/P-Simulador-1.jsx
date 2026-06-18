@@ -1739,7 +1739,7 @@ function fmt(s) {
 
 export default function ExamenEGA() {
   const [mode, setMode] = useState("menu");
-  const [examMode, setExamMode] = useState("");
+  const [, setExamMode] = useState("");
   const [queue, setQueue] = useState([]);
   const [current, setCurrent] = useState(0);
   const [answers, setAnswers] = useState({});

@@ -87,22 +87,22 @@ const SMAP = {
 function toLatexInner(s) {
   // base^(p/q) o base^(−n)
   s = s.replace(
-    /([\w\d\)\}])\^\(([−\-]?\d+)\/(\d+)\)/g,
+    /([\w\d)}])\^\(([−-]?\d+)\/(\d+)\)/g,
     (_, b, n, d) => b + "^{\\frac{" + n + "}{" + d + "}}",
   );
   s = s.replace(
-    /([\w\d\)\}])\^\(([−\-]?\d+)\)/g,
+    /([\w\d)}])\^\(([−-]?\d+)\)/g,
     (_, b, n) => b + "^{" + n + "}",
   );
   // superíndices Unicode
   s = s.replace(
-    /([a-zA-Z0-9\)\}])([\u2070\u00B9\u00B2\u00B3\u2074-\u2079\u207B\u207A\u1D43-\u1D5B\u207F\u02B7-\u02E3\u02B8]+)/g,
+    /([a-zA-Z0-9)}])([\u2070\u00B9\u00B2\u00B3\u2074-\u2079\u207B\u207A\u1D43-\u1D5B\u207F\u02B7-\u02E3\u02B8]+)/g,
     (_, base, sup) =>
       base + "^{" + [...sup].map((c) => SMAP[c] || c).join("") + "}",
   );
   // fracciones alfanuméricas n/m (evita $xx/kg etc.)
   s = s.replace(
-    /(?<![a-zA-Z\d$])([−\-]?[a-zA-Z\d]{1,3})\/([−\-]?[a-zA-Z\d]{1,3})(?![a-zA-Z\d])/g,
+    /(?<![a-zA-Z\d$])([−-]?[a-zA-Z\d]{1,3})\/([−-]?[a-zA-Z\d]{1,3})(?![a-zA-Z\d])/g,
     (m, n, d) =>
       /^[a-zA-Z]{2,}$/.test(n) || /^[a-zA-Z]{2,}$/.test(d)
         ? m
@@ -133,12 +133,13 @@ function toLatex(s) {
     },
   );
   s = toLatexInner(s);
+  // eslint-disable-next-line no-control-regex -- \x05/\x06 son centinelas internos para proteger segmentos LaTeX
   return s.replace(/\x05(\d+)\x06/g, (_, i) => saved[i]);
 }
 
 function hasMath(tok) {
   return (
-    /[√\^²³⁴⁵⁶⁷⁸⁹⁰¹⁻⁺\u207F\u1D43-\u1D5B]/.test(tok) ||
+    /[√^²³⁴⁵⁶⁷⁸⁹⁰¹⁻⁺\u207F\u1D43-\u1D5B]/.test(tok) ||
     /(?<![a-zA-Z$])[-−]?\d+\/\d+(?!\d)/.test(tok) ||
     /(?<![a-zA-Z$\d])[a-zA-Z]\/\d|\d\/[a-zA-Z](?![a-zA-Z])/.test(tok)
   );

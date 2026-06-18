@@ -52,6 +52,7 @@ export default function Cuestionario() {
     });
 
     return { ...cuestionarioOriginal, questions: preguntas };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- shuffleKey se incluye a propósito para forzar un nuevo barajado
   }, [cuestionarioObj, bloque, modo, shuffleKey]);
 
   if (!cuestionarioFiltrado) {

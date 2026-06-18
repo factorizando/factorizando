@@ -4031,7 +4031,7 @@ function ProbabilidadPortadaSVG({ tema }) {
 }
 
 function EspacioMuestralSVG({ tema }) {
-  const a = tema.acento, bl = tema.azul;
+  const a = tema.acento;
   const s = 38, y = 22, gap = 7;
   const x0 = 8;
   return (
@@ -4212,7 +4212,7 @@ function DosDadosSVG({ tema }) {
 
 // Permutaciones (orden importa) vs combinaciones (orden no importa), eligiendo 2 de {A,B,C}.
 function OrdenImportaSVG({ tema }) {
-  const a = tema.acento, bl = tema.azul, gr = tema.verde, T = tema.texto;
+  const bl = tema.azul, gr = tema.verde, T = tema.texto;
   const tEst = { fontFamily: "'DM Sans',sans-serif" };
   return (
     <svg viewBox="0 0 300 118" width="100%" style={{ display: "block", maxHeight: 130 }}>
@@ -6333,7 +6333,7 @@ function ModPortadaSVG({ tema }) {
 }
 
 function ModAtomoSVG({ tema }) {
-  const a = tema.acento, bl = tema.azul, rj = tema.rojo, mu = tema.muted, T = tema.texto;
+  const bl = tema.azul, rj = tema.rojo, mu = tema.muted, T = tema.texto;
   return (
     <svg viewBox="0 0 250 130" width="100%" style={{ display: "block", maxHeight: 140 }}>
       <g transform="translate(112 60)">
@@ -6854,7 +6854,7 @@ function SlideResumen({ slide, tema, resaltadoIdx, onResaltar }) {
   );
 }
 
-function SlideReglaRica({ slide, tema, modo, resaltadoIdx, onResaltar }) {
+function SlideReglaRica({ slide, tema, resaltadoIdx, onResaltar }) {
   return (
     <div
       style={{
@@ -7440,7 +7440,7 @@ function DiptongoHiatoSVG({ tema }) {
       <text x="155" y="34" fill={tema.muted} fontSize="9" fontFamily="'DM Sans',sans-serif"
         textAnchor="middle">vocal cerrada ÁTONA + vocal</text>
       {/* Ejemplo: bue-no */}
-      {[["b",""], ["u","cerrada\nátona"], ["e","abierta"], ["-",""], ["n",""], ["o",""]].map(([ch, lbl], i) => {
+      {[["b",""], ["u","cerrada\nátona"], ["e","abierta"], ["-",""], ["n",""], ["o",""]].map(([ch], i) => {
         const x = 55 + i * 28;
         const isVowel = ["u","e","o"].includes(ch);
         const isSpecial = ch === "u";
@@ -7470,7 +7470,7 @@ function DiptongoHiatoSVG({ tema }) {
       <text x="480" y="34" fill={tema.muted} fontSize="9" fontFamily="'DM Sans',sans-serif"
         textAnchor="middle">vocal cerrada TÓNICA + vocal</text>
       {/* Ejemplo: pa-ís */}
-      {[["p",""], ["a","abierta"], ["-",""], ["í","cerrada\ntónica"], ["s",""]].map(([ch, lbl], i) => {
+      {[["p",""], ["a","abierta"], ["-",""], ["í","cerrada\ntónica"], ["s",""]].map(([ch], i) => {
         const x = 380 + i * 32;
         const isA = ch === "a";
         const isI = ch === "í";
@@ -7857,7 +7857,7 @@ function CampoSemanticoSVG({ tema }) {
       {/* Lines to level 2 */}
       {[
         [55, 37], [55, 105], [255, 222], [255, 290], [433, 394], [433, 472],
-      ].map(([py, cy], i) => {
+      ].map((_, i) => {
         const lv1x = [75, 75, 245, 245, 423, 423][i];
         const lv2cx = [37, 105, 220, 290, 394, 472][i];
         return <line key={i} x1={lv1x} y1="84" x2={lv2cx} y2="108" stroke={`${vd}44`} strokeWidth="1.2"/>;
@@ -8655,7 +8655,6 @@ function GrafoSecuenciasSVG({ tema }) {
 
 // ── Geografía: Coordenadas geográficas ───────────────────────────────────────
 function GeoCoordenadaSVG({ tema }) {
-  const t = tema.texto;
   const a = tema.acento;
   const g = "#f5c842";
   const r = "#e06448";
@@ -8719,7 +8718,6 @@ function GeoCoordenadaSVG({ tema }) {
 
 // ── Geografía: Husos horarios ─────────────────────────────────────────────────
 function GeoHusosSVG({ tema }) {
-  const t = tema.texto;
   const a = tema.acento;
   const g = "#f5c842";
   const r = "rgba(255,120,90,0.75)";
@@ -8783,7 +8781,6 @@ function GeoHusosSVG({ tema }) {
 function GeoPlacastSVG({ tema }) {
   const a = tema.acento;
   const g = "#f5c842";
-  const t = tema.texto;
   const oceColor = "#1a3a5c";
   const contColor = "#5a3c1a";
   const magmaColor = "#cc3300";
@@ -8865,7 +8862,6 @@ function GeoPlacastSVG({ tema }) {
 function GeoCicloHidrologicoSVG({ tema }) {
   const a = tema.acento;
   const g = "#f5c842";
-  const t = tema.texto;
   const azulAgua = "#2a7fbf";
   const verdeVeg = "#3a8a3a";
   return (
@@ -8932,7 +8928,7 @@ function GeoCicloHidrologicoSVG({ tema }) {
 }
 
 // ── Globo Terráqueo 3D (Three.js — carga dinámica) ────────────────────────────
-function GloboTerraqueo3D({ tema }) {
+function GloboTerraqueo3D() {
   const mountRef = useRef(null);
   // Canvas height — cámara calibrada para este valor
   const H = 420;
@@ -9313,7 +9309,6 @@ function GeoRiosSVG({ tema }) {
 // ── Geografía: Ciclones en México ─────────────────────────────────────────────
 function GeoCiclonesSVG({ tema }) {
   const a = tema.acento;
-  const gold = "#f5c842";
   const orange = "#e07040";
   // Saffir-Simpson categories
   const cats = [
@@ -9470,7 +9465,7 @@ function GeoRegionesSVG({ tema }) {
 }
 
 // ── Geografía: Deterioro ambiental (4 problemas) ──────────────────────────────
-function GeoDeterioroSVG({ tema }) {
+function GeoDeterioroSVG() {
   const boxes = [
     {
       title: "CAMBIO CLIMÁTICO",   sub: "Efecto Invernadero",
@@ -9526,7 +9521,6 @@ function GeoDeterioroSVG({ tema }) {
 // ── Geografía: Pirámide poblacional comparativa ───────────────────────────────
 function GeoPoblacionSVG({ tema }) {
   const a = tema.acento;
-  const gold = "#f5c842";
   const red = "#cc4420";
   const scale = 1.9; // px per %
   const barH = 18, barGap = 4, startY = 38, labelX = 55;
@@ -9837,7 +9831,7 @@ function BiologiaEvolucionSVG({ tema }) {
 
 // ── Biología: Genética aplicada ───────────────────────────────────────────────
 function BiologiaGeneticaAplicadaSVG({ tema }) {
-  const a = tema.acento, grn = "#4ab890", gold = "#f5c842", lila = "#cc88ff", org = "#ff7755";
+  const a = tema.acento, grn = "#4ab890", gold = "#f5c842", lila = "#cc88ff";
   const techs = [
     { label:"TRANSGÉNICOS\n(OGM)",    ej:"Maíz Bt\nSoya resistente",  imp:"Menos pesticidas\nDebate bioseguridad", color:grn,  x:4   },
     { label:"BIOTECH.\nMÉDICA",       ej:"Insulina, HGH\nVacunas ARNm", imp:"Trata enfermedades\nProducción masiva",  color:a,    x:84  },
@@ -9980,7 +9974,7 @@ function BiologiaAdaptacionSVG({ tema }) {
 
 // ── Biología: Cadena trófica y pirámide energética ────────────────────────────
 function BiologiaCadenaTroficaSVG({ tema }) {
-  const a = tema.acento, grn = "#4ab890", gold = "#f5c842", org = "#ff7755", red = "#dd3333";
+  const a = tema.acento, grn = "#4ab890", gold = "#f5c842", red = "#dd3333";
   const levels = [
     { label:"PRODUCTORES",       pct:"100%", y:80, h:20, w:240, x:40, color:grn },
     { label:"CONS. PRIMARIOS",   pct:"10%",  y:59, h:21, w:178, x:71, color:a   },
@@ -10418,7 +10412,7 @@ function RepAsexualSVG({ tema }) {
 }
 
 function RepSexualSVG({ tema }) {
-  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto;
+  const a = tema.acento, bl = tema.azul, T = tema.texto;
   return (
     <svg viewBox="0 0 280 120" width="100%" style={{ display: "block", maxHeight: 130 }}>
       {/* óvulo */}
@@ -11482,7 +11476,7 @@ function QuimicaModelosAtomicosSVG({ tema }) {
 }
 
 // ── Química: Biomoléculas ─────────────────────────────────────────────────────
-function QuimicaBiomoleculasSVG({ tema }) {
+function QuimicaBiomoleculasSVG() {
   const org = "#ff7755", gold = "#f5c842", grn = "#4ab890", lila = "#cc88ff", blu = "#88aaff";
   const pW = 77, starts = [1, 82, 163, 244];
   const bData = [
@@ -11762,7 +11756,7 @@ function QuimicaReaccionesSVG({ tema }) {
 
 // ── Química: Energía en reacciones ────────────────────────────────────────────
 function QuimicaEnergiaReaccionesSVG({ tema }) {
-  const a = tema.acento, gold = "#f5c842", grn = "#4ab890", org = "#ff7755";
+  const a = tema.acento, gold = "#f5c842", org = "#ff7755";
   return (
     <svg viewBox="0 0 320 130" width="100%" style={{ display:"block" }}>
       {/* LEFT: Exotérmica */}
@@ -11818,7 +11812,7 @@ function QuimicaEnergiaReaccionesSVG({ tema }) {
 
 // ── Química: Impacto en salud y ambiente ──────────────────────────────────────
 function QuimicaImpactoSVG({ tema }) {
-  const a = tema.acento, gold = "#f5c842", grn = "#4ab890", org = "#ff7755", red = "#dd3333";
+  const a = tema.acento, grn = "#4ab890", org = "#ff7755", red = "#dd3333";
   const benefits = [
     { label:"Medicamentos",     desc:"tratan enfermedades",         color:grn  },
     { label:"Fertilizantes",    desc:"mayor producción agrícola",   color:grn  },
@@ -12093,7 +12087,7 @@ function GeoCuboDesarrolloSVG({ tema }) {
 
 // Transformaciones isométricas: traslación, rotación y reflexión de una figura «L»
 function GeoIsometriasSVG({ tema }) {
-  const az = tema.azul, a = tema.acento, gr = tema.verde, faint = "rgba(255,255,255,0.18)";
+  const a = tema.acento, gr = tema.verde, faint = "rgba(255,255,255,0.18)";
   const pts = "0,0 0,30 20,30 20,22 8,22 8,0";
   const Cell = ({ x, label }) => (
     <g>
@@ -12234,7 +12228,7 @@ function GeoPitagorasSVG({ tema }) {
 
 // Desigualdad triangular: 5,5,8 cierra ; 5,5,12 no cierra
 function GeoDesigualdadSVG({ tema }) {
-  const az = tema.azul, a = tema.acento, gr = tema.verde, red = "#ff7755";
+  const az = tema.azul, gr = tema.verde, red = "#ff7755";
   return (
     <svg viewBox="0 0 320 130" width="100%" style={{ display: "block" }}>
       <rect x="1" y="1" width="154" height="128" rx="5" fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>

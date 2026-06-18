@@ -39,22 +39,11 @@ export default function PresentacionDirector() {
   const anotacionInputRef = useRef(null);
   const highlightInicialRef = useRef(null); // tarjeta a resaltar al aterrizar en un slide nuevo
 
-  if (!PRESENTACION) {
-    return (
-      <div style={{ minHeight: "100vh", background: tema.bg, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: tema.body }}>
-        <div style={{ textAlign: "center" }}>
-          <p style={{ color: tema.muted, fontSize: 16, marginBottom: 20 }}>Presentación no encontrada.</p>
-          <Link to="/admin" style={{ color: tema.acento, fontSize: 14 }}>← Volver al panel</Link>
-        </div>
-      </div>
-    );
-  }
-
-  const slides = PRESENTACION.slides;
+  const slides = PRESENTACION?.slides ?? [];
   const slide = slides[slideIdx];
-  const slideKey = String(slide.id);
+  const slideKey = slide ? String(slide.id) : "";
   const totalVotosSlide =
-    slide.tipo === "ejercicio"
+    slide?.tipo === "ejercicio"
       ? Object.values(votos[slideKey] || {}).reduce((a, b) => a + b, 0)
       : 0;
 
@@ -103,6 +92,7 @@ export default function PresentacionDirector() {
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- las funciones de navegación están declaradas en el cuerpo del componente y son estables
   }, [slide, slideIdx, slides.length, resaltado, expandido, sesion]);
 
   // Suscripción a votos cuando hay sesión activa
@@ -195,6 +185,17 @@ export default function PresentacionDirector() {
     highlightInicialRef.current = null;
     setExpandido({});
   }, [slideIdx]);
+
+  if (!PRESENTACION) {
+    return (
+      <div style={{ minHeight: "100vh", background: tema.bg, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: tema.body }}>
+        <div style={{ textAlign: "center" }}>
+          <p style={{ color: tema.muted, fontSize: 16, marginBottom: 20 }}>Presentación no encontrada.</p>
+          <Link to="/admin" style={{ color: tema.acento, fontSize: 14 }}>← Volver al panel</Link>
+        </div>
+      </div>
+    );
+  }
 
   // Nº de tarjetas navegables del slide según su tipo.
   // En concepto, el recuadro de fórmula cuenta como una tarjeta (índice 0).

@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components -- módulo compartido: exporta componentes (M, MB, …) junto con el hook useKaTeX y estilos */
 import { useState, useEffect, useRef } from "react";
 
 /* ── KATEX ──────────────────────────────────────────────────────────────────── */
@@ -32,7 +33,7 @@ export function M({ children }) {
   useEffect(() => {
     if (ready && ref.current) {
       try { window.katex.render(children, ref.current, { throwOnError: false, displayMode: false }); }
-      catch (_) {}
+      catch { /* render fallido: se queda el texto plano */ }
     }
   }, [ready, children]);
   return ready
@@ -46,7 +47,7 @@ export function MB({ children, label }) {
   useEffect(() => {
     if (ready && ref.current) {
       try { window.katex.render(children, ref.current, { throwOnError: false, displayMode: true }); }
-      catch (_) {}
+      catch { /* render fallido: se queda el texto plano */ }
     }
   }, [ready, children]);
   return (

@@ -374,7 +374,7 @@ function fmt(s) {
 
 export default function AlgebraPrepa() {
   const [mode, setMode] = useState("menu"); 
-  const [examMode, setExamMode] = useState(""); 
+  const [, setExamMode] = useState(""); 
   const [queue, setQueue] = useState([]);
   const [current, setCurrent] = useState(0);
   const [answers, setAnswers] = useState({});
@@ -591,7 +591,7 @@ export default function AlgebraPrepa() {
             ))}
           </div>
 
-          {displayQs.map((q, i) => {
+          {displayQs.map((q) => {
             const lv = getLvl(q.id);
             const userAns = answers[q.id];
             return (

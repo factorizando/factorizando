@@ -654,7 +654,7 @@ const quizAceleracion = [
 ═══════════════════════════════════════════════════════════════════════════ */
 export default function CinematicaGuia() {
   useStyles();
-  const katexReady = useKatex();
+  useKatex();
 
   return (
     <div className="lr">

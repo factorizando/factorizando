@@ -38,6 +38,7 @@ import { PRESENTACION as BIOLOGIA_CELULA } from "./biologia/biologia-celula.js";
 import { PRESENTACION as BIOLOGIA_BIOQUIMICA } from "./biologia/biologia-bioquimica.js";
 import { PRESENTACION as BIOLOGIA_REPRODUCCION } from "./biologia/biologia-reproduccion.js";
 import { PRESENTACION as BIOLOGIA_GENETICA } from "./biologia/biologia-genetica.js";
+import { PRESENTACION as METODO_CIENTIFICO } from "./biologia/metodo-cientifico.js";
 import { PRESENTACION as BIOLOGIA_EVOLUCION } from "./biologia/biologia-evolucion.js";
 import { PRESENTACION as BIOLOGIA_ECOLOGIA } from "./biologia/biologia-ecologia.js";
 import { PRESENTACION as QUIMICA_FUNDAMENTOS } from "./quimica/quimica-fundamentos.js";
@@ -104,6 +105,7 @@ export const PRESENTACIONES_INDEX = {
   "biologia-bioquimica": BIOLOGIA_BIOQUIMICA,
   "biologia-reproduccion": BIOLOGIA_REPRODUCCION,
   "biologia-genetica": BIOLOGIA_GENETICA,
+  "metodo-cientifico": METODO_CIENTIFICO,
   "biologia-evolucion": BIOLOGIA_EVOLUCION,
   "biologia-ecologia": BIOLOGIA_ECOLOGIA,
   "quimica-fundamentos": QUIMICA_FUNDAMENTOS,

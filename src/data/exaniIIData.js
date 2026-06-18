@@ -121,6 +121,7 @@ export const SUBJECTS_EXANI_II = [
           { id: "ei-disc-energia", name: "Trabajo y energía", presentacion: "/ver/energia" },
           { id: "ei-disc-termo", name: "Física térmica y termodinámica clásica", presentacion: "/ver/termodinamica" },
           { id: "ei-disc-electro", name: "Electromagnetismo básico", presentacion: "/ver/electricidad" },
+          { id: "ei-disc-ondas", name: "Ondas, sonido y óptica", presentacion: "/ver/ondas" },
         ],
       },
       {
@@ -140,6 +141,7 @@ export const SUBJECTS_EXANI_II = [
     name: "Ciencias Experimentales (módulo)",
     color: "#22d3ee",
     children: [
+      { id: "ei-exp-metodo", name: "Método científico", presentacion: "/ver/metodo-cientifico" },
       {
         id: "ei-exp-qui",
         name: "Química",
@@ -158,6 +160,7 @@ export const SUBJECTS_EXANI_II = [
           { id: "ei-exp-fis-dinamica", name: "Dinámica (Leyes de Newton)", presentacion: "/ver/dinamica" },
           { id: "ei-exp-fis-termologia", name: "Termología", presentacion: "/ver/termodinamica" },
           { id: "ei-exp-fis-electricidad", name: "Electricidad y magnetismo", presentacion: "/ver/electricidad" },
+          { id: "ei-exp-fis-ondas", name: "Ondas, sonido y óptica", presentacion: "/ver/ondas" },
         ],
       },
       {

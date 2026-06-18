@@ -799,32 +799,37 @@
 
 ## 5. Cobertura y huecos detectados
 
-Las presentaciones del módulo de Ciencias Experimentales del EXANI-II cubren bien la
-**biología** y **buena parte de la química**, pero la **física** está cubierta solo
-parcialmente: el examen carga hacia ondas, óptica, electromagnetismo cuantitativo y
-mecánica rotacional, temas casi ausentes.
+Las presentaciones cubren bien la **biología** y **buena parte de la química**. La
+**física** parecía muy descubierta, pero al inventariar la carpeta se vio que el examen
+carga hacia ondas, óptica, electromagnetismo cuantitativo y mecánica rotacional, y que
+**ya existía la presentación `ondas.js` ("Ondas, Sonido y Óptica")** que cubre ondas y
+óptica; solo no estaba **enlazada** en la navegación del EXANI-II. Todos los huecos
+listados abajo **ya fueron atendidos** (ver "Estado de implementación").
 
-### Física — huecos (los más grandes)
-- **Falta una presentación de ONDAS** (`fisica/ondas.js`): onda transversal/longitudinal, componentes (amplitud, longitud de onda, periodo, frecuencia), v = λf, MAS y péndulo simple. → reactivos 1, 5, 16, 21, 22, 23.
-- **Falta una presentación de ÓPTICA** (`fisica/optica.js`): reflexión/refracción/difracción, índice de refracción n = c/v, lentes (tipo de imagen) y ecuación 1/f = 1/d₀ + 1/dᵢ. → reactivos 7, 11, 14, 24.
-- **`dinamica.js` — dinámica rotacional:** momento de inercia (I = Σmr²), momento angular (L = mvr), torque (τ = F·r). → reactivos 3, 13, 18, 19.
-- **`dinamica.js` — ampliar mecánica:** plano inclinado (mg·senθ), estática 2D / equilibrio de tensiones, MCU (periodo/frecuencia, fuerza centrípeta). → reactivos 2, 15, 16, 17.
-- **`electricidad.js` — magnetismo cuantitativo:** flujo magnético (Φ = B·A), fuerza sobre carga (F = qvB), fuerza entre conductores, solenoide (B = μnI), ondas EM (λ = c/f). → reactivos 4, 6, 8, 9, 20, 23.
-- (Sí cubiertos: choque inelástico e impulso → reactivos 10, 12.)
+### Física — huecos y solución
+- **Ondas y óptica** (onda transversal/longitudinal, componentes, v = λf, MAS, péndulo, reflexión/refracción/difracción, índice n = c/v, lentes y su ecuación) → reactivos 1, 5, 7, 11, 14, 16, 21, 22, 23, 24. **Ya cubiertos por `fisica/ondas.js`**; faltaba enlazarla en el EXANI-II → **enlace agregado**.
+- **`dinamica.js` — dinámica rotacional:** momento de inercia (I = Σmr²), momento angular (L = mvr), torque (τ = F·r) → reactivos 3, 13, 18, 19. **Añadido.**
+- **`dinamica.js` — mecánica:** plano inclinado (mg·senθ), estática 2D / tensiones, MCU (periodo/frecuencia, fuerza centrípeta) → reactivos 2, 15, 16, 17. **Añadido.**
+- **`electricidad.js` — magnetismo cuantitativo:** flujo (Φ = B·A), fuerza sobre carga (F = qvB), conductores paralelos, solenoide (B = μnI), ondas EM (λ = c/f) → reactivos 4, 6, 8, 9, 20, 23. **Añadido.**
+- (Ya cubiertos de antes: choque inelástico e impulso → reactivos 10, 12.)
 
-### Química — huecos
-- **Concentración de disoluciones** (molaridad, ppm, diluida/concentrada/saturada) → reactivos 4, 8, 9. *(sugerido: `estequiometria.js` o nuevo bloque)*
-- **Termoquímica** (entalpía por Hess; exo/endotérmico) → reactivos 5, 16.
-- **Equilibrio químico** (Keq) → reactivo 17.
-- **Regla numérica de electronegatividad (1.7)** → reactivo 7. *(en `nomenclatura-reacciones.js`)*
-- **Grupo éster** → reactivo 2; **hibridación del carbono (sp/sp²/sp³)** → reactivos 18, 19; **nomenclatura IUPAC con numeración/ramificación e isomería cis-trans** → reactivos 1, 20, 21, 22; **disacáridos** (sacarosa/lactosa/maltosa) → reactivo 23. *(en `quimica-organica.js`)*
-- (Sí cubiertos: enlace iónico, tipos de reacción, balanceo, estequiometría básica, enlace peptídico.)
+### Química — huecos (todos atendidos)
+- **Concentración de disoluciones** (molaridad, ppm, diluida/concentrada/saturada) → reactivos 4, 8, 9. **Añadido a `estequiometria.js`.**
+- **Termoquímica** (entalpía por Hess; exo/endotérmico) → reactivos 5, 16. **Añadido a `estequiometria.js`.**
+- **Equilibrio químico** (Keq) → reactivo 17; **regla de electronegatividad (1.7)** → reactivo 7. **Añadido a `nomenclatura-reacciones.js`.**
+- **Grupo éster** (reactivo 2), **hibridación sp/sp²/sp³** (18, 19), **nomenclatura IUPAC con numeración/ramificación e isomería cis-trans** (1, 20, 21, 22) y **disacáridos** (23). **Añadido a `quimica-organica.js`.**
+- (Ya cubiertos: enlace iónico, tipos de reacción, balanceo, estequiometría básica, enlace peptídico.)
 
-### Biología — huecos
-- **Método científico** (pasos: observación, hipótesis, experimentación, conclusión) → reactivo 1 (Área) y Bio 1.
-- **Ecología aplicada / impacto ambiental** (acción ciudadana, biodiversidad, control biológico, blanqueamiento de coral) → reactivos Bio 3, 17, 18, 19. *(en `biologia-ecologia.js`)*
-- **Función del ADN** (contener/transmitir/regular) en el contexto de la división → reactivo Bio 12. *(en `biologia-genetica.js`)*
-- (El resto está bien cubierto: célula, bioquímica, genética/herencia, biotecnología, anatomía/fisiología, evolución.)
+### Biología — huecos (todos atendidos)
+- **Método científico** (observación, hipótesis, experimentación, análisis, conclusión, variables) → reactivo 1 (Área) y Bio 1. **Nueva presentación `metodo-cientifico.js`, enlazada en el EXANI-II.**
+- **Ecología aplicada / impacto ambiental** (acción ciudadana, biodiversidad, control biológico, blanqueamiento de coral) → reactivos Bio 3, 17, 18, 19. **Añadido a `biologia-ecologia.js`.**
+- **Función del ADN** (contener/transmitir/regular) en la división → reactivo Bio 12. **Añadido a `biologia-genetica.js`.**
+- (El resto ya estaba bien cubierto.)
+
+### Estado de implementación
+- **1.ª tanda (aditiva):** casos nuevos en `dinamica.js`, `electricidad.js`, `estequiometria.js`, `nomenclatura-reacciones.js`, `quimica-organica.js`, `biologia-ecologia.js`, `biologia-genetica.js`.
+- **2.ª tanda:** presentación nueva `biologia/metodo-cientifico.js` (registrada y enlazada) y **enlace de `ondas.js`** en las dos secciones de Física del EXANI-II (módulo de Ingenierías y módulo de Ciencias Experimentales).
+- Sin pendientes de cobertura: los temas de ondas/óptica no requirieron presentaciones nuevas porque ya existían en `ondas.js`.
 
 ### Reactivos defectuosos o a verificar
 - **Física 20** (solenoide): los datos legibles dan ≈ 404, que no es ninguna opción → datos inconsistentes.

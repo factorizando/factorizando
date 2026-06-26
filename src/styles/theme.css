@@ -20,17 +20,18 @@
   --border:       rgba(255, 255, 255, 0.09);
   --border-strong:rgba(255, 255, 255, 0.16);
 
-  /* Texto (crema cálido = identidad de marca) */
-  --text:         #e8e4dc;
-  --text-dim:     #cfc9bd;
-  --text-muted:   #9c958a;
-  --heading:      #f0ece3;
+  /* Texto (gris neutro #e8e8e8; antes "crema cálido". Se mantiene la jerarquía
+     dim/muted, ahora en gris neutro en vez de tinte cálido) */
+  --text:         #e8e8e8;
+  --text-dim:     #c9c9c9;
+  --text-muted:   #969696;
+  --heading:      #e8e8e8;
 
   /* Acentos principales */
   --accent:       #f5c842;            /* dorado */
   --accent-soft:  rgba(245, 200, 66, 0.12);
-  --brand:        #f2ede4;            /* acento de marca (blanco cálido) */
-  --brand-soft:   rgba(242, 237, 228, 0.12);  /* selección/activo */
+  --brand:        #e8e8e8;            /* acento de marca (gris neutro claro) */
+  --brand-soft:   rgba(232, 232, 232, 0.12);  /* selección/activo */
   --math:         #f5d877;            /* fórmulas en bloque */
   --azul-suave:   #80c6ff;            /* acento azul SOBRE FONDO OSCURO (mismo de "Definición") */
   --azul-suave-soft: rgba(128, 198, 255, 0.13);  /* tinte para selección/activo */

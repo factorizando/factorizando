@@ -30,7 +30,7 @@ const ERRORES_STYLE = `
   }
   .err-title {
     font-family: 'Playfair Display', serif; font-size: 16.5px;
-    color: #f0ece3; font-style: italic; line-height: 1.3;
+    color: #e8e8e8; font-style: italic; line-height: 1.3;
   }
   .err-desc { font-size: 14px; color: #8a8070; line-height: 1.75; font-weight: 300; margin-bottom: 16px; padding-left: 40px; }
   .ex-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; padding-left: 40px; }

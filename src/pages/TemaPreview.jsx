@@ -110,7 +110,7 @@ export default function TemaPreview() {
         <h1 style={{
           fontFamily: "'Playfair Display', serif",
           fontSize: 36,
-          color: "#f0ece3",
+          color: "#e8e8e8",
           marginBottom: 8,
           fontWeight: 700,
         }}>

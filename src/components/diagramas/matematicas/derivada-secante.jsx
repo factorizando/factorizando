@@ -4,7 +4,7 @@ export default function DerivadaSecante({ tema }) {
   const azul = tema?.acento || "#80c6ff";
   const rosa = "#f472b6";
   const verde = "#5fd08a";
-  const tinta = "#e8e4dc";
+  const tinta = "#e8e8e8";
 
   const ox = 50, oy = 205, sx = 70, sy = 40;
   const X = (x) => ox + x * sx;

@@ -9,7 +9,7 @@ export default function DocumentoVer() {
 
   if (!doc) {
     return (
-      <div style={{ minHeight: "100vh", background: "#0d0d0f", color: "#e8e4dc", display: "grid", placeItems: "center", fontFamily: "monospace" }}>
+      <div style={{ minHeight: "100vh", background: "#0d0d0f", color: "#e8e8e8", display: "grid", placeItems: "center", fontFamily: "monospace" }}>
         Documento no encontrado: {id}
       </div>
     );

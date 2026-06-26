@@ -14,7 +14,7 @@ const FRACCIONES_STYLE = `
   .prop-row:hover { border-color: rgba(245,200,66,0.2); }
   .prop-num { flex-shrink: 0; width: 28px; height: 28px; background: linear-gradient(135deg,#c8960a,#f5c842); color: #0d0d0f; border-radius: 50%; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin-top: 2px; }
   .prop-body { flex: 1; }
-  .prop-title { font-family: 'Playfair Display', serif; font-size: 16px; color: #f0ece3; margin-bottom: 5px; font-style: italic; }
+  .prop-title { font-family: 'Playfair Display', serif; font-size: 16px; color: #e8e8e8; margin-bottom: 5px; font-style: italic; }
   .prop-desc  { font-size: 14.5px; color: #a09880; line-height: 1.7; font-weight: 300; }
   .regla-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 12px; }
   @media(max-width:560px){ .regla-grid { grid-template-columns: 1fr; } }

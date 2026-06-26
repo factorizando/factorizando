@@ -9,7 +9,7 @@ const CONTINUIDAD_STYLE = `
   .cond-row:hover { border-color: rgba(245,200,66,0.2); }
   .cond-num { flex-shrink: 0; width: 28px; height: 28px; background: linear-gradient(135deg,#c8960a,#f5c842); color: #0d0d0f; border-radius: 50%; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin-top: 2px; }
   .cond-body { flex: 1; }
-  .cond-title { font-family: 'Playfair Display', serif; font-size: 16px; color: #f0ece3; margin-bottom: 6px; font-style: italic; }
+  .cond-title { font-family: 'Playfair Display', serif; font-size: 16px; color: #e8e8e8; margin-bottom: 6px; font-style: italic; }
   .cond-desc { font-size: 14.5px; color: #a09880; line-height: 1.7; font-weight: 300; }
   .cond-math { margin-top: 8px; }
   .disc-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin: 24px 0; }
@@ -688,7 +688,7 @@ export default function ContinuidadGuia() {
               <div style={{ paddingBottom: 16, borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
                   <TypeTag type="evitable" />
-                  <span style={{ fontFamily: "Playfair Display, serif", fontSize: 17, color: "#f0ece3", fontStyle: "italic" }}>Discontinuidad evitable</span>
+                  <span style={{ fontFamily: "Playfair Display, serif", fontSize: 17, color: "#e8e8e8", fontStyle: "italic" }}>Discontinuidad evitable</span>
                 </div>
                 <p style={{ fontSize: 14.5, color: "#a09880", lineHeight: 1.75, fontWeight: 300 }}>
                   El límite <M>{String.raw`\displaystyle\lim_{x\to a}f(x)=L`}</M> existe y es finito, pero <M>f(a)\neq L</M> o <M>f(a)</M> no está definida.
@@ -699,7 +699,7 @@ export default function ContinuidadGuia() {
               <div style={{ paddingBottom: 16, borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
                   <TypeTag type="salto" />
-                  <span style={{ fontFamily: "Playfair Display, serif", fontSize: 17, color: "#f0ece3", fontStyle: "italic" }}>Discontinuidad de salto</span>
+                  <span style={{ fontFamily: "Playfair Display, serif", fontSize: 17, color: "#e8e8e8", fontStyle: "italic" }}>Discontinuidad de salto</span>
                 </div>
                 <p style={{ fontSize: 14.5, color: "#a09880", lineHeight: 1.75, fontWeight: 300 }}>
                   Ambos límites laterales existen y son finitos, pero son distintos:{" "}
@@ -711,7 +711,7 @@ export default function ContinuidadGuia() {
               <div>
                 <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
                   <TypeTag type="infinita" />
-                  <span style={{ fontFamily: "Playfair Display, serif", fontSize: 17, color: "#f0ece3", fontStyle: "italic" }}>Discontinuidad infinita</span>
+                  <span style={{ fontFamily: "Playfair Display, serif", fontSize: 17, color: "#e8e8e8", fontStyle: "italic" }}>Discontinuidad infinita</span>
                 </div>
                 <p style={{ fontSize: 14.5, color: "#a09880", lineHeight: 1.75, fontWeight: 300 }}>
                   Al menos uno de los límites laterales es <M>\pm\infty</M>. Indica la presencia de una

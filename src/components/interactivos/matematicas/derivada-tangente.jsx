@@ -30,7 +30,7 @@ export default function DerivadaTangente() {
       className="dm-mafs"
       style={{
         "--mafs-bg": "transparent",
-        "--mafs-fg": "#e8e4dc",
+        "--mafs-fg": "#e8e8e8",
         "--mafs-line-color": "rgba(255,255,255,0.14)",
         borderRadius: 8,
         overflow: "hidden",

@@ -27,7 +27,7 @@ const QUIMICA_STYLE = `
   @media(max-width:600px){ .org-grid { grid-template-columns: 1fr; } }
   .org-card { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.07); border-radius: 8px; padding: 14px; transition: border-color 0.2s; }
   .org-card:hover { border-color: rgba(245,200,66,0.2); }
-  .org-name { font-family: 'Playfair Display', serif; font-size: 14px; color: #f0ece3; font-style: italic; margin-bottom: 4px; }
+  .org-name { font-family: 'Playfair Display', serif; font-size: 14px; color: #e8e8e8; font-style: italic; margin-bottom: 4px; }
   .org-formula { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #f5c842; margin-bottom: 6px; }
   .org-desc { font-size: 12.5px; color: #7a756e; line-height: 1.5; font-weight: 300; }
   .decision-step { display: flex; gap: 16px; margin-bottom: 16px; align-items: flex-start; }

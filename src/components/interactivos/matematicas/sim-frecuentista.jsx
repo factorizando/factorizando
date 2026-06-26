@@ -6,7 +6,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, ReferenceLine, Responsive
 
 const AZUL = "#80c6ff";
 const ACENTO = "#f5c842";
-const TENUE = "#9c958a";
+const TENUE = "#969696";
 const LINEA = "rgba(255,255,255,0.10)";
 
 export default function SimFrecuentista({ p = 0.5, evento = "águila" }) {

@@ -207,7 +207,7 @@ export const TEMAS = {
     bg:     "#07080b",
     card:   "rgba(255,255,255,0.04)",
     border: "rgba(255,255,255,0.08)",
-    texto: "#f0ece3",
+    texto: "#e8e8e8",
     muted: "#8a8580",
     sub:   "#9a958e",
     mono:        "'IBM Plex Mono', monospace",

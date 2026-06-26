@@ -65,9 +65,9 @@ export function MB({ children, label }) {
 export const SHARED_STYLE = `
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=IBM+Plex+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,600;1,8..60,300&display=swap');
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  .lr { font-family: 'Source Serif 4', Georgia, serif; background: #0d0d0f; color: #e8e4dc; min-height: 100vh; padding: 0 0 80px; overflow-x: hidden; }
+  .lr { font-family: 'Source Serif 4', Georgia, serif; background: #0d0d0f; color: #e8e8e8; min-height: 100vh; padding: 0 0 80px; overflow-x: hidden; }
   .lr::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse 80% 50% at 20% 10%, rgba(255,180,40,0.06) 0%, transparent 60%), radial-gradient(ellipse 60% 40% at 80% 80%, rgba(100,200,255,0.05) 0%, transparent 60%); pointer-events: none; z-index: 0; }
-  .lr .katex { color: #e8e4dc; }
+  .lr .katex { color: #e8e8e8; }
   .lr .math-block .katex, .lr .math-block .katex * { color: #f5d060; }
   .lr .math-block .katex-display { margin: 0; }
   .lr .katex-html { overflow-x: auto; overflow-y: hidden; }
@@ -84,7 +84,7 @@ export const SHARED_STYLE = `
   .section { margin-top: 64px; }
   .sec-hd { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
   .sec-num { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #f5c842; letter-spacing: 0.15em; background: rgba(245,200,66,0.1); border: 1px solid rgba(245,200,66,0.2); padding: 3px 10px; border-radius: 2px; flex-shrink: 0; }
-  .section h2 { font-family: 'Playfair Display', serif; font-size: clamp(22px,3.5vw,32px); font-weight: 700; color: #f0ece3; letter-spacing: -0.01em; }
+  .section h2 { font-family: 'Playfair Display', serif; font-size: clamp(22px,3.5vw,32px); font-weight: 700; color: #e8e8e8; letter-spacing: -0.01em; }
   /* CARD */
   .card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 8px; padding: 28px 32px; margin-bottom: 18px; transition: border-color 0.2s; }
   .card:hover { border-color: rgba(245,200,66,0.2); }
@@ -107,8 +107,8 @@ export const SHARED_STYLE = `
   .ex-hd { display: flex; justify-content: space-between; align-items: center; padding: 16px 22px; background: rgba(245,200,66,0.04); border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; user-select: none; gap: 12px; }
   .ex-label { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: rgba(245,200,66,0.7); letter-spacing: 0.12em; margin-bottom: 8px; text-transform: uppercase; }
   .ex-prob { overflow-x: auto; }
-  .ex-prob .katex { font-size: 1.08em; color: #f0ece3; }
-  .ex-prob .katex * { color: #f0ece3; }
+  .ex-prob .katex { font-size: 1.08em; color: #e8e8e8; }
+  .ex-prob .katex * { color: #e8e8e8; }
   .chevron { color: #f5c842; font-size: 18px; transition: transform 0.25s; flex-shrink: 0; line-height: 1; }
   .chevron.open { transform: rotate(180deg); }
   .ex-body { padding: 0 24px; max-height: 0; overflow: hidden; transition: max-height 0.45s ease, padding 0.3s; }
@@ -116,7 +116,7 @@ export const SHARED_STYLE = `
   /* STEPS */
   .step { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 16px; }
   .step-n { flex-shrink: 0; width: 24px; height: 24px; background: #f5c842; color: #0d0d0f; border-radius: 50%; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center; margin-top: 3px; }
-  .step-n.dim { background: rgba(255,255,255,0.15); color: #f0ece3; }
+  .step-n.dim { background: rgba(255,255,255,0.15); color: #e8e8e8; }
   .step-t { font-size: 14.5px; color: #c4bfb3; line-height: 1.75; font-weight: 300; flex: 1; }
   .result-box { background: rgba(245,200,66,0.08); border: 1px solid rgba(245,200,66,0.28); border-radius: 6px; padding: 14px 20px; margin-top: 16px; text-align: center; overflow-x: auto; }
   .result-box .katex { font-size: 1.05em; }

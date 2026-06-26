@@ -11,7 +11,7 @@ const SHARED_CSS = `
 
   .hero { background: linear-gradient(160deg,#111115 0%,#141210 55%,#0d0d0f 100%); border-bottom: 1px solid rgba(245,200,66,0.12); padding: 52px 32px 44px; text-align: center; }
   .hero-tag { font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.18em; color:#f5c842; text-transform:uppercase; margin-bottom:16px; }
-  .hero h1 { font-family:'Playfair Display',serif; font-size:clamp(24px,5vw,38px); font-weight:600; color:#f0ece3; margin-bottom:14px; line-height:1.2; }
+  .hero h1 { font-family:'Playfair Display',serif; font-size:clamp(24px,5vw,38px); font-weight:600; color:#e8e8e8; margin-bottom:14px; line-height:1.2; }
   .hero-math { margin:14px auto; max-width:560px; font-size:18px; }
   .hero p { font-size:15px; color:#7a756e; max-width:600px; margin:10px auto 0; line-height:1.75; font-weight:300; }
 
@@ -19,10 +19,10 @@ const SHARED_CSS = `
   .section { margin-bottom:4px; }
   .sec-hd { display:flex; align-items:center; gap:14px; margin-bottom:20px; }
   .sec-num { font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; letter-spacing:0.12em; color:#0d0d0f; background:linear-gradient(135deg,#c8960a,#f5c842); padding:4px 10px; border-radius:3px; flex-shrink:0; }
-  .sec-hd h2 { font-family:'Playfair Display',serif; font-size:22px; font-weight:600; color:#f0ece3; }
+  .sec-hd h2 { font-family:'Playfair Display',serif; font-size:22px; font-weight:600; color:#e8e8e8; }
 
   .card { background:rgba(255,255,255,0.028); border:1px solid rgba(255,255,255,0.07); border-radius:12px; padding:22px 26px; margin-bottom:14px; }
-  .card h3 { font-family:'Playfair Display',serif; font-size:16px; color:#f0ece3; margin-bottom:12px; font-style:italic; }
+  .card h3 { font-family:'Playfair Display',serif; font-size:16px; color:#e8e8e8; margin-bottom:12px; font-style:italic; }
 
   .divider { height:1px; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.07),transparent); margin:32px 0; }
   .hint { font-size:13px; color:#6a6560; margin-bottom:14px; font-style:italic; }

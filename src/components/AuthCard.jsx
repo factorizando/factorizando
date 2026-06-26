@@ -102,6 +102,7 @@ export default function AuthCard({ mode = "login", onSwitchMode, onClose, dest }
   const [cooldown, setCooldown] = useState(0);     // segundos para reenviar
   const [captchaToken, setCaptchaToken] = useState("");
   const captchaRef = useRef(null);
+  const triedCode = useRef("");  // último código auto-verificado (evita bucle si es inválido)
 
   // Cuenta regresiva para habilitar el botón "Reenviar código".
   useEffect(() => {
@@ -182,23 +183,45 @@ export default function AuthCard({ mode = "login", onSwitchMode, onClose, dest }
         : "No se pudo enviar el código. Intenta más tarde.");
       return;
     }
-    setCodigo(""); setPassword("");
+    setCodigo(""); setPassword(""); triedCode.current = "";
     setCooldown(30);
     setVista("resetCode"); // no revelamos si el correo existe (anti-enumeración)
   };
 
-  // Paso 2: verificar el código OTP y fijar la nueva contraseña.
+  // Paso 2: verificar SOLO el código OTP. Si es válido queda una sesión de
+  // recuperación y pasamos a la tarjeta de nueva contraseña.
   const handleVerifyReset = async (e) => {
-    e.preventDefault();
+    e?.preventDefault();
     setError("");
     const code = codigo.replace(/\D/g, "");
     if (code.length !== 6) { setError("El código es de 6 dígitos."); return; }
-    if (password.length < 8) { setError("La nueva contraseña debe tener al menos 8 caracteres."); return; }
     setLoading(true);
     const { error: vErr } = await supabase.auth.verifyOtp({
       email: email.trim().toLowerCase(), token: code, type: "recovery",
     });
-    if (vErr) { setLoading(false); setError("Código inválido o expirado. Pide uno nuevo."); return; }
+    setLoading(false);
+    if (vErr) { setError("Código inválido o expirado. Pide uno nuevo."); return; }
+    setPassword("");
+    setVista("resetPassword");
+  };
+
+  // Avance automático: al completar las 6 casillas verificamos el código y, si
+  // es válido, saltamos a la tarjeta de contraseña. Cada código se intenta una
+  // sola vez (triedCode) para no entrar en bucle cuando es inválido.
+  useEffect(() => {
+    const code = codigo.replace(/\D/g, "");
+    if (vista === "resetCode" && code.length === 6 && !loading && triedCode.current !== code) {
+      triedCode.current = code;
+      handleVerifyReset();
+    }
+  }, [codigo, vista, loading]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Paso 3: fijar la nueva contraseña (ya hay sesión de recuperación).
+  const handleNewPassword = async (e) => {
+    e.preventDefault();
+    setError("");
+    if (password.length < 8) { setError("La nueva contraseña debe tener al menos 8 caracteres."); return; }
+    setLoading(true);
     const { error: uErr } = await supabase.auth.updateUser({ password });
     setLoading(false);
     if (uErr) { setError("No se pudo actualizar la contraseña. Intenta de nuevo."); return; }
@@ -215,6 +238,7 @@ export default function AuthCard({ mode = "login", onSwitchMode, onClose, dest }
       setError(rate ? "Espera unos minutos antes de pedir otro código." : "No se pudo reenviar el código.");
       return;
     }
+    setCodigo(""); triedCode.current = "";
     setCooldown(30);
   };
 
@@ -247,23 +271,10 @@ export default function AuthCard({ mode = "login", onSwitchMode, onClose, dest }
           <p className="ac-email">{email}</p>
           <form className="ac-form" onSubmit={handleVerifyReset} style={{ marginTop: 4 }}>
             <CodigoInput value={codigo} onChange={setCodigo} disabled={loading} />
-            <div className="ac-field">
-              <label htmlFor="ac-newpw">Nueva contraseña</label>
-              <div className="ac-pw">
-                <input
-                  id="ac-newpw" type={showPw ? "text" : "password"} required autoComplete="new-password"
-                  placeholder="Mínimo 8 caracteres"
-                  value={password} onChange={(e) => setPassword(e.target.value)}
-                />
-                <button type="button" className="ac-eye" onClick={() => setShowPw(!showPw)} aria-label="Mostrar u ocultar contraseña">
-                  {showPw ? "🙈" : "👁"}
-                </button>
-              </div>
-            </div>
             {error && <div className="ac-error">{error}</div>}
             <button type="submit" className="ac-primary" disabled={loading}>
               {loading && <span className="ac-spin" />}
-              {loading ? "Verificando…" : "Verificar y guardar"}
+              {loading ? "Verificando…" : "Verificar código"}
             </button>
           </form>
           <div className="ac-resend">
@@ -275,6 +286,33 @@ export default function AuthCard({ mode = "login", onSwitchMode, onClose, dest }
             <span aria-hidden="true">·</span>
             <button type="button" className="ac-switch-link" onClick={() => cambiarVista("form")}>Cancelar</button>
           </div>
+        </>
+      ) : vista === "resetPassword" ? (
+        <>
+          <div className="ac-lockbadge"><IconLock /></div>
+          <h1 className="ac-h1">Crea tu nueva contraseña</h1>
+          <p className="ac-p ac-p-tight">Código verificado. Elige una contraseña nueva para</p>
+          <p className="ac-email">{email}</p>
+          <form className="ac-form" onSubmit={handleNewPassword} style={{ marginTop: 4 }}>
+            <div className="ac-field">
+              <label htmlFor="ac-newpw">Nueva contraseña</label>
+              <div className="ac-pw">
+                <input
+                  id="ac-newpw" type={showPw ? "text" : "password"} required autoComplete="new-password"
+                  placeholder="Mínimo 8 caracteres" autoFocus
+                  value={password} onChange={(e) => setPassword(e.target.value)}
+                />
+                <button type="button" className="ac-eye" onClick={() => setShowPw(!showPw)} aria-label="Mostrar u ocultar contraseña">
+                  {showPw ? "🙈" : "👁"}
+                </button>
+              </div>
+            </div>
+            {error && <div className="ac-error">{error}</div>}
+            <button type="submit" className="ac-primary" disabled={loading}>
+              {loading && <span className="ac-spin" />}
+              {loading ? "Guardando…" : "Guardar contraseña"}
+            </button>
+          </form>
         </>
       ) : vista === "reset" ? (
         <>

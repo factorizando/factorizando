@@ -2,25 +2,18 @@
 // caja de búsqueda al centro y acciones de cuenta a la derecha. Calcado del
 // `cv-top` de CursoVer, pero la franja central es una BÚSQUEDA en vez de la
 // barra de progreso. Consume los tokens de tema (claro/oscuro) vía var(--…).
-import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { useKaTeX } from "../data/teoria/shared.jsx";
 
-// Wordmark "FactoℝR[i]zando": "Facto" + "zando" en tipografía de marca y la
-// ℝ[i] en modo matemático (KaTeX), heredando el color del tema activo.
+// Wordmark "Factoℝ[i]zando" con efecto de "agua" (Uiverse, mrhyddenn): dos capas
+// superpuestas del mismo texto — un contorno azul "vacío" y un relleno azul con
+// una onda animada que sube y baja, como agua llenando las letras. Va sobre la
+// barra oscura, por eso el azul brillante (#80c6ff) contrasta bien.
 function BrandName() {
-  const ready = useKaTeX();
-  const ref = useRef(null);
-  useEffect(() => {
-    if (ready && window.katex && ref.current) {
-      try {
-        window.katex.render("\\mathbb{R}[i]", ref.current, { throwOnError: false, displayMode: false });
-      } catch { /* deja el fallback */ }
-    }
-  }, [ready]);
+  const word = "Factoℝ[i]zando";
   return (
-    <span className="ah-brand-name">
-      Facto<span className="ah-brand-math" ref={ref}>ℝ[i]</span>zando
+    <span className="ah-brand-name ah-water" aria-label="Factorizando">
+      <span className="ah-water-line" aria-hidden="true">{word}</span>
+      <span className="ah-water-fill" aria-hidden="true">{word}</span>
     </span>
   );
 }
@@ -80,8 +73,14 @@ export default function AppHeader({ chip, query = "", onQuery, onSubmit, onLogin
 
 const CSS = `
 .ah-top { display: flex; align-items: center; justify-content: space-between; gap: 18px;
-  height: 60px; padding: 0 18px; background: var(--bg);
-  border-bottom: 1px solid var(--border-soft); flex-shrink: 0; position: sticky; top: 0; z-index: 20; }
+  height: 60px; padding: 0 18px; background: #0e0f11;
+  border-bottom: 1px solid var(--border-soft); flex-shrink: 0; position: sticky; top: 0; z-index: 20;
+  /* Isla oscura: la barra mantiene la paleta oscura aunque la página esté en
+     tema claro, redefiniendo localmente los tokens que consumen sus hijos. */
+  --bg: #0e0f11; --surface: #16181c; --surface-2: #1c1f24;
+  --border: rgba(255,255,255,0.09); --border-soft: rgba(255,255,255,0.05); --border-strong: rgba(255,255,255,0.16);
+  --text: #e8e4dc; --text-muted: #9c958a; --heading: #f0ece3;
+  --brand: #f2ede4; --azul-suave: #80c6ff; --azul-suave-soft: rgba(128,198,255,0.13); }
 .ah-top * { box-sizing: border-box; }
 /* MARCA */
 .ah-brand { display: flex; align-items: center; gap: 9px; font-weight: 700; flex-shrink: 0; }
@@ -90,9 +89,18 @@ const CSS = `
   border: 1px dashed var(--border-strong); overflow: hidden; flex-shrink: 0; }
 .ah-logo-ring img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .ah-brand-name { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 700;
-  font-size: clamp(17px, 3.4vw, 21px); letter-spacing: .01em; color: var(--brand); white-space: nowrap; }
-.ah-brand-math { color: var(--azul-suave); }
-.ah-brand-math .katex { color: var(--azul-suave); }
+  font-size: clamp(17px, 3.4vw, 21px); letter-spacing: .01em; white-space: nowrap; }
+/* Efecto "agua" (Uiverse by mrhyddenn): contorno azul + relleno con onda animada. */
+.ah-water { position: relative; display: inline-block; line-height: 1.15; }
+.ah-water-line, .ah-water-fill { display: block; white-space: nowrap; }
+.ah-water-line { color: transparent; -webkit-text-stroke: 0.4px var(--azul-suave); }
+.ah-water-fill { position: absolute; left: 0; top: 0; color: var(--azul-suave);
+  -webkit-text-stroke: 0.8px var(--azul-suave); animation: ah-water 3s ease-in-out infinite; }
+@keyframes ah-water {
+  0%, 100% { clip-path: polygon(0% 45%, 15% 44%, 32% 50%, 54% 60%, 70% 61%, 84% 59%, 100% 52%, 100% 100%, 0% 100%); }
+  50%      { clip-path: polygon(0% 60%, 16% 65%, 34% 66%, 51% 62%, 67% 50%, 84% 45%, 100% 46%, 100% 100%, 0% 100%); }
+}
+@media (prefers-reduced-motion: reduce) { .ah-water-fill { animation: none; } }
 .ah-sep { color: var(--border-strong); font-weight: 400; }
 .ah-chip { font-size: 14px; font-weight: 600; color: var(--text); white-space: nowrap; }
 /* BÚSQUEDA */

@@ -4,7 +4,7 @@
 import { useState } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ReferenceLine, ResponsiveContainer } from "recharts";
 
-const AZUL = "#78b0ff";
+const AZUL = "#80c6ff";
 const ACENTO = "#f5c842";
 const TENUE = "#9c958a";
 const LINEA = "rgba(255,255,255,0.10)";

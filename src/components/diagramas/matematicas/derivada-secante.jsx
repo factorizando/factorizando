@@ -1,7 +1,7 @@
 // Figura estática: parábola y=x² con recta secante (P→Q) y recta tangente en P.
 // Diagrama de "preámbulo": ilustra la idea geométrica antes de la definición formal.
 export default function DerivadaSecante({ tema }) {
-  const azul = tema?.acento || "#78b0ff";
+  const azul = tema?.acento || "#80c6ff";
   const rosa = "#f472b6";
   const verde = "#5fd08a";
   const tinta = "#e8e4dc";

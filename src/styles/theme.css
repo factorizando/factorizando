@@ -32,11 +32,11 @@
   --brand:        #f2ede4;            /* acento de marca (blanco cálido) */
   --brand-soft:   rgba(242, 237, 228, 0.12);  /* selección/activo */
   --math:         #f5d877;            /* fórmulas en bloque */
-  --azul-suave:   #78b0ff;            /* acento azul (mismo de "Definición") */
-  --azul-suave-soft: rgba(120, 176, 255, 0.13);  /* tinte para selección/activo */
+  --azul-suave:   #80c6ff;            /* acento azul SOBRE FONDO OSCURO (mismo de "Definición") */
+  --azul-suave-soft: rgba(128, 198, 255, 0.13);  /* tinte para selección/activo */
 
   /* Acentos por entorno (documentos amsthm) */
-  --c-definicion:  #78b0ff;
+  --c-definicion:  #80c6ff;
   --c-axioma:      #d9a05b;
   --c-notacion:    #8fb0c8;
   --c-teorema:     #f5c842;
@@ -106,7 +106,7 @@
   color-scheme: light;
 
   /* Superficies (de fondo a elevado) */
-  --bg:            #ffffff;   /* blanco */
+  --bg:            #e8e8e8;   /* gris claro neutro (= --app-bg); las tarjetas/superficies quedan en blanco para contraste */
   --sunken:        #efe9df;   /* hundido: bloques de fórmula / código */
   --surface:       #ffffff;   /* elevado: tarjetas, entornos */
   --surface-2:     #f3eee5;   /* elevado +1: hovers, controles */

@@ -98,7 +98,7 @@ export const SHARED_STYLE = `
   .math-block .label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.22em; color: #f5c842; text-transform: uppercase; margin-bottom: 12px; opacity: 0.65; }
   /* TIP BOX */
   .tip-box { background: rgba(100,160,255,0.06); border: 1px solid rgba(100,160,255,0.2); border-radius: 8px; padding: 18px 22px; margin-top: 20px; }
-  .tip-box .tip-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.2em; color: #78b0ff; text-transform: uppercase; margin-bottom: 8px; }
+  .tip-box .tip-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.2em; color: #80c6ff; text-transform: uppercase; margin-bottom: 8px; }
   .tip-box p { font-size: 14.5px; color: #b0c8f0; line-height: 1.7; font-weight: 300; }
   /* EXAMPLE CARDS */
   .ex-grid { display: grid; gap: 14px; margin-bottom: 8px; }

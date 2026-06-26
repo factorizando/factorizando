@@ -4,16 +4,20 @@
 // barra de progreso. Consume los tokens de tema (claro/oscuro) vía var(--…).
 import { Link } from "react-router-dom";
 
-// Wordmark "Factoℝ[i]zando" con efecto de "agua" (Uiverse, mrhyddenn): dos capas
-// superpuestas del mismo texto — un contorno azul "vacío" y un relleno azul con
-// una onda animada que sube y baja, como agua llenando las letras. Va sobre la
-// barra oscura, por eso el azul brillante (#80c6ff) contrasta bien.
+// Wordmark "Factoℝ[i]zando": "Facto" y "zando" en color sólido (#e8e8e8) y solo
+// la ℝ[i] con el efecto de "agua" (Uiverse, mrhyddenn): dos capas superpuestas
+// —contorno azul "vacío" + relleno azul con una onda animada que sube y baja,
+// como agua llenando las letras—. Va sobre la barra oscura, por eso el azul
+// brillante (#80c6ff) contrasta bien.
 function BrandName() {
-  const word = "Factoℝ[i]zando";
   return (
-    <span className="ah-brand-name ah-water" aria-label="Factorizando">
-      <span className="ah-water-line" aria-hidden="true">{word}</span>
-      <span className="ah-water-fill" aria-hidden="true">{word}</span>
+    <span className="ah-brand-name">
+      Facto
+      <span className="ah-water" aria-label="ℝ[i]">
+        <span className="ah-water-line" aria-hidden="true">ℝ[i]</span>
+        <span className="ah-water-fill" aria-hidden="true">ℝ[i]</span>
+      </span>
+      zando
     </span>
   );
 }
@@ -79,8 +83,8 @@ const CSS = `
      tema claro, redefiniendo localmente los tokens que consumen sus hijos. */
   --bg: #0e0f11; --surface: #16181c; --surface-2: #1c1f24;
   --border: rgba(255,255,255,0.09); --border-soft: rgba(255,255,255,0.05); --border-strong: rgba(255,255,255,0.16);
-  --text: #e8e4dc; --text-muted: #9c958a; --heading: #f0ece3;
-  --brand: #f2ede4; --azul-suave: #80c6ff; --azul-suave-soft: rgba(128,198,255,0.13); }
+  --text: #e8e8e8; --text-muted: #9c958a; --heading: #e8e8e8;
+  --brand: #e8e8e8; --azul-suave: #80c6ff; --azul-suave-soft: rgba(128,198,255,0.13); }
 .ah-top * { box-sizing: border-box; }
 /* MARCA */
 .ah-brand { display: flex; align-items: center; gap: 9px; font-weight: 700; flex-shrink: 0; }
@@ -89,9 +93,9 @@ const CSS = `
   border: 1px dashed var(--border-strong); overflow: hidden; flex-shrink: 0; }
 .ah-logo-ring img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .ah-brand-name { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 700;
-  font-size: clamp(17px, 3.4vw, 21px); letter-spacing: .01em; white-space: nowrap; }
-/* Efecto "agua" (Uiverse by mrhyddenn): contorno azul + relleno con onda animada. */
-.ah-water { position: relative; display: inline-block; line-height: 1.15; }
+  font-size: clamp(17px, 3.4vw, 21px); letter-spacing: .01em; white-space: nowrap; color: var(--brand); }
+/* Efecto "agua" (Uiverse by mrhyddenn) solo en ℝ[i]: contorno azul + relleno con onda. */
+.ah-water { position: relative; display: inline-block; vertical-align: baseline; line-height: 1; }
 .ah-water-line, .ah-water-fill { display: block; white-space: nowrap; }
 .ah-water-line { color: transparent; -webkit-text-stroke: 0.4px var(--azul-suave); }
 .ah-water-fill { position: absolute; left: 0; top: 0; color: var(--azul-suave);

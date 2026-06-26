@@ -4,20 +4,13 @@
 // barra de progreso. Consume los tokens de tema (claro/oscuro) vía var(--…).
 import { Link } from "react-router-dom";
 
-// Wordmark "Factoℝ[i]zando": "Facto" y "zando" en color sólido (#e8e8e8) y solo
-// la ℝ[i] con el efecto de "agua" (Uiverse, mrhyddenn): dos capas superpuestas
-// —contorno azul "vacío" + relleno azul con una onda animada que sube y baja,
-// como agua llenando las letras—. Va sobre la barra oscura, por eso el azul
-// brillante (#80c6ff) contrasta bien.
+// Wordmark "Factoℝ[i]zando" en tipografía geométrica (Poppins, el mismo estilo
+// del preview de Uiverse) con tracking amplio: "Facto"/"zando" en #e8e8e8 y la
+// ℝ[i] en azul (#80c6ff), sobre la barra oscura.
 function BrandName() {
   return (
     <span className="ah-brand-name">
-      Facto
-      <span className="ah-water" aria-label="ℝ[i]">
-        <span className="ah-water-line" aria-hidden="true">ℝ[i]</span>
-        <span className="ah-water-fill" aria-hidden="true">ℝ[i]</span>
-      </span>
-      zando
+      Facto<span className="ah-brand-math">ℝ[i]</span>zando
     </span>
   );
 }
@@ -92,19 +85,9 @@ const CSS = `
 .ah-logo-ring { display: inline-block; width: 34px; height: 34px; border-radius: 50%;
   border: 1px dashed var(--border-strong); overflow: hidden; flex-shrink: 0; }
 .ah-logo-ring img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.ah-brand-name { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 700;
-  font-size: clamp(17px, 3.4vw, 21px); letter-spacing: .01em; white-space: nowrap; color: var(--brand); }
-/* Efecto "agua" (Uiverse by mrhyddenn) solo en ℝ[i]: contorno azul + relleno con onda. */
-.ah-water { position: relative; display: inline-block; vertical-align: baseline; line-height: 1; }
-.ah-water-line, .ah-water-fill { display: block; white-space: nowrap; }
-.ah-water-line { color: transparent; -webkit-text-stroke: 0.4px var(--azul-suave); }
-.ah-water-fill { position: absolute; left: 0; top: 0; color: var(--azul-suave);
-  -webkit-text-stroke: 0.8px var(--azul-suave); animation: ah-water 3s ease-in-out infinite; }
-@keyframes ah-water {
-  0%, 100% { clip-path: polygon(0% 45%, 15% 44%, 32% 50%, 54% 60%, 70% 61%, 84% 59%, 100% 52%, 100% 100%, 0% 100%); }
-  50%      { clip-path: polygon(0% 60%, 16% 65%, 34% 66%, 51% 62%, 67% 50%, 84% 45%, 100% 46%, 100% 100%, 0% 100%); }
-}
-@media (prefers-reduced-motion: reduce) { .ah-water-fill { animation: none; } }
+.ah-brand-name { font-family: 'Poppins', system-ui, -apple-system, sans-serif; font-weight: 300;
+  font-size: clamp(15px, 3vw, 19px); letter-spacing: .12em; white-space: nowrap; color: var(--brand); }
+.ah-brand-math { color: var(--azul-suave); }
 .ah-sep { color: var(--border-strong); font-weight: 400; }
 .ah-chip { font-size: 14px; font-weight: 600; color: var(--text); white-space: nowrap; }
 /* BÚSQUEDA */

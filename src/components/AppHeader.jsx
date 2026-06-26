@@ -2,15 +2,26 @@
 // caja de búsqueda al centro y acciones de cuenta a la derecha. Calcado del
 // `cv-top` de CursoVer, pero la franja central es una BÚSQUEDA en vez de la
 // barra de progreso. Consume los tokens de tema (claro/oscuro) vía var(--…).
+import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import { useKaTeX } from "../data/teoria/shared.jsx";
 
-// Wordmark "Factoℝ[i]zando" en tipografía geométrica (Poppins, el mismo estilo
-// del preview de Uiverse) con tracking amplio: "Facto"/"zando" en #e8e8e8 y la
-// ℝ[i] en azul (#80c6ff), sobre la barra oscura.
+// Wordmark "FactoℝR[i]zando" idéntico al de Curso (CursoVer): "Facto" + "zando"
+// en la tipografía de marca (Cormorant Garamond) y la ℝ[i] en modo matemático
+// (KaTeX), en azul (--azul-suave).
 function BrandName() {
+  const ready = useKaTeX();
+  const ref = useRef(null);
+  useEffect(() => {
+    if (ready && window.katex && ref.current) {
+      try {
+        window.katex.render("\\mathbb{R}[i]", ref.current, { throwOnError: false, displayMode: false });
+      } catch { /* deja el fallback */ }
+    }
+  }, [ready]);
   return (
     <span className="ah-brand-name">
-      Facto<span className="ah-brand-math">ℝ[i]</span>zando
+      Facto<span className="ah-brand-math" ref={ref}>ℝ[i]</span>zando
     </span>
   );
 }
@@ -85,9 +96,10 @@ const CSS = `
 .ah-logo-ring { display: inline-block; width: 34px; height: 34px; border-radius: 50%;
   border: 1px dashed var(--border-strong); overflow: hidden; flex-shrink: 0; }
 .ah-logo-ring img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.ah-brand-name { font-family: 'Poppins', system-ui, -apple-system, sans-serif; font-weight: 300;
-  font-size: clamp(15px, 3vw, 19px); letter-spacing: .12em; white-space: nowrap; color: var(--brand); }
+.ah-brand-name { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 700;
+  font-size: clamp(16px, 3.4vw, 20px); letter-spacing: .01em; white-space: nowrap; color: var(--brand); }
 .ah-brand-math { color: var(--azul-suave); }
+.ah-brand-math .katex { color: var(--azul-suave); }
 .ah-sep { color: var(--border-strong); font-weight: 400; }
 .ah-chip { font-size: 14px; font-weight: 600; color: var(--text); white-space: nowrap; }
 /* BÚSQUEDA */

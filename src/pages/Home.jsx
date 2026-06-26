@@ -1,514 +1,226 @@
-import { Link } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
-import BrandName from "../components/BrandName";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import AppHeader from "../components/AppHeader";
+import AuthModal from "../components/AuthModal";
+import { listaCursos } from "../data/cursos/cursosIndex";
+import { ICONOS } from "../components/iconos";
 import { supabase } from "../lib/supabase";
 
-// ─── Lista de ecuaciones LaTeX flotantes ──────────────────────────────────────
-const EQUATIONS = [
-  {
-    tex: "n = p_{1}^{\\alpha_1}\\cdot p_{2}^{\\alpha_2}\\cdots p_{k}^{\\alpha_k}",
-    scale: 1.6,
-  },
-  { tex: "x^2 - y^2 = (x + y)(x - y)", scale: 1.2 },
-  { tex: "G = H \\times K", scale: 1.6 },
-  {
-    tex: "\\mathbb{Z}_6 \\cong \\mathbb{Z}_2 \\times \\mathbb{Z}_3",
-    scale: 1.1,
-  },
-  { tex: "5 = (1 + 2i)(1 - 2i)", scale: 1.6 },
-  { tex: "A \\xrightarrow{e} \\text{Im}(f) \\xrightarrow{m} B", scale: 1.6 },
-  { tex: "M \\cong R^n \\oplus \\bigoplus R/(p_i^{k_i})", scale: 1.6 },
-  { tex: "S^1 \\to S^3 \\to S^2", scale: 1.4 },
-  { tex: "A = \\int \\lambda \\, dE(\\lambda)", scale: 1.6 },
-  {
-    tex: "\\det(A) = \\sum_{\\sigma \\in S_n} \\text{sgn}(\\sigma) \\prod_{i=1}^n a_{i,\\sigma(i)}",
-    scale: 0.9,
-  },
-  { tex: "\\int_a^b f(x)\\,dx = F(b) - F(a)", scale: 1.6 },
-  { tex: "a^2 + b^2 = c^2", scale: 0.8 },
-  {
-    tex: "f(z) = z^m e^{g(z)} \\prod_{n=1}^\\infty \\left(1 - \\frac{z}{a_n}\\right)e^{z/a_n}",
-    scale: 1.6,
-  },
-  {
-    tex: "H_n(X) \\cong \\mathbb{Z}^k \\oplus \\bigoplus \\mathbb{Z}_{p_i^{m_i}}",
-    scale: 1.3,
-  },
-  {
-    tex: "\\int_{X \\times Y} f\\,d(\\mu \\times \\nu) = \\int_X \\left(\\int_Y f\\,d\\nu\\right)d\\mu",
-    scale: 1.6,
-  },
-  {
-    tex: "\\hat{A} = \\sum_i \\lambda_i |\\psi_i\\rangle\\langle\\psi_i|",
-    scale: 1.1,
-  },
-  { tex: "f = m \\circ e", scale: 1.6 },
-  { tex: "\\chi = V - E + F", scale: 1.7 },
-  { tex: "e^{i\\pi} + 1 = 0", scale: 2.0 },
-  { tex: "x^n + y^n = z^n", scale: 1.7 },
-];
-
-// ─── Componente de ecuación flotante ─────────────────────────────────────────
-function FloatingEquation({ tex, style }) {
-  const ref = useRef(null);
-
-  useEffect(() => {
-    if (!ref.current || !window.katex) return;
-    try {
-      window.katex.render(tex, ref.current, {
-        throwOnError: false,
-        displayMode: false,
-      });
-    } catch (e) {
-      ref.current.textContent = tex;
-    }
-  }, [tex]);
-
-  return <span ref={ref} className="float-eq" style={style}></span>;
-}
-
-// ─── Ícono matemático con KaTeX ───────────────────────────────────────────────
-function MathIcon({ tex, color }) {
-  const ref = useRef(null);
-  useEffect(() => {
-    if (!ref.current || !window.katex) return;
-    const id = setTimeout(() => {
-      if (!ref.current) return;
-      window.katex.render(tex, ref.current, {
-        throwOnError: false,
-        displayMode: true,
-      });
-    }, 0);
-    return () => clearTimeout(id);
-  }, [tex]);
-  return (
-    <span
-      ref={ref}
-      style={{ color, fontSize: "2.4rem", lineHeight: 1, display: "block" }}
-    ></span>
-  );
+// Ícono de curso: SVG registrado si `icono` es clave de ICONOS; si no, emoji.
+function IconoCurso({ icono, size = 26 }) {
+  const C = ICONOS[icono];
+  return C ? <C size={size} /> : <span style={{ fontSize: size, lineHeight: 1 }}>{icono}</span>;
 }
 
 export default function Home() {
-  const [symbols, setSymbols] = useState([]);
-  const [visible, setVisible] = useState(false);
-  const [katexLoaded, setKatexLoaded] = useState(false);
+  const navigate = useNavigate();
   const [isAdmin, setIsAdmin] = useState(false);
+  const [busqueda, setBusqueda] = useState("");
+  const [authOpen, setAuthOpen] = useState(false);
+  const [authMode, setAuthMode] = useState("login");
+  const cursos = listaCursos();
+
+  const abrirAuth = (modo) => { setAuthMode(modo); setAuthOpen(true); };
+
+  // Activa el tema claro mientras la Home está montada; lo revierte al salir.
+  useEffect(() => {
+    const prev = document.documentElement.getAttribute("data-theme");
+    document.documentElement.setAttribute("data-theme", "light");
+    return () => {
+      if (prev) document.documentElement.setAttribute("data-theme", prev);
+      else document.documentElement.removeAttribute("data-theme");
+    };
+  }, []);
 
   useEffect(() => {
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       if (!session) return;
       const { data } = await supabase
         .from("profiles")
-        .select("nivel")
+        .select("rol, perfil_completo")
         .eq("id", session.user.id)
         .single();
-      if (data?.nivel === "admin") setIsAdmin(true);
+      // Tras confirmar el correo se aterriza aquí: si falta el perfil, completarlo.
+      if (data && !data.perfil_completo) { navigate("/completar-perfil"); return; }
+      if (data?.rol === "admin") setIsAdmin(true);
     });
-  }, []);
-
-  // Cargar KaTeX dinámicamente desde CDN
-  useEffect(() => {
-    if (!document.getElementById("katex-css")) {
-      const link = document.createElement("link");
-      link.id = "katex-css";
-      link.rel = "stylesheet";
-      link.href =
-        "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css";
-      document.head.appendChild(link);
-    }
-    if (window.katex) {
-      setKatexLoaded(true);
-      return;
-    }
-    const script = document.createElement("script");
-    script.src = "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js";
-    script.async = true;
-    script.onload = () => setKatexLoaded(true);
-    document.head.appendChild(script);
-  }, []);
-
-  useEffect(() => {
-    const cols = 4;
-    const rows = 5;
-
-    // Crear lista de celdas y mezclarla aleatoriamente
-    const cells = [];
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < cols; c++) {
-        cells.push({ r, c });
-      }
-    }
-    // Mezclar (Fisher-Yates)
-    for (let i = cells.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [cells[i], cells[j]] = [cells[j], cells[i]];
-    }
-
-    const generated = EQUATIONS.map((eq, i) => {
-      const cell = cells[i % cells.length];
-      // Posición base de la celda + offset aleatorio dentro de la celda
-      const cellW = 100 / cols;
-      const cellH = 100 / rows;
-      const left = cell.c * cellW + Math.random() * (cellW * 0.5);
-      const top = cell.r * cellH + Math.random() * (cellH * 0.5);
-
-      return {
-        id: i,
-        tex: eq.tex,
-        style: {
-          left: `${left}%`,
-          top: `${top}%`,
-          fontSize: `${eq.scale * 0.8}rem`,
-          opacity: 0.05 + Math.random() * 0.05,
-          animationDelay: `${Math.random() * 8}s`,
-          animationDuration: `${7 + Math.random() * 9}s`,
-        },
-      };
-    });
-
-    setSymbols(generated);
-    setTimeout(() => setVisible(true), 80);
-  }, []);
+  }, [navigate]);
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap');
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      <style>{CSS}</style>
+      <div className="hm-root">
+        <AppHeader
+          query={busqueda}
+          onQuery={setBusqueda}
+          onLogin={() => abrirAuth("login")}
+          onRegistro={() => abrirAuth("registro")}
+        />
 
-        :root {
-          --bg:      #0e0f11;
-          --surface: #16181c;
-          --border:  #2a2d35;
-          --accent:  #3b9eff;
-          --accent2: #7fd4ff;
-          --text:    #e8eaf0;
-          --muted:   #6b7280;
-        }
+        <main className="hm-main">
+          {/* ── HERO ── */}
+          <section className="hm-hero">
+            <span className="hm-eyebrow">Plataforma de evaluación académica</span>
+            <h1 className="hm-title">
+              Prepárate para tu examen de admisión con
+              <br className="hm-br" /> rigor y claridad.
+            </h1>
+            <p className="hm-sub">
+              Teoría, cuestionarios y cursos interactivos para EXANI-I, EXANI-II y la UNAM.
+              Elige por examen, por nivel o explora los cursos.
+            </p>
+          </section>
 
-        html, body, #root {
-          height: 100%;
-          background: var(--bg);
-          color: var(--text);
-          font-family: 'DM Sans', sans-serif;
-        }
-
-        .home {
-          min-height: 100vh;
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          position: relative;
-          overflow-x: hidden;
-          overflow-y: auto;
-          padding: 2rem;
-        }
-
-        .home::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background-image:
-            linear-gradient(var(--border) 1px, transparent 1px),
-            linear-gradient(90deg, var(--border) 1px, transparent 1px);
-          background-size: 48px 48px;
-          opacity: 0.25;
-        }
-
-        .home::after {
-          content: '';
-          position: absolute;
-          width: 600px; height: 600px;
-          border-radius: 50%;
-          background: radial-gradient(circle, rgba(59,158,255,0.12) 0%, transparent 70%);
-          top: 50%; left: 50%;
-          transform: translate(-50%, -55%);
-          pointer-events: none;
-        }
-
-        /* Espaciadores flexibles para centrado dinámico */
-        .spacer {
-          flex: 1;
-          min-height: 2rem;
-        }
-
-        /* Ecuaciones flotantes */
-        .float-eq {
-          position: absolute;
-          pointer-events: none;
-          color: var(--accent2);
-          animation: drift linear infinite;
-          user-select: none;
-          white-space: nowrap;
-        }
-        .float-eq .katex { color: inherit !important; font-size: 1em !important; }
-
-        @keyframes drift {
-          0%   { transform: translateY(0px) rotate(0deg); }
-          50%  { transform: translateY(-18px) rotate(2deg); }
-          100% { transform: translateY(0px) rotate(0deg); }
-        }
-
-        /* Contenido principal */
-        .card {
-          position: relative; z-index: 2;
-          display: flex; flex-direction: column;
-          align-items: center; gap: 2.8rem;
-          opacity: 0; transform: translateY(24px);
-          transition: opacity 0.8s ease, transform 0.8s ease;
-          width: 100%;
-        }
-        .card.show { opacity: 1; transform: translateY(0); }
-
-        .logo-section { display: flex; flex-direction: column; align-items: center; gap: 1.2rem; }
-
-        .logo-circle {
-          width: 110px; height: 110px; border-radius: 50%;
-          border: 2px dashed rgba(59,158,255,0.4); overflow: hidden;
-          box-shadow: 0 0 30px rgba(59,158,255,0.15), inset 0 0 20px rgba(0,0,0,0.4);
-          animation: spin-border 20s linear infinite;
-          transition: transform 0.4s ease, box-shadow 0.4s ease;
-        }
-        .logo-circle:hover {
-          transform: scale(1.06);
-          box-shadow: 0 0 50px rgba(59,158,255,0.3), inset 0 0 20px rgba(0,0,0,0.4);
-        }
-        @keyframes spin-border { to { filter: hue-rotate(360deg); } }
-        .logo-circle img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
-
-        .logo-banner img {
-          max-width: 420px; width: 90vw; height: auto;
-          filter: drop-shadow(0 4px 24px rgba(59,158,255,0.18));
-        }
-
-        .tagline {
-          font-size: 0.95rem; font-weight: 300;
-          color: var(--muted); letter-spacing: 0.18em; text-transform: uppercase;
-          text-align: center;
-        }
-
-        .divider {
-          width: 280px; height: 1px;
-          background: linear-gradient(90deg, transparent, var(--accent), transparent);
-          opacity: 0.5;
-        }
-
-        .section-label {
-          font-size: 0.75rem; letter-spacing: 0.2em;
-          text-transform: uppercase; color: var(--muted); font-weight: 400;
-        }
-
-        .btn-group { display: flex; gap: 1.4rem; flex-wrap: wrap; justify-content: center; }
-
-        .btn {
-          position: relative;
-          display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
-          padding: 1.4rem 2.6rem;
-          background: var(--surface); border: 1px solid var(--border); border-radius: 4px;
-          color: var(--text); font-family: 'DM Sans', sans-serif;
-          font-size: 1rem; font-weight: 500; letter-spacing: 0.05em;
-          cursor: pointer; text-decoration: none; overflow: visible; min-width: 180px;
-          transition: border-color 0.3s, box-shadow 0.3s, transform 0.2s;
-        }
-        .btn::before {
-          content: ''; position: absolute; inset: 0;
-          background: linear-gradient(135deg, rgba(59,158,255,0.08), transparent 60%);
-          opacity: 0; transition: opacity 0.3s;
-        }
-        .btn:hover {
-          border-color: var(--accent);
-          box-shadow: 0 0 24px rgba(59,158,255,0.2), 0 4px 16px rgba(0,0,0,0.4);
-          transform: translateY(-3px);
-        }
-        .btn:hover::before { opacity: 1; }
-        .btn:active { transform: translateY(-1px); }
-        .btn::after {
-          content: ''; position: absolute; bottom: 0; left: 0; right: 0;
-          height: 2px; background: var(--accent);
-          transform: scaleX(0); transition: transform 0.3s;
-        }
-        .btn:hover::after { transform: scaleX(1); }
-
-        .btn-icon { font-size: 1.5rem; margin-bottom: 0.1rem; }
-        .btn-label { font-size: 1rem; font-weight: 500; }
-        .btn-sub { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
-
-        /* Ajuste responsivo del footer */
-        .footer {
-          font-size: 0.72rem; color: var(--muted); letter-spacing: 0.12em; z-index: 2;
-          text-align: center; padding-top: 1.5rem; width: 100%;
-        }
-
-        @media (max-width: 600px) {
-          .home { padding: 1.2rem; }
-
-          .logo-circle { width: 80px; height: 80px; }
-
-          .card { gap: 1.8rem; }
-
-          .logo-section { gap: 0.8rem; }
-
-          .tagline { font-size: 0.78rem; letter-spacing: 0.12em; }
-
-          .divider { width: 180px; }
-
-          .btn-group { flex-direction: column; align-items: center; width: 100%; }
-
-          .btn { min-width: unset; width: 100%; max-width: 320px; padding: 1.2rem 1.6rem; }
-
-          .footer { font-size: 0.65rem; padding: 2rem 1rem 0 1rem; }
-        }
-
-      `}</style>
-
-      <div className="home">
-        {/* Ecuaciones flotantes */}
-        {katexLoaded &&
-          symbols.map((s) => (
-            <FloatingEquation key={s.id} tex={s.tex} style={s.style} />
-          ))}
-
-        <div className="spacer"></div>
-
-        <div className={`card ${visible ? "show" : ""}`}>
-          <div className="logo-section">
-            <div className="logo-circle">
-              <img
-                src={`${import.meta.env.BASE_URL}assets/logoX.png`}
-                alt="Logo Factorizando"
-              />
+          {/* ── POR EXAMEN ── */}
+          <section className="hm-sec">
+            <h2 className="hm-sec-tit">Por examen</h2>
+            <div className="hm-grid">
+              <Card to="/exani-i" icon="Σ" tono="azul" titulo="EXANI-I" sub="Ingreso a bachillerato" />
+              <Card to="/exani-ii" icon="∫" tono="dorado" titulo="EXANI-II" sub="Ingreso a licenciatura" />
             </div>
-            <div style={{ fontSize: "clamp(1.6rem, 7vw, 3rem)" }}>
-              <BrandName size="1em" />
+          </section>
+
+          {/* ── POR NIVEL ── */}
+          <section className="hm-sec">
+            <h2 className="hm-sec-tit">Por nivel</h2>
+            <div className="hm-grid">
+              <Card to="/preparatoria" icon="🎓" tono="azul" titulo="Preparatoria" sub="Nivel medio superior" />
+              <Card to="/universidad" icon="🏛" tono="dorado" titulo="Universidad" sub="Nivel superior" />
             </div>
-            <p className="tagline">Plataforma de evaluación académica</p>
-          </div>
-          {/* <div className="divider"></div> */}
-          <p className="section-label">Selecciona tu nivel</p>
-          <div className="btn-group">
-            <Link to="/preparatoria" className="btn">
-              <span
-                className="btn-icon"
-                style={{
-                  fontSize: "2.8rem",
-                  color: "#3b9eff",
-                  fontFamily: "Georgia, serif",
-                  lineHeight: 1,
-                }}
-              >
-                Σ
+          </section>
+
+          {/* ── CURSOS ── */}
+          {cursos.length > 0 && (
+            <section className="hm-sec">
+              <h2 className="hm-sec-tit">Cursos</h2>
+              <div className="hm-grid hm-grid-3">
+                {cursos.map((c) => (
+                  <Link key={c.id} to={`/curso/${c.id}`} className="hm-card">
+                    <span className="hm-card-ic hm-tono-neutro"><IconoCurso icono={c.icono} /></span>
+                    <span className="hm-card-txt">
+                      <span className="hm-card-tit">{c.area}</span>
+                      <span className="hm-card-sub">{c.materia}</span>
+                    </span>
+                    <span className="hm-card-arrow" aria-hidden="true">→</span>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* ── CLASE EN VIVO ── */}
+          <section className="hm-sec">
+            <Link to="/clase" className="hm-live">
+              <span className="hm-live-ic">▶</span>
+              <span className="hm-live-txt">
+                <span className="hm-live-tit">Clase en vivo</span>
+                <span className="hm-live-sub">Únete con tu código de sesión</span>
               </span>
-              <span className="btn-label">Preparatoria</span>
-              <span className="btn-sub">Nivel medio superior</span>
+              <span className="hm-card-arrow" aria-hidden="true">→</span>
             </Link>
-            <Link to="/universidad" className="btn">
-              <span
-                className="btn-icon"
-                style={{
-                  fontSize: "2.8rem",
-                  color: "#f59e0b",
-                  fontFamily: "KaTeX_Math, serif",
-                  lineHeight: 1,
-                }}
-              >
-                ∫
-              </span>
-              <span className="btn-label">Universidad</span>
-              <span className="btn-sub">Nivel superior</span>
-            </Link>
-          </div>
+          </section>
 
-          <Link
-            to="/clase"
-            className="btn"
-            style={{ minWidth: 220, border: "1px solid #a78bfa66" }}
-          >
-            <span className="btn-icon" style={{ fontSize: "2.2rem", color: "#a78bfa" }}>
-              ▶
-            </span>
-            <span className="btn-label">Clase en vivo</span>
-            <span className="btn-sub">Únete con tu código de sesión</span>
-          </Link>
-        </div>
+          <footer className="hm-footer">© Factorizando — Todos los derechos reservados</footer>
+        </main>
 
-        <div className="divider"></div>
-
-        <div className="spacer"></div>
-
-        <p className="footer">© Factorizando — Todos los derechos reservados</p>
-
-        {/* Botón admin (solo visible para administrador) */}
+        {/* Admin (solo administrador) */}
         {isAdmin && (
-          <Link
-            to="/admin"
-            style={{
-              position: "fixed",
-              bottom: "24px",
-              left: "24px",
-              zIndex: 100,
-              background: "#1e2130",
-              border: "1px solid #3b9eff44",
-              borderRadius: "12px",
-              padding: "8px 14px",
-              display: "flex",
-              alignItems: "center",
-              gap: 7,
-              textDecoration: "none",
-              color: "#3b9eff",
-              fontSize: "0.78rem",
-              fontWeight: 600,
-              fontFamily: "'DM Sans', sans-serif",
-              boxShadow: "0 4px 14px rgba(0,0,0,0.4)",
-            }}
-          >
-            ⚙ Admin
-          </Link>
+          <Link to="/admin" className="hm-admin">⚙ Admin</Link>
         )}
 
         {/* WhatsApp flotante */}
         <a
+          className="hm-wa"
           href="https://wa.me/522491374886?text=Hola%2C%20me%20interesa%20el%20curso%20de%20FactoR[i]zando."
           target="_blank"
           rel="noopener noreferrer"
-          style={{
-            position: "fixed",
-            bottom: "24px",
-            right: "24px",
-            zIndex: 100,
-            width: 52,
-            height: 52,
-            borderRadius: "50%",
-            background: "#25D366",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            boxShadow: "0 4px 18px rgba(37,211,102,0.45)",
-            transition: "transform 0.2s, box-shadow 0.2s",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = "scale(1.1)";
-            e.currentTarget.style.boxShadow =
-              "0 6px 24px rgba(37,211,102,0.65)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = "scale(1)";
-            e.currentTarget.style.boxShadow =
-              "0 4px 18px rgba(37,211,102,0.45)";
-          }}
+          aria-label="WhatsApp"
         >
-          <svg
-            width="28"
-            height="28"
-            viewBox="0 0 24 24"
-            fill="white"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
           </svg>
         </a>
+
+        <AuthModal open={authOpen} initialMode={authMode} onClose={() => setAuthOpen(false)} />
       </div>
     </>
   );
 }
+
+// Tarjeta de catálogo (examen / nivel).
+function Card({ to, icon, titulo, sub, tono }) {
+  return (
+    <Link to={to} className="hm-card">
+      <span className={`hm-card-ic hm-tono-${tono}`}>{icon}</span>
+      <span className="hm-card-txt">
+        <span className="hm-card-tit">{titulo}</span>
+        <span className="hm-card-sub">{sub}</span>
+      </span>
+      <span className="hm-card-arrow" aria-hidden="true">→</span>
+    </Link>
+  );
+}
+
+const CSS = `
+.hm-root { min-height: 100vh; min-height: 100dvh; background: var(--bg); color: var(--text);
+  font-family: var(--font-ui); display: flex; flex-direction: column; }
+.hm-root * { box-sizing: border-box; }
+.hm-main { flex: 1; width: 100%; max-width: 1000px; margin: 0 auto; padding: 40px 24px 80px; }
+/* HERO */
+.hm-hero { padding: 28px 0 40px; max-width: 720px; }
+.hm-eyebrow { font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+.hm-title { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 700;
+  font-size: clamp(30px, 5.5vw, 48px); line-height: 1.08; color: var(--heading); margin: 14px 0 18px; letter-spacing: .005em; }
+.hm-sub { font-size: clamp(15px, 2.2vw, 17px); line-height: 1.6; color: var(--text-dim); max-width: 620px; }
+/* SECCIONES */
+.hm-sec { margin-top: 38px; }
+.hm-sec-tit { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em;
+  color: var(--text-muted); margin-bottom: 14px; }
+.hm-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.hm-grid-3 { grid-template-columns: repeat(3, 1fr); }
+/* TARJETA */
+.hm-card { display: flex; align-items: center; gap: 16px; padding: 18px 20px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+  text-decoration: none; color: var(--text); transition: border-color .2s, box-shadow .2s, transform .15s; }
+.hm-card:hover { border-color: var(--border-strong); transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(40, 33, 20, 0.08); }
+.hm-card-ic { display: grid; place-items: center; width: 50px; height: 50px; flex-shrink: 0;
+  border-radius: 13px; font-size: 26px; line-height: 1; font-family: Georgia, 'Times New Roman', serif; }
+.hm-tono-azul { background: var(--azul-suave-soft); color: var(--azul-suave); }
+.hm-tono-dorado { background: var(--accent-soft); color: var(--accent); }
+.hm-tono-neutro { background: var(--surface-2); color: var(--text-dim); }
+.hm-card-txt { display: flex; flex-direction: column; gap: 3px; min-width: 0; flex: 1; }
+.hm-card-tit { font-size: 17px; font-weight: 700; color: var(--heading); }
+.hm-card-sub { font-size: 13.5px; color: var(--text-muted); }
+.hm-card-arrow { color: var(--text-muted); font-size: 18px; opacity: .5; transition: opacity .2s, transform .2s; }
+.hm-card:hover .hm-card-arrow { opacity: 1; transform: translateX(3px); }
+/* CLASE EN VIVO */
+.hm-live { display: flex; align-items: center; gap: 16px; padding: 18px 22px;
+  background: linear-gradient(135deg, var(--azul-suave-soft), transparent 70%), var(--surface);
+  border: 1px solid var(--border); border-radius: 16px; text-decoration: none; color: var(--text);
+  transition: border-color .2s, box-shadow .2s, transform .15s; }
+.hm-live:hover { border-color: var(--azul-suave); transform: translateY(-2px); box-shadow: 0 10px 28px rgba(47,111,224,.12); }
+.hm-live-ic { display: grid; place-items: center; width: 50px; height: 50px; flex-shrink: 0; border-radius: 13px;
+  background: var(--azul-suave); color: #fff; font-size: 18px; }
+.hm-live-txt { display: flex; flex-direction: column; gap: 3px; flex: 1; }
+.hm-live-tit { font-size: 17px; font-weight: 700; color: var(--heading); }
+.hm-live-sub { font-size: 13.5px; color: var(--text-muted); }
+/* FOOTER */
+.hm-footer { margin-top: 56px; text-align: center; font-size: 12.5px; color: var(--text-muted); letter-spacing: .04em; }
+/* FLOTANTES */
+.hm-admin { position: fixed; bottom: 24px; left: 24px; z-index: 100; background: var(--surface);
+  border: 1px solid var(--border); border-radius: 12px; padding: 8px 14px; text-decoration: none;
+  color: var(--azul-suave); font-size: 13px; font-weight: 600; box-shadow: 0 4px 14px rgba(40,33,20,.12); }
+.hm-wa { position: fixed; bottom: 24px; right: 24px; z-index: 100; width: 52px; height: 52px;
+  border-radius: 50%; background: #25D366; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 18px rgba(37,211,102,0.45); transition: transform .2s, box-shadow .2s; }
+.hm-wa:hover { transform: scale(1.08); box-shadow: 0 6px 24px rgba(37,211,102,0.6); }
+/* RESPONSIVO */
+@media (max-width: 720px) {
+  .hm-grid, .hm-grid-3 { grid-template-columns: 1fr; }
+  .hm-br { display: none; }
+}
+@media (max-width: 520px) {
+  .hm-main { padding: 28px 16px 72px; }
+}
+`;

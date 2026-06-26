@@ -26,4 +26,14 @@ if (!supabaseUrl || !supabaseKey) {
   );
 }
 
-export const supabase = createClient(supabaseUrl, supabaseKey);
+// flowType "pkce": el enlace de confirmación de correo (y el OAuth social a
+// futuro) regresan un `?code=` como query param —antes del `#`— que conviene
+// con HashRouter en GitHub Pages; `detectSessionInUrl` lo intercambia solo.
+export const supabase = createClient(supabaseUrl, supabaseKey, {
+  auth: {
+    flowType: "pkce",
+    detectSessionInUrl: true,
+    persistSession: true,
+    autoRefreshToken: true,
+  },
+});

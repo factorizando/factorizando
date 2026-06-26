@@ -1,0 +1,141 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   TEMA GLOBAL — fuente única de la paleta.
+   Todos los componentes deben consumir estos tokens con var(--…) en lugar de
+   colores hardcodeados, para mantener la paleta homogénea y poder cambiar a
+   tema claro a futuro (redefiniendo los tokens bajo [data-theme="light"]).
+   ───────────────────────────────────────────────────────────────────────── */
+
+:root {
+  color-scheme: dark;
+
+  /* Tipografía de UI (menús, controles) */
+  --font-ui: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  /* Superficies (de fondo a elevado) */
+  --bg:           #0e0f11;   /* fondo canónico de la app */
+  --sunken:       #0a0b0d;   /* hundido: bloques de fórmula / código */
+  --surface:      #16181c;   /* elevado: tarjetas, entornos */
+  --surface-2:    #1c1f24;   /* elevado +1: hovers, controles */
+  --border-soft:  rgba(255, 255, 255, 0.05);  /* contorno de cajas, muy tenue */
+  --border:       rgba(255, 255, 255, 0.09);
+  --border-strong:rgba(255, 255, 255, 0.16);
+
+  /* Texto (crema cálido = identidad de marca) */
+  --text:         #e8e4dc;
+  --text-dim:     #cfc9bd;
+  --text-muted:   #9c958a;
+  --heading:      #f0ece3;
+
+  /* Acentos principales */
+  --accent:       #f5c842;            /* dorado */
+  --accent-soft:  rgba(245, 200, 66, 0.12);
+  --brand:        #f2ede4;            /* acento de marca (blanco cálido) */
+  --brand-soft:   rgba(242, 237, 228, 0.12);  /* selección/activo */
+  --math:         #f5d877;            /* fórmulas en bloque */
+  --azul-suave:   #78b0ff;            /* acento azul (mismo de "Definición") */
+  --azul-suave-soft: rgba(120, 176, 255, 0.13);  /* tinte para selección/activo */
+
+  /* Acentos por entorno (documentos amsthm) */
+  --c-definicion:  #78b0ff;
+  --c-axioma:      #d9a05b;
+  --c-notacion:    #8fb0c8;
+  --c-teorema:     #f5c842;
+  --c-corolario:   #b48cf0;
+  --c-observacion: #5fd0c0;
+  --c-ejemplo:     #5fd08a;
+  --c-ejercicio:   #d98fbf;
+
+  /* ─── Tema neutro "tarjeta clara" (superficies claras: auth y futuras) ───
+     Escala de grises de la tarjeta Uiverse + azul de acento. Independiente del
+     tema oscuro/crema: estos tokens solo los consumen pantallas sobre fondo
+     claro (login, registro, recuperación), por eso no redefinen --bg/--text. */
+  --gray-50:  #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --gray-900: #111827;
+
+  /* Superficies claras */
+  --app-bg:      #e8e8e8;     /* fondo de página */
+  --card-bg:     #ffffff;     /* tarjetas */
+  --card-border: var(--gray-100);
+  --card-shadow: 0 10px 15px -3px rgba(17,24,39,.08),
+                 0 4px 6px -4px rgba(17,24,39,.05),
+                 0 24px 48px -16px rgba(17,24,39,.14);
+
+  /* Inputs claros */
+  --input-bg:           var(--gray-50);
+  --input-border:       var(--gray-200);
+  --input-border-hover: var(--gray-300);
+
+  /* Azul de acento (mismo tono, dos pesos):
+     --accent-blue para glow/foco/tintes; --accent-blue-ink para texto/enlaces
+     legibles sobre blanco (AA). */
+  --accent-blue:           #80c6ff;
+  --accent-blue-soft:      rgba(128, 198, 255, 0.15);
+  --accent-blue-ink:       #1577d6;
+  --accent-blue-ink-hover: #0f63b8;
+  --focus-ring:            rgba(128, 198, 255, 0.35);
+}
+
+/* ── Barra de scroll: delgada y tenue (Firefox + WebKit) ── */
+* { scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, 0.12) transparent; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.10);
+  border-radius: 99px;
+  border: 3px solid transparent;   /* "adelgaza" el pulgar dejándolo discreto */
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.20);
+  background-clip: padding-box;
+}
+
+/* ── Tema claro ── Se activa con <html data-theme="light"> (lo ponen Home y
+   Login al montar y lo revierten al desmontar). Solo redefine los mismos
+   tokens; ningún componente cambia su markup. Paleta "papel cálido" para
+   conservar la identidad crema de la marca, ahora sobre fondo claro. */
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  /* Superficies (de fondo a elevado) */
+  --bg:            #ffffff;   /* blanco */
+  --sunken:        #efe9df;   /* hundido: bloques de fórmula / código */
+  --surface:       #ffffff;   /* elevado: tarjetas, entornos */
+  --surface-2:     #f3eee5;   /* elevado +1: hovers, controles */
+  --border-soft:   rgba(40, 33, 20, 0.07);
+  --border:        rgba(40, 33, 20, 0.12);
+  --border-strong: rgba(40, 33, 20, 0.20);
+
+  /* Texto (tinta cálida) */
+  --text:          #33302a;
+  --text-dim:      #514c43;
+  --text-muted:    #837c6f;
+  --heading:       #211f1a;
+
+  /* Acentos principales */
+  --accent:        #e0a92b;            /* dorado más profundo para contraste en claro */
+  --accent-soft:   rgba(224, 169, 43, 0.16);
+  --brand:         #211f1a;            /* wordmark en tinta */
+  --brand-soft:    rgba(33, 31, 26, 0.07);
+  --math:          #b8860b;            /* fórmulas en bloque */
+  --azul-suave:    #2f6fe0;            /* acento azul */
+  --azul-suave-soft: rgba(47, 111, 224, 0.11);
+
+  /* Acentos por entorno (documentos amsthm) */
+  --c-definicion:  #2f6fe0;
+  --c-axioma:      #b5701f;
+  --c-notacion:    #4a7da0;
+  --c-teorema:     #c79214;
+  --c-corolario:   #7d4fd0;
+  --c-observacion: #1f9e8c;
+  --c-ejemplo:     #1f9e5a;
+  --c-ejercicio:   #c44f93;
+}

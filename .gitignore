@@ -24,3 +24,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Datos temporales / fuentes pesadas (CSV del catálogo SEP, etc.) — no versionar
+temporal/

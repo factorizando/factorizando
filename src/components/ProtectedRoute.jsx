@@ -19,6 +19,8 @@ const Spinner = () => (
 );
 
 // requiredNivel: "preparatoria" | "universidad" | "admin" | null (solo requiere auth)
+// Autorización por `rol` (alumno|profesor|admin); admin/profesor ven todo el
+// contenido. Si el perfil está incompleto, se manda a /completar-perfil.
 export default function ProtectedRoute({ children, requiredNivel = null }) {
   const location = useLocation();
   const [status, setStatus] = useState("loading");
@@ -31,17 +33,24 @@ export default function ProtectedRoute({ children, requiredNivel = null }) {
       if (cancelled) return;
 
       if (!session) { setStatus("unauth"); return; }
-      if (!requiredNivel) { setStatus("ok"); return; }
 
       const { data: profile } = await supabase
         .from("profiles")
-        .select("nivel")
+        .select("rol, nivel, perfil_completo")
         .eq("id", session.user.id)
         .single();
       if (cancelled) return;
 
       if (!profile) { setStatus("unauthorized"); return; }
-      if (profile.nivel === "admin" || profile.nivel === requiredNivel) {
+      if (!profile.perfil_completo) { setStatus("incompleto"); return; }
+
+      if (!requiredNivel) { setStatus("ok"); return; }
+
+      const esAdmin = profile.rol === "admin";
+      const esProfesor = profile.rol === "profesor";
+      if (requiredNivel === "admin") {
+        setStatus(esAdmin ? "ok" : "unauthorized");
+      } else if (esAdmin || esProfesor || profile.nivel === requiredNivel) {
         setStatus("ok");
       } else {
         setStatus("unauthorized");
@@ -62,6 +71,8 @@ export default function ProtectedRoute({ children, requiredNivel = null }) {
     const dest = location.pathname.replace(/^\//, "") || "preparatoria";
     return <Navigate to={`/login?dest=${dest}`} replace />;
   }
+
+  if (status === "incompleto") return <Navigate to="/completar-perfil" replace />;
 
   if (status === "unauthorized") return <Navigate to="/" replace />;
 

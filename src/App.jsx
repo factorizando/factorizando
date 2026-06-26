@@ -1,7 +1,12 @@
 // src/App.jsx
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
+import { HashRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { supabase } from "./lib/supabase";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Registro from "./pages/Registro";
+import CompletarPerfil from "./pages/CompletarPerfil";
+import NuevaContrasena from "./pages/NuevaContrasena";
 import Preparatoria from "./pages/Preparatoria";
 import Universidad from "./pages/Universidad";
 import Cuestionario from "./pages/Cuestionario";
@@ -21,17 +26,38 @@ import Quimica from "./data/teoria/quimica-unam.jsx";
 import PresentacionDirector from "./pages/PresentacionDirector.jsx";
 import PresentacionAlumno from "./pages/PresentacionAlumno.jsx";
 import PresentacionVer from "./pages/PresentacionVer.jsx";
+import DocumentoVer from "./pages/DocumentoVer.jsx";
+import CursoVer from "./pages/CursoVer.jsx";
 import TemaPreview from "./pages/TemaPreview.jsx";
+
+// Detecta el evento de recuperación de contraseña (al abrir el enlace del correo)
+// y lleva al usuario a la pantalla para fijar la nueva contraseña.
+function RecoveryWatcher() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "PASSWORD_RECOVERY") navigate("/nueva-contrasena");
+    });
+    return () => subscription.unsubscribe();
+  }, [navigate]);
+  return null;
+}
 
 export default function App() {
   return (
     <HashRouter>
+      <RecoveryWatcher />
       <Routes>
         {/* ── Públicas ── */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/registro" element={<Registro />} />
+        <Route path="/completar-perfil" element={<CompletarPerfil />} />
+        <Route path="/nueva-contrasena" element={<NuevaContrasena />} />
         <Route path="/exani-i" element={<ExaniI />} />
         <Route path="/exani-ii" element={<ExaniII />} />
+        <Route path="/documento/:id" element={<DocumentoVer />} />
+        <Route path="/curso/:id" element={<CursoVer />} />
 
         {/* ── Protegidas ── */}
         <Route

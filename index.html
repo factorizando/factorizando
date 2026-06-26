@@ -19,6 +19,18 @@
         }
       })(window.location);
     </script>
+    <script>
+      // Supabase puede regresar el resultado de un enlace de correo (recuperación,
+      // confirmación) en el FRAGMENTO de la URL (#error=… o #access_token=…), que
+      // choca con HashRouter y muestra 404. Si el fragmento trae un error de auth,
+      // lo mandamos a la pantalla de "enlace no válido" antes de que cargue el router.
+      (function (l) {
+        var frag = l.hash ? l.hash.slice(1) : "";
+        if (frag && frag.charAt(0) !== "/" && /(?:^|&)error=/.test(frag)) {
+          window.history.replaceState(null, null, l.pathname + l.search + "#/nueva-contrasena");
+        }
+      })(window.location);
+    </script>
     <meta charset="UTF-8" />
     <link rel="icon" href="/public/assets/logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

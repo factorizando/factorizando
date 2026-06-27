@@ -1,7 +1,9 @@
 // src/App.jsx
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { HashRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { supabase } from "./lib/supabase";
+import { MANTENIMIENTO } from "./config";
+import Proximamente from "./pages/Proximamente";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Registro from "./pages/Registro";
@@ -43,10 +45,8 @@ function RecoveryWatcher() {
   return null;
 }
 
-export default function App() {
+function AppRoutes() {
   return (
-    <HashRouter>
-      <RecoveryWatcher />
       <Routes>
         {/* ── Públicas ── */}
         <Route path="/" element={<Home />} />
@@ -179,6 +179,46 @@ export default function App() {
           }
         />
       </Routes>
+  );
+}
+
+// Gate de mantenimiento: mientras MANTENIMIENTO sea true, el público ve
+// "Próximamente"; solo una sesión con rol=admin obtiene la app completa.
+// /login y /nueva-contrasena quedan accesibles para poder autenticarse.
+function Mantenimiento() {
+  const [esAdmin, setEsAdmin] = useState(null); // null=cargando, bool
+
+  useEffect(() => {
+    let cancelled = false;
+    async function check() {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (cancelled) return;
+      if (!session) { setEsAdmin(false); return; }
+      const { data } = await supabase
+        .from("profiles").select("rol").eq("id", session.user.id).single();
+      if (!cancelled) setEsAdmin(data?.rol === "admin");
+    }
+    check();
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(() => check());
+    return () => { cancelled = true; subscription.unsubscribe(); };
+  }, []);
+
+  if (esAdmin === true) return <AppRoutes />;
+
+  return (
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/nueva-contrasena" element={<NuevaContrasena />} />
+      <Route path="*" element={<Proximamente cargando={esAdmin === null} />} />
+    </Routes>
+  );
+}
+
+export default function App() {
+  return (
+    <HashRouter>
+      <RecoveryWatcher />
+      {MANTENIMIENTO ? <Mantenimiento /> : <AppRoutes />}
     </HashRouter>
   );
 }

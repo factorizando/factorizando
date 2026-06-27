@@ -1,7 +1,28 @@
 // Pantalla "Próximamente" que ve el público mientras el sitio está en modo
 // mantenimiento (ver src/config.js → MANTENIMIENTO). Los admins no la ven: el
 // gate de App.jsx les renderiza la app completa.
+import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import { useKaTeX } from "../data/teoria/shared.jsx";
+
+// Wordmark idéntico al de la barra del Home (AppHeader): "Facto" + "zando" en
+// Cormorant Garamond y la ℝ[i] en modo matemático (KaTeX), en azul.
+function BrandName() {
+  const ready = useKaTeX();
+  const ref = useRef(null);
+  useEffect(() => {
+    if (ready && window.katex && ref.current) {
+      try {
+        window.katex.render("\\mathbb{R}[i]", ref.current, { throwOnError: false, displayMode: false });
+      } catch { /* deja el fallback */ }
+    }
+  }, [ready]);
+  return (
+    <h1 style={S.brand}>
+      Facto<span ref={ref} style={S.math}>ℝ[i]</span>zando
+    </h1>
+  );
+}
 
 export default function Proximamente({ cargando = false }) {
   return (
@@ -11,9 +32,7 @@ export default function Proximamente({ cargando = false }) {
         <span style={S.ring}>
           <img src={`${import.meta.env.BASE_URL}assets/logoX.png`} alt="Factorizando" style={S.logo} />
         </span>
-        <h1 style={S.brand}>
-          Facto<span style={S.math}>ℝ[i]</span>zando
-        </h1>
+        <BrandName />
 
         {cargando ? (
           <div style={S.spin} aria-label="Cargando" />

@@ -191,12 +191,16 @@ function Mantenimiento() {
   useEffect(() => {
     let cancelled = false;
     async function check() {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (cancelled) return;
-      if (!session) { setEsAdmin(false); return; }
-      const { data } = await supabase
-        .from("profiles").select("rol").eq("id", session.user.id).single();
-      if (!cancelled) setEsAdmin(data?.rol === "admin");
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (cancelled) return;
+        if (!session) { setEsAdmin(false); return; }
+        const { data } = await supabase
+          .from("profiles").select("rol").eq("id", session.user.id).single();
+        if (!cancelled) setEsAdmin(data?.rol === "admin");
+      } catch {
+        if (!cancelled) setEsAdmin(false);
+      }
     }
     check();
     const { data: { subscription } } = supabase.auth.onAuthStateChange(() => check());

@@ -190,9 +190,14 @@ function Mantenimiento() {
 
   useEffect(() => {
     let cancelled = false;
+
     async function check() {
       try {
-        const { data: { session } } = await supabase.auth.getSession();
+        const sessionPromise = supabase.auth.getSession();
+        const timeoutPromise = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("timeout")), 5000)
+        );
+        const { data: { session } } = await Promise.race([sessionPromise, timeoutPromise]);
         if (cancelled) return;
         if (!session) { setEsAdmin(false); return; }
         const { data } = await supabase
@@ -202,7 +207,7 @@ function Mantenimiento() {
         if (!cancelled) setEsAdmin(false);
       }
     }
-    check();
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange(() => check());
     return () => { cancelled = true; subscription.unsubscribe(); };
   }, []);

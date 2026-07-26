@@ -7,6 +7,12 @@ import { obtenerTema } from "../data/presentaciones/temas.jsx";
 import { SUBJECTS_PREP } from "../data/preparatoriaData.js";
 import { SUBJECTS_UNI } from "../data/universidadData.js";
 import { SUBJECTS_EXANI_II } from "../data/exaniIIData.js";
+import AdminAlumnos from "./admin/AdminAlumnos.jsx";
+import AdminInscripciones from "./admin/AdminInscripciones.jsx";
+import AdminCargos from "./admin/AdminCargos.jsx";
+import AdminSuscripciones from "./admin/AdminSuscripciones.jsx";
+import AdminCursos from "./admin/AdminCursos.jsx";
+import AdminHeader from "../components/admin/AdminHeader.jsx";
 
 const C = {
   bg:      "#0e0f11",
@@ -107,44 +113,6 @@ function CompactStat({ label, value, color, last }) {
 }
 
 // ── Tab button ────────────────────────────────────────────────────────────────
-function TabBtn({ active, onClick, children, badge }) {
-  return (
-    <button
-      onClick={onClick}
-      style={{
-        background: "none",
-        border: "none",
-        cursor: "pointer",
-        padding: "12px 20px",
-        fontSize: 14,
-        fontWeight: active ? 700 : 500,
-        color: active ? C.text : C.muted,
-        borderBottom: active ? `2px solid ${C.blue}` : "2px solid transparent",
-        marginBottom: -1,
-        display: "flex",
-        alignItems: "center",
-        gap: 8,
-        fontFamily: font,
-        transition: "color .15s",
-      }}
-    >
-      {children}
-      {badge != null && (
-        <span style={{
-          background: active ? C.blue + "33" : C.border,
-          color: active ? C.blue : C.dim,
-          borderRadius: 99,
-          padding: "1px 8px",
-          fontSize: 11,
-          fontWeight: 700,
-        }}>
-          {badge}
-        </span>
-      )}
-    </button>
-  );
-}
-
 // ── Tarjeta de presentación (compacta) ───────────────────────────────────────
 function PresentacionCard({ id, titulo, materia, subtema }) {
   const tema = obtenerTema(materia);
@@ -827,7 +795,7 @@ function ResumenAlumno({ nombre, nivel, resultados, onDelete, onUpdate }) {
 
 // ── Página principal ──────────────────────────────────────────────────────────
 export default function Admin() {
-  const [tab, setTab] = useState("cuestionarios");
+  const [tab, setTab] = useState("alumnos");
   const [loading, setLoading] = useState(true);
   const [resultados, setResultados] = useState([]);
   const [profiles, setProfiles] = useState({});
@@ -905,88 +873,45 @@ export default function Admin() {
 
   return (
     <div style={{ minHeight: "100vh", background: C.bg, fontFamily: font }}>
-      {/* ── Navbar ─────────────────────────────────────────────────────────── */}
-      <div style={{
-        position: "sticky", top: 0, zIndex: 50,
-        background: "rgba(14,15,17,0.96)",
-        backdropFilter: "blur(12px)",
-        borderBottom: `1px solid ${C.border}`,
-        padding: "0 24px",
-        display: "flex", alignItems: "center", justifyContent: "space-between",
-        height: 56,
-      }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{
-            width: 28, height: 28, borderRadius: 8,
-            background: C.blue + "22",
-            border: `1px solid ${C.blue}44`,
-            display: "flex", alignItems: "center", justifyContent: "center",
-            fontSize: 14,
-          }}>
-            ⚙
-          </div>
-          <span style={{ color: C.text, fontWeight: 700, fontSize: 15 }}>
-            Panel de Administrador
-          </span>
-        </div>
-        <Link to="/" style={{
-          color: C.muted, fontSize: 13, textDecoration: "none",
-          border: `1px solid ${C.border}`, borderRadius: 8,
-          padding: "5px 14px", fontFamily: font,
-          transition: "color .15s",
-        }}
-          onMouseEnter={(e) => { e.currentTarget.style.color = C.text; }}
-          onMouseLeave={(e) => { e.currentTarget.style.color = C.muted; }}
-        >
-          ← Inicio
-        </Link>
-      </div>
+      <AdminHeader active={tab} onChange={setTab} />
 
       <div style={{ maxWidth: 980, margin: "0 auto", padding: "32px 16px" }}>
 
-        {/* ── Stats globales (tira compacta) ──────────────────────────────── */}
-        <div style={{
-          display: "flex",
-          flexWrap: "wrap",
-          alignItems: "center",
-          background: C.surface,
-          border: `1px solid ${C.border}`,
-          borderRadius: 12,
-          padding: "8px 4px",
-          marginBottom: 28,
-        }}>
-          <CompactStat label="Alumnos"   value={Object.keys(byUser).length} />
-          <CompactStat label="Intentos"  value={totalIntentos} />
-          <CompactStat label="Promedio"  value={`${promedioGlobal}%`} color={promedioGlobal > 0 ? pctColor(promedioGlobal) : C.muted} />
-          <CompactStat label="Presentaciones" value={presentaciones.length} color={C.purple} last />
-        </div>
+        {/* ── Tab: Alumnos ──────────────────────────────────────────────── */}
+        {tab === "alumnos" && <AdminAlumnos embedded />}
 
-        {/* ── Tabs ───────────────────────────────────────────────────────── */}
-        <div style={{
-          borderBottom: `1px solid ${C.border}`,
-          marginBottom: 28,
-          display: "flex",
-          gap: 0,
-        }}>
-          <TabBtn
-            active={tab === "cuestionarios"}
-            onClick={() => setTab("cuestionarios")}
-            badge={Object.keys(byUser).length}
-          >
-            Alumnos
-          </TabBtn>
-          <TabBtn
-            active={tab === "presentaciones"}
-            onClick={() => setTab("presentaciones")}
-            badge={presentaciones.length}
-          >
-            Presentaciones
-          </TabBtn>
-        </div>
+        {/* ── Tab: Inscripciones ────────────────────────────────────────── */}
+        {tab === "inscripciones" && <AdminInscripciones embedded />}
 
-        {/* ── Tab: Cuestionarios ──────────────────────────────────────────── */}
+        {/* ── Tab: Cursos ───────────────────────────────────────────────── */}
+        {tab === "cursos" && <AdminCursos embedded />}
+
+        {/* ── Tab: Cargos ───────────────────────────────────────────────── */}
+        {tab === "cargos" && <AdminCargos embedded />}
+
+        {/* ── Tab: Suscripciones ────────────────────────────────────────── */}
+        {tab === "suscripciones" && <AdminSuscripciones embedded />}
+
+        {/* ── Tab: Estadísticas (Cuestionarios) ──────────────────────────── */}
         {tab === "cuestionarios" && (
           <>
+            {/* ── Stats globales (tira compacta) ───────────────────────── */}
+            <div style={{
+              display: "flex",
+              flexWrap: "wrap",
+              alignItems: "center",
+              background: C.surface,
+              border: `1px solid ${C.border}`,
+              borderRadius: 12,
+              padding: "8px 4px",
+              marginBottom: 28,
+            }}>
+              <CompactStat label="Alumnos"   value={Object.keys(byUser).length} />
+              <CompactStat label="Intentos"  value={totalIntentos} />
+              <CompactStat label="Promedio"  value={`${promedioGlobal}%`} color={promedioGlobal > 0 ? pctColor(promedioGlobal) : C.muted} />
+              <CompactStat label="Presentaciones" value={presentaciones.length} color={C.purple} last />
+            </div>
+
             {/* Filtros */}
             <div style={{ display: "flex", gap: 10, marginBottom: 20, flexWrap: "wrap", alignItems: "center" }}>
               <div style={{ position: "relative", flex: "1 1 200px", maxWidth: 300 }}>

@@ -31,6 +31,15 @@ import PresentacionVer from "./pages/PresentacionVer.jsx";
 import DocumentoVer from "./pages/DocumentoVer.jsx";
 import CursoVer from "./pages/CursoVer.jsx";
 import TemaPreview from "./pages/TemaPreview.jsx";
+import AdminAlumnos from "./pages/admin/AdminAlumnos.jsx";
+import AdminInscripciones from "./pages/admin/AdminInscripciones.jsx";
+import AdminCargos from "./pages/admin/AdminCargos.jsx";
+import AdminSuscripciones from "./pages/admin/AdminSuscripciones.jsx";
+import AdminCursos from "./pages/admin/AdminCursos.jsx";
+import AdminAlumnoDetalle from "./pages/admin/AdminAlumnoDetalle.jsx";
+import MisInscripciones from "./pages/alumno/MisInscripciones.jsx";
+import MiSuscripcion from "./pages/alumno/MiSuscripcion.jsx";
+import Refrigerios from "./pages/Refrigerios.jsx";
 
 // Detecta el evento de recuperación de contraseña (al abrir el enlace del correo)
 // y lleva al usuario a la pantalla para fijar la nueva contraseña.
@@ -58,6 +67,7 @@ function AppRoutes() {
         <Route path="/exani-ii" element={<ExaniII />} />
         <Route path="/documento/:id" element={<DocumentoVer />} />
         <Route path="/curso/:id" element={<CursoVer />} />
+        <Route path="/refrigerios" element={<Refrigerios />} />
 
         {/* ── Protegidas ── */}
         <Route
@@ -81,6 +91,70 @@ function AppRoutes() {
           element={
             <ProtectedRoute requiredNivel="admin">
               <Admin />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/alumnos"
+          element={
+            <ProtectedRoute requiredNivel="admin">
+              <AdminAlumnos />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/inscripciones"
+          element={
+            <ProtectedRoute requiredNivel="admin">
+              <AdminInscripciones />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/cargos"
+          element={
+            <ProtectedRoute requiredNivel="admin">
+              <AdminCargos />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/suscripciones"
+          element={
+            <ProtectedRoute requiredNivel="admin">
+              <AdminSuscripciones />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/cursos"
+          element={
+            <ProtectedRoute requiredNivel="admin">
+              <AdminCursos />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/alumnos/:id"
+          element={
+            <ProtectedRoute requiredNivel="admin">
+              <AdminAlumnoDetalle />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/alumno/inscripciones"
+          element={
+            <ProtectedRoute>
+              <MisInscripciones />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/alumno/suscripcion"
+          element={
+            <ProtectedRoute>
+              <MiSuscripcion />
             </ProtectedRoute>
           }
         />

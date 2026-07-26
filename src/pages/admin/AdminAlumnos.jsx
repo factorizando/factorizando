@@ -177,6 +177,8 @@ function AlumnoForm({ profiles, initial, onSave, onCancel }) {
         <Field label="Fecha de nacimiento"><input type="date" value={form.fecha_nacimiento} onChange={set("fecha_nacimiento")} style={inputStyle} required /></Field>
         <Field label="Nivel">
           <select value={form.nivel} onChange={set("nivel")} style={{ ...inputStyle, cursor: "pointer" }}>
+            <option value="primaria">Primaria</option>
+            <option value="secundaria">Secundaria</option>
             <option value="prepa">Preparatoria</option>
             <option value="universidad">Universidad</option>
           </select>
@@ -230,11 +232,11 @@ function AlumnoRow({ alumno, onClick, onEdit, onDelete }) {
           </span>
           <span style={{
             marginLeft: 8,
-            background: alumno.nivel === "prepa" ? C.blue + "22" : C.purple + "22",
-            color: alumno.nivel === "prepa" ? C.blue : C.purple,
+            background: alumno.nivel === "prepa" ? C.blue + "22" : alumno.nivel === "universidad" ? C.purple + "22" : alumno.nivel === "secundaria" ? C.orange + "22" : C.green + "22",
+            color: alumno.nivel === "prepa" ? C.blue : alumno.nivel === "universidad" ? C.purple : alumno.nivel === "secundaria" ? C.orange : C.green,
             borderRadius: 5, padding: "1px 7px", fontSize: 10, fontWeight: 700, fontFamily: font,
           }}>
-            {alumno.nivel === "prepa" ? "Prepa" : "Univ"}
+            {alumno.nivel === "primaria" ? "Prim" : alumno.nivel === "secundaria" ? "Sec" : alumno.nivel === "prepa" ? "Prepa" : "Univ"}
           </span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
@@ -350,7 +352,7 @@ export default function AdminAlumnos({ embedded }) {
           />
         </div>
         <div style={{ display: "flex", gap: 6 }}>
-          {["todos", "prepa", "universidad"].map((n) => (
+          {["todos", "primaria", "secundaria", "prepa", "universidad"].map((n) => (
             <button
               key={n}
               onClick={() => setFiltroNivel(n)}
@@ -362,7 +364,7 @@ export default function AdminAlumnos({ embedded }) {
                 transition: "background .15s, color .15s",
               }}
             >
-              {n === "todos" ? "Todos" : n === "prepa" ? "Prepa" : "Univ"}
+              {n === "todos" ? "Todos" : n === "prepa" ? "Prepa" : n === "universidad" ? "Univ" : n.charAt(0).toUpperCase() + n.slice(1)}
             </button>
           ))}
         </div>

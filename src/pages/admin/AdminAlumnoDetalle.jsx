@@ -292,10 +292,10 @@ export default function AdminAlumnoDetalle() {
               <div style={{ color: C.muted, fontSize: 13, marginTop: 4 }}>{alumno.email || "Sin email"} · {alumno.telefono || "Sin teléfono"}</div>
             </div>
             <span style={{
-              background: alumno.nivel === "prepa" ? C.blue + "22" : C.purple + "22",
-              color: alumno.nivel === "prepa" ? C.blue : C.purple,
+              background: alumno.nivel === "prepa" ? C.blue + "22" : alumno.nivel === "universidad" ? C.purple + "22" : alumno.nivel === "secundaria" ? C.orange + "22" : C.green + "22",
+              color: alumno.nivel === "prepa" ? C.blue : alumno.nivel === "universidad" ? C.purple : alumno.nivel === "secundaria" ? C.orange : C.green,
               borderRadius: 5, padding: "1px 7px", fontSize: 10, fontWeight: 700, fontFamily: font,
-            }}>{alumno.nivel === "prepa" ? "Prepa" : "Universidad"}</span>
+            }}>{alumno.nivel === "primaria" ? "Primaria" : alumno.nivel === "secundaria" ? "Secundaria" : alumno.nivel === "prepa" ? "Preparatoria" : "Universidad"}</span>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 12 }}>
             {[

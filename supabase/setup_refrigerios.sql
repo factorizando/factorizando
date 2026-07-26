@@ -23,6 +23,10 @@ CREATE TABLE IF NOT EXISTS refrigerios (
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
+-- Si la tabla ya existe con columna "grupo", quitarle el NOT NULL o poner default
+ALTER TABLE refrigerios ALTER COLUMN grupo SET DEFAULT '';
+ALTER TABLE refrigerios ALTER COLUMN grupo DROP NOT NULL;
+
 -- 3) RLS
 ALTER TABLE refrigerios ENABLE ROW LEVEL SECURITY;
 

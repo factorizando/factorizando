@@ -1,5 +1,5 @@
 // src/pages/admin/AdminInscripciones.jsx
-// Panel de administración de inscripciones: inscribir alumnos a cursos, gestionar estados.
+// Panel de administración de inscripciones: CRUD completo, gestionar estados.
 
 import { useState, useEffect } from "react";
 import { supabase } from "../../lib/supabase";
@@ -80,22 +80,43 @@ function Modal({ title, onClose, children }) {
   );
 }
 
-// ── Formulario de inscripción ────────────────────────────────────────────────
-function InscripcionForm({ alumnos, cursos, planes, onSave, onCancel }) {
-  const [alumnoId, setAlumnoId] = useState("");
-  const [cursoId, setCursoId] = useState("");
-  const [planId, setPlanId] = useState("");
-  const [grupoId, setGrupoId] = useState("");
+function ConfirmModal({ title, message, onConfirm, onCancel }) {
+  const [saving, setSaving] = useState(false);
+  return (
+    <Modal title={title} onClose={onCancel}>
+      <p style={{ color: C.dim, fontSize: 13, fontFamily: font, margin: "0 0 18px" }}>{message}</p>
+      <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
+        <button onClick={onCancel} style={{
+          background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
+          padding: "8px 18px", color: C.muted, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: font,
+        }}>Cancelar</button>
+        <button onClick={async () => { setSaving(true); await onConfirm(); }} disabled={saving} style={{
+          background: C.red, border: "none", borderRadius: 8,
+          padding: "8px 22px", color: "#fff", fontSize: 13, fontWeight: 700,
+          cursor: saving ? "default" : "pointer", opacity: saving ? 0.6 : 1, fontFamily: font,
+        }}>{saving ? "Eliminando…" : "Eliminar"}</button>
+      </div>
+    </Modal>
+  );
+}
+
+// ── Formulario de inscripción (crear o editar) ────────────────────────────────
+function InscripcionForm({ alumnos, cursos, planes, initial, onSave, onCancel }) {
+  const isEdit = !!initial;
+  const [alumnoId, setAlumnoId] = useState(initial?.alumno_id || "");
+  const [cursoId, setCursoId] = useState(initial?.curso_id || "");
+  const [planId, setPlanId] = useState(initial?.plan_precio_id || "");
+  const [grupoId, setGrupoId] = useState(initial?.grupo_id || "");
+  const [estado, setEstado] = useState(initial?.estado || "activa");
   const [grupos, setGrupos] = useState([]);
   const [saving, setSaving] = useState(false);
 
-  // Cargar grupos cuando selecciona un curso
   useEffect(() => {
     if (!cursoId) { setGrupos([]); setGrupoId(""); return; }
     async function load() {
       const { data } = await supabase.from("grupos").select("*").eq("curso_id", cursoId).order("fecha_inicio");
       setGrupos(data || []);
-      setGrupoId("");
+      if (!isEdit) setGrupoId("");
     }
     load();
   }, [cursoId]);
@@ -105,7 +126,14 @@ function InscripcionForm({ alumnos, cursos, planes, onSave, onCancel }) {
   async function handleSubmit(e) {
     e.preventDefault();
     setSaving(true);
-    await onSave({ alumno_id: alumnoId, curso_id: cursoId, plan_precio_id: planId, grupo_id: grupoId || null });
+    await onSave({
+      alumno_id: alumnoId,
+      curso_id: cursoId,
+      plan_precio_id: planId,
+      grupo_id: grupoId || null,
+      estado,
+      id: initial?.id || null,
+    });
     setSaving(false);
   }
 
@@ -149,6 +177,17 @@ function InscripcionForm({ alumnos, cursos, planes, onSave, onCancel }) {
         </select>
       </Field>
 
+      {isEdit && (
+        <Field label="Estado">
+          <select value={estado} onChange={(e) => setEstado(e.target.value)} style={{ ...inputStyle, cursor: "pointer" }}>
+            <option value="activa">Activa</option>
+            <option value="pausada">Pausada</option>
+            <option value="finalizada">Finalizada</option>
+            <option value="cancelada">Cancelada</option>
+          </select>
+        </Field>
+      )}
+
       <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", marginTop: 8 }}>
         <button type="button" onClick={onCancel} style={{
           background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
@@ -157,15 +196,16 @@ function InscripcionForm({ alumnos, cursos, planes, onSave, onCancel }) {
         <button type="submit" disabled={saving || !alumnoId || !cursoId || !planId} style={{
           background: C.blue, border: "none", borderRadius: 8,
           padding: "8px 22px", color: "#fff", fontSize: 13, fontWeight: 700,
-          cursor: saving ? "default" : "pointer", opacity: saving || !alumnoId || !cursoId || !planId ? 0.6 : 1, fontFamily: font,
-        }}>{saving ? "Inscribiendo…" : "Inscribir"}</button>
+          cursor: saving ? "default" : "pointer",
+          opacity: saving || !alumnoId || !cursoId || !planId ? 0.6 : 1, fontFamily: font,
+        }}>{saving ? "Guardando…" : isEdit ? "Guardar cambios" : "Inscribir"}</button>
       </div>
     </form>
   );
 }
 
 // ── Fila de inscripción ──────────────────────────────────────────────────────
-function InscripcionRow({ insc, alumnos, cursos, planes }) {
+function InscripcionRow({ insc, alumnos, cursos, planes, onEdit, onDelete }) {
   const alumno = alumnos.find((a) => a.id === insc.alumno_id);
   const curso = cursos.find((c) => c.id === insc.curso_id);
   const plan = planes.find((p) => p.id === insc.plan_precio_id);
@@ -190,9 +230,15 @@ function InscripcionRow({ insc, alumnos, cursos, planes }) {
           </span>
         )}
       </div>
-      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
         <EstadoBadge estado={insc.estado} />
         <span style={{ color: C.muted, fontSize: 12, fontFamily: font }}>{fmtDate(insc.fecha_inscripcion)}</span>
+        <button onClick={() => onEdit(insc)} title="Editar" style={{
+          background: "none", border: "none", color: C.blue, fontSize: 15, cursor: "pointer", padding: "2px 4px",
+        }}>✎</button>
+        <button onClick={() => onDelete(insc)} title="Eliminar" style={{
+          background: "none", border: "none", color: C.red, fontSize: 15, cursor: "pointer", padding: "2px 4px",
+        }}>✕</button>
       </div>
     </div>
   );
@@ -206,6 +252,8 @@ export default function AdminInscripciones({ embedded }) {
   const [planes, setPlanes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
+  const [editInsc, setEditInsc] = useState(null);
+  const [deleteTarget, setDeleteTarget] = useState(null);
   const [filtroEstado, setFiltroEstado] = useState("todos");
 
   useEffect(() => { loadAll(); }, []);
@@ -230,7 +278,7 @@ export default function AdminInscripciones({ embedded }) {
     return true;
   });
 
-  async function handleSave(form) {
+  async function handleCreate(form) {
     const { data: inscripcion, error } = await supabase
       .from("inscripciones")
       .insert(form)
@@ -260,6 +308,24 @@ export default function AdminInscripciones({ embedded }) {
     await loadAll();
   }
 
+  async function handleEdit(form) {
+    if (!form.id) return;
+    const { id, ...rest } = form;
+    const { error } = await supabase.from("inscripciones").update(rest).eq("id", id);
+    if (error) { console.error(error); return; }
+    setEditInsc(null);
+    setShowForm(false);
+    await loadAll();
+  }
+
+  async function handleDelete() {
+    if (!deleteTarget) return;
+    const { error } = await supabase.from("inscripciones").delete().eq("id", deleteTarget.id);
+    if (error) { console.error(error); }
+    setDeleteTarget(null);
+    await loadAll();
+  }
+
   return (
     <div style={{ minHeight: "100vh", background: C.bg, fontFamily: font }}>
       {!embedded && <AdminHeader active="inscripciones" />}
@@ -285,7 +351,7 @@ export default function AdminInscripciones({ embedded }) {
         </div>
         <div style={{ flex: 1 }} />
         <span style={{ color: C.muted, fontSize: 12, fontFamily: font }}>{filtradas.length} inscripciones</span>
-        <button onClick={() => setShowForm(true)} style={{
+        <button onClick={() => { setEditInsc(null); setShowForm(true); }} style={{
           background: C.blue, border: "none", borderRadius: 8,
           padding: "8px 18px", color: "#fff", fontSize: 12, fontWeight: 700,
           cursor: "pointer", fontFamily: font,
@@ -300,22 +366,37 @@ export default function AdminInscripciones({ embedded }) {
       ) : (
         <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
           {filtradas.map((insc) => (
-            <InscripcionRow key={insc.id} insc={insc} alumnos={alumnos} cursos={cursos} planes={planes} />
+            <InscripcionRow
+              key={insc.id} insc={insc} alumnos={alumnos} cursos={cursos} planes={planes}
+              onEdit={(i) => { setEditInsc(i); setShowForm(true); }}
+              onDelete={(i) => setDeleteTarget(i)}
+            />
           ))}
         </div>
       )}
 
-      {/* Modal */}
+      {/* Modal crear/editar */}
       {showForm && (
-        <Modal title="Nueva inscripción" onClose={() => setShowForm(false)}>
+        <Modal title={editInsc ? "Editar inscripción" : "Nueva inscripción"} onClose={() => { setShowForm(false); setEditInsc(null); }}>
           <InscripcionForm
             alumnos={alumnos}
             cursos={cursos}
             planes={planes}
-            onSave={handleSave}
-            onCancel={() => setShowForm(false)}
+            initial={editInsc || null}
+            onSave={editInsc ? handleEdit : handleCreate}
+            onCancel={() => { setShowForm(false); setEditInsc(null); }}
           />
         </Modal>
+      )}
+
+      {/* Modal eliminar */}
+      {deleteTarget && (
+        <ConfirmModal
+          title="Eliminar inscripción"
+          message="¿Eliminar esta inscripción? Los cargos asociados no se eliminarán."
+          onConfirm={handleDelete}
+          onCancel={() => setDeleteTarget(null)}
+        />
       )}
       </div>
     </div>

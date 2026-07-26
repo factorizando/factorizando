@@ -266,7 +266,27 @@ function TarifaForm({ onSave, onCancel }) {
 }
 
 // ── Detalle de curso (sub-secciones) ─────────────────────────────────────────
-function CursoDetalle({ curso, onEdit }) {
+function ConfirmModal({ title, message, onConfirm, onCancel }) {
+  const [saving, setSaving] = useState(false);
+  return (
+    <Modal title={title} onClose={onCancel}>
+      <p style={{ color: C.dim, fontSize: 13, fontFamily: font, margin: "0 0 18px" }}>{message}</p>
+      <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
+        <button onClick={onCancel} style={{
+          background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
+          padding: "8px 18px", color: C.muted, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: font,
+        }}>Cancelar</button>
+        <button onClick={async () => { setSaving(true); await onConfirm(); }} disabled={saving} style={{
+          background: C.red, border: "none", borderRadius: 8,
+          padding: "8px 22px", color: "#fff", fontSize: 13, fontWeight: 700,
+          cursor: saving ? "default" : "pointer", opacity: saving ? 0.6 : 1, fontFamily: font,
+        }}>{saving ? "Eliminando…" : "Eliminar"}</button>
+      </div>
+    </Modal>
+  );
+}
+
+function CursoDetalle({ curso, onEdit, onDelete }) {
   const [grupos, setGrupos] = useState([]);
   const [planes, setPlanes] = useState([]);
   const [tarifas, setTarifas] = useState([]);
@@ -274,6 +294,7 @@ function CursoDetalle({ curso, onEdit }) {
   const [showGrupo, setShowGrupo] = useState(false);
   const [showPlan, setShowPlan] = useState(false);
   const [showTarifa, setShowTarifa] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(null);
 
   useEffect(() => { if (curso) loadSub(); }, [curso]);
 
@@ -297,8 +318,7 @@ function CursoDetalle({ curso, onEdit }) {
   }
 
   async function handleDeleteGrupo(id) {
-    await supabase.from("grupos").delete().eq("id", id);
-    await loadSub();
+    setConfirmDelete({ type: "grupo", id, message: "¿Eliminar este grupo?" });
   }
 
   async function handleAddPlan(form) {
@@ -308,8 +328,7 @@ function CursoDetalle({ curso, onEdit }) {
   }
 
   async function handleDeletePlan(id) {
-    await supabase.from("planes_precio").delete().eq("id", id);
-    await loadSub();
+    setConfirmDelete({ type: "plan", id, message: "¿Eliminar este plan de precio?" });
   }
 
   async function handleAddTarifa(form) {
@@ -319,7 +338,14 @@ function CursoDetalle({ curso, onEdit }) {
   }
 
   async function handleDeleteTarifa(id) {
-    await supabase.from("tarifas_asesoria").delete().eq("id", id);
+    setConfirmDelete({ type: "tarifa", id, message: "¿Eliminar esta tarifa?" });
+  }
+
+  async function confirmDeleteAction() {
+    if (!confirmDelete) return;
+    const table = confirmDelete.type === "grupo" ? "grupos" : confirmDelete.type === "plan" ? "planes_precio" : "tarifas_asesoria";
+    await supabase.from(table).delete().eq("id", confirmDelete.id);
+    setConfirmDelete(null);
     await loadSub();
   }
 
@@ -357,10 +383,16 @@ function CursoDetalle({ curso, onEdit }) {
             )}
           </div>
         </div>
-        <button onClick={() => onEdit(curso)} style={{
-          background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
-          padding: "6px 14px", color: C.dim, fontSize: 12, fontWeight: 600, cursor: "pointer", fontFamily: font,
-        }}>Editar</button>
+        <div style={{ display: "flex", gap: 8 }}>
+          <button onClick={() => onEdit(curso)} style={{
+            background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
+            padding: "6px 14px", color: C.dim, fontSize: 12, fontWeight: 600, cursor: "pointer", fontFamily: font,
+          }}>Editar</button>
+          <button onClick={() => onDelete(curso)} style={{
+            background: C.red + "18", border: `1px solid ${C.red}33`, borderRadius: 8,
+            padding: "6px 14px", color: C.red, fontSize: 12, fontWeight: 600, cursor: "pointer", fontFamily: font,
+          }}>Eliminar</button>
+        </div>
       </div>
 
       {curso.descripcion && (
@@ -481,6 +513,14 @@ function CursoDetalle({ curso, onEdit }) {
           <TarifaForm onSave={handleAddTarifa} onCancel={() => setShowTarifa(false)} />
         </Modal>
       )}
+      {confirmDelete && (
+        <ConfirmModal
+          title={`Eliminar ${confirmDelete.type}`}
+          message={confirmDelete.message}
+          onConfirm={confirmDeleteAction}
+          onCancel={() => setConfirmDelete(null)}
+        />
+      )}
     </div>
   );
 }
@@ -552,6 +592,7 @@ export default function AdminCursos({ embedded }) {
   const [selected, setSelected] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [editCurso, setEditCurso] = useState(null);
+  const [deleteCurso, setDeleteCurso] = useState(null);
 
   useEffect(() => { loadAll(); }, []);
 
@@ -588,6 +629,14 @@ export default function AdminCursos({ embedded }) {
     setShowForm(true);
   }
 
+  async function handleDeleteCurso() {
+    if (!deleteCurso) return;
+    await supabase.from("cursos").delete().eq("id", deleteCurso.id);
+    setDeleteCurso(null);
+    setSelected(null);
+    await loadAll();
+  }
+
   return (
     <div style={{ minHeight: "100vh", background: C.bg, fontFamily: font }}>
       {!embedded && <AdminHeader active="cursos" />}
@@ -620,7 +669,7 @@ export default function AdminCursos({ embedded }) {
           flex: "1 1 300px", background: C.surface, border: `1px solid ${C.border}`,
           borderRadius: 12, padding: 24,
         }}>
-          <CursoDetalle curso={selected} onEdit={handleEdit} />
+          <CursoDetalle curso={selected} onEdit={handleEdit} onDelete={(curso) => setDeleteCurso(curso)} />
         </div>
       </div>
 
@@ -629,6 +678,14 @@ export default function AdminCursos({ embedded }) {
         <Modal title={editCurso ? "Editar curso" : "Nuevo curso"} onClose={() => { setShowForm(false); setEditCurso(null); }}>
           <CursoForm initial={editCurso || undefined} onSave={handleSave} onCancel={() => { setShowForm(false); setEditCurso(null); }} />
         </Modal>
+      )}
+      {deleteCurso && (
+        <ConfirmModal
+          title="Eliminar curso"
+          message={`¿Eliminar "${deleteCurso.name || deleteCurso.nombre}"? Todos sus grupos, planes y tarifas se eliminarán también.`}
+          onConfirm={handleDeleteCurso}
+          onCancel={() => setDeleteCurso(null)}
+        />
       )}
       </div>
     </div>

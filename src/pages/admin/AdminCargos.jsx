@@ -1,5 +1,5 @@
 // src/pages/admin/AdminCargos.jsx
-// Panel de administración de cargos y pagos: tabla de cargos, registrar pagos, cambiar planes.
+// Panel de administración de cargos y pagos: CRUD de cargos, registrar pagos, ver historial.
 
 import { useState, useEffect } from "react";
 import { supabase } from "../../lib/supabase";
@@ -70,7 +70,7 @@ function Modal({ title, onClose, children }) {
     }} onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
       <div style={{
         background: C.card, border: `1px solid ${C.border}`, borderRadius: 14,
-        width: "90%", maxWidth: 440, maxHeight: "85vh", overflow: "auto", padding: "24px 28px",
+        width: "90%", maxWidth: 480, maxHeight: "85vh", overflow: "auto", padding: "24px 28px",
       }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
           <h3 style={{ margin: 0, color: C.text, fontSize: 16, fontWeight: 700, fontFamily: font }}>{title}</h3>
@@ -79,6 +79,64 @@ function Modal({ title, onClose, children }) {
         {children}
       </div>
     </div>
+  );
+}
+
+// ── Formulario de cargo (crear o editar) ──────────────────────────────────────
+function CargoForm({ alumnos, initial, onSave, onCancel }) {
+  const [form, setForm] = useState({
+    alumno_id: initial?.alumno_id || "",
+    concepto: initial?.concepto || "",
+    monto: initial?.monto || "",
+    fecha_vencimiento: initial?.fecha_vencimiento || "",
+  });
+  const [saving, setSaving] = useState(false);
+
+  const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setSaving(true);
+    await onSave({ ...form, monto: Number(form.monto), id: initial?.id || null });
+    setSaving(false);
+  }
+
+  return (
+    <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+      <Field label="Alumno">
+        <select value={form.alumno_id} onChange={set("alumno_id")} style={{ ...inputStyle, cursor: "pointer" }} required>
+          <option value="">Seleccionar alumno…</option>
+          {alumnos.map((a) => (
+            <option key={a.id} value={a.id}>{a.nombre} {a.apellidos}</option>
+          ))}
+        </select>
+      </Field>
+      <Field label="Concepto">
+        <input value={form.concepto} onChange={set("concepto")} placeholder="Ej: Inscripción — mensual" style={inputStyle} required
+          onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }} onBlur={(e) => { e.target.style.borderColor = C.border; }} />
+      </Field>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+        <Field label="Monto">
+          <input type="number" step="0.01" min="0" value={form.monto} onChange={set("monto")} style={inputStyle} required
+            onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }} onBlur={(e) => { e.target.style.borderColor = C.border; }} />
+        </Field>
+        <Field label="Fecha de vencimiento">
+          <input type="date" value={form.fecha_vencimiento} onChange={set("fecha_vencimiento")} style={inputStyle} required />
+        </Field>
+      </div>
+      <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", marginTop: 8 }}>
+        <button type="button" onClick={onCancel} style={{
+          background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
+          padding: "8px 18px", color: C.muted, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: font,
+        }}>Cancelar</button>
+        <button type="submit" disabled={saving || !form.alumno_id || !form.concepto || !form.monto || !form.fecha_vencimiento} style={{
+          background: C.blue, border: "none", borderRadius: 8,
+          padding: "8px 22px", color: "#fff", fontSize: 13, fontWeight: 700,
+          cursor: saving ? "default" : "pointer",
+          opacity: saving || !form.alumno_id || !form.concepto || !form.monto || !form.fecha_vencimiento ? 0.6 : 1, fontFamily: font,
+        }}>{saving ? "Guardando…" : initial ? "Guardar cambios" : "Crear cargo"}</button>
+      </div>
+    </form>
   );
 }
 
@@ -152,46 +210,101 @@ function PagoForm({ cargo, onSave, onCancel }) {
   );
 }
 
+// ── Modal de confirmación ────────────────────────────────────────────────────
+function ConfirmModal({ title, message, onConfirm, onCancel }) {
+  const [saving, setSaving] = useState(false);
+  return (
+    <Modal title={title} onClose={onCancel}>
+      <p style={{ color: C.dim, fontSize: 13, fontFamily: font, margin: "0 0 18px" }}>{message}</p>
+      <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
+        <button onClick={onCancel} style={{
+          background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
+          padding: "8px 18px", color: C.muted, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: font,
+        }}>Cancelar</button>
+        <button onClick={async () => { setSaving(true); await onConfirm(); }} disabled={saving} style={{
+          background: C.red, border: "none", borderRadius: 8,
+          padding: "8px 22px", color: "#fff", fontSize: 13, fontWeight: 700,
+          cursor: saving ? "default" : "pointer", opacity: saving ? 0.6 : 1, fontFamily: font,
+        }}>{saving ? "Eliminando…" : "Eliminar"}</button>
+      </div>
+    </Modal>
+  );
+}
+
 // ── Fila de cargo ────────────────────────────────────────────────────────────
-function CargoRow({ cargo, alumnos, onPay }) {
+function CargoRow({ cargo, alumnos, onPay, onEdit, onDelete, onTogglePagos, showPagos, pagos }) {
   const alumno = alumnos.find((a) => a.id === cargo.alumno_id);
   const vencido = cargo.estado === "pendiente" && new Date(cargo.fecha_vencimiento) < new Date();
 
   return (
-    <div style={{
-      background: C.card,
-      border: `1px solid ${vencido ? C.red + "44" : C.border}`,
-      borderRadius: 10,
-      padding: "12px 16px",
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      flexWrap: "wrap",
-      gap: 8,
-    }}>
-      <div>
-        <span style={{ color: C.text, fontWeight: 600, fontSize: 13, fontFamily: font }}>
-          {alumno ? `${alumno.nombre} ${alumno.apellidos}` : cargo.alumno_id.slice(0, 8)}
-        </span>
-        <span style={{ color: C.muted, fontSize: 13, fontFamily: font }}> · </span>
-        <span style={{ color: C.dim, fontSize: 13, fontFamily: font }}>{cargo.concepto}</span>
+    <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+      <div style={{
+        background: C.card,
+        border: `1px solid ${vencido ? C.red + "44" : C.border}`,
+        borderRadius: 10,
+        padding: "12px 16px",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        flexWrap: "wrap",
+        gap: 8,
+      }}>
+        <div>
+          <span style={{ color: C.text, fontWeight: 600, fontSize: 13, fontFamily: font }}>
+            {alumno ? `${alumno.nombre} ${alumno.apellidos}` : cargo.alumno_id.slice(0, 8)}
+          </span>
+          <span style={{ color: C.muted, fontSize: 13, fontFamily: font }}> · </span>
+          <span style={{ color: C.dim, fontSize: 13, fontFamily: font }}>{cargo.concepto}</span>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <span style={{ color: C.text, fontWeight: 700, fontSize: 14, fontFamily: font }}>
+            {fmtMoney(cargo.monto)}
+          </span>
+          <span style={{ color: vencido ? C.red : C.muted, fontSize: 12, fontFamily: font }}>
+            {fmtDate(cargo.fecha_vencimiento)}
+          </span>
+          <EstadoBadge estado={vencido ? "vencido" : cargo.estado} />
+          {cargo.estado === "pendiente" && (
+            <button onClick={() => onPay(cargo)} style={{
+              background: C.green + "22", border: `1px solid ${C.green}44`, borderRadius: 6,
+              padding: "4px 12px", color: C.green, fontSize: 11, fontWeight: 700,
+              cursor: "pointer", fontFamily: font,
+            }}>Pagar</button>
+          )}
+          <button onClick={() => onEdit(cargo)} title="Editar" style={{
+            background: "none", border: "none", color: C.blue, fontSize: 15, cursor: "pointer", padding: "2px 4px",
+          }}>✎</button>
+          <button onClick={() => onDelete(cargo)} title="Eliminar" style={{
+            background: "none", border: "none", color: C.red, fontSize: 15, cursor: "pointer", padding: "2px 4px",
+          }}>✕</button>
+          <button onClick={() => onTogglePagos(cargo.id)} title="Ver pagos" style={{
+            background: "none", border: "none", color: C.muted, fontSize: 13, cursor: "pointer", padding: "2px 6px",
+          }}>{showPagos ? "▾" : "▸"}</button>
+        </div>
       </div>
-      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        <span style={{ color: C.text, fontWeight: 700, fontSize: 14, fontFamily: font }}>
-          {fmtMoney(cargo.monto)}
-        </span>
-        <span style={{ color: vencido ? C.red : C.muted, fontSize: 12, fontFamily: font }}>
-          {fmtDate(cargo.fecha_vencimiento)}
-        </span>
-        <EstadoBadge estado={vencido ? "vencido" : cargo.estado} />
-        {cargo.estado === "pendiente" && (
-          <button onClick={() => onPay(cargo)} style={{
-            background: C.green + "22", border: `1px solid ${C.green}44`, borderRadius: 6,
-            padding: "4px 12px", color: C.green, fontSize: 11, fontWeight: 700,
-            cursor: "pointer", fontFamily: font,
-          }}>Pagar</button>
-        )}
-      </div>
+      {showPagos && (
+        <div style={{
+          background: C.surface, border: `1px solid ${C.border}`, borderTop: "none",
+          borderRadius: "0 0 10px 10px", padding: "10px 16px", marginTop: -6,
+        }}>
+          {pagos.length === 0 ? (
+            <div style={{ color: C.muted, fontSize: 12, fontFamily: font, padding: "4px 0" }}>Sin pagos registrados.</div>
+          ) : (
+            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+              {pagos.map((pg) => (
+                <div key={pg.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 12, fontFamily: font }}>
+                  <div>
+                    <span style={{ color: C.green, fontWeight: 600 }}>{fmtMoney(pg.monto)}</span>
+                    <span style={{ color: C.muted }}> · {pg.metodo_pago}</span>
+                    {pg.notas && <span style={{ color: C.dim }}> · {pg.notas}</span>}
+                  </div>
+                  <span style={{ color: C.muted }}>{fmtDate(pg.fecha_pago)}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
@@ -202,8 +315,14 @@ export default function AdminCargos({ embedded }) {
   const [alumnos, setAlumnos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filtroEstado, setFiltroEstado] = useState("todos");
+
   const [showPago, setShowPago] = useState(false);
   const [selectedCargo, setSelectedCargo] = useState(null);
+  const [showCargoForm, setShowCargoForm] = useState(false);
+  const [editCargo, setEditCargo] = useState(null);
+  const [deleteTarget, setDeleteTarget] = useState(null);
+  const [expandedPagos, setExpandedPagos] = useState({});
+  const [pagosMap, setPagosMap] = useState({});
 
   useEffect(() => { loadAll(); }, []);
 
@@ -234,19 +353,59 @@ export default function AdminCargos({ embedded }) {
     .filter((c) => c.estado === "pendiente" && new Date(c.fecha_vencimiento) < new Date())
     .reduce((s, c) => s + Number(c.monto), 0);
 
+  // ── CRUD handlers ──────────────────────────────────────────────────────────
+
+  async function handleCreateCargo(form) {
+    const { error } = await supabase.from("cargos").insert({
+      alumno_id: form.alumno_id,
+      concepto: form.concepto,
+      monto: form.monto,
+      fecha_vencimiento: form.fecha_vencimiento,
+      estado: "pendiente",
+    });
+    if (error) { console.error(error); return; }
+    setShowCargoForm(false);
+    await loadAll();
+  }
+
+  async function handleEditCargo(form) {
+    const { error } = await supabase.from("cargos").update({
+      alumno_id: form.alumno_id,
+      concepto: form.concepto,
+      monto: form.monto,
+      fecha_vencimiento: form.fecha_vencimiento,
+    }).eq("id", form.id);
+    if (error) { console.error(error); return; }
+    setEditCargo(null);
+    await loadAll();
+  }
+
+  async function handleDeleteCargo() {
+    if (!deleteTarget) return;
+    const { error } = await supabase.from("cargos").delete().eq("id", deleteTarget.id);
+    if (error) { console.error(error); }
+    setDeleteTarget(null);
+    await loadAll();
+  }
+
   async function handlePay({ cargo_id, monto, metodo_pago, notas }) {
-    // Registrar pago
     const { error: errPago } = await supabase.from("pagos").insert({ cargo_id, monto, metodo_pago, notas });
     if (errPago) { console.error(errPago); return; }
-
-    // Actualizar estado del cargo
     const nuevoEstado = monto >= Number(cargos.find((c) => c.id === cargo_id).monto) ? "pagado" : "pendiente";
     const { error: errCargo } = await supabase.from("cargos").update({ estado: nuevoEstado }).eq("id", cargo_id);
     if (errCargo) { console.error(errCargo); return; }
-
     setShowPago(false);
     setSelectedCargo(null);
     await loadAll();
+  }
+
+  async function togglePagos(cargoId) {
+    const next = { ...expandedPagos, [cargoId]: !expandedPagos[cargoId] };
+    setExpandedPagos(next);
+    if (next[cargoId] && !pagosMap[cargoId]) {
+      const { data } = await supabase.from("pagos").select("*").eq("cargo_id", cargoId).order("fecha_pago");
+      setPagosMap((m) => ({ ...m, [cargoId]: data || [] }));
+    }
   }
 
   return (
@@ -272,7 +431,7 @@ export default function AdminCargos({ embedded }) {
         ))}
       </div>
 
-      {/* Filtros */}
+      {/* Filtros + acción */}
       <div style={{ display: "flex", gap: 6, marginBottom: 20, flexWrap: "wrap", alignItems: "center" }}>
         {["todos", "pendiente", "vencidos", "pagado", "cancelado"].map((e) => (
           <button
@@ -290,6 +449,12 @@ export default function AdminCargos({ embedded }) {
           </button>
         ))}
         <span style={{ marginLeft: 8, color: C.muted, fontSize: 12, fontFamily: font }}>{filtrados.length} cargos</span>
+        <div style={{ flex: 1 }} />
+        <button onClick={() => { setEditCargo(null); setShowCargoForm(true); }} style={{
+          background: C.blue, border: "none", borderRadius: 8,
+          padding: "8px 18px", color: "#fff", fontSize: 12, fontWeight: 700,
+          cursor: "pointer", fontFamily: font,
+        }}>+ Nuevo cargo</button>
       </div>
 
       {/* Lista */}
@@ -300,9 +465,29 @@ export default function AdminCargos({ embedded }) {
       ) : (
         <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
           {filtrados.map((c) => (
-            <CargoRow key={c.id} cargo={c} alumnos={alumnos} onPay={(cargo) => { setSelectedCargo(cargo); setShowPago(true); }} />
+            <CargoRow
+              key={c.id} cargo={c} alumnos={alumnos}
+              onPay={(cargo) => { setSelectedCargo(cargo); setShowPago(true); }}
+              onEdit={(cargo) => { setEditCargo(cargo); setShowCargoForm(true); }}
+              onDelete={(cargo) => setDeleteTarget(cargo)}
+              onTogglePagos={togglePagos}
+              showPagos={!!expandedPagos[c.id]}
+              pagos={pagosMap[c.id] || []}
+            />
           ))}
         </div>
+      )}
+
+      {/* Modal crear/editar cargo */}
+      {showCargoForm && (
+        <Modal title={editCargo ? "Editar cargo" : "Nuevo cargo"} onClose={() => { setShowCargoForm(false); setEditCargo(null); }}>
+          <CargoForm
+            alumnos={alumnos}
+            initial={editCargo || null}
+            onSave={editCargo ? handleEditCargo : handleCreateCargo}
+            onCancel={() => { setShowCargoForm(false); setEditCargo(null); }}
+          />
+        </Modal>
       )}
 
       {/* Modal pago */}
@@ -314,6 +499,16 @@ export default function AdminCargos({ embedded }) {
             onCancel={() => { setShowPago(false); setSelectedCargo(null); }}
           />
         </Modal>
+      )}
+
+      {/* Modal eliminar */}
+      {deleteTarget && (
+        <ConfirmModal
+          title="Eliminar cargo"
+          message={`¿Eliminar el cargo "${deleteTarget.concepto}" de ${fmtMoney(deleteTarget.monto)}? Esta acción no se puede deshacer.`}
+          onConfirm={handleDeleteCargo}
+          onCancel={() => setDeleteTarget(null)}
+        />
       )}
       </div>
     </div>

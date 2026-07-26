@@ -1,6 +1,5 @@
 // src/pages/admin/AdminAlumnos.jsx
-// Panel de administración de alumnos: lista, búsqueda, crear/editar.
-// Al hacer clic en un alumno se navega a /admin/alumnos/:id (página dedicada).
+// Panel de administración de alumnos: lista, búsqueda, crear/editar/eliminar.
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -83,19 +82,46 @@ function Modal({ title, onClose, children }) {
   );
 }
 
-// ── Formulario de alumno (buscar profile existente o crear nuevo) ────────────
-function AlumnoForm({ profiles, onSave, onCancel }) {
-  const [selectedProfile, setSelectedProfile] = useState("");
+function ConfirmModal({ title, message, onConfirm, onCancel }) {
+  const [saving, setSaving] = useState(false);
+  return (
+    <Modal title={title} onClose={onCancel}>
+      <p style={{ color: C.dim, fontSize: 13, fontFamily: font, margin: "0 0 18px" }}>{message}</p>
+      <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
+        <button onClick={onCancel} style={{
+          background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
+          padding: "8px 18px", color: C.muted, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: font,
+        }}>Cancelar</button>
+        <button onClick={async () => { setSaving(true); await onConfirm(); }} disabled={saving} style={{
+          background: C.red, border: "none", borderRadius: 8,
+          padding: "8px 22px", color: "#fff", fontSize: 13, fontWeight: 700,
+          cursor: saving ? "default" : "pointer", opacity: saving ? 0.6 : 1, fontFamily: font,
+        }}>{saving ? "Eliminando…" : "Eliminar"}</button>
+      </div>
+    </Modal>
+  );
+}
+
+// ── Formulario de alumno (crear o editar) ────────────────────────────────────
+function AlumnoForm({ profiles, initial, onSave, onCancel }) {
+  const isEdit = !!initial;
+  const [selectedProfile, setSelectedProfile] = useState(initial?.id || "");
   const [form, setForm] = useState({
-    nombre: "", apellidos: "", fecha_nacimiento: "", email: "", telefono: "",
-    nivel: "prepa", alergias: "", condiciones_medicas: "", notas_importantes: "",
+    nombre: initial?.nombre || "",
+    apellidos: initial?.apellidos || "",
+    fecha_nacimiento: initial?.fecha_nacimiento || "",
+    email: initial?.email || "",
+    telefono: initial?.telefono || "",
+    nivel: initial?.nivel || "prepa",
+    alergias: initial?.alergias || "",
+    condiciones_medicas: initial?.condiciones_medicas || "",
+    notas_importantes: initial?.notas_importantes || "",
   });
   const [saving, setSaving] = useState(false);
-  const [isManual, setIsManual] = useState(false);
+  const [isManual, setIsManual] = useState(isEdit ? !initial?.id : false);
 
   const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
 
-  // Auto-fill from profile
   function handleProfileSelect(e) {
     const val = e.target.value;
     setSelectedProfile(val);
@@ -105,7 +131,7 @@ function AlumnoForm({ profiles, onSave, onCancel }) {
       return;
     }
     setIsManual(false);
-    const p = profiles.find((x) => x.id === val);
+    const p = (profiles || []).find((x) => x.id === val);
     if (p) {
       setForm((f) => ({
         ...f,
@@ -121,23 +147,25 @@ function AlumnoForm({ profiles, onSave, onCancel }) {
   async function handleSubmit(e) {
     e.preventDefault();
     setSaving(true);
-    await onSave(form);
+    await onSave({ ...form, id: initial?.id || form.id || null });
     setSaving(false);
   }
 
-  const profilesSinAlumno = profiles.filter((p) => !p.ya_es_alumno);
+  const profilesSinAlumno = (profiles || []).filter((p) => !p.ya_es_alumno || isEdit);
 
   return (
     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-      <Field label="Buscar usuario registrado">
-        <select value={selectedProfile} onChange={handleProfileSelect} style={{ ...inputStyle, cursor: "pointer" }} required={!isManual}>
-          <option value="">Seleccionar usuario…</option>
-          {profilesSinAlumno.map((p) => (
-            <option key={p.id} value={p.id}>{p.nombre || p.email} ({p.email || p.id.slice(0, 8)})</option>
-          ))}
-          <option value="manual">— Crear manualmente (sin usuario registrado) —</option>
-        </select>
-      </Field>
+      {!isEdit && (
+        <Field label="Buscar usuario registrado">
+          <select value={selectedProfile} onChange={handleProfileSelect} style={{ ...inputStyle, cursor: "pointer" }} required={!isManual}>
+            <option value="">Seleccionar usuario…</option>
+            {profilesSinAlumno.map((p) => (
+              <option key={p.id} value={p.id}>{p.nombre || p.email} ({p.email || p.id.slice(0, 8)})</option>
+            ))}
+            <option value="manual">— Crear manualmente (sin usuario registrado) —</option>
+          </select>
+        </Field>
+      )}
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
         <Field label="Nombre"><input value={form.nombre} onChange={set("nombre")} style={inputStyle} required
@@ -171,34 +199,32 @@ function AlumnoForm({ profiles, onSave, onCancel }) {
           background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
           padding: "8px 18px", color: C.muted, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: font,
         }}>Cancelar</button>
-        <button type="submit" disabled={saving || (!selectedProfile && !isManual)} style={{
+        <button type="submit" disabled={saving} style={{
           background: C.blue, border: "none", borderRadius: 8,
           padding: "8px 22px", color: "#fff", fontSize: 13, fontWeight: 700,
-          cursor: saving ? "default" : "pointer", opacity: saving || (!selectedProfile && !isManual) ? 0.6 : 1, fontFamily: font,
-        }}>{saving ? "Guardando…" : "Guardar"}</button>
+          cursor: saving ? "default" : "pointer", opacity: saving ? 0.6 : 1, fontFamily: font,
+        }}>{saving ? "Guardando…" : isEdit ? "Guardar cambios" : "Guardar"}</button>
       </div>
     </form>
   );
 }
 
 // ── Fila de alumno ───────────────────────────────────────────────────────────
-function AlumnoRow({ alumno, onClick }) {
+function AlumnoRow({ alumno, onClick, onEdit, onDelete }) {
   return (
-    <div
-      onClick={onClick}
-      style={{
-        background: C.card,
-        border: `1px solid ${C.border}`,
-        borderRadius: 10,
-        padding: "12px 16px",
-        cursor: "pointer",
-        transition: "border-color .15s, background .15s",
-      }}
+    <div style={{
+      background: C.card,
+      border: `1px solid ${C.border}`,
+      borderRadius: 10,
+      padding: "12px 16px",
+      cursor: "pointer",
+      transition: "border-color .15s, background .15s",
+    }}
       onMouseEnter={(e) => { e.currentTarget.style.borderColor = C.blue + "33"; }}
       onMouseLeave={(e) => { e.currentTarget.style.borderColor = C.border; }}
     >
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <div>
+        <div style={{ flex: 1 }} onClick={onClick}>
           <span style={{ color: C.text, fontWeight: 600, fontSize: 14, fontFamily: font }}>
             {alumno.nombre} {alumno.apellidos}
           </span>
@@ -211,12 +237,20 @@ function AlumnoRow({ alumno, onClick }) {
             {alumno.nivel === "prepa" ? "Prepa" : "Univ"}
           </span>
         </div>
-        <span style={{ color: C.muted, fontSize: 12, fontFamily: font }}>
-          {fmtDate(alumno.created_at)}
-        </span>
+        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+          <span style={{ color: C.muted, fontSize: 12, fontFamily: font }}>
+            {fmtDate(alumno.created_at)}
+          </span>
+          <button onClick={(e) => { e.stopPropagation(); onEdit(alumno); }} title="Editar" style={{
+            background: "none", border: "none", color: C.blue, fontSize: 15, cursor: "pointer", padding: "2px 4px",
+          }}>✎</button>
+          <button onClick={(e) => { e.stopPropagation(); onDelete(alumno); }} title="Eliminar" style={{
+            background: "none", border: "none", color: C.red, fontSize: 15, cursor: "pointer", padding: "2px 4px",
+          }}>✕</button>
+        </div>
       </div>
       {alumno.email && (
-        <div style={{ color: C.muted, fontSize: 12, marginTop: 4, fontFamily: font }}>{alumno.email}</div>
+        <div style={{ color: C.muted, fontSize: 12, marginTop: 4, fontFamily: font, cursor: "pointer" }} onClick={onClick}>{alumno.email}</div>
       )}
     </div>
   );
@@ -231,6 +265,8 @@ export default function AdminAlumnos({ embedded }) {
   const [busqueda, setBusqueda] = useState("");
   const [filtroNivel, setFiltroNivel] = useState("todos");
   const [showForm, setShowForm] = useState(false);
+  const [editAlumno, setEditAlumno] = useState(null);
+  const [deleteTarget, setDeleteTarget] = useState(null);
 
   useEffect(() => { loadAlumnos(); }, []);
 
@@ -243,7 +279,6 @@ export default function AdminAlumnos({ embedded }) {
     const alumnosList = a.data || [];
     setAlumnos(alumnosList);
 
-    // Marcar profiles que ya son alumnos
     const alumnoIds = new Set(alumnosList.map((x) => x.id));
     const profs = (p.data || []).map((x) => ({ ...x, ya_es_alumno: alumnoIds.has(x.id) }));
     setProfiles(profs);
@@ -259,19 +294,34 @@ export default function AdminAlumnos({ embedded }) {
     return true;
   });
 
-  async function handleSave(form) {
+  async function handleCreate(form) {
     if (form.id) {
-      // Crear alumno vinculado a profile existente
       const { id, ...rest } = form;
       const { error } = await supabase.from("alumnos").insert({ id, ...rest });
       if (error) { console.error(error); return; }
     } else {
-      // Crear alumno sin profile (requiere un UUID — buscar un profile disponible o usar uno)
-      // En Opción B esto no debería ocurrir, pero lo manejamos por si acaso
       const { error } = await supabase.from("alumnos").insert(form);
       if (error) { console.error(error); return; }
     }
     setShowForm(false);
+    await loadAlumnos();
+  }
+
+  async function handleEdit(form) {
+    if (!form.id) return;
+    const { id, ...rest } = form;
+    const { error } = await supabase.from("alumnos").update(rest).eq("id", id);
+    if (error) { console.error(error); return; }
+    setEditAlumno(null);
+    setShowForm(false);
+    await loadAlumnos();
+  }
+
+  async function handleDelete() {
+    if (!deleteTarget) return;
+    const { error } = await supabase.from("alumnos").delete().eq("id", deleteTarget.id);
+    if (error) { console.error(error); }
+    setDeleteTarget(null);
     await loadAlumnos();
   }
 
@@ -317,7 +367,7 @@ export default function AdminAlumnos({ embedded }) {
           ))}
         </div>
         <div style={{ flex: 1 }} />
-        <button onClick={() => setShowForm(true)} style={{
+        <button onClick={() => { setEditAlumno(null); setShowForm(true); }} style={{
           background: C.blue, border: "none", borderRadius: 8,
           padding: "8px 18px", color: "#fff", fontSize: 12, fontWeight: 700,
           cursor: "pointer", fontFamily: font,
@@ -332,20 +382,36 @@ export default function AdminAlumnos({ embedded }) {
       ) : (
         <div style={{ display: "flex", flexDirection: "column", gap: 6, maxWidth: 600 }}>
           {filtrados.map((a) => (
-            <AlumnoRow key={a.id} alumno={a} onClick={() => navigate(`/admin/alumnos/${a.id}`)} />
+            <AlumnoRow
+              key={a.id} alumno={a}
+              onClick={() => navigate(`/admin/alumnos/${a.id}`)}
+              onEdit={(alumno) => { setEditAlumno(alumno); setShowForm(true); }}
+              onDelete={(alumno) => setDeleteTarget(alumno)}
+            />
           ))}
         </div>
       )}
 
-      {/* Modal formulario */}
+      {/* Modal crear/editar */}
       {showForm && (
-        <Modal title="Nuevo alumno" onClose={() => setShowForm(false)}>
+        <Modal title={editAlumno ? "Editar alumno" : "Nuevo alumno"} onClose={() => { setShowForm(false); setEditAlumno(null); }}>
           <AlumnoForm
             profiles={profiles}
-            onSave={handleSave}
-            onCancel={() => setShowForm(false)}
+            initial={editAlumno || null}
+            onSave={editAlumno ? handleEdit : handleCreate}
+            onCancel={() => { setShowForm(false); setEditAlumno(null); }}
           />
         </Modal>
+      )}
+
+      {/* Modal eliminar */}
+      {deleteTarget && (
+        <ConfirmModal
+          title="Eliminar alumno"
+          message={`¿Eliminar a "${deleteTarget.nombre} ${deleteTarget.apellidos}"? Esta acción no se puede deshacer.`}
+          onConfirm={handleDelete}
+          onCancel={() => setDeleteTarget(null)}
+        />
       )}
       </div>
     </div>

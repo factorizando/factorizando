@@ -91,7 +91,8 @@ export default function Refrigerios() {
     });
 
     if (dbErr) {
-      setError("No se pudo guardar tu respuesta. Intenta de nuevo.");
+      console.error("Error guardando refrigerio:", dbErr);
+      setError(`Error: ${dbErr.message || dbErr.hint || "No se pudo guardar"}`);
       setSaving(false);
       return;
     }

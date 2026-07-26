@@ -4,7 +4,6 @@
 CREATE TABLE refrigerios (
   id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   alumno     TEXT NOT NULL,
-  grupo      TEXT NOT NULL,
   respuestas JSONB NOT NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );

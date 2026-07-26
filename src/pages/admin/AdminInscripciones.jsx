@@ -110,6 +110,7 @@ function InscripcionForm({ alumnos, cursos, planes, initial, onSave, onCancel })
   const [estado, setEstado] = useState(initial?.estado || "activa");
   const [grupos, setGrupos] = useState([]);
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (!cursoId) { setGrupos([]); setGrupoId(""); return; }
@@ -126,14 +127,18 @@ function InscripcionForm({ alumnos, cursos, planes, initial, onSave, onCancel })
   async function handleSubmit(e) {
     e.preventDefault();
     setSaving(true);
-    await onSave({
+    setError("");
+    const payload = {
       alumno_id: alumnoId,
       curso_id: cursoId,
       plan_precio_id: planId,
       grupo_id: grupoId || null,
-      estado,
-      id: initial?.id || null,
-    });
+    };
+    if (isEdit) {
+      payload.estado = estado;
+    }
+    const err = await onSave({ ...payload, id: initial?.id || undefined });
+    if (err) setError(err);
     setSaving(false);
   }
 
@@ -189,6 +194,7 @@ function InscripcionForm({ alumnos, cursos, planes, initial, onSave, onCancel })
       )}
 
       <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", marginTop: 8 }}>
+        {error && <div style={{ flex: 1, color: C.red, fontSize: 12, fontFamily: font, alignSelf: "center" }}>{error}</div>}
         <button type="button" onClick={onCancel} style={{
           background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
           padding: "8px 18px", color: C.muted, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: font,
@@ -279,12 +285,17 @@ export default function AdminInscripciones({ embedded }) {
   });
 
   async function handleCreate(form) {
+    const payload = { ...form };
+    delete payload.id;
     const { data: inscripcion, error } = await supabase
       .from("inscripciones")
-      .insert(form)
+      .insert(payload)
       .select()
       .single();
-    if (error) { console.error(error); return; }
+    if (error) {
+      console.error(error);
+      return error.message || "Error al inscribir";
+    }
 
     const plan = planes.find((p) => p.id === form.plan_precio_id);
     const curso = cursos.find((c) => c.id === form.curso_id);
@@ -294,7 +305,7 @@ export default function AdminInscripciones({ embedded }) {
       const dias = plan.tipo_cobro === "mensual" ? 30 : 7;
       const vencimiento = new Date(hoy.getTime() + dias * 86400000);
 
-      await supabase.from("cargos").insert({
+      const { error: cargoErr } = await supabase.from("cargos").insert({
         alumno_id: form.alumno_id,
         inscripcion_id: inscripcion.id,
         concepto: `${curso?.nombre || "Curso"} — ${plan.tipo_cobro}`,
@@ -302,20 +313,23 @@ export default function AdminInscripciones({ embedded }) {
         fecha_vencimiento: vencimiento.toISOString().slice(0, 10),
         estado: "pendiente",
       });
+      if (cargoErr) console.error(cargoErr);
     }
 
     setShowForm(false);
     await loadAll();
+    return null;
   }
 
   async function handleEdit(form) {
-    if (!form.id) return;
+    if (!form.id) return null;
     const { id, ...rest } = form;
     const { error } = await supabase.from("inscripciones").update(rest).eq("id", id);
-    if (error) { console.error(error); return; }
+    if (error) { console.error(error); return error.message || "Error al actualizar"; }
     setEditInsc(null);
     setShowForm(false);
     await loadAll();
+    return null;
   }
 
   async function handleDelete() {

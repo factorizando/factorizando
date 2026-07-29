@@ -7,6 +7,7 @@ import { useKaTeX } from "../../data/teoria/shared.jsx";
 
 const TABS = [
   { id: "alumnos",         label: "Alumnos" },
+  { id: "tutores",         label: "Tutores" },
   { id: "cuestionarios",   label: "Estadísticas" },
   { id: "presentaciones",  label: "Presentaciones" },
   { id: "cursos",          label: "Cursos" },

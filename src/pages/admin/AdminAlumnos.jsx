@@ -25,7 +25,8 @@ const C = {
 
 function fmtDate(iso) {
   if (!iso) return "—";
-  return new Date(iso).toLocaleDateString("es-MX", {
+  const [y, m, d] = iso.split("T")[0].split("-").map(Number);
+  return new Date(y, m - 1, d).toLocaleDateString("es-MX", {
     day: "2-digit", month: "short", year: "numeric",
   });
 }
@@ -118,6 +119,7 @@ function AlumnoForm({ profiles, initial, onSave, onCancel }) {
     notas_importantes: initial?.notas_importantes || "",
   });
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState(null);
   const [isManual, setIsManual] = useState(isEdit ? !initial?.id : false);
 
   const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
@@ -147,7 +149,10 @@ function AlumnoForm({ profiles, initial, onSave, onCancel }) {
   async function handleSubmit(e) {
     e.preventDefault();
     setSaving(true);
-    await onSave({ ...form, id: initial?.id || form.id || null });
+    setError(null);
+    const id = initial?.id || form.id || (isManual ? crypto.randomUUID() : null);
+    const result = await onSave({ ...form, id });
+    if (result?.error) setError(result.error);
     setSaving(false);
   }
 
@@ -196,6 +201,11 @@ function AlumnoForm({ profiles, initial, onSave, onCancel }) {
         onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }} onBlur={(e) => { e.target.style.borderColor = C.border; }} /></Field>
       <Field label="Notas importantes"><input value={form.notas_importantes} onChange={set("notas_importantes")} placeholder="(opcional)" style={inputStyle}
         onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }} onBlur={(e) => { e.target.style.borderColor = C.border; }} /></Field>
+      {error && (
+        <div style={{ background: "#ff444422", border: "1px solid #ff444466", borderRadius: 8, padding: "10px 14px", color: "#ff6666", fontSize: 13, fontFamily: font }}>
+          {error}
+        </div>
+      )}
       <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", marginTop: 8 }}>
         <button type="button" onClick={onCancel} style={{
           background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
@@ -300,10 +310,10 @@ export default function AdminAlumnos({ embedded }) {
     if (form.id) {
       const { id, ...rest } = form;
       const { error } = await supabase.from("alumnos").insert({ id, ...rest });
-      if (error) { console.error(error); return; }
+      if (error) { console.error(error); return { error: error.message || "Error al guardar el alumno." }; }
     } else {
       const { error } = await supabase.from("alumnos").insert(form);
-      if (error) { console.error(error); return; }
+      if (error) { console.error(error); return { error: error.message || "Error al guardar el alumno." }; }
     }
     setShowForm(false);
     await loadAlumnos();
@@ -313,7 +323,7 @@ export default function AdminAlumnos({ embedded }) {
     if (!form.id) return;
     const { id, ...rest } = form;
     const { error } = await supabase.from("alumnos").update(rest).eq("id", id);
-    if (error) { console.error(error); return; }
+    if (error) { console.error(error); return { error: error.message || "Error al actualizar el alumno." }; }
     setEditAlumno(null);
     setShowForm(false);
     await loadAlumnos();

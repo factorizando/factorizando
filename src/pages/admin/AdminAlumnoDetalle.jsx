@@ -26,7 +26,8 @@ const C = {
 
 function fmtDate(iso) {
   if (!iso) return "—";
-  return new Date(iso).toLocaleDateString("es-MX", { day: "2-digit", month: "short", year: "numeric" });
+  const [y, m, d] = iso.split("T")[0].split("-").map(Number);
+  return new Date(y, m - 1, d).toLocaleDateString("es-MX", { day: "2-digit", month: "short", year: "numeric" });
 }
 function fmtMoney(n) { return `$${Number(n).toLocaleString("es-MX", { minimumFractionDigits: 2 })}`; }
 
@@ -171,6 +172,60 @@ function ContactoForm({ initial, onSave, onCancel }) {
   );
 }
 
+// ── Selector de tutor existente ─────────────────────────────────────────────
+function TutorPicker({ tutores, assignedIds, onSelect, onCreateNew, onCancel }) {
+  const [search, setSearch] = useState("");
+  const disponibles = tutores.filter((t) => !assignedIds.has(t.id));
+  const filtrados = disponibles.filter((t) => {
+    if (!search) return true;
+    const q = search.toLowerCase();
+    return `${t.nombre} ${t.apellidos}`.toLowerCase().includes(q) || t.telefono.includes(q);
+  });
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+      <input placeholder="Buscar tutor existente…" value={search} onChange={(e) => setSearch(e.target.value)}
+        style={inputStyle} autoFocus
+        onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }} onBlur={(e) => { e.target.style.borderColor = C.border; }} />
+      <div style={{ maxHeight: 240, overflow: "auto", display: "flex", flexDirection: "column", gap: 4 }}>
+        {filtrados.length === 0 ? (
+          <div style={{ color: C.muted, fontSize: 13, padding: 12, textAlign: "center" }}>
+            {disponibles.length === 0 ? "No hay más tutores disponibles." : "Ningún tutor coincide."}
+          </div>
+        ) : filtrados.map((t) => (
+          <div key={t.id} style={{
+            display: "flex", justifyContent: "space-between", alignItems: "center",
+            background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8, padding: "8px 12px",
+          }}>
+            <div>
+              <span style={{ color: C.text, fontSize: 13, fontWeight: 600 }}>{t.nombre} {t.apellidos}</span>
+              <span style={{ marginLeft: 6, color: C.muted, fontSize: 11 }}>{t.telefono}</span>
+              <span style={{ marginLeft: 6, color: C.dim, fontSize: 10, fontWeight: 600, textTransform: "uppercase" }}>{t.relacion}</span>
+            </div>
+            <button onClick={() => onSelect(t.id)} style={{
+              background: C.blue, border: "none", borderRadius: 6,
+              padding: "4px 12px", color: "#fff", fontSize: 11, fontWeight: 700,
+              cursor: "pointer", fontFamily: font,
+            }}>Seleccionar</button>
+          </div>
+        ))}
+      </div>
+      <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 12, textAlign: "center" }}>
+        <button onClick={onCreateNew} style={{
+          background: "none", border: "none", color: C.blue, fontSize: 13, fontWeight: 700,
+          cursor: "pointer", fontFamily: font, padding: 0,
+        }}>+ Crear nuevo tutor</button>
+      </div>
+      <div style={{ display: "flex", justifyContent: "flex-end" }}>
+        <button onClick={onCancel} style={{
+          background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
+          padding: "8px 18px", color: C.muted, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: font,
+        }}>Cancelar</button>
+      </div>
+    </div>
+  );
+}
+
 // ── Página principal ─────────────────────────────────────────────────────────
 export default function AdminAlumnoDetalle() {
   const { id } = useParams();
@@ -185,6 +240,8 @@ export default function AdminAlumnoDetalle() {
   const [editTutor, setEditTutor] = useState(null);
   const [showContactoForm, setShowContactoForm] = useState(false);
   const [editContacto, setEditContacto] = useState(null);
+  const [allTutores, setAllTutores] = useState([]);
+  const [showTutorPicker, setShowTutorPicker] = useState(false);
 
   useEffect(() => { loadAll(); }, [id]);
 
@@ -194,14 +251,16 @@ export default function AdminAlumnoDetalle() {
     setAlumno(al);
 
     if (al) {
-      const [t, c, i, cg] = await Promise.all([
+      const [t, a, c, i, cg] = await Promise.all([
         supabase.from("tutores").select("*").in("id",
           (await supabase.from("alumno_tutor").select("tutor_id").eq("alumno_id", id)).data?.map((r) => r.tutor_id) || []
         ),
+        supabase.from("tutores").select("*").order("apellidos", { ascending: true }),
         supabase.from("contactos_emergencia").select("*").eq("alumno_id", id).order("orden"),
         supabase.from("inscripciones").select("*").eq("alumno_id", id).order("fecha_inscripcion", { ascending: false }),
         supabase.from("cargos").select("*").eq("alumno_id", id).order("fecha_vencimiento"),
       ]);
+      setAllTutores(a.data || []);
       setTutores(t.data || []);
       setContactos(c.data || []);
       setInscripciones(i.data || []);
@@ -234,6 +293,12 @@ export default function AdminAlumnoDetalle() {
   async function handleDeleteTutor(tutorId) {
     await supabase.from("alumno_tutor").delete().eq("alumno_id", id).eq("tutor_id", tutorId);
     await supabase.from("tutores").delete().eq("id", tutorId);
+    await loadAll();
+  }
+
+  async function handleLinkTutor(tutorId) {
+    await supabase.from("alumno_tutor").insert({ alumno_id: id, tutor_id: tutorId });
+    setShowTutorPicker(false);
     await loadAll();
   }
 
@@ -326,7 +391,7 @@ export default function AdminAlumnoDetalle() {
         <div>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
             <span style={{ color: C.dim, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>Tutores · {tutores.length}</span>
-            <button onClick={() => { setEditTutor(null); setShowTutorForm(true); }} style={{
+            <button onClick={() => { setShowTutorPicker(true); }} style={{
               background: "none", border: `1px solid ${C.border}`, borderRadius: 6,
               padding: "4px 12px", color: C.blue, fontSize: 11, fontWeight: 700, cursor: "pointer", fontFamily: font,
             }}>+ Agregar</button>
@@ -431,6 +496,17 @@ export default function AdminAlumnoDetalle() {
       </div>
 
       {/* Modales */}
+      {showTutorPicker && (
+        <Modal title="Agregar tutor" onClose={() => setShowTutorPicker(false)}>
+          <TutorPicker
+            tutores={allTutores}
+            assignedIds={new Set(tutores.map((t) => t.id))}
+            onSelect={handleLinkTutor}
+            onCreateNew={() => { setShowTutorPicker(false); setEditTutor(null); setShowTutorForm(true); }}
+            onCancel={() => setShowTutorPicker(false)}
+          />
+        </Modal>
+      )}
       {showTutorForm && (
         <Modal title={editTutor ? "Editar tutor" : "Nuevo tutor"} onClose={() => { setShowTutorForm(false); setEditTutor(null); }}>
           <TutorForm initial={editTutor || undefined} onSave={handleSaveTutor} onCancel={() => { setShowTutorForm(false); setEditTutor(null); }} />

@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "../../lib/supabase";
 import EstadoBadge from "../../components/admin/EstadoBadge.jsx";
 import AdminHeader from "../../components/admin/AdminHeader.jsx";
+import { generarComprobantePago } from "../../utils/comprobantePago.jsx";
 
 const font = "'DM Sans', sans-serif";
 const C = {
@@ -24,7 +25,8 @@ const C = {
 
 function fmtDate(iso) {
   if (!iso) return "—";
-  return new Date(iso).toLocaleDateString("es-MX", { day: "2-digit", month: "short", year: "numeric" });
+  const [y, m, d] = iso.split("T")[0].split("-").map(Number);
+  return new Date(y, m - 1, d).toLocaleDateString("es-MX", { day: "2-digit", month: "short", year: "numeric" });
 }
 
 function fmtMoney(n) {
@@ -232,7 +234,7 @@ function ConfirmModal({ title, message, onConfirm, onCancel }) {
 }
 
 // ── Fila de cargo ────────────────────────────────────────────────────────────
-function CargoRow({ cargo, alumnos, onPay, onEdit, onDelete, onTogglePagos, showPagos, pagos }) {
+function CargoRow({ cargo, alumnos, onPay, onEdit, onDelete, onTogglePagos, showPagos, pagos, onDownloadPago }) {
   const alumno = alumnos.find((a) => a.id === cargo.alumno_id);
   const vencido = cargo.estado === "pendiente" && new Date(cargo.fecha_vencimiento) < new Date();
 
@@ -298,7 +300,12 @@ function CargoRow({ cargo, alumnos, onPay, onEdit, onDelete, onTogglePagos, show
                     <span style={{ color: C.muted }}> · {pg.metodo_pago}</span>
                     {pg.notas && <span style={{ color: C.dim }}> · {pg.notas}</span>}
                   </div>
-                  <span style={{ color: C.muted }}>{fmtDate(pg.fecha_pago)}</span>
+                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    <span style={{ color: C.muted }}>{fmtDate(pg.fecha_pago)}</span>
+                    <button onClick={() => onDownloadPago(pg, cargo)} title="Descargar comprobante" style={{
+                      background: "none", border: "none", color: C.blue, fontSize: 14, cursor: "pointer", padding: "2px 4px",
+                    }}>↧</button>
+                  </div>
                 </div>
               ))}
             </div>
@@ -321,8 +328,11 @@ export default function AdminCargos({ embedded }) {
   const [showCargoForm, setShowCargoForm] = useState(false);
   const [editCargo, setEditCargo] = useState(null);
   const [deleteTarget, setDeleteTarget] = useState(null);
+  const [deletePagosCount, setDeletePagosCount] = useState(0);
   const [expandedPagos, setExpandedPagos] = useState({});
   const [pagosMap, setPagosMap] = useState({});
+  const [lastPago, setLastPago] = useState(null);
+  const [lastPagoCargo, setLastPagoCargo] = useState(null);
 
   useEffect(() => { loadAll(); }, []);
 
@@ -385,17 +395,22 @@ export default function AdminCargos({ embedded }) {
     const { error } = await supabase.from("cargos").delete().eq("id", deleteTarget.id);
     if (error) { console.error(error); }
     setDeleteTarget(null);
+    setDeletePagosCount(0);
     await loadAll();
   }
 
   async function handlePay({ cargo_id, monto, metodo_pago, notas }) {
-    const { error: errPago } = await supabase.from("pagos").insert({ cargo_id, monto, metodo_pago, notas });
+    const { data: pagoInsertado, error: errPago } = await supabase
+      .from("pagos").insert({ cargo_id, monto, metodo_pago, notas }).select().single();
     if (errPago) { console.error(errPago); return; }
-    const nuevoEstado = monto >= Number(cargos.find((c) => c.id === cargo_id).monto) ? "pagado" : "pendiente";
+    const cargo = cargos.find((c) => c.id === cargo_id);
+    const nuevoEstado = monto >= Number(cargo.monto) ? "pagado" : "pendiente";
     const { error: errCargo } = await supabase.from("cargos").update({ estado: nuevoEstado }).eq("id", cargo_id);
     if (errCargo) { console.error(errCargo); return; }
     setShowPago(false);
     setSelectedCargo(null);
+    setLastPago({ ...pagoInsertado, metodo_pago });
+    setLastPagoCargo(cargo);
     await loadAll();
   }
 
@@ -469,10 +484,18 @@ export default function AdminCargos({ embedded }) {
               key={c.id} cargo={c} alumnos={alumnos}
               onPay={(cargo) => { setSelectedCargo(cargo); setShowPago(true); }}
               onEdit={(cargo) => { setEditCargo(cargo); setShowCargoForm(true); }}
-              onDelete={(cargo) => setDeleteTarget(cargo)}
+              onDelete={async (cargo) => {
+                const { count } = await supabase.from("pagos").select("id", { count: "exact", head: true }).eq("cargo_id", cargo.id);
+                setDeletePagosCount(count || 0);
+                setDeleteTarget(cargo);
+              }}
               onTogglePagos={togglePagos}
               showPagos={!!expandedPagos[c.id]}
               pagos={pagosMap[c.id] || []}
+              onDownloadPago={(pg, cargo) => {
+                const alumno = alumnos.find((a) => a.id === cargo.alumno_id);
+                generarComprobantePago({ pago: pg, cargo, alumno: alumno || { nombre: "", apellidos: "" } });
+              }}
             />
           ))}
         </div>
@@ -501,13 +524,43 @@ export default function AdminCargos({ embedded }) {
         </Modal>
       )}
 
+      {/* Modal pago registrado */}
+      {lastPago && lastPagoCargo && (
+        <Modal title="Pago registrado" onClose={() => { setLastPago(null); setLastPagoCargo(null); }}>
+          <p style={{ color: C.dim, fontSize: 13, fontFamily: font, margin: "0 0 6px" }}>
+            El pago de <span style={{ color: C.green, fontWeight: 700 }}>{fmtMoney(lastPago.monto)}</span> se registró correctamente.
+          </p>
+          <p style={{ color: C.muted, fontSize: 12, fontFamily: font, margin: "0 0 18px" }}>
+            Folio: {lastPago.id?.slice(0, 8).toUpperCase()}
+          </p>
+          <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
+            <button onClick={() => { setLastPago(null); setLastPagoCargo(null); }} style={{
+              background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
+              padding: "8px 18px", color: C.muted, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: font,
+            }}>Cerrar</button>
+            <button onClick={() => {
+              const alumno = alumnos.find((a) => a.id === lastPagoCargo.alumno_id);
+              generarComprobantePago({ pago: lastPago, cargo: lastPagoCargo, alumno: alumno || { nombre: "", apellidos: "" } });
+            }} style={{
+              background: C.blue, border: "none", borderRadius: 8,
+              padding: "8px 22px", color: "#fff", fontSize: 13, fontWeight: 700,
+              cursor: "pointer", fontFamily: font,
+            }}>↧ Descargar comprobante</button>
+          </div>
+        </Modal>
+      )}
+
       {/* Modal eliminar */}
       {deleteTarget && (
         <ConfirmModal
           title="Eliminar cargo"
-          message={`¿Eliminar el cargo "${deleteTarget.concepto}" de ${fmtMoney(deleteTarget.monto)}? Esta acción no se puede deshacer.`}
+          message={
+            deletePagosCount > 0
+              ? `¿Eliminar el cargo "${deleteTarget.concepto}" de ${fmtMoney(deleteTarget.monto)}? Tiene ${deletePagosCount} pago(s) registrado(s) que también se eliminarán. Esta acción no se puede deshacer.`
+              : `¿Eliminar el cargo "${deleteTarget.concepto}" de ${fmtMoney(deleteTarget.monto)}? Esta acción no se puede deshacer.`
+          }
           onConfirm={handleDeleteCargo}
-          onCancel={() => setDeleteTarget(null)}
+          onCancel={() => { setDeleteTarget(null); setDeletePagosCount(0); }}
         />
       )}
       </div>

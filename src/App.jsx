@@ -32,6 +32,7 @@ import DocumentoVer from "./pages/DocumentoVer.jsx";
 import CursoVer from "./pages/CursoVer.jsx";
 import TemaPreview from "./pages/TemaPreview.jsx";
 import AdminAlumnos from "./pages/admin/AdminAlumnos.jsx";
+import AdminTutores from "./pages/admin/AdminTutores.jsx";
 import AdminInscripciones from "./pages/admin/AdminInscripciones.jsx";
 import AdminCargos from "./pages/admin/AdminCargos.jsx";
 import AdminSuscripciones from "./pages/admin/AdminSuscripciones.jsx";
@@ -99,6 +100,14 @@ function AppRoutes() {
           element={
             <ProtectedRoute requiredNivel="admin">
               <AdminAlumnos />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/tutores"
+          element={
+            <ProtectedRoute requiredNivel="admin">
+              <AdminTutores />
             </ProtectedRoute>
           }
         />

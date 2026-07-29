@@ -124,6 +124,27 @@ Standalone HTML files (for divisibility, grammar categories, etc.) served at `BA
 ### Auth (Supabase)
 Client configured in `src/lib/supabase.js` via `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` env vars (`.env` file, gitignored). Auth is email/password via Supabase Auth.
 
+### Admin panel (`src/pages/admin/`, `src/components/admin/AdminHeader.jsx`)
+Operational back-office for the tutoring business (not exam content). Tabs: Alumnos, Tutores, Estadísticas, Presentaciones, Cursos, Inscripciones, Cargos, Suscripciones. Each `Admin<Tab>.jsx` accepts an `embedded` prop to render without its own `AdminHeader`/page shell when hosted inside `Admin.jsx`'s tab switcher; it's also reachable standalone at `/admin/<tab>`.
+
+**Supabase schema** (migrations in `supabase/migrations/`):
+- `alumnos` — student record. `nivel` ∈ `primaria|secundaria|prepa|universidad`. `id` is **not** FK'd to `profiles` (dropped in `20260726100000_alumnos_nivel_check.sql`) so "manual" students without a platform account can exist — the frontend generates `crypto.randomUUID()` for these (see `AdminAlumnos.jsx`).
+- `tutores` — independent tutor records (`nombre`, `apellidos`, `telefono`, `email?`, `relacion: padre|madre|tutor`), managed on their own in `AdminTutores.jsx` and linked to students via `alumno_tutor` (N:M join table). `AdminAlumnoDetalle.jsx`'s `TutorPicker` links an *existing* tutor to a student rather than duplicating one.
+- `contactos_emergencia` — 1-2 per alumno (`orden` 1|2), separate from tutores.
+- `cursos` / `grupos` / `planes_precio` / `inscripciones` — course catalog, cohorts, pricing plans, enrollments.
+- `cargos` — a billing charge (`concepto`, `monto`, `fecha_vencimiento`, `estado: pendiente|pagado|vencido|cancelado`), sourced from either an inscripción or an asesoría session.
+- `pagos` — payments against a `cargo`; `pagos.cargo_id` is `ON DELETE CASCADE` (`20260726110000_cargos_cascade_delete.sql`), so deleting a cargo deletes its pagos — the UI warns with the pago count before confirming.
+- `suscripciones` — recurring subscription plans, separate from one-off `cargos`.
+
+**Date handling gotcha:** Supabase `DATE`/`TIMESTAMPTZ` columns come back as ISO strings; `new Date(iso).toLocaleDateString(...)` shifts the displayed day back by one due to UTC parsing + local timezone. Always parse the date part manually first:
+```js
+const [y, m, d] = iso.split("T")[0].split("-").map(Number);
+new Date(y, m - 1, d).toLocaleDateString("es-MX", { ... });
+```
+This pattern is repeated as a local `fmtDate` helper in every admin page — don't reintroduce the naive form.
+
+**PDF generation** (`src/utils/comprobantePago.jsx`, `src/components/ComprobantePDF.jsx`): pattern for exporting a React component as a PDF — render the component offscreen (`position: fixed; left: -9999px`) via `createRoot`, wait for images/fonts to load, capture with `html2canvas`, then place the canvas image into a `jsPDF` doc sized to letter paper. Reuse this pattern for any future printable document rather than building a new PDF pipeline.
+
 ### Styling
 No CSS framework classes in most components — inline styles dominate, using a shared color palette object `C` defined per file (`#0e0f11` bg, `#3b9eff` blue, etc.). Tailwind CSS v4 is available via the Vite plugin but is used minimally.
 

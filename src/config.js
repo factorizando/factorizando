@@ -4,4 +4,4 @@
 // SOLO los admins (sesión iniciada con rol=admin) entran al sitio completo.
 // `/login` y `/nueva-contrasena` siguen accesibles para poder autenticarse.
 // Cambia a `false` (y redeploy) para abrir el sitio al público.
-export const MANTENIMIENTO = false;
+export const MANTENIMIENTO = true;

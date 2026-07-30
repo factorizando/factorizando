@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "../../lib/supabase";
 import EstadoBadge from "../../components/admin/EstadoBadge.jsx";
 import AdminHeader from "../../components/admin/AdminHeader.jsx";
+import { aFechaISO, sumarDias, sumarMeses } from "../../utils/fechas.js";
 
 const font = "'DM Sans', sans-serif";
 const C = {
@@ -302,16 +303,18 @@ export default function AdminInscripciones({ embedded }) {
     const curso = cursos.find((c) => c.id === form.curso_id);
 
     if (plan) {
+      // "mensual" = mes natural (no 30 días fijos, que corren el cobro contra el
+      // calendario). El resto de los planes vencen a la semana.
       const hoy = new Date();
-      const dias = plan.tipo_cobro === "mensual" ? 30 : 7;
-      const vencimiento = new Date(hoy.getTime() + dias * 86400000);
+      const vencimiento =
+        plan.tipo_cobro === "mensual" ? sumarMeses(hoy, 1) : sumarDias(hoy, 7);
 
       const { error: cargoErr } = await supabase.from("cargos").insert({
         alumno_id: form.alumno_id,
         inscripcion_id: inscripcion.id,
         concepto: `${curso?.nombre || "Curso"} — ${plan.tipo_cobro}`,
         monto: plan.monto,
-        fecha_vencimiento: vencimiento.toISOString().slice(0, 10),
+        fecha_vencimiento: aFechaISO(vencimiento),
         estado: "pendiente",
       });
       if (cargoErr) console.error(cargoErr);

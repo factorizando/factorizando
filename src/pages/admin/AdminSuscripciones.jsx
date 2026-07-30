@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "../../lib/supabase";
 import EstadoBadge from "../../components/admin/EstadoBadge.jsx";
 import AdminHeader from "../../components/admin/AdminHeader.jsx";
+import { aFechaISO, desdeFechaISO, sumarMeses } from "../../utils/fechas.js";
 
 const font = "'DM Sans', sans-serif";
 const C = {
@@ -94,14 +95,13 @@ function SuscripcionForm({ alumnos, planes, onSave, onCancel }) {
     e.preventDefault();
     setSaving(true);
     const hoy = new Date();
-    const vencimiento = new Date(hoy);
-    vencimiento.setMonth(vencimiento.getMonth() + 1);
+    const vencimiento = sumarMeses(hoy, 1);
 
     await onSave({
       alumno_id: alumnoId,
       plan_id: planId,
-      fecha_inicio: hoy.toISOString().split("T")[0],
-      fecha_vencimiento_actual: vencimiento.toISOString().split("T")[0],
+      fecha_inicio: aFechaISO(hoy),
+      fecha_vencimiento_actual: aFechaISO(vencimiento),
       estado: "activa",
       auto_renovar: true,
       metodo_pago: metodo,
@@ -259,12 +259,11 @@ export default function AdminSuscripciones({ embedded }) {
     });
     if (errPago) { console.error(errPago); return; }
 
-    // Extender vencimiento un mes
-    const nuevoVenc = new Date(susc.fecha_vencimiento_actual);
-    nuevoVenc.setMonth(nuevoVenc.getMonth() + 1);
+    // Extender vencimiento un mes natural (31 ene → 28/29 feb, no 3 mar)
+    const nuevoVenc = sumarMeses(desdeFechaISO(susc.fecha_vencimiento_actual), 1);
     const { error: errSusc } = await supabase
       .from("suscripciones")
-      .update({ fecha_vencimiento_actual: nuevoVenc.toISOString().split("T")[0] })
+      .update({ fecha_vencimiento_actual: aFechaISO(nuevoVenc) })
       .eq("id", susc.id);
     if (errSusc) { console.error(errSusc); return; }
 

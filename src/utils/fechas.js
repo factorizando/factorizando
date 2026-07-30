@@ -15,6 +15,16 @@ export function aFechaISO(fecha) {
 }
 
 /**
+ * "YYYY-MM-DD" (columna DATE de Supabase) → Date en el calendario local.
+ * `new Date("2026-01-31")` se interpreta como medianoche UTC, que en UTC-6 es el
+ * día anterior a las 18:00; operar sobre esa fecha arrastra el desfase.
+ */
+export function desdeFechaISO(iso) {
+  const [y, m, d] = iso.split("T")[0].split("-").map(Number);
+  return new Date(y, m - 1, d);
+}
+
+/**
  * Suma días naturales. Usa setDate en vez de aritmética de milisegundos
  * (`+ n * 86400000`), que se desfasa una hora en los cambios de horario de
  * verano y puede cruzar de día.

@@ -125,7 +125,10 @@ export default function Home() {
 
         {/* Admin (solo administrador) */}
         {isAdmin && (
-          <Link to="/admin" className="hm-admin">⚙ Admin</Link>
+          <div className="hm-admin-bar">
+            <Link to="/admin" className="hm-admin">⚙ Admin</Link>
+            <Link to="/regularizacion" className="hm-admin">➗ Regularización</Link>
+          </div>
         )}
 
         {/* WhatsApp flotante */}
@@ -208,9 +211,11 @@ const CSS = `
 /* FOOTER */
 .hm-footer { margin-top: 56px; text-align: center; font-size: 12.5px; color: var(--text-muted); letter-spacing: .04em; }
 /* FLOTANTES */
-.hm-admin { position: fixed; bottom: 24px; left: 24px; z-index: 100; background: var(--surface);
+.hm-admin-bar { position: fixed; bottom: 24px; left: 24px; z-index: 100; display: flex; gap: 8px; }
+.hm-admin { background: var(--surface);
   border: 1px solid var(--border); border-radius: 12px; padding: 8px 14px; text-decoration: none;
   color: var(--azul-suave); font-size: 13px; font-weight: 600; box-shadow: 0 4px 14px rgba(40,33,20,.12); }
+.hm-admin:hover { border-color: var(--azul-suave); }
 .hm-wa { position: fixed; bottom: 24px; right: 24px; z-index: 100; width: 52px; height: 52px;
   border-radius: 50%; background: #25D366; display: flex; align-items: center; justify-content: center;
   box-shadow: 0 4px 18px rgba(37,211,102,0.45); transition: transform .2s, box-shadow .2s; }

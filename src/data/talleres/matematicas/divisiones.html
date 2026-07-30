@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taller de Divisiones</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ocean-deep:#0b3d5c; --ocean-mid:#146b93; --island-green:#2d9c64;
+    --sand:#f4e4c1; --coral:#ff6b4a; --sun:#ffc93c; --violet:#8b6bd8; --teal:#2ec4c6;
+    --ink:#0c2b3a; --white:#fdfaf1;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{font-family:'Nunito',sans-serif;background:radial-gradient(ellipse at top, var(--ocean-mid) 0%, var(--ocean-deep) 65%);
+    color:var(--white);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:18px;}
+  h1,h2,h3,.display{font-family:'Baloo 2', sans-serif;}
+  .wrap{width:100%;max-width:900px;}
+  header{text-align:center;margin-bottom:14px;}
+  header h1{font-size:clamp(25px,4.2vw,40px);margin:0 0 4px 0;text-shadow:0 3px 0 rgba(0,0,0,0.25);}
+  header p{margin:0;opacity:0.85;font-weight:700;font-size:clamp(13px,1.6vw,16px);}
+
+  .card{background:rgba(253,250,241,0.08);border:2px solid rgba(253,250,241,0.18);border-radius:22px;padding:24px;}
+  .btn{font-family:'Baloo 2';font-weight:700;font-size:18px;border:none;border-radius:16px;padding:14px 26px;cursor:pointer;
+    color:var(--ink);background:var(--sun);box-shadow:0 5px 0 rgba(0,0,0,0.25);transition:transform .08s ease;}
+  .btn:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(0,0,0,0.25);}
+  .btn.secondary{background:var(--teal);}
+  .btn.ghost{background:transparent;color:var(--white);border:2px solid rgba(253,250,241,0.4);box-shadow:none;}
+  .btn.small{font-size:15px;padding:10px 18px;}
+  .btn:disabled{opacity:0.4;cursor:not-allowed;}
+  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:center;}
+  .hint{font-size:13px;opacity:0.78;margin-top:10px;line-height:1.5;}
+  .toggle-opt.selected{background:var(--sun);color:var(--ink);}
+
+  .act-grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-top:16px;}
+  .act-tile{background:rgba(0,0,0,0.22);border:2px solid rgba(253,250,241,0.15);border-radius:18px;padding:18px;cursor:pointer;
+    text-align:left;color:var(--white);font-family:'Nunito';transition:transform .1s ease, border-color .1s ease;}
+  .act-tile:hover{transform:translateY(-3px);border-color:var(--sun);}
+  .act-tile .emoji{font-size:30px;display:block;margin-bottom:6px;}
+  .act-tile strong{font-family:'Baloo 2';font-size:19px;display:block;margin-bottom:4px;}
+  .act-tile span.desc{font-size:13px;opacity:0.8;line-height:1.4;}
+
+  #activity{display:none;}
+  .topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap;}
+  .pill{background:rgba(0,0,0,0.28);border-radius:20px;padding:8px 16px;font-family:'Baloo 2';font-weight:700;font-size:14px;}
+
+  .prompt{background:var(--sand);color:var(--ink);border-radius:18px;padding:18px 20px;text-align:center;
+    font-family:'Baloo 2';font-size:clamp(19px,3vw,26px);font-weight:700;margin-bottom:16px;line-height:1.35;}
+  .prompt small{display:block;font-family:'Nunito';font-size:13px;font-weight:700;opacity:0.7;margin-top:6px;}
+
+  /* --- tray & plates (reparto) --- */
+  .tray{background:rgba(0,0,0,0.22);border:2px dashed rgba(253,250,241,0.35);border-radius:16px;padding:14px;min-height:70px;
+    display:flex;flex-wrap:wrap;gap:6px;justify-content:center;align-items:center;margin-bottom:8px;}
+  .tray-label{text-align:center;font-weight:800;font-size:13px;opacity:0.8;margin-bottom:6px;}
+  .item{font-size:26px;line-height:1;cursor:default;user-select:none;}
+  .plates{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:6px;}
+  .plate{background:rgba(253,250,241,0.14);border:3px solid var(--sand);border-radius:50%;
+    width:118px;height:118px;display:flex;flex-wrap:wrap;gap:3px;align-items:center;justify-content:center;
+    cursor:pointer;padding:10px;position:relative;transition:transform .1s ease, border-color .1s ease;}
+  .plate:hover{transform:scale(1.04);border-color:var(--sun);}
+  .plate .count{position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);background:var(--ink);
+    border-radius:12px;padding:2px 10px;font-family:'Baloo 2';font-weight:700;font-size:13px;}
+  .plate .item{font-size:20px;}
+  .plate.ok{border-color:var(--island-green);}
+
+  /* --- corrales (agrupar) --- */
+  .corrales{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:10px;}
+  .corral{background:rgba(45,156,100,0.18);border:3px solid var(--island-green);border-radius:14px;
+    min-width:110px;min-height:96px;padding:10px;display:flex;flex-wrap:wrap;gap:4px;align-items:center;justify-content:center;}
+  .leftover-box{background:rgba(255,107,74,0.18);border:3px dashed var(--coral);border-radius:14px;
+    min-width:110px;min-height:96px;padding:10px;display:flex;flex-wrap:wrap;gap:4px;align-items:center;justify-content:center;}
+  .box-label{text-align:center;font-family:'Baloo 2';font-weight:700;font-size:13px;margin-top:6px;}
+
+  /* --- casita (división larga) --- */
+  .casita{background:var(--white);color:var(--ink);border-radius:16px;padding:22px 18px;margin-bottom:14px;overflow-x:auto;}
+  .casita table{border-collapse:collapse;margin:0 auto;font-family:'Baloo 2';font-weight:700;font-size:clamp(20px,4vw,30px);}
+  .casita td{padding:2px 8px;text-align:right;min-width:34px;}
+  .divisor-cell{border-right:3px solid var(--ink);padding-right:12px !important;}
+  .quotient-row td{border-bottom:3px solid var(--ink);color:var(--island-green);}
+  .work-row td{color:var(--coral);}
+  .work-line td{border-top:2px solid var(--ink);}
+  .blink{animation:blinker 1s linear infinite;}
+  @keyframes blinker{50%{opacity:0.35;}}
+
+  /* --- camiones --- */
+  .trucks{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:12px 0;}
+  .truck{background:rgba(46,196,198,0.16);border:3px solid var(--teal);border-radius:12px;padding:8px 12px;
+    display:flex;flex-direction:column;align-items:center;min-width:82px;}
+  .truck .cap{font-size:26px;}
+  .truck .cap-label{font-size:11px;font-weight:800;opacity:0.85;margin-top:2px;}
+
+  .options{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px;margin-top:14px;}
+  .opt{font-family:'Baloo 2';font-size:24px;font-weight:700;background:var(--white);color:var(--ink);
+    border:3px solid rgba(11,61,92,0.15);border-radius:16px;padding:16px 8px;cursor:pointer;transition:transform .08s ease;}
+  .opt:hover{transform:translateY(-2px);border-color:var(--teal);}
+  .opt.correct{background:var(--island-green);color:var(--white);border-color:var(--island-green);}
+  .opt.wrong{background:var(--coral);color:var(--white);border-color:var(--coral);}
+
+  .feedback{margin-top:14px;text-align:center;font-weight:800;font-size:16px;min-height:26px;}
+  .feedback.good{color:#7dffb0;}
+  .feedback.bad{color:#ffb3a0;}
+  .actions{display:flex;gap:12px;justify-content:center;margin-top:16px;flex-wrap:wrap;}
+
+  .progreso{margin-top:22px;}
+  .progreso summary{cursor:pointer;font-family:'Baloo 2';font-weight:700;font-size:16px;padding:8px 0;}
+  .prog-entry{background:rgba(0,0,0,0.18);border-radius:12px;padding:10px 14px;margin-top:8px;font-size:14px;
+    display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+  footer{opacity:0.6;font-size:12px;margin-top:22px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>➗ Taller de Divisiones</h1>
+    <p id="headerSub">Práctica visual e interactiva</p>
+  </header>
+
+  <!-- ===== SETUP ===== -->
+  <div class="card" id="setup">
+    <h3 class="display" style="margin-top:0;">¿Con qué grupo vas a trabajar?</h3>
+    <div class="row" id="edadToggle">
+      <button class="btn toggle-opt selected" data-val="7-8">🧒 7 y 8 años</button>
+      <button class="btn ghost toggle-opt" data-val="9-10">🧑 9 y 10 años</button>
+    </div>
+    <p class="hint" id="edadHint">Para 7-8 años la división se aprende repartiendo objetos con el dedo, sin algoritmo.</p>
+
+    <h3 class="display">Elige la actividad</h3>
+    <div class="act-grid" id="actGrid"></div>
+  </div>
+
+  <!-- ===== ACTIVITY ===== -->
+  <div id="activity">
+    <div class="topbar">
+      <div class="pill" id="actName">Actividad</div>
+      <div class="pill" id="scorePill">✅ 0 · ❌ 0</div>
+    </div>
+
+    <div class="prompt" id="prompt"></div>
+    <div id="stage"></div>
+    <div class="feedback" id="feedback"></div>
+    <div class="actions">
+      <button class="btn secondary" id="checkBtn">Revisar</button>
+      <button class="btn" id="nextBtn" style="display:none;">Siguiente ▶️</button>
+      <button class="btn ghost small" id="backBtn">← Cambiar actividad</button>
+    </div>
+
+    <details class="progreso">
+      <summary>📊 Progreso guardado</summary>
+      <div id="progList"></div>
+    </details>
+  </div>
+
+  <footer id="footNote">El progreso se guarda en el expediente del alumno.</footer>
+</div>
+
+<script>
+/* =========================================================
+   PUENTE CON LA APP (TallerRunner.jsx)
+   El taller corre dentro de un <iframe srcDoc>. No tiene acceso
+   al cliente de Supabase, así que pide al padre que guarde/lea
+   por postMessage. Si no hay padre (abierto suelto), degrada a
+   modo sin persistencia en vez de fallar.
+   ========================================================= */
+const host = (function(){
+  let seq = 0;
+  const pendientes = new Map();
+
+  window.addEventListener('message', (e) => {
+    const m = e.data;
+    if (!m || m.source !== 'taller-host' || !pendientes.has(m.rid)) return;
+    const { resolve, reject } = pendientes.get(m.rid);
+    pendientes.delete(m.rid);
+    if (m.error) reject(new Error(m.error)); else resolve(m.payload);
+  });
+
+  function call(tipo, payload){
+    if (window.parent === window) return Promise.reject(new Error('sin host'));
+    const rid = ++seq;
+    return new Promise((resolve, reject) => {
+      pendientes.set(rid, {resolve, reject});
+      window.parent.postMessage({source:'taller', rid, tipo, payload}, '*');
+      setTimeout(() => {
+        if (pendientes.has(rid)) { pendientes.delete(rid); reject(new Error('timeout')); }
+      }, 8000);
+    });
+  }
+
+  return {
+    guardarSesion: (s) => call('guardar', s),
+    cargarSesiones: ()  => call('cargar'),
+  };
+})();
+
+let edad = '7-8';
+let currentAct = null;
+let score = {ok:0, bad:0};
+let state = {};
+
+const ACTIVIDADES = {
+  '7-8': [
+    {id:'reparto', emoji:'🍪', nombre:'Reparte las galletas', desc:'Toca los platos para repartir las galletas en partes iguales. Al terminar aparece la división.'},
+    {id:'corrales', emoji:'🐣', nombre:'Corrales de pollitos', desc:'Reparte los pollitos entre los corrales y descubre cuántos sobran.'}
+  ],
+  '9-10': [
+    {id:'casita', emoji:'📊', nombre:'La casita paso a paso', desc:'Resuelve la división larga dígito por dígito, con cada paso resaltado.'},
+    {id:'camiones', emoji:'🚚', nombre:'Cargamento de camiones', desc:'Problemas con residuo: cuántos camiones se llenan y cuántas cajas sobran.'}
+  ]
+};
+
+const HINTS = {
+  '7-8':'Para 7-8 años la división se aprende repartiendo objetos con el dedo, sin algoritmo.',
+  '9-10':'Para 9-10 años se trabaja el algoritmo formal y el significado del residuo.'
+};
+
+/* ---------- helpers ---------- */
+function randInt(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
+function shuffle(a){ return a.slice().sort(()=>Math.random()-0.5); }
+
+// Genera `cuantas` opciones distintas alrededor de `ans`, dentro de [min,max].
+// Garantiza que `ans` esté incluida y que se llegue al total pedido.
+function makeOptions(ans, spread, opts){
+  const o = opts || {};
+  const min = o.min !== undefined ? o.min : 0;
+  const max = o.max !== undefined ? o.max : Infinity;
+  const cuantas = o.cuantas || 4;
+  const s = new Set([ans]);
+  let t = 0;
+  while(s.size < cuantas && t < 300){
+    t++;
+    const v = ans + randInt(1, spread)*(Math.random() < 0.5 ? -1 : 1);
+    if(v >= min && v <= max && v !== ans) s.add(v);
+  }
+  // Relleno determinista si el rango era demasiado estrecho para el azar.
+  for(let v = min; v <= max && s.size < cuantas; v++) s.add(v);
+  return shuffle([...s]);
+}
+const el = id => document.getElementById(id);
+
+/* ---------- setup screen ---------- */
+document.querySelectorAll('.toggle-opt').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    edad = b.dataset.val;
+    document.querySelectorAll('.toggle-opt').forEach(x=>{ x.classList.remove('selected'); x.classList.add('ghost'); });
+    b.classList.add('selected'); b.classList.remove('ghost');
+    el('edadHint').textContent = HINTS[edad];
+    renderActGrid();
+  });
+});
+
+function renderActGrid(){
+  const grid = el('actGrid');
+  grid.innerHTML = '';
+  ACTIVIDADES[edad].forEach(a=>{
+    const tile = document.createElement('button');
+    tile.className = 'act-tile';
+    tile.innerHTML = '<span class="emoji">' + a.emoji + '</span><strong>' + a.nombre + '</strong><span class="desc">' + a.desc + '</span>';
+    tile.addEventListener('click', ()=>startActivity(a));
+    grid.appendChild(tile);
+  });
+}
+renderActGrid();
+
+function startActivity(a){
+  currentAct = a;
+  score = {ok:0, bad:0};
+  el('setup').style.display = 'none';
+  el('activity').style.display = 'block';
+  el('actName').textContent = a.emoji + ' ' + a.nombre + ' · ' + edad + ' años';
+  updateScore();
+  loadProgreso();
+  nextRound();
+}
+
+el('backBtn').addEventListener('click', async ()=>{
+  await saveProgreso();
+  el('activity').style.display = 'none';
+  el('setup').style.display = 'block';
+});
+
+// Si se cierra la pestaña a media sesión, no perder el avance.
+window.addEventListener('pagehide', ()=>{ saveProgreso(); });
+
+function updateScore(){ el('scorePill').textContent = '✅ ' + score.ok + ' · ❌ ' + score.bad; }
+function setFeedback(msg, good){
+  const f = el('feedback');
+  f.textContent = msg;
+  f.className = 'feedback ' + (good===undefined ? '' : good ? 'good' : 'bad');
+}
+function endRound(good, msg){
+  if(good){ score.ok++; } else { score.bad++; }
+  updateScore();
+  setFeedback(msg, good);
+  el('checkBtn').style.display = 'none';
+  el('nextBtn').style.display = 'inline-block';
+}
+
+el('nextBtn').addEventListener('click', nextRound);
+el('checkBtn').addEventListener('click', ()=>{ if(state.check) state.check(); });
+
+function nextRound(){
+  setFeedback('');
+  el('nextBtn').style.display = 'none';
+  el('checkBtn').style.display = 'inline-block';
+  el('stage').innerHTML = '';
+  state = {};
+  if(currentAct.id === 'reparto') roundReparto();
+  if(currentAct.id === 'corrales') roundCorrales();
+  if(currentAct.id === 'casita') roundCasita();
+  if(currentAct.id === 'camiones') roundCamiones();
+}
+
+/* =========================================================
+   ACTIVIDAD 1 (7-8): REPARTE LAS GALLETAS
+   ========================================================= */
+function roundReparto(){
+  const ITEMS = ['🍪','🍎','🍌','⭐','🍓'];
+  const item = ITEMS[randInt(0,ITEMS.length-1)];
+  const platos = randInt(2,4);
+  const porPlato = randInt(2,5);
+  const total = platos * porPlato;
+
+  state = {item, platos, porPlato, total, enPlato:new Array(platos).fill(0), check:checkReparto};
+
+  el('prompt').innerHTML = 'Reparte los ' + total + ' ' + item + ' entre los ' + platos + ' platos, en partes iguales.' +
+    '<small>Toca un plato para poner uno. Toca un plato lleno para regresar uno a la bandeja.</small>';
+
+  el('stage').innerHTML =
+    '<div class="tray-label">Bandeja — quedan <span id="restantes">' + total + '</span></div>' +
+    '<div class="tray" id="tray"></div>' +
+    '<div class="plates" id="plates"></div>';
+  drawReparto();
+}
+
+function drawReparto(){
+  const {item, platos, total, enPlato} = state;
+  const usados = enPlato.reduce((a,b)=>a+b, 0);
+  const restantes = total - usados;
+  el('restantes').textContent = restantes;
+  el('tray').innerHTML = new Array(restantes).fill('<span class="item">' + item + '</span>').join('');
+
+  const platesEl = el('plates');
+  platesEl.innerHTML = '';
+  for(let i=0;i<platos;i++){
+    const p = document.createElement('div');
+    p.className = 'plate';
+    p.innerHTML = new Array(enPlato[i]).fill('<span class="item">' + item + '</span>').join('')
+      + '<span class="count">' + enPlato[i] + '</span>';
+    p.addEventListener('click', ()=>{
+      const usados2 = state.enPlato.reduce((a,b)=>a+b,0);
+      if(usados2 < state.total){
+        state.enPlato[i]++;
+      } else if(state.enPlato[i] > 0){
+        state.enPlato[i]--;
+      }
+      drawReparto();
+    });
+    platesEl.appendChild(p);
+  }
+}
+
+function checkReparto(){
+  const {platos, porPlato, total, enPlato, item} = state;
+  const usados = enPlato.reduce((a,b)=>a+b,0);
+  if(usados < total){
+    setFeedback('Todavía quedan ' + (total-usados) + ' en la bandeja. Reparte todos.', false);
+    return;
+  }
+  const iguales = enPlato.every(n => n === enPlato[0]);
+  if(!iguales){
+    setFeedback('Los platos no tienen la misma cantidad. Acomoda para que queden iguales.', false);
+    return;
+  }
+  document.querySelectorAll('.plate').forEach(p=>p.classList.add('ok'));
+  el('prompt').innerHTML = '¡Reparto correcto! <br>' +
+    '<span style="color:var(--island-green);">' + total + ' ÷ ' + platos + ' = ' + porPlato + '</span>' +
+    '<small>' + total + ' ' + item + ' repartidos entre ' + platos + ' platos: ' + porPlato + ' en cada uno.</small>';
+  endRound(true, '¡Muy bien! Así se ve la división: ' + total + ' ÷ ' + platos + ' = ' + porPlato);
+}
+
+/* =========================================================
+   ACTIVIDAD 2 (7-8): CORRALES DE POLLITOS
+   ========================================================= */
+function roundCorrales(){
+  const corrales = randInt(2,5);
+  const porCorral = randInt(2,4);
+  const sobran = randInt(1, corrales-1);   // el residuo siempre es menor que el divisor
+  const total = corrales*porCorral + sobran;
+
+  state = {corrales, porCorral, sobran, total, fase:'repartir', check:null};
+
+  el('prompt').innerHTML = 'Hay ' + total + ' 🐣 y ' + corrales + ' corrales.' +
+    '<small>Toca "Repartir" para acomodarlos uno por uno, en partes iguales.</small>';
+
+  el('stage').innerHTML =
+    '<div class="tray-label">Corral vacío — todos los pollitos están aquí</div>' +
+    '<div class="tray" id="tray">' + new Array(total).fill('<span class="item">🐣</span>').join('') + '</div>' +
+    '<div class="row" style="margin-top:14px;"><button class="btn small" id="repartirBtn">Repartir 🐣</button></div>' +
+    '<div id="corralZone"></div>';
+
+  el('checkBtn').style.display = 'none';
+  el('repartirBtn').addEventListener('click', animarCorrales);
+}
+
+function animarCorrales(){
+  const {corrales, total} = state;
+  el('repartirBtn').disabled = true;
+  const grupos = new Array(corrales).fill(0);
+  let restantes = total;
+
+  const zone = el('corralZone');
+  zone.innerHTML = '<div class="corrales" id="corralesRow"></div>';
+  const row = el('corralesRow');
+  for(let i=0;i<corrales;i++){
+    const d = document.createElement('div');
+    d.innerHTML = '<div class="corral" id="corral-' + i + '"></div><div class="box-label">Corral ' + (i+1) + '</div>';
+    row.appendChild(d);
+  }
+  const lo = document.createElement('div');
+  lo.innerHTML = '<div class="leftover-box" id="leftover"></div><div class="box-label" style="color:var(--coral);">Sobran</div>';
+  row.appendChild(lo);
+
+  let i = 0;
+  const timer = setInterval(()=>{
+    if(restantes < corrales){
+      clearInterval(timer);
+      el('leftover').innerHTML = new Array(restantes).fill('<span class="item">🐣</span>').join('');
+      el('tray').innerHTML = '';
+      askCorrales(grupos[0], restantes);
+      return;
+    }
+    grupos[i % corrales]++;
+    restantes--;
+    el('corral-'+(i%corrales)).innerHTML = new Array(grupos[i%corrales]).fill('<span class="item">🐣</span>').join('');
+    el('tray').innerHTML = new Array(restantes).fill('<span class="item">🐣</span>').join('');
+    i++;
+  }, 190);
+}
+
+function askCorrales(porCorral, sobran){
+  const {total, corrales} = state;
+  state.fase = 'preguntar';
+  el('prompt').innerHTML = 'Ya están repartidos.' +
+    '<small>Ahora responde: ¿cuántos pollitos quedaron en <b>cada</b> corral?</small>';
+  const zone = el('corralZone');
+  const opts = document.createElement('div');
+  opts.className = 'options';
+  opts.id = 'optsA';
+  makeOptions(porCorral, 3, {min:0}).forEach(v=>{
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.textContent = v;
+    b.addEventListener('click', ()=>{
+      document.querySelectorAll('#optsA .opt').forEach(x=>{
+        x.disabled = true;
+        if(+x.textContent === porCorral) x.classList.add('correct');
+      });
+      if(+b.textContent !== porCorral){
+        b.classList.add('wrong');
+        endRound(false, 'La respuesta era ' + porCorral + ' en cada corral. ' + total + ' ÷ ' + corrales + ' = ' + porCorral + ' y sobran ' + sobran + '.');
+      } else {
+        setFeedback('¡Correcto! Ahora, ¿cuántos pollitos sobraron?', true);
+        askSobran(porCorral, sobran);
+      }
+    });
+    opts.appendChild(b);
+  });
+  zone.appendChild(opts);
+}
+
+function askSobran(porCorral, sobran){
+  const {total, corrales} = state;
+  const zone = el('corralZone');
+  const opts = document.createElement('div');
+  opts.className = 'options';
+  opts.id = 'optsB';
+  // El residuo vive en [0, corrales-1]; si el rango es corto, se piden menos opciones.
+  const cuantas = Math.min(4, corrales);
+  makeOptions(sobran, 2, {min:0, max:corrales-1, cuantas}).forEach(v=>{
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.textContent = v;
+    b.addEventListener('click', ()=>{
+      document.querySelectorAll('#optsB .opt').forEach(x=>{
+        x.disabled = true;
+        if(+x.textContent === sobran) x.classList.add('correct');
+      });
+      const good = +b.textContent === sobran;
+      if(!good) b.classList.add('wrong');
+      endRound(good, total + ' ÷ ' + corrales + ' = ' + porCorral + ' y sobran ' + sobran + '. Eso que sobra se llama residuo.');
+    });
+    opts.appendChild(b);
+  });
+  zone.appendChild(opts);
+}
+
+/* =========================================================
+   ACTIVIDAD 3 (9-10): LA CASITA PASO A PASO
+   ========================================================= */
+function makeDivisionLarga(){
+  for(let t=0;t<500;t++){
+    const d = randInt(2,9);
+    const cociente = randInt(21, 499);
+    const residuo = randInt(0, d-1);
+    const dividendo = cociente*d + residuo;
+    const digits = String(dividendo).split('').map(Number);
+    if(digits.length < 3 || digits.length > 4) continue;
+    if(digits[0] < d) continue; // evita cociente con cero inicial
+    return {d, dividendo, digits, cociente, residuo};
+  }
+  return {d:4, dividendo:348, digits:[3,4,8], cociente:87, residuo:0};
+}
+
+function roundCasita(){
+  const p = makeDivisionLarga();
+  const pasos = [];
+  let r = 0;
+  p.digits.forEach((dig,i)=>{
+    const actual = r*10 + dig;
+    const q = Math.floor(actual/p.d);
+    const resto = actual % p.d;
+    pasos.push({i, dig, actual, q, producto:q*p.d, resto});
+    r = resto;
+  });
+
+  state = Object.assign({}, p, {pasos, paso:0, cocienteParcial:[], check:null});
+  el('checkBtn').style.display = 'none';
+  el('prompt').innerHTML = 'Resuelve ' + p.dividendo + ' ÷ ' + p.d + ' paso a paso.' +
+    '<small>En cada paso, elige cuántas veces cabe el divisor.</small>';
+  el('stage').innerHTML = '<div class="casita" id="casita"></div><div id="stepZone"></div>';
+  drawCasita();
+  askCasitaStep();
+}
+
+function drawCasita(){
+  const {d, digits, pasos, paso, cocienteParcial} = state;
+  const c = el('casita');
+  let rows = '';
+
+  // fila del cociente
+  let qCells = '';
+  for(let i=0;i<digits.length;i++){
+    qCells += '<td>' + (cocienteParcial[i] !== undefined ? cocienteParcial[i] : '<span style="opacity:0.25;">·</span>') + '</td>';
+  }
+  rows += '<tr class="quotient-row"><td class="divisor-cell" style="border-bottom:none;">' + d + '</td>' + qCells + '</tr>';
+
+  // fila del dividendo
+  rows += '<tr><td style="border:none;"></td>' + digits.map(function(x,i){
+    return '<td class="' + (i===paso ? 'blink' : '') + '" style="color:' + (i<=paso?'var(--ink)':'rgba(12,43,58,0.3)') + ';">' + x + '</td>';
+  }).join('') + '</tr>';
+
+  // trabajo de pasos ya resueltos
+  for(let k=0;k<paso;k++){
+    const s = pasos[k];
+    const pad = new Array(k).fill('<td></td>').join('');
+    const tail = new Array(digits.length-k-1).fill('<td></td>').join('');
+    rows += '<tr class="work-row"><td style="border:none;"></td>' + pad + '<td>−' + s.producto + '</td>' + tail + '</tr>';
+    rows += '<tr class="work-line"><td style="border:none;"></td>' + pad + '<td>' + s.resto + '</td>' + tail + '</tr>';
+  }
+
+  c.innerHTML = '<table>' + rows + '</table>';
+}
+
+function askCasitaStep(){
+  const {pasos, paso, d, dividendo, cociente, residuo} = state;
+  if(paso >= pasos.length){
+    el('prompt').innerHTML = '¡Terminaste!' +
+      '<small style="color:var(--island-green);">' + dividendo + ' ÷ ' + d + ' = ' + cociente +
+      (residuo>0 ? ' con residuo ' + residuo : ' (división exacta)') + '</small>';
+    endRound(true, residuo>0
+      ? dividendo + ' ÷ ' + d + ' = ' + cociente + ' y sobran ' + residuo + '.'
+      : dividendo + ' ÷ ' + d + ' = ' + cociente + ', división exacta.');
+    el('stepZone').innerHTML = '';
+    return;
+  }
+  const s = pasos[paso];
+  const zone = el('stepZone');
+  zone.innerHTML = '<p style="text-align:center;font-family:\'Baloo 2\';font-size:20px;font-weight:700;">' +
+    '¿Cuántas veces cabe ' + d + ' en ' + s.actual + '?</p><div class="options" id="stepOpts"></div>';
+
+  makeOptions(s.q, 3, {min:0, max:9}).forEach(v=>{
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.textContent = v;
+    b.addEventListener('click', ()=>{
+      document.querySelectorAll('#stepOpts .opt').forEach(x=>{
+        x.disabled = true;
+        if(+x.textContent === s.q) x.classList.add('correct');
+      });
+      if(+b.textContent === s.q){
+        setFeedback('Correcto: ' + d + ' × ' + s.q + ' = ' + s.producto + ', y ' + s.actual + ' − ' + s.producto + ' = ' + s.resto, true);
+        state.cocienteParcial[s.i] = s.q;
+        state.paso++;
+        setTimeout(()=>{ drawCasita(); askCasitaStep(); }, 1100);
+      } else {
+        b.classList.add('wrong');
+        setFeedback('Fíjate: ' + d + ' × ' + s.q + ' = ' + s.producto + ', que sí cabe en ' + s.actual + '. Con ' + (+b.textContent) + ' no funciona.', false);
+        state.cocienteParcial[s.i] = s.q;
+        state.paso++;
+        score.bad++;
+        updateScore();
+        setTimeout(()=>{ drawCasita(); askCasitaStep(); }, 1600);
+      }
+    });
+    el('stepOpts').appendChild(b);
+  });
+}
+
+/* =========================================================
+   ACTIVIDAD 4 (9-10): CARGAMENTO DE CAMIONES
+   ========================================================= */
+function roundCamiones(){
+  const capacidad = [10,15,20,25,30,40][randInt(0,5)];
+  const llenos = randInt(3,7);
+  const sobran = randInt(1, capacidad-1);
+  const total = llenos*capacidad + sobran;
+
+  state = {capacidad, llenos, sobran, total, fase:'llenos', check:null};
+  el('checkBtn').style.display = 'none';
+
+  el('prompt').innerHTML = 'Hay ' + total + ' cajas 📦 y cada camión 🚚 carga ' + capacidad + ' cajas.' +
+    '<small>¿Cuántos camiones se llenan por completo?</small>';
+
+  el('stage').innerHTML = '<div id="truckZone"></div><div class="options" id="truckOpts"></div>';
+
+  makeOptions(llenos, 2, {min:1}).forEach(v=>{
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.textContent = v;
+    b.addEventListener('click', ()=>{
+      document.querySelectorAll('#truckOpts .opt').forEach(x=>{
+        x.disabled = true;
+        if(+x.textContent === llenos) x.classList.add('correct');
+      });
+      if(+b.textContent === llenos){
+        drawTrucks();
+        setFeedback('¡Correcto! ' + total + ' ÷ ' + capacidad + ' = ' + llenos + ' camiones llenos. Ahora, ¿cuántas cajas sobran?', true);
+        askCajasSobran();
+      } else {
+        b.classList.add('wrong');
+        drawTrucks();
+        endRound(false, 'Eran ' + llenos + ' camiones: ' + total + ' ÷ ' + capacidad + ' = ' + llenos + ' y sobran ' + sobran + ' cajas.');
+      }
+    });
+    el('truckOpts').appendChild(b);
+  });
+}
+
+function drawTrucks(){
+  const {llenos, sobran, capacidad} = state;
+  let html = '<div class="trucks">';
+  for(let i=0;i<llenos;i++){
+    html += '<div class="truck"><span class="cap">🚚</span><span class="cap-label">' + capacidad + ' cajas</span></div>';
+  }
+  html += '<div class="truck" style="border-style:dashed;border-color:var(--coral);background:rgba(255,107,74,0.14);">' +
+    '<span class="cap">📦</span><span class="cap-label">sobran ' + sobran + '</span></div>';
+  html += '</div>';
+  el('truckZone').innerHTML = html;
+}
+
+function askCajasSobran(){
+  const {total, capacidad, llenos, sobran} = state;
+  const zone = el('truckZone');
+  const opts = document.createElement('div');
+  opts.className = 'options';
+  opts.id = 'sobranOpts';
+  // El residuo vive en [1, capacidad-1]: se acota ahí para no ofrecer imposibles
+  // y para no perder la opción correcta al filtrar.
+  makeOptions(sobran, Math.max(2, Math.floor(capacidad/4)), {min:1, max:capacidad-1}).forEach(v=>{
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.textContent = v;
+    b.addEventListener('click', ()=>{
+      document.querySelectorAll('#sobranOpts .opt').forEach(x=>{
+        x.disabled = true;
+        if(+x.textContent === sobran) x.classList.add('correct');
+      });
+      const good = +b.textContent === sobran;
+      if(!good) b.classList.add('wrong');
+      endRound(good, total + ' ÷ ' + capacidad + ' = ' + llenos + ' y sobran ' + sobran + '. Para llevar esas ' + sobran + ' cajas se necesitaría un camión más.');
+    });
+    opts.appendChild(b);
+  });
+  zone.appendChild(opts);
+}
+
+/* =========================================================
+   PROGRESO (vía el host → tabla taller_sesiones)
+   ========================================================= */
+async function saveProgreso(){
+  if(score.ok + score.bad === 0) return;
+  const entry = {actividad: currentAct.nombre, grupo: edad, aciertos: score.ok, errores: score.bad};
+  try{
+    await host.guardarSesion(entry);
+    score = {ok:0, bad:0};   // ya quedó registrada; no duplicar al salir
+  }catch(e){
+    console.warn('No se pudo guardar la sesión:', e.message);
+  }
+}
+
+async function loadProgreso(){
+  const box = el('progList');
+  box.innerHTML = '<p class="hint">Cargando…</p>';
+  try{
+    const list = await host.cargarSesiones();
+    if(!list || list.length === 0){ box.innerHTML = '<p class="hint">Aún no hay sesiones guardadas.</p>'; return; }
+    box.innerHTML = list.map(function(e){
+      const tot = e.aciertos + e.errores;
+      const pct = tot ? Math.round((e.aciertos/tot)*100) : 0;
+      return '<div class="prog-entry"><span>📅 ' + e.fecha + ' · ' + e.grupo + ' años · ' + e.actividad + '</span>' +
+        '<span>✅ ' + e.aciertos + ' ❌ ' + e.errores + ' — ' + pct + '% de acierto</span></div>';
+    }).join('');
+  }catch(e){
+    box.innerHTML = '<p class="hint">No se pudo cargar el progreso (' + e.message + ').</p>';
+  }
+}
+</script>
+</body>
+</html>

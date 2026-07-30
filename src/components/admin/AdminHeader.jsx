@@ -14,6 +14,8 @@ const TABS = [
   { id: "inscripciones",   label: "Inscripciones" },
   { id: "cargos",          label: "Cargos" },
   { id: "suscripciones",   label: "Suscripciones" },
+  // `to` = la tab no cambia el panel embebido, navega a una ruta propia.
+  { id: "regularizacion",  label: "Regularización", to: "/regularizacion" },
 ];
 
 function BrandName() {
@@ -37,9 +39,11 @@ export default function AdminHeader({ active, onChange, tabs }) {
   const navigate = useNavigate();
   const items = tabs || TABS;
 
-  function handleClick(id) {
-    if (onChange) {
-      onChange(id);
+  function handleClick(tab) {
+    if (tab.to) {
+      navigate(tab.to);
+    } else if (onChange) {
+      onChange(tab.id);
     } else {
       navigate("/admin");
     }
@@ -66,7 +70,7 @@ export default function AdminHeader({ active, onChange, tabs }) {
             key={t.id}
             type="button"
             className={`ahn-btn ${active === t.id ? "ahn-active" : ""}`}
-            onClick={() => handleClick(t.id)}
+            onClick={() => handleClick(t)}
           >
             {t.label}
           </button>

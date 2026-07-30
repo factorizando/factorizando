@@ -38,6 +38,8 @@ import AdminCargos from "./pages/admin/AdminCargos.jsx";
 import AdminSuscripciones from "./pages/admin/AdminSuscripciones.jsx";
 import AdminCursos from "./pages/admin/AdminCursos.jsx";
 import AdminAlumnoDetalle from "./pages/admin/AdminAlumnoDetalle.jsx";
+import Regularizacion from "./pages/Regularizacion.jsx";
+import TallerVer from "./pages/TallerVer.jsx";
 import MisInscripciones from "./pages/alumno/MisInscripciones.jsx";
 import MiSuscripcion from "./pages/alumno/MiSuscripcion.jsx";
 import Refrigerios from "./pages/Refrigerios.jsx";
@@ -148,6 +150,23 @@ function AppRoutes() {
           element={
             <ProtectedRoute requiredNivel="admin">
               <AdminAlumnoDetalle />
+            </ProtectedRoute>
+          }
+        />
+        {/* ── Regularización (talleres, solo admin) ── */}
+        <Route
+          path="/regularizacion"
+          element={
+            <ProtectedRoute requiredNivel="admin">
+              <Regularizacion />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/regularizacion/:id"
+          element={
+            <ProtectedRoute requiredNivel="admin">
+              <TallerVer />
             </ProtectedRoute>
           }
         />

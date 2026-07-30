@@ -59,7 +59,7 @@ export default function ComprobantePDF({ pago, cargo, alumno }) {
             alt="Factorizando"
             style={{ height: 40, display: "block" }}
           />
-          <span style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 700, fontSize: 18, color: "#e8e8e8", letterSpacing: ".01em", marginTop: 2 }}>
+          <span className="cp-wordmark">
             Facto<span ref={mathRef} style={{ color: "#80c6ff" }}>{katexReady ? "" : "ℝ[i]"}</span>zando
           </span>
         </div>
@@ -275,4 +275,26 @@ const S = {
 
 const CSS = `
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Cormorant+Garamond:wght@700&display=swap');
+
+  /* Wordmark del encabezado, centrado con el logo por flex align-items:center.
+     Dos cosas lo descuadraban: KaTeX inyecta font-size 1.21em en .katex, así que
+     el ℝ[i] salía bastante más grande que las letras, y su line-height 1.2
+     inflaba la caja de línea del texto. Fijamos line-height y bajamos el math a
+     1.05em para que el conjunto quede parejo.
+     El margin-top es un ajuste óptico: el centrado flex alinea la *caja* del
+     texto, no su banda de mayúsculas, que queda más arriba por el hueco del
+     descendente. Ojo: en un flex item centrado el margen desplaza solo la mitad
+     de su valor, así que 2.25px ≈ 1.12px de corrección real (medido sobre la
+     captura de html2canvas: banda de mayúsculas a 0.25px del centro del logo,
+     contra 1.25px por debajo antes). */
+  .cp-wordmark {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 700;
+    font-size: 19px;
+    line-height: 1;
+    color: #e8e8e8;
+    letter-spacing: .01em;
+    margin-top: 2.25px;
+  }
+  .cp-wordmark .katex { font-size: 1.05em; line-height: 1; }
 `;

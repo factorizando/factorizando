@@ -111,6 +111,25 @@ export const CURSO = {
 
 **Levels:** one course file per level (`<area>-<nivel>`, e.g. `probabilidad-universidad`); content (wording/difficulty) differs per level. The user's level is set by age at registration (editable in profile) and selects which course variant to show. *(Age→level plumbing not built yet.)*
 
+### Regularización — talleres (`src/data/talleres/`, `src/pages/Regularizacion.jsx`)
+Admin-only section for **primaria/secundaria** tutoring (the levels the public site doesn't cover). Catalog at `/regularizacion`, player at `/regularizacion/:id`; both behind `ProtectedRoute requiredNivel="admin"`. Kept outside `Admin.jsx`'s tab shell because a taller is projected in front of the student — `AdminHeader` links to it via a tab carrying `to: "/regularizacion"`.
+
+```js
+export const TALLER = {
+  id, titulo, materia, tema,
+  nivel: "primaria" | "secundaria", edades, icono, descripcion, objetivos,
+  render: { tipo: "html", html } | { tipo: "react", componente: "<clave>" },
+};
+```
+
+Registered in `talleresIndex.js` (`buscarTaller`, `listaTalleres`); React talleres resolve through the `TALLERES_REACT` map.
+
+**Two render modes.** `tipo: "html"` mounts a self-contained HTML artifact in an `<iframe srcDoc>` — the HTML lives as a real `.html` file next to its module and is imported with Vite's `?raw`, so there is nothing to escape and it never becomes a separately fetchable file. This isolates the artifact's global CSS (`:root`, `body`, `*`) from the site theme, which is why the iframe exists. `tipo: "react"` is the destination once a taller earns porting.
+
+**Persistence bridge** (`src/components/talleres/TallerRunner.jsx`): the iframe is sandboxed `allow-scripts allow-popups` — **no `allow-same-origin`**, so it sits in an opaque origin and cannot reach the site's Supabase session. It therefore requests writes/reads over `postMessage` (`{source:"taller", rid, tipo:"guardar"|"cargar"}` → `{source:"taller-host", rid, payload|error}`) and the runner performs them. Validate the sender with `e.source === iframe.contentWindow`, never `e.origin` (it's `"null"` for `srcDoc`). Any pasted artifact using Claude's `window.storage` API must be rewired to this bridge — that API does not exist outside artifacts and fails silently.
+
+Sessions land in `taller_sesiones` (`alumno_id`, `taller_id`, `actividad`, `grupo`, `aciertos`, `errores`, `creado_en`; RLS admin-only). `TallerVer.jsx` picks the student first; "practicar sin registrar" passes `alumnoId = null` and the runner skips the write rather than inserting orphan rows.
+
 ### Diagram & interactive registries (`src/components/diagramas/`, `src/components/interactivos/`)
 Single-map registries that decouple visual components from consumers (see the §4.2/§4.4 standard in `docs/CONVENCIONES.md`):
 - `diagramas/index.js` exports `DIAGRAMS` (`{ "clave": Component }`), static SVGs organized by subject; each receives `{ tema }`.

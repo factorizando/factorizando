@@ -6,6 +6,7 @@ import { supabase } from "../../lib/supabase";
 import EstadoBadge from "../../components/admin/EstadoBadge.jsx";
 import AdminHeader from "../../components/admin/AdminHeader.jsx";
 import { generarComprobantePago } from "../../utils/comprobantePago.jsx";
+import { textoPeriodo } from "../../utils/fechas.js";
 
 const font = "'DM Sans', sans-serif";
 const C = {
@@ -257,6 +258,17 @@ function CargoRow({ cargo, alumnos, onPay, onEdit, onDelete, onTogglePagos, show
           </span>
           <span style={{ color: C.muted, fontSize: 13, fontFamily: font }}> · </span>
           <span style={{ color: C.dim, fontSize: 13, fontFamily: font }}>{cargo.concepto}</span>
+          {cargo.periodo_inicio && (
+            <span style={{ color: C.muted, fontSize: 12, fontFamily: font }}>
+              {" · "}{textoPeriodo(cargo.periodo_inicio, cargo.periodo_fin)}
+            </span>
+          )}
+          {cargo.es_parcial && (
+            <span style={{
+              background: C.yellow + "22", color: C.yellow, borderRadius: 5,
+              padding: "1px 7px", fontSize: 10, fontWeight: 700, fontFamily: font, marginLeft: 6,
+            }}>PARCIAL</span>
+          )}
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <span style={{ color: C.text, fontWeight: 700, fontSize: 14, fontFamily: font }}>

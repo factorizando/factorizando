@@ -5,7 +5,10 @@ import { useState, useEffect } from "react";
 import { supabase } from "../../lib/supabase";
 import EstadoBadge from "../../components/admin/EstadoBadge.jsx";
 import AdminHeader from "../../components/admin/AdminHeader.jsx";
-import { aFechaISO, sumarDias, sumarMeses } from "../../utils/fechas.js";
+import {
+  aFechaISO, desdeFechaISO, sumarDias, sumarMeses,
+  lunesDeLaSemana, domingoDeLaSemana, textoPeriodo,
+} from "../../utils/fechas.js";
 
 const font = "'DM Sans', sans-serif";
 const C = {
@@ -113,6 +116,14 @@ function InscripcionForm({ alumnos, cursos, planes, initial, onSave, onCancel })
   const [grupos, setGrupos] = useState([]);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  // Fecha en que empieza a tomar clases; no es lo mismo que el día del registro.
+  // Al editar una inscripción anterior a esta columna se deja vacía a propósito:
+  // rellenarla con hoy inventaría un dato que nadie capturó.
+  const [fechaInicio, setFechaInicio] = useState(
+    initial?.fecha_inicio_clases || (isEdit ? "" : aFechaISO(new Date()))
+  );
+  // Monto del primer cargo. Vacío = se usa el precio del plan tal cual.
+  const [montoManual, setMontoManual] = useState("");
 
   useEffect(() => {
     if (!cursoId) { setGrupos([]); setGrupoId(""); return; }
@@ -126,6 +137,17 @@ function InscripcionForm({ alumnos, cursos, planes, initial, onSave, onCancel })
 
   const planesFiltrados = cursoId ? planes.filter((p) => p.curso_id === cursoId && p.activo) : [];
 
+  // ── Periodo facturado ──────────────────────────────────────────────────────
+  // Solo el cobro semanal está anclado al calendario (lunes a domingo). Si el
+  // alumno entra en cualquier día que no sea lunes, la semana va empezada y el
+  // cargo es parcial: el monto lo decide el administrador, no una fórmula.
+  const planSel = planesFiltrados.find((p) => p.id === planId) || null;
+  const esSemanal = planSel?.tipo_cobro === "semanal";
+  const periodoInicio = esSemanal ? aFechaISO(lunesDeLaSemana(desdeFechaISO(fechaInicio))) : null;
+  const periodoFin = esSemanal ? aFechaISO(domingoDeLaSemana(desdeFechaISO(fechaInicio))) : null;
+  const esParcial = esSemanal && fechaInicio !== periodoInicio;
+  const montoEfectivo = montoManual !== "" ? Number(montoManual) : Number(planSel?.monto ?? 0);
+
   async function handleSubmit(e) {
     e.preventDefault();
     setSaving(true);
@@ -136,8 +158,16 @@ function InscripcionForm({ alumnos, cursos, planes, initial, onSave, onCancel })
       plan_precio_id: planId,
       grupo_id: grupoId || null,
     };
+    if (fechaInicio) payload.fecha_inicio_clases = fechaInicio;
     if (isEdit) {
       payload.estado = estado;
+    } else {
+      payload._cargo = {
+        monto: montoEfectivo,
+        periodo_inicio: periodoInicio,
+        periodo_fin: periodoFin,
+        es_parcial: esParcial,
+      };
     }
     const err = await onSave({ ...payload, id: initial?.id || undefined });
     if (err) setError(err);
@@ -183,6 +213,70 @@ function InscripcionForm({ alumnos, cursos, planes, initial, onSave, onCancel })
           ))}
         </select>
       </Field>
+
+      <Field label="Inicio de clases">
+        <input
+          type="date"
+          value={fechaInicio}
+          onChange={(e) => setFechaInicio(e.target.value)}
+          style={inputStyle}
+          required={!isEdit}
+        />
+      </Field>
+
+      {/* Resumen del primer cobro: qué semana cubre y cuánto se cobra. */}
+      {!isEdit && planSel && (
+        <div style={{
+          background: C.surface, border: `1px solid ${esParcial ? C.yellow + "55" : C.border}`,
+          borderRadius: 10, padding: "12px 14px", display: "flex", flexDirection: "column", gap: 10,
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+            <span style={{ color: C.muted, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: .5, fontFamily: font }}>
+              Primer cargo
+            </span>
+            {esSemanal && (
+              <span style={{ color: C.dim, fontSize: 12.5, fontFamily: font }}>
+                Semana {textoPeriodo(periodoInicio, periodoFin)}
+              </span>
+            )}
+            {esParcial && (
+              <span style={{
+                background: C.yellow + "22", color: C.yellow, borderRadius: 5,
+                padding: "1px 8px", fontSize: 10.5, fontWeight: 700, fontFamily: font,
+              }}>PARCIAL</span>
+            )}
+          </div>
+
+          {esParcial && (
+            <p style={{ color: C.muted, fontSize: 12, lineHeight: 1.5, margin: 0, fontFamily: font }}>
+              Entra con la semana empezada. El precio del plan es{" "}
+              <span style={{ color: C.dim }}>${planSel.monto}</span>; ajusta el monto a lo acordado.
+            </p>
+          )}
+
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <span style={{ color: C.muted, fontSize: 13, fontFamily: font }}>Monto</span>
+            <input
+              type="number" step="0.01" min="0"
+              value={montoManual !== "" ? montoManual : planSel.monto}
+              onChange={(e) => setMontoManual(e.target.value)}
+              style={{ ...inputStyle, maxWidth: 140 }}
+            />
+            {montoManual !== "" && Number(montoManual) !== Number(planSel.monto) && (
+              <button
+                type="button"
+                onClick={() => setMontoManual("")}
+                style={{
+                  background: "none", border: "none", color: C.blue,
+                  fontSize: 12, cursor: "pointer", fontFamily: font, padding: 0,
+                }}
+              >
+                usar precio del plan
+              </button>
+            )}
+          </div>
+        </div>
+      )}
 
       {isEdit && (
         <Field label="Estado">
@@ -289,6 +383,9 @@ export default function AdminInscripciones({ embedded }) {
   async function handleCreate(form) {
     const payload = { ...form };
     delete payload.id;
+    // `_cargo` viaja junto al formulario pero no es columna de `inscripciones`.
+    const cargo = payload._cargo || {};
+    delete payload._cargo;
     const { data: inscripcion, error } = await supabase
       .from("inscripciones")
       .insert(payload)
@@ -303,18 +400,27 @@ export default function AdminInscripciones({ embedded }) {
     const curso = cursos.find((c) => c.id === form.curso_id);
 
     if (plan) {
-      // "mensual" = mes natural (no 30 días fijos, que corren el cobro contra el
-      // calendario). El resto de los planes vencen a la semana.
-      const hoy = new Date();
+      const inicio = form.fecha_inicio_clases
+        ? desdeFechaISO(form.fecha_inicio_clases)
+        : new Date();
+      // El cobro semanal está anclado al calendario y se paga al entrar, así que
+      // vence el mismo día en que empieza. "mensual" usa mes natural (no 30 días
+      // fijos, que corren el cobro contra el calendario) y "único" vence a la
+      // semana, como hasta ahora.
       const vencimiento =
-        plan.tipo_cobro === "mensual" ? sumarMeses(hoy, 1) : sumarDias(hoy, 7);
+        plan.tipo_cobro === "semanal" ? inicio
+        : plan.tipo_cobro === "mensual" ? sumarMeses(inicio, 1)
+        : sumarDias(inicio, 7);
 
       const { error: cargoErr } = await supabase.from("cargos").insert({
         alumno_id: form.alumno_id,
         inscripcion_id: inscripcion.id,
         concepto: `${curso?.nombre || "Curso"} — ${plan.tipo_cobro}`,
-        monto: plan.monto,
+        monto: cargo.monto ?? plan.monto,
         fecha_vencimiento: aFechaISO(vencimiento),
+        periodo_inicio: cargo.periodo_inicio ?? null,
+        periodo_fin: cargo.periodo_fin ?? null,
+        es_parcial: cargo.es_parcial ?? false,
         estado: "pendiente",
       });
       if (cargoErr) console.error(cargoErr);

@@ -18,7 +18,15 @@ export default defineConfig({
       // El registro lo hace <ActualizacionDisponible/>; sin esto se registraría
       // dos veces (aquí y desde React).
       injectRegister: null,
-      includeAssets: ['assets/icon-180.png', 'assets/logoX.png'],
+      // Ni `includeAssets` ni los iconos del manifest: `globPatterns` de abajo ya
+      // precachea todos los png de dist/, y añadirlos por segunda vía generaba
+      // entradas duplicadas de la misma URL con revisiones distintas.
+      // precacheAndRoute lanzaba entonces `add-to-cache-list-conflicting-entries`,
+      // la excepción se perdía como unhandled rejection dentro de la fábrica AMD
+      // del sw.js, y el service worker acababa SIN manejadores de install ni de
+      // fetch: instalaba al instante, no cacheaba nada y aun así tomaba el
+      // control. El PWA nunca llegó a funcionar sin conexión por esto.
+      includeManifestIcons: false,
       manifest: {
         name: 'FactoR[i]zando',
         short_name: 'Factorizando',

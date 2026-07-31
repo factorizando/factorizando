@@ -34,7 +34,10 @@ export default function Regularizacion() {
 
   return (
     <div style={{ minHeight: "100vh", background: C.bg, color: C.text, fontFamily: font }}>
-      <AdminHeader active="regularizacion" />
+      {/* Sin las pestañas del back-office: desde aquí no se llega a Alumnos,
+          Cargos ni Suscripciones. La entrada es de ida — se accede desde el
+          panel admin o desde Inicio, no al revés. */}
+      <AdminHeader chip="Regularización" tabs={[]} />
 
       <main style={{ maxWidth: 1000, margin: "0 auto", padding: "32px 24px 80px" }}>
         <header style={{ marginBottom: 26 }}>

@@ -35,7 +35,11 @@ function BrandName() {
   );
 }
 
-export default function AdminHeader({ active, onChange, tabs }) {
+// `chip` nombra la sección a la derecha de la marca. `tabs` puede recibir un
+// arreglo vacío para reusar la cáscara (marca, tipografía, responsivo) sin
+// exponer la navegación del back-office: es lo que hace Regularización, que es
+// una sección independiente y no una pestaña más del panel.
+export default function AdminHeader({ active, onChange, tabs, chip = "Panel Admin" }) {
   const navigate = useNavigate();
   const items = tabs || TABS;
 
@@ -61,7 +65,7 @@ export default function AdminHeader({ active, onChange, tabs }) {
         </Link>
         <BrandName />
         <span className="ah-sep">|</span>
-        <span className="ah-chip">Panel Admin</span>
+        <span className="ah-chip">{chip}</span>
       </div>
 
       <nav className="ahn-nav">

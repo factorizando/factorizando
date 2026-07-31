@@ -8,7 +8,16 @@ export default defineConfig({
     react(),
     tailwindcss(),
     VitePWA({
-      registerType: 'autoUpdate',
+      // 'prompt' y no 'autoUpdate': con autoUpdate la versión nueva tomaba el
+      // control sola (skipWaiting) y cleanupOutdatedCaches borraba la precaché
+      // anterior, pero la pestaña abierta seguía con el HTML viejo, que a partir
+      // de ese momento apuntaba a bundles ya inexistentes → 404 y pantalla rota.
+      // En modo prompt la versión nueva queda ESPERANDO: la precaché vieja sigue
+      // intacta y la página solo cambia cuando el usuario acepta.
+      registerType: 'prompt',
+      // El registro lo hace <ActualizacionDisponible/>; sin esto se registraría
+      // dos veces (aquí y desde React).
+      injectRegister: null,
       includeAssets: ['assets/icon-180.png', 'assets/logoX.png'],
       manifest: {
         name: 'FactoR[i]zando',
@@ -37,6 +46,10 @@ export default defineConfig({
       workbox: {
         maximumFileSizeToCacheInBytes: 8 * 1024 * 1024,
         globPatterns: ['**/*.{js,css,html,png,svg,woff2}'],
+        // Explícito aunque sea el valor por omisión: al activarse la versión
+        // nueva se purgan las precachés anteriores. En modo prompt esto solo
+        // ocurre después de que el usuario acepta, no a mitad de sesión.
+        cleanupOutdatedCaches: true,
         navigateFallback: '/factorizando/index.html',
         navigateFallbackDenylist: [/^\/factorizando\/guias\//],
         runtimeCaching: [

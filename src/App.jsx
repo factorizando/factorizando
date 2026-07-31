@@ -13,6 +13,7 @@ import Preparatoria from "./pages/Preparatoria";
 import Universidad from "./pages/Universidad";
 import Cuestionario from "./pages/Cuestionario";
 import ProtectedRoute from "./components/ProtectedRoute";
+import ActualizacionDisponible from "./components/ActualizacionDisponible";
 import SelectorBloque from "./pages/SelectorBloque";
 import Admin from "./pages/Admin";
 import ExaniI from "./pages/cuestionarios/ExaniI";
@@ -329,6 +330,9 @@ export default function App() {
   return (
     <HashRouter>
       <RecoveryWatcher />
+      {/* Fuera del gate de mantenimiento: el aviso debe salir también en
+          "Próximamente" y en /login, que es donde más se recarga. */}
+      <ActualizacionDisponible />
       {MANTENIMIENTO ? <Mantenimiento /> : <AppRoutes />}
     </HashRouter>
   );

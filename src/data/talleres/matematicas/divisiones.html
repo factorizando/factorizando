@@ -79,8 +79,10 @@
   .casita td{padding:2px 8px;text-align:right;min-width:34px;}
   .divisor-cell{border-right:3px solid var(--ink);padding-right:12px !important;}
   .quotient-row td{border-bottom:3px solid var(--ink);color:var(--island-green);}
-  .work-row td{color:var(--coral);}
-  .work-line td{border-top:2px solid var(--ink);}
+  /* Producto que se resta, con la raya de la resta abarcando el minuendo. */
+  .casita td.producto{color:var(--coral);}
+  .casita td.linea{border-bottom:2px solid var(--ink);}
+  .casita td.resto{color:var(--ink);}
   .blink{animation:blinker 1s linear infinite;}
   @keyframes blinker{50%{opacity:0.35;}}
 
@@ -528,7 +530,10 @@ function makeDivisionLarga(){
     if(digits[0] < d) continue; // evita cociente con cero inicial
     return {d, dividendo, digits, cociente, residuo};
   }
-  return {d:4, dividendo:348, digits:[3,4,8], cociente:87, residuo:0};
+  // Respaldo si se agotan los intentos. Debe cumplir la misma invariante que el
+  // bucle (digits[0] >= d), o el cociente saldría con un cero inicial: 348 ÷ 4
+  // empieza por 3 < 4 y pintaba "087".
+  return {d:4, dividendo:968, digits:[9,6,8], cociente:242, residuo:0};
 }
 
 function roundCasita(){
@@ -569,13 +574,38 @@ function drawCasita(){
     return '<td class="' + (i===paso ? 'blink' : '') + '" style="color:' + (i<=paso?'var(--ink)':'rgba(12,43,58,0.3)') + ';">' + x + '</td>';
   }).join('') + '</tr>';
 
-  // trabajo de pasos ya resueltos
+  // Trabajo de los pasos ya resueltos.
+  //
+  // Alineación: en el paso k se divide `actual` (= resto anterior × 10 + dígito k),
+  // así que el producto y el resto se escriben terminando en la columna del dígito
+  // k, ocupando hacia la izquierda tantas columnas como cifras tengan. Un producto
+  // de dos cifras queda a caballo entre dos columnas, que es justo lo que hace ver
+  // que se está restando del número formado al "bajar" el dígito. Antes todo se
+  // metía en una sola celda bajo la columna k, sin reflejar el algoritmo escrito.
+  //
+  // La raya de la resta abarca el ancho del minuendo (`actual`), no el del
+  // producto, que puede ser más corto: 10 − 9 lleva raya de dos cifras.
+  //
+  // No se dibuja el signo −: en la notación de casita la resta va implícita bajo
+  // la raya, y a la izquierda de la columna 1 está el divisor, no hay hueco.
+  function filaNumero(texto, col, clase, anchoLinea){
+    const chars = String(texto).split('');
+    const ini = col - chars.length + 1;
+    const iniLinea = anchoLinea === undefined ? null : col - String(anchoLinea).length + 1;
+    let tds = '<td style="border:none;"></td>'; // columna del divisor, siempre vacía
+    for(let i = 1; i <= digits.length; i++){
+      const hayDigito = i >= ini && i <= col;
+      const hayLinea = iniLinea !== null && i >= iniLinea && i <= col;
+      const clases = [clase, hayLinea ? 'linea' : ''].filter(Boolean).join(' ');
+      tds += '<td class="' + clases + '">' + (hayDigito ? chars[i - ini] : '') + '</td>';
+    }
+    return '<tr>' + tds + '</tr>';
+  }
+
   for(let k=0;k<paso;k++){
     const s = pasos[k];
-    const pad = new Array(k).fill('<td></td>').join('');
-    const tail = new Array(digits.length-k-1).fill('<td></td>').join('');
-    rows += '<tr class="work-row"><td style="border:none;"></td>' + pad + '<td>−' + s.producto + '</td>' + tail + '</tr>';
-    rows += '<tr class="work-line"><td style="border:none;"></td>' + pad + '<td>' + s.resto + '</td>' + tail + '</tr>';
+    rows += filaNumero(s.producto, k + 1, 'producto', s.actual);
+    rows += filaNumero(s.resto, k + 1, 'resto');
   }
 
   c.innerHTML = '<table>' + rows + '</table>';

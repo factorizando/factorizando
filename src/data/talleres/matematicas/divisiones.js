@@ -13,10 +13,13 @@ export const TALLER = {
   edades: "7-10 años",
   icono: "➗",
   descripcion:
-    "Cuatro actividades: reparto con el dedo, corrales con residuo, la casita paso a paso y problemas de camiones.",
+    "Siete actividades: reparto con el dedo, corrales con residuo, pizzas en fracciones, " +
+    "barras de cubitos, la casita paso a paso, problemas de camiones y clasificación de residuos.",
   objetivos: [
     "Entender la división como reparto en partes iguales.",
+    "Repartir una unidad, no solo un conjunto, y conectarlo con la fracción.",
     "Descubrir el residuo como lo que sobra del reparto.",
+    "Distinguir de un vistazo una división exacta de una con residuo.",
     "Ejecutar el algoritmo de la división larga dígito por dígito.",
   ],
   render: { tipo: "html", html },

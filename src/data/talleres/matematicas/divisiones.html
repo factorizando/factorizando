@@ -86,6 +86,39 @@
   .blink{animation:blinker 1s linear infinite;}
   @keyframes blinker{50%{opacity:0.35;}}
 
+  /* --- pizza --- */
+  .pizza-zona{display:flex;flex-direction:column;align-items:center;gap:14px;}
+  .pizza-svg{width:100%;max-width:270px;height:auto;display:block;}
+  .pizza-svg path{stroke:var(--ink);stroke-width:2.5;cursor:pointer;transition:opacity .12s ease;}
+  .pizza-svg path:hover{opacity:0.75;}
+  .comensales{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+  .comensal{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,0.24);border-radius:12px;
+    padding:6px 12px;font-weight:800;font-size:14px;}
+  .comensal .punto{width:13px;height:13px;border-radius:50%;border:2px solid var(--ink);flex-shrink:0;}
+
+  /* --- barra de cubitos --- */
+  /* nowrap + scroll: si la barra se partiera en varias líneas se perdería la
+     metáfora de "una sola barra que se corta". */
+  .barra-wrap{overflow-x:auto;padding:6px 0;}
+  .barra{display:flex;flex-wrap:nowrap;align-items:center;justify-content:center;min-width:min-content;}
+  .cubo{width:24px;height:34px;flex-shrink:0;background:var(--teal);border:2px solid var(--ink);
+    border-radius:4px;transition:background .15s ease;}
+  .cubo.mal{background:var(--coral);}
+  .cubo.bien{background:var(--island-green);}
+  .corte{width:15px;flex-shrink:0;text-align:center;font-size:14px;line-height:34px;
+    cursor:pointer;color:rgba(253,250,241,0.12);user-select:none;transition:color .12s ease;}
+  .corte:hover{color:rgba(253,250,241,0.55);}
+  .corte.activo{color:var(--sun);}
+  .corte.correcto{color:var(--island-green);text-shadow:0 0 6px rgba(45,156,100,0.8);}
+
+  /* --- cazador de residuos --- */
+  .grupos{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:14px;}
+  .grupo{display:flex;gap:4px;background:rgba(46,196,198,0.16);border:2px solid var(--teal);
+    border-radius:10px;padding:7px;}
+  .grupo.sobra{background:rgba(255,107,74,0.18);border-color:var(--coral);border-style:dashed;}
+  .bloque{width:15px;height:15px;border-radius:3px;background:var(--teal);}
+  .grupo.sobra .bloque{background:var(--coral);}
+
   /* --- camiones --- */
   .trucks{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:12px 0;}
   .truck{background:rgba(46,196,198,0.16);border:3px solid var(--teal);border-radius:12px;padding:8px 12px;
@@ -203,13 +236,20 @@ let state = {};
 const ACTIVIDADES = {
   '7-8': [
     {id:'reparto', emoji:'🍪', nombre:'Reparte las galletas', desc:'Toca los platos para repartir las galletas en partes iguales. Al terminar aparece la división.'},
-    {id:'corrales', emoji:'🐣', nombre:'Corrales de pollitos', desc:'Reparte los pollitos entre los corrales y descubre cuántos sobran.'}
+    {id:'corrales', emoji:'🐣', nombre:'Corrales de pollitos', desc:'Reparte los pollitos entre los corrales y descubre cuántos sobran.'},
+    {id:'pizza', emoji:'🍕', nombre:'Divisor de pizzas', desc:'Reparte las rebanadas de una pizza entre los comensales y descubre qué fracción le toca a cada uno.'},
+    {id:'barras', emoji:'🧮', nombre:'Barras que se parten', desc:'Corta la barra de cubitos en partes iguales. Si te equivocas, te muestra dónde iban los cortes.'}
   ],
   '9-10': [
     {id:'casita', emoji:'📊', nombre:'La casita paso a paso', desc:'Resuelve la división larga dígito por dígito, con cada paso resaltado.'},
-    {id:'camiones', emoji:'🚚', nombre:'Cargamento de camiones', desc:'Problemas con residuo: cuántos camiones se llenan y cuántas cajas sobran.'}
+    {id:'camiones', emoji:'🚚', nombre:'Cargamento de camiones', desc:'Problemas con residuo: cuántos camiones se llenan y cuántas cajas sobran.'},
+    {id:'cazador', emoji:'🎯', nombre:'Cazador de residuos', desc:'¿La división es exacta o sobra algo? Clasifica rápido y comprueba con los grupos en pantalla.'}
   ]
 };
+
+// Colores por comensal (pizza). Son los mismos tonos de la paleta del taller.
+const COLORES_COMENSAL = ['#ff6b4a', '#2ec4c6', '#ffc93c', '#8b6bd8', '#2d9c64'];
+const NOMBRES_COMENSAL = ['🐰', '🐸', '🐼', '🦊', '🐨'];
 
 const HINTS = {
   '7-8':'Para 7-8 años la división se aprende repartiendo objetos con el dedo, sin algoritmo.',
@@ -301,16 +341,26 @@ function endRound(good, msg){
 el('nextBtn').addEventListener('click', nextRound);
 el('checkBtn').addEventListener('click', ()=>{ if(state.check) state.check(); });
 
+// Cada actividad monta su propia ronda. Las declaraciones de función se izan,
+// así que este mapa puede nombrarlas antes de que aparezcan más abajo.
+const RONDAS = {
+  reparto:  roundReparto,
+  corrales: roundCorrales,
+  pizza:    roundPizza,
+  barras:   roundBarras,
+  casita:   roundCasita,
+  camiones: roundCamiones,
+  cazador:  roundCazador,
+};
+
 function nextRound(){
   setFeedback('');
   el('nextBtn').style.display = 'none';
   el('checkBtn').style.display = 'inline-block';
   el('stage').innerHTML = '';
   state = {};
-  if(currentAct.id === 'reparto') roundReparto();
-  if(currentAct.id === 'corrales') roundCorrales();
-  if(currentAct.id === 'casita') roundCasita();
-  if(currentAct.id === 'camiones') roundCamiones();
+  const ronda = RONDAS[currentAct.id];
+  if(ronda) ronda();
 }
 
 /* =========================================================
@@ -514,6 +564,192 @@ function askSobran(porCorral, sobran){
     opts.appendChild(b);
   });
   zone.appendChild(opts);
+}
+
+/* =========================================================
+   ACTIVIDAD 3 (7-8): DIVISOR DE PIZZAS
+   Reparto de UNA unidad, no de un conjunto: la pizza se corta en
+   rebanadas y cada comensal se queda con las suyas. El cierre conecta
+   el reparto con la fracción: porPersona/rebanadas = 1/comensales.
+   ========================================================= */
+function roundPizza(){
+  const comensales = randInt(2,4);
+  const porPersona = randInt(1,3);
+  const rebanadas = comensales * porPersona;
+
+  state = {comensales, porPersona, rebanadas,
+           asignacion: new Array(rebanadas).fill(null), check: checkPizza};
+
+  el('prompt').innerHTML = 'Una pizza cortada en ' + rebanadas + ' rebanadas para ' + comensales + ' amigos.' +
+    '<small>Toca una rebanada para dársela al siguiente amigo. Tócala otra vez para cambiarla o dejarla libre.</small>';
+
+  el('stage').innerHTML =
+    '<div class="pizza-zona">' +
+      '<div class="comensales" id="comensales"></div>' +
+      '<div id="pizzaBox"></div>' +
+    '</div>';
+
+  dibujarPizza();
+}
+
+// Genera las rebanadas como sectores circulares. El ángulo 0 se toma arriba
+// (−90°) para que la primera rebanada empiece donde el niño espera.
+function svgPizza(){
+  const {rebanadas, asignacion} = state;
+  const cx = 150, cy = 150, r = 130;
+  let paths = '';
+  for(let i = 0; i < rebanadas; i++){
+    const a0 = (i / rebanadas) * 2 * Math.PI - Math.PI / 2;
+    const a1 = ((i + 1) / rebanadas) * 2 * Math.PI - Math.PI / 2;
+    const x0 = (cx + r * Math.cos(a0)).toFixed(2), y0 = (cy + r * Math.sin(a0)).toFixed(2);
+    const x1 = (cx + r * Math.cos(a1)).toFixed(2), y1 = (cy + r * Math.sin(a1)).toFixed(2);
+    const arcoLargo = (a1 - a0) > Math.PI ? 1 : 0;
+    const dueno = asignacion[i];
+    const relleno = dueno === null ? 'rgba(253,250,241,0.16)' : COLORES_COMENSAL[dueno];
+    paths += '<path data-i="' + i + '" fill="' + relleno + '" d="M' + cx + ',' + cy +
+             ' L' + x0 + ',' + y0 + ' A' + r + ',' + r + ' 0 ' + arcoLargo + ',1 ' + x1 + ',' + y1 + ' Z"></path>';
+  }
+  return '<svg class="pizza-svg" viewBox="0 0 300 300" role="img" aria-label="Pizza en rebanadas">' + paths + '</svg>';
+}
+
+function dibujarPizza(){
+  const {comensales, asignacion} = state;
+
+  const cuenta = new Array(comensales).fill(0);
+  asignacion.forEach(d => { if(d !== null) cuenta[d]++; });
+
+  el('comensales').innerHTML = cuenta.map(function(n, i){
+    return '<div class="comensal"><span class="punto" style="background:' + COLORES_COMENSAL[i] + '"></span>' +
+           NOMBRES_COMENSAL[i] + ' <b>' + n + '</b></div>';
+  }).join('');
+
+  el('pizzaBox').innerHTML = svgPizza();
+
+  // Un solo listener en el SVG en vez de uno por rebanada.
+  el('pizzaBox').querySelector('svg').addEventListener('click', function(ev){
+    const p = ev.target.closest('path');
+    if(!p) return;
+    const i = Number(p.dataset.i);
+    const actual = state.asignacion[i];
+    // libre → amigo 1 → amigo 2 → … → último → libre
+    state.asignacion[i] = actual === null ? 0
+                        : actual + 1 >= state.comensales ? null
+                        : actual + 1;
+    dibujarPizza();
+  });
+}
+
+function checkPizza(){
+  const {comensales, porPersona, rebanadas, asignacion} = state;
+  const libres = asignacion.filter(d => d === null).length;
+  if(libres > 0){
+    setFeedback('Todavía ' + (libres === 1 ? 'queda 1 rebanada' : 'quedan ' + libres + ' rebanadas') + ' sin repartir.', false);
+    return;
+  }
+  const cuenta = new Array(comensales).fill(0);
+  asignacion.forEach(d => cuenta[d]++);
+  if(!cuenta.every(n => n === cuenta[0])){
+    setFeedback('No a todos les tocó lo mismo: ' + cuenta.join(', ') + '. Reparte en partes iguales.', false);
+    return;
+  }
+
+  const fraccion = porPersona === 1
+    ? '1/' + rebanadas + ' de la pizza'
+    : porPersona + '/' + rebanadas + ' de la pizza, que es lo mismo que 1/' + comensales;
+  el('prompt').innerHTML = '¡Repartida! <br>' +
+    '<span style="color:var(--island-green);">1 pizza ÷ ' + comensales + ' = ' + fraccion + '</span>' +
+    '<small>' + rebanadas + ' rebanadas ÷ ' + comensales + ' amigos = ' + porPersona + ' rebanadas para cada uno.</small>';
+  endRound(true, 'Aquí no repartimos objetos sueltos: partimos UNA pizza. A cada amigo le tocó ' + fraccion + '.');
+}
+
+/* =========================================================
+   ACTIVIDAD 4 (7-8): BARRAS QUE SE PARTEN
+   La barra es un número en cubitos. Cortar en partes iguales es dividir;
+   si el corte está mal, la barra se marca en rojo y se señalan los cortes
+   que faltaban.
+   ========================================================= */
+function roundBarras(){
+  const partes = randInt(2,5);
+  const porParte = randInt(2,5);
+  const total = partes * porParte;
+
+  // Posiciones válidas de corte: los huecos 1..total-1. Los correctos son los
+  // múltiplos de porParte.
+  const correctos = [];
+  for(let p = porParte; p < total; p += porParte) correctos.push(p);
+
+  // `revelado`: null mientras se edita, 'bien' o 'mal' una vez revisado.
+  state = {partes, porParte, total, correctos, cortes: [], revelado: null, check: checkBarras};
+
+  el('prompt').innerHTML = 'Corta esta barra de ' + total + ' cubitos en ' + partes + ' partes iguales.' +
+    '<small>Toca los espacios entre cubitos para poner o quitar un corte. Necesitas ' +
+    (partes - 1) + ' ' + (partes - 1 === 1 ? 'corte' : 'cortes') + '.</small>';
+
+  el('stage').innerHTML = '<div class="barra-wrap"><div class="barra" id="barra"></div></div>' +
+    '<div class="tray-label" id="barraInfo"></div>';
+
+  // El listener va UNA vez sobre el contenedor, que sobrevive a los redibujados
+  // (solo se reemplaza su innerHTML). Ponerlo dentro de dibujarBarra acumulaba
+  // uno por redibujado y un clic acababa alternando el corte varias veces.
+  el('barra').addEventListener('click', function(ev){
+    if(state.revelado) return;   // ya se revisó: la barra deja de responder
+    const c = ev.target.closest('.corte');
+    if(!c) return;
+    const pos = Number(c.dataset.pos);
+    const k = state.cortes.indexOf(pos);
+    if(k === -1) state.cortes.push(pos); else state.cortes.splice(k, 1);
+    dibujarBarra();
+  });
+
+  dibujarBarra();
+}
+
+function dibujarBarra(){
+  const {total, partes, cortes, correctos, revelado} = state;
+  let html = '';
+  for(let i = 0; i < total; i++){
+    if(i > 0){
+      const activo = cortes.indexOf(i) !== -1;
+      // Al fallar se señalan en verde los cortes que debían ir.
+      const debia = revelado === 'mal' && correctos.indexOf(i) !== -1;
+      const clases = ['corte', activo ? 'activo' : '', debia ? 'correcto' : ''].filter(Boolean).join(' ');
+      html += '<span class="' + clases + '" data-pos="' + i + '">✂</span>';
+    }
+    const estado = revelado === 'mal' ? ' mal' : revelado === 'bien' ? ' bien' : '';
+    html += '<span class="cubo' + estado + '"></span>';
+  }
+  el('barra').innerHTML = html;
+  el('barraInfo').textContent = revelado
+    ? ''
+    : cortes.length + ' de ' + (partes - 1) + ' cortes puestos';
+}
+
+function checkBarras(){
+  const {partes, porParte, total, correctos, cortes} = state;
+
+  if(cortes.length !== partes - 1){
+    setFeedback('Pusiste ' + cortes.length + ' ' + (cortes.length === 1 ? 'corte' : 'cortes') +
+      ' y hacen falta ' + (partes - 1) + '.', false);
+    return;
+  }
+
+  const ordenados = cortes.slice().sort(function(a,b){ return a - b; });
+  const bien = ordenados.length === correctos.length &&
+               ordenados.every(function(v, i){ return v === correctos[i]; });
+
+  state.revelado = bien ? 'bien' : 'mal';
+  dibujarBarra();
+
+  if(bien){
+    el('prompt').innerHTML = '¡Cortes perfectos! <br>' +
+      '<span style="color:var(--island-green);">' + total + ' ÷ ' + partes + ' = ' + porParte + '</span>' +
+      '<small>' + partes + ' partes de ' + porParte + ' cubitos cada una.</small>';
+    endRound(true, 'Cortar en partes iguales es dividir: ' + total + ' ÷ ' + partes + ' = ' + porParte + '.');
+  } else {
+    el('prompt').innerHTML = 'Los cortes no dejaron partes iguales.' +
+      '<small>En verde están los cortes que iban: cada ' + porParte + ' cubitos.</small>';
+    endRound(false, total + ' ÷ ' + partes + ' = ' + porParte + ', así que había que cortar cada ' + porParte + ' cubitos.');
+  }
 }
 
 /* =========================================================
@@ -737,6 +973,67 @@ function askCajasSobran(){
     opts.appendChild(b);
   });
   zone.appendChild(opts);
+}
+
+/* =========================================================
+   ACTIVIDAD 3 (9-10): CAZADOR DE RESIDUOS
+   Clasificación rápida: ¿exacta o con residuo? La comprobación se hace
+   viendo los grupos completos y lo que sobra, resaltado aparte.
+   ========================================================= */
+function roundCazador(){
+  const divisor = randInt(2,9);
+  const grupos = randInt(2,7);
+  // La mitad de las rondas son exactas, para que adivinar no funcione.
+  const residuo = Math.random() < 0.5 ? 0 : randInt(1, divisor - 1);
+  const total = grupos * divisor + residuo;
+
+  state = {divisor, grupos, residuo, total, check: null};
+  el('checkBtn').style.display = 'none';
+
+  el('prompt').innerHTML = '<span style="font-size:1.25em;">' + total + ' ÷ ' + divisor + '</span>' +
+    '<small>¿Se reparte exacto o sobra algo?</small>';
+
+  el('stage').innerHTML =
+    '<div class="options" id="cazaOpts">' +
+      '<button class="opt" data-r="exacta">Exacta</button>' +
+      '<button class="opt" data-r="residuo">Con residuo</button>' +
+    '</div>' +
+    '<div id="cazaVista"></div>';
+
+  el('cazaOpts').addEventListener('click', function(ev){
+    const b = ev.target.closest('.opt');
+    if(!b) return;
+    const acierto = (b.dataset.r === 'exacta') === (residuo === 0);
+    const correcta = residuo === 0 ? 'exacta' : 'residuo';
+
+    el('cazaOpts').querySelectorAll('.opt').forEach(function(x){
+      x.disabled = true;
+      if(x.dataset.r === correcta) x.classList.add('correct');
+    });
+    if(!acierto) b.classList.add('wrong');
+
+    dibujarGrupos();
+    endRound(acierto, residuo === 0
+      ? total + ' ÷ ' + divisor + ' = ' + grupos + ' exacto: no sobra nada.'
+      : total + ' ÷ ' + divisor + ' = ' + grupos + ' y sobran ' + residuo + '. Eso que sobra es el residuo.');
+  });
+}
+
+function dibujarGrupos(){
+  const {divisor, grupos, residuo, total} = state;
+  let html = '<div class="grupos">';
+  for(let g = 0; g < grupos; g++){
+    html += '<div class="grupo">' + new Array(divisor).fill('<span class="bloque"></span>').join('') + '</div>';
+  }
+  if(residuo > 0){
+    html += '<div class="grupo sobra">' + new Array(residuo).fill('<span class="bloque"></span>').join('') + '</div>';
+  }
+  html += '</div>';
+  html += '<p class="tray-label" style="margin-top:10px;">' +
+    grupos + ' ' + (grupos === 1 ? 'grupo completo' : 'grupos completos') + ' de ' + divisor +
+    (residuo > 0 ? ' · <span style="color:var(--coral);">sobran ' + residuo + '</span>' : ' · no sobra nada') +
+    ' &nbsp;=&nbsp; ' + total + '</p>';
+  el('cazaVista').innerHTML = html;
 }
 
 /* =========================================================

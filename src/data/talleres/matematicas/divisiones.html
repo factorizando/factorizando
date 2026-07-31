@@ -329,7 +329,19 @@ function roundReparto(){
   el('stage').innerHTML =
     '<div class="tray-label">Bandeja — quedan <span id="restantes">' + total + '</span></div>' +
     '<div class="tray" id="tray"></div>' +
-    '<div class="plates" id="plates"></div>';
+    '<div class="plates" id="plates"></div>' +
+    '<div class="row" style="margin-top:18px;">' +
+      '<button class="btn ghost small" id="reiniciarBtn">↺ Empezar de nuevo</button>' +
+    '</div>';
+
+  // Mientras queden galletas en la bandeja el clic solo suma, así que sin esto
+  // un reparto mal empezado no se puede corregir hasta vaciar la bandeja.
+  el('reiniciarBtn').addEventListener('click', ()=>{
+    state.enPlato = new Array(state.platos).fill(0);
+    setFeedback('');
+    drawReparto();
+  });
+
   drawReparto();
 }
 
@@ -421,20 +433,27 @@ function animarCorrales(){
   lo.innerHTML = '<div class="leftover-box" id="leftover"></div><div class="box-label" style="color:var(--coral);">Sobran</div>';
   row.appendChild(lo);
 
-  let i = 0;
+  // Se reparten EXACTAMENTE corrales × porCorral pollitos, es decir, vueltas
+  // completas. Comprobar "quedan menos que corrales" antes de cada pollito
+  // suelto detenía el reparto a media vuelta: los corrales quedaban desiguales
+  // y el sobrante siempre era corrales-1 en vez del residuo real.
+  const aRepartir = corrales * state.porCorral;
+  let entregados = 0;
+
   const timer = setInterval(()=>{
-    if(restantes < corrales){
+    if(entregados === aRepartir){
       clearInterval(timer);
       el('leftover').innerHTML = new Array(restantes).fill('<span class="item">🐣</span>').join('');
       el('tray').innerHTML = '';
-      askCorrales(grupos[0], restantes);
+      askCorrales(state.porCorral, restantes);
       return;
     }
-    grupos[i % corrales]++;
+    const c = entregados % corrales;
+    grupos[c]++;
     restantes--;
-    el('corral-'+(i%corrales)).innerHTML = new Array(grupos[i%corrales]).fill('<span class="item">🐣</span>').join('');
+    entregados++;
+    el('corral-'+c).innerHTML = new Array(grupos[c]).fill('<span class="item">🐣</span>').join('');
     el('tray').innerHTML = new Array(restantes).fill('<span class="item">🐣</span>').join('');
-    i++;
   }, 190);
 }
 
@@ -524,7 +543,7 @@ function roundCasita(){
     r = resto;
   });
 
-  state = Object.assign({}, p, {pasos, paso:0, cocienteParcial:[], check:null});
+  state = Object.assign({}, p, {pasos, paso:0, cocienteParcial:[], huboError:false, check:null});
   el('checkBtn').style.display = 'none';
   el('prompt').innerHTML = 'Resuelve ' + p.dividendo + ' ÷ ' + p.d + ' paso a paso.' +
     '<small>En cada paso, elige cuántas veces cabe el divisor.</small>';
@@ -568,9 +587,15 @@ function askCasitaStep(){
     el('prompt').innerHTML = '¡Terminaste!' +
       '<small style="color:var(--island-green);">' + dividendo + ' ÷ ' + d + ' = ' + cociente +
       (residuo>0 ? ' con residuo ' + residuo : ' (división exacta)') + '</small>';
-    endRound(true, residuo>0
+    const resultado = residuo>0
       ? dividendo + ' ÷ ' + d + ' = ' + cociente + ' y sobran ' + residuo + '.'
-      : dividendo + ' ÷ ' + d + ' = ' + cociente + ', división exacta.');
+      : dividendo + ' ÷ ' + d + ' = ' + cociente + ', división exacta.';
+    // Una ronda = un resultado, igual que en las demás actividades. Antes se
+    // sumaba un error por cada paso fallado Y un acierto al terminar, así que
+    // una división con todos los pasos mal seguía contando como acierto.
+    endRound(!state.huboError, state.huboError
+      ? 'Terminaste con ayuda: ' + resultado
+      : resultado);
     el('stepZone').innerHTML = '';
     return;
   }
@@ -598,8 +623,7 @@ function askCasitaStep(){
         setFeedback('Fíjate: ' + d + ' × ' + s.q + ' = ' + s.producto + ', que sí cabe en ' + s.actual + '. Con ' + (+b.textContent) + ' no funciona.', false);
         state.cocienteParcial[s.i] = s.q;
         state.paso++;
-        score.bad++;
-        updateScore();
+        state.huboError = true;   // se puntúa una sola vez, al cerrar la ronda
         setTimeout(()=>{ drawCasita(); askCasitaStep(); }, 1600);
       }
     });

@@ -164,11 +164,24 @@ export default function ComprobantePDF({ pago, cargo, alumno }) {
         </div>
       </div>
 
-      <p style={S.note}>
-        Este comprobante certifica la recepción del pago señalado arriba y no
-        constituye una factura fiscal (CFDI). Consérvalo como respaldo de tu
-        inscripción o suscripción.
-      </p>
+      {/* ── Términos y preguntas ── */}
+      <div style={S.legal}>
+        <div style={S.legalCol}>
+          <p style={S.legalTitle}>Términos y Condiciones</p>
+          <p style={S.legalText}>
+            Este comprobante certifica la recepción del pago señalado arriba y
+            no constituye una factura fiscal (CFDI). Consérvalo como respaldo
+            de tu inscripción o suscripción.
+          </p>
+        </div>
+        <div style={S.legalCol}>
+          <p style={S.legalTitle}>Preguntas</p>
+          <p style={S.legalText}>
+            Envía un correo a factorizandoeluniverso@gmail.com o un WhatsApp al
+            249 137 4886.
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
@@ -264,12 +277,31 @@ const S = {
     padding: "28px 36px 32px",
     marginTop: 12,
   },
-  note: {
-    fontSize: 11,
+  // Bloque de cierre a dos columnas, tomado del recibo anterior: los términos
+  // a la izquierda y a quién escribirle a la derecha, separados del cuerpo por
+  // una línea que abarca el ancho de contenido (de ahí margin + borderTop en
+  // el contenedor, en vez de padding lateral).
+  legal: {
+    display: "flex",
+    gap: 40,
+    margin: "0 36px",
+    paddingTop: 20,
+    paddingBottom: 32,
+    borderTop: "1px solid #e3e6ea",
+  },
+  legalCol: { flex: "1 1 0" },
+  legalTitle: {
+    fontSize: 12,
+    fontWeight: 700,
+    color: "#1a1c1f",
+    margin: "0 0 8px",
+  },
+  legalText: {
+    fontSize: 10,
     color: "#6b7280",
-    padding: "0 36px 28px",
-    lineHeight: 1.6,
+    lineHeight: 1.65,
     margin: 0,
+    textAlign: "justify",
   },
 };
 

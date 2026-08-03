@@ -6,6 +6,7 @@ import { supabase } from "../../lib/supabase";
 import EstadoBadge from "../../components/admin/EstadoBadge.jsx";
 import AdminHeader from "../../components/admin/AdminHeader.jsx";
 import { generarComprobantePago } from "../../utils/comprobantePago.jsx";
+import ComprobantePDF from "../../components/ComprobantePDF.jsx";
 import { textoPeriodo } from "../../utils/fechas.js";
 
 const font = "'DM Sans', sans-serif";
@@ -64,7 +65,7 @@ function Field({ label, children }) {
   );
 }
 
-function Modal({ title, onClose, children }) {
+function Modal({ title, onClose, children, maxWidth = 480 }) {
   return (
     <div style={{
       position: "fixed", inset: 0, zIndex: 100,
@@ -73,7 +74,7 @@ function Modal({ title, onClose, children }) {
     }} onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
       <div style={{
         background: C.card, border: `1px solid ${C.border}`, borderRadius: 14,
-        width: "90%", maxWidth: 480, maxHeight: "85vh", overflow: "auto", padding: "24px 28px",
+        width: "90%", maxWidth, maxHeight: "85vh", overflow: "auto", padding: "24px 28px",
       }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
           <h3 style={{ margin: 0, color: C.text, fontSize: 16, fontWeight: 700, fontFamily: font }}>{title}</h3>
@@ -234,6 +235,36 @@ function ConfirmModal({ title, message, onConfirm, onCancel }) {
   );
 }
 
+// ── Vista previa del comprobante antes de descargar ─────────────────────────
+function ComprobantePreviewModal({ pago, cargo, alumno, onClose }) {
+  const [descargando, setDescargando] = useState(false);
+  return (
+    <Modal title="Vista previa del comprobante" onClose={onClose} maxWidth={860}>
+      <div style={{ background: "#555", borderRadius: 10, padding: 20, marginBottom: 18, overflowX: "auto" }}>
+        <div style={{ width: 800 }}>
+          <ComprobantePDF pago={pago} cargo={cargo} alumno={alumno} />
+        </div>
+      </div>
+      <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
+        <button onClick={onClose} style={{
+          background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
+          padding: "8px 18px", color: C.muted, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: font,
+        }}>Cerrar</button>
+        <button onClick={async () => {
+          setDescargando(true);
+          await generarComprobantePago({ pago, cargo, alumno });
+          setDescargando(false);
+          onClose();
+        }} disabled={descargando} style={{
+          background: C.blue, border: "none", borderRadius: 8,
+          padding: "8px 22px", color: "#fff", fontSize: 13, fontWeight: 700,
+          cursor: descargando ? "default" : "pointer", opacity: descargando ? 0.6 : 1, fontFamily: font,
+        }}>{descargando ? "Generando…" : "↧ Descargar PDF"}</button>
+      </div>
+    </Modal>
+  );
+}
+
 // ── Fila de cargo ────────────────────────────────────────────────────────────
 function CargoRow({ cargo, alumnos, onPay, onEdit, onDelete, onTogglePagos, showPagos, pagos, onDownloadPago }) {
   const alumno = alumnos.find((a) => a.id === cargo.alumno_id);
@@ -345,6 +376,7 @@ export default function AdminCargos({ embedded }) {
   const [pagosMap, setPagosMap] = useState({});
   const [lastPago, setLastPago] = useState(null);
   const [lastPagoCargo, setLastPagoCargo] = useState(null);
+  const [preview, setPreview] = useState(null); // { pago, cargo, alumno }
 
   useEffect(() => { loadAll(); }, []);
 
@@ -506,7 +538,7 @@ export default function AdminCargos({ embedded }) {
               pagos={pagosMap[c.id] || []}
               onDownloadPago={(pg, cargo) => {
                 const alumno = alumnos.find((a) => a.id === cargo.alumno_id);
-                generarComprobantePago({ pago: pg, cargo, alumno: alumno || { nombre: "", apellidos: "" } });
+                setPreview({ pago: pg, cargo, alumno: alumno || { nombre: "", apellidos: "" } });
               }}
             />
           ))}
@@ -552,14 +584,24 @@ export default function AdminCargos({ embedded }) {
             }}>Cerrar</button>
             <button onClick={() => {
               const alumno = alumnos.find((a) => a.id === lastPagoCargo.alumno_id);
-              generarComprobantePago({ pago: lastPago, cargo: lastPagoCargo, alumno: alumno || { nombre: "", apellidos: "" } });
+              setPreview({ pago: lastPago, cargo: lastPagoCargo, alumno: alumno || { nombre: "", apellidos: "" } });
             }} style={{
               background: C.blue, border: "none", borderRadius: 8,
               padding: "8px 22px", color: "#fff", fontSize: 13, fontWeight: 700,
               cursor: "pointer", fontFamily: font,
-            }}>↧ Descargar comprobante</button>
+            }}>Ver comprobante</button>
           </div>
         </Modal>
+      )}
+
+      {/* Modal vista previa del comprobante */}
+      {preview && (
+        <ComprobantePreviewModal
+          pago={preview.pago}
+          cargo={preview.cargo}
+          alumno={preview.alumno}
+          onClose={() => setPreview(null)}
+        />
       )}
 
       {/* Modal eliminar */}

@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taller de Comprensión Lectora</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --noche:#241b3a; --noche-mid:#3d2f63; --violeta:#a78bfa; --uva:#7c4dcc;
+    --paper:#fbf3e4; --ink:#241b3a; --coral:#ff6b6b; --sun:#ffc93c;
+    --mint:#2ec4a6; --verde:#3fa96a; --cielo:#5aa9ff; --white:#fdfaf1;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{font-family:'Nunito',sans-serif;background:radial-gradient(ellipse at top, var(--noche-mid) 0%, var(--noche) 65%);
+    color:var(--white);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:18px;}
+  h1,h2,h3,.display{font-family:'Baloo 2', sans-serif;}
+  .wrap{width:100%;max-width:900px;}
+  header{text-align:center;margin-bottom:14px;}
+  header h1{font-size:clamp(25px,4.2vw,40px);margin:0 0 4px 0;text-shadow:0 3px 0 rgba(0,0,0,0.25);}
+  header p{margin:0;opacity:0.85;font-weight:700;font-size:clamp(13px,1.6vw,16px);}
+
+  .card{background:rgba(253,250,241,0.08);border:2px solid rgba(253,250,241,0.18);border-radius:22px;padding:24px;}
+  .btn{font-family:'Baloo 2';font-weight:700;font-size:18px;border:none;border-radius:16px;padding:14px 26px;cursor:pointer;
+    color:var(--ink);background:var(--sun);box-shadow:0 5px 0 rgba(0,0,0,0.25);transition:transform .08s ease;}
+  .btn:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(0,0,0,0.25);}
+  .btn.secondary{background:var(--mint);}
+  .btn.ghost{background:transparent;color:var(--white);border:2px solid rgba(253,250,241,0.4);box-shadow:none;}
+  .btn.small{font-size:15px;padding:10px 18px;}
+  .btn:disabled{opacity:0.4;cursor:not-allowed;}
+  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:center;}
+  .hint{font-size:13px;opacity:0.78;margin-top:10px;line-height:1.5;}
+  .toggle-opt.selected{background:var(--sun);color:var(--ink);}
+
+  .act-grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-top:16px;}
+  .act-tile{background:rgba(0,0,0,0.22);border:2px solid rgba(253,250,241,0.15);border-radius:18px;padding:18px;cursor:pointer;
+    text-align:left;color:var(--white);font-family:'Nunito';transition:transform .1s ease, border-color .1s ease;}
+  .act-tile:hover{transform:translateY(-3px);border-color:var(--sun);}
+  .act-tile .emoji{font-size:30px;display:block;margin-bottom:6px;}
+  .act-tile strong{font-family:'Baloo 2';font-size:19px;display:block;margin-bottom:4px;}
+  .act-tile span.desc{font-size:13px;opacity:0.8;line-height:1.4;}
+
+  #activity{display:none;}
+  .topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap;}
+  .pill{background:rgba(0,0,0,0.28);border-radius:20px;padding:8px 16px;font-family:'Baloo 2';font-weight:700;font-size:14px;}
+  .pill.timer{display:none;background:var(--uva);}
+  .pill.timer.urge{background:var(--coral);color:var(--ink);}
+
+  .prompt{background:rgba(0,0,0,0.24);border:2px solid rgba(253,250,241,0.16);border-radius:16px;padding:14px 18px;
+    text-align:center;font-family:'Baloo 2';font-size:clamp(17px,2.4vw,22px);font-weight:700;margin-bottom:14px;line-height:1.35;}
+  .prompt small{display:block;font-family:'Nunito';font-size:13px;font-weight:700;opacity:0.72;margin-top:6px;}
+
+  /* --- panel de lectura: el texto siempre sobre papel, nunca sobre el fondo oscuro --- */
+  .lectura{background:var(--paper);color:var(--ink);border-radius:18px;padding:22px 24px;text-align:left;
+    font-size:clamp(16px,2.2vw,19px);line-height:1.9;margin-bottom:16px;}
+  .lectura .titulillo{font-family:'Baloo 2';font-size:15px;text-transform:uppercase;letter-spacing:1px;
+    opacity:0.55;margin-bottom:8px;line-height:1.2;}
+
+  /* --- palabras y oraciones que se pueden tocar --- */
+  .tok{border-radius:5px;padding:1px 2px;cursor:pointer;transition:background .1s ease;}
+  .tok:hover{background:rgba(124,77,204,0.16);}
+  .tok.ok{background:var(--verde);color:var(--white);}
+  .tok.mal{background:var(--coral);color:var(--white);}
+  .oracion{display:block;border-radius:8px;padding:4px 8px;margin:2px -8px;cursor:pointer;transition:background .1s ease;}
+  .oracion:hover{background:rgba(124,77,204,0.14);}
+  .oracion.ok{background:rgba(63,169,106,0.28);box-shadow:inset 3px 0 0 var(--verde);}
+  .oracion.mal{background:rgba(255,107,107,0.28);box-shadow:inset 3px 0 0 var(--coral);}
+
+  /* --- pronombres y referentes (¿de quién hablamos?) --- */
+  .ref{padding:1px 3px;font-weight:800;cursor:pointer;border-bottom:3px dotted currentColor;}
+  .pron{background:rgba(167,139,250,0.3);border-bottom:3px solid var(--uva);border-radius:5px;
+    padding:1px 4px;font-weight:800;cursor:pointer;}
+  .pron.sel{background:var(--sun);box-shadow:0 0 0 3px rgba(255,201,60,0.45);}
+  .pron.ok{background:transparent;color:var(--c);border-bottom-color:var(--c);cursor:default;}
+  .pron.mal{animation:tiembla .3s;}
+  .pron sup{font-size:10px;font-weight:800;margin-left:2px;white-space:nowrap;}
+  @keyframes tiembla{25%{transform:translateX(-4px);}75%{transform:translateX(4px);}}
+
+  /* --- pista resaltada (palabra misteriosa) --- */
+  .clave{background:var(--sun);border-radius:5px;padding:1px 3px;box-shadow:0 0 0 2px var(--sun);}
+  .misterio{font-family:'Baloo 2';font-weight:800;color:var(--uva);background:rgba(167,139,250,0.22);
+    border-radius:6px;padding:1px 6px;}
+
+  /* --- ordenar la historia --- */
+  .slots{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
+  .slot{display:flex;gap:10px;align-items:center;background:var(--paper);color:var(--ink);border-radius:12px;
+    padding:10px 14px;font-size:15px;line-height:1.45;cursor:pointer;text-align:left;}
+  .slot .num{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--uva);color:var(--white);
+    font-family:'Baloo 2';font-weight:700;display:flex;align-items:center;justify-content:center;font-size:14px;}
+  .slot.vacio{background:rgba(0,0,0,0.2);color:rgba(253,250,241,0.45);border:2px dashed rgba(253,250,241,0.28);cursor:default;}
+  .slot.ok{box-shadow:inset 4px 0 0 var(--verde);}
+  .slot.mal{box-shadow:inset 4px 0 0 var(--coral);}
+  .pool{display:flex;flex-direction:column;gap:8px;}
+  .frase{background:rgba(253,250,241,0.1);border:2px solid rgba(253,250,241,0.22);border-radius:12px;
+    padding:10px 14px;font-size:15px;line-height:1.45;cursor:pointer;text-align:left;color:var(--white);
+    font-family:'Nunito';font-weight:600;transition:border-color .1s ease;}
+  .frase:hover{border-color:var(--sun);}
+
+  /* --- opciones --- */
+  .options{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-top:14px;}
+  .options.col{grid-template-columns:1fr;}
+  .opt{font-family:'Baloo 2';font-size:22px;font-weight:700;background:var(--white);color:var(--ink);
+    border:3px solid rgba(36,27,58,0.15);border-radius:16px;padding:16px 8px;cursor:pointer;transition:transform .08s ease;}
+  .opt.texto{font-family:'Nunito';font-weight:700;font-size:15px;line-height:1.5;text-align:left;padding:14px 16px;}
+  .opt:hover{transform:translateY(-2px);border-color:var(--mint);}
+  .opt.correct{background:var(--verde);color:var(--white);border-color:var(--verde);}
+  .opt.wrong{background:var(--coral);color:var(--white);border-color:var(--coral);}
+  .opt .etq{display:block;font-family:'Baloo 2';font-size:12px;text-transform:uppercase;letter-spacing:1px;
+    opacity:0.75;margin-top:6px;}
+
+  /* --- dicho / deducido / no se sabe --- */
+  .stmt{background:rgba(0,0,0,0.22);border:2px solid rgba(253,250,241,0.14);border-radius:14px;padding:12px 14px;margin-top:10px;}
+  .stmt > p{margin:0 0 8px 0;font-size:15px;line-height:1.5;font-weight:700;}
+  .stmt.ok{border-color:var(--verde);}
+  .stmt.mal{border-color:var(--coral);}
+  .tri-row{display:flex;gap:8px;flex-wrap:wrap;}
+  .tri{font-family:'Baloo 2';font-weight:700;font-size:13px;border:2px solid rgba(253,250,241,0.3);border-radius:12px;
+    padding:7px 12px;cursor:pointer;background:transparent;color:var(--white);}
+  .tri:hover{border-color:var(--sun);}
+  .tri.sel{background:var(--sun);color:var(--ink);border-color:var(--sun);}
+  .por{font-size:13px;line-height:1.5;opacity:0.85;margin-top:8px;font-weight:700;}
+  .por.bien{color:#9dffcd;}
+  .por.mal{color:#ffc0b8;}
+
+  .feedback{margin-top:14px;text-align:center;font-weight:800;font-size:16px;min-height:26px;line-height:1.5;}
+  .feedback.good{color:#9dffcd;}
+  .feedback.bad{color:#ffc0b8;}
+  .actions{display:flex;gap:12px;justify-content:center;margin-top:16px;flex-wrap:wrap;}
+
+  .progreso{margin-top:22px;}
+  .progreso summary{cursor:pointer;font-family:'Baloo 2';font-weight:700;font-size:16px;padding:8px 0;}
+  .prog-entry{background:rgba(0,0,0,0.18);border-radius:12px;padding:10px 14px;margin-top:8px;font-size:14px;
+    display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+  footer{opacity:0.6;font-size:12px;margin-top:22px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>📖 Taller de Comprensión Lectora</h1>
+    <p id="headerSub">Leer no es pasar los ojos: es volver al texto y señalar dónde lo dice</p>
+  </header>
+
+  <!-- ===== SETUP ===== -->
+  <div class="card" id="setup">
+    <h3 class="display" style="margin-top:0;">¿Con qué grupo vas a trabajar?</h3>
+    <div class="row" id="edadToggle">
+      <button class="btn toggle-opt selected" data-val="8-9">🧒 8 y 9 años</button>
+      <button class="btn ghost toggle-opt" data-val="10-12">🧑 10 a 12 años</button>
+    </div>
+    <p class="hint" id="edadHint"></p>
+
+    <h3 class="display">Elige la actividad</h3>
+    <div class="act-grid" id="actGrid"></div>
+  </div>
+
+  <!-- ===== ACTIVITY ===== -->
+  <div id="activity">
+    <div class="topbar">
+      <div class="pill" id="actName">Actividad</div>
+      <div class="pill timer" id="timerPill">⏱️ 25</div>
+      <div class="pill" id="scorePill">✅ 0 · ❌ 0</div>
+    </div>
+
+    <div class="prompt" id="prompt"></div>
+    <div id="stage"></div>
+    <div class="feedback" id="feedback"></div>
+    <div class="actions">
+      <button class="btn secondary" id="checkBtn" style="display:none;">Revisar</button>
+      <button class="btn" id="nextBtn" style="display:none;">Siguiente ▶️</button>
+      <button class="btn ghost small" id="backBtn">← Cambiar actividad</button>
+    </div>
+
+    <details class="progreso">
+      <summary>📊 Progreso guardado</summary>
+      <div id="progList"></div>
+    </details>
+  </div>
+
+  <footer id="footNote">El progreso se guarda en el expediente del alumno.</footer>
+</div>
+
+<script>
+/* =========================================================
+   PUENTE CON LA APP (TallerRunner.jsx)
+   El taller corre dentro de un <iframe srcDoc>. No tiene acceso
+   al cliente de Supabase, así que pide al padre que guarde/lea
+   por postMessage. Si no hay padre (abierto suelto), degrada a
+   modo sin persistencia en vez de fallar.
+   ========================================================= */
+const host = (function(){
+  let seq = 0;
+  const pendientes = new Map();
+
+  window.addEventListener('message', (e) => {
+    const m = e.data;
+    if (!m || m.source !== 'taller-host' || !pendientes.has(m.rid)) return;
+    const { resolve, reject } = pendientes.get(m.rid);
+    pendientes.delete(m.rid);
+    if (m.error) reject(new Error(m.error)); else resolve(m.payload);
+  });
+
+  function call(tipo, payload){
+    if (window.parent === window) return Promise.reject(new Error('sin host'));
+    const rid = ++seq;
+    return new Promise((resolve, reject) => {
+      pendientes.set(rid, {resolve, reject});
+      window.parent.postMessage({source:'taller', rid, tipo, payload}, '*');
+      setTimeout(() => {
+        if (pendientes.has(rid)) { pendientes.delete(rid); reject(new Error('timeout')); }
+      }, 8000);
+    });
+  }
+
+  return {
+    guardarSesion: (s) => call('guardar', s),
+    cargarSesiones: ()  => call('cargar'),
+  };
+})();
+
+let edad = '8-9';
+let currentAct = null;
+let score = {ok:0, bad:0};
+let state = {};
+let timerId = null;
+// Sella cada ronda: "Caza el dato" avanza con setTimeout, y sin esto un
+// cambio de actividad a media espera dejaría el callback tocando la ronda nueva.
+let rondaActual = 0;
+
+const ACTIVIDADES = {
+  '8-9': [
+    {id:'quien',   emoji:'🔗', nombre:'¿De quién hablamos?', desc:'Toca un pronombre y luego el personaje al que se refiere. Descubre a quién sustituye cada palabrita.'},
+    {id:'ordena',  emoji:'🔢', nombre:'Ordena la historia',  desc:'Las oraciones están revueltas. Acomódalas para que la historia tenga sentido.'},
+    {id:'caza',    emoji:'🎯', nombre:'Caza el dato',        desc:'Contrarreloj: lee la pregunta y toca en el texto la palabra exacta que la contesta.'},
+    {id:'palabra', emoji:'🔍', nombre:'Palabra misteriosa',  desc:'Hay una palabra que no conoces. Adivina qué significa usando lo que dice alrededor.'}
+  ],
+  '10-12': [
+    {id:'idea',        emoji:'💡', nombre:'La idea principal',      desc:'De cuatro oraciones, solo una resume el texto. Las otras son un detalle, algo muy general o algo ajeno.'},
+    {id:'inferencia',  emoji:'🧠', nombre:'Dicho, deducido o ni idea', desc:'Clasifica cada afirmación: ¿lo dice el texto, se puede deducir o no se sabe?'},
+    {id:'prueba',      emoji:'✍️', nombre:'Subraya la prueba',      desc:'Contesta la pregunta y luego señala la oración exacta que lo demuestra. No cuenta sin la prueba.'},
+    {id:'hechopinion', emoji:'⚖️', nombre:'Hecho u opinión',        desc:'¿Se puede comprobar o es lo que alguien piensa? Anuncios, noticias y reseñas.'},
+    {id:'proposito',   emoji:'🎭', nombre:'¿Para qué se escribió?', desc:'Instructivos, anuncios, noticias y cuentos: descubre para qué se escribió cada texto.'}
+  ]
+};
+
+const HINTS = {
+  '8-9':'A los 8-9 años ya descifran, pero pierden el hilo: se trabaja seguir la referencia, el orden de los hechos y volver al texto a buscar.',
+  '10-12':'A los 10-12 años el salto es de lo literal a lo inferencial y crítico: idea principal, deducir, sostener la respuesta con evidencia.'
+};
+
+/* =========================================================
+   CORPUS
+   A diferencia de matemáticas, aquí los reactivos NO se generan
+   al azar: un texto bueno se escribe a mano. El motor solo elige
+   sin repetir hasta agotar la bolsa.
+   ========================================================= */
+
+/* --- ¿De quién hablamos? ---------------------------------
+   Marcado: [texto|r1] es un referente; [texto|p:r1] es un
+   pronombre que apunta a r1. El resto es texto corrido.      */
+const T_QUIEN = [
+  {
+    titulo:'Los papalotes',
+    texto:'[Marta|r1] fue al parque con [Tomás|r2].\n' +
+          '[Ella|p:r1] llevaba un papalote rojo y [él|p:r2] uno amarillo.\n' +
+          'El viento sopló muy fuerte y el papalote amarillo se atoró en un árbol.\n' +
+          '[Tomás|r2] se puso triste, pero [Marta|r1] [le|p:r2] prestó el suyo.'
+  },
+  {
+    titulo:'Nube y la pelota',
+    // Los pronombres de la pelota son "la" (objeto directo) y no "ella": con
+    // tres candidatas femeninas en escena, "ella" no lo decidiría el texto.
+    texto:'[Lucía|r1] tiene una perrita que se llama [Nube|r2].\n' +
+          'Todas las tardes [ella|p:r1] saca a la perrita al patio y le lanza [una pelota|r3].\n' +
+          '[Nube|r2] corre rapidísimo y [la|p:r3] atrapa en el aire, pero casi nunca [la|p:r3] regresa.\n' +
+          'Al final [Lucía|r1] tiene que ir por [la pelota|r3] hasta el fondo del patio.'
+  },
+  {
+    titulo:'El partido del domingo',
+    texto:'[Emilio|r1] y [Renata|r2] juegan en el mismo equipo de futbol.\n' +
+          'El domingo [él|p:r1] metió dos goles y [ella|p:r2] atajó tres tiros.\n' +
+          'Al terminar, [Renata|r2] abrazó a [Emilio|r1] y le dijo que [su|p:r1] segundo gol había sido el mejor de todos.'
+  },
+  {
+    titulo:'La mochila olvidada',
+    texto:'[Santiago|r1] olvidó [su mochila|r2] en el camión.\n' +
+          '[Él|p:r1] se dio cuenta hasta que llegó a la escuela.\n' +
+          'La maestra habló al paradero y por la tarde [la|p:r2] encontraron debajo de un asiento.\n' +
+          '[Santiago|r1] [la|p:r2] recogió al día siguiente y desde entonces [la|p:r2] revisa antes de bajarse.'
+  },
+  {
+    titulo:'El mole de los domingos',
+    texto:'[Mi abuela|r1] prepara mole todos los domingos.\n' +
+          '[Mi abuelo|r2] muele el chile y [ella|p:r1] cuida la cazuela.\n' +
+          'Cuando el mole está listo, [él|p:r2] es el primero en probarlo.\n' +
+          'Siempre dice que está perfecto, aunque [ella|p:r1] hizo casi todo el trabajo.'
+  },
+  {
+    titulo:'El caracol de la maceta',
+    texto:'En el jardín viven [un caracol|r1] y [una lagartija|r2].\n' +
+          '[Él|p:r1] sale cuando llueve y [ella|p:r2] sale cuando hay sol.\n' +
+          'Por eso casi nunca se encuentran, aunque los dos viven en la misma maceta.\n' +
+          'Ayer llovió tan fuerte que hasta [ella|p:r2] tuvo que salir a buscar un lugar seco.'
+  }
+];
+
+/* --- Ordena la historia --- */
+const T_ORDENA = [
+  {titulo:'La semilla de frijol', frases:[
+    'Primero, Ana puso tierra en un vaso de plástico.',
+    'Después metió la semilla de frijol y la tapó con más tierra.',
+    'Todos los días le echaba un poco de agua.',
+    'A la semana salió un tallito verde.',
+    'Al final, la planta creció tanto que Ana la pasó a una maceta grande.'
+  ]},
+  {titulo:'El diente flojo', frases:[
+    'A Beto se le movía un diente desde el lunes.',
+    'El miércoles se lo empujó con la lengua toda la tarde.',
+    'En la cena, el diente se le cayó dentro de la sopa.',
+    'Beto lo lavó y lo guardó debajo de la almohada.',
+    'A la mañana siguiente encontró una moneda en su lugar.'
+  ]},
+  {titulo:'La lluvia del recreo', frases:[
+    'El cielo se puso gris a la hora del recreo.',
+    'Enseguida empezaron a caer gotas muy gordas.',
+    'Todos corrimos a guardarnos debajo del techo.',
+    'Cuando paró, el patio estaba lleno de charcos.',
+    'La maestra nos dejó salir a saltar en ellos.'
+  ]},
+  {titulo:'El pastel de cumpleaños', frases:[
+    'Mi papá sacó los huevos, la harina y el azúcar.',
+    'Batimos todo hasta que quedó una mezcla amarilla.',
+    'Metimos el molde al horno durante media hora.',
+    'Cuando sonó el timbre, la cocina olía delicioso.',
+    'Al final le pusimos betún y velitas.'
+  ]},
+  {titulo:'El gato perdido', frases:[
+    'Una mañana, Tomás no encontró a su gato por ningún lado.',
+    'Buscó debajo de las camas y detrás del sillón.',
+    'Luego salió a preguntarles a los vecinos.',
+    'Una señora le dijo que había visto un gato gris en la azotea.',
+    'Tomás subió corriendo y ahí estaba, dormido al sol.'
+  ]},
+  {titulo:'La carta', frases:[
+    'Valeria escribió una carta para su prima que vive en Mérida.',
+    'La metió en un sobre y le pegó una estampilla.',
+    'Su mamá la acompañó al buzón de la esquina.',
+    'La carta tardó cinco días en llegar.',
+    'Dos semanas después llegó la respuesta, con un dibujo adentro.'
+  ]}
+];
+
+/* --- Caza el dato ---
+   Marcado: [texto|a1] es la respuesta a la pregunta a1. El resto
+   del texto se parte en palabras, todas tocables (si no, la
+   respuesta se notaría a simple vista).                        */
+const T_CAZA = [
+  {
+    titulo:'El mercado',
+    texto:'El sábado fuimos al mercado de [San Juan|a1]. Compramos [tres kilos|a2] de mango y una bolsa de limones. ' +
+          'Mi mamá pagó con [un billete de doscientos pesos|a3] y todavía le sobró cambio. Regresamos a la casa caminando.',
+    preguntas:[
+      {q:'¿Cómo se llama el mercado?', a:'a1'},
+      {q:'¿Cuántos kilos de mango compraron?', a:'a2'},
+      {q:'¿Con qué pagó la mamá?', a:'a3'}
+    ]
+  },
+  {
+    titulo:'Los pingüinos emperador',
+    texto:'Los pingüinos emperador viven en la [Antártida|a1]. Pueden aguantar hasta [veinte minutos|a2] debajo del agua sin respirar. ' +
+          'El papá pingüino cuida el huevo sobre [sus patas|a3] mientras la mamá va a buscar comida.',
+    preguntas:[
+      {q:'¿Dónde viven los pingüinos emperador?', a:'a1'},
+      {q:'¿Cuánto tiempo aguantan bajo el agua?', a:'a2'},
+      {q:'¿Dónde carga el papá pingüino el huevo?', a:'a3'}
+    ]
+  },
+  {
+    titulo:'Reglas de la biblioteca',
+    texto:'La biblioteca de la escuela abre de [lunes a viernes|a1]. Cada niño puede llevarse [dos libros|a2] a la vez ' +
+          'y tiene que regresarlos en [quince días|a3]. Si se te olvida, no puedes pedir otro hasta devolverlos.',
+    preguntas:[
+      {q:'¿Qué días abre la biblioteca?', a:'a1'},
+      {q:'¿Cuántos libros se puede llevar cada niño?', a:'a2'},
+      {q:'¿En cuánto tiempo hay que devolverlos?', a:'a3'}
+    ]
+  },
+  {
+    titulo:'Frida Kahlo',
+    texto:'Frida Kahlo nació en [Coyoacán|a1], en la Ciudad de México. Pintó muchísimos [autorretratos|a2], ' +
+          'que son cuadros de ella misma. Hoy su casa es un museo pintado de [azul|a3] y lo visita gente de todo el mundo.',
+    preguntas:[
+      {q:'¿En qué lugar nació Frida Kahlo?', a:'a1'},
+      {q:'¿Qué tipo de cuadros pintó muchísimo?', a:'a2'},
+      {q:'¿De qué color está pintada su casa?', a:'a3'}
+    ]
+  },
+  {
+    titulo:'El recreo',
+    texto:'El recreo empieza a las [diez y media|a1]. Ese día Karla llevó [una torta de jamón|a2] y la compartió con Luis. ' +
+          'Luego jugaron [a las escondidillas|a3] hasta que sonó el timbre.',
+    preguntas:[
+      {q:'¿A qué hora empieza el recreo?', a:'a1'},
+      {q:'¿Qué llevó Karla de comer?', a:'a2'},
+      {q:'¿A qué jugaron?', a:'a3'}
+    ]
+  },
+  {
+    titulo:'El viaje de la mariposa monarca',
+    texto:'Cada otoño la mariposa monarca vuela desde [Canadá|a1] hasta los bosques de Michoacán. ' +
+          'El viaje dura como [cuatro meses|a2] y recorre más de cuatro mil kilómetros. ' +
+          'Llegan a descansar a los árboles de [oyamel|a3], que las protegen del frío.',
+    preguntas:[
+      {q:'¿Desde qué país vuelan las monarcas?', a:'a1'},
+      {q:'¿Cuánto dura el viaje?', a:'a2'},
+      {q:'¿En qué árboles descansan?', a:'a3'}
+    ]
+  }
+];
+
+/* --- Palabra misteriosa ---
+   Marcado: [texto|c] es la pista de contexto (se resalta al final). */
+const T_PALABRA = [
+  {
+    palabra:'quilaso',
+    texto:'Hacía tanto calor en la playa que mi tía abrió el *quilaso* y [todos nos metimos debajo de su sombra para no quemarnos|c].',
+    ops:['Una sombrilla grande','Una botella de agua','Un salvavidas','Una lancha'], ok:0
+  },
+  {
+    palabra:'ranio',
+    texto:'El pan llevaba dos semanas en la bolsa y ya estaba *ranio*: [olía feo y nadie se lo quiso comer|c].',
+    ops:['Echado a perder','Recién horneado','Muy dulce','Cortado en rebanadas'], ok:0
+  },
+  {
+    palabra:'tacaño',
+    texto:'Mi primo es muy *tacaño*: [nunca invita nada y guarda hasta las monedas de cincuenta centavos|c].',
+    ops:['Que no le gusta gastar','Que es muy alto','Que se ríe mucho','Que come mucho'], ok:0
+  },
+  {
+    palabra:'exhaustos',
+    texto:'Después de correr toda la tarde llegamos *exhaustos* y [nos quedamos dormidos sin cenar|c].',
+    ops:['Muy cansados','Muy contentos','Con mucha hambre','Todos mojados'], ok:0
+  },
+  {
+    palabra:'gruñir',
+    texto:'El perro empezó a *gruñir* y a [enseñar los dientes cuando el desconocido se acercó a la puerta|c].',
+    ops:['Hacer un ruido de enojo','Mover la cola de gusto','Quedarse dormido','Ladrar de alegría'], ok:0
+  },
+  {
+    palabra:'lóbrega',
+    texto:'La cueva estaba tan *lóbrega* que [no alcanzábamos a vernos las manos ni con la lámpara encendida|c].',
+    ops:['Muy oscura','Muy grande','Muy fría','Muy ruidosa'], ok:0
+  },
+  {
+    palabra:'bordón',
+    texto:'Mi abuelo camina apoyado en un *bordón* de madera [porque desde el año pasado le duele mucho la rodilla|c].',
+    ops:['Un bastón','Un sombrero','Una silla','Un zapato especial'], ok:0
+  },
+  {
+    palabra:'chubasco',
+    texto:'Íbamos a comer en el jardín, pero cayó un *chubasco* y [en cinco minutos todo quedó empapado|c].',
+    ops:['Una lluvia fuerte y corta','Un viento caliente','Una helada','Un temblor'], ok:0
+  }
+];
+
+/* --- La idea principal ---
+   tipo: 'principal' | 'general' (abarca de más) | 'detalle' | 'ajena' */
+const T_IDEA = [
+  {
+    titulo:'Las abejas',
+    texto:'Las abejas no solo producen miel. Cuando vuelan de flor en flor transportan polen y hacen posible que ' +
+          'las plantas den frutos y semillas. Se calcula que una de cada tres cosas que comemos existe gracias a ese ' +
+          'trabajo. Por eso, cuando desaparecen las abejas de una región, las cosechas bajan aunque el clima sea bueno.',
+    ops:[
+      {t:'Las abejas son importantes porque polinizan las plantas de las que sacamos nuestra comida.', tipo:'principal'},
+      {t:'Los insectos son animales muy útiles para el planeta.', tipo:'general'},
+      {t:'Una de cada tres cosas que comemos depende de las abejas.', tipo:'detalle'},
+      {t:'La miel de abeja sirve para endulzar y para curar la tos.', tipo:'ajena'}
+    ]
+  },
+  {
+    titulo:'Dormir también es estudiar',
+    texto:'Dormir no es tiempo perdido. Mientras duermes, el cerebro repasa lo que aprendiste en el día y decide qué ' +
+          'guardar. Por eso quien estudia y luego duerme bien recuerda más que quien se desvela repasando. Varios ' +
+          'estudios muestran que a los niños que duermen menos de ocho horas les cuesta más trabajo concentrarse en clase.',
+    ops:[
+      {t:'Dormir bien ayuda al cerebro a fijar lo aprendido y a concentrarse mejor.', tipo:'principal'},
+      {t:'El cuerpo humano necesita descansar.', tipo:'general'},
+      {t:'A los niños que duermen menos de ocho horas les cuesta concentrarse.', tipo:'detalle'},
+      {t:'Es mejor estudiar en la mañana que en la noche.', tipo:'ajena'}
+    ]
+  },
+  {
+    titulo:'Vivir junto a un volcán',
+    texto:'México tiene más de cuarenta volcanes y algunos siguen activos. El Popocatépetl lanza ceniza varias veces ' +
+          'al año, y los pueblos cercanos tienen rutas de evacuación marcadas. Pero vivir cerca de un volcán también ' +
+          'tiene ventajas: la ceniza vuelve la tierra muy fértil, y por eso esas zonas son de las mejores para sembrar.',
+    ops:[
+      {t:'Vivir cerca de un volcán es peligroso, pero además vuelve la tierra muy fértil.', tipo:'principal'},
+      {t:'México es un país con mucha naturaleza.', tipo:'general'},
+      {t:'El Popocatépetl lanza ceniza varias veces al año.', tipo:'detalle'},
+      {t:'El maíz es el cultivo más importante de México.', tipo:'ajena'}
+    ]
+  },
+  {
+    titulo:'Tenis que se vuelven cancha',
+    texto:'Cada año se tiran millones de pares de tenis que tardan más de cuarenta años en deshacerse. Algunas fábricas ' +
+          'ya empezaron a recibir tenis usados para molerlos y convertirlos en piso de canchas y parques. No es la ' +
+          'solución completa, pero cada tonelada que se reutiliza es una tonelada que no llega al basurero.',
+    ops:[
+      {t:'Reciclar tenis usados reduce la basura, aunque no resuelve del todo el problema.', tipo:'principal'},
+      {t:'Hay que cuidar el medio ambiente.', tipo:'general'},
+      {t:'Los tenis tardan más de cuarenta años en deshacerse.', tipo:'detalle'},
+      {t:'Los tenis de marca son más caros porque duran más.', tipo:'ajena'}
+    ]
+  },
+  {
+    titulo:'El ajolote',
+    texto:'El ajolote es un anfibio que en estado natural solo vive en los canales de Xochimilco. Tiene una capacidad ' +
+          'rarísima: si pierde una pata, le vuelve a crecer completa, con huesos y nervios. Por eso hay laboratorios en ' +
+          'todo el mundo que lo estudian, mientras en su propio lago quedan tan pocos que es difícil encontrar uno.',
+    ops:[
+      {t:'El ajolote se estudia en todo el mundo por su capacidad de regenerarse, pero casi ha desaparecido de su hábitat.', tipo:'principal'},
+      {t:'En México hay animales que no existen en otros países.', tipo:'general'},
+      {t:'Si el ajolote pierde una pata, le vuelve a crecer.', tipo:'detalle'},
+      {t:'Los ajolotes se pueden tener como mascota en una pecera.', tipo:'ajena'}
+    ]
+  },
+  {
+    titulo:'El chapulín en la milpa',
+    texto:'En varias regiones de Oaxaca el chapulín no se combate: se cosecha. En vez de fumigar la milpa, las familias ' +
+          'los atrapan de madrugada, los tuestan con limón y sal y los venden en el mercado. Así el insecto que se ' +
+          'comería la planta se convierte en un producto que deja dinero, y de paso se usa menos veneno en el campo.',
+    ops:[
+      {t:'Cosechar los chapulines en vez de fumigarlos convierte una plaga en un producto y evita usar veneno.', tipo:'principal'},
+      {t:'En México se comen muchos insectos.', tipo:'general'},
+      {t:'Los chapulines se tuestan con limón y sal.', tipo:'detalle'},
+      {t:'El chapulín tiene más proteína que la carne de res.', tipo:'ajena'}
+    ]
+  }
+];
+
+/* --- Dicho, deducido o ni idea --- */
+const T_INFER = [
+  {
+    titulo:'La entrada al salón',
+    texto:'Rodrigo entró al salón con el uniforme empapado y el pelo escurriendo. Dejó la mochila en el suelo y sacó ' +
+          'los cuadernos, que también estaban mojados. La maestra le prestó una toalla y le dijo que se sentara junto al ventilador.',
+    afs:[
+      {t:'Rodrigo llegó mojado al salón.', tipo:'dicho', por:'El texto lo dice con todas sus letras: "el uniforme empapado".'},
+      {t:'Estaba lloviendo afuera.', tipo:'deducido', por:'No lo dice, pero es lo más razonable: él y sus cuadernos venían mojados.'},
+      {t:'Rodrigo se cayó en un charco.', tipo:'nose', por:'Pudo ser, pero el texto no da ninguna señal de eso.'},
+      {t:'La maestra le prestó una toalla.', tipo:'dicho', por:'Aparece tal cual en la última oración.'}
+    ]
+  },
+  {
+    titulo:'La casa de la abuela',
+    texto:'Cuando abrimos la puerta de la casa de la abuela, olía a canela y había harina regada en la mesa. En el horno ' +
+          'se alcanzaba a ver una charola. La abuela se limpió las manos en el delantal y nos abrazó.',
+    afs:[
+      {t:'En la mesa había harina.', tipo:'dicho', por:'El texto lo menciona directamente.'},
+      {t:'La abuela estaba cocinando algo.', tipo:'deducido', por:'La harina regada, la charola en el horno y las manos que se limpia lo dejan claro, aunque no se diga.'},
+      {t:'La abuela hizo un pastel de canela.', tipo:'nose', por:'Huele a canela y hay algo en el horno, pero nunca se dice qué es.'},
+      {t:'La abuela nos abrazó.', tipo:'dicho', por:'Es la última oración del texto.'}
+    ]
+  },
+  {
+    titulo:'Afuera del cine',
+    texto:'Valeria revisó el celular por tercera vez y volvió a guardarlo. Miró hacia la entrada del cine, donde ya casi ' +
+          'no quedaba gente. La función había empezado hacía veinte minutos.',
+    afs:[
+      {t:'Valeria está esperando a alguien que no llega.', tipo:'deducido', por:'Revisar el celular, mirar la entrada y la función ya empezada apuntan a eso.'},
+      {t:'La función empezó hace veinte minutos.', tipo:'dicho', por:'Está escrito al final del texto.'},
+      {t:'Valeria se peleó con su amiga.', tipo:'nose', por:'El texto no dice nada de una pelea ni de con quién iba.'},
+      {t:'Valeria revisó el celular tres veces.', tipo:'dicho', por:'Lo dice: "por tercera vez".'}
+    ]
+  },
+  {
+    titulo:'Después del partido',
+    texto:'El equipo salió de la cancha sin hablar. Nadie se acercó a la mesa donde estaba el trofeo. El entrenador ' +
+          'juntó los balones él solo y apagó las luces.',
+    afs:[
+      {t:'El equipo perdió el partido.', tipo:'deducido', por:'El silencio y que nadie se acerque al trofeo lo señalan, aunque no se diga.'},
+      {t:'El entrenador apagó las luces.', tipo:'dicho', por:'Aparece tal cual en el texto.'},
+      {t:'Era la final del torneo.', tipo:'nose', por:'Hay un trofeo, pero nunca se dice de qué partido se trataba.'},
+      {t:'El trofeo estaba sobre una mesa.', tipo:'dicho', por:'El texto lo menciona directamente.'}
+    ]
+  },
+  {
+    titulo:'La papelería cerrada',
+    texto:'Don Ernesto puso el letrero de "cerrado" a las once de la mañana, aunque la papelería normalmente cierra a ' +
+          'las ocho de la noche. Bajó la cortina, se subió al coche y salió rápido hacia la avenida.',
+    afs:[
+      {t:'La papelería normalmente cierra a las ocho de la noche.', tipo:'dicho', por:'El texto lo dice entre comas.'},
+      {t:'Don Ernesto llevaba prisa.', tipo:'deducido', por:'Bajó la cortina, se subió al coche y "salió rápido": todo apunta a prisa.'},
+      {t:'A Don Ernesto le pasó una emergencia.', tipo:'nose', por:'Es una explicación posible, pero el texto no dice por qué cerró.'},
+      {t:'Don Ernesto se subió a un coche.', tipo:'dicho', por:'Está escrito en la última oración.'}
+    ]
+  },
+  {
+    titulo:'El cuaderno nuevo',
+    texto:'Camila llegó con un cuaderno idéntico al de Sebastián. En la primera hoja había escrito su nombre con ' +
+          'plumón morado y lo había subrayado dos veces. Cuando Sebastián le preguntó dónde lo había comprado, ella ' +
+          'contestó que se lo habían regalado.',
+    afs:[
+      {t:'El cuaderno de Camila y el de Sebastián son iguales.', tipo:'dicho', por:'El texto dice "idéntico al de Sebastián".'},
+      {t:'A Camila le importaba que se supiera que el cuaderno era suyo.', tipo:'deducido', por:'Escribir su nombre y subrayarlo dos veces lo sugiere.'},
+      {t:'Camila y Sebastián son amigos.', tipo:'nose', por:'Se hablan, pero el texto nunca dice qué relación tienen.'},
+      {t:'A Camila le regalaron el cuaderno.', tipo:'nose', por:'Ojo con esta: el texto dice que «ella contestó» que se lo habían regalado. Que un personaje lo diga no lo vuelve cierto.'}
+    ]
+  }
+];
+
+/* --- Subraya la prueba ---
+   `prueba` acepta varios índices cuando más de una oración sirve. */
+const T_PRUEBA = [
+  {
+    titulo:'El faro de la isla',
+    oraciones:[
+      'El faro de la isla dejó de funcionar en 1998.',
+      'Durante años los pescadores pidieron que lo repararan.',
+      'En 2015 el gobierno lo convirtió en museo en vez de volver a encenderlo.',
+      'Hoy lo visitan más de mil personas al año, casi todas en verano.'
+    ],
+    // La pregunta apunta al "nunca volvió a encenderse" y no al "dejó de
+    // funcionar": si no, la oración 0 sería una prueba igual de válida.
+    q:'¿Por qué el faro nunca volvió a encenderse?',
+    ops:['Porque lo convirtieron en museo en lugar de repararlo','Porque la isla se quedó sin habitantes','Porque se cayó durante una tormenta'],
+    ok:0, prueba:[2]
+  },
+  {
+    titulo:'Las tortugas y las luces',
+    oraciones:[
+      'Las tortugas marinas regresan a poner sus huevos a la misma playa donde nacieron.',
+      'Las crías salen de noche y se guían por el brillo de la luna sobre el mar.',
+      'Cuando hay hoteles con luces fuertes, muchas crías caminan tierra adentro y nunca llegan al agua.',
+      'Por eso en varias playas de Oaxaca se apagan las luces durante la temporada de desove.'
+    ],
+    q:'¿Por qué se apagan las luces de los hoteles en temporada de desove?',
+    ops:['Para que las crías no se confundan y lleguen al mar','Para ahorrar electricidad en la temporada alta','Para que las tortugas adultas puedan dormir'],
+    // La 1 explica por qué la luz importa y la 2 el daño concreto: ambas prueban.
+    ok:0, prueba:[1,2]
+  },
+  {
+    titulo:'La carrera de Amaranta',
+    oraciones:[
+      'Amaranta llevaba tres meses entrenando para la carrera de cinco kilómetros.',
+      'Dos semanas antes se torció el tobillo bajando unas escaleras.',
+      'El día de la carrera se quedó en la banca, con el número puesto, viendo pasar a los demás.',
+      'Su entrenador le dijo que se inscribiera a la de noviembre.'
+    ],
+    q:'¿Por qué Amaranta no corrió la carrera?',
+    ops:['Porque se lastimó el tobillo poco antes','Porque no alcanzó a inscribirse a tiempo','Porque prefirió esperar a la de noviembre'],
+    ok:0, prueba:[1]
+  },
+  {
+    titulo:'El maíz de cada región',
+    oraciones:[
+      'El maíz criollo se siembra en México desde hace miles de años.',
+      'Cada región tiene sus propias variedades, adaptadas a su clima y a su tierra.',
+      'Un maíz del Bajío sembrado en la sierra suele dar mazorcas pequeñas y débiles.',
+      'Por eso muchos campesinos guardan su propia semilla en vez de comprarla.'
+    ],
+    q:'¿Por qué muchos campesinos guardan su propia semilla?',
+    ops:['Porque la semilla de su región crece mejor en su tierra','Porque está prohibido comprar semilla','Porque el maíz criollo se vende más caro'],
+    ok:0, prueba:[1,2]
+  },
+  {
+    titulo:'La nueva hora de entrada',
+    oraciones:[
+      'La escuela cambió la hora de entrada de las siete a las ocho de la mañana.',
+      'Los maestros notaron que menos alumnos se quedaban dormidos en la primera clase.',
+      'Las calificaciones de matemáticas de primera hora subieron ese semestre.',
+      'Algunos papás, en cambio, se quejaron porque ya no alcanzan a dejarlos antes de irse a trabajar.'
+    ],
+    q:'¿Qué problema trajo el cambio de horario?',
+    ops:['Que a algunos papás ya no les acomoda la hora de entrada','Que los alumnos se duermen en la primera clase','Que bajaron las calificaciones de matemáticas'],
+    ok:0, prueba:[3]
+  },
+  {
+    titulo:'El puente de la barranca',
+    oraciones:[
+      'El puente de madera sobre la barranca se construyó hace más de sesenta años.',
+      'Cada temporada de lluvias el agua se lleva un poco de la tierra que sostiene las bases.',
+      'El año pasado los vecinos pusieron una cadena para que no pasaran camiones pesados.',
+      'Los niños de la comunidad siguen cruzándolo todos los días para ir a la escuela.'
+    ],
+    q:'¿Por qué los vecinos pusieron una cadena en el puente?',
+    ops:['Porque las bases se han ido debilitando con las lluvias','Porque querían cobrar por cruzarlo','Porque los niños lo usaban para jugar'],
+    ok:0, prueba:[1]
+  }
+];
+
+/* --- Hecho u opinión --- */
+const T_HECHO = [
+  {t:'El Popocatépetl mide 5,426 metros de altura.', hecho:true, por:'Es un dato que se puede medir y comprobar.'},
+  {t:'Este es el mejor champú del mercado.', hecho:false, por:'"El mejor" depende de a quién le preguntes: es lo que alguien piensa.'},
+  {t:'La película dura dos horas y diez minutos.', hecho:true, por:'Se puede comprobar con el reloj o en la ficha de la película.'},
+  {t:'El uniforme de la escuela es horrible.', hecho:false, por:'"Horrible" es un gusto personal, no algo que se pueda medir.'},
+  {t:'La Ciudad de México se fundó sobre un lago.', hecho:true, por:'Es un dato histórico verificable.'},
+  {t:'Nadie debería usar el celular en la mesa.', hecho:false, por:'Es una regla que alguien propone, no un dato comprobable.'},
+  {t:'Este yogurt contiene 12 gramos de azúcar por porción.', hecho:true, por:'Está en la etiqueta y se puede medir en un laboratorio.'},
+  {t:'Ese fue el gol más bonito de todo el torneo.', hecho:false, por:'"Más bonito" es opinión: a otra persona le puede gustar otro.'},
+  {t:'Es la crema más vendida del país.', hecho:true, por:'Ojo: aunque venga en un anuncio, las ventas se pueden contar. Es un hecho (otra cosa es que sea cierto).'},
+  {t:'Es la crema más rica del país.', hecho:false, por:'"Más rica" no se puede contar. Compárala con la de arriba: cambia una palabra y cambia todo.'},
+  {t:'La biblioteca abre de lunes a viernes de 9 a 5.', hecho:true, por:'Basta con ir o llamar para comprobarlo.'},
+  {t:'Leer es más divertido que ver televisión.', hecho:false, por:'Es una preferencia personal.'},
+  {t:'El agua hierve a 100 grados a nivel del mar.', hecho:true, por:'Se puede comprobar con un termómetro.'},
+  {t:'Las vacaciones de verano deberían durar más.', hecho:false, por:'Cualquier oración con "debería" suele ser una opinión.'},
+  {t:'Nueve de cada diez dentistas recomiendan esta pasta.', hecho:true, por:'Es un dato: se puede pedir la encuesta. Que el anuncio la enseñe ya es otra historia.'},
+  {t:'La cafetería de la escuela cambió de dueño en marzo.', hecho:true, por:'Es un suceso con fecha, comprobable.'}
+];
+
+/* --- ¿Para qué se escribió? --- */
+const PROPOSITOS = [
+  {id:'informar',   et:'📰 Informar'},
+  {id:'convencer',  et:'📣 Convencer'},
+  {id:'instruir',   et:'🔧 Instruir'},
+  {id:'entretener', et:'🎈 Entretener'}
+];
+
+const T_PROPOSITO = [
+  {texto:'Mezcle el contenido del sobre en un litro de agua fría. Revuelva durante un minuto y refrigere antes de servir. No hervir.',
+   ok:'instruir', tipo:'un instructivo', por:'Son pasos en orden para que hagas algo. Fíjate en los verbos de mando: mezcle, revuelva, refrigere.'},
+  {texto:'¡Última semana! Todos los cuadernos a mitad de precio. Solo en Papelería La Luz, esquina con Juárez. ¡No te quedes sin el tuyo!',
+   ok:'convencer', tipo:'un anuncio', por:'Quiere que hagas algo (ir y comprar). Las exclamaciones y la urgencia son la pista.'},
+  {texto:'El municipio informó que el servicio de agua se suspenderá el jueves de 8 a 14 horas en tres colonias por trabajos de mantenimiento.',
+   ok:'informar', tipo:'una noticia', por:'Da datos: quién, qué, cuándo y por qué. No te pide nada ni te cuenta un cuento.'},
+  {texto:'El sapo se sentó a esperar. Llevaba tanto tiempo esperando que ya se le habían olvidado las ganas de irse, y ahí siguió, muy serio, hasta que se hizo de noche.',
+   ok:'entretener', tipo:'un cuento', por:'Hay un personaje y algo que le pasa. No sirve para nada práctico: se escribió para disfrutarse.'},
+  {texto:'Ingredientes: 250 g de harina, 2 huevos, media taza de leche. Bata los huevos con la leche y agregue la harina poco a poco hasta que no queden grumos.',
+   ok:'instruir', tipo:'una receta', por:'Lista de materiales y pasos: es la forma clásica de un texto que enseña a hacer algo.'},
+  {texto:'Los pandas gigantes comen bambú durante más de doce horas al día porque esa planta les da muy poca energía.',
+   ok:'informar', tipo:'un texto informativo', por:'Explica cómo es el mundo, con un dato y su causa. No te pide nada.'},
+  {texto:'Firma aquí para que no cierren el parque de tu colonia. Un parque menos son mil niños sin dónde jugar. ¡Tu firma cuenta!',
+   ok:'convencer', tipo:'un texto persuasivo', por:'Te habla de tú y te pide una acción concreta. Usa un argumento para moverte.'},
+  {texto:'Contenido neto: 500 ml. Elaborado en México. Aporta 90 calorías por porción y no contiene conservadores ni colorantes artificiales.',
+   ok:'informar', tipo:'una etiqueta', por:'Solo da datos del producto: cuánto trae, de dónde viene y qué contiene. No te pide nada ni te enseña a hacer nada.'},
+  {texto:'La ballena abrió un ojo, miró al pescador y volvió a cerrarlo, como si aquel hombrecito con sombrero no mereciera ni un bostezo.',
+   ok:'entretener', tipo:'un fragmento de novela', por:'El lenguaje busca imágenes y humor, no datos: se escribió para gustar.'}
+];
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+function randInt(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
+function shuffle(a){ return a.slice().sort(()=>Math.random()-0.5); }
+const el = id => document.getElementById(id);
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// Bolsa sin reemplazo: un texto repetido se reconoce de inmediato y deja de
+// medir comprensión, así que no se repite hasta agotar el corpus.
+const bolsas = {};
+function tomar(clave, arr){
+  if(!bolsas[clave] || bolsas[clave].length === 0){
+    bolsas[clave] = shuffle(arr.map((_,i)=>i));
+  }
+  return arr[bolsas[clave].pop()];
+}
+
+// "[Marta|r1] fue con [Tomás|r2]." → [{t:'',tag:null},{t:'Marta',tag:'r1'},...]
+function parseTexto(s){
+  const out = [];
+  const re = /\[([^\]|]+)\|([^\]]+)\]/g;
+  let last = 0, m;
+  while((m = re.exec(s))){
+    if(m.index > last) out.push({t: s.slice(last, m.index), tag: null});
+    out.push({t: m[1], tag: m[2]});
+    last = m.index + m[0].length;
+  }
+  if(last < s.length) out.push({t: s.slice(last), tag: null});
+  return out;
+}
+
+const COLORES_REF = ['#c0392b','#1f7a8c','#7d3cb5','#0f7b4a','#b8620a'];
+
+/* =========================================================
+   PANTALLA DE INICIO
+   ========================================================= */
+el('edadHint').textContent = HINTS[edad];
+
+document.querySelectorAll('.toggle-opt').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    edad = b.dataset.val;
+    document.querySelectorAll('.toggle-opt').forEach(x=>{ x.classList.remove('selected'); x.classList.add('ghost'); });
+    b.classList.add('selected'); b.classList.remove('ghost');
+    el('edadHint').textContent = HINTS[edad];
+    renderActGrid();
+  });
+});
+
+function renderActGrid(){
+  const grid = el('actGrid');
+  grid.innerHTML = '';
+  ACTIVIDADES[edad].forEach(a=>{
+    const tile = document.createElement('button');
+    tile.className = 'act-tile';
+    tile.innerHTML = '<span class="emoji">' + a.emoji + '</span><strong>' + a.nombre + '</strong><span class="desc">' + a.desc + '</span>';
+    tile.addEventListener('click', ()=>startActivity(a));
+    grid.appendChild(tile);
+  });
+}
+renderActGrid();
+
+/* =========================================================
+   CICLO DE RONDA
+   ========================================================= */
+function startActivity(a){
+  currentAct = a;
+  score = {ok:0, bad:0};
+  el('setup').style.display = 'none';
+  el('activity').style.display = 'block';
+  el('actName').textContent = a.emoji + ' ' + a.nombre + ' · ' + edad + ' años';
+  updateScore();
+  loadProgreso();
+  nextRound();
+}
+
+el('backBtn').addEventListener('click', async ()=>{
+  pararTimer();
+  await saveProgreso();
+  el('activity').style.display = 'none';
+  el('setup').style.display = 'block';
+});
+
+// Si se cierra la pestaña a media sesión, no perder el avance.
+window.addEventListener('pagehide', ()=>{ saveProgreso(); });
+
+function updateScore(){ el('scorePill').textContent = '✅ ' + score.ok + ' · ❌ ' + score.bad; }
+
+function setFeedback(msg, good){
+  const f = el('feedback');
+  f.innerHTML = msg;
+  f.className = 'feedback ' + (good===undefined ? '' : good ? 'good' : 'bad');
+}
+
+// A diferencia del taller de divisiones, aquí una ronda puede contener varios
+// reactivos (4 pronombres, 3 preguntas, 4 afirmaciones). `marcar` cuenta cada
+// reactivo y `cerrarRonda` solo cierra: así el porcentaje del expediente sigue
+// siendo comparable entre actividades.
+function marcar(good){
+  if(good) score.ok++; else score.bad++;
+  updateScore();
+}
+
+function cerrarRonda(msg, good){
+  pararTimer();
+  setFeedback(msg, good);
+  el('checkBtn').style.display = 'none';
+  el('nextBtn').style.display = 'inline-block';
+}
+
+function endRound(good, msg){ marcar(good); cerrarRonda(msg, good); }
+
+function usarCheck(fn){
+  state.check = fn;
+  el('checkBtn').style.display = 'inline-block';
+}
+
+el('nextBtn').addEventListener('click', nextRound);
+el('checkBtn').addEventListener('click', ()=>{ if(state.check) state.check(); });
+
+/* --- cronómetro (solo "Caza el dato": ahí la velocidad SÍ es la habilidad) --- */
+function pararTimer(){
+  if(timerId){ clearInterval(timerId); timerId = null; }
+  el('timerPill').style.display = 'none';
+  el('timerPill').classList.remove('urge');
+}
+
+function arrancarTimer(segs, alAcabar){
+  pararTimer();
+  let quedan = segs;
+  const pill = el('timerPill');
+  pill.style.display = 'block';
+  pill.textContent = '⏱️ ' + quedan;
+  timerId = setInterval(()=>{
+    quedan--;
+    pill.textContent = '⏱️ ' + quedan;
+    pill.classList.toggle('urge', quedan <= 8);
+    if(quedan <= 0){ pararTimer(); alAcabar(); }
+  }, 1000);
+}
+
+// Las declaraciones de función se izan, así que el mapa puede nombrarlas antes
+// de que aparezcan más abajo.
+const RONDAS = {
+  quien:       roundQuien,
+  ordena:      roundOrdena,
+  caza:        roundCaza,
+  palabra:     roundPalabra,
+  idea:        roundIdea,
+  inferencia:  roundInferencia,
+  prueba:      roundPrueba,
+  hechopinion: roundHecho,
+  proposito:   roundProposito,
+};
+
+function nextRound(){
+  setFeedback('');
+  pararTimer();
+  el('nextBtn').style.display = 'none';
+  el('checkBtn').style.display = 'none';
+  el('stage').innerHTML = '';
+  state = {};
+  rondaActual++;
+  const ronda = RONDAS[currentAct.id];
+  if(ronda) ronda();
+}
+
+/* =========================================================
+   ACTIVIDAD 1 (8-9): ¿DE QUIÉN HABLAMOS?
+   La anáfora es la causa invisible nº1 de que se pierda el hilo:
+   el niño lee "él" y sigue de largo sin saber quién es "él".
+   ========================================================= */
+function roundQuien(){
+  const t = tomar('quien', T_QUIEN);
+  const tokens = parseTexto(t.texto);
+
+  // Un color por referente: la "línea" que une pronombre y referente es que
+  // acaban del mismo color, que funciona en táctil mejor que dibujar flechas.
+  const refs = {};
+  let ci = 0;
+  tokens.forEach(tk=>{
+    if(tk.tag && !tk.tag.startsWith('p:') && !refs[tk.tag]){
+      refs[tk.tag] = {color: COLORES_REF[ci % COLORES_REF.length], nombre: tk.t};
+      ci++;
+    }
+  });
+
+  let html = '<div class="lectura"><div class="titulillo">' + esc(t.titulo) + '</div>';
+  let pi = 0;
+  tokens.forEach(tk=>{
+    if(!tk.tag){
+      html += esc(tk.t).replace(/\n/g, '<br>');
+    } else if(tk.tag.startsWith('p:')){
+      html += '<span class="pron" data-p="' + pi + '" data-ans="' + tk.tag.slice(2) + '">' + esc(tk.t) + '</span>';
+      pi++;
+    } else {
+      html += '<span class="ref" data-ref="' + tk.tag + '" style="color:' + refs[tk.tag].color + '">' + esc(tk.t) + '</span>';
+    }
+  });
+  html += '</div>';
+
+  el('prompt').innerHTML = '¿A quién se refiere cada palabra morada?' +
+    '<small>Toca una palabra morada y después toca el personaje o la cosa de la que habla.</small>';
+  el('stage').innerHTML = html;
+
+  state = {refs, total: pi, resueltos: 0, sel: null, fallado: {}};
+
+  el('stage').querySelectorAll('.pron').forEach(sp=>{
+    sp.addEventListener('click', ()=>{
+      if(sp.classList.contains('ok')) return;
+      el('stage').querySelectorAll('.pron').forEach(x=>x.classList.remove('sel'));
+      sp.classList.add('sel');
+      state.sel = sp;
+      setFeedback('Ahora toca de quién (o de qué) está hablando.');
+    });
+  });
+
+  el('stage').querySelectorAll('.ref').forEach(sp=>{
+    sp.addEventListener('click', ()=>{
+      if(state.resueltos >= state.total) return;
+      const sel = state.sel;
+      if(!sel){ setFeedback('Primero toca una palabra morada.'); return; }
+      const esperado = sel.dataset.ans;
+      const dado = sp.dataset.ref;
+      const idx = sel.dataset.p;
+
+      if(dado === esperado){
+        if(!state.fallado[idx]) marcar(true);
+        const r = state.refs[esperado];
+        sel.classList.remove('sel');
+        sel.classList.add('ok');
+        sel.style.setProperty('--c', r.color);
+        sel.innerHTML = esc(sel.textContent) + '<sup>= ' + esc(r.nombre) + '</sup>';
+        state.sel = null;
+        state.resueltos++;
+        if(state.resueltos === state.total){
+          const limpio = Object.keys(state.fallado).length === 0;
+          cerrarRonda(limpio ? '¡Perfecto! Seguiste el hilo del texto sin perderte.'
+                             : 'Listo. Cuando dudes, regresa a la oración de antes: casi siempre ahí está la respuesta.', limpio);
+        } else {
+          setFeedback('¡Va! Quedan ' + (state.total - state.resueltos) + '.', true);
+        }
+      } else {
+        if(!state.fallado[idx]){ state.fallado[idx] = true; marcar(false); }
+        sel.classList.remove('mal');
+        void sel.offsetWidth;
+        sel.classList.add('mal');
+        setFeedback('Ese no. Vuelve a leer la oración completa y fíjate de quién se venía hablando.', false);
+      }
+    });
+  });
+}
+
+/* =========================================================
+   ACTIVIDAD 2 (8-9): ORDENA LA HISTORIA
+   ========================================================= */
+function roundOrdena(){
+  const t = tomar('ordena', T_ORDENA);
+  const n = t.frases.length;
+  const orden = shuffle(t.frases.map((_,i)=>i));
+
+  el('prompt').innerHTML = 'Acomoda la historia: «' + esc(t.titulo) + '»' +
+    '<small>Toca las oraciones en el orden correcto. Si te equivocas, tócala arriba para regresarla.</small>';
+  el('stage').innerHTML = '<div class="slots" id="slots"></div><div class="pool" id="pool"></div>';
+
+  state = {frases: t.frases, revueltas: orden, puestas: [], check: null};
+  usarCheck(checkOrdena);
+  drawOrdena();
+}
+
+function drawOrdena(){
+  const {frases, revueltas, puestas} = state;
+  const slots = el('slots');
+  const pool = el('pool');
+  slots.innerHTML = '';
+  pool.innerHTML = '';
+
+  for(let i=0;i<frases.length;i++){
+    const div = document.createElement('div');
+    if(i < puestas.length){
+      div.className = 'slot';
+      div.innerHTML = '<span class="num">' + (i+1) + '</span><span>' + esc(frases[puestas[i]]) + '</span>';
+      // Solo se puede quitar la última: evita huecos a media lista.
+      if(i === puestas.length - 1){
+        div.addEventListener('click', ()=>{
+          if(state.acabado) return;
+          state.puestas.pop(); setFeedback(''); drawOrdena();
+        });
+      }
+    } else {
+      div.className = 'slot vacio';
+      div.innerHTML = '<span class="num">' + (i+1) + '</span><span>…</span>';
+    }
+    slots.appendChild(div);
+  }
+
+  revueltas.forEach(idx=>{
+    if(puestas.indexOf(idx) !== -1) return;
+    const b = document.createElement('button');
+    b.className = 'frase';
+    b.textContent = frases[idx];
+    b.addEventListener('click', ()=>{ state.puestas.push(idx); setFeedback(''); drawOrdena(); });
+    pool.appendChild(b);
+  });
+}
+
+function checkOrdena(){
+  const {frases, puestas} = state;
+  if(puestas.length < frases.length){
+    setFeedback('Todavía faltan oraciones por acomodar.');
+    return;
+  }
+  state.acabado = true;
+  const bien = puestas.every((v,i)=>v===i);
+  const slots = el('slots').children;
+  for(let i=0;i<puestas.length;i++){
+    slots[i].classList.add(puestas[i]===i ? 'ok' : 'mal');
+  }
+  if(bien){
+    endRound(true, '¡Exacto! Las palabras primero, después, luego y al final son las que marcan el camino.');
+  } else {
+    // Mostrar el orden correcto: sin el modelo, el error no enseña nada.
+    let orden = '<br><span style="opacity:.85;font-weight:700;">Así iba: </span>' +
+      frases.map((f,i)=>(i+1) + '. ' + esc(f)).join(' ');
+    endRound(false, 'Casi. Fíjate en las palabras que marcan el tiempo.' + orden);
+  }
+}
+
+/* =========================================================
+   ACTIVIDAD 3 (8-9): CAZA EL DATO
+   Única actividad contrarreloj del taller: aquí lo que se entrena
+   es barrer el texto con la vista, y para eso la prisa ayuda.
+   ========================================================= */
+function roundCaza(){
+  const t = tomar('caza', T_CAZA);
+  const tokens = parseTexto(t.texto);
+
+  let html = '<div class="lectura" id="lectura"><div class="titulillo">' + esc(t.titulo) + '</div>';
+  tokens.forEach(tk=>{
+    if(tk.tag){
+      html += '<span class="tok" data-tag="' + tk.tag + '">' + esc(tk.t) + '</span>';
+    } else {
+      // Todas las palabras son tocables: si solo lo fueran las respuestas,
+      // se verían a leguas y no habría búsqueda que hacer.
+      esc(tk.t).split(/(\s+)/).forEach(w=>{
+        html += /^\s*$/.test(w) ? w : '<span class="tok">' + w + '</span>';
+      });
+    }
+  });
+  html += '</div>';
+  el('stage').innerHTML = html;
+
+  state = {preguntas: shuffle(t.preguntas), i: 0, fallado: false, ronda: rondaActual};
+
+  el('stage').querySelectorAll('.tok').forEach(sp=>{
+    sp.addEventListener('click', ()=>onCaza(sp));
+  });
+
+  pedirCaza();
+}
+
+// Cada salto diferido comprueba que la ronda siga siendo la suya.
+function luego(ms, fn){
+  const mi = rondaActual;
+  setTimeout(()=>{ if(mi === rondaActual) fn(); }, ms);
+}
+
+function pedirCaza(){
+  const p = state.preguntas[state.i];
+  state.fallado = false;
+  el('prompt').innerHTML = p.q + '<small>Toca en el texto la palabra o las palabras que lo contestan.</small>';
+  const mi = rondaActual;
+  arrancarTimer(25, ()=>{
+    if(mi !== rondaActual) return;
+    if(!state.fallado){ marcar(false); state.fallado = true; }
+    revelarCaza(p.a);
+    setFeedback('Se acabó el tiempo. Ahí estaba, resaltado.', false);
+    luego(1400, avanzarCaza);
+  });
+}
+
+function onCaza(sp){
+  if(state.acabado) return;
+  const p = state.preguntas[state.i];
+  if(sp.dataset.tag === p.a){
+    if(!state.fallado) marcar(true);
+    pararTimer();
+    sp.classList.add('ok');
+    setFeedback('¡Ahí estaba!', true);
+    luego(900, avanzarCaza);
+  } else {
+    if(!state.fallado){ marcar(false); state.fallado = true; }
+    sp.classList.add('mal');
+    setTimeout(()=>sp.classList.remove('mal'), 500);
+    setFeedback('Ahí no dice eso. Busca en otra parte del texto.', false);
+  }
+}
+
+function revelarCaza(tag){
+  const sp = el('stage').querySelector('[data-tag="' + tag + '"]');
+  if(sp) sp.classList.add('ok');
+}
+
+function avanzarCaza(){
+  state.i++;
+  if(state.i >= state.preguntas.length){
+    state.acabado = true;
+    cerrarRonda('Terminaste este texto. Buscar el dato exacto es el hábito que hay que dejar pegado.', true);
+  } else {
+    el('stage').querySelectorAll('.tok.ok').forEach(x=>x.classList.remove('ok'));
+    setFeedback('');
+    pedirCaza();
+  }
+}
+
+/* =========================================================
+   ACTIVIDAD 4 (8-9): PALABRA MISTERIOSA
+   ========================================================= */
+function roundPalabra(){
+  const t = tomar('palabra', T_PALABRA);
+  const tokens = parseTexto(t.texto);
+
+  let html = '<div class="lectura">';
+  tokens.forEach(tk=>{
+    if(tk.tag === 'c'){
+      html += '<span class="pista-zona">' + esc(tk.t) + '</span>';
+    } else {
+      // *palabra* → la palabra misteriosa, resaltada.
+      html += esc(tk.t).replace(/\*([^*]+)\*/g, '<span class="misterio">$1</span>');
+    }
+  });
+  html += '</div>';
+
+  el('prompt').innerHTML = '¿Qué significa «' + esc(t.palabra) + '»?' +
+    '<small>No la busques en el diccionario: adivínala con lo que dice el resto de la oración.</small>';
+  el('stage').innerHTML = html + '<div class="options col" id="ops"></div>';
+
+  const orden = shuffle(t.ops.map((_,i)=>i));
+  const ops = el('ops');
+  orden.forEach(i=>{
+    const b = document.createElement('button');
+    b.className = 'opt texto';
+    b.textContent = t.ops[i];
+    b.addEventListener('click', ()=>{
+      if(state.acabado) return;
+      state.acabado = true;
+      const bien = i === t.ok;
+      b.classList.add(bien ? 'correct' : 'wrong');
+      if(!bien){
+        [...ops.children].forEach(c=>{ if(c.textContent === t.ops[t.ok]) c.classList.add('correct'); });
+      }
+      // La pista se resalta siempre: es lo que enseña el procedimiento.
+      const z = el('stage').querySelector('.pista-zona');
+      if(z) z.className = 'clave';
+      endRound(bien, bien ? 'Muy bien. Lo resaltado en amarillo es la pista que te lo dijo.'
+                          : 'Fíjate en lo que quedó resaltado en amarillo: ahí estaba la pista.');
+    });
+    ops.appendChild(b);
+  });
+}
+
+/* =========================================================
+   ACTIVIDAD 5 (10-12): LA IDEA PRINCIPAL
+   Nombrar el tipo de error ("eso es un detalle") es lo que
+   transfiere; sin eso, es adivinar entre cuatro opciones.
+   ========================================================= */
+const ETIQUETA_IDEA = {
+  principal:'✅ Es la idea principal',
+  general:  '🌫️ Abarca de más',
+  detalle:  '🔍 Es solo un detalle',
+  ajena:    '🚫 Eso no lo dice el texto'
+};
+const EXPLICA_IDEA = {
+  general: 'Esa oración es verdad, pero es tan general que serviría para muchísimos textos distintos. La idea principal tiene que ser de <em>este</em> texto.',
+  detalle: 'Eso sí aparece en el texto, pero es un dato que apoya la idea, no la idea. Pregúntate: ¿de qué habla <em>todo</em> el párrafo?',
+  ajena:   'Eso no aparece en el texto. Puede sonar razonable, pero aquí solo vale lo que está escrito.'
+};
+
+function roundIdea(){
+  const t = tomar('idea', T_IDEA);
+  el('prompt').innerHTML = '¿Cuál de las cuatro resume mejor el texto?' +
+    '<small>Una es la idea principal. Las otras tres fallan por motivos distintos.</small>';
+  el('stage').innerHTML = '<div class="lectura"><div class="titulillo">' + esc(t.titulo) + '</div>' +
+    esc(t.texto) + '</div><div class="options col" id="ops"></div>';
+
+  const ops = el('ops');
+  shuffle(t.ops).forEach(o=>{
+    const b = document.createElement('button');
+    b.className = 'opt texto';
+    b.textContent = o.t;
+    b.addEventListener('click', ()=>{
+      if(state.acabado) return;
+      state.acabado = true;
+      const bien = o.tipo === 'principal';
+      [...ops.children].forEach(c=>{
+        const dato = t.ops.find(x=>x.t === c.textContent);
+        c.insertAdjacentHTML('beforeend', '<span class="etq">' + ETIQUETA_IDEA[dato.tipo] + '</span>');
+        if(dato.tipo === 'principal') c.classList.add('correct');
+      });
+      if(!bien) b.classList.add('wrong');
+      endRound(bien, bien ? '¡Exacto! Esa recoge de qué habla todo el párrafo, ni de más ni de menos.'
+                          : EXPLICA_IDEA[o.tipo]);
+    });
+    ops.appendChild(b);
+  });
+}
+
+/* =========================================================
+   ACTIVIDAD 6 (10-12): DICHO, DEDUCIDO O NI IDEA
+   Es el formato exacto de los reactivos de comprensión de PISA
+   y, más adelante, del EXANI. Vale la pena sembrarlo desde 5º.
+   ========================================================= */
+const TIPOS_INFER = [
+  {id:'dicho',    et:'📖 Lo dice'},
+  {id:'deducido', et:'🧠 Se deduce'},
+  {id:'nose',     et:'❓ No se sabe'}
+];
+const NOMBRE_INFER = {dicho:'Lo dice el texto', deducido:'Se puede deducir', nose:'No se sabe'};
+
+function roundInferencia(){
+  const t = tomar('inferencia', T_INFER);
+  const afs = shuffle(t.afs);
+
+  el('prompt').innerHTML = 'Clasifica cada afirmación' +
+    '<small>«Se deduce» es lo que el texto deja ver sin escribirlo. «No se sabe» es lo que podría ser cierto… pero el texto no lo dice.</small>';
+
+  let html = '<div class="lectura"><div class="titulillo">' + esc(t.titulo) + '</div>' + esc(t.texto) + '</div>';
+  afs.forEach((a,i)=>{
+    html += '<div class="stmt" data-i="' + i + '"><p>' + esc(a.t) + '</p><div class="tri-row">';
+    TIPOS_INFER.forEach(tp=>{
+      html += '<button class="tri" data-i="' + i + '" data-v="' + tp.id + '">' + tp.et + '</button>';
+    });
+    html += '</div></div>';
+  });
+  el('stage').innerHTML = html;
+
+  state = {afs, elegido: {}, check: null};
+  usarCheck(checkInferencia);
+
+  el('stage').querySelectorAll('.tri').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      if(state.acabado) return;
+      const i = b.dataset.i;
+      state.elegido[i] = b.dataset.v;
+      el('stage').querySelectorAll('.tri[data-i="' + i + '"]').forEach(x=>x.classList.remove('sel'));
+      b.classList.add('sel');
+      setFeedback('');
+    });
+  });
+}
+
+function checkInferencia(){
+  const {afs, elegido} = state;
+  if(Object.keys(elegido).length < afs.length){
+    setFeedback('Falta clasificar alguna afirmación.');
+    return;
+  }
+  state.acabado = true;
+  let aciertos = 0;
+  afs.forEach((a,i)=>{
+    const bien = elegido[i] === a.tipo;
+    if(bien) aciertos++;
+    marcar(bien);
+    const box = el('stage').querySelector('.stmt[data-i="' + i + '"]');
+    box.classList.add(bien ? 'ok' : 'mal');
+    box.insertAdjacentHTML('beforeend',
+      '<p class="por ' + (bien ? 'bien' : 'mal') + '">' +
+      (bien ? '✅ ' : '❌ Era «' + NOMBRE_INFER[a.tipo] + '». ') + esc(a.por) + '</p>');
+  });
+  cerrarRonda(aciertos + ' de ' + afs.length + ' bien clasificadas.', aciertos === afs.length);
+}
+
+/* =========================================================
+   ACTIVIDAD 7 (10-12): SUBRAYA LA PRUEBA
+   Contestar bien de casualidad no cuenta: hay que poder señalar
+   en qué renglón se sostiene la respuesta.
+   ========================================================= */
+function roundPrueba(){
+  const t = tomar('prueba', T_PRUEBA);
+
+  let html = '<div class="lectura" id="lectura"><div class="titulillo">' + esc(t.titulo) + '</div>';
+  t.oraciones.forEach((o,i)=>{
+    html += '<span class="oracion" data-o="' + i + '">' + esc(o) + '</span>';
+  });
+  html += '</div><div class="options col" id="ops"></div>';
+
+  el('prompt').innerHTML = esc(t.q) + '<small>Primero contesta; luego te voy a pedir la prueba.</small>';
+  el('stage').innerHTML = html;
+
+  state = {t, fase: 1};
+
+  // En la fase 1 las oraciones no responden: primero se compromete a una
+  // respuesta y después la sostiene, no al revés.
+  const ops = el('ops');
+  shuffle(t.ops.map((v,i)=>i)).forEach(i=>{
+    const b = document.createElement('button');
+    b.className = 'opt texto';
+    b.textContent = t.ops[i];
+    b.addEventListener('click', ()=>{
+      if(state.fase !== 1) return;
+      const bien = i === t.ok;
+      marcar(bien);
+      b.classList.add(bien ? 'correct' : 'wrong');
+      [...ops.children].forEach(c=>{ c.disabled = true; if(c.textContent === t.ops[t.ok]) c.classList.add('correct'); });
+      state.fase = 2;
+      el('prompt').innerHTML = 'Ahora subraya la prueba' +
+        '<small>Toca la oración del texto que demuestra la respuesta correcta.</small>';
+      setFeedback(bien ? 'Bien. Ahora demuéstralo: ¿en qué oración se sostiene?'
+                       : 'La respuesta correcta era la verde. Encuentra ahora dónde lo dice.', bien);
+    });
+    ops.appendChild(b);
+  });
+
+  el('stage').querySelectorAll('.oracion').forEach(sp=>{
+    sp.addEventListener('click', ()=>{
+      if(state.fase !== 2) return;
+      state.fase = 3;
+      const i = Number(sp.dataset.o);
+      const bien = t.prueba.indexOf(i) !== -1;
+      marcar(bien);
+      sp.classList.add(bien ? 'ok' : 'mal');
+      if(!bien){
+        t.prueba.forEach(k=>el('stage').querySelector('.oracion[data-o="' + k + '"]').classList.add('ok'));
+      }
+      cerrarRonda(bien ? '¡Esa es! Una respuesta que puedes señalar en el texto es una respuesta que sabes.'
+                       : 'La prueba estaba en la oración verde. Antes de contestar, busca el renglón que lo dice.', bien);
+    });
+  });
+}
+
+/* =========================================================
+   ACTIVIDAD 8 (10-12): HECHO U OPINIÓN
+   ========================================================= */
+function roundHecho(){
+  const t = tomar('hecho', T_HECHO);
+  el('prompt').innerHTML = '¿Hecho u opinión?' +
+    '<small>Hecho: se puede comprobar. Opinión: es lo que alguien piensa o siente.</small>';
+  el('stage').innerHTML = '<div class="lectura" style="text-align:center;font-weight:700;">' + esc(t.t) + '</div>' +
+    '<div class="options" id="ops"></div>';
+
+  const ops = el('ops');
+  [{v:true, et:'🔎 Hecho'},{v:false, et:'💭 Opinión'}].forEach(o=>{
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.textContent = o.et;
+    b.addEventListener('click', ()=>{
+      if(state.acabado) return;
+      state.acabado = true;
+      const bien = o.v === t.hecho;
+      b.classList.add(bien ? 'correct' : 'wrong');
+      if(!bien){
+        [...ops.children].forEach(c=>{ if(c !== b) c.classList.add('correct'); });
+      }
+      endRound(bien, esc(t.por));
+    });
+    ops.appendChild(b);
+  });
+}
+
+/* =========================================================
+   ACTIVIDAD 9 (10-12): ¿PARA QUÉ SE ESCRIBIÓ?
+   ========================================================= */
+function roundProposito(){
+  const t = tomar('proposito', T_PROPOSITO);
+  el('prompt').innerHTML = '¿Para qué se escribió este texto?' +
+    '<small>No todo texto es un cuento: también se escribe para informar, para convencer o para enseñar a hacer algo.</small>';
+  el('stage').innerHTML = '<div class="lectura">' + esc(t.texto) + '</div><div class="options" id="ops"></div>';
+
+  const ops = el('ops');
+  PROPOSITOS.forEach(p=>{
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.style.fontSize = '16px';
+    b.textContent = p.et;
+    b.addEventListener('click', ()=>{
+      if(state.acabado) return;
+      state.acabado = true;
+      const bien = p.id === t.ok;
+      b.classList.add(bien ? 'correct' : 'wrong');
+      if(!bien){
+        [...ops.children].forEach(c=>{
+          const dato = PROPOSITOS.find(x=>x.et === c.textContent);
+          if(dato && dato.id === t.ok) c.classList.add('correct');
+        });
+      }
+      endRound(bien, 'Es <strong>' + esc(t.tipo) + '</strong>. ' + esc(t.por));
+    });
+    ops.appendChild(b);
+  });
+}
+
+/* =========================================================
+   PROGRESO (vía el host → tabla taller_sesiones)
+   ========================================================= */
+async function saveProgreso(){
+  if(score.ok + score.bad === 0) return;
+  const entry = {actividad: currentAct.nombre, grupo: edad, aciertos: score.ok, errores: score.bad};
+  try{
+    await host.guardarSesion(entry);
+    score = {ok:0, bad:0};   // ya quedó registrada; no duplicar al salir
+  }catch(e){
+    console.warn('No se pudo guardar la sesión:', e.message);
+  }
+}
+
+async function loadProgreso(){
+  const box = el('progList');
+  box.innerHTML = '<p class="hint">Cargando…</p>';
+  try{
+    const list = await host.cargarSesiones();
+    if(!list || list.length === 0){ box.innerHTML = '<p class="hint">Aún no hay sesiones guardadas.</p>'; return; }
+    box.innerHTML = list.map(function(e){
+      const tot = e.aciertos + e.errores;
+      const pct = tot ? Math.round((e.aciertos/tot)*100) : 0;
+      return '<div class="prog-entry"><span>📅 ' + e.fecha + ' · ' + e.grupo + ' años · ' + e.actividad + '</span>' +
+        '<span>✅ ' + e.aciertos + ' ❌ ' + e.errores + ' — ' + pct + '% de acierto</span></div>';
+    }).join('');
+  }catch(e){
+    box.innerHTML = '<p class="hint">No se pudo cargar el progreso (' + e.message + ').</p>';
+  }
+}
+</script>
+</body>
+</html>

@@ -44,6 +44,7 @@ import TallerVer from "./pages/TallerVer.jsx";
 import MisInscripciones from "./pages/alumno/MisInscripciones.jsx";
 import MiSuscripcion from "./pages/alumno/MiSuscripcion.jsx";
 import Refrigerios from "./pages/Refrigerios.jsx";
+import PreviewComprobante from "./pages/PreviewComprobante.jsx";
 
 // Detecta el evento de recuperación de contraseña (al abrir el enlace del correo)
 // y lleva al usuario a la pantalla para fijar la nueva contraseña.
@@ -72,6 +73,11 @@ function AppRoutes() {
         <Route path="/documento/:id" element={<DocumentoVer />} />
         <Route path="/curso/:id" element={<CursoVer />} />
         <Route path="/refrigerios" element={<Refrigerios />} />
+        {/* Banco de pruebas del comprobante. Solo en dev: import.meta.env.DEV
+            queda en `false` al compilar, así que la rama y su import se podan. */}
+        {import.meta.env.DEV && (
+          <Route path="/preview-comprobante" element={<PreviewComprobante />} />
+        )}
 
         {/* ── Protegidas ── */}
         <Route

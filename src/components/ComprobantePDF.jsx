@@ -132,13 +132,20 @@ export default function ComprobantePDF({ pago, cargo, alumno }) {
           </tbody>
         </table>
 
-        {/* Método de pago */}
-        <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 18 }}>
-          <span style={S.badge}>
-            {metodoPagoLabel(pago?.metodo_pago)}
-          </span>
+        {/* Método de pago. La etiqueta y la píldora comparten eje vertical
+            (alignItems:center en la columna): la etiqueta es más ancha, así que
+            la que se centra es la píldora. El estado se alinea con la píldora,
+            no con la etiqueta, de ahí el flex-end. */}
+        <div style={{ display: "flex", alignItems: "flex-end", gap: 14, marginTop: 18 }}>
+          <div style={S.metodoCol}>
+            <p style={{ ...S.metaLabel, margin: 0 }}>Método de pago</p>
+            <span style={S.badge}>
+              {metodoPagoLabel(pago?.metodo_pago)}
+            </span>
+          </div>
           <span style={{
-            fontSize: 11, color: cubierto ? "#34d399" : "#f97316", fontWeight: 700, fontFamily: "'DM Sans', sans-serif",
+            fontSize: 11, color: cubierto ? "#34d399" : "#f97316", fontWeight: 700,
+            fontFamily: "'DM Sans', sans-serif", paddingBottom: 7,
           }}>
             {cubierto ? "Pago completo" : "Pago parcial"}
           </span>
@@ -263,6 +270,12 @@ const S = {
     fontSize: 14,
     verticalAlign: "top",
   },
+  metodoCol: {
+    display: "inline-flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: 6,
+  },
   badge: {
     display: "inline-block",
     padding: "6px 14px",
@@ -272,6 +285,7 @@ const S = {
     fontSize: 12,
     fontWeight: 700,
     letterSpacing: "0.03em",
+    textAlign: "center",
   },
   footer: {
     padding: "28px 36px 32px",

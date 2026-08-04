@@ -32,13 +32,27 @@ function metodoPagoLabel(m) {
 // `capturaPDF` lo activa solo generarComprobantePago al renderizar offscreen:
 // html2canvas dibuja el wordmark 10.5px más abajo que el navegador (ver el
 // comentario de .cp-wordmark), así que en la captura se compensa.
-export default function ComprobantePDF({ pago, cargo, alumno, capturaPDF = false }) {
+export default function ComprobantePDF({
+  pago,
+  cargo,
+  cargos,
+  alumno,
+  capturaPDF = false,
+}) {
   const folio = pago?.id ? pago.id.slice(0, 8).toUpperCase() : "—";
   const nombreAlumno =
     `${alumno?.nombre || ""} ${alumno?.apellidos || ""}`.trim() || "—";
   const pagado = Number(pago?.monto || 0);
-  const montoCargo = Number(cargo?.monto || 0);
-  const concepto = (cargo?.concepto || "—").replace(/\s*[-–—([]?\s*semanal\s*[\])]?\s*/gi, "").trim();
+  // La tabla se arma desde una lista. Hoy siempre llega una sola partida
+  // (pagos.cargo_id apunta a un único cargo), pero el bloque está dimensionado
+  // para varias y `cargos` permite pasarlas sin tocar el layout.
+  const partidas = (cargos?.length ? cargos : cargo ? [cargo] : []).map((c) => ({
+    concepto: (c?.concepto || "—")
+      .replace(/\s*[-–—([]?\s*semanal\s*[\])]?\s*/gi, "")
+      .trim(),
+    monto: Number(c?.monto || 0),
+  }));
+  const montoCargo = partidas.reduce((s, p) => s + p.monto, 0);
   // El saldo solo aparece cuando queda algo por cubrir. Es la información que
   // antes daba la píldora de "Pago parcial", ahora en el lugar donde una
   // factura la busca: al final de la columna de totales.
@@ -92,42 +106,46 @@ export default function ComprobantePDF({ pago, cargo, alumno, capturaPDF = false
             <p style={S.metaLabel}>Estudiante</p>
             <p style={S.metaValue}>{nombreAlumno}</p>
           </div>
-          {/* Centrada: con tres columnas iguales el eje de ésta coincide con el
-              eje central del recibo, así que la fila queda izquierda / centro /
-              derecha en vez de con la del medio a la deriva. */}
-          <div style={{ ...S.metaItem, textAlign: "center" }}>
+          {/* Centrada dentro de su propia caja. Ojo: ya no coincide con el eje
+              central del recibo — eso era consecuencia de repartir en tercios
+              iguales, y estas columnas se dimensionan por contenido. */}
+          <div style={{ ...S.metaFecha, textAlign: "center" }}>
             <p style={S.metaLabel}>Fecha de emisión</p>
             <p style={S.metaValue}>{fmtFecha(pago?.fecha_pago)}</p>
           </div>
           {/* La última columna se alinea a la derecha para cerrar la fila contra
               el mismo margen que el folio y la columna "Monto"; alineada a la
               izquierda dejaba un hueco de ~167px con valores cortos. */}
-          <div style={{ ...S.metaItem, textAlign: "right" }}>
+          <div style={{ ...S.metaMetodo, textAlign: "right" }}>
             <p style={S.metaLabel}>Método de pago</p>
             <p style={S.metaValue}>{metodoPagoLabel(pago?.metodo_pago)}</p>
           </div>
         </div>
 
-        {/* Detalle */}
+        {/* Detalle. El área de partidas tiene alto mínimo reservado, como en
+            una factura: el bloque no se encoge cuando hay un solo concepto y
+            crece solo si llegan más. */}
         <p style={S.sectionTitle}>Detalle</p>
-        <table style={S.table}>
-          <thead>
-            <tr>
-              <th style={{ ...S.th, borderRadius: "8px 0 0 8px" }}>Concepto</th>
-              <th style={{ ...S.th, textAlign: "right", borderRadius: "0 8px 8px 0" }}>
-                Monto
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style={{ ...S.td, fontWeight: 600 }}>{concepto}</td>
-              <td style={{ ...S.td, ...S.partidaMonto }}>
-                {fmtMoney(montoCargo)}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div style={S.partidasArea}>
+          <table style={S.table}>
+            <thead>
+              <tr>
+                <th style={{ ...S.th, borderRadius: "8px 0 0 8px" }}>Concepto</th>
+                <th style={{ ...S.th, textAlign: "right", borderRadius: "0 8px 8px 0" }}>
+                  Monto
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {partidas.map((p, i) => (
+                <tr key={i}>
+                  <td style={{ ...S.td, fontWeight: 600 }}>{p.concepto}</td>
+                  <td style={{ ...S.td, ...S.partidaMonto }}>{fmtMoney(p.monto)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
         {/* Totales apilados a la derecha, como en una factura. El ancho fijo
             mantiene las cifras sobre el mismo eje que la columna "Monto". */}
@@ -165,6 +183,9 @@ export default function ComprobantePDF({ pago, cargo, alumno, capturaPDF = false
             </div>
           </div>
         </div>
+
+        {/* Absorbe el sobrante de la hoja para que los términos queden al pie */}
+        <div style={{ flex: 1 }} />
       </div>
 
       {/* ── Términos y preguntas ── */}
@@ -190,8 +211,15 @@ export default function ComprobantePDF({ pago, cargo, alumno, capturaPDF = false
 }
 
 const S = {
+  // minHeight llena la hoja carta: el PDF coloca la imagen a 10mm del borde con
+  // 195.9mm de ancho, así que 259.4mm de alto (800 * 259.4 / 195.9 = 1059px)
+  // deja el mismo margen de 10mm abajo. La columna flex empuja los términos al
+  // pie en lugar de dejarlos colgando tras el último bloque.
   root: {
     width: 800,
+    minHeight: 1059,
+    display: "flex",
+    flexDirection: "column",
     background: "#fff",
     color: "#1a1c1f",
     fontFamily: "'DM Sans', sans-serif",
@@ -228,7 +256,10 @@ const S = {
     margin: 0,
     color: "#4b5563",
   },
-  body: { padding: "32px 36px" },
+  body: { padding: "32px 36px", flex: 1, display: "flex", flexDirection: "column" },
+  // Alto reservado para las partidas: con un solo concepto la fila mide ~73px y
+  // el bloque quedaba raquítico para lo que es la sección principal del documento.
+  partidasArea: { minHeight: 300 },
   metaRow: {
     display: "flex",
     justifyContent: "space-between",
@@ -238,7 +269,14 @@ const S = {
     borderBottom: "1px dashed #e3e6ea",
     flexWrap: "wrap",
   },
-  metaItem: { flex: "1 1 0", minWidth: 160 },
+  // Las columnas se dimensionan por lo que cada una necesita, no en tercios
+  // iguales: la fecha más larga ("05 de septiembre de 2026") mide 194px y el
+  // método más largo ("Transferencia") 101px, así que repartir 227px a cada una
+  // dejaba al nombre corto. Un nombre largo real ronda los 277px y se partía en
+  // dos líneas. Con este reparto el estudiante se queda con 370px.
+  metaItem: { flex: "1 1 auto", minWidth: 0 },
+  metaFecha: { flex: "0 0 200px" },
+  metaMetodo: { flex: "0 0 110px" },
   metaLabel: {
     fontSize: 10.5,
     letterSpacing: "0.08em",

@@ -63,6 +63,9 @@ export default function ComprobantePDF({
   // antes daba la píldora de "Pago parcial", ahora en el lugar donde una
   // factura la busca: al final de la columna de totales.
   const saldo = Math.max(0, montoCargo - pagado);
+  const compensaBanda = capturaPDF
+    ? { display: "inline-block", transform: "translateY(-5.34px)" }
+    : undefined;
 
   const katexReady = useKaTeX();
   const mathRef = useRef(null);
@@ -128,10 +131,17 @@ export default function ComprobantePDF({
         <div style={S.partidasArea}>
           <table style={S.table}>
             <thead>
+              {/* Mismo defecto que en el wordmark: html2canvas baja el texto
+                  6.7px respecto al navegador, y aquí eso descentraba las
+                  versalitas dentro de la banda (tinta a +5.34 del centro contra
+                  -1.37 en el DOM). El span existe porque transform no aplica a
+                  elementos inline y no es fiable sobre celdas de tabla. */}
               <tr>
-                <th style={{ ...S.th, borderRadius: "8px 0 0 8px" }}>Concepto</th>
+                <th style={{ ...S.th, borderRadius: "8px 0 0 8px" }}>
+                  <span style={compensaBanda}>Concepto</span>
+                </th>
                 <th style={{ ...S.th, textAlign: "right", borderRadius: "0 8px 8px 0" }}>
-                  Monto
+                  <span style={compensaBanda}>Monto</span>
                 </th>
               </tr>
             </thead>

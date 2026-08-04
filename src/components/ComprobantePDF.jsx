@@ -82,6 +82,10 @@ export default function ComprobantePDF({ pago, cargo, alumno }) {
             <p style={S.metaLabel}>Fecha de emisión</p>
             <p style={S.metaValue}>{fmtFecha(pago?.fecha_pago)}</p>
           </div>
+          <div style={S.metaItem}>
+            <p style={S.metaLabel}>Método de pago</p>
+            <p style={S.metaValue}>{metodoPagoLabel(pago?.metodo_pago)}</p>
+          </div>
         </div>
 
         {/* Detalle */}
@@ -132,42 +136,13 @@ export default function ComprobantePDF({ pago, cargo, alumno }) {
           </tbody>
         </table>
 
-        {/* Método de pago. La etiqueta y la píldora comparten eje vertical
-            (alignItems:center en la columna): la etiqueta es más ancha, así que
-            la que se centra es la píldora. El estado se alinea con la píldora,
-            no con la etiqueta, de ahí el flex-end. */}
-        <div style={{ display: "flex", alignItems: "flex-end", gap: 14, marginTop: 18 }}>
-          <div style={S.metodoCol}>
-            <p style={{ ...S.metaLabel, margin: 0 }}>Método de pago</p>
-            <span style={S.badge}>
-              {metodoPagoLabel(pago?.metodo_pago)}
-            </span>
-          </div>
+        <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 6 }}>
           <span style={{
             fontSize: 11, color: cubierto ? "#34d399" : "#f97316", fontWeight: 700,
-            fontFamily: "'DM Sans', sans-serif", paddingBottom: 7,
+            fontFamily: "'DM Sans', sans-serif",
           }}>
             {cubierto ? "Pago completo" : "Pago parcial"}
           </span>
-        </div>
-      </div>
-
-      {/* ── Footer ── */}
-      <div style={S.footer}>
-        <div
-          style={{
-            textAlign: "center",
-            fontSize: 11.5,
-            color: "#6b7280",
-            lineHeight: 1.6,
-            width: "100%",
-          }}
-        >
-          <strong style={{ color: "#1a1c1f" }}>Factorizando</strong>
-          <br />
-          factorizandoeluniverso@gmail.com
-          <br />
-          factorizando.github.io/factorizando
         </div>
       </div>
 
@@ -227,7 +202,7 @@ const S = {
     margin: 0,
     color: "#e8eaf0",
   },
-  body: { padding: "32px 36px 8px" },
+  body: { padding: "32px 36px 28px" },
   metaRow: {
     display: "flex",
     justifyContent: "space-between",
@@ -269,27 +244,6 @@ const S = {
     borderBottom: "1px solid #e3e6ea",
     fontSize: 14,
     verticalAlign: "top",
-  },
-  metodoCol: {
-    display: "inline-flex",
-    flexDirection: "column",
-    alignItems: "center",
-    gap: 6,
-  },
-  badge: {
-    display: "inline-block",
-    padding: "6px 14px",
-    borderRadius: 20,
-    background: "#e8f2ff",
-    color: "#3b9eff",
-    fontSize: 12,
-    fontWeight: 700,
-    letterSpacing: "0.03em",
-    textAlign: "center",
-  },
-  footer: {
-    padding: "28px 36px 32px",
-    marginTop: 12,
   },
   // Bloque de cierre a dos columnas, tomado del recibo anterior: los términos
   // a la izquierda y a quién escribirle a la derecha, separados del cuerpo por

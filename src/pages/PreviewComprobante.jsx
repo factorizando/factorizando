@@ -8,8 +8,13 @@ export default function PreviewComprobante() {
     monto: 1300,
     fecha_pago: "2026-05-01",
     metodo_pago: "efectivo",
+    notas: "Pago recibido en sucursal",
   };
-  const cargo = { concepto: "Modalidad Semipresencial | Curso de Admisión Nivel Superior", monto: 1300 };
+  const cargo = {
+    concepto: "Modalidad Semipresencial | Curso de Admisión Nivel Superior",
+    monto: 1300,
+    fecha_vencimiento: "2026-05-05",
+  };
   const alumno = { nombre: "Maria Jose", apellidos: "Romero Cruz" };
   return (
     <div style={{ background: "#555", minHeight: "100vh", padding: 24 }}>

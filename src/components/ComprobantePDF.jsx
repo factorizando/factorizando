@@ -39,6 +39,10 @@ export default function ComprobantePDF({ pago, cargo, alumno, capturaPDF = false
   const pagado = Number(pago?.monto || 0);
   const montoCargo = Number(cargo?.monto || 0);
   const concepto = (cargo?.concepto || "—").replace(/\s*[-–—([]?\s*semanal\s*[\])]?\s*/gi, "").trim();
+  // El saldo solo aparece cuando queda algo por cubrir. Es la información que
+  // antes daba la píldora de "Pago parcial", ahora en el lugar donde una
+  // factura la busca: al final de la columna de totales.
+  const saldo = Math.max(0, montoCargo - pagado);
 
   const katexReady = useKaTeX();
   const mathRef = useRef(null);
@@ -99,7 +103,9 @@ export default function ComprobantePDF({ pago, cargo, alumno, capturaPDF = false
           </div>
         </div>
 
-        {/* Detalle */}
+        {/* Detalle. La partida lleva sublínea (vencimiento y notas) porque el
+            recibo cubre un solo cargo: sin ella la fila queda como una línea
+            suelta y el bloque pesa menos que la letra chica del pie. */}
         <p style={S.sectionTitle}>Detalle</p>
         <table style={S.table}>
           <thead>
@@ -110,50 +116,58 @@ export default function ComprobantePDF({ pago, cargo, alumno, capturaPDF = false
           </thead>
           <tbody>
             <tr>
-              <td style={S.td}>{concepto}</td>
-              <td style={{ ...S.td, textAlign: "right" }}>
+              <td style={S.td}>
+                <span style={S.partidaTitulo}>{concepto}</span>
+                {cargo?.fecha_vencimiento && (
+                  <span style={S.partidaNota}>
+                    Vence el {fmtFecha(cargo.fecha_vencimiento)}
+                  </span>
+                )}
+                {pago?.notas && <span style={S.partidaNota}>{pago.notas}</span>}
+              </td>
+              <td style={{ ...S.td, ...S.partidaMonto }}>
                 {fmtMoney(montoCargo)}
-              </td>
-            </tr>
-            <tr>
-              <td
-                style={{
-                  ...S.td,
-                  ...S.metaLabel,
-                  borderBottom: "none",
-                  paddingTop: 30,
-                  textAlign: "right",
-                  paddingRight: 14,
-                  verticalAlign: "middle",
-                }}
-              >
-                Total pagado
-              </td>
-              {/* El total va en DM Sans (no en la serif del wordmark): a este
-                  cuerpo la Cormorant adelgaza mucho las cifras y se leían mal.
-                  tabular-nums evita que los dígitos bailen de ancho. */}
-              <td
-                style={{
-                  ...S.td,
-                  borderBottom: "none",
-                  paddingTop: 30,
-                  textAlign: "right",
-                  verticalAlign: "middle",
-                  fontSize: 25,
-                  fontWeight: 700,
-                  letterSpacing: "-0.015em",
-                  fontVariantNumeric: "tabular-nums",
-                  color: "#0e0f11",
-                }}
-              >
-                {fmtMoney(pagado)}
-                <span style={{ fontSize: 13, fontWeight: 600, color: "#6b7280", marginLeft: 6 }}>
-                  MXN
-                </span>
               </td>
             </tr>
           </tbody>
         </table>
+
+        {/* Totales apilados a la derecha, como en una factura. El ancho fijo
+            mantiene las cifras sobre el mismo eje que la columna "Monto". */}
+        <div style={S.totales}>
+          <div style={S.totalesCaja}>
+            <div style={S.totalFila}>
+              <span style={S.totalEtiqueta}>Monto del cargo</span>
+              <span style={S.totalValor}>{fmtMoney(montoCargo)}</span>
+            </div>
+            <div style={S.totalFila}>
+              <span style={S.totalEtiqueta}>Pagado</span>
+              <span style={S.totalValor}>{fmtMoney(pagado)}</span>
+            </div>
+            {saldo > 0 && (
+              <div style={S.totalFila}>
+                <span style={{ ...S.totalEtiqueta, color: "#b45309" }}>
+                  Saldo pendiente
+                </span>
+                <span style={{ ...S.totalValor, color: "#b45309" }}>
+                  {fmtMoney(saldo)}
+                </span>
+              </div>
+            )}
+            {/* El total va en DM Sans (no en la serif del wordmark): a este
+                cuerpo la Cormorant adelgaza mucho las cifras y se leían mal.
+                tabular-nums evita que los dígitos bailen de ancho. */}
+            <div style={S.totalFinal}>
+              <span style={S.metaLabel}>Total pagado</span>
+              <span style={S.totalFinalValor}>
+                {fmtMoney(pagado)}
+                <span style={{ fontSize: 13, fontWeight: 600, color: "#6b7280", marginLeft: 6 }}>
+                  MXN
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* ── Términos y preguntas ── */}
@@ -241,22 +255,69 @@ const S = {
     margin: "0 0 12px",
   },
   table: { width: "100%", borderCollapse: "collapse" },
+  // Banda tenue en el encabezado de la tabla: es lo que más hace que el bloque
+  // se lea como factura. El padding lateral la separa del borde del papel.
   th: {
     textAlign: "left",
     fontSize: 10.5,
     letterSpacing: "0.06em",
     textTransform: "uppercase",
-    color: "#6b7280",
-    fontWeight: 600,
-    padding: "0 0 12px",
+    color: "#4b5563",
+    fontWeight: 700,
+    padding: "10px 0",
+    background: "#f4f6f8",
     borderBottom: "1px solid #e3e6ea",
   },
   td: {
-    padding: "20px 0",
+    padding: "26px 0",
     borderBottom: "1px solid #e3e6ea",
     fontSize: 14,
     lineHeight: 1.5,
     verticalAlign: "top",
+  },
+  partidaTitulo: { display: "block", fontWeight: 600, color: "#1a1c1f" },
+  partidaNota: {
+    display: "block",
+    marginTop: 4,
+    fontSize: 11.5,
+    color: "#6b7280",
+  },
+  partidaMonto: {
+    textAlign: "right",
+    fontWeight: 600,
+    fontVariantNumeric: "tabular-nums",
+    whiteSpace: "nowrap",
+  },
+  totales: { display: "flex", justifyContent: "flex-end", marginTop: 18 },
+  totalesCaja: { width: 300 },
+  totalFila: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "baseline",
+    padding: "7px 0",
+    fontSize: 13,
+  },
+  totalEtiqueta: { color: "#6b7280" },
+  totalValor: {
+    fontWeight: 600,
+    color: "#1a1c1f",
+    fontVariantNumeric: "tabular-nums",
+  },
+  totalFinal: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 8,
+    paddingTop: 14,
+    borderTop: "2px solid #1a1c1f",
+  },
+  totalFinalValor: {
+    fontSize: 25,
+    fontWeight: 700,
+    letterSpacing: "-0.015em",
+    fontVariantNumeric: "tabular-nums",
+    color: "#0e0f11",
+    whiteSpace: "nowrap",
   },
   // Bloque de cierre a dos columnas, tomado del recibo anterior: los términos
   // a la izquierda y a quién escribirle a la derecha, separados del cuerpo por
@@ -271,16 +332,19 @@ const S = {
     borderTop: "1px solid #e3e6ea",
   },
   legalCol: { flex: "1 1 0" },
+  // La letra chica ocupaba 21.6% del recibo contra 10.1% de la partida, o sea
+  // que pesaba más que aquello de lo que da fe. Se reduce para devolverle la
+  // jerarquía al detalle, sin quitar contenido.
   legalTitle: {
-    fontSize: 12,
+    fontSize: 10.5,
     fontWeight: 700,
-    color: "#1a1c1f",
-    margin: "0 0 8px",
+    color: "#4b5563",
+    margin: "0 0 6px",
   },
   legalText: {
-    fontSize: 10,
-    color: "#6b7280",
-    lineHeight: 1.65,
+    fontSize: 9.5,
+    color: "#8b919b",
+    lineHeight: 1.6,
     margin: 0,
     textAlign: "justify",
   },

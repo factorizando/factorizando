@@ -29,6 +29,12 @@ function metodoPagoLabel(m) {
   return map[m] || m || "—";
 }
 
+/** "Efectivo" → "efectivo", pero "OXXO" se queda igual: es nombre propio. */
+function metodoPagoEnFrase(m) {
+  const t = metodoPagoLabel(m);
+  return t === t.toUpperCase() ? t : t.toLowerCase();
+}
+
 // `capturaPDF` lo activa solo generarComprobantePago al renderizar offscreen:
 // html2canvas dibuja el wordmark 10.5px más abajo que el navegador (ver el
 // comentario de .cp-wordmark), así que en la captura se compensa.
@@ -106,19 +112,12 @@ export default function ComprobantePDF({
             <p style={S.metaLabel}>Estudiante</p>
             <p style={S.metaValue}>{nombreAlumno}</p>
           </div>
-          {/* Centrada dentro de su propia caja. Ojo: ya no coincide con el eje
-              central del recibo — eso era consecuencia de repartir en tercios
-              iguales, y estas columnas se dimensionan por contenido. */}
-          <div style={{ ...S.metaFecha, textAlign: "center" }}>
+          {/* Dos columnas contra los márgenes, como el resto del documento
+              (marca/folio, concepto/monto, totales). El método de pago vive con
+              el total: describe cómo se liquidó esa cifra, no quién ni cuándo. */}
+          <div style={{ ...S.metaFecha, textAlign: "right" }}>
             <p style={S.metaLabel}>Fecha de emisión</p>
             <p style={S.metaValue}>{fmtFecha(pago?.fecha_pago)}</p>
-          </div>
-          {/* La última columna se alinea a la derecha para cerrar la fila contra
-              el mismo margen que el folio y la columna "Monto"; alineada a la
-              izquierda dejaba un hueco de ~167px con valores cortos. */}
-          <div style={{ ...S.metaMetodo, textAlign: "right" }}>
-            <p style={S.metaLabel}>Método de pago</p>
-            <p style={S.metaValue}>{metodoPagoLabel(pago?.metodo_pago)}</p>
           </div>
         </div>
 
@@ -181,6 +180,11 @@ export default function ComprobantePDF({
                 </span>
               </span>
             </div>
+            {pago?.metodo_pago && (
+              <p style={S.metodoPie}>
+                Pagado con {metodoPagoEnFrase(pago.metodo_pago)}
+              </p>
+            )}
           </div>
         </div>
 
@@ -276,7 +280,14 @@ const S = {
   // dos líneas. Con este reparto el estudiante se queda con 370px.
   metaItem: { flex: "1 1 auto", minWidth: 0 },
   metaFecha: { flex: "0 0 200px" },
-  metaMetodo: { flex: "0 0 110px" },
+  // Cierra el bloque de totales sin otra etiqueta en versalitas compitiendo:
+  // a esta altura del documento la cifra ya se leyó y esto solo la matiza.
+  metodoPie: {
+    margin: "10px 0 0",
+    textAlign: "right",
+    fontSize: 11.5,
+    color: "#6b7280",
+  },
   metaLabel: {
     fontSize: 10.5,
     letterSpacing: "0.08em",

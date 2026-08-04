@@ -81,7 +81,10 @@ export default function ComprobantePDF({ pago, cargo, alumno }) {
             <p style={S.metaLabel}>Fecha de emisión</p>
             <p style={S.metaValue}>{fmtFecha(pago?.fecha_pago)}</p>
           </div>
-          <div style={S.metaItem}>
+          {/* La última columna se alinea a la derecha para cerrar la fila contra
+              el mismo margen que el folio y la columna "Monto"; alineada a la
+              izquierda dejaba un hueco de ~167px con valores cortos. */}
+          <div style={{ ...S.metaItem, textAlign: "right" }}>
             <p style={S.metaLabel}>Método de pago</p>
             <p style={S.metaValue}>{metodoPagoLabel(pago?.metodo_pago)}</p>
           </div>

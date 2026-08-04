@@ -66,6 +66,17 @@ function Field({ label, children }) {
   );
 }
 
+function ErrorMsg({ children }) {
+  return (
+    <div style={{
+      background: "#ff444422", border: "1px solid #ff444466", borderRadius: 8,
+      padding: "10px 14px", color: "#ff6666", fontSize: 13, fontFamily: font,
+    }}>
+      {children}
+    </div>
+  );
+}
+
 function Modal({ title, onClose, children, maxWidth = 480 }) {
   return (
     <div style={{
@@ -96,13 +107,16 @@ function CargoForm({ alumnos, initial, onSave, onCancel }) {
     fecha_vencimiento: initial?.fecha_vencimiento || "",
   });
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState(null);
 
   const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
 
   async function handleSubmit(e) {
     e.preventDefault();
     setSaving(true);
-    await onSave({ ...form, monto: Number(form.monto), id: initial?.id || null });
+    setError(null);
+    const result = await onSave({ ...form, monto: Number(form.monto), id: initial?.id || null });
+    if (result?.error) setError(result.error);
     setSaving(false);
   }
 
@@ -129,6 +143,7 @@ function CargoForm({ alumnos, initial, onSave, onCancel }) {
           <input type="date" value={form.fecha_vencimiento} onChange={set("fecha_vencimiento")} style={inputStyle} required />
         </Field>
       </div>
+      {error && <ErrorMsg>{error}</ErrorMsg>}
       <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", marginTop: 8 }}>
         <button type="button" onClick={onCancel} style={{
           background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
@@ -151,11 +166,14 @@ function PagoForm({ cargo, onSave, onCancel }) {
   const [metodo, setMetodo] = useState("efectivo");
   const [notas, setNotas] = useState("");
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState(null);
 
   async function handleSubmit(e) {
     e.preventDefault();
     setSaving(true);
-    await onSave({ cargo_id: cargo.id, monto: Number(monto), metodo_pago: metodo, notas: notas || null });
+    setError(null);
+    const result = await onSave({ cargo_id: cargo.id, monto: Number(monto), metodo_pago: metodo, notas: notas || null });
+    if (result?.error) setError(result.error);
     setSaving(false);
   }
 
@@ -199,6 +217,8 @@ function PagoForm({ cargo, onSave, onCancel }) {
           onBlur={(e) => { e.target.style.borderColor = C.border; }}
         />
       </Field>
+
+      {error && <ErrorMsg>{error}</ErrorMsg>}
 
       <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", marginTop: 8 }}>
         <button type="button" onClick={onCancel} style={{
@@ -432,6 +452,9 @@ export default function AdminCargos({ embedded }) {
 
   // ── CRUD handlers ──────────────────────────────────────────────────────────
 
+  // Los handlers devuelven { error } y el formulario lo pinta. Antes solo hacían
+  // console.error y volvían: el modal se quedaba abierto sin decir nada, que fue
+  // justo lo que escondió durante meses el fallo de cargos_source_check.
   async function handleCreateCargo(form) {
     const { error } = await supabase.from("cargos").insert({
       alumno_id: form.alumno_id,
@@ -440,7 +463,7 @@ export default function AdminCargos({ embedded }) {
       fecha_vencimiento: form.fecha_vencimiento,
       estado: "pendiente",
     });
-    if (error) { console.error(error); return; }
+    if (error) { console.error(error); return { error: error.message || "Error al crear el cargo." }; }
     setShowCargoForm(false);
     await loadAll();
   }
@@ -452,7 +475,7 @@ export default function AdminCargos({ embedded }) {
       monto: form.monto,
       fecha_vencimiento: form.fecha_vencimiento,
     }).eq("id", form.id);
-    if (error) { console.error(error); return; }
+    if (error) { console.error(error); return { error: error.message || "Error al guardar el cargo." }; }
     setEditCargo(null);
     await loadAll();
   }
@@ -469,11 +492,13 @@ export default function AdminCargos({ embedded }) {
   async function handlePay({ cargo_id, monto, metodo_pago, notas }) {
     const { data: pagoInsertado, error: errPago } = await supabase
       .from("pagos").insert({ cargo_id, monto, metodo_pago, notas }).select().single();
-    if (errPago) { console.error(errPago); return; }
+    if (errPago) { console.error(errPago); return { error: errPago.message || "No se pudo registrar el pago." }; }
     const cargo = cargos.find((c) => c.id === cargo_id);
     const nuevoEstado = monto >= Number(cargo.monto) ? "pagado" : "pendiente";
     const { error: errCargo } = await supabase.from("cargos").update({ estado: nuevoEstado }).eq("id", cargo_id);
-    if (errCargo) { console.error(errCargo); return; }
+    // El pago ya quedó guardado; lo que falló es marcar el cargo. Avisar importa:
+    // si no, el cobro aparece como pendiente y se puede volver a cobrar.
+    if (errCargo) { console.error(errCargo); return { error: "El pago se guardó, pero no se pudo actualizar el estado del cargo." }; }
     setShowPago(false);
     setSelectedCargo(null);
     setLastPago({ ...pagoInsertado, metodo_pago });

@@ -9,10 +9,12 @@
 // el modo "react" es el destino cuando el taller ya se ganó el portado.
 import { TALLER as DIVISIONES } from "./matematicas/divisiones.js";
 import { TALLER as COMPRENSION } from "./espanol/comprension-lectora.js";
+import { TALLER as CARRERA } from "./juegos/carrera-autos.js";
 
 export const TALLERES_INDEX = {
   [DIVISIONES.id]: DIVISIONES,
   [COMPRENSION.id]: COMPRENSION,
+  [CARRERA.id]: CARRERA,
 };
 
 // Componentes React para talleres con render.tipo === "react".

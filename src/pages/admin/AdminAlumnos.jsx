@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
 import AdminHeader from "../../components/admin/AdminHeader.jsx";
+import { GRID_FORM, TEXTO_FLEXIBLE } from "../../components/admin/layout.js";
 
 const font = "'DM Sans', sans-serif";
 const C = {
@@ -172,13 +173,13 @@ function AlumnoForm({ profiles, initial, onSave, onCancel }) {
         </Field>
       )}
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+      <div style={{ display: "grid", gridTemplateColumns: GRID_FORM, gap: 12 }}>
         <Field label="Nombre"><input value={form.nombre} onChange={set("nombre")} style={inputStyle} required
           onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }} onBlur={(e) => { e.target.style.borderColor = C.border; }} /></Field>
         <Field label="Apellidos"><input value={form.apellidos} onChange={set("apellidos")} style={inputStyle} required
           onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }} onBlur={(e) => { e.target.style.borderColor = C.border; }} /></Field>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+      <div style={{ display: "grid", gridTemplateColumns: GRID_FORM, gap: 12 }}>
         <Field label="Fecha de nacimiento"><input type="date" value={form.fecha_nacimiento} onChange={set("fecha_nacimiento")} style={inputStyle} required /></Field>
         <Field label="Nivel">
           <select value={form.nivel} onChange={set("nivel")} style={{ ...inputStyle, cursor: "pointer" }}>
@@ -189,7 +190,7 @@ function AlumnoForm({ profiles, initial, onSave, onCancel }) {
           </select>
         </Field>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+      <div style={{ display: "grid", gridTemplateColumns: GRID_FORM, gap: 12 }}>
         <Field label="Email"><input type="email" value={form.email} onChange={set("email")} style={inputStyle}
           onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }} onBlur={(e) => { e.target.style.borderColor = C.border; }} /></Field>
         <Field label="Teléfono"><input value={form.telefono} onChange={set("telefono")} style={inputStyle}
@@ -235,8 +236,8 @@ function AlumnoRow({ alumno, onClick, onEdit, onDelete }) {
       onMouseEnter={(e) => { e.currentTarget.style.borderColor = C.blue + "33"; }}
       onMouseLeave={(e) => { e.currentTarget.style.borderColor = C.border; }}
     >
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <div style={{ flex: 1 }} onClick={onClick}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+        <div style={{ flex: 1, ...TEXTO_FLEXIBLE }} onClick={onClick}>
           <span style={{ color: C.text, fontWeight: 600, fontSize: 14, fontFamily: font }}>
             {alumno.nombre} {alumno.apellidos}
           </span>
@@ -361,7 +362,7 @@ export default function AdminAlumnos({ embedded }) {
             onBlur={(e)  => { e.target.style.borderColor = C.border; }}
           />
         </div>
-        <div style={{ display: "flex", gap: 6 }}>
+        <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
           {["todos", "primaria", "secundaria", "prepa", "universidad"].map((n) => (
             <button
               key={n}

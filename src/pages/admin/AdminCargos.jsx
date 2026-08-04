@@ -1,13 +1,14 @@
 // src/pages/admin/AdminCargos.jsx
 // Panel de administración de cargos y pagos: CRUD de cargos, registrar pagos, ver historial.
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { supabase } from "../../lib/supabase";
 import EstadoBadge from "../../components/admin/EstadoBadge.jsx";
 import AdminHeader from "../../components/admin/AdminHeader.jsx";
 import { generarComprobantePago } from "../../utils/comprobantePago.jsx";
 import ComprobantePDF from "../../components/ComprobantePDF.jsx";
 import { textoPeriodo } from "../../utils/fechas.js";
+import { GRID_FORM, TEXTO_FLEXIBLE } from "../../components/admin/layout.js";
 
 const font = "'DM Sans', sans-serif";
 const C = {
@@ -119,7 +120,7 @@ function CargoForm({ alumnos, initial, onSave, onCancel }) {
         <input value={form.concepto} onChange={set("concepto")} placeholder="Ej: Inscripción — mensual" style={inputStyle} required
           onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }} onBlur={(e) => { e.target.style.borderColor = C.border; }} />
       </Field>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+      <div style={{ display: "grid", gridTemplateColumns: GRID_FORM, gap: 12 }}>
         <Field label="Monto">
           <input type="number" step="0.01" min="0" value={form.monto} onChange={set("monto")} style={inputStyle} required
             onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }} onBlur={(e) => { e.target.style.borderColor = C.border; }} />
@@ -238,11 +239,33 @@ function ConfirmModal({ title, message, onConfirm, onCancel }) {
 // ── Vista previa del comprobante antes de descargar ─────────────────────────
 function ComprobantePreviewModal({ pago, cargo, alumno, onClose }) {
   const [descargando, setDescargando] = useState(false);
+  // El comprobante mide 800px fijos (es una hoja carta, no un layout fluido),
+  // así que en vez de dejarlo desbordar se escala al ancho disponible. El alto
+  // del contenedor sigue al del documento ya escalado para no dejar hueco.
+  const marcoRef = useRef(null);
+  const docRef = useRef(null);
+  const [escala, setEscala] = useState(1);
+  const [alto, setAlto] = useState(0);
+  useEffect(() => {
+    const marco = marcoRef.current;
+    const doc = docRef.current;
+    if (!marco || !doc) return;
+    const ro = new ResizeObserver(() => {
+      setEscala(Math.min(1, marco.clientWidth / 800));
+      setAlto(doc.offsetHeight);
+    });
+    ro.observe(marco);
+    ro.observe(doc);
+    return () => ro.disconnect();
+  }, []);
+
   return (
     <Modal title="Vista previa del comprobante" onClose={onClose} maxWidth={860}>
-      <div style={{ background: "#555", borderRadius: 10, padding: 20, marginBottom: 18, overflowX: "auto" }}>
-        <div style={{ width: 800 }}>
-          <ComprobantePDF pago={pago} cargo={cargo} alumno={alumno} />
+      <div ref={marcoRef} style={{ background: "#555", borderRadius: 10, padding: 20, marginBottom: 18 }}>
+        <div style={{ height: alto * escala, overflow: "hidden" }}>
+          <div ref={docRef} style={{ width: 800, transform: `scale(${escala})`, transformOrigin: "top left" }}>
+            <ComprobantePDF pago={pago} cargo={cargo} alumno={alumno} />
+          </div>
         </div>
       </div>
       <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
@@ -283,7 +306,7 @@ function CargoRow({ cargo, alumnos, onPay, onEdit, onDelete, onTogglePagos, show
         flexWrap: "wrap",
         gap: 8,
       }}>
-        <div>
+        <div style={TEXTO_FLEXIBLE}>
           <span style={{ color: C.text, fontWeight: 600, fontSize: 13, fontFamily: font }}>
             {alumno ? `${alumno.nombre} ${alumno.apellidos}` : cargo.alumno_id.slice(0, 8)}
           </span>

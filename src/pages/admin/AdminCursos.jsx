@@ -4,6 +4,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../../lib/supabase";
 import AdminHeader from "../../components/admin/AdminHeader.jsx";
+import { GRID_FORM } from "../../components/admin/layout.js";
 
 const font = "'DM Sans', sans-serif";
 const C = {
@@ -99,7 +100,7 @@ function CursoForm({ initial, onSave, onCancel }) {
       <Field label="Descripción"><input value={form.descripcion} onChange={set("descripcion")} placeholder="(opcional)" style={inputStyle}
         onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }}
         onBlur={(e)  => { e.target.style.borderColor = C.border; }} /></Field>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+      <div style={{ display: "grid", gridTemplateColumns: GRID_FORM, gap: 12 }}>
         <Field label="Tipo">
           <select value={form.tipo} onChange={set("tipo")} style={{ ...inputStyle, cursor: "pointer" }}>
             <option value="curso">Curso</option>
@@ -154,7 +155,7 @@ function GrupoForm({ onSave, onCancel }) {
       <Field label="Nombre del grupo"><input value={form.nombre} onChange={set("nombre")} placeholder="Generación Ago-Dic 2026" style={inputStyle} required
         onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }}
         onBlur={(e)  => { e.target.style.borderColor = C.border; }} /></Field>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+      <div style={{ display: "grid", gridTemplateColumns: GRID_FORM, gap: 12 }}>
         <Field label="Fecha inicio"><input type="date" value={form.fecha_inicio} onChange={set("fecha_inicio")} style={inputStyle} required /></Field>
         <Field label="Fecha fin"><input type="date" value={form.fecha_fin} onChange={set("fecha_fin")} style={inputStyle} required /></Field>
       </div>
@@ -652,8 +653,10 @@ export default function AdminCursos({ embedded }) {
         }}>+ Nuevo curso</button>
       </div>
 
-      {/* Layout */}
-      <div style={{ display: "flex", gap: 20, minHeight: 400 }}>
+      {/* Layout maestro-detalle. Con wrap, en teléfono el detalle baja debajo de
+          la lista en vez de quedarse fuera de pantalla; el maxWidth de la lista
+          solo aplica cuando conviven en la misma fila. */}
+      <div style={{ display: "flex", gap: 20, minHeight: 400, flexWrap: "wrap" }}>
         <div style={{ flex: "1 1 280px", maxWidth: 340, display: "flex", flexDirection: "column", gap: 6 }}>
           {loading ? <Spinner /> : cursos.length === 0 ? (
             <div style={{ textAlign: "center", padding: "60px 20px", color: C.muted, fontSize: 14, fontFamily: font }}>

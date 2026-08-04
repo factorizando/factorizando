@@ -4,6 +4,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../../lib/supabase";
 import AdminHeader from "../../components/admin/AdminHeader.jsx";
+import { GRID_FORM, TEXTO_FLEXIBLE } from "../../components/admin/layout.js";
 
 const font = "'DM Sans', sans-serif";
 const C = {
@@ -106,13 +107,13 @@ function TutorForm({ initial, onSave, onCancel }) {
 
   return (
     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+      <div style={{ display: "grid", gridTemplateColumns: GRID_FORM, gap: 12 }}>
         <Field label="Nombre"><input value={form.nombre} onChange={set("nombre")} style={inputStyle} required
           onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }} onBlur={(e) => { e.target.style.borderColor = C.border; }} /></Field>
         <Field label="Apellidos"><input value={form.apellidos} onChange={set("apellidos")} style={inputStyle} required
           onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }} onBlur={(e) => { e.target.style.borderColor = C.border; }} /></Field>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+      <div style={{ display: "grid", gridTemplateColumns: GRID_FORM, gap: 12 }}>
         <Field label="Teléfono"><input value={form.telefono} onChange={set("telefono")} style={inputStyle} required
           onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }} onBlur={(e) => { e.target.style.borderColor = C.border; }} /></Field>
         <Field label="Email"><input type="email" value={form.email} onChange={set("email")} style={inputStyle}
@@ -146,8 +147,9 @@ function TutorRow({ tutor, onEdit, onDelete }) {
     <div style={{
       background: C.card, border: `1px solid ${C.border}`, borderRadius: 10,
       padding: "14px 16px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8,
+      flexWrap: "wrap",
     }}>
-      <div>
+      <div style={TEXTO_FLEXIBLE}>
         <span style={{ color: C.text, fontWeight: 600, fontSize: 14, fontFamily: font }}>
           {tutor.nombre} {tutor.apellidos}
         </span>

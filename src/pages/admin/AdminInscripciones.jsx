@@ -456,7 +456,9 @@ export default function AdminInscripciones({ embedded }) {
       <div style={{ maxWidth: 980, margin: "0 auto", padding: "32px 16px" }}>
       {/* Filtros y acción */}
       <div style={{ display: "flex", gap: 10, marginBottom: 20, flexWrap: "wrap", alignItems: "center" }}>
-        <div style={{ display: "flex", gap: 6 }}>
+        {/* wrap: las cinco pastillas suman 426px y a 375px "Cancelada" se salía
+            67px de la pantalla. */}
+        <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
           {["todos", "activa", "pausada", "finalizada", "cancelada"].map((e) => (
             <button
               key={e}

@@ -6,6 +6,7 @@ import { useParams, Link } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
 import EstadoBadge from "../../components/admin/EstadoBadge.jsx";
 import AdminHeader from "../../components/admin/AdminHeader.jsx";
+import { GRID_FORM, TEXTO_FLEXIBLE } from "../../components/admin/layout.js";
 
 const font = "'DM Sans', sans-serif";
 const C = {
@@ -95,13 +96,13 @@ function TutorForm({ initial, onSave, onCancel }) {
 
   return (
     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+      <div style={{ display: "grid", gridTemplateColumns: GRID_FORM, gap: 12 }}>
         <Field label="Nombre"><input value={form.nombre} onChange={set("nombre")} style={inputStyle} required
           onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }} onBlur={(e) => { e.target.style.borderColor = C.border; }} /></Field>
         <Field label="Apellidos"><input value={form.apellidos} onChange={set("apellidos")} style={inputStyle} required
           onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }} onBlur={(e) => { e.target.style.borderColor = C.border; }} /></Field>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+      <div style={{ display: "grid", gridTemplateColumns: GRID_FORM, gap: 12 }}>
         <Field label="Teléfono"><input value={form.telefono} onChange={set("telefono")} style={inputStyle} required
           onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }} onBlur={(e) => { e.target.style.borderColor = C.border; }} /></Field>
         <Field label="Email"><input type="email" value={form.email} onChange={set("email")} style={inputStyle}
@@ -145,7 +146,7 @@ function ContactoForm({ initial, onSave, onCancel }) {
     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
       <Field label="Nombre"><input value={form.nombre} onChange={set("nombre")} style={inputStyle} required
         onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }} onBlur={(e) => { e.target.style.borderColor = C.border; }} /></Field>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+      <div style={{ display: "grid", gridTemplateColumns: GRID_FORM, gap: 12 }}>
         <Field label="Teléfono"><input value={form.telefono} onChange={set("telefono")} style={inputStyle} required
           onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }} onBlur={(e) => { e.target.style.borderColor = C.border; }} /></Field>
         <Field label="Relación"><input value={form.relacion} onChange={set("relacion")} placeholder="abuelo, tío…" style={inputStyle} required
@@ -401,9 +402,9 @@ export default function AdminAlumnoDetalle() {
           ) : tutores.map((t) => (
             <div key={t.id} style={{
               background: C.card, border: `1px solid ${C.border}`, borderRadius: 8,
-              padding: "12px 16px", marginBottom: 6, display: "flex", justifyContent: "space-between", alignItems: "center",
+              padding: "12px 16px", marginBottom: 6, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8,
             }}>
-              <div>
+              <div style={TEXTO_FLEXIBLE}>
                 <span style={{ color: C.text, fontSize: 13, fontWeight: 600 }}>{t.nombre} {t.apellidos}</span>
                 <span style={{ marginLeft: 8, background: C.surface, color: C.dim, borderRadius: 5, padding: "1px 6px", fontSize: 10, fontWeight: 600 }}>{t.relacion}</span>
                 <div style={{ color: C.muted, fontSize: 12, marginTop: 2 }}>{t.telefono} · {t.email || "—"}</div>
@@ -434,9 +435,9 @@ export default function AdminAlumnoDetalle() {
           ) : contactos.map((c) => (
             <div key={c.id} style={{
               background: C.card, border: `1px solid ${C.border}`, borderRadius: 8,
-              padding: "12px 16px", marginBottom: 6, display: "flex", justifyContent: "space-between", alignItems: "center",
+              padding: "12px 16px", marginBottom: 6, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8,
             }}>
-              <div>
+              <div style={TEXTO_FLEXIBLE}>
                 <span style={{ color: C.text, fontSize: 13, fontWeight: 600 }}>#{c.orden} {c.nombre}</span>
                 <span style={{ marginLeft: 8, color: C.dim, fontSize: 12 }}>{c.relacion}</span>
                 <div style={{ color: C.muted, fontSize: 12, marginTop: 2 }}>{c.telefono}</div>
@@ -461,9 +462,9 @@ export default function AdminAlumnoDetalle() {
           ) : inscripciones.map((i) => (
             <div key={i.id} style={{
               background: C.card, border: `1px solid ${C.border}`, borderRadius: 8,
-              padding: "12px 16px", marginBottom: 6, display: "flex", justifyContent: "space-between", alignItems: "center",
+              padding: "12px 16px", marginBottom: 6, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8,
             }}>
-              <div>
+              <div style={TEXTO_FLEXIBLE}>
                 <span style={{ color: C.text, fontSize: 13, fontWeight: 600 }}>{cursos[i.curso_id] || "Curso"}</span>
                 <span style={{ marginLeft: 8, color: C.muted, fontSize: 12 }}>{fmtDate(i.fecha_inscripcion)}</span>
               </div>
@@ -480,9 +481,9 @@ export default function AdminAlumnoDetalle() {
           ) : cargos.map((cg) => (
             <div key={cg.id} style={{
               background: C.card, border: `1px solid ${C.border}`, borderRadius: 8,
-              padding: "12px 16px", marginBottom: 6, display: "flex", justifyContent: "space-between", alignItems: "center",
+              padding: "12px 16px", marginBottom: 6, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8,
             }}>
-              <div>
+              <div style={TEXTO_FLEXIBLE}>
                 <span style={{ color: C.text, fontSize: 13, fontWeight: 600 }}>{cg.concepto}</span>
                 <span style={{ marginLeft: 8, color: C.muted, fontSize: 12 }}>vence {fmtDate(cg.fecha_vencimiento)}</span>
               </div>

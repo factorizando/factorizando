@@ -610,6 +610,99 @@ const T_INFER = [
       {t:'Camila y Sebastián son amigos.', tipo:'nose', por:'Se hablan, pero el texto nunca dice qué relación tienen.'},
       {t:'A Camila le regalaron el cuaderno.', tipo:'nose', por:'Ojo con esta: el texto dice que «ella contestó» que se lo habían regalado. Que un personaje lo diga no lo vuelve cierto.'}
     ]
+  },
+  {
+    titulo:'El apagón',
+    texto:'A las nueve de la noche se fue la luz en toda la cuadra. Mi hermana bajó a la cocina alumbrándose con el ' +
+          'celular y volvió con dos velas. Desde la ventana se veía el semáforo de la esquina apagado y a varios ' +
+          'vecinos afuera, platicando en la banqueta.',
+    afs:[
+      {t:'La luz se fue a las nueve de la noche.', tipo:'dicho', por:'Es la primera oración del texto.'},
+      {t:'El apagón no fue solo en esa casa.', tipo:'deducido', por:'El semáforo apagado y los vecinos afuera lo dejan ver, aunque no se diga con esas palabras.'},
+      {t:'La luz regresó antes de la medianoche.', tipo:'nose', por:'El texto termina durante el apagón: nunca dice cuándo volvió la luz.'},
+      {t:'Su hermana volvió con dos velas.', tipo:'dicho', por:'Aparece tal cual en la segunda oración.'}
+    ]
+  },
+  {
+    titulo:'La hoja sin borrones',
+    texto:'Martín entregó su examen cinco minutos después de que empezara y se sentó otra vez a esperar con un libro. ' +
+          'Cuando el maestro recogió las demás hojas, la de Martín era la única sin un solo borrón.',
+    afs:[
+      {t:'Martín entregó antes que sus compañeros.', tipo:'dicho', por:'El texto lo dice: entregó a los cinco minutos y el maestro recogió después «las demás hojas».'},
+      {t:'Martín no dudó al contestar.', tipo:'deducido', por:'Una hoja sin un solo borrón, entregada en cinco minutos, apunta a eso.'},
+      {t:'Martín sacó la mejor calificación del grupo.', tipo:'nose', por:'Contestar rápido y limpio no es lo mismo que contestar bien: el texto no dice cómo le fue.'},
+      {t:'La hoja de Martín no tenía borrones.', tipo:'dicho', por:'Está escrito al final del texto.'}
+    ]
+  },
+  {
+    titulo:'La parada del camión',
+    texto:'Sofía llegó a la parada con el pantalón salpicado de lodo hasta las rodillas. Guardó el paraguas cerrado en ' +
+          'la mochila y se quedó mirando el charco enorme que había junto a la banqueta. Cuando vio venir el camión, ' +
+          'se hizo a un lado antes de que frenara.',
+    afs:[
+      {t:'Sofía traía lodo en el pantalón.', tipo:'dicho', por:'El texto lo menciona directamente.'},
+      {t:'Sofía se apartó para que el camión no la salpicara.', tipo:'deducido', por:'Hacerse a un lado justo antes de que frenara, con el charco ahí, señala esa intención.'},
+      {t:'Un coche fue el que la salpicó.', tipo:'nose', por:'Es una explicación posible, pero el texto nunca dice cómo se llenó de lodo.'},
+      {t:'Sofía guardó el paraguas cerrado.', tipo:'dicho', por:'Aparece tal cual en la segunda oración.'}
+    ]
+  },
+  {
+    titulo:'El último puesto del mercado',
+    texto:'Doña Lucía acomodó las últimas naranjas en su caja y contó los billetes dos veces. «Hoy sí me fue bien», ' +
+          'dijo mientras amarraba la lona del puesto. En el pasillo ya casi no quedaba nadie y las luces del fondo ' +
+          'estaban apagadas.',
+    afs:[
+      {t:'Doña Lucía contó los billetes dos veces.', tipo:'dicho', por:'El texto lo dice en la primera oración.'},
+      {t:'El mercado estaba por cerrar.', tipo:'deducido', por:'La lona amarrada, el pasillo vacío y las luces apagadas lo dejan ver, aunque no se escriba.'},
+      {t:'Doña Lucía vendió mucho ese día.', tipo:'nose', por:'Ojo: eso lo dice ella. Que un personaje lo afirme no lo convierte en un dato del texto.'},
+      {t:'Las luces del fondo estaban apagadas.', tipo:'dicho', por:'Es la última oración.'}
+    ]
+  },
+  {
+    titulo:'Las paredes claras',
+    texto:'En el cuarto de Iván habían quedado cuadros más claros en la pared, donde antes estaban los pósters. En el ' +
+          'pasillo se apilaban cajas con el nombre de cada recámara escrito con marcador. Su mamá revisó una lista y ' +
+          'le dijo que ya solo faltaba el clóset.',
+    afs:[
+      {t:'En el pasillo había cajas apiladas.', tipo:'dicho', por:'El texto lo menciona directamente.'},
+      {t:'La familia se está mudando.', tipo:'deducido', por:'Paredes vacías, cajas rotuladas por recámara y una lista de pendientes apuntan a una mudanza.'},
+      {t:'Iván va a cambiar de escuela.', tipo:'nose', por:'Podría pasar, pero el texto no dice nada de la escuela.'},
+      {t:'Las cajas tenían escrito el nombre de cada recámara.', tipo:'dicho', por:'Está escrito con todas sus letras.'}
+    ]
+  },
+  {
+    titulo:'Nico y el estambre',
+    texto:'Al llegar encontramos el tapete corrido, un zapato con las agujetas rotas y a Nico dormido debajo de la ' +
+          'mesa. Junto a él había pedacitos de estambre por todo el piso. Mi papá suspiró y guardó los zapatos en el clóset.',
+    afs:[
+      {t:'Un zapato tenía las agujetas rotas.', tipo:'dicho', por:'El texto lo dice en la primera oración.'},
+      {t:'Nico hizo el desorden de la sala.', tipo:'deducido', por:'El estambre junto a él y el zapato roto lo señalan, aunque el texto no lo acuse.'},
+      {t:'Mi papá se enojó mucho.', tipo:'nose', por:'Solo dice que suspiró; un suspiro puede ser enojo, cansancio o resignación.'},
+      {t:'Nico estaba dormido debajo de la mesa.', tipo:'dicho', por:'Aparece tal cual en el texto.'}
+    ]
+  },
+  {
+    titulo:'La bicicleta de vuelta',
+    texto:'Ana empujó la bicicleta hasta la puerta de la casa en lugar de subirse a ella. La cadena colgaba floja y ' +
+          'ella traía las manos manchadas de grasa. Antes de entrar, la recargó en la barda y se le quedó viendo un rato.',
+    afs:[
+      {t:'Ana llevó la bicicleta empujándola.', tipo:'dicho', por:'Lo dice la primera oración.'},
+      {t:'La bicicleta se descompuso en el camino.', tipo:'deducido', por:'La cadena floja y las manos con grasa lo dejan ver: intentó arreglarla.'},
+      {t:'Ana se cayó de la bicicleta.', tipo:'nose', por:'El texto no menciona ninguna caída ni ningún golpe.'},
+      {t:'Ana traía las manos manchadas de grasa.', tipo:'dicho', por:'El texto lo menciona directamente.'}
+    ]
+  },
+  {
+    titulo:'El alumno nuevo',
+    texto:'El niño nuevo se sentó hasta atrás y no sacó nada de la mochila durante la primera clase. Cuando sonó el ' +
+          'timbre, se quedó en su lugar mientras los demás salían en bola. La maestra se acercó y le preguntó si ' +
+          'quería acompañarla al patio.',
+    afs:[
+      {t:'El niño nuevo se sentó hasta atrás.', tipo:'dicho', por:'Es lo primero que dice el texto.'},
+      {t:'El niño todavía no se sentía cómodo en el salón.', tipo:'deducido', por:'Sentarse atrás, no sacar nada y quedarse en su lugar en el recreo apuntan a eso.'},
+      {t:'El niño no tiene amigos en esa escuela.', tipo:'nose', por:'Puede ser, pero es su primer día y el texto no dice nada de sus amistades.'},
+      {t:'La maestra le ofreció acompañarla al patio.', tipo:'dicho', por:'Es la última oración del texto.'}
+    ]
   }
 ];
 

@@ -99,17 +99,28 @@ function Modal({ title, onClose, children, maxWidth = 480 }) {
 }
 
 // ── Formulario de cargo (crear o editar) ──────────────────────────────────────
-function CargoForm({ alumnos, initial, onSave, onCancel }) {
+function CargoForm({ alumnos, inscripciones, initial, onSave, onCancel }) {
   const [form, setForm] = useState({
     alumno_id: initial?.alumno_id || "",
+    inscripcion_id: initial?.inscripcion_id || "",
     concepto: initial?.concepto || "",
     monto: initial?.monto || "",
     fecha_vencimiento: initial?.fecha_vencimiento || "",
+    notas: initial?.notas || "",
   });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
 
   const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
+
+  // Al cambiar de alumno hay que soltar el curso: la inscripción elegida era de
+  // otro alumno y dejarla puesta ataría el cargo a quien no es.
+  const setAlumno = (e) =>
+    setForm((f) => ({ ...f, alumno_id: e.target.value, inscripcion_id: "" }));
+
+  const cursosDelAlumno = (inscripciones || []).filter(
+    (i) => i.alumno_id === form.alumno_id
+  );
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -123,10 +134,32 @@ function CargoForm({ alumnos, initial, onSave, onCancel }) {
   return (
     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       <Field label="Alumno">
-        <select value={form.alumno_id} onChange={set("alumno_id")} style={{ ...inputStyle, cursor: "pointer" }} required>
+        <select value={form.alumno_id} onChange={setAlumno} style={{ ...inputStyle, cursor: "pointer" }} required>
           <option value="">Seleccionar alumno…</option>
           {alumnos.map((a) => (
             <option key={a.id} value={a.id}>{a.nombre} {a.apellidos}</option>
+          ))}
+        </select>
+      </Field>
+      {/* Opcional a propósito: un cargo suelto (material, una cuota, un ajuste)
+          no cuelga de ninguna inscripción, y ése es justo el caso que este
+          formulario cubre. */}
+      <Field label="Curso (opcional)">
+        <select
+          value={form.inscripcion_id}
+          onChange={set("inscripcion_id")}
+          disabled={!form.alumno_id}
+          style={{ ...inputStyle, cursor: form.alumno_id ? "pointer" : "default", opacity: form.alumno_id ? 1 : 0.6 }}
+        >
+          <option value="">
+            {!form.alumno_id ? "Elige primero un alumno…"
+              : cursosDelAlumno.length === 0 ? "Sin cursos inscritos"
+              : "Sin curso (cargo suelto)"}
+          </option>
+          {cursosDelAlumno.map((i) => (
+            <option key={i.id} value={i.id}>
+              {i.cursos?.nombre || "Curso"}{i.estado !== "activa" ? ` (${i.estado})` : ""}
+            </option>
           ))}
         </select>
       </Field>
@@ -143,6 +176,10 @@ function CargoForm({ alumnos, initial, onSave, onCancel }) {
           <input type="date" value={form.fecha_vencimiento} onChange={set("fecha_vencimiento")} style={inputStyle} required />
         </Field>
       </div>
+      <Field label="Notas (opcional)">
+        <input value={form.notas} onChange={set("notas")} placeholder="Ej: semana 2, mes 1…" style={inputStyle}
+          onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }} onBlur={(e) => { e.target.style.borderColor = C.border; }} />
+      </Field>
       {error && <ErrorMsg>{error}</ErrorMsg>}
       <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", marginTop: 8 }}>
         <button type="button" onClick={onCancel} style={{
@@ -343,6 +380,11 @@ function CargoRow({ cargo, alumnos, onPay, onEdit, onDelete, onTogglePagos, show
               padding: "1px 7px", fontSize: 10, fontWeight: 700, fontFamily: font, marginLeft: 6,
             }}>PARCIAL</span>
           )}
+          {cargo.notas && (
+            <div style={{ color: C.muted, fontSize: 12, fontFamily: font, marginTop: 2 }}>
+              {cargo.notas}
+            </div>
+          )}
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <span style={{ color: C.text, fontWeight: 700, fontSize: 14, fontFamily: font }}>
@@ -406,6 +448,7 @@ function CargoRow({ cargo, alumnos, onPay, onEdit, onDelete, onTogglePagos, show
 export default function AdminCargos({ embedded }) {
   const [cargos, setCargos] = useState([]);
   const [alumnos, setAlumnos] = useState([]);
+  const [inscripciones, setInscripciones] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filtroEstado, setFiltroEstado] = useState("todos");
 
@@ -425,12 +468,17 @@ export default function AdminCargos({ embedded }) {
 
   async function loadAll() {
     setLoading(true);
-    const [c, a] = await Promise.all([
+    // Las inscripciones se traen enteras (con el nombre del curso embebido) para
+    // poder ofrecerle al formulario los cursos del alumno sin una consulta por
+    // cada vez que se cambia de alumno en el desplegable.
+    const [c, a, i] = await Promise.all([
       supabase.from("cargos").select("*").order("fecha_vencimiento"),
       supabase.from("alumnos").select("id, nombre, apellidos"),
+      supabase.from("inscripciones").select("id, alumno_id, estado, cursos(nombre)"),
     ]);
     setCargos(c.data || []);
     setAlumnos(a.data || []);
+    setInscripciones(i.data || []);
     setLoading(false);
   }
 
@@ -458,9 +506,11 @@ export default function AdminCargos({ embedded }) {
   async function handleCreateCargo(form) {
     const { error } = await supabase.from("cargos").insert({
       alumno_id: form.alumno_id,
+      inscripcion_id: form.inscripcion_id || null,
       concepto: form.concepto,
       monto: form.monto,
       fecha_vencimiento: form.fecha_vencimiento,
+      notas: form.notas || null,
       estado: "pendiente",
     });
     if (error) { console.error(error); return { error: error.message || "Error al crear el cargo." }; }
@@ -471,9 +521,11 @@ export default function AdminCargos({ embedded }) {
   async function handleEditCargo(form) {
     const { error } = await supabase.from("cargos").update({
       alumno_id: form.alumno_id,
+      inscripcion_id: form.inscripcion_id || null,
       concepto: form.concepto,
       monto: form.monto,
       fecha_vencimiento: form.fecha_vencimiento,
+      notas: form.notas || null,
     }).eq("id", form.id);
     if (error) { console.error(error); return { error: error.message || "Error al guardar el cargo." }; }
     setEditCargo(null);
@@ -598,6 +650,7 @@ export default function AdminCargos({ embedded }) {
         <Modal title={editCargo ? "Editar cargo" : "Nuevo cargo"} onClose={() => { setShowCargoForm(false); setEditCargo(null); }}>
           <CargoForm
             alumnos={alumnos}
+            inscripciones={inscripciones}
             initial={editCargo || null}
             onSave={editCargo ? handleEditCargo : handleCreateCargo}
             onCancel={() => { setShowCargoForm(false); setEditCargo(null); }}

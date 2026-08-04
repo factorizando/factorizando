@@ -42,7 +42,9 @@ export async function generarComprobantePago({ pago, cargo, alumno }) {
   document.body.appendChild(container);
 
   const root = createRoot(container);
-  root.render(<ComprobantePDF pago={pago} cargo={cargo} alumno={alumno} />);
+  root.render(
+    <ComprobantePDF pago={pago} cargo={cargo} alumno={alumno} capturaPDF />
+  );
 
   // Wait for React to commit + images + fonts
   await new Promise((r) => setTimeout(r, 50));

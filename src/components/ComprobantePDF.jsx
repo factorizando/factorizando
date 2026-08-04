@@ -29,7 +29,10 @@ function metodoPagoLabel(m) {
   return map[m] || m || "—";
 }
 
-export default function ComprobantePDF({ pago, cargo, alumno }) {
+// `capturaPDF` lo activa solo generarComprobantePago al renderizar offscreen:
+// html2canvas dibuja el wordmark 10.5px más abajo que el navegador (ver el
+// comentario de .cp-wordmark), así que en la captura se compensa.
+export default function ComprobantePDF({ pago, cargo, alumno, capturaPDF = false }) {
   const folio = pago?.id ? pago.id.slice(0, 8).toUpperCase() : "—";
   const nombreAlumno =
     `${alumno?.nombre || ""} ${alumno?.apellidos || ""}`.trim() || "—";
@@ -58,7 +61,10 @@ export default function ComprobantePDF({ pago, cargo, alumno }) {
             alt="Factorizando"
             style={{ height: 40, display: "block" }}
           />
-          <span className="cp-wordmark">
+          <span
+            className="cp-wordmark"
+            style={capturaPDF ? { transform: "translateY(-10.5px)" } : undefined}
+          >
             Facto<span ref={mathRef} style={{ color: "#80c6ff" }}>{katexReady ? "" : "ℝ[i]"}</span>zando
           </span>
         </div>
@@ -242,13 +248,14 @@ const S = {
     textTransform: "uppercase",
     color: "#6b7280",
     fontWeight: 600,
-    padding: "0 0 8px",
+    padding: "0 0 12px",
     borderBottom: "1px solid #e3e6ea",
   },
   td: {
-    padding: "14px 0",
+    padding: "20px 0",
     borderBottom: "1px solid #e3e6ea",
     fontSize: 14,
+    lineHeight: 1.5,
     verticalAlign: "top",
   },
   // Bloque de cierre a dos columnas, tomado del recibo anterior: los términos
@@ -290,9 +297,17 @@ const CSS = `
      El margin-top es un ajuste óptico: el centrado flex alinea la *caja* del
      texto, no su banda de mayúsculas, que queda más arriba por el hueco del
      descendente. Ojo: en un flex item centrado el margen desplaza solo la mitad
-     de su valor, así que 2.25px ≈ 1.12px de corrección real (medido sobre la
-     captura de html2canvas: banda de mayúsculas a 0.25px del centro del logo,
-     contra 1.25px por debajo antes). */
+     de su valor, así que 2.25px ≈ 1.12px de corrección real.
+
+     Con esto el DOM queda centrado (tinta de "Facto" en 35.5–48.5, centro 42.04
+     contra 41.82 del logo: 0.2px). Pero html2canvas dibuja el texto 10.5px más
+     abajo que el navegador — no es la fuente (el desfase es idéntico con DM Sans
+     y Georgia) ni el line-height ni el flex (se reproduce con inline-block y
+     vertical-align). Ningún CSS lo arregla, porque cualquier ajuste mueve por
+     igual el preview y la captura. Por eso la corrección va en la prop
+     capturaPDF, que aplica translateY(-10.5px) solo al renderizar para el PDF
+     y deja el preview intacto. Si se cambia el tamaño del logo o del wordmark,
+     hay que volver a medirlo. */
   .cp-wordmark {
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-weight: 700;

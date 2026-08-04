@@ -103,28 +103,20 @@ export default function ComprobantePDF({ pago, cargo, alumno, capturaPDF = false
           </div>
         </div>
 
-        {/* Detalle. La partida lleva sublínea (vencimiento y notas) porque el
-            recibo cubre un solo cargo: sin ella la fila queda como una línea
-            suelta y el bloque pesa menos que la letra chica del pie. */}
+        {/* Detalle */}
         <p style={S.sectionTitle}>Detalle</p>
         <table style={S.table}>
           <thead>
             <tr>
-              <th style={S.th}>Concepto</th>
-              <th style={{ ...S.th, textAlign: "right" }}>Monto</th>
+              <th style={{ ...S.th, borderRadius: "8px 0 0 8px" }}>Concepto</th>
+              <th style={{ ...S.th, textAlign: "right", borderRadius: "0 8px 8px 0" }}>
+                Monto
+              </th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td style={S.td}>
-                <span style={S.partidaTitulo}>{concepto}</span>
-                {cargo?.fecha_vencimiento && (
-                  <span style={S.partidaNota}>
-                    Vence el {fmtFecha(cargo.fecha_vencimiento)}
-                  </span>
-                )}
-                {pago?.notas && <span style={S.partidaNota}>{pago.notas}</span>}
-              </td>
+              <td style={{ ...S.td, fontWeight: 600 }}>{concepto}</td>
               <td style={{ ...S.td, ...S.partidaMonto }}>
                 {fmtMoney(montoCargo)}
               </td>
@@ -254,9 +246,18 @@ const S = {
     color: "#6b7280",
     margin: "0 0 12px",
   },
-  table: { width: "100%", borderCollapse: "collapse" },
-  // Banda tenue en el encabezado de la tabla: es lo que más hace que el bloque
-  // se lea como factura. El padding lateral la separa del borde del papel.
+  // La tabla se extiende 14px más que el ancho de contenido y sus celdas llevan
+  // ese mismo padding lateral. Así la banda gris respira alrededor del texto sin
+  // que el texto se despegue de los márgenes del documento (60 y 788): con el
+  // padding solo por dentro, "Concepto" y "Monto" se metían hacia adentro y
+  // rompían el eje que comparten con la fila de datos y los totales.
+  // borderCollapse separate es lo que permite redondear las esquinas del th.
+  table: {
+    width: "calc(100% + 28px)",
+    marginLeft: -14,
+    borderCollapse: "separate",
+    borderSpacing: 0,
+  },
   th: {
     textAlign: "left",
     fontSize: 10.5,
@@ -264,23 +265,16 @@ const S = {
     textTransform: "uppercase",
     color: "#4b5563",
     fontWeight: 700,
-    padding: "10px 0",
+    padding: "11px 14px",
     background: "#f4f6f8",
     borderBottom: "1px solid #e3e6ea",
   },
   td: {
-    padding: "26px 0",
+    padding: "26px 14px",
     borderBottom: "1px solid #e3e6ea",
     fontSize: 14,
     lineHeight: 1.5,
     verticalAlign: "top",
-  },
-  partidaTitulo: { display: "block", fontWeight: 600, color: "#1a1c1f" },
-  partidaNota: {
-    display: "block",
-    marginTop: 4,
-    fontSize: 11.5,
-    color: "#6b7280",
   },
   partidaMonto: {
     textAlign: "right",

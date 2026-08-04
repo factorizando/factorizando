@@ -35,7 +35,6 @@ export default function ComprobantePDF({ pago, cargo, alumno }) {
     `${alumno?.nombre || ""} ${alumno?.apellidos || ""}`.trim() || "—";
   const pagado = Number(pago?.monto || 0);
   const montoCargo = Number(cargo?.monto || 0);
-  const cubierto = pagado >= montoCargo;
   const concepto = (cargo?.concepto || "—").replace(/\s*[-–—([]?\s*semanal\s*[\])]?\s*/gi, "").trim();
 
   const katexReady = useKaTeX();
@@ -108,42 +107,41 @@ export default function ComprobantePDF({ pago, cargo, alumno }) {
               <td
                 style={{
                   ...S.td,
+                  ...S.metaLabel,
                   borderBottom: "none",
-                  paddingTop: 32,
+                  paddingTop: 30,
                   textAlign: "right",
-                  paddingRight: 12,
-                  fontSize: 13,
-                  color: "#6b7280",
+                  paddingRight: 14,
+                  verticalAlign: "middle",
                 }}
               >
                 Total pagado
               </td>
+              {/* El total va en DM Sans (no en la serif del wordmark): a este
+                  cuerpo la Cormorant adelgaza mucho las cifras y se leían mal.
+                  tabular-nums evita que los dígitos bailen de ancho. */}
               <td
                 style={{
                   ...S.td,
                   borderBottom: "none",
-                  paddingTop: 32,
+                  paddingTop: 30,
                   textAlign: "right",
-                  fontFamily: "'Cormorant Garamond', Georgia, serif",
-                  fontSize: 26,
+                  verticalAlign: "middle",
+                  fontSize: 25,
                   fontWeight: 700,
+                  letterSpacing: "-0.015em",
+                  fontVariantNumeric: "tabular-nums",
                   color: "#0e0f11",
                 }}
               >
-                {fmtMoney(pagado)} MXN
+                {fmtMoney(pagado)}
+                <span style={{ fontSize: 13, fontWeight: 600, color: "#6b7280", marginLeft: 6 }}>
+                  MXN
+                </span>
               </td>
             </tr>
           </tbody>
         </table>
-
-        <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 6 }}>
-          <span style={{
-            fontSize: 11, color: cubierto ? "#34d399" : "#f97316", fontWeight: 700,
-            fontFamily: "'DM Sans', sans-serif",
-          }}>
-            {cubierto ? "Pago completo" : "Pago parcial"}
-          </span>
-        </div>
       </div>
 
       {/* ── Términos y preguntas ── */}
@@ -177,13 +175,15 @@ const S = {
     borderRadius: 14,
     overflow: "hidden",
   },
+  // El margen va en los cuatro lados: antes era "0 14px" y la caja oscura
+  // quedaba pegada al borde superior mientras respiraba a los costados.
   header: {
     background: "#16181f",
-    padding: "14px 36px",
+    padding: "16px 36px",
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    margin: "0 14px",
+    margin: 14,
     borderRadius: 10,
     border: "1px solid #252830",
   },
@@ -202,13 +202,13 @@ const S = {
     margin: 0,
     color: "#e8eaf0",
   },
-  body: { padding: "32px 36px 28px" },
+  body: { padding: "32px 36px" },
   metaRow: {
     display: "flex",
     justifyContent: "space-between",
     gap: 24,
-    paddingBottom: 20,
-    marginBottom: 24,
+    paddingBottom: 24,
+    marginBottom: 32,
     borderBottom: "1px dashed #e3e6ea",
     flexWrap: "wrap",
   },
@@ -226,9 +226,9 @@ const S = {
     letterSpacing: "0.08em",
     textTransform: "uppercase",
     color: "#6b7280",
-    margin: "0 0 10px",
+    margin: "0 0 12px",
   },
-  table: { width: "100%", borderCollapse: "collapse", marginBottom: 8 },
+  table: { width: "100%", borderCollapse: "collapse" },
   th: {
     textAlign: "left",
     fontSize: 10.5,
@@ -253,7 +253,7 @@ const S = {
     display: "flex",
     gap: 40,
     margin: "0 36px",
-    paddingTop: 20,
+    paddingTop: 24,
     paddingBottom: 32,
     borderTop: "1px solid #e3e6ea",
   },

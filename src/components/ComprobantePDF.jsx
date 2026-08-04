@@ -57,6 +57,11 @@ export default function ComprobantePDF({ pago, cargo, alumno, capturaPDF = false
     <div style={S.root}>
       <style>{CSS}</style>
 
+      {/* Barra de acento al canto de la hoja: es lo único que queda del bloque
+          oscuro anterior. Sostiene el color de marca gastando una franja de
+          5px en vez del 11.9% de la superficie. */}
+      <div style={S.accento} />
+
       {/* ── Header ── */}
       <div style={S.header}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
@@ -69,7 +74,7 @@ export default function ComprobantePDF({ pago, cargo, alumno, capturaPDF = false
             className="cp-wordmark"
             style={capturaPDF ? { transform: "translateY(-10.5px)" } : undefined}
           >
-            Facto<span ref={mathRef} style={{ color: "#80c6ff" }}>{katexReady ? "" : "ℝ[i]"}</span>zando
+            Facto<span ref={mathRef} style={{ color: "#3b9eff" }}>{katexReady ? "" : "ℝ[i]"}</span>zando
           </span>
         </div>
         <div style={{ flex: 1 }} />
@@ -193,17 +198,18 @@ const S = {
     borderRadius: 14,
     overflow: "hidden",
   },
-  // El margen va en los cuatro lados: antes era "0 14px" y la caja oscura
-  // quedaba pegada al borde superior mientras respiraba a los costados.
+  accento: { height: 5, background: "#3b9eff" },
+  // Membrete sobre blanco. El bloque oscuro anterior escondía el logo: su
+  // relleno es #1a1a1a y sobre el #16181f del encabezado daba 1.02:1 de
+  // contraste (invisible, solo se veía su filo claro). Sobre blanco da 17.4:1.
+  // Va a sangre, sin margen ni esquinas propias, para leerse como membrete y no
+  // como una tarjeta metida dentro de la hoja.
   header: {
-    background: "#16181f",
-    padding: "16px 36px",
+    padding: "26px 36px 22px",
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    margin: 14,
-    borderRadius: 10,
-    border: "1px solid #252830",
+    borderBottom: "1px solid #e3e6ea",
   },
   eyebrow: {
     fontSize: 11,
@@ -213,12 +219,14 @@ const S = {
     fontWeight: 700,
     margin: "0 0 4px",
   },
+  // Baja de 20px a 17 y de blanco a gris: es dato de referencia y competía con
+  // el total, que es lo que debe ganar en una factura.
   folio: {
     fontFamily: "'DM Sans', sans-serif",
-    fontSize: 20,
+    fontSize: 17,
     fontWeight: 700,
     margin: 0,
-    color: "#e8eaf0",
+    color: "#4b5563",
   },
   body: { padding: "32px 36px" },
   metaRow: {
@@ -371,7 +379,7 @@ const CSS = `
     font-weight: 700;
     font-size: 19px;
     line-height: 1;
-    color: #e8e8e8;
+    color: #1a1c1f;
     letter-spacing: .01em;
     margin-top: 2.25px;
   }

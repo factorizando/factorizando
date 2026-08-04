@@ -77,7 +77,10 @@ export default function ComprobantePDF({ pago, cargo, alumno }) {
             <p style={S.metaLabel}>Estudiante</p>
             <p style={S.metaValue}>{nombreAlumno}</p>
           </div>
-          <div style={S.metaItem}>
+          {/* Centrada: con tres columnas iguales el eje de ésta coincide con el
+              eje central del recibo, así que la fila queda izquierda / centro /
+              derecha en vez de con la del medio a la deriva. */}
+          <div style={{ ...S.metaItem, textAlign: "center" }}>
             <p style={S.metaLabel}>Fecha de emisión</p>
             <p style={S.metaValue}>{fmtFecha(pago?.fecha_pago)}</p>
           </div>

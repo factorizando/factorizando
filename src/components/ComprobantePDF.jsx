@@ -136,12 +136,20 @@ export default function ComprobantePDF({
               </tr>
             </thead>
             <tbody>
-              {partidas.map((p, i) => (
-                <tr key={i}>
-                  <td style={{ ...S.td, fontWeight: 600 }}>{p.concepto}</td>
-                  <td style={{ ...S.td, ...S.partidaMonto }}>{fmtMoney(p.monto)}</td>
-                </tr>
-              ))}
+              {/* La regla va entre partidas, no bajo la última: el cierre del
+                  bloque lo pone el borde inferior del área, ya pegado a los
+                  totales. Con la línea bajo la última fila quedaba colgada a
+                  media altura del espacio reservado. */}
+              {partidas.map((p, i) => {
+                const ultima = i === partidas.length - 1;
+                const celda = ultima ? { ...S.td, borderBottom: "none" } : S.td;
+                return (
+                  <tr key={i}>
+                    <td style={{ ...celda, fontWeight: 600 }}>{p.concepto}</td>
+                    <td style={{ ...celda, ...S.partidaMonto }}>{fmtMoney(p.monto)}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
@@ -263,7 +271,7 @@ const S = {
   body: { padding: "32px 36px", flex: 1, display: "flex", flexDirection: "column" },
   // Alto reservado para las partidas: con un solo concepto la fila mide ~73px y
   // el bloque quedaba raquítico para lo que es la sección principal del documento.
-  partidasArea: { minHeight: 300 },
+  partidasArea: { minHeight: 300, borderBottom: "1px solid #e3e6ea" },
   metaRow: {
     display: "flex",
     justifyContent: "space-between",

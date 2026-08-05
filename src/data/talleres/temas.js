@@ -29,9 +29,18 @@ export const TEMAS = [
   { id: "valor-posicional", label: "Valor posicional y redondeo", materia: "Matemáticas", area: "Números y operaciones",
     alias: ["decenas", "centenas", "unidades de millar", "redondear", "sucesor", "antecesor", "comparar números", "mayor que"] },
   { id: "multiplos-divisores", label: "Múltiplos y divisores", materia: "Matemáticas", area: "Números y operaciones",
-    alias: ["par", "impar", "mcm", "mcd", "mínimo común múltiplo", "máximo común divisor"] },
+    alias: ["par", "impar", "pares", "impares", "números pares", "números impares", "paridad",
+            "mcm", "mcd", "mínimo común múltiplo", "máximo común divisor"] },
   { id: "potencias-raices", label: "Potencias y raíces", materia: "Matemáticas", area: "Números y operaciones",
     alias: ["cuadrado", "al cuadrado", "raíz cuadrada", "exponente"] },
+  { id: "potencias-diez", label: "Multiplicar por 10, 100 y 1 000", materia: "Matemáticas", area: "Números y operaciones",
+    alias: ["potencias de diez", "por diez", "por cien", "agregar ceros", "ceros"] },
+  { id: "distributiva", label: "Propiedad distributiva", materia: "Matemáticas", area: "Números y operaciones",
+    alias: ["descomponer", "modelo de área", "caja", "rejilla", "romper el número"] },
+  { id: "calculo-mental", label: "Cálculo mental y atajos", materia: "Matemáticas", area: "Números y operaciones",
+    alias: ["trucos", "atajos", "tips", "tip", "mentalmente", "de cabeza", "sin lápiz", "sin algoritmo"] },
+  { id: "estimacion", label: "Estimación y cálculo aproximado", materia: "Matemáticas", area: "Números y operaciones",
+    alias: ["estimar", "aproximar", "al tanteo", "razonable", "descartar", "revisar el resultado", "orden de magnitud"] },
 
   { id: "division-reparto", label: "División como reparto", materia: "Matemáticas", area: "División",
     alias: ["repartir", "partes iguales", "dividir", "reparto"] },
@@ -143,8 +152,10 @@ export function variantesConsulta(consulta) {
   const n = normalizar(consulta);
   if (!n) return [];
   const v = [n];
-  if (n.length > 4 && n.endsWith("es")) v.push(n.slice(0, -2));
-  else if (n.length > 3 && n.endsWith("s")) v.push(n.slice(0, -1));
+  const raiz = n.endsWith("es") ? n.slice(0, -2) : n.endsWith("s") ? n.slice(0, -1) : null;
+  // La raíz solo se usa si sigue siendo una palabra: "par" (de "pares") pega
+  // dentro de repARto y comPARar, y "tip" (de "tips") dentro de mulTIPlicación.
+  if (raiz && raiz.length >= 4) v.push(raiz);
   return v;
 }
 

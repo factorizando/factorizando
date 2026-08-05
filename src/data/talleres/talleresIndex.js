@@ -9,11 +9,13 @@
 // el modo "react" es el destino cuando el taller ya se ganó el portado.
 import { TEMAS_POR_ID, normalizar, coincide } from "./temas.js";
 import { TALLER as DIVISIONES } from "./matematicas/divisiones.js";
+import { TALLER as PRODUCTO } from "./matematicas/producto.js";
 import { TALLER as COMPRENSION } from "./espanol/comprension-lectora.js";
 import { TALLER as CARRERA_MATE } from "./juegos/carrera-autos-matematicas.js";
 import { TALLER as CARRERA_ESP } from "./juegos/carrera-autos-espanol.js";
 
 export const TALLERES_INDEX = {
+  [PRODUCTO.id]: PRODUCTO,
   [DIVISIONES.id]: DIVISIONES,
   [CARRERA_MATE.id]: CARRERA_MATE,
   [COMPRENSION.id]: COMPRENSION,

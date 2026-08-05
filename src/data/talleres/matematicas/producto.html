@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taller del Producto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ocean-deep:#0b3d5c; --ocean-mid:#146b93; --island-green:#2d9c64;
+    --sand:#f4e4c1; --coral:#ff6b4a; --sun:#ffc93c; --violet:#8b6bd8; --teal:#2ec4c6;
+    --ink:#0c2b3a; --white:#fdfaf1;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{font-family:'Nunito',sans-serif;background:radial-gradient(ellipse at top, var(--ocean-mid) 0%, var(--ocean-deep) 65%);
+    color:var(--white);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:18px;}
+  h1,h2,h3,.display{font-family:'Baloo 2', sans-serif;}
+  .wrap{width:100%;max-width:900px;}
+  header{text-align:center;margin-bottom:14px;}
+  header h1{font-size:clamp(25px,4.2vw,40px);margin:0 0 4px 0;text-shadow:0 3px 0 rgba(0,0,0,0.25);}
+  header p{margin:0;opacity:0.85;font-weight:700;font-size:clamp(13px,1.6vw,16px);}
+
+  .card{background:rgba(253,250,241,0.08);border:2px solid rgba(253,250,241,0.18);border-radius:22px;padding:24px;}
+  .btn{font-family:'Baloo 2';font-weight:700;font-size:18px;border:none;border-radius:16px;padding:14px 26px;cursor:pointer;
+    color:var(--ink);background:var(--sun);box-shadow:0 5px 0 rgba(0,0,0,0.25);transition:transform .08s ease;}
+  .btn:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(0,0,0,0.25);}
+  .btn.secondary{background:var(--teal);}
+  .btn.ghost{background:transparent;color:var(--white);border:2px solid rgba(253,250,241,0.4);box-shadow:none;}
+  .btn.small{font-size:15px;padding:10px 18px;}
+  .btn:disabled{opacity:0.4;cursor:not-allowed;}
+  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:center;}
+  .hint{font-size:13px;opacity:0.78;margin-top:10px;line-height:1.5;}
+  .toggle-opt.selected{background:var(--sun);color:var(--ink);}
+
+  .act-grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-top:16px;}
+  .act-tile{background:rgba(0,0,0,0.22);border:2px solid rgba(253,250,241,0.15);border-radius:18px;padding:18px;cursor:pointer;
+    text-align:left;color:var(--white);font-family:'Nunito';transition:transform .1s ease, border-color .1s ease;}
+  .act-tile:hover{transform:translateY(-3px);border-color:var(--sun);}
+  .act-tile .emoji{font-size:30px;display:block;margin-bottom:6px;}
+  .act-tile strong{font-family:'Baloo 2';font-size:19px;display:block;margin-bottom:4px;}
+  .act-tile span.desc{font-size:13px;opacity:0.8;line-height:1.4;}
+
+  #activity{display:none;}
+  .topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap;}
+  .pill{background:rgba(0,0,0,0.28);border-radius:20px;padding:8px 16px;font-family:'Baloo 2';font-weight:700;font-size:14px;}
+
+  .prompt{background:var(--sand);color:var(--ink);border-radius:18px;padding:18px 20px;text-align:center;
+    font-family:'Baloo 2';font-size:clamp(19px,3vw,26px);font-weight:700;margin-bottom:16px;line-height:1.35;}
+  .prompt small{display:block;font-family:'Nunito';font-size:13px;font-weight:700;opacity:0.7;margin-top:6px;}
+
+  .feedback{min-height:26px;text-align:center;font-weight:800;font-size:15px;margin-top:14px;line-height:1.5;}
+  .feedback.good{color:#8ff0bd;}
+  .feedback.bad{color:#ffb3a1;}
+  .actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:14px;}
+
+  /* --- opciones --- */
+  .opciones{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
+  .op{font-family:'Baloo 2';font-size:24px;font-weight:700;background:var(--white);color:var(--ink);
+    border:3px solid rgba(11,61,92,0.15);border-radius:16px;padding:14px 26px;cursor:pointer;min-width:96px;
+    transition:transform .08s ease, border-color .1s ease;}
+  .op:hover:not(:disabled){transform:translateY(-2px);border-color:var(--teal);}
+  .op.bien{background:var(--island-green);color:var(--white);border-color:var(--island-green);}
+  .op.mal{background:var(--coral);color:var(--white);border-color:var(--coral);}
+  .op.chica{font-size:19px;padding:10px 16px;min-width:72px;}
+
+  /* --- pares e impares --- */
+  .puntos{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;background:rgba(0,0,0,0.2);
+    border-radius:16px;padding:18px;min-height:90px;align-items:center;}
+  .punto{width:24px;height:24px;border-radius:50%;background:var(--teal);border:2px solid var(--ink);}
+  .pareja{display:flex;gap:4px;background:rgba(46,196,198,0.18);border:2px solid var(--teal);
+    border-radius:22px;padding:5px 7px;}
+  .pareja.sola{background:rgba(255,107,74,0.2);border-color:var(--coral);border-style:dashed;}
+  .pareja.sola .punto{background:var(--coral);}
+
+  /* --- malla de múltiplos --- */
+  .malla{display:grid;grid-template-columns:repeat(10,1fr);gap:5px;max-width:520px;margin:0 auto;}
+  .celda{aspect-ratio:1;display:grid;place-items:center;border-radius:8px;background:rgba(253,250,241,0.12);
+    border:2px solid transparent;font-weight:800;font-size:clamp(11px,2.2vw,15px);cursor:pointer;user-select:none;
+    color:var(--white);transition:background .1s ease;}
+  .celda:hover{background:rgba(253,250,241,0.24);}
+  .celda.sel{background:var(--sun);color:var(--ink);}
+  .celda.acierto{background:var(--island-green);color:var(--white);border-color:var(--island-green);}
+  .celda.sobra{background:var(--coral);color:var(--white);}
+  .celda.falta{border-color:var(--sun);border-style:dashed;}
+
+  /* --- tablero posicional (×10) --- */
+  .tablero{display:flex;gap:8px;justify-content:center;margin:6px 0 14px;}
+  .col{display:flex;flex-direction:column;align-items:center;gap:6px;}
+  .col .titulo{font-size:11px;font-weight:800;opacity:.7;letter-spacing:.04em;}
+  .casilla{width:clamp(38px,9vw,54px);height:clamp(48px,11vw,64px);border-radius:12px;background:rgba(0,0,0,0.24);
+    border:2px solid rgba(253,250,241,0.25);display:grid;place-items:center;
+    font-family:'Baloo 2';font-weight:800;font-size:clamp(22px,5vw,30px);}
+  .casilla.llena{background:var(--white);color:var(--ink);border-color:var(--white);}
+  .casilla.nueva{background:var(--sun);color:var(--ink);border-color:var(--sun);}
+  .marcador-num{text-align:center;font-family:'Baloo 2';font-size:clamp(20px,4vw,28px);font-weight:800;margin-bottom:10px;}
+  .marcador-num .meta{color:var(--sun);}
+
+  /* --- caja / modelo de área --- */
+  .caja{display:grid;gap:6px;justify-content:center;margin:0 auto;}
+  .caja .encab{display:grid;place-items:center;font-family:'Baloo 2';font-weight:800;font-size:18px;
+    background:rgba(0,0,0,0.24);border-radius:10px;padding:8px 4px;}
+  .celdaProd{background:rgba(253,250,241,0.12);border:2px dashed rgba(253,250,241,0.4);border-radius:12px;
+    min-height:64px;display:grid;place-items:center;cursor:pointer;font-family:'Baloo 2';font-weight:800;
+    font-size:clamp(18px,3.5vw,24px);padding:6px;}
+  .celdaProd .chica{display:block;font-family:'Nunito';font-size:11px;font-weight:700;opacity:.65;}
+  .celdaProd.activa{border-color:var(--sun);border-style:solid;background:rgba(255,201,60,0.16);}
+  .celdaProd.lista{border-style:solid;border-color:var(--island-green);background:rgba(45,156,100,0.2);}
+  .barras{display:flex;gap:8px;justify-content:center;margin:12px 0 4px;flex-wrap:wrap;}
+  .trozo{border-radius:12px;padding:12px 10px;text-align:center;font-family:'Baloo 2';font-weight:800;
+    border:2px solid var(--ink);color:var(--ink);}
+  .trozo small{display:block;font-family:'Nunito';font-size:11px;opacity:.75;}
+  .suma{text-align:center;font-family:'Baloo 2';font-size:clamp(20px,4vw,26px);font-weight:800;margin-top:12px;}
+
+  /* --- pasos / recetas --- */
+  .receta{background:rgba(0,0,0,0.24);border-left:5px solid var(--sun);border-radius:12px;padding:14px 16px;margin-bottom:14px;}
+  .receta b{color:var(--sun);}
+  .receta ol{margin:8px 0 0;padding-left:20px;}
+  .receta li{margin-bottom:4px;font-size:14.5px;line-height:1.45;}
+  .pasos{background:rgba(0,0,0,0.2);border-radius:12px;padding:12px 16px;margin-top:12px;text-align:left;
+    font-size:14.5px;line-height:1.6;}
+  .pasos code{font-family:'Baloo 2';font-size:17px;color:var(--sun);}
+
+  .progreso{margin-top:22px;}
+  .progreso summary{cursor:pointer;font-family:'Baloo 2';font-weight:700;font-size:15px;padding:6px 0;}
+  .prog-entry{background:rgba(0,0,0,0.2);border-radius:12px;padding:9px 13px;margin-top:7px;font-size:13.5px;
+    display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+  footer{opacity:0.55;font-size:12px;margin-top:20px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🧮 Taller del Producto</h1>
+    <p id="headerSub">Multiplicar entendiendo, no repitiendo la cuenta</p>
+  </header>
+
+  <!-- ===== SETUP ===== -->
+  <div class="card" id="setup">
+    <h3 class="display" style="margin-top:0;">¿Con qué grupo vas a trabajar?</h3>
+    <div class="row" id="edadToggle">
+      <button class="btn toggle-opt selected" data-val="8-9">🧒 8 y 9 años</button>
+      <button class="btn ghost toggle-opt" data-val="10-12">🧑 10 a 12 años</button>
+    </div>
+    <p class="hint" id="edadHint"></p>
+
+    <h3 class="display">Elige la actividad</h3>
+    <div class="act-grid" id="actGrid"></div>
+  </div>
+
+  <!-- ===== ACTIVIDAD ===== -->
+  <div id="activity">
+    <div class="topbar">
+      <div class="pill" id="actName">Actividad</div>
+      <div class="pill" id="scorePill">✅ 0 · ❌ 0</div>
+    </div>
+
+    <div class="prompt" id="prompt"></div>
+    <div id="stage"></div>
+    <div class="feedback" id="feedback"></div>
+    <div class="actions">
+      <button class="btn secondary" id="checkBtn">Revisar</button>
+      <button class="btn" id="nextBtn" style="display:none;">Siguiente ▶️</button>
+      <button class="btn ghost small" id="backBtn">← Cambiar actividad</button>
+    </div>
+
+    <details class="progreso">
+      <summary>📊 Progreso guardado</summary>
+      <div id="progList"></div>
+    </details>
+  </div>
+
+  <footer>El progreso se guarda en el expediente del alumno.</footer>
+</div>
+
+<script>
+/* =========================================================
+   PUENTE CON LA APP (TallerRunner.jsx)
+   El taller corre dentro de un <iframe srcDoc>. No tiene acceso
+   al cliente de Supabase, así que pide al padre que guarde/lea
+   por postMessage. Si no hay padre (abierto suelto), degrada a
+   modo sin persistencia en vez de fallar.
+   ========================================================= */
+const host = (function(){
+  let seq = 0;
+  const pendientes = new Map();
+
+  window.addEventListener('message', (e) => {
+    const m = e.data;
+    if (!m || m.source !== 'taller-host' || !pendientes.has(m.rid)) return;
+    const { resolve, reject } = pendientes.get(m.rid);
+    pendientes.delete(m.rid);
+    if (m.error) reject(new Error(m.error)); else resolve(m.payload);
+  });
+
+  function call(tipo, payload){
+    if (window.parent === window) return Promise.reject(new Error('sin host'));
+    const rid = ++seq;
+    return new Promise((resolve, reject) => {
+      pendientes.set(rid, {resolve, reject});
+      window.parent.postMessage({source:'taller', rid, tipo, payload}, '*');
+      setTimeout(() => {
+        if (pendientes.has(rid)) { pendientes.delete(rid); reject(new Error('timeout')); }
+      }, 8000);
+    });
+  }
+
+  return {
+    guardarSesion: (s) => call('guardar', s),
+    cargarSesiones: ()  => call('cargar'),
+  };
+})();
+
+let edad = '8-9';
+let currentAct = null;
+let score = {ok:0, bad:0};
+let state = {};
+
+const ACTIVIDADES = {
+  '8-9': [
+    {id:'pares',    emoji:'👣', nombre:'Parejas: par o impar', desc:'Forma parejas y descubre si sobra uno. Después, adivina si un producto será par sin multiplicarlo.'},
+    {id:'multiplos',emoji:'🎯', nombre:'Cazador de múltiplos', desc:'Marca en la malla todos los múltiplos de un número y mira el patrón que se dibuja.'},
+    {id:'ceros',    emoji:'🔟', nombre:'La máquina del ×10',   desc:'Cada ×10 corre las cifras un lugar. Llega al número que te piden a puros multiplicadores.'}
+  ],
+  '10-12': [
+    {id:'descompon',emoji:'🧩', nombre:'Rompe el número',      desc:'23 × 4 es 20 × 4 más 3 × 4. Arma el producto por partes, sin la cuenta de siempre.'},
+    {id:'caja',     emoji:'🗃️', nombre:'La caja de multiplicar', desc:'Dos cifras por dos cifras en cuatro casillas. El método de la caja, paso a paso.'},
+    {id:'trucos',   emoji:'⚡', nombre:'Atajos del producto',   desc:'×5, ×9, ×11, dobles, terminados en 5 y compensar. Una receta por ronda, y a usarla.'},
+    {id:'descarta', emoji:'🕵️', nombre:'Descarta sin calcular', desc:'Tres resultados son imposibles. Encuéntralos con paridad, última cifra y tamaño.'}
+  ]
+};
+
+const HINTS = {
+  '8-9':  'De 8 a 9 años el producto se construye antes de calcularse: pares e impares, múltiplos y qué le pasa a un número cuando lo multiplicas por 10.',
+  '10-12':'De 10 a 12 años se multiplica sin la cuenta de siempre: se rompe el número, se usa la caja y se aplican atajos que se pueden hacer de cabeza.'
+};
+
+/* ---------- utilidades ---------- */
+function randInt(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
+function elegir(arr){ return arr[randInt(0,arr.length-1)]; }
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){ const j = randInt(0,i); const t=a[i]; a[i]=a[j]; a[j]=t; }
+  return a;
+}
+function fmt(n){ return n.toLocaleString('es-MX'); }
+const el = id => document.getElementById(id);
+
+// Opciones numéricas cercanas: si están lejos se contesta por descarte.
+function opciones(resp, spread, cuantas){
+  const total = cuantas || 4;
+  const s = new Set([resp]);
+  let t = 0;
+  while(s.size < total && t < 300){
+    t++;
+    const v = resp + randInt(1,spread)*(Math.random()<0.5?-1:1);
+    if(v > 0 && v !== resp) s.add(v);
+  }
+  let extra = 1;
+  while(s.size < total) s.add(resp + spread + extra++);
+  return shuffle([...s]);
+}
+
+// Bolsa sin reemplazo: un truco repetido dos rondas seguidas aburre.
+const bolsas = {};
+function tomar(clave, arr){
+  if(!bolsas[clave] || bolsas[clave].length === 0) bolsas[clave] = shuffle(arr.map((_,i)=>i));
+  return arr[bolsas[clave].pop()];
+}
+
+/* ---------- pantalla de inicio ---------- */
+document.querySelectorAll('.toggle-opt').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    edad = b.dataset.val;
+    document.querySelectorAll('.toggle-opt').forEach(x=>{ x.classList.remove('selected'); x.classList.add('ghost'); });
+    b.classList.add('selected'); b.classList.remove('ghost');
+    el('edadHint').textContent = HINTS[edad];
+    renderActGrid();
+  });
+});
+
+function renderActGrid(){
+  const grid = el('actGrid');
+  grid.innerHTML = '';
+  ACTIVIDADES[edad].forEach(a=>{
+    const tile = document.createElement('button');
+    tile.className = 'act-tile';
+    tile.innerHTML = '<span class="emoji">' + a.emoji + '</span><strong>' + a.nombre + '</strong>' +
+                     '<span class="desc">' + a.desc + '</span>';
+    tile.addEventListener('click', ()=>startActivity(a));
+    grid.appendChild(tile);
+  });
+}
+el('edadHint').textContent = HINTS[edad];
+renderActGrid();
+
+function startActivity(a){
+  currentAct = a;
+  score = {ok:0, bad:0};
+  el('setup').style.display = 'none';
+  el('activity').style.display = 'block';
+  el('actName').textContent = a.emoji + ' ' + a.nombre + ' · ' + edad + ' años';
+  updateScore();
+  loadProgreso();
+  nextRound();
+}
+
+el('backBtn').addEventListener('click', async ()=>{
+  await saveProgreso();
+  el('activity').style.display = 'none';
+  el('setup').style.display = 'block';
+});
+
+// Si se cierra la pestaña a media sesión, no perder el avance.
+window.addEventListener('pagehide', ()=>{ saveProgreso(); });
+
+function updateScore(){ el('scorePill').textContent = '✅ ' + score.ok + ' · ❌ ' + score.bad; }
+function setFeedback(msg, good){
+  const f = el('feedback');
+  f.innerHTML = msg;
+  f.className = 'feedback ' + (good === undefined ? '' : good ? 'good' : 'bad');
+}
+function endRound(good, msg){
+  if(good) score.ok++; else score.bad++;
+  updateScore();
+  setFeedback(msg, good);
+  el('checkBtn').style.display = 'none';
+  el('nextBtn').style.display = 'inline-block';
+}
+
+el('nextBtn').addEventListener('click', nextRound);
+el('checkBtn').addEventListener('click', ()=>{ if(state.check) state.check(); });
+
+// Las declaraciones de función se izan, así que el mapa puede nombrarlas
+// antes de que aparezcan más abajo.
+const RONDAS = {
+  pares:     roundPares,
+  multiplos: roundMultiplos,
+  ceros:     roundCeros,
+  descompon: roundDescompon,
+  caja:      roundCaja,
+  trucos:    roundTrucos,
+  descarta:  roundDescarta,
+};
+
+function nextRound(){
+  setFeedback('');
+  el('nextBtn').style.display = 'none';
+  el('checkBtn').style.display = 'inline-block';
+  el('stage').innerHTML = '';
+  state = {};
+  const ronda = RONDAS[currentAct.id];
+  if(ronda) ronda();
+}
+
+// Actividades que se contestan tocando una opción: el botón "Revisar" estorba.
+function sinRevisar(){ el('checkBtn').style.display = 'none'; }
+
+/* =========================================================
+   ACTIVIDAD 1 (8-9): PAREJAS — PAR O IMPAR
+   Dos formas de la misma idea: contar de dos en dos y, después,
+   deducir la paridad de un producto sin calcularlo.
+   ========================================================= */
+function roundPares(){
+  sinRevisar();
+  const modo = Math.random() < 0.55 ? 'numero' : 'producto';
+  if(modo === 'numero') rondaParesNumero(); else rondaParesProducto();
+}
+
+function rondaParesNumero(){
+  const n = randInt(7, 26);
+  state = {n};
+
+  el('prompt').innerHTML = '¿El número <b>' + n + '</b> es par o impar?' +
+    '<small>Míralo formando parejas: si no sobra ninguno, es par.</small>';
+
+  let puntos = '';
+  for(let i = 0; i < n; i++) puntos += '<span class="punto"></span>';
+  el('stage').innerHTML =
+    '<div class="puntos" id="puntos">' + puntos + '</div>' +
+    '<div class="opciones" style="margin-top:16px;">' +
+      '<button class="op" data-v="par">Par</button>' +
+      '<button class="op" data-v="impar">Impar</button>' +
+    '</div>';
+
+  el('stage').querySelectorAll('.op').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const esPar = n % 2 === 0;
+      const bien = (b.dataset.v === 'par') === esPar;
+      el('stage').querySelectorAll('.op').forEach(x=>{
+        x.disabled = true;
+        if((x.dataset.v === 'par') === esPar) x.classList.add('bien');
+      });
+      if(!bien) b.classList.add('mal');
+      dibujarParejas(n);
+      const mitad = Math.floor(n/2);
+      endRound(bien, esPar
+        ? '✅ ' + n + ' es <b>par</b>: se forman ' + mitad + ' parejas y no sobra nadie. ' + n + ' = 2 × ' + mitad + '.'
+        : '❌ ' + n + ' es <b>impar</b>: se forman ' + mitad + ' parejas y sobra uno. ' + n + ' = 2 × ' + mitad + ' + 1.');
+    });
+  });
+}
+
+function dibujarParejas(n){
+  let html = '';
+  for(let i = 0; i + 1 < n; i += 2){
+    html += '<span class="pareja"><span class="punto"></span><span class="punto"></span></span>';
+  }
+  if(n % 2 === 1) html += '<span class="pareja sola"><span class="punto"></span></span>';
+  el('puntos').innerHTML = html;
+}
+
+function rondaParesProducto(){
+  // Al menos un caso de cada tipo aparece seguido: se alterna el "molde".
+  const molde = elegir(['par-par', 'par-impar', 'impar-impar']);
+  const parRnd   = () => randInt(2, 12) * 2;
+  const imparRnd = () => randInt(1, 12) * 2 + 1;
+  const a = molde === 'impar-impar' ? imparRnd() : parRnd();
+  const b = molde === 'par-par' ? parRnd() : imparRnd();
+  const esPar = (a * b) % 2 === 0;
+
+  el('prompt').innerHTML = 'Sin multiplicar: ¿el resultado de <b>' + a + ' × ' + b + '</b> será par o impar?' +
+    '<small>Piensa en grupos: si uno de los dos números es par, puedes formar parejas con todo.</small>';
+
+  el('stage').innerHTML =
+    '<div class="opciones">' +
+      '<button class="op" data-v="par">Par</button>' +
+      '<button class="op" data-v="impar">Impar</button>' +
+    '</div>';
+
+  el('stage').querySelectorAll('.op').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const bien = (btn.dataset.v === 'par') === esPar;
+      el('stage').querySelectorAll('.op').forEach(x=>{
+        x.disabled = true;
+        if((x.dataset.v === 'par') === esPar) x.classList.add('bien');
+      });
+      if(!bien) btn.classList.add('mal');
+      const razon = esPar
+        ? (a % 2 === 0 && b % 2 === 0
+            ? 'Los dos factores son pares, así que el producto también.'
+            : 'Uno de los factores (' + (a % 2 === 0 ? a : b) + ') es par: al repetirlo siempre se pueden formar parejas.')
+        : 'Los dos factores son impares, y solo así el producto sale impar.';
+      endRound(bien, (bien ? '✅ ' : '❌ ') + a + ' × ' + b + ' = ' + fmt(a*b) + ', que es ' +
+        (esPar ? 'par' : 'impar') + '. ' + razon);
+    });
+  });
+}
+
+/* =========================================================
+   ACTIVIDAD 2 (8-9): CAZADOR DE MÚLTIPLOS
+   La malla del 60 en filas de 10: los múltiplos dibujan
+   columnas y diagonales, y ese patrón es la tabla.
+   ========================================================= */
+const MALLA_MAX = 60;
+
+function roundMultiplos(){
+  const n = elegir([2,3,4,5,6,7,8,9,10,11]);
+  const correctos = [];
+  for(let i = n; i <= MALLA_MAX; i += n) correctos.push(i);
+  state = {n, correctos, sel:new Set(), check:checkMultiplos};
+
+  el('prompt').innerHTML = 'Toca todos los múltiplos de <b>' + n + '</b> que veas en la malla.' +
+    '<small>Un múltiplo de ' + n + ' es lo que sale de multiplicar ' + n + ' por 1, por 2, por 3…</small>';
+
+  let celdas = '';
+  for(let i = 1; i <= MALLA_MAX; i++) celdas += '<div class="celda" data-n="' + i + '">' + i + '</div>';
+  el('stage').innerHTML = '<div class="malla" id="malla">' + celdas + '</div>' +
+    '<p class="hint" style="text-align:center;">Vuelve a tocar una casilla para quitarla.</p>';
+
+  el('malla').querySelectorAll('.celda').forEach(c=>{
+    c.addEventListener('click', ()=>{
+      if(state.acabado) return;
+      const v = +c.dataset.n;
+      if(state.sel.has(v)){ state.sel.delete(v); c.classList.remove('sel'); }
+      else { state.sel.add(v); c.classList.add('sel'); }
+      setFeedback('');
+    });
+  });
+}
+
+function checkMultiplos(){
+  const {n, correctos, sel} = state;
+  if(sel.size === 0){ setFeedback('Marca al menos una casilla.'); return; }
+  state.acabado = true;
+
+  let faltan = 0, sobran = 0;
+  el('malla').querySelectorAll('.celda').forEach(c=>{
+    const v = +c.dataset.n;
+    const esMult = v % n === 0;
+    c.classList.remove('sel');
+    if(esMult && sel.has(v)) c.classList.add('acierto');
+    else if(esMult){ c.classList.add('falta'); faltan++; }
+    else if(sel.has(v)){ c.classList.add('sobra'); sobran++; }
+  });
+
+  const bien = faltan === 0 && sobran === 0;
+  const tabla = correctos.slice(0, 6).map((v,i)=> n + '×' + (i+1) + '=' + v).join(' · ');
+  endRound(bien, (bien
+      ? '✅ ¡Completos! Son ' + correctos.length + ' múltiplos de ' + n + ' hasta ' + MALLA_MAX + '.'
+      : '❌ Te faltaron ' + faltan + ' y sobraron ' + sobran + '.') +
+    '<div class="pasos">Los múltiplos de ' + n + ' son la tabla del ' + n + ':<br><code>' + tabla + ' …</code></div>');
+}
+
+/* =========================================================
+   ACTIVIDAD 3 (8-9): LA MÁQUINA DEL ×10
+   No es "agregar un cero": cada ×10 corre las cifras un lugar
+   a la izquierda y el 0 solo llena el hueco de las unidades.
+   ========================================================= */
+// Seis columnas: el número más grande alcanzable es 99 × 1 000 y, si el alumno
+// se pasa un ×10, 990 000. Con menos columnas el tablero se desbordaría.
+const COLUMNAS = ['CM', 'DM', 'UM', 'C', 'D', 'U'];
+const NOMBRE_COL = {CM:'Centenas de millar', DM:'Decenas de millar', UM:'Unidades de millar',
+                    C:'Centenas', D:'Decenas', U:'Unidades'};
+
+function roundCeros(){
+  sinRevisar();
+  const base = elegir([randInt(2,9), randInt(12,99), randInt(12,99)]);
+  const pasos = randInt(1,3);
+  const meta = base * Math.pow(10, pasos);
+  state = {base, meta, actual: base, pasos, usados: 0};
+
+  el('prompt').innerHTML = 'Convierte <b>' + fmt(base) + '</b> en <b>' + fmt(meta) + '</b>.' +
+    '<small>Cada vez que aprietas ×10, todas las cifras se corren un lugar a la izquierda.</small>';
+
+  el('stage').innerHTML =
+    '<div class="marcador-num"><span id="numActual">' + fmt(base) + '</span> ' +
+      '<span style="opacity:.5;">→</span> <span class="meta">' + fmt(meta) + '</span></div>' +
+    '<div class="tablero" id="tablero"></div>' +
+    '<div class="row">' +
+      '<button class="btn" id="por10Btn">× 10</button>' +
+      '<button class="btn ghost small" id="undoBtn">↺ Empezar de nuevo</button>' +
+    '</div>';
+
+  el('por10Btn').addEventListener('click', ()=>{
+    if(state.acabado) return;
+    state.actual *= 10;
+    state.usados++;
+    dibujarTablero(true);
+    el('numActual').textContent = fmt(state.actual);
+    if(state.actual === state.meta){
+      state.acabado = true;
+      const ceros = state.usados === 1 ? 'un cero' : state.usados + ' ceros';
+      endRound(true, '✅ ' + fmt(base) + ' × ' + fmt(Math.pow(10, state.usados)) + ' = ' + fmt(meta) + '.' +
+        '<div class="pasos">Apretaste ×10 ' + state.usados + ' ' + (state.usados === 1 ? 'vez' : 'veces') +
+        ', así que cada cifra se corrió ' + state.usados + ' ' + (state.usados === 1 ? 'lugar' : 'lugares') +
+        ' a la izquierda. Los ' + ceros + ' del final solo llenan los huecos que quedaron en las unidades.</div>');
+    } else if(state.actual > state.meta){
+      state.acabado = true;
+      endRound(false, '❌ Te pasaste: llegaste a ' + fmt(state.actual) + ' y la meta era ' + fmt(meta) + '.' +
+        '<div class="pasos">De ' + fmt(base) + ' a ' + fmt(meta) + ' hay ' + state.pasos + ' ' +
+        (state.pasos === 1 ? 'salto' : 'saltos') + ' de ×10, o sea × ' + fmt(Math.pow(10, state.pasos)) + '.</div>');
+    }
+  });
+
+  el('undoBtn').addEventListener('click', ()=>{
+    if(state.acabado) return;
+    state.actual = state.base;
+    state.usados = 0;
+    dibujarTablero(false);
+    el('numActual').textContent = fmt(state.base);
+    setFeedback('');
+  });
+
+  dibujarTablero(false);
+}
+
+function dibujarTablero(resaltarNuevas){
+  const cifras = String(state.actual).padStart(COLUMNAS.length, ' ').split('');
+  const nuevas = state.usados;   // los últimos `usados` lugares son ceros recién llegados
+  let html = '';
+  cifras.forEach((c, i)=>{
+    const hueca = c === ' ';
+    const esNueva = resaltarNuevas && !hueca && i > COLUMNAS.length - 1 - nuevas;
+    html += '<div class="col">' +
+      '<span class="titulo" title="' + NOMBRE_COL[COLUMNAS[i]] + '">' + COLUMNAS[i] + '</span>' +
+      '<div class="casilla ' + (hueca ? '' : esNueva ? 'nueva' : 'llena') + '">' + (hueca ? '' : c) + '</div>' +
+    '</div>';
+  });
+  el('tablero').innerHTML = html;
+}
+
+/* =========================================================
+   ACTIVIDAD 4 (10-12): ROMPE EL NÚMERO
+   Distributiva con un factor de una cifra, que es la puerta
+   de entrada a la caja.
+   ========================================================= */
+function roundDescompon(){
+  sinRevisar();
+  let a = randInt(12, 49);
+  if(a % 10 === 0) a += 3;
+  const b = randInt(3, 9);
+  const dec = Math.floor(a/10)*10, uni = a % 10;
+
+  state = {a, b, dec, uni, paso: 0, fallos: 0};
+
+  el('prompt').innerHTML = 'Calcula <b>' + a + ' × ' + b + '</b> rompiendo el ' + a + '.' +
+    '<small>' + a + ' = ' + dec + ' + ' + uni + ', así que ' + a + ' × ' + b + ' = ' + dec + ' × ' + b + ' + ' + uni + ' × ' + b + '.</small>';
+
+  el('stage').innerHTML =
+    '<div class="barras">' +
+      '<div class="trozo" id="trozoA" style="background:#2ec4c6;min-width:130px;">' + dec + ' × ' + b + '<small>la parte grande</small></div>' +
+      '<div class="trozo" id="trozoB" style="background:#ffc93c;min-width:90px;">' + uni + ' × ' + b + '<small>la parte chica</small></div>' +
+    '</div>' +
+    '<div class="suma" id="preguntaPaso"></div>' +
+    '<div class="opciones" id="ops" style="margin-top:12px;"></div>';
+
+  pasoDescompon();
+}
+
+function pasoDescompon(){
+  const {a, b, dec, uni, paso} = state;
+  const parcial1 = dec * b, parcial2 = uni * b;
+  const preguntas = [
+    {texto: '¿Cuánto es ' + dec + ' × ' + b + '?', resp: parcial1, spread: Math.max(6, dec/2)},
+    {texto: '¿Cuánto es ' + uni + ' × ' + b + '?', resp: parcial2, spread: 6},
+    {texto: '¿Cuánto es ' + fmt(parcial1) + ' + ' + fmt(parcial2) + '?', resp: a*b, spread: 9},
+  ];
+  const q = preguntas[paso];
+  el('preguntaPaso').textContent = q.texto;
+
+  const caja = el('ops');
+  caja.innerHTML = '';
+  opciones(q.resp, Math.round(q.spread)).forEach(v=>{
+    const btn = document.createElement('button');
+    btn.className = 'op chica';
+    btn.textContent = fmt(v);
+    btn.addEventListener('click', ()=>{
+      if(state.acabado) return;
+      const bien = v === q.resp;
+      caja.querySelectorAll('.op').forEach(x=>{
+        x.disabled = true;
+        if(x.textContent === fmt(q.resp)) x.classList.add('bien');
+      });
+      if(!bien){ btn.classList.add('mal'); state.fallos++; }
+      if(paso === 0) el('trozoA').innerHTML = dec + ' × ' + b + '<small>= ' + fmt(parcial1) + '</small>';
+      if(paso === 1) el('trozoB').innerHTML = uni + ' × ' + b + '<small>= ' + fmt(parcial2) + '</small>';
+
+      if(paso < 2){
+        state.paso++;
+        setTimeout(pasoDescompon, 550);
+      } else {
+        state.acabado = true;
+        endRound(state.fallos === 0,
+          (state.fallos === 0 ? '✅ ' : '❌ ') + a + ' × ' + b + ' = ' + fmt(a*b) + '.' +
+          '<div class="pasos"><code>' + a + ' × ' + b + ' = (' + dec + ' + ' + uni + ') × ' + b +
+          ' = ' + fmt(parcial1) + ' + ' + fmt(parcial2) + ' = ' + fmt(a*b) + '</code><br>' +
+          'La parte grande sale sola: ' + (dec/10) + ' × ' + b + ' = ' + (dec/10*b) + ', y se le pega un cero.</div>');
+      }
+    });
+    caja.appendChild(btn);
+  });
+}
+
+/* =========================================================
+   ACTIVIDAD 5 (10-12): LA CAJA DE MULTIPLICAR
+   Dos cifras por dos cifras en cuatro productos parciales.
+   Es el algoritmo "de siempre" abierto: nada se lleva.
+   ========================================================= */
+function roundCaja(){
+  sinRevisar();
+  let a = randInt(12, 49), b = randInt(12, 39);
+  if(a % 10 === 0) a += 3;
+  if(b % 10 === 0) b += 4;
+  const aD = Math.floor(a/10)*10, aU = a % 10;
+  const bD = Math.floor(b/10)*10, bU = b % 10;
+  const celdas = [
+    {id:0, f1:aD, f2:bD}, {id:1, f1:aU, f2:bD},
+    {id:2, f1:aD, f2:bU}, {id:3, f1:aU, f2:bU},
+  ].map(c => ({...c, val: c.f1 * c.f2}));
+
+  state = {a, b, aD, aU, bD, bU, celdas, hechas:0, fallos:0};
+
+  el('prompt').innerHTML = 'Llena la caja para calcular <b>' + a + ' × ' + b + '</b>.' +
+    '<small>' + a + ' = ' + aD + ' + ' + aU + ' y ' + b + ' = ' + bD + ' + ' + bU + '. Cada casilla es un pedacito del producto.</small>';
+
+  el('stage').innerHTML =
+    '<div class="caja" style="grid-template-columns:64px 1fr 1fr;max-width:460px;">' +
+      '<div></div>' +
+      '<div class="encab">' + aD + '</div>' +
+      '<div class="encab">' + aU + '</div>' +
+      '<div class="encab">' + bD + '</div>' +
+      '<div class="celdaProd" data-c="0">?<span class="chica">' + aD + ' × ' + bD + '</span></div>' +
+      '<div class="celdaProd" data-c="1">?<span class="chica">' + aU + ' × ' + bD + '</span></div>' +
+      '<div class="encab">' + bU + '</div>' +
+      '<div class="celdaProd" data-c="2">?<span class="chica">' + aD + ' × ' + bU + '</span></div>' +
+      '<div class="celdaProd" data-c="3">?<span class="chica">' + aU + ' × ' + bU + '</span></div>' +
+    '</div>' +
+    '<div class="suma" id="preguntaCaja"></div>' +
+    '<div class="opciones" id="ops" style="margin-top:12px;"></div>';
+
+  pasoCaja();
+}
+
+function pasoCaja(){
+  const {celdas, hechas} = state;
+  el('stage').querySelectorAll('.celdaProd').forEach(c=>c.classList.remove('activa'));
+
+  if(hechas < 4){
+    const c = celdas[hechas];
+    const nodo = el('stage').querySelector('.celdaProd[data-c="' + c.id + '"]');
+    nodo.classList.add('activa');
+    el('preguntaCaja').textContent = '¿Cuánto es ' + c.f1 + ' × ' + c.f2 + '?';
+    pintarOpcionesCaja(c.val, Math.max(8, Math.round(c.val/6)), (bien)=>{
+      nodo.classList.remove('activa');
+      nodo.classList.add('lista');
+      nodo.innerHTML = fmt(c.val) + '<span class="chica">' + c.f1 + ' × ' + c.f2 + '</span>';
+      state.hechas++;
+      if(!bien) state.fallos++;
+      setTimeout(pasoCaja, 480);
+    });
+    return;
+  }
+
+  // Último paso: sumar los cuatro pedazos.
+  const total = state.a * state.b;
+  const suma = celdas.map(c => fmt(c.val)).join(' + ');
+  el('preguntaCaja').textContent = 'Ahora suma: ' + suma;
+  pintarOpcionesCaja(total, Math.max(12, Math.round(total/25)), (bien)=>{
+    if(!bien) state.fallos++;
+    state.acabado = true;
+    endRound(state.fallos === 0,
+      (state.fallos === 0 ? '✅ ' : '❌ ') + state.a + ' × ' + state.b + ' = ' + fmt(total) + '.' +
+      '<div class="pasos"><code>(' + state.aD + ' + ' + state.aU + ') × (' + state.bD + ' + ' + state.bU + ')</code><br>' +
+      suma + ' = <b>' + fmt(total) + '</b><br>' +
+      'La casilla grande (' + state.aD + ' × ' + state.bD + ') ya da el tamaño del resultado: por eso se puede estimar antes de terminar.</div>');
+  });
+}
+
+function pintarOpcionesCaja(resp, spread, alContestar){
+  const caja = el('ops');
+  caja.innerHTML = '';
+  opciones(resp, spread).forEach(v=>{
+    const btn = document.createElement('button');
+    btn.className = 'op chica';
+    btn.textContent = fmt(v);
+    btn.addEventListener('click', ()=>{
+      if(state.acabado) return;
+      const bien = v === resp;
+      caja.querySelectorAll('.op').forEach(x=>{
+        x.disabled = true;
+        if(x.textContent === fmt(resp)) x.classList.add('bien');
+      });
+      if(!bien) btn.classList.add('mal');
+      alContestar(bien);
+    });
+    caja.appendChild(btn);
+  });
+}
+
+/* =========================================================
+   ACTIVIDAD 6 (10-12): ATAJOS DEL PRODUCTO
+   Cada ronda enseña una receta y pide usarla. Son los atajos
+   que sirven de cabeza, no una segunda cuenta escrita.
+   ========================================================= */
+const TRUCOS = [
+  {
+    id:'por5', nombre:'Multiplicar por 5',
+    regla:'Multiplica por 10 y saca la mitad. Es más rápido que la tabla del 5.',
+    genera(){
+      const n = randInt(12, 98) * 2;   // par: la mitad sale exacta
+      return {a:n, b:5, resp:n*5, pasos:[n + ' × 10 = ' + fmt(n*10), 'la mitad de ' + fmt(n*10) + ' es ' + fmt(n*5)]};
+    }
+  },
+  {
+    id:'por9', nombre:'Multiplicar por 9',
+    regla:'Multiplica por 10 y quita una vez el número: 9 veces es 10 veces menos 1 vez.',
+    genera(){
+      const n = randInt(12, 99);
+      return {a:n, b:9, resp:n*9, pasos:[n + ' × 10 = ' + fmt(n*10), fmt(n*10) + ' − ' + n + ' = ' + fmt(n*9)]};
+    }
+  },
+  {
+    id:'por11', nombre:'Multiplicar por 11 (dos cifras)',
+    regla:'Separa las dos cifras y pon en medio su suma. Solo funciona directo si la suma es menor que 10.',
+    genera(){
+      let d, u;
+      do { d = randInt(1,8); u = randInt(1,8); } while (d + u > 9);
+      const n = d*10 + u;
+      return {a:n, b:11, resp:n*11,
+        pasos:['separa el ' + d + ' y el ' + u + ': ' + d + ' _ ' + u,
+               'en medio va ' + d + ' + ' + u + ' = ' + (d+u),
+               'queda ' + fmt(n*11)]};
+    }
+  },
+  {
+    id:'dobles', nombre:'Multiplicar por 4 y por 8',
+    regla:'Por 4 es doblar dos veces. Por 8 es doblar tres veces. Nunca hay que llevar nada.',
+    genera(){
+      let n = randInt(13, 89);
+      if(n % 10 === 0) n += 3;      // ×4 sobre un múltiplo de 10 no entrena nada
+      const b = elegir([4,8]);
+      const p = [n + ' × 2 = ' + fmt(n*2), fmt(n*2) + ' × 2 = ' + fmt(n*4)];
+      if(b === 8) p.push(fmt(n*4) + ' × 2 = ' + fmt(n*8));
+      return {a:n, b, resp:n*b, pasos:p};
+    }
+  },
+  {
+    id:'termina5', nombre:'Números que terminan en 5, al cuadrado',
+    regla:'Toma la cifra de las decenas, multiplícala por el número que le sigue y pégale 25 al final.',
+    genera(){
+      const d = randInt(2, 9);
+      const n = d*10 + 5;
+      return {a:n, b:n, resp:n*n,
+        pasos:[d + ' × ' + (d+1) + ' = ' + (d*(d+1)), 'le pegas 25: ' + fmt(n*n)]};
+    }
+  },
+  {
+    id:'compensa', nombre:'Redondear y compensar',
+    regla:'Sube el número feo a la decena de arriba, multiplica fácil y quita lo que subiste de más.',
+    genera(){
+      const n = elegir([19, 29, 39, 49, 18, 28, 48, 98]);
+      const b = randInt(3, 9);
+      const redondo = Math.ceil(n/10)*10;
+      const sobra = redondo - n;
+      return {a:n, b, resp:n*b,
+        pasos:[redondo + ' × ' + b + ' = ' + fmt(redondo*b),
+               'subiste ' + sobra + ' por cada uno de los ' + b + ': quita ' + sobra + ' × ' + b + ' = ' + (sobra*b),
+               fmt(redondo*b) + ' − ' + (sobra*b) + ' = ' + fmt(n*b)]};
+    }
+  },
+  {
+    id:'difcuadrados', nombre:'Los dos que rodean a un redondo',
+    regla:'Si los dos números están a la misma distancia de un número redondo, eleva el redondo al cuadrado y quita esa distancia al cuadrado.',
+    genera(){
+      const c = elegir([20, 30, 40, 50]);
+      const d = randInt(1, 3);
+      return {a:c-d, b:c+d, resp:(c-d)*(c+d),
+        pasos:[c + ' × ' + c + ' = ' + fmt(c*c),
+               'la distancia es ' + d + ': ' + d + ' × ' + d + ' = ' + (d*d),
+               fmt(c*c) + ' − ' + (d*d) + ' = ' + fmt((c-d)*(c+d))]};
+    }
+  },
+];
+
+function roundTrucos(){
+  sinRevisar();
+  const truco = tomar('trucos', TRUCOS);
+  const caso = truco.genera();
+  state = {truco, caso};
+
+  el('prompt').innerHTML = '¿Cuánto es <b>' + caso.a + ' × ' + caso.b + '</b>?' +
+    '<small>Usa el atajo de abajo. Hazlo de cabeza, sin escribir la cuenta.</small>';
+
+  el('stage').innerHTML =
+    '<div class="receta"><b>' + truco.nombre + '</b><br>' + truco.regla + '</div>' +
+    '<div class="opciones" id="ops"></div>';
+
+  const caja = el('ops');
+  // Distractores del tamaño del resultado: si son muy distintos, se adivina.
+  opciones(caso.resp, Math.max(9, Math.round(caso.resp/12))).forEach(v=>{
+    const btn = document.createElement('button');
+    btn.className = 'op chica';
+    btn.textContent = fmt(v);
+    btn.addEventListener('click', ()=>{
+      if(state.acabado) return;
+      state.acabado = true;
+      const bien = v === caso.resp;
+      caja.querySelectorAll('.op').forEach(x=>{
+        x.disabled = true;
+        if(x.textContent === fmt(caso.resp)) x.classList.add('bien');
+      });
+      if(!bien) btn.classList.add('mal');
+      endRound(bien, (bien ? '✅ ' : '❌ ') + caso.a + ' × ' + caso.b + ' = ' + fmt(caso.resp) + '.' +
+        '<div class="pasos"><b>' + truco.nombre + '</b><br>' +
+        caso.pasos.map((p,i)=>(i+1) + '. ' + p).join('<br>') + '</div>');
+    });
+    caja.appendChild(btn);
+  });
+}
+
+/* =========================================================
+   ACTIVIDAD 7 (10-12): DESCARTA SIN CALCULAR
+   Cierra el taller: paridad, última cifra y estimación puestas
+   a trabajar para revisar un resultado.
+   ========================================================= */
+function roundDescarta(){
+  sinRevisar();
+  let a = randInt(13, 49), b = randInt(12, 29);
+  if(a % 10 === 0) a += 3;
+  if(b % 10 === 0) b += 2;
+  const resp = a * b;
+
+  // Cada distractor falla por una razón distinta y explicable. El signo se
+  // sortea: si todos quedaran arriba, la respuesta sería siempre la más chica
+  // de las tres parecidas y se contestaría sin razonar nada.
+  const s1 = Math.random() < 0.5 ? 1 : -1;
+  const s2 = Math.random() < 0.5 ? 1 : -1;
+  const malParidad = resp + 3 * s1;             // ±3 siempre cambia la paridad
+  const ultima = resp % 10;
+  let malUltima = resp + 2 * s2;
+  while(malUltima % 10 === ultima || malUltima % 2 !== resp % 2 || malUltima === malParidad){
+    malUltima += 2 * s2;
+  }
+  const malTamano = Math.random() < 0.5 ? resp * 10 : Math.round(resp / 4);
+
+  const lista = shuffle([resp, malParidad, malUltima, malTamano]);
+  state = {a, b, resp, malParidad, malUltima, malTamano};
+
+  el('prompt').innerHTML = 'De estos cuatro, solo uno puede ser <b>' + a + ' × ' + b + '</b>. ¿Cuál?' +
+    '<small>No lo calcules completo: usa la paridad, la última cifra y el tamaño aproximado.</small>';
+
+  el('stage').innerHTML = '<div class="opciones" id="ops"></div>' +
+    '<div class="receta" style="margin-top:16px;"><b>Las tres preguntas</b>' +
+      '<ol><li>¿El resultado debe ser par o impar?</li>' +
+      '<li>¿En qué cifra tiene que terminar? (mira ' + (a%10) + ' × ' + (b%10) + ')</li>' +
+      '<li>¿De qué tamaño debe ser? (' + Math.round(a/10)*10 + ' × ' + Math.round(b/10)*10 + ' se le parece)</li></ol></div>';
+
+  const caja = el('ops');
+  lista.forEach(v=>{
+    const btn = document.createElement('button');
+    btn.className = 'op chica';
+    btn.textContent = fmt(v);
+    btn.addEventListener('click', ()=>{
+      if(state.acabado) return;
+      state.acabado = true;
+      const bien = v === resp;
+      caja.querySelectorAll('.op').forEach(x=>{
+        x.disabled = true;
+        if(x.textContent === fmt(resp)) x.classList.add('bien');
+      });
+      if(!bien) btn.classList.add('mal');
+      const aprox = Math.round(a/10)*10 * (Math.round(b/10)*10);
+      endRound(bien, (bien ? '✅ ' : '❌ ') + a + ' × ' + b + ' = ' + fmt(resp) + '.' +
+        '<div class="pasos">' +
+        '<b>' + fmt(malParidad) + '</b> se cae por paridad: ' + a + ' × ' + b + ' es ' +
+          (resp % 2 === 0 ? 'par' : 'impar') + '.<br>' +
+        '<b>' + fmt(malUltima) + '</b> se cae por la última cifra: ' + (a%10) + ' × ' + (b%10) + ' = ' +
+          ((a%10)*(b%10)) + ', así que tiene que terminar en ' + ultima + '.<br>' +
+        '<b>' + fmt(malTamano) + '</b> se cae por el tamaño: ' + Math.round(a/10)*10 + ' × ' +
+          Math.round(b/10)*10 + ' = ' + fmt(aprox) + ', y el resultado debe andar por ahí.</div>');
+    });
+    caja.appendChild(btn);
+  });
+}
+
+/* =========================================================
+   PROGRESO (vía el host → tabla taller_sesiones)
+   ========================================================= */
+async function saveProgreso(){
+  if(score.ok + score.bad === 0) return;
+  const entry = {actividad: currentAct.nombre, grupo: edad, aciertos: score.ok, errores: score.bad};
+  try{
+    await host.guardarSesion(entry);
+    score = {ok:0, bad:0};   // ya quedó registrada; no duplicar al salir
+  }catch(e){
+    console.warn('No se pudo guardar la sesión:', e.message);
+  }
+}
+
+async function loadProgreso(){
+  const box = el('progList');
+  box.innerHTML = '<p class="hint">Cargando…</p>';
+  try{
+    const list = await host.cargarSesiones();
+    if(!list || list.length === 0){ box.innerHTML = '<p class="hint">Aún no hay sesiones guardadas.</p>'; return; }
+    box.innerHTML = list.map(function(e){
+      const tot = e.aciertos + e.errores;
+      const pct = tot ? Math.round((e.aciertos/tot)*100) : 0;
+      return '<div class="prog-entry"><span>📅 ' + e.fecha + ' · ' + e.grupo + ' años · ' + e.actividad + '</span>' +
+        '<span>✅ ' + e.aciertos + ' ❌ ' + e.errores + ' — ' + pct + '% de acierto</span></div>';
+    }).join('');
+  }catch(e){
+    box.innerHTML = '<p class="hint">No se pudo cargar el progreso (' + e.message + ').</p>';
+  }
+}
+</script>
+</body>
+</html>

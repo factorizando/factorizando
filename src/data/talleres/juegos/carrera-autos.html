@@ -135,7 +135,7 @@
 <body>
 <div class="wrap">
   <header>
-    <h1>🏎️ Carrera de Autos</h1>
+    <h1 id="titulo">🏎️ Carrera de Autos</h1>
     <p id="subtitulo">Contesta bien y tu auto acelera. El primero en llegar a la meta gana.</p>
   </header>
 
@@ -148,7 +148,7 @@
     </div>
     <p class="hint" id="hintEdad" style="text-align:center;"></p>
 
-    <div class="label">Materia</div>
+    <div class="label" id="materiaLabel">Materia</div>
     <div class="row" id="materiaToggle">
       <button class="btn selected" data-materia="matematicas">🔢 Matemáticas</button>
       <button class="btn ghost" data-materia="espanol">📝 Español</button>
@@ -276,12 +276,26 @@ const COLORES = [
   {hex:'#a07bf0', oscuro:'#6a45c4', nombre:'Violeta'},
 ];
 const HINTS = {
-  '8-9':  'De 8 a 9 años: sumas y restas, tablas, series y problemas de un paso. Si el auto falla, igual avanza una casilla para que nadie se quede parado.',
-  '10-12':'De 10 a 12 años: multiplicación y división largas, fracciones, decimales, porcentajes y problemas de dos pasos.',
+  matematicas: {
+    '8-9':  'De 8 a 9 años: sumas y restas, tablas, series, reparto y problemas de un paso.',
+    '10-12':'De 10 a 12 años: multiplicación y división largas, fracciones, decimales, porcentajes, área y problemas de dos pasos.',
+  },
+  espanol: {
+    '8-9':  'De 8 a 9 años: ortografía, sinónimos y antónimos, sílabas, plurales, mayúsculas y clases de palabra.',
+    '10-12':'De 10 a 12 años: acentuación, homófonos, puntuación, conectores, sujeto, tiempos verbales y significado por contexto.',
+  },
 };
+// El auto no se apaga en el bloque menor: conviene decirlo antes de empezar.
+const NOTA_CONSUELO = ' Si el auto falla, igual avanza una casilla para que nadie se quede parado.';
+
+// Cada módulo de `juegos/` publica el taller con su materia ya puesta (ver
+// carrera-autos-matematicas.js). Abierto suelto, el marcador se queda sin
+// sustituir y la pantalla de inicio vuelve a preguntar la materia.
+const MATERIA_FIJA = '__MATERIA_FIJA__';
+const MATERIA_LIBRE = MATERIA_FIJA !== 'matematicas' && MATERIA_FIJA !== 'espanol';
 
 let edad = '8-9';
-let materia = 'matematicas';
+let materia = MATERIA_LIBRE ? 'matematicas' : MATERIA_FIJA;
 let meta = 18;
 let equipos = [];
 let turno = 0;
@@ -383,19 +397,34 @@ function pintarToggle(grupo, valor, attr){
     b.classList.toggle('ghost', !activo);
   });
 }
+function nombreMateria(){ return materia === 'matematicas' ? 'Matemáticas' : 'Español'; }
+function iconoMateria(){ return materia === 'matematicas' ? '🔢' : '📝'; }
+function pintarHint(){
+  el('hintEdad').textContent = HINTS[materia][edad] + (edad === '8-9' ? NOTA_CONSUELO : '');
+}
+
 el('edadToggle').addEventListener('click', e => {
   const b = e.target.closest('.btn'); if (!b) return;
-  edad = b.dataset.edad; pintarToggle('edadToggle', edad, 'edad'); el('hintEdad').textContent = HINTS[edad];
+  edad = b.dataset.edad; pintarToggle('edadToggle', edad, 'edad'); pintarHint();
 });
 el('materiaToggle').addEventListener('click', e => {
   const b = e.target.closest('.btn'); if (!b) return;
-  materia = b.dataset.materia; pintarToggle('materiaToggle', materia, 'materia');
+  materia = b.dataset.materia; pintarToggle('materiaToggle', materia, 'materia'); pintarHint();
 });
 el('metaToggle').addEventListener('click', e => {
   const b = e.target.closest('.btn'); if (!b) return;
   meta = +b.dataset.meta; pintarToggle('metaToggle', meta, 'meta');
 });
-el('hintEdad').textContent = HINTS[edad];
+
+// Publicado por materia: la pregunta sobra y el título ya la anuncia.
+if (!MATERIA_LIBRE){
+  el('materiaLabel').style.display = 'none';
+  el('materiaToggle').style.display = 'none';
+  el('titulo').textContent = `🏎️ Carrera de Autos · ${nombreMateria()}`;
+  document.title = `Carrera de Autos · ${nombreMateria()}`;
+}
+pintarToggle('materiaToggle', materia, 'materia');
+pintarHint();
 
 function renderTeamInputs(){
   el('teamInputs').innerHTML = equipos.map((t,i) => `
@@ -436,7 +465,7 @@ el('startBtn').addEventListener('click', () => {
   // información se queda como pastilla en la barra superior.
   document.querySelector('header').style.display = 'none';
   el('infoJuego').textContent =
-    (materia === 'matematicas' ? '🔢 Matemáticas' : '📝 Español') + ' · ' + edad + ' años · meta ' + meta;
+    iconoMateria() + ' ' + nombreMateria() + ' · ' + edad + ' años · meta ' + meta;
   turno = 0;
   dibujarPista();
   dibujarTacometro();
@@ -882,7 +911,7 @@ function terminar(ganador){
   chispas(ganador, equipos.indexOf(ganador), ganador.color.hex, 26);
   const orden = equipos.slice().sort((a, b) => b.pos - a.pos || b.aciertos - a.aciertos);
   el('winText').textContent = `¡${ganador.nombre} cruza la meta!`;
-  el('winSub').textContent = (materia === 'matematicas' ? 'Matemáticas' : 'Español') + ' · ' + edad + ' años';
+  el('winSub').textContent = nombreMateria() + ' · ' + edad + ' años';
   el('winPodio').innerHTML = orden.map((t, i) => {
     const tot = t.aciertos + t.errores;
     const pct = tot ? Math.round(t.aciertos / tot * 100) : 0;
@@ -1349,7 +1378,7 @@ async function guardarCarrera(ganador){
   const errores  = equipos.reduce((s, t) => s + t.errores, 0);
   if (aciertos + errores === 0) return;
   const entrada = {
-    actividad: 'Carrera de autos · ' + (materia === 'matematicas' ? 'Matemáticas' : 'Español') +
+    actividad: 'Carrera de autos · ' + nombreMateria() +
                (ganador ? ' · ganó ' + ganador.nombre : ' (sin terminar)'),
     grupo: edad,
     aciertos, errores,

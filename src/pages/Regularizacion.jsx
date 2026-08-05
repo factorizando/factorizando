@@ -27,10 +27,28 @@ const NIVELES = [
 
 const NIVEL_COLOR = { primaria: "#34d399", secundaria: "#a78bfa" };
 
+// El catálogo se lee por materia: es como el maestro planea la sesión.
+// Las materias que no estén aquí caen al final, en orden alfabético.
+const ORDEN_MATERIAS = ["Matemáticas", "Español"];
+
+function agruparPorMateria(talleres) {
+  const grupos = new Map();
+  talleres.forEach((t) => {
+    if (!grupos.has(t.materia)) grupos.set(t.materia, []);
+    grupos.get(t.materia).push(t);
+  });
+  return [...grupos.entries()].sort(([a], [b]) => {
+    const ia = ORDEN_MATERIAS.indexOf(a), ib = ORDEN_MATERIAS.indexOf(b);
+    if (ia !== -1 || ib !== -1) return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
+    return a.localeCompare(b, "es");
+  });
+}
+
 export default function Regularizacion() {
   const [nivel, setNivel] = useState("todos");
   const talleres = listaTalleres();
   const visibles = nivel === "todos" ? talleres : talleres.filter((t) => t.nivel === nivel);
+  const porMateria = agruparPorMateria(visibles);
 
   return (
     <div style={{ minHeight: "100vh", background: C.bg, color: C.text, fontFamily: font }}>
@@ -78,49 +96,69 @@ export default function Regularizacion() {
             No hay talleres para este nivel todavía.
           </p>
         ) : (
-          <div style={{
-            display: "grid", gap: 16,
-            gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-          }}>
-            {visibles.map((t) => (
-              <Link
-                key={t.id}
-                to={`/regularizacion/${t.id}`}
-                style={{
-                  display: "block", background: C.card, border: `1px solid ${C.border}`,
-                  borderRadius: 16, padding: "20px 22px", textDecoration: "none", color: C.text,
-                }}
-              >
-                <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 12 }}>
-                  <span style={{
-                    display: "grid", placeItems: "center", width: 48, height: 48, flexShrink: 0,
-                    borderRadius: 13, background: "#1c1f24", fontSize: 26, lineHeight: 1,
-                  }}>{t.icono}</span>
-                  <div style={{ minWidth: 0 }}>
-                    <div style={{ fontSize: 17, fontWeight: 700, marginBottom: 3 }}>{t.titulo}</div>
-                    <div style={{ fontSize: 13, color: C.muted }}>{t.materia} · {t.tema}</div>
-                  </div>
-                </div>
+          porMateria.map(([materia, lista], i) => (
+            <section key={materia} style={{ marginTop: i === 0 ? 0 : 34 }}>
+              <div style={{
+                display: "flex", alignItems: "baseline", gap: 10, marginBottom: 14,
+                paddingBottom: 8, borderBottom: `1px solid ${C.border}`,
+              }}>
+                <h2 style={{
+                  fontSize: 12, fontWeight: 700, textTransform: "uppercase",
+                  letterSpacing: ".07em", color: C.dim, margin: 0,
+                }}>
+                  {materia}
+                </h2>
+                <span style={{ fontSize: 12, color: C.muted }}>
+                  {lista.length} {lista.length === 1 ? "taller" : "talleres"}
+                </span>
+              </div>
 
-                <p style={{ fontSize: 13.5, color: C.dim, lineHeight: 1.55, margin: "0 0 14px" }}>
-                  {t.descripcion}
-                </p>
+              <div style={{
+                display: "grid", gap: 16,
+                gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+              }}>
+                {lista.map((t) => (
+                  <Link
+                    key={t.id}
+                    to={`/regularizacion/${t.id}`}
+                    style={{
+                      display: "block", background: C.card, border: `1px solid ${C.border}`,
+                      borderRadius: 16, padding: "20px 22px", textDecoration: "none", color: C.text,
+                    }}
+                  >
+                    <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 12 }}>
+                      <span style={{
+                        display: "grid", placeItems: "center", width: 48, height: 48, flexShrink: 0,
+                        borderRadius: 13, background: "#1c1f24", fontSize: 26, lineHeight: 1,
+                      }}>{t.icono}</span>
+                      <div style={{ minWidth: 0 }}>
+                        <div style={{ fontSize: 17, fontWeight: 700, marginBottom: 3 }}>{t.titulo}</div>
+                        {/* La materia ya la dice el encabezado del bloque. */}
+                        <div style={{ fontSize: 13, color: C.muted }}>{t.tema}</div>
+                      </div>
+                    </div>
 
-                <div style={{ display: "flex", gap: 7, flexWrap: "wrap" }}>
-                  <span style={{
-                    background: (NIVEL_COLOR[t.nivel] || C.blue) + "22",
-                    color: NIVEL_COLOR[t.nivel] || C.blue,
-                    borderRadius: 5, padding: "2px 9px", fontSize: 11, fontWeight: 700,
-                    textTransform: "capitalize",
-                  }}>{t.nivel}</span>
-                  <span style={{
-                    background: "#1c1f24", color: C.muted,
-                    borderRadius: 5, padding: "2px 9px", fontSize: 11, fontWeight: 700,
-                  }}>{t.edades}</span>
-                </div>
-              </Link>
-            ))}
-          </div>
+                    <p style={{ fontSize: 13.5, color: C.dim, lineHeight: 1.55, margin: "0 0 14px" }}>
+                      {t.descripcion}
+                    </p>
+
+                    <div style={{ display: "flex", gap: 7, flexWrap: "wrap" }}>
+                      <span style={{
+                        background: (NIVEL_COLOR[t.nivel] || C.blue) + "22",
+                        color: NIVEL_COLOR[t.nivel] || C.blue,
+                        borderRadius: 5, padding: "2px 9px", fontSize: 11, fontWeight: 700,
+                        textTransform: "capitalize",
+                      }}>{t.nivel}</span>
+                      <span style={{
+                        background: "#1c1f24", color: C.muted,
+                        borderRadius: 5, padding: "2px 9px", fontSize: 11, fontWeight: 700,
+                      }}>{t.edades}</span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          ))
         )}
       </main>
     </div>

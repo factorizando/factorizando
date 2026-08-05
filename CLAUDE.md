@@ -130,7 +130,9 @@ Registered in `talleresIndex.js` (`buscarTaller`, `listaTalleres`); React taller
 
 Sessions land in `taller_sesiones` (`alumno_id`, `taller_id`, `actividad`, `grupo`, `aciertos`, `errores`, `creado_en`; RLS admin-only). `TallerVer.jsx` picks the student first; "practicar sin registrar" passes `alumnoId = null` and the runner skips the write rather than inserting orphan rows.
 
-Talleres live in `src/data/talleres/<materia>/`, plus `juegos/` for the ones that span subjects (`carrera-autos`, a projected turn-based board game with its own question banks per age block). `grupo` carries the age block (`"8-9"`, `"10-12"`, …) so the same taller can be filtered by level in the student's record.
+Talleres live in `src/data/talleres/<materia>/`, plus `juegos/` for shared game engines. `grupo` carries the age block (`"8-9"`, `"10-12"`, …) so the same taller can be filtered by level in the student's record.
+
+**One taller per materia.** The catalog groups by `materia` (`Regularizacion.jsx`, order in `ORDEN_MATERIAS`), so a taller declares exactly one. When the same engine serves two subjects, the HTML stays single and each published taller injects its subject: `carrera-autos.html` carries a `__MATERIA_FIJA__` marker, `carrera-autos.js` exports `htmlConMateria(materia)` + the shared `BASE` fields, and `carrera-autos-matematicas.js` / `carrera-autos-espanol.js` are the two entries in the index. With the marker substituted, the setup screen drops the subject toggle; opened standalone (unsubstituted) it falls back to asking. Prefer this over duplicating the HTML.
 
 ### Diagram & interactive registries (`src/components/diagramas/`, `src/components/interactivos/`)
 Single-map registries that decouple visual components from consumers (see the §4.2/§4.4 standard in `docs/CONVENCIONES.md`):

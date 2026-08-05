@@ -1094,13 +1094,27 @@ const PLURALES = [
 const MAYUSCULAS = [
   {ok:'Ayer fuimos a Puebla con mi tía Rosa.', mal:['ayer fuimos a puebla con mi tía rosa.','Ayer Fuimos a Puebla con mi Tía Rosa.','ayer Fuimos a Puebla con mi tía rosa.']},
   {ok:'Mi perro se llama Chispa.', mal:['mi perro se llama chispa.','Mi Perro se llama chispa.','mi perro se Llama Chispa.']},
-  {ok:'El lunes empieza la clase de Matemáticas.', mal:['el lunes empieza la clase de matemáticas.','El Lunes empieza la clase de matemáticas.','el Lunes Empieza la clase.']},
+  {ok:'El lunes empieza la clase de Matemáticas.', mal:['el lunes empieza la clase de matemáticas.','El Lunes empieza la clase de matemáticas.','el Lunes Empieza la clase de Matemáticas.']},
+  {ok:'El río Bravo pasa por Ciudad Juárez.', mal:['el río bravo pasa por ciudad juárez.','El Río bravo pasa por ciudad Juárez.','el Río Bravo pasa por Ciudad juárez.']},
+  {ok:'En diciembre viajamos a Mérida con Ana.', mal:['En Diciembre viajamos a Mérida con Ana.','en diciembre viajamos a mérida con ana.','En diciembre Viajamos a Mérida con ana.']},
+  {ok:'Mi maestra Lucía nos leyó El principito.', mal:['mi maestra lucía nos leyó el principito.','Mi Maestra Lucía nos leyó El Principito.','mi maestra Lucía nos leyó el Principito.']},
+  {ok:'Vivo en la calle Morelos, en Toluca.', mal:['vivo en la calle morelos, en toluca.','Vivo en la Calle Morelos, en toluca.','vivo en la Calle Morelos, en Toluca.']},
+  {ok:'El martes visitamos el Museo de Antropología.', mal:['El Martes visitamos el museo de antropología.','el martes visitamos el Museo De Antropología.','El martes Visitamos el museo de Antropología.']},
+  {ok:'Mi hermano Luis estudia en la Universidad de Guadalajara.', mal:['mi hermano luis estudia en la universidad de guadalajara.','Mi Hermano Luis estudia en la Universidad de guadalajara.','mi hermano Luis estudia en la Universidad De Guadalajara.']},
 ];
 const SIGNOS_BASICOS = [
   {ok:'¿Cómo te llamas?', mal:['Como te llamas?','¿Como te llamas','¿cómo te llamas']},
   {ok:'¡Qué alegría verte!', mal:['Que alegria verte!','¡Que alegría verte','¡qué alegría verte']},
   {ok:'¿Dónde está mi mochila?', mal:['Donde está mi mochila?','¿Donde esta mi mochila','dónde está mi mochila?']},
   {ok:'¡Cuidado con el escalón!', mal:['Cuidado con el escalon!','¡Cuidado con el escalón','¡cuidado con el escalon!']},
+  {ok:'¿Quién apagó la luz?', mal:['Quien apagó la luz?','¿Quien apagó la luz','¿quién apagó la luz¿']},
+  {ok:'¡Feliz cumpleaños, Diego!', mal:['Feliz cumpleaños Diego!','¡Feliz cumpleaños, Diego','¡feliz cumpleaños, Diego¡']},
+  {ok:'¿A qué hora empieza la clase?', mal:['A que hora empieza la clase?','¿A que hora empieza la clase','¿a qué hora empieza la clase¿']},
+  {ok:'¡No lo puedo creer!', mal:['No lo puedo creer!','¡No lo puedo creer','¡No lo puedo creer¡']},
+  {ok:'¿Cuántos años tienes?', mal:['Cuantos años tienes?','¿Cuantos años tienes','¿Cuántos años tienes¿']},
+  {ok:'¡Qué frío hace hoy!', mal:['Que frío hace hoy!','¡Que frio hace hoy!','¡Qué frío hace hoy¡']},
+  {ok:'¿Me prestas tu goma?', mal:['Me prestas tu goma?','¿Me prestas tu goma','¿Me prestas tu goma¿']},
+  {ok:'¡Ganamos el partido!', mal:['Ganamos el partido!','¡Ganamos el partido','¡ganamos el partido¡']},
 ];
 const ALFABETICO = [
   ['casa','cielo','cuna','cráter'],
@@ -1139,6 +1153,14 @@ const PUNTUACION = [
   {ok:'Necesito lápices, hojas y colores.', mal:['Necesito lápices hojas y colores.','Necesito, lápices, hojas y colores.','Necesito lápices, hojas, y colores.']},
   {ok:'Juan, ven acá por favor.', mal:['Juan ven acá por favor.','Juan; ven acá por favor.','Juan ven, acá por favor.']},
   {ok:'Compramos fruta: manzanas, peras y uvas.', mal:['Compramos fruta, manzanas, peras y uvas.','Compramos fruta; manzanas peras y uvas.','Compramos, fruta: manzanas peras y uvas.']},
+  {ok:'Mi tía, que vive en Oaxaca, llega el viernes.', mal:['Mi tía, que vive en Oaxaca llega el viernes.','Mi tía que vive en Oaxaca, llega el viernes.','Mi tía; que vive en Oaxaca, llega el viernes.']},
+  {ok:'Estudié mucho; sin embargo, no me fue bien.', mal:['Estudié mucho sin embargo no me fue bien.','Estudié mucho; sin embargo no me fue bien.','Estudié mucho, sin embargo; no me fue bien.']},
+  {ok:'Llegaron Ana, Beto y Carla.', mal:['Llegaron Ana, Beto, y Carla.','Llegaron, Ana, Beto y Carla.','Llegaron Ana Beto y Carla.']},
+  {ok:'La maestra dijo: "Guarden sus cuadernos".', mal:['La maestra dijo "Guarden sus cuadernos".','La maestra, dijo: "Guarden sus cuadernos".','La maestra dijo: "Guarden sus cuadernos"']},
+  {ok:'Los alumnos que llegaron tarde no entraron.', mal:['Los alumnos, que llegaron tarde no entraron.','Los alumnos que llegaron tarde, no entraron,','Los alumnos que, llegaron tarde no entraron.']},
+  {ok:'Ven acá, Sofía, y trae tu mochila.', mal:['Ven acá Sofía y trae tu mochila.','Ven acá, Sofía y trae tu mochila.','Ven, acá Sofía, y trae tu mochila.']},
+  {ok:'Compré tres cosas: cuaderno, lápiz y regla.', mal:['Compré tres cosas, cuaderno, lápiz y regla.','Compré tres cosas: cuaderno lápiz y regla.','Compré, tres cosas: cuaderno, lápiz y regla.']},
+  {ok:'Pedro, mi vecino, arregló la bicicleta.', mal:['Pedro mi vecino arregló la bicicleta.','Pedro, mi vecino arregló la bicicleta.','Pedro mi vecino, arregló la bicicleta.']},
 ];
 const CLASES_AVANZADAS = [
   {frase:'El niño camina lentamente', palabra:'lentamente', tipo:'adverbio'},
@@ -1162,6 +1184,14 @@ const SUJETOS = [
   {frase:'Mi hermana mayor estudia medicina.', ok:'Mi hermana mayor', mal:['estudia medicina','medicina','estudia']},
   {frase:'El perro de Ana ladra por las noches.', ok:'El perro de Ana', mal:['ladra por las noches','por las noches','Ana']},
   {frase:'Ayer los bomberos apagaron el incendio.', ok:'los bomberos', mal:['Ayer','el incendio','apagaron el incendio']},
+  {frase:'Mi tío Ramón vende paletas en el parque.', ok:'Mi tío Ramón', mal:['vende paletas','en el parque','vende paletas en el parque']},
+  {frase:'Las nubes cubrieron el cielo por la tarde.', ok:'Las nubes', mal:['cubrieron el cielo','el cielo','por la tarde']},
+  {frase:'Ayer llegó el paquete de la escuela.', ok:'el paquete de la escuela', mal:['Ayer','llegó','de la escuela']},
+  {frase:'Todos los martes mi abuela hace pan.', ok:'mi abuela', mal:['Todos los martes','hace pan','pan']},
+  {frase:'El equipo de sexto ganó el torneo.', ok:'El equipo de sexto', mal:['ganó el torneo','el torneo','de sexto']},
+  {frase:'En la mañana cantan los pájaros.', ok:'los pájaros', mal:['En la mañana','cantan','la mañana']},
+  {frase:'Mis primos y yo fuimos al cine.', ok:'Mis primos y yo', mal:['fuimos al cine','al cine','yo']},
+  {frase:'La lluvia mojó todos los cuadernos.', ok:'La lluvia', mal:['mojó','todos los cuadernos','los cuadernos']},
 ];
 const TIEMPOS = [
   {v:'caminaré', t:'futuro'}, {v:'corrió', t:'pasado'}, {v:'juegan', t:'presente'},
@@ -1173,6 +1203,14 @@ const CONTEXTO = [
   {frase:'La noticia lo dejó atónito, no podía ni hablar.', p:'atónito', ok:'asombrado', mal:['aburrido','enojado','tranquilo']},
   {frase:'Después de la tormenta el cielo quedó despejado.', p:'despejado', ok:'sin nubes', mal:['con lluvia','nublado','oscuro']},
   {frase:'El anciano caminaba con paso pausado por el parque.', p:'pausado', ok:'lento', mal:['veloz','torpe','ruidoso']},
+  {frase:'Era muy hábil con las manos: armaba un juguete en minutos.', p:'hábil', ok:'diestro', mal:['torpe','lento','distraído']},
+  {frase:'La casa llevaba años deshabitada; nadie entraba ni salía.', p:'deshabitada', ok:'vacía', mal:['recién pintada','ruidosa','muy visitada']},
+  {frase:'Habló con voz tenue y desde atrás casi no se le escuchaba.', p:'tenue', ok:'débil', mal:['fuerte','grave','apresurada']},
+  {frase:'Después de correr media hora, el agua le supo exquisita.', p:'exquisita', ok:'deliciosa', mal:['tibia','amarga','escasa']},
+  {frase:'El perro resultó dócil: se dejó bañar sin quejarse.', p:'dócil', ok:'obediente', mal:['bravo','sucio','asustadizo']},
+  {frase:'Guardaron las provisiones del viaje: comida, agua y cobijas.', p:'provisiones', ok:'cosas necesarias', mal:['recuerdos','adornos','herramientas']},
+  {frase:'La maestra fue tajante: dijo que no y no volvió a discutirlo.', p:'tajante', ok:'firme', mal:['dudosa','distraída','burlona']},
+  {frase:'Subieron por un sendero escarpado, trepando entre las piedras.', p:'escarpado', ok:'empinado', mal:['plano','ancho','corto']},
 ];
 
 /* =========================================================

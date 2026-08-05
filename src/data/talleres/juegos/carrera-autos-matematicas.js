@@ -11,6 +11,19 @@ export const TALLER = {
     "Juego de mesa proyectable: cada equipo pisa el acelerador, contesta y su auto avanza en la pista. " +
     "De 8 a 9 años, cálculo mental y problemas de un paso; de 10 a 12, operaciones largas, fracciones, " +
     "decimales, porcentajes y problemas de dos pasos.",
+  // Aquí la "actividad" es el bloque de edad: el juego es el mismo y lo que
+  // cambia es el banco de reactivos que se sortea en la pista.
+  actividades: [
+    { id: "8-9", nombre: "Carrera del bloque 8 a 9 años", edades: "8-9", temas: [
+      "suma-resta", "multiplicacion", "dobles-mitades", "series", "valor-posicional",
+      "division-reparto", "figuras", "tiempo-reloj", "multiplos-divisores", "problemas-un-paso",
+    ] },
+    { id: "10-12", nombre: "Carrera del bloque 10 a 12 años", edades: "10-12", temas: [
+      "multiplicacion", "division-exacta", "residuo", "fracciones", "fraccion-cantidad",
+      "decimales", "porcentajes", "perimetro-area", "promedio", "potencias-raices",
+      "multiplos-divisores", "unidades", "valor-posicional", "problemas-dos-pasos",
+    ] },
+  ],
   objetivos: [
     "Repasar en grupo lo visto en la sesión sin que se sienta examen.",
     "Automatizar sumas, restas, tablas, series y reparto (8-9 años).",

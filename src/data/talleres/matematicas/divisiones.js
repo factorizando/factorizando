@@ -15,6 +15,16 @@ export const TALLER = {
   descripcion:
     "Siete actividades: reparto con el dedo, corrales con residuo, pizzas en fracciones, " +
     "barras de cubitos, la casita paso a paso, problemas de camiones y clasificación de residuos.",
+  // Los temas los define `../temas.js`; el catálogo busca por aquí.
+  actividades: [
+    { id: "reparto",  nombre: "Reparte las galletas",     edades: "7-8",  temas: ["division-reparto"] },
+    { id: "corrales", nombre: "Corrales de pollitos",     edades: "7-8",  temas: ["division-reparto", "residuo"] },
+    { id: "pizza",    nombre: "Divisor de pizzas",        edades: "7-8",  temas: ["division-reparto", "fracciones"] },
+    { id: "barras",   nombre: "Barras que se parten",     edades: "7-8",  temas: ["division-reparto", "fracciones"] },
+    { id: "casita",   nombre: "La casita paso a paso",    edades: "9-10", temas: ["division-algoritmo", "division-exacta"] },
+    { id: "camiones", nombre: "Cargamento de camiones",   edades: "9-10", temas: ["residuo", "division-exacta", "problemas-un-paso"] },
+    { id: "cazador",  nombre: "Cazador de residuos",      edades: "9-10", temas: ["residuo", "division-exacta", "multiplos-divisores"] },
+  ],
   objetivos: [
     "Entender la división como reparto en partes iguales.",
     "Repartir una unidad, no solo un conjunto, y conectarlo con la fracción.",

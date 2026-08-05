@@ -7,6 +7,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import { buscarTaller } from "../data/talleres/talleresIndex.js";
+import { etiquetaTema } from "../data/talleres/temas.js";
 import TallerRunner from "../components/talleres/TallerRunner.jsx";
 
 const C = {
@@ -102,9 +103,38 @@ export default function TallerVer() {
               {taller.titulo}
             </h1>
           </div>
-          <p style={{ color: C.dim, fontSize: 14.5, lineHeight: 1.6, margin: "0 0 30px" }}>
+          <p style={{ color: C.dim, fontSize: 14.5, lineHeight: 1.6, margin: "0 0 22px" }}>
             {taller.descripcion}
           </p>
+
+          {/* Lo que se trabaja, para confirmar antes de proyectar que este
+              taller es el de hoy. Los temas los declara el módulo del taller. */}
+          {(taller.actividades || []).length > 0 && (
+            <div style={{
+              background: C.card, border: `1px solid ${C.border}`, borderRadius: 12,
+              padding: "14px 16px", marginBottom: 30,
+            }}>
+              <div style={{
+                fontSize: 11, fontWeight: 700, textTransform: "uppercase",
+                letterSpacing: ".06em", color: C.muted, marginBottom: 10,
+              }}>
+                Lo que se trabaja
+              </div>
+              <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "grid", gap: 9 }}>
+                {taller.actividades.map((a) => (
+                  <li key={a.id} style={{ fontSize: 13.5, lineHeight: 1.4 }}>
+                    <div style={{ display: "flex", gap: 8, alignItems: "baseline", flexWrap: "wrap" }}>
+                      <span style={{ fontWeight: 600 }}>{a.nombre}</span>
+                      <span style={{ color: C.muted, fontSize: 11 }}>{a.edades} años</span>
+                    </div>
+                    <div style={{ color: C.dim, fontSize: 12, marginTop: 2 }}>
+                      {a.temas.map(etiquetaTema).join(" · ")}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           <h2 style={{
             fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".07em",

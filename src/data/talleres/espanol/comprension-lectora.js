@@ -20,6 +20,20 @@ export const TALLER = {
     "Nueve actividades en dos grupos. De 8 a 9 años: seguir a quién se refiere cada pronombre, " +
     "ordenar la historia, cazar el dato contrarreloj y deducir palabras por contexto. De 10 a 12: " +
     "idea principal, inferencia, subrayar la evidencia, hecho contra opinión y propósito del texto.",
+  // Los temas los define `../temas.js`; el catálogo busca por aquí.
+  actividades: [
+    // Solo `referentes`: se trabajan pronombres, pero quien busca "adjetivos"
+    // no debería aterrizar aquí.
+    { id: "quien",       nombre: "¿De quién hablamos?",        edades: "8-9",   temas: ["referentes"] },
+    { id: "ordena",      nombre: "Ordena la historia",         edades: "8-9",   temas: ["secuencia", "conectores"] },
+    { id: "caza",        nombre: "Caza el dato",               edades: "8-9",   temas: ["literal"] },
+    { id: "palabra",     nombre: "Palabra misteriosa",         edades: "8-9",   temas: ["vocabulario-contexto"] },
+    { id: "idea",        nombre: "La idea principal",          edades: "10-12", temas: ["idea-principal"] },
+    { id: "inferencia",  nombre: "Dicho, deducido o ni idea",  edades: "10-12", temas: ["inferencia"] },
+    { id: "prueba",      nombre: "Subraya la prueba",          edades: "10-12", temas: ["evidencia", "literal"] },
+    { id: "hechopinion", nombre: "Hecho u opinión",            edades: "10-12", temas: ["hecho-opinion"] },
+    { id: "proposito",   nombre: "¿Para qué se escribió?",     edades: "10-12", temas: ["proposito"] },
+  ],
   objetivos: [
     "Resolver a quién sustituye cada pronombre sin perder el hilo del texto.",
     "Reconstruir el orden de los hechos apoyándose en los conectores.",

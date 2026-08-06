@@ -4,6 +4,7 @@
 
 import { useEffect, useRef } from "react";
 import { useKaTeX } from "../data/teoria/shared.jsx";
+import { textoPeriodo } from "../utils/fechas.js";
 
 function fmtMoney(n) {
   return `$${Number(n).toLocaleString("es-MX", { minimumFractionDigits: 2 })}`;
@@ -38,6 +39,29 @@ function metodoPagoEnFrase(m) {
 // `capturaPDF` lo activa solo generarComprobantePago al renderizar offscreen:
 // html2canvas dibuja el wordmark 10.5px más abajo que el navegador (ver el
 // comentario de .cp-wordmark), así que en la captura se compensa.
+/** Sufijos del concepto que solo nombran el tipo de plan y no dicen qué se cobró. */
+const GENERICOS = /^(semanal|mensual|[uú]nico)$/i;
+
+/**
+ * Parte el concepto en las dos líneas de la celda: el curso arriba y el periodo
+ * abajo, en chico. Los conceptos se escriben "Curso — Semana 3 (17 – 23 ago
+ * 2026)", así que el corte va por el guion largo.
+ *
+ * Los cargos viejos decían "Curso — semanal", que no distingue una semana de
+ * otra; para ésos se cae al rango de fechas del cargo, que el relleno de la
+ * migración sí dejó guardado.
+ */
+function partirConcepto(concepto, periodoInicio, periodoFin) {
+  const [principal, ...resto] = (concepto || "—").split(/\s+—\s+/);
+  const detalle = resto.join(" — ").trim();
+  const rango =
+    periodoInicio && periodoFin ? textoPeriodo(periodoInicio, periodoFin) : "";
+  return {
+    principal: principal.trim(),
+    detalle: !detalle || GENERICOS.test(detalle) ? rango : detalle,
+  };
+}
+
 export default function ComprobantePDF({
   pago,
   cargo,
@@ -53,9 +77,7 @@ export default function ComprobantePDF({
   // (pagos.cargo_id apunta a un único cargo), pero el bloque está dimensionado
   // para varias y `cargos` permite pasarlas sin tocar el layout.
   const partidas = (cargos?.length ? cargos : cargo ? [cargo] : []).map((c) => ({
-    concepto: (c?.concepto || "—")
-      .replace(/\s*[-–—([]?\s*semanal\s*[\])]?\s*/gi, "")
-      .trim(),
+    ...partirConcepto(c?.concepto, c?.periodo_inicio, c?.periodo_fin),
     monto: Number(c?.monto || 0),
   }));
   const montoCargo = partidas.reduce((s, p) => s + p.monto, 0);
@@ -155,7 +177,10 @@ export default function ComprobantePDF({
                 const celda = ultima ? { ...S.td, borderBottom: "none" } : S.td;
                 return (
                   <tr key={i}>
-                    <td style={{ ...celda, fontWeight: 600 }}>{p.concepto}</td>
+                    <td style={celda}>
+                      <span style={S.partidaTitulo}>{p.principal}</span>
+                      {p.detalle && <span style={S.partidaDetalle}>{p.detalle}</span>}
+                    </td>
                     <td style={{ ...celda, ...S.partidaMonto }}>{fmtMoney(p.monto)}</td>
                   </tr>
                 );
@@ -350,6 +375,15 @@ const S = {
     fontSize: 14,
     lineHeight: 1.5,
     verticalAlign: "top",
+  },
+  partidaTitulo: { display: "block", fontWeight: 600 },
+  // Mismo cuerpo y gris que la línea "Pagado con …" bajo el total, para que las
+  // dos notas al margen del documento se lean como la misma clase de dato.
+  partidaDetalle: {
+    display: "block",
+    marginTop: 4,
+    fontSize: 11.5,
+    color: "#6b7280",
   },
   partidaMonto: {
     textAlign: "right",

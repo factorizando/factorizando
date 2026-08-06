@@ -109,6 +109,8 @@ function CargoForm({ alumnos, inscripciones, initial, onSave, onCancel }) {
     concepto: initial?.concepto || "",
     monto: initial?.monto || "",
     fecha_vencimiento: initial?.fecha_vencimiento || "",
+    periodo_inicio: initial?.periodo_inicio || "",
+    periodo_fin: initial?.periodo_fin || "",
     notas: initial?.notas || "",
   });
   const [saving, setSaving] = useState(false);
@@ -127,17 +129,53 @@ function CargoForm({ alumnos, inscripciones, initial, onSave, onCancel }) {
   const inscripcion = cursosDelAlumno.find((i) => i.id === form.inscripcion_id);
   const tipoCobro = inscripcion?.planes_precio?.tipo_cobro;
 
-  // Propone el concepto en cuanto hay curso y fecha, nombrando el periodo
-  // ("Semana 3 (17 – 23 ago 2026)") en vez del genérico del plan. Solo pisa el
-  // campo si está vacío o si aún contiene la propuesta anterior: en cuanto el
-  // usuario lo edita a mano, deja de tocarlo.
-  const ultimaPropuesta = useRef(null);
+  // En cobro semanal el periodo se propone a partir del vencimiento (lunes a
+  // domingo de esa semana), pero solo al capturar uno nuevo. En un cargo que ya
+  // tiene periodo no se toca: ese periodo es lo que de verdad se facturó, y
+  // moverlo solo porque se corrige la fecha de pago sería reescribir el cobro a
+  // espaldas de quien edita. Para eso están ahora los campos editables.
+  const periodoFijado = useRef(Boolean(initial?.periodo_inicio));
+  const ultimoPeriodo = useRef(null);
   useEffect(() => {
-    if (!inscripcion || !form.fecha_vencimiento) return;
+    if (periodoFijado.current) return;
+    if (tipoCobro !== "semanal" || !form.fecha_vencimiento) return;
+    const venc = desdeFechaISO(form.fecha_vencimiento);
+    const prop = {
+      periodo_inicio: aFechaISO(lunesDeLaSemana(venc)),
+      periodo_fin: aFechaISO(domingoDeLaSemana(venc)),
+    };
+    setForm((f) => {
+      const tocadoAMano =
+        (f.periodo_inicio || f.periodo_fin) &&
+        (f.periodo_inicio !== ultimoPeriodo.current?.periodo_inicio ||
+          f.periodo_fin !== ultimoPeriodo.current?.periodo_fin);
+      if (tocadoAMano) return f;
+      ultimoPeriodo.current = prop;
+      return { ...f, ...prop };
+    });
+  }, [tipoCobro, form.fecha_vencimiento]);
+
+  // Propone el concepto nombrando el periodo ("Semana 3 (17 – 23 ago 2026)") en
+  // vez del genérico del plan. Se ancla a `periodo_inicio` y no al vencimiento:
+  // el concepto describe QUÉ semana se cobra, y ahora esas dos fechas pueden
+  // discrepar. Solo pisa el campo si está vacío o si aún tiene su propuesta.
+  // Al editar, un concepto con la forma que genera el sistema se considera suyo
+  // y se refresca al cambiar el periodo; si no, editar el periodo dejaba el
+  // cargo diciendo "Semana 1" con fechas de otra semana, y eso es lo que se
+  // imprime en el comprobante. Uno escrito a mano ("Material didáctico") no se
+  // toca nunca.
+  const ultimaPropuesta = useRef(
+    /—\s(Semana\b|Mes de\b|Pago único)/.test(initial?.concepto || "")
+      ? initial.concepto
+      : null
+  );
+  const baseConcepto = form.periodo_inicio || form.fecha_vencimiento;
+  useEffect(() => {
+    if (!inscripcion || !baseConcepto) return;
     const propuesta = conceptoDeCargo({
       curso: inscripcion.cursos?.nombre,
       tipoCobro,
-      fecha: desdeFechaISO(form.fecha_vencimiento),
+      fecha: desdeFechaISO(baseConcepto),
       inicioCobros: inscripcion.fecha_inicio_clases
         ? desdeFechaISO(inscripcion.fecha_inicio_clases)
         : inscripcion.fecha_inscripcion
@@ -149,25 +187,34 @@ function CargoForm({ alumnos, inscripciones, initial, onSave, onCancel }) {
       ultimaPropuesta.current = propuesta;
       return { ...f, concepto: propuesta };
     });
-  }, [inscripcion, tipoCobro, form.fecha_vencimiento]);
+  }, [inscripcion, tipoCobro, baseConcepto]);
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setSaving(true);
     setError(null);
-    // En cobro semanal se guarda también el periodo: es lo que hace que el
-    // generador automático vea esta semana como cubierta y no emita un duplicado.
-    // Nunca se manda vacío, para no borrar el periodo de un cargo parcial al
-    // editarlo (`cargos_parcial_requiere_periodo` lo rechazaría).
-    const periodo =
-      tipoCobro === "semanal" && form.fecha_vencimiento
-        ? {
-            periodo_inicio: aFechaISO(lunesDeLaSemana(desdeFechaISO(form.fecha_vencimiento))),
-            periodo_fin: aFechaISO(domingoDeLaSemana(desdeFechaISO(form.fecha_vencimiento))),
-          }
-        : {};
+    // Se valida aquí para dar el motivo en claro: las mismas reglas existen como
+    // CHECK en la base, pero de allá vuelven como "violates check constraint
+    // cargos_periodo_completo", que no le dice nada a quien está capturando.
+    const { periodo_inicio: ini, periodo_fin: fin } = form;
+    if (!!ini !== !!fin) {
+      setError("El periodo va completo o no va: llena las dos fechas, o ninguna.");
+      return;
+    }
+    if (ini && fin && fin < ini) {
+      setError("El fin del periodo no puede ser anterior a su inicio.");
+      return;
+    }
+    if (initial?.es_parcial && !ini) {
+      setError("Este cargo es parcial, y un parcial lo es respecto de un periodo: no puede quedarse sin él.");
+      return;
+    }
+    setSaving(true);
     const result = await onSave({
-      ...form, ...periodo, monto: Number(form.monto), id: initial?.id || null,
+      ...form,
+      periodo_inicio: ini || null,
+      periodo_fin: fin || null,
+      monto: Number(form.monto),
+      id: initial?.id || null,
     });
     if (result?.error) setError(result.error);
     setSaving(false);
@@ -216,6 +263,17 @@ function CargoForm({ alumnos, inscripciones, initial, onSave, onCancel }) {
         </Field>
         <Field label="Fecha de vencimiento">
           <input type="date" value={form.fecha_vencimiento} onChange={set("fecha_vencimiento")} style={inputStyle} required />
+        </Field>
+      </div>
+      {/* El periodo es lo que se cobra; el vencimiento, cuándo se paga. Suelen
+          coincidir en el semanal, pero no tienen por qué: de ahí que se puedan
+          editar por separado. */}
+      <div style={{ display: "grid", gridTemplateColumns: GRID_FORM, gap: 12 }}>
+        <Field label="Periodo — inicio">
+          <input type="date" value={form.periodo_inicio} onChange={set("periodo_inicio")} style={inputStyle} />
+        </Field>
+        <Field label="Periodo — fin">
+          <input type="date" value={form.periodo_fin} onChange={set("periodo_fin")} style={inputStyle} />
         </Field>
       </div>
       <Field label="Notas (opcional)">
@@ -556,9 +614,8 @@ export default function AdminCargos({ embedded }) {
       fecha_vencimiento: form.fecha_vencimiento,
       notas: form.notas || null,
       estado: "pendiente",
-      ...(form.periodo_inicio
-        ? { periodo_inicio: form.periodo_inicio, periodo_fin: form.periodo_fin }
-        : {}),
+      periodo_inicio: form.periodo_inicio,
+      periodo_fin: form.periodo_fin,
     });
     if (error) { console.error(error); return { error: error.message || "Error al crear el cargo." }; }
     setShowCargoForm(false);
@@ -573,9 +630,8 @@ export default function AdminCargos({ embedded }) {
       monto: form.monto,
       fecha_vencimiento: form.fecha_vencimiento,
       notas: form.notas || null,
-      ...(form.periodo_inicio
-        ? { periodo_inicio: form.periodo_inicio, periodo_fin: form.periodo_fin }
-        : {}),
+      periodo_inicio: form.periodo_inicio,
+      periodo_fin: form.periodo_fin,
     }).eq("id", form.id);
     if (error) { console.error(error); return { error: error.message || "Error al guardar el cargo." }; }
     setEditCargo(null);

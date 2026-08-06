@@ -7,7 +7,10 @@ import EstadoBadge from "../../components/admin/EstadoBadge.jsx";
 import AdminHeader from "../../components/admin/AdminHeader.jsx";
 import { generarComprobantePago } from "../../utils/comprobantePago.jsx";
 import ComprobantePDF from "../../components/ComprobantePDF.jsx";
-import { textoPeriodo } from "../../utils/fechas.js";
+import {
+  textoPeriodo, conceptoDeCargo, desdeFechaISO, aFechaISO,
+  lunesDeLaSemana, domingoDeLaSemana,
+} from "../../utils/fechas.js";
 import { GRID_FORM, TEXTO_FLEXIBLE } from "../../components/admin/layout.js";
 
 const font = "'DM Sans', sans-serif";
@@ -121,12 +124,51 @@ function CargoForm({ alumnos, inscripciones, initial, onSave, onCancel }) {
   const cursosDelAlumno = (inscripciones || []).filter(
     (i) => i.alumno_id === form.alumno_id
   );
+  const inscripcion = cursosDelAlumno.find((i) => i.id === form.inscripcion_id);
+  const tipoCobro = inscripcion?.planes_precio?.tipo_cobro;
+
+  // Propone el concepto en cuanto hay curso y fecha, nombrando el periodo
+  // ("Semana 3 (17 – 23 ago 2026)") en vez del genérico del plan. Solo pisa el
+  // campo si está vacío o si aún contiene la propuesta anterior: en cuanto el
+  // usuario lo edita a mano, deja de tocarlo.
+  const ultimaPropuesta = useRef(null);
+  useEffect(() => {
+    if (!inscripcion || !form.fecha_vencimiento) return;
+    const propuesta = conceptoDeCargo({
+      curso: inscripcion.cursos?.nombre,
+      tipoCobro,
+      fecha: desdeFechaISO(form.fecha_vencimiento),
+      inicioCobros: inscripcion.fecha_inicio_clases
+        ? desdeFechaISO(inscripcion.fecha_inicio_clases)
+        : inscripcion.fecha_inscripcion
+          ? desdeFechaISO(inscripcion.fecha_inscripcion)
+          : null,
+    });
+    setForm((f) => {
+      if (f.concepto && f.concepto !== ultimaPropuesta.current) return f;
+      ultimaPropuesta.current = propuesta;
+      return { ...f, concepto: propuesta };
+    });
+  }, [inscripcion, tipoCobro, form.fecha_vencimiento]);
 
   async function handleSubmit(e) {
     e.preventDefault();
     setSaving(true);
     setError(null);
-    const result = await onSave({ ...form, monto: Number(form.monto), id: initial?.id || null });
+    // En cobro semanal se guarda también el periodo: es lo que hace que el
+    // generador automático vea esta semana como cubierta y no emita un duplicado.
+    // Nunca se manda vacío, para no borrar el periodo de un cargo parcial al
+    // editarlo (`cargos_parcial_requiere_periodo` lo rechazaría).
+    const periodo =
+      tipoCobro === "semanal" && form.fecha_vencimiento
+        ? {
+            periodo_inicio: aFechaISO(lunesDeLaSemana(desdeFechaISO(form.fecha_vencimiento))),
+            periodo_fin: aFechaISO(domingoDeLaSemana(desdeFechaISO(form.fecha_vencimiento))),
+          }
+        : {};
+    const result = await onSave({
+      ...form, ...periodo, monto: Number(form.monto), id: initial?.id || null,
+    });
     if (result?.error) setError(result.error);
     setSaving(false);
   }
@@ -474,7 +516,9 @@ export default function AdminCargos({ embedded }) {
     const [c, a, i] = await Promise.all([
       supabase.from("cargos").select("*").order("fecha_vencimiento"),
       supabase.from("alumnos").select("id, nombre, apellidos"),
-      supabase.from("inscripciones").select("id, alumno_id, estado, cursos(nombre)"),
+      supabase
+        .from("inscripciones")
+        .select("id, alumno_id, estado, fecha_inicio_clases, fecha_inscripcion, cursos(nombre), planes_precio(tipo_cobro)"),
     ]);
     setCargos(c.data || []);
     setAlumnos(a.data || []);
@@ -512,6 +556,9 @@ export default function AdminCargos({ embedded }) {
       fecha_vencimiento: form.fecha_vencimiento,
       notas: form.notas || null,
       estado: "pendiente",
+      ...(form.periodo_inicio
+        ? { periodo_inicio: form.periodo_inicio, periodo_fin: form.periodo_fin }
+        : {}),
     });
     if (error) { console.error(error); return { error: error.message || "Error al crear el cargo." }; }
     setShowCargoForm(false);
@@ -526,6 +573,9 @@ export default function AdminCargos({ embedded }) {
       monto: form.monto,
       fecha_vencimiento: form.fecha_vencimiento,
       notas: form.notas || null,
+      ...(form.periodo_inicio
+        ? { periodo_inicio: form.periodo_inicio, periodo_fin: form.periodo_fin }
+        : {}),
     }).eq("id", form.id);
     if (error) { console.error(error); return { error: error.message || "Error al guardar el cargo." }; }
     setEditCargo(null);

@@ -7,7 +7,7 @@ import EstadoBadge from "../../components/admin/EstadoBadge.jsx";
 import AdminHeader from "../../components/admin/AdminHeader.jsx";
 import {
   aFechaISO, desdeFechaISO, sumarDias, sumarMeses,
-  lunesDeLaSemana, domingoDeLaSemana, textoPeriodo,
+  lunesDeLaSemana, domingoDeLaSemana, textoPeriodo, conceptoDeCargo,
 } from "../../utils/fechas.js";
 
 const font = "'DM Sans', sans-serif";
@@ -415,7 +415,14 @@ export default function AdminInscripciones({ embedded }) {
       const { error: cargoErr } = await supabase.from("cargos").insert({
         alumno_id: form.alumno_id,
         inscripcion_id: inscripcion.id,
-        concepto: `${curso?.nombre || "Curso"} — ${plan.tipo_cobro}`,
+        // Nombra el periodo en vez del tipo de plan: es la primera semana de
+        // esta inscripción, así que `inicio` sirve de origen de la numeración.
+        concepto: conceptoDeCargo({
+          curso: curso?.nombre,
+          tipoCobro: plan.tipo_cobro,
+          fecha: vencimiento,
+          inicioCobros: inicio,
+        }),
         monto: cargo.monto ?? plan.monto,
         fecha_vencimiento: aFechaISO(vencimiento),
         periodo_inicio: cargo.periodo_inicio ?? null,

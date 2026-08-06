@@ -82,3 +82,39 @@ export function sumarMeses(fecha, meses) {
   f.setDate(Math.min(dia, ultimoDia));
   return f;
 }
+
+/**
+ * Concepto de un cargo, nombrando el periodo que cubre en lugar del genérico
+ * "semanal"/"mensual": lo que ve el alumno impreso en su comprobante.
+ *
+ *   semanal → "Curso de Regularización — Semana 3 (17 – 23 ago 2026)"
+ *   mensual → "Curso de Regularización — Mes de agosto"
+ *   único   → "Curso de Regularización — Pago único"
+ *
+ * En el mensual las fechas no se añaden: el nombre del mes ya es el periodo, y
+ * repetirlo solo alarga la línea.
+ *
+ * `inicioCobros` es el arranque de la inscripción y es lo que fija desde dónde
+ * se numeran las semanas; sin él no hay "semana 3" posible, así que se cae al
+ * periodo sin número.
+ */
+export function conceptoDeCargo({ curso, tipoCobro, fecha, inicioCobros }) {
+  const nombre = curso || "Curso";
+  if (tipoCobro === "unico") return `${nombre} — Pago único`;
+
+  if (tipoCobro === "mensual") {
+    const mes = fecha.toLocaleDateString("es-MX", { month: "long" });
+    return `${nombre} — Mes de ${mes}`;
+  }
+
+  const lunes = lunesDeLaSemana(fecha);
+  const rango = textoPeriodo(aFechaISO(lunes), aFechaISO(domingoDeLaSemana(fecha)));
+  if (!inicioCobros) return `${nombre} — Semana (${rango})`;
+
+  // Diferencia en semanas completas entre el lunes cobrado y el primero de la
+  // inscripción. Se calcula sobre los lunes, no sobre las fechas sueltas, para
+  // que una inscripción a media semana no desplace la numeración.
+  const primero = lunesDeLaSemana(inicioCobros);
+  const semanas = Math.round((lunes - primero) / (7 * 24 * 60 * 60 * 1000));
+  return `${nombre} — Semana ${semanas + 1} (${rango})`;
+}

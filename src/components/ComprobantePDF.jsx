@@ -2,8 +2,7 @@
 // Componente visual del comprobante de pago. Se renderiza offscreen para
 // capturar con html2canvas y generar PDF.
 
-import { useEffect, useRef } from "react";
-import { useKaTeX } from "../data/teoria/shared.jsx";
+import MarcaImpresa from "./MarcaImpresa.jsx";
 import { textoPeriodo } from "../utils/fechas.js";
 
 function fmtMoney(n) {
@@ -37,8 +36,8 @@ function metodoPagoEnFrase(m) {
 }
 
 // `capturaPDF` lo activa solo generarComprobantePago al renderizar offscreen:
-// html2canvas dibuja el wordmark 10.5px más abajo que el navegador (ver el
-// comentario de .cp-wordmark), así que en la captura se compensa.
+// html2canvas dibuja el texto más abajo que el navegador, así que la captura lo
+// compensa aquí y en MarcaImpresa, cada uno con su desfase medido.
 /** Sufijos del concepto que solo nombran el tipo de plan y no dicen qué se cobró. */
 const GENERICOS = /^(semanal|mensual|[uú]nico)$/i;
 
@@ -89,15 +88,6 @@ export default function ComprobantePDF({
     ? { display: "inline-block", transform: "translateY(-5.34px)" }
     : undefined;
 
-  const katexReady = useKaTeX();
-  const mathRef = useRef(null);
-  useEffect(() => {
-    if (katexReady && window.katex && mathRef.current) {
-      try { window.katex.render("\\mathbb{R}[i]", mathRef.current, { throwOnError: false, displayMode: false }); }
-      catch { /* fallback */ }
-    }
-  }, [katexReady]);
-
   return (
     <div style={S.root}>
       <style>{CSS}</style>
@@ -109,19 +99,7 @@ export default function ComprobantePDF({
 
       {/* ── Header ── */}
       <div style={S.header}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <img
-            src={`${import.meta.env.BASE_URL}assets/logoX.png`}
-            alt="Factorizando"
-            style={{ height: 40, display: "block" }}
-          />
-          <span
-            className="cp-wordmark"
-            style={capturaPDF ? { transform: "translateY(-10.5px)" } : undefined}
-          >
-            Facto<span ref={mathRef} style={{ color: "#3b9eff" }}>{katexReady ? "" : "ℝ[i]"}</span>zando
-          </span>
-        </div>
+        <MarcaImpresa paraCaptura={capturaPDF} />
         <div style={{ flex: 1 }} />
         <div style={{ textAlign: "right" }}>
           <p style={S.eyebrow}>Comprobante de pago</p>
@@ -455,34 +433,4 @@ const S = {
 
 const CSS = `
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Cormorant+Garamond:wght@700&display=swap');
-
-  /* Wordmark del encabezado, centrado con el logo por flex align-items:center.
-     Dos cosas lo descuadraban: KaTeX inyecta font-size 1.21em en .katex, así que
-     el ℝ[i] salía bastante más grande que las letras, y su line-height 1.2
-     inflaba la caja de línea del texto. Fijamos line-height y bajamos el math a
-     1.05em para que el conjunto quede parejo.
-     El margin-top es un ajuste óptico: el centrado flex alinea la *caja* del
-     texto, no su banda de mayúsculas, que queda más arriba por el hueco del
-     descendente. Ojo: en un flex item centrado el margen desplaza solo la mitad
-     de su valor, así que 2.25px ≈ 1.12px de corrección real.
-
-     Con esto el DOM queda centrado (tinta de "Facto" en 35.5–48.5, centro 42.04
-     contra 41.82 del logo: 0.2px). Pero html2canvas dibuja el texto 10.5px más
-     abajo que el navegador — no es la fuente (el desfase es idéntico con DM Sans
-     y Georgia) ni el line-height ni el flex (se reproduce con inline-block y
-     vertical-align). Ningún CSS lo arregla, porque cualquier ajuste mueve por
-     igual el preview y la captura. Por eso la corrección va en la prop
-     capturaPDF, que aplica translateY(-10.5px) solo al renderizar para el PDF
-     y deja el preview intacto. Si se cambia el tamaño del logo o del wordmark,
-     hay que volver a medirlo. */
-  .cp-wordmark {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-weight: 700;
-    font-size: 19px;
-    line-height: 1;
-    color: #1a1c1f;
-    letter-spacing: .01em;
-    margin-top: 2.25px;
-  }
-  .cp-wordmark .katex { font-size: 1.05em; line-height: 1; }
 `;

@@ -7,6 +7,8 @@ import EstadoBadge from "../../components/admin/EstadoBadge.jsx";
 import AdminHeader from "../../components/admin/AdminHeader.jsx";
 import { generarComprobantePago } from "../../utils/comprobantePago.jsx";
 import ComprobantePDF from "../../components/ComprobantePDF.jsx";
+import CalendarioPagos from "../../components/CalendarioPagos.jsx";
+import { compartirCalendarioPagos } from "../../utils/calendarioPagosImagen.jsx";
 import {
   textoPeriodo, conceptoDeCargo, desdeFechaISO, aFechaISO,
   lunesDeLaSemana, domingoDeLaSemana,
@@ -445,6 +447,88 @@ function ComprobantePreviewModal({ pago, cargo, alumno, onClose }) {
   );
 }
 
+// ── Calendario de pagos compartible ─────────────────────────────────────────
+function CalendarioModal({ onClose }) {
+  const [desde, setDesde] = useState(aFechaISO(lunesDeLaSemana(new Date())));
+  const [semanas, setSemanas] = useState(8);
+  const [enviando, setEnviando] = useState(false);
+  const [aviso, setAviso] = useState(null);
+
+  // Se escala al ancho disponible igual que la vista previa del comprobante:
+  // la imagen mide 620px fijos y en un teléfono no cabe.
+  const marcoRef = useRef(null);
+  const docRef = useRef(null);
+  const [escala, setEscala] = useState(1);
+  const [alto, setAlto] = useState(0);
+  useEffect(() => {
+    const marco = marcoRef.current, doc = docRef.current;
+    if (!marco || !doc) return;
+    const ro = new ResizeObserver(() => {
+      setEscala(Math.min(1, marco.clientWidth / 620));
+      setAlto(doc.offsetHeight);
+    });
+    ro.observe(marco); ro.observe(doc);
+    return () => ro.disconnect();
+  }, []);
+
+  async function compartir() {
+    setEnviando(true);
+    setAviso(null);
+    try {
+      const r = await compartirCalendarioPagos({
+        desde: desdeFechaISO(desde),
+        semanas: Number(semanas),
+        titulo: "Calendario de pagos",
+      });
+      if (r === "descargado") setAviso("Tu navegador no permite compartir archivos, así que se descargó la imagen.");
+    } catch (e) {
+      console.error(e);
+      setAviso("No se pudo generar la imagen.");
+    }
+    setEnviando(false);
+  }
+
+  return (
+    <Modal title="Calendario de pagos" onClose={onClose} maxWidth={720}>
+      <div style={{ display: "grid", gridTemplateColumns: GRID_FORM, gap: 12, marginBottom: 16 }}>
+        <Field label="Desde la semana del">
+          <input type="date" value={desde} onChange={(e) => setDesde(e.target.value)} style={inputStyle} />
+        </Field>
+        <Field label="Cuántas semanas">
+          <input type="number" min="1" max="26" value={semanas}
+            onChange={(e) => setSemanas(e.target.value)} style={inputStyle} />
+        </Field>
+      </div>
+
+      <div ref={marcoRef} style={{ background: "#555", borderRadius: 10, padding: 16, marginBottom: 16 }}>
+        <div style={{ height: alto * escala, overflow: "hidden" }}>
+          <div ref={docRef} style={{ width: 620, transform: `scale(${escala})`, transformOrigin: "top left" }}>
+            <CalendarioPagos desde={desdeFechaISO(desde)} semanas={Number(semanas) || 1} />
+          </div>
+        </div>
+      </div>
+
+      {aviso && (
+        <div style={{ marginBottom: 12 }}>
+          <ErrorMsg>{aviso}</ErrorMsg>
+        </div>
+      )}
+
+      <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
+        <button onClick={onClose} style={{
+          background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
+          padding: "8px 18px", color: C.muted, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: font,
+        }}>Cerrar</button>
+        <button onClick={compartir} disabled={enviando} style={{
+          background: C.blue, border: "none", borderRadius: 8,
+          padding: "8px 22px", color: "#fff", fontSize: 13, fontWeight: 700,
+          cursor: enviando ? "default" : "pointer", opacity: enviando ? 0.6 : 1, fontFamily: font,
+        }}>{enviando ? "Generando…" : "Compartir imagen"}</button>
+      </div>
+    </Modal>
+  );
+}
+
 // ── Fila de cargo ────────────────────────────────────────────────────────────
 function CargoRow({ cargo, alumnos, onPay, onEdit, onDelete, onTogglePagos, showPagos, pagos, onDownloadPago }) {
   const alumno = alumnos.find((a) => a.id === cargo.alumno_id);
@@ -563,6 +647,7 @@ export default function AdminCargos({ embedded }) {
   const [lastPago, setLastPago] = useState(null);
   const [lastPagoCargo, setLastPagoCargo] = useState(null);
   const [preview, setPreview] = useState(null); // { pago, cargo, alumno }
+  const [showCalendario, setShowCalendario] = useState(false);
 
   useEffect(() => { loadAll(); }, []);
 
@@ -715,6 +800,11 @@ export default function AdminCargos({ embedded }) {
         ))}
         <span style={{ marginLeft: 8, color: C.muted, fontSize: 12, fontFamily: font }}>{filtrados.length} cargos</span>
         <div style={{ flex: 1 }} />
+        <button onClick={() => setShowCalendario(true)} style={{
+          background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
+          padding: "8px 14px", color: C.dim, fontSize: 12, fontWeight: 700,
+          cursor: "pointer", fontFamily: font,
+        }}>🗓 Calendario</button>
         <button onClick={() => { setEditCargo(null); setShowCargoForm(true); }} style={{
           background: C.blue, border: "none", borderRadius: 8,
           padding: "8px 18px", color: "#fff", fontSize: 12, fontWeight: 700,
@@ -800,6 +890,8 @@ export default function AdminCargos({ embedded }) {
           </div>
         </Modal>
       )}
+
+      {showCalendario && <CalendarioModal onClose={() => setShowCalendario(false)} />}
 
       {/* Modal vista previa del comprobante */}
       {preview && (

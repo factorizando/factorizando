@@ -45,6 +45,7 @@ import MisInscripciones from "./pages/alumno/MisInscripciones.jsx";
 import MiSuscripcion from "./pages/alumno/MiSuscripcion.jsx";
 import Refrigerios from "./pages/Refrigerios.jsx";
 import PreviewComprobante from "./pages/PreviewComprobante.jsx";
+import Decodificacion from "./components/talleres/decodificacion/Decodificacion.jsx";
 
 // Detecta el evento de recuperación de contraseña (al abrir el enlace del correo)
 // y lleva al usuario a la pantalla para fijar la nueva contraseña.
@@ -77,6 +78,19 @@ function AppRoutes() {
             queda en `false` al compilar, así que la rama y su import se podan. */}
         {import.meta.env.DEV && (
           <Route path="/preview-comprobante" element={<PreviewComprobante />} />
+        )}
+        {/* Igual que el anterior: el taller de decodificación vive detrás de
+            /regularizacion, que pide sesión de admin. Esto deja iterarlo sin
+            entrar, en modo libre (sin alumno, no escribe nada). */}
+        {import.meta.env.DEV && (
+          <Route
+            path="/preview-decodificacion"
+            element={
+              <div style={{ height: "100vh" }}>
+                <Decodificacion alumnoId={null} />
+              </div>
+            }
+          />
         )}
 
         {/* ── Protegidas ── */}

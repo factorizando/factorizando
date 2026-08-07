@@ -11,20 +11,25 @@ import { TEMAS_POR_ID, normalizar, coincide } from "./temas.js";
 import { TALLER as DIVISIONES } from "./matematicas/divisiones.js";
 import { TALLER as PRODUCTO } from "./matematicas/producto.js";
 import { TALLER as COMPRENSION } from "./espanol/comprension-lectora.js";
+import { TALLER as DECODIFICACION } from "./espanol/decodificacion.js";
 import { TALLER as CARRERA_MATE } from "./juegos/carrera-autos-matematicas.js";
 import { TALLER as CARRERA_ESP } from "./juegos/carrera-autos-espanol.js";
+import Decodificacion from "../../components/talleres/decodificacion/Decodificacion.jsx";
 
 export const TALLERES_INDEX = {
   [PRODUCTO.id]: PRODUCTO,
   [DIVISIONES.id]: DIVISIONES,
   [CARRERA_MATE.id]: CARRERA_MATE,
+  [DECODIFICACION.id]: DECODIFICACION,
   [COMPRENSION.id]: COMPRENSION,
   [CARRERA_ESP.id]: CARRERA_ESP,
 };
 
 // Componentes React para talleres con render.tipo === "react".
 // Reciben { alumnoId, tallerId, guardarSesion, cargarSesiones }.
-export const TALLERES_REACT = {};
+export const TALLERES_REACT = {
+  decodificacion: Decodificacion,
+};
 
 export function buscarTaller(id) {
   return TALLERES_INDEX[id] || null;

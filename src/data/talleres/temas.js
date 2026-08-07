@@ -15,7 +15,7 @@
 export const AREAS_ORDEN = [
   "Números y operaciones", "División", "Fracciones y decimales",
   "Geometría y medida", "Datos y patrones", "Problemas",
-  "Ortografía", "Gramática", "Vocabulario", "Comprensión lectora",
+  "Ortografía", "Gramática", "Vocabulario", "Decodificación y fluidez", "Comprensión lectora",
 ];
 
 export const TEMAS = [
@@ -112,6 +112,18 @@ export const TEMAS = [
     alias: ["separar en sílabas", "palmadas", "sílaba"] },
   { id: "orden-alfabetico", label: "Orden alfabético", materia: "Español", area: "Vocabulario",
     alias: ["diccionario", "abecedario", "alfabeto"] },
+
+  // Decodificar es anterior a comprender: aquí no se trabaja qué dice el
+  // texto sino cómo se convierten sus letras en sonidos. Un alumno puede
+  // tener excelente comprensión oral y aun así atorarse en esta área.
+  { id: "decodificacion", label: "Decodificar: de letras a sonidos", materia: "Español", area: "Decodificación y fluidez",
+    alias: ["leer en voz alta", "se traba al leer", "adivina las palabras", "descifrar",
+            "sonidos", "fonemas", "conciencia fonológica", "no sabe leer"] },
+  { id: "fluidez", label: "Fluidez lectora", materia: "Español", area: "Decodificación y fluidez",
+    alias: ["lectura repetida", "velocidad de lectura", "palabras por minuto", "leer de corrido",
+            "lee lento", "cronómetro", "entonación"] },
+  { id: "discriminacion", label: "Palabras que se parecen", materia: "Español", area: "Decodificación y fluidez",
+    alias: ["vecinos ortográficos", "confunde palabras", "parecidas", "piso pista", "discriminación"] },
 
   { id: "referentes", label: "Referentes y pronombres", materia: "Español", area: "Comprensión lectora",
     alias: ["a quién se refiere", "pronombre", "sustituir"] },

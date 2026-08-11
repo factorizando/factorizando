@@ -159,7 +159,9 @@
       <button class="btn ghost" data-meta="12">Corta · 12</button>
       <button class="btn selected" data-meta="18">Media · 18</button>
       <button class="btn ghost" data-meta="26">Larga · 26</button>
+      <button class="btn ghost" data-meta="50">Maratón · 50</button>
     </div>
+    <p class="hint" id="hintMeta" style="text-align:center;"></p>
 
     <div class="label">Autos en la parrilla (1 a 4)</div>
     <div class="setup-grid" id="teamInputs"></div>
@@ -402,10 +404,23 @@ function iconoMateria(){ return materia === 'matematicas' ? '🔢' : '📝'; }
 function pintarHint(){
   el('hintEdad').textContent = HINTS[materia][edad] + (edad === '8-9' ? NOTA_CONSUELO : '');
 }
+// La distancia se mide en casillas, no en preguntas: un acierto avanza entre
+// 1 y 6. Como el maestro sí piensa en reactivos ("quiero una de 50"), aquí se
+// traduce. Avance medio por turno = 3.5 en acierto, y en 8-9 el error todavía
+// mueve 1 casilla; con ~70% de aciertos sale 2.75 (8-9) y 2.45 (10-12).
+function preguntasPorAuto(){
+  return Math.round(meta / (edad === '8-9' ? 2.75 : 2.45));
+}
+function pintarHintMeta(){
+  const n = preguntasPorAuto();
+  el('hintMeta').textContent =
+    `La distancia va en casillas: cada acierto avanza de 1 a 6. A este ritmo, ` +
+    `cada auto contesta unas ${n} preguntas (con dos autos, cerca de ${n * 2} reactivos en la partida).`;
+}
 
 el('edadToggle').addEventListener('click', e => {
   const b = e.target.closest('.btn'); if (!b) return;
-  edad = b.dataset.edad; pintarToggle('edadToggle', edad, 'edad'); pintarHint();
+  edad = b.dataset.edad; pintarToggle('edadToggle', edad, 'edad'); pintarHint(); pintarHintMeta();
 });
 el('materiaToggle').addEventListener('click', e => {
   const b = e.target.closest('.btn'); if (!b) return;
@@ -413,7 +428,7 @@ el('materiaToggle').addEventListener('click', e => {
 });
 el('metaToggle').addEventListener('click', e => {
   const b = e.target.closest('.btn'); if (!b) return;
-  meta = +b.dataset.meta; pintarToggle('metaToggle', meta, 'meta');
+  meta = +b.dataset.meta; pintarToggle('metaToggle', meta, 'meta'); pintarHintMeta();
 });
 
 // Publicado por materia: la pregunta sobra y el título ya la anuncia.
@@ -425,6 +440,7 @@ if (!MATERIA_LIBRE){
 }
 pintarToggle('materiaToggle', materia, 'materia');
 pintarHint();
+pintarHintMeta();
 
 function renderTeamInputs(){
   el('teamInputs').innerHTML = equipos.map((t,i) => `
@@ -542,11 +558,13 @@ function dibujarPista(){
   s += `<rect x="0" y="${yPista}" width="1000" height="9" fill="url(#bordillo)"/>`;
   s += `<rect x="0" y="${yPista+hPista-9}" width="1000" height="9" fill="url(#bordillo)"/>`;
 
-  // Marcas de casilla + números cada 5
+  // Marcas de casilla + números cada 5 (cada 10 en el maratón: con 50 casillas
+  // el paso baja a ~17 unidades del viewBox y los números se encimarían).
+  const salto = meta > 30 ? 10 : 5;
   for (let i = 0; i <= meta; i++){
     const x = xDe(i);
-    s += `<rect x="${x-0.8}" y="${yPista+11}" width="1.6" height="${hPista-22}" fill="#f3f0e6" opacity="${i%5===0?0.16:0.07}"/>`;
-    if (i % 5 === 0 && i !== 0 && i !== meta){
+    s += `<rect x="${x-0.8}" y="${yPista+11}" width="1.6" height="${hPista-22}" fill="#f3f0e6" opacity="${i%salto===0?0.16:0.07}"/>`;
+    if (i % salto === 0 && i !== 0 && i !== meta){
       s += `<text x="${x}" y="${yPista+hPista-14}" text-anchor="middle" font-family="'Baloo 2',sans-serif"
              font-weight="800" font-size="13" fill="#f3f0e6" opacity=".25">${i}</text>`;
     }
@@ -980,13 +998,16 @@ function barajar(arr){
   return a;
 }
 // Distractores numéricos cercanos: si están muy lejos la pregunta se contesta por descarte.
-function opcNum(resp, disp){
+// `min` sube el piso de los distractores cuando el cero no es una respuesta
+// concebible: nadie duda entre 1 y 0 sílabas, así que esa opción se desperdicia.
+function opcNum(resp, disp, min){
+  const piso = min === undefined ? 0 : min;
   const set = new Set([String(resp)]);
   let guarda = 0;
   while (set.size < 4 && guarda++ < 120){
     const d = randInt(1, disp) * (Math.random() < 0.5 ? -1 : 1);
     const v = resp + d;
-    if (v >= 0 && v !== resp) set.add(String(v));
+    if (v >= piso && v !== resp) set.add(String(v));
   }
   let extra = 1;
   while (set.size < 4) set.add(String(resp + disp + extra++));
@@ -1006,7 +1027,7 @@ function opcDec(resp, disp){
   return barajar([...set]);
 }
 function q(badge, texto, resp, disp, extra){
-  return Object.assign({ badge, texto, respuesta: String(resp), opciones: opcNum(resp, disp) }, extra || {});
+  return Object.assign({ badge, texto, respuesta: String(resp), opciones: opcNum(resp, disp, extra && extra.min) }, extra || {});
 }
 // Las opciones llegan como [correcta, ...distractores]: aquí se quitan
 // repetidos (los generadores numéricos a veces colisionan) sin perder nunca
@@ -1045,6 +1066,38 @@ const ORTOGRAFIA = [
   {ok:'hermano', mal:['ermano','hhermano','hermanno']},
   {ok:'caballo', mal:['cabayo','cavallo','caballlo']},
   {ok:'cuaderno', mal:['quaderno','cuadermo','cuademo']},
+  {ok:'vaca', mal:['baca','vacca','vaka']},
+  {ok:'invierno', mal:['imbierno','inbierno','invíerno']},
+  {ok:'almohada', mal:['almuada','almoada','almojada']},
+  {ok:'burbuja', mal:['burbuga','vurbuja','burbugia']},
+  {ok:'guitarra', mal:['gitarra','guitara','quitarra']},
+  {ok:'águila', mal:['aguila','ágila','áquila']},
+  {ok:'quesadilla', mal:['kesadilla','quesadiya','cuesadilla']},
+  {ok:'mochila', mal:['mochilla','muchila','mochíla']},
+  {ok:'tijeras', mal:['tigeras','tijerras','tijeraz']},
+  {ok:'hospital', mal:['ospital','hospitál','hozpital']},
+  {ok:'ejercicio', mal:['ejersicio','egercicio','ejerciscio']},
+  {ok:'naranja', mal:['naranga','narranja','naranha']},
+  {ok:'ballena', mal:['bayena','vallena','balena']},
+  {ok:'sombrilla', mal:['sombriya','sonbrilla','sombrila']},
+  {ok:'invitación', mal:['imbitación','invitacion','inbitación']},
+  {ok:'hierba', mal:['ierba','hierva','jierba']},
+  {ok:'cebolla', mal:['seboya','ceboya','sebolla']},
+  {ok:'juguete', mal:['jugete','juguette','huguete']},
+  {ok:'abrigo', mal:['avrigo','abriggo','habrigo']},
+  {ok:'pingüino', mal:['pinguino','pingüíno','pinquino']},
+  {ok:'girasol', mal:['jirasol','gírasol','guirasol']},
+  {ok:'hormiga', mal:['ormiga','hormigga','jormiga']},
+  {ok:'columpio', mal:['colunpio','columpío','colompio']},
+  {ok:'estrella', mal:['estreya','estrela','extrella']},
+  {ok:'vecino', mal:['becino','vesino','vezino']},
+  {ok:'lluvia', mal:['yuvia','lluvía','luvia']},
+  {ok:'cangrejo', mal:['cangrego','cangrrejo','kangrejo']},
+  {ok:'hierro', mal:['ierro','hiero','jierro']},
+  {ok:'obligación', mal:['ovligación','obligacion','obligasión']},
+  {ok:'esquina', mal:['ezquina','eskina','escuina']},
+  {ok:'ventilador', mal:['bentilador','ventillador','ventiladór']},
+  {ok:'zanahoria', mal:['sanahoria','zanaoria','zanahorria']},
 ];
 const SINONIMOS = [
   {p:'feliz', ok:'contento', mal:['triste','rápido','grande']},
@@ -1056,6 +1109,24 @@ const SINONIMOS = [
   {p:'antiguo', ok:'viejo', mal:['nuevo','joven','moderno']},
   {p:'silencioso', ok:'callado', mal:['ruidoso','fuerte','alegre']},
   {p:'listo', ok:'inteligente', mal:['torpe','pesado','lento']},
+  {p:'triste', ok:'apenado', mal:['alegre','veloz','limpio']},
+  {p:'bonito', ok:'lindo', mal:['feo','duro','lejano']},
+  {p:'difícil', ok:'complicado', mal:['sencillo','barato','tibio']},
+  {p:'gritar', ok:'chillar', mal:['susurrar','caminar','pensar']},
+  {p:'saltar', ok:'brincar', mal:['sentarse','mirar','dormir']},
+  {p:'contento', ok:'alegre', mal:['furioso','cansado','tímido']},
+  {p:'delgado', ok:'flaco', mal:['gordo','ancho','pesado']},
+  {p:'oscuro', ok:'sombrío', mal:['brillante','claro','blanco']},
+  {p:'trabajo', ok:'labor', mal:['descanso','juego','sueño']},
+  {p:'mirar', ok:'observar', mal:['oír','hablar','oler']},
+  {p:'terminar', ok:'finalizar', mal:['empezar','seguir','abrir']},
+  {p:'error', ok:'equivocación', mal:['acierto','premio','verdad']},
+  {p:'camino', ok:'sendero', mal:['puente','muro','techo']},
+  {p:'sucio', ok:'mugroso', mal:['limpio','nuevo','claro']},
+  {p:'fuerte', ok:'robusto', mal:['débil','pequeño','suave']},
+  {p:'regalo', ok:'obsequio', mal:['castigo','deuda','préstamo']},
+  {p:'asustado', ok:'espantado', mal:['tranquilo','valiente','alegre']},
+  {p:'brillante', ok:'reluciente', mal:['opaco','sucio','roto']},
 ];
 const ANTONIMOS = [
   {p:'alto', ok:'bajo', mal:['delgado','fuerte','ancho']},
@@ -1067,6 +1138,24 @@ const ANTONIMOS = [
   {p:'subir', ok:'bajar', mal:['saltar','correr','volar']},
   {p:'lleno', ok:'vacío', mal:['pesado','grande','roto']},
   {p:'dulce', ok:'amargo', mal:['salado','frío','blando']},
+  {p:'grande', ok:'pequeño', mal:['largo','pesado','ancho']},
+  {p:'fuerte', ok:'débil', mal:['alto','duro','rápido']},
+  {p:'alegre', ok:'triste', mal:['tranquilo','callado','serio']},
+  {p:'cerca', ok:'lejos', mal:['arriba','dentro','atrás']},
+  {p:'blando', ok:'duro', mal:['liso','tibio','ligero']},
+  {p:'primero', ok:'último', mal:['segundo','medio','antes']},
+  {p:'dentro', ok:'fuera', mal:['debajo','encima','junto']},
+  {p:'ganar', ok:'perder', mal:['jugar','correr','contar']},
+  {p:'recordar', ok:'olvidar', mal:['pensar','estudiar','soñar']},
+  {p:'encender', ok:'apagar', mal:['romper','guardar','mover']},
+  {p:'nuevo', ok:'viejo', mal:['caro','bonito','pequeño']},
+  {p:'pesado', ok:'ligero', mal:['grande','duro','lleno']},
+  {p:'aburrido', ok:'divertido', mal:['largo','difícil','cansado']},
+  {p:'delante', ok:'detrás', mal:['al lado','arriba','lejos']},
+  {p:'valiente', ok:'cobarde', mal:['fuerte','tranquilo','serio']},
+  {p:'mojado', ok:'seco', mal:['frío','sucio','helado']},
+  {p:'silencio', ok:'ruido', mal:['música','voz','eco']},
+  {p:'empezar', ok:'terminar', mal:['seguir','probar','repetir']},
 ];
 const CLASES_BASICAS = [
   {frase:'El gato negro duerme', palabra:'negro', tipo:'adjetivo'},
@@ -1077,11 +1166,36 @@ const CLASES_BASICAS = [
   {frase:'El perro ladra fuerte', palabra:'perro', tipo:'sustantivo'},
   {frase:'Mi abuela cocina pan', palabra:'abuela', tipo:'sustantivo'},
   {frase:'El coche rojo corre', palabra:'rojo', tipo:'adjetivo'},
+  // `frase.replace(palabra, …)` sustituye la *primera* coincidencia como
+  // subcadena: la palabra marcada no puede aparecer antes dentro de otra
+  // (cuidado con los artículos «el», «la», «los»).
+  {frase:'Los patos nadan en el lago', palabra:'el', tipo:'artículo'},
+  {frase:'Una mariposa se posó en mi mano', palabra:'Una', tipo:'artículo'},
+  {frase:'Compré un cuaderno nuevo', palabra:'un', tipo:'artículo'},
+  {frase:'La lluvia mojó las banquetas', palabra:'las', tipo:'artículo'},
+  {frase:'Guardé los colores en mi mochila', palabra:'los', tipo:'artículo'},
+  {frase:'Los pájaros vuelan muy alto', palabra:'vuelan', tipo:'verbo'},
+  {frase:'Mi papá lava el coche', palabra:'lava', tipo:'verbo'},
+  {frase:'Nosotros comimos tacos ayer', palabra:'comimos', tipo:'verbo'},
+  {frase:'La niña dibuja un paisaje', palabra:'dibuja', tipo:'verbo'},
+  {frase:'El árbol dio muchas frutas', palabra:'árbol', tipo:'sustantivo'},
+  {frase:'Mi mamá compró leche', palabra:'leche', tipo:'sustantivo'},
+  {frase:'La maestra revisó el cuaderno', palabra:'cuaderno', tipo:'sustantivo'},
+  {frase:'El viento tiró la maceta', palabra:'viento', tipo:'sustantivo'},
+  {frase:'El café está muy caliente', palabra:'caliente', tipo:'adjetivo'},
+  {frase:'Vimos una película divertida', palabra:'divertida', tipo:'adjetivo'},
+  {frase:'El niño trajo zapatos nuevos', palabra:'nuevos', tipo:'adjetivo'},
 ];
 const SILABAS = [
   {p:'mariposa', n:4}, {p:'sol', n:1}, {p:'ventana', n:3}, {p:'elefante', n:4},
   {p:'pan', n:1}, {p:'cuaderno', n:3}, {p:'bicicleta', n:4}, {p:'flor', n:1},
   {p:'zapato', n:3}, {p:'computadora', n:5}, {p:'mesa', n:2}, {p:'plátano', n:3},
+  {p:'tortuga', n:3}, {p:'mar', n:1}, {p:'escalera', n:4}, {p:'refrigerador', n:5},
+  {p:'gato', n:2}, {p:'murciélago', n:4}, {p:'pez', n:1}, {p:'canción', n:2},
+  {p:'chocolate', n:4}, {p:'lápiz', n:2}, {p:'helicóptero', n:5}, {p:'tren', n:1},
+  {p:'pelota', n:3}, {p:'rinoceronte', n:5}, {p:'silla', n:2}, {p:'ventilador', n:4},
+  {p:'sal', n:1}, {p:'cuchara', n:3}, {p:'dinosaurio', n:4}, {p:'reloj', n:2},
+  {p:'aguacate', n:4}, {p:'luz', n:1}, {p:'periódico', n:4}, {p:'jirafa', n:3},
 ];
 const PLURALES = [
   {s:'lápiz', p:'lápices', mal:['lápizes','lápiz','lápicez']},
@@ -1090,6 +1204,18 @@ const PLURALES = [
   {s:'papel', p:'papeles', mal:['papeles s','papels','papelez']},
   {s:'reloj', p:'relojes', mal:['relojs','relojes s','reloces']},
   {s:'nariz', p:'narices', mal:['narizes','narises','naricez']},
+  {s:'voz', p:'voces', mal:['voses','vozes','vocez']},
+  {s:'flor', p:'flores', mal:['flors','floress','flories']},
+  {s:'rey', p:'reyes', mal:['reys','reies','rees']},
+  {s:'ley', p:'leyes', mal:['leys','leies','lees']},
+  {s:'cruz', p:'cruces', mal:['cruzes','cruses','crucez']},
+  {s:'raíz', p:'raíces', mal:['raízes','raises','raicez']},
+  {s:'árbol', p:'árboles', mal:['árbols','arboles','árbolez']},
+  {s:'camión', p:'camiones', mal:['camións','camiónes','camionez']},
+  {s:'pared', p:'paredes', mal:['pareds','paredses','paredez']},
+  {s:'feliz', p:'felices', mal:['felizes','felises','felicez']},
+  {s:'avestruz', p:'avestruces', mal:['avestruzes','avestruses','avestrucez']},
+  {s:'lunes', p:'lunes', mal:['luneses','luness','lunesos']},
 ];
 const MAYUSCULAS = [
   {ok:'Ayer fuimos a Puebla con mi tía Rosa.', mal:['ayer fuimos a puebla con mi tía rosa.','Ayer Fuimos a Puebla con mi Tía Rosa.','ayer Fuimos a Puebla con mi tía rosa.']},
@@ -1101,6 +1227,24 @@ const MAYUSCULAS = [
   {ok:'Vivo en la calle Morelos, en Toluca.', mal:['vivo en la calle morelos, en toluca.','Vivo en la Calle Morelos, en toluca.','vivo en la Calle Morelos, en Toluca.']},
   {ok:'El martes visitamos el Museo de Antropología.', mal:['El Martes visitamos el museo de antropología.','el martes visitamos el Museo De Antropología.','El martes Visitamos el museo de Antropología.']},
   {ok:'Mi hermano Luis estudia en la Universidad de Guadalajara.', mal:['mi hermano luis estudia en la universidad de guadalajara.','Mi Hermano Luis estudia en la Universidad de guadalajara.','mi hermano Luis estudia en la Universidad De Guadalajara.']},
+  {ok:'Mi primo Andrés vive en Monterrey.', mal:['mi primo andrés vive en monterrey.','Mi Primo Andrés vive en Monterrey.','mi primo Andrés vive en monterrey.']},
+  {ok:'El jueves llegamos a la Ciudad de México.', mal:['el jueves llegamos a la ciudad de méxico.','El Jueves llegamos a la Ciudad de México.','el jueves llegamos a la Ciudad De México.']},
+  {ok:'Leímos un cuento de Juan Rulfo en clase.', mal:['leímos un cuento de juan rulfo en clase.','Leímos un Cuento de Juan Rulfo en Clase.','leímos un cuento de Juan rulfo en clase.']},
+  {ok:'En verano fuimos a la playa de Acapulco.', mal:['En Verano fuimos a la playa de Acapulco.','en verano fuimos a la playa de acapulco.','En verano fuimos a la Playa de Acapulco.']},
+  {ok:'Mi gata Nube duerme en el sillón.', mal:['mi gata nube duerme en el sillón.','Mi Gata Nube duerme en el Sillón.','mi gata Nube duerme en el sillón.']},
+  {ok:'El doctor Ramírez atiende los miércoles.', mal:['El Doctor Ramírez atiende los Miércoles.','el doctor ramírez atiende los miércoles.','El doctor ramírez atiende los Miércoles.']},
+  {ok:'Estudiamos el río Nilo en Geografía.', mal:['estudiamos el río nilo en geografía.','Estudiamos el Río Nilo en Geografía.','estudiamos el Río nilo en geografía.']},
+  {ok:'Ana y Pedro nacieron en febrero.', mal:['ana y pedro nacieron en febrero.','Ana y Pedro nacieron en Febrero.','ana y Pedro nacieron en febrero.']},
+  {ok:'Fuimos al zoológico de Chapultepec el sábado.', mal:['Fuimos al Zoológico de Chapultepec el Sábado.','fuimos al zoológico de chapultepec el sábado.','Fuimos al zoológico de chapultepec el Sábado.']},
+  {ok:'Mi tío Beto trabaja en Veracruz.', mal:['mi tío beto trabaja en veracruz.','Mi Tío Beto trabaja en Veracruz.','mi tío Beto trabaja en veracruz.']},
+  {ok:'La escuela Benito Juárez está en mi colonia.', mal:['la escuela benito juárez está en mi colonia.','La Escuela Benito Juárez está en mi Colonia.','la escuela Benito Juárez está en mi colonia.']},
+  {ok:'En abril visitamos las pirámides de Teotihuacán.', mal:['En Abril visitamos las Pirámides de Teotihuacán.','en abril visitamos las pirámides de teotihuacán.','En abril visitamos las pirámides de teotihuacán.']},
+  {ok:'El domingo comimos pozole con la familia.', mal:['El Domingo comimos Pozole con la familia.','el domingo comimos pozole con la familia.','El domingo Comimos pozole con la Familia.']},
+  {ok:'Sofía leyó Don Quijote de la Mancha.', mal:['sofía leyó don quijote de la mancha.','Sofía leyó Don Quijote De La Mancha.','sofía leyó Don Quijote de la mancha.']},
+  {ok:'Mi papá nació en Oaxaca en 1985.', mal:['mi papá nació en oaxaca en 1985.','Mi Papá nació en Oaxaca en 1985.','mi papá nació en Oaxaca en 1985.']},
+  {ok:'El maestro Óscar enseña Historia.', mal:['el maestro óscar enseña historia.','El Maestro Óscar enseña Historia.','el maestro Óscar enseña historia.']},
+  {ok:'Viajamos por la carretera a Querétaro.', mal:['Viajamos por la Carretera a Querétaro.','viajamos por la carretera a querétaro.','Viajamos por la carretera a querétaro.']},
+  {ok:'Mi hermana Paola juega futbol los martes.', mal:['mi hermana paola juega futbol los martes.','Mi Hermana Paola juega Futbol los Martes.','mi hermana Paola juega futbol los Martes.']},
 ];
 const SIGNOS_BASICOS = [
   {ok:'¿Cómo te llamas?', mal:['Como te llamas?','¿Como te llamas','¿cómo te llamas']},
@@ -1115,6 +1259,30 @@ const SIGNOS_BASICOS = [
   {ok:'¡Qué frío hace hoy!', mal:['Que frío hace hoy!','¡Que frio hace hoy!','¡Qué frío hace hoy¡']},
   {ok:'¿Me prestas tu goma?', mal:['Me prestas tu goma?','¿Me prestas tu goma','¿Me prestas tu goma¿']},
   {ok:'¡Ganamos el partido!', mal:['Ganamos el partido!','¡Ganamos el partido','¡ganamos el partido¡']},
+  {ok:'¿Qué hora es?', mal:['Que hora es?','¿Que hora es','¿qué hora es¿']},
+  {ok:'¡Vámonos ya!', mal:['Vamonos ya!','¡Vámonos ya','¡vámonos ya¡']},
+  {ok:'¿Puedo pasar al baño?', mal:['Puedo pasar al baño?','¿Puedo pasar al baño','¿puedo pasar al baño¿']},
+  {ok:'¡Qué susto me diste!', mal:['Que susto me diste!','¡Qué susto me diste','¡qué susto me diste¡']},
+  {ok:'¿Cuál es tu color favorito?', mal:['Cual es tu color favorito?','¿Cual es tu color favorito','¿cuál es tu color favorito¿']},
+  {ok:'¡Corre, que ya viene el camión!', mal:['Corre, que ya viene el camión!','¡Corre que ya viene el camión','¡corre, que ya viene el camión¡']},
+  {ok:'¿Por qué lloras?', mal:['Porque lloras?','¿Por que lloras','¿por qué lloras¿']},
+  {ok:'¡Bienvenidos a la fiesta!', mal:['Bienvenidos a la fiesta!','¡Bienvenidos a la fiesta','¡bienvenidos a la fiesta¡']},
+  {ok:'¿Terminaste la tarea?', mal:['Terminaste la tarea?','¿Terminaste la tarea','¿terminaste la tarea¿']},
+  {ok:'¡Qué rico está el pastel!', mal:['Que rico esta el pastel!','¡Qué rico está el pastel','¡qué rico está el pastel¡']},
+  {ok:'¿De dónde vienes?', mal:['De donde vienes?','¿De donde vienes','¿de dónde vienes¿']},
+  {ok:'¡Auxilio, se cayó el niño!', mal:['Auxilio se cayó el niño!','¡Auxilio, se cayó el niño','¡auxilio, se cayó el niño¡']},
+  {ok:'¿Vas a venir mañana?', mal:['Vas a venir mañana?','¿Vas a venir mañana','¿vas a venir mañana¿']},
+  {ok:'¡Silencio, por favor!', mal:['Silencio por favor!','¡Silencio, por favor','¡silencio, por favor¡']},
+  {ok:'¿Cómo se escribe tu nombre?', mal:['Como se escribe tu nombre?','¿Como se escribe tu nombre','¿cómo se escribe tu nombre¿']},
+  {ok:'¡Ya llegamos!', mal:['Ya llegamos!','¡Ya llegamos','¡ya llegamos¡']},
+  {ok:'¿Cuánto cuesta ese libro?', mal:['Cuanto cuesta ese libro?','¿Cuanto cuesta ese libro','¿cuánto cuesta ese libro¿']},
+  {ok:'¡Qué bonito dibujo hiciste!', mal:['Que bonito dibujo hiciste!','¡Qué bonito dibujo hiciste','¡qué bonito dibujo hiciste¡']},
+  {ok:'¿Quieres jugar conmigo?', mal:['Quieres jugar conmigo?','¿Quieres jugar conmigo','¿quieres jugar conmigo¿']},
+  {ok:'¡Cuidado, viene un coche!', mal:['Cuidado viene un coche!','¡Cuidado, viene un coche','¡cuidado, viene un coche¡']},
+  {ok:'¿Dónde dejaste las llaves?', mal:['Donde dejaste las llaves?','¿Donde dejaste las llaves','¿dónde dejaste las llaves¿']},
+  {ok:'¡Feliz Navidad a todos!', mal:['Feliz Navidad a todos!','¡Feliz Navidad a todos','¡feliz navidad a todos¡']},
+  {ok:'¿Ya comiste?', mal:['Ya comiste?','¿Ya comiste','¿ya comiste¿']},
+  {ok:'¡Qué larga fue la fila!', mal:['Que larga fue la fila!','¡Qué larga fue la fila','¡qué larga fue la fila¡']},
 ];
 const ALFABETICO = [
   ['casa','cielo','cuna','cráter'],
@@ -1122,6 +1290,16 @@ const ALFABETICO = [
   ['mano','mesa','mono','muro'],
   ['pan','pera','pino','puma'],
   ['sal','sol','sur','silla'],
+  ['dedo','día','doce','duro'],
+  ['flor','fresa','frío','fuego'],
+  ['gato','gente','globo','gusano'],
+  ['leche','libro','luna','lodo'],
+  ['nube','nariz','nido','nuez'],
+  ['rana','risa','rosa','ruta'],
+  ['taza','tigre','torre','tuna'],
+  ['vaso','vela','vida','voz'],
+  ['cama','cebra','cielo','cuna'],
+  ['pato','pera','pinza','pulpo'],
 ];
 
 const ACENTUACION = [
@@ -1129,6 +1307,17 @@ const ACENTUACION = [
   {p:'papel', tipo:'aguda'}, {p:'lápiz', tipo:'grave'}, {p:'brújula', tipo:'esdrújula'},
   {p:'reloj', tipo:'aguda'}, {p:'azúcar', tipo:'grave'}, {p:'teléfono', tipo:'esdrújula'},
   {p:'jugar', tipo:'aguda'}, {p:'fácil', tipo:'grave'}, {p:'príncipe', tipo:'esdrújula'},
+  {p:'ratón', tipo:'aguda'}, {p:'cárcel', tipo:'grave'}, {p:'pájaro', tipo:'esdrújula'},
+  {p:'café', tipo:'aguda'}, {p:'casa', tipo:'grave'}, {p:'México', tipo:'esdrújula'},
+  {p:'balón', tipo:'aguda'}, {p:'mesa', tipo:'grave'}, {p:'sábado', tipo:'esdrújula'},
+  {p:'feliz', tipo:'aguda'}, {p:'césped', tipo:'grave'}, {p:'médico', tipo:'esdrújula'},
+  {p:'pared', tipo:'aguda'}, {p:'ventana', tipo:'grave'}, {p:'plátano', tipo:'esdrújula'},
+  {p:'cantar', tipo:'aguda'}, {p:'difícil', tipo:'grave'}, {p:'árboles', tipo:'esdrújula'},
+  {p:'francés', tipo:'aguda'}, {p:'mochila', tipo:'grave'}, {p:'química', tipo:'esdrújula'},
+  {p:'nariz', tipo:'aguda'}, {p:'túnel', tipo:'grave'}, {p:'lámpara', tipo:'esdrújula'},
+  // Sin estas cuatro, «sobresdrújula» nunca es la respuesta y se descarta sola.
+  {p:'dígamelo', tipo:'sobresdrújula'}, {p:'cuéntamelo', tipo:'sobresdrújula'},
+  {p:'entrégaselo', tipo:'sobresdrújula'}, {p:'devuélvemelo', tipo:'sobresdrújula'},
 ];
 const TILDES = [
   {ok:'camión', mal:['camion','cámion','camión.']},
@@ -1137,6 +1326,18 @@ const TILDES = [
   {ok:'después', mal:['despues','déspues','despúes']},
   {ok:'rápido', mal:['rapido','rapído','rápído']},
   {ok:'útil', mal:['util','utíl','útíl']},
+  {ok:'canción', mal:['cancion','canciónn','cancíon']},
+  {ok:'lápiz', mal:['lapiz','lápíz','lapíz']},
+  {ok:'música', mal:['musica','músíca','musíca']},
+  {ok:'jardín', mal:['jardin','járdin','jardíin']},
+  {ok:'teléfono', mal:['telefono','teléfóno','telefóno']},
+  {ok:'pájaro', mal:['pajaro','pájáro','pajáro']},
+  {ok:'sábado', mal:['sabado','sábádo','sabádo']},
+  {ok:'difícil', mal:['dificil','difícíl','dificíl']},
+  {ok:'corazón', mal:['corazon','córazón','corázon']},
+  {ok:'médico', mal:['medico','médíco','medíco']},
+  {ok:'inglés', mal:['ingles','ínglés','inglez']},
+  {ok:'azúcar', mal:['azucar','azúcár','azucár']},
 ];
 const HOMOFONOS = [
   {frase:'No ___ visto a nadie en el patio.', ok:'he', mal:['e','eh','é']},
@@ -1147,6 +1348,29 @@ const HOMOFONOS = [
   {frase:'Mi tío ___ un accidente con el auto.', ok:'tuvo', mal:['tubo','tuvó','túbo']},
   {frase:'Voy ___ la tienda de la esquina.', ok:'a', mal:['ha','ah','há']},
   {frase:'Corrió ___ rápido que ganó la carrera.', ok:'tan', mal:['tanto','tam','than']},
+  {frase:'___ mucho calor en el salón.', ok:'Hace', mal:['Ase','Hase','Ace']},
+  {frase:'Tiene que ___ una explicación para esto.', ok:'haber', mal:['a ver','haver','aver']},
+  {frase:'No sé si ___ llegado ya.', ok:'ha', mal:['a','ah','há']},
+  {frase:'Deja el libro ___, sobre la mesa.', ok:'ahí', mal:['ay','hay','ahi']},
+  {frase:'___, me pegué en el codo.', ok:'Ay', mal:['Hay','Ahí','Ahi']},
+  {frase:'La ___ del jardín es muy alta.', ok:'valla', mal:['vaya','baya','balla']},
+  {frase:'Ojalá no ___ a llover mañana.', ok:'vaya', mal:['valla','baya','balla']},
+  {frase:'Caminamos ___ la esquina y regresamos.', ok:'hasta', mal:['asta','hazta','astta']},
+  {frase:'Izaron la bandera en el ___.', ok:'asta', mal:['hasta','azta','astta']},
+  {frase:'Mañana vamos a ___ por el presidente.', ok:'votar', mal:['botar','vottar','bothar']},
+  {frase:'El niño empezó a ___ la pelota contra la barda.', ok:'botar', mal:['votar','bottar','bothar']},
+  {frase:'Mi tía se va a ___ en diciembre.', ok:'casar', mal:['cazar','cassar','kasar']},
+  {frase:'Está prohibido ___ animales en la reserva.', ok:'cazar', mal:['casar','cassar','kazar']},
+  {frase:'Es la última ___ que te lo pido.', ok:'vez', mal:['ves','bez','vés']},
+  {frase:'¿___ lo que está escrito en el pizarrón?', ok:'Ves', mal:['Vez','Bes','Vés']},
+  {frase:'Me ___ muy contento hoy.', ok:'siento', mal:['ciento','sciento','sientto']},
+  {frase:'Un ___ de personas llegó al festival.', ok:'ciento', mal:['siento','sciento','cientto']},
+  {frase:'¡___! No te había visto.', ok:'Hola', mal:['Ola','Olla','Hoya']},
+  {frase:'Una ___ enorme llegó a la playa.', ok:'ola', mal:['hola','olla','hoya']},
+  {frase:'Mi mamá me enseñó a ___ un botón.', ok:'coser', mal:['cocer','cozer','couser']},
+  {frase:'Hay que ___ las verduras diez minutos.', ok:'cocer', mal:['coser','cozer','cocher']},
+  {frase:'___ la tarea antes de salir.', ok:'Haz', mal:['Has','As','Hás']},
+  {frase:'¿___ terminado de leer el libro?', ok:'Has', mal:['Haz','As','Hás']},
 ];
 const PUNTUACION = [
   {ok:'Ayer, mientras jugaba, llovió mucho.', mal:['Ayer mientras jugaba llovió mucho.','ayer, mientras jugaba, llovió mucho.','Ayer, mientras, jugaba llovió mucho.']},
@@ -1161,6 +1385,30 @@ const PUNTUACION = [
   {ok:'Ven acá, Sofía, y trae tu mochila.', mal:['Ven acá Sofía y trae tu mochila.','Ven acá, Sofía y trae tu mochila.','Ven, acá Sofía, y trae tu mochila.']},
   {ok:'Compré tres cosas: cuaderno, lápiz y regla.', mal:['Compré tres cosas, cuaderno, lápiz y regla.','Compré tres cosas: cuaderno lápiz y regla.','Compré, tres cosas: cuaderno, lápiz y regla.']},
   {ok:'Pedro, mi vecino, arregló la bicicleta.', mal:['Pedro mi vecino arregló la bicicleta.','Pedro, mi vecino arregló la bicicleta.','Pedro mi vecino, arregló la bicicleta.']},
+  {ok:'Cuando llegue el maestro, empezamos.', mal:['Cuando llegue el maestro empezamos.','Cuando, llegue el maestro empezamos.','Cuando llegue, el maestro empezamos.']},
+  {ok:'Trajo cuadernos, plumas y una regla.', mal:['Trajo cuadernos plumas y una regla.','Trajo, cuadernos, plumas y una regla.','Trajo cuadernos, plumas, y una regla.']},
+  {ok:'Sofía, apaga la luz.', mal:['Sofía apaga la luz.','Sofía; apaga la luz.','Sofía apaga, la luz.']},
+  {ok:'No fui al parque porque llovía.', mal:['No fui al parque, porque llovía.','No fui, al parque porque llovía.','No fui al parque; porque llovía.']},
+  {ok:'Mi abuelo, que nació en Colima, cumple noventa años.', mal:['Mi abuelo que nació en Colima, cumple noventa años.','Mi abuelo, que nació en Colima cumple noventa años.','Mi abuelo; que nació en Colima; cumple noventa años.']},
+  {ok:'Llegamos tarde; aun así, alcanzamos el tren.', mal:['Llegamos tarde aun así alcanzamos el tren.','Llegamos tarde; aun así alcanzamos el tren.','Llegamos, tarde; aun así alcanzamos el tren.']},
+  {ok:'Necesitamos dos cosas: paciencia y práctica.', mal:['Necesitamos dos cosas, paciencia y práctica.','Necesitamos dos cosas: paciencia, y práctica.','Necesitamos, dos cosas: paciencia y práctica.']},
+  {ok:'Ven, siéntate y escucha.', mal:['Ven siéntate y escucha.','Ven, siéntate, y escucha.','Ven; siéntate y escucha.']},
+  {ok:'El niño preguntó: "¿Puedo salir?".', mal:['El niño preguntó "¿Puedo salir?".','El niño, preguntó: "¿Puedo salir?".','El niño preguntó: ¿Puedo salir?']},
+  {ok:'Aunque estaba cansado, terminó la tarea.', mal:['Aunque estaba cansado terminó la tarea.','Aunque, estaba cansado, terminó la tarea.','Aunque estaba, cansado terminó la tarea.']},
+  {ok:'Compré manzanas, plátanos y naranjas.', mal:['Compré manzanas plátanos y naranjas.','Compré, manzanas, plátanos y naranjas.','Compré manzanas, plátanos, y naranjas.']},
+  {ok:'Por fin, después de tanto esperar, llegó la respuesta.', mal:['Por fin después de tanto esperar llegó la respuesta.','Por fin, después de tanto esperar llegó la respuesta.','Por fin después de tanto esperar, llegó la respuesta.']},
+  {ok:'Mi mejor amiga, Lucía, se mudó a Puebla.', mal:['Mi mejor amiga Lucía, se mudó a Puebla.','Mi mejor amiga, Lucía se mudó a Puebla.','Mi mejor, amiga Lucía, se mudó a Puebla.']},
+  {ok:'Estudia mucho; por eso saca buenas calificaciones.', mal:['Estudia mucho por eso saca buenas calificaciones.','Estudia mucho, por eso, saca buenas calificaciones.','Estudia, mucho; por eso saca buenas calificaciones.']},
+  {ok:'En la mochila llevo libros, colores y una botella.', mal:['En la mochila llevo libros colores y una botella.','En la mochila, llevo libros, colores y una botella.','En la mochila llevo libros, colores, y una botella.']},
+  {ok:'Buenos días, maestra.', mal:['Buenos días maestra.','Buenos, días maestra.','Buenos días; maestra.']},
+  {ok:'Si terminas temprano, puedes salir al patio.', mal:['Si terminas temprano puedes salir al patio.','Si, terminas temprano, puedes salir al patio.','Si terminas, temprano puedes salir al patio.']},
+  {ok:'Los invitados llegaron: Ana, Beto y Carla.', mal:['Los invitados llegaron, Ana, Beto y Carla.','Los invitados llegaron: Ana Beto y Carla.','Los, invitados llegaron: Ana, Beto y Carla.']},
+  {ok:'No sé, la verdad, qué contestar.', mal:['No sé la verdad qué contestar.','No sé, la verdad qué contestar.','No sé la verdad, qué contestar.']},
+  {ok:'Recogimos la basura, barrimos el patio y regamos las plantas.', mal:['Recogimos la basura barrimos el patio y regamos las plantas.','Recogimos la basura, barrimos el patio, y regamos las plantas.','Recogimos, la basura, barrimos el patio y regamos las plantas.']},
+  {ok:'Mañana, si no llueve, iremos de excursión.', mal:['Mañana si no llueve iremos de excursión.','Mañana, si no llueve iremos de excursión.','Mañana si no llueve, iremos de excursión.']},
+  {ok:'Le dije a Marta: "Te espero afuera".', mal:['Le dije a Marta "Te espero afuera".','Le dije, a Marta: "Te espero afuera".','Le dije a Marta: Te espero afuera.']},
+  {ok:'Pásame la sal, por favor.', mal:['Pásame la sal por favor.','Pásame, la sal, por favor.','Pásame la sal; por favor.']},
+  {ok:'Fuimos al cine; luego, cenamos tacos.', mal:['Fuimos al cine luego cenamos tacos.','Fuimos al cine, luego, cenamos tacos.','Fuimos, al cine; luego cenamos tacos.']},
 ];
 const CLASES_AVANZADAS = [
   {frase:'El niño camina lentamente', palabra:'lentamente', tipo:'adverbio'},
@@ -1171,6 +1419,22 @@ const CLASES_AVANZADAS = [
   {frase:'Mañana iremos al museo', palabra:'Mañana', tipo:'adverbio'},
   {frase:'Los alumnos entregaron el proyecto', palabra:'proyecto', tipo:'sustantivo'},
   {frase:'Ayer estudiamos mucho', palabra:'mucho', tipo:'adverbio'},
+  {frase:'Ellos terminaron el examen rápido', palabra:'Ellos', tipo:'pronombre'},
+  {frase:'El tren llegó puntualmente', palabra:'puntualmente', tipo:'adverbio'},
+  {frase:'Mi hermana escribió una carta larga', palabra:'escribió', tipo:'verbo'},
+  {frase:'La respuesta parecía correcta', palabra:'correcta', tipo:'adjetivo'},
+  {frase:'El científico presentó su descubrimiento', palabra:'descubrimiento', tipo:'sustantivo'},
+  {frase:'Ustedes trajeron los materiales', palabra:'Ustedes', tipo:'pronombre'},
+  {frase:'Hoy revisamos la tarea de ayer', palabra:'Hoy', tipo:'adverbio'},
+  {frase:'El equipo jugó bastante bien', palabra:'bien', tipo:'adverbio'},
+  {frase:'La montaña se veía enorme desde el pueblo', palabra:'enorme', tipo:'adjetivo'},
+  {frase:'Los bomberos rescataron al gato', palabra:'rescataron', tipo:'verbo'},
+  {frase:'Ella olvidó su paraguas en la escuela', palabra:'paraguas', tipo:'sustantivo'},
+  {frase:'Nunca había visto tanta gente', palabra:'Nunca', tipo:'adverbio'},
+  {frase:'Yo preparé el desayuno', palabra:'Yo', tipo:'pronombre'},
+  {frase:'El pastel quedó delicioso', palabra:'delicioso', tipo:'adjetivo'},
+  {frase:'Los alumnos escucharon con atención', palabra:'atención', tipo:'sustantivo'},
+  {frase:'Nosotras ganamos el concurso', palabra:'Nosotras', tipo:'pronombre'},
 ];
 const CONECTORES = [
   {frase:'Estudió toda la semana, ___ aprobó el examen.', ok:'por eso', mal:['aunque','sin embargo','a pesar de']},
@@ -1178,6 +1442,16 @@ const CONECTORES = [
   {frase:'Llegó tarde ___ el tráfico estaba pesado.', ok:'porque', mal:['aunque','sin embargo','en cambio']},
   {frase:'Primero mezcla la harina; ___, agrega el huevo.', ok:'después', mal:['antes','mientras','porque']},
   {frase:'No me gusta el frío; ___, vivo en la montaña.', ok:'sin embargo', mal:['por eso','además','así que']},
+  {frase:'Hacía mucho frío; ___, salimos a jugar.', ok:'aun así', mal:['por eso','además','entonces']},
+  {frase:'Terminé la tarea ___ salí a andar en bici.', ok:'y después', mal:['pero','aunque','sin embargo']},
+  {frase:'No estudió; ___, reprobó el examen.', ok:'por lo tanto', mal:['aunque','en cambio','a pesar de eso']},
+  {frase:'Me gusta el futbol; ___, prefiero el basquetbol.', ok:'sin embargo', mal:['por eso','además','así que']},
+  {frase:'Lleva paraguas ___ va a llover.', ok:'porque', mal:['aunque','pero','sin embargo']},
+  {frase:'Ana estudia mucho; ___, ayuda a sus compañeros.', ok:'además', mal:['pero','aunque','en cambio']},
+  {frase:'___ era pequeño, cargó la caja él solo.', ok:'Aunque', mal:['Porque','Además','Entonces']},
+  {frase:'Mi hermano es callado; ___, yo hablo mucho.', ok:'en cambio', mal:['por eso','además','así que']},
+  {frase:'Se descompuso el camión; ___, llegamos tarde.', ok:'así que', mal:['aunque','sin embargo','en cambio']},
+  {frase:'Primero lee las instrucciones y ___ contesta.', ok:'luego', mal:['antes','mientras','porque']},
 ];
 const SUJETOS = [
   {frase:'Los niños juegan en el patio.', ok:'Los niños', mal:['juegan','en el patio','juegan en el patio']},
@@ -1192,11 +1466,44 @@ const SUJETOS = [
   {frase:'En la mañana cantan los pájaros.', ok:'los pájaros', mal:['En la mañana','cantan','la mañana']},
   {frase:'Mis primos y yo fuimos al cine.', ok:'Mis primos y yo', mal:['fuimos al cine','al cine','yo']},
   {frase:'La lluvia mojó todos los cuadernos.', ok:'La lluvia', mal:['mojó','todos los cuadernos','los cuadernos']},
+  {frase:'El maestro revisó los exámenes.', ok:'El maestro', mal:['revisó','los exámenes','revisó los exámenes']},
+  {frase:'Las flores del jardín crecieron rápido.', ok:'Las flores del jardín', mal:['crecieron rápido','del jardín','rápido']},
+  {frase:'Mi papá arregló la puerta el domingo.', ok:'Mi papá', mal:['arregló la puerta','el domingo','la puerta']},
+  {frase:'Los gatos de la vecina duermen en el techo.', ok:'Los gatos de la vecina', mal:['duermen en el techo','en el techo','la vecina']},
+  {frase:'Un señor alto preguntó por ti.', ok:'Un señor alto', mal:['preguntó por ti','por ti','preguntó']},
+  {frase:'En la fiesta bailaron todos los niños.', ok:'todos los niños', mal:['En la fiesta','bailaron','la fiesta']},
+  {frase:'El viento fuerte tiró las macetas.', ok:'El viento fuerte', mal:['tiró las macetas','las macetas','tiró']},
+  {frase:'Mis compañeros y yo hicimos el mural.', ok:'Mis compañeros y yo', mal:['hicimos el mural','el mural','yo']},
+  {frase:'La semana pasada llegaron los libros nuevos.', ok:'los libros nuevos', mal:['La semana pasada','llegaron','nuevos']},
+  {frase:'El director anunció las vacaciones.', ok:'El director', mal:['anunció','las vacaciones','anunció las vacaciones']},
+  {frase:'Dos perros callejeros siguieron al cartero.', ok:'Dos perros callejeros', mal:['siguieron al cartero','al cartero','el cartero']},
+  {frase:'Por la noche brillan las estrellas.', ok:'las estrellas', mal:['Por la noche','brillan','la noche']},
+  {frase:'Mi abuela teje bufandas en invierno.', ok:'Mi abuela', mal:['teje bufandas','en invierno','bufandas']},
+  {frase:'El camión de la escuela pasa a las siete.', ok:'El camión de la escuela', mal:['pasa a las siete','a las siete','la escuela']},
+  {frase:'Los alumnos de sexto organizaron la kermés.', ok:'Los alumnos de sexto', mal:['organizaron la kermés','la kermés','de sexto']},
+  {frase:'Anoche se apagó la luz de toda la cuadra.', ok:'la luz de toda la cuadra', mal:['Anoche','se apagó','toda la cuadra']},
+  {frase:'Mi prima Valeria toca el piano.', ok:'Mi prima Valeria', mal:['toca el piano','el piano','toca']},
+  {frase:'Los pájaros construyeron un nido en el árbol.', ok:'Los pájaros', mal:['construyeron un nido','un nido','en el árbol']},
+  {frase:'El agua del río bajó mucho este año.', ok:'El agua del río', mal:['bajó mucho','este año','del río']},
+  {frase:'Esta mañana sonó la alarma dos veces.', ok:'la alarma', mal:['Esta mañana','sonó','dos veces']},
+  {frase:'Todos mis amigos vinieron a mi cumpleaños.', ok:'Todos mis amigos', mal:['vinieron','a mi cumpleaños','mi cumpleaños']},
+  {frase:'La bicicleta roja se ponchó en el camino.', ok:'La bicicleta roja', mal:['se ponchó','en el camino','el camino']},
+  {frase:'El sol calienta la banqueta al mediodía.', ok:'El sol', mal:['calienta la banqueta','al mediodía','la banqueta']},
+  {frase:'Mi vecino y su hijo pintaron la barda.', ok:'Mi vecino y su hijo', mal:['pintaron la barda','la barda','su hijo']},
 ];
 const TIEMPOS = [
   {v:'caminaré', t:'futuro'}, {v:'corrió', t:'pasado'}, {v:'juegan', t:'presente'},
   {v:'estudiaba', t:'pasado'}, {v:'vendremos', t:'futuro'}, {v:'escribe', t:'presente'},
   {v:'cantaron', t:'pasado'}, {v:'saldrá', t:'futuro'}, {v:'leemos', t:'presente'},
+  {v:'bailé', t:'pasado'}, {v:'canto', t:'presente'}, {v:'comeré', t:'futuro'},
+  {v:'comieron', t:'pasado'}, {v:'corremos', t:'presente'}, {v:'irán', t:'futuro'},
+  {v:'vivía', t:'pasado'}, {v:'estudian', t:'presente'}, {v:'estudiarás', t:'futuro'},
+  {v:'salió', t:'pasado'}, {v:'trabaja', t:'presente'}, {v:'volverá', t:'futuro'},
+  {v:'jugaban', t:'pasado'},
+  // Sin condicionales, la cuarta opción se descarta sola y quedan tres.
+  {v:'jugaría', t:'condicional'}, {v:'comerías', t:'condicional'},
+  {v:'saldríamos', t:'condicional'}, {v:'tendrían', t:'condicional'},
+  {v:'sería', t:'condicional'}, {v:'gustaría', t:'condicional'},
 ];
 const CONTEXTO = [
   {frase:'El sendero era tan angosto que apenas cabía una persona.', p:'angosto', ok:'estrecho', mal:['ancho','largo','oscuro']},
@@ -1211,6 +1518,30 @@ const CONTEXTO = [
   {frase:'Guardaron las provisiones del viaje: comida, agua y cobijas.', p:'provisiones', ok:'cosas necesarias', mal:['recuerdos','adornos','herramientas']},
   {frase:'La maestra fue tajante: dijo que no y no volvió a discutirlo.', p:'tajante', ok:'firme', mal:['dudosa','distraída','burlona']},
   {frase:'Subieron por un sendero escarpado, trepando entre las piedras.', p:'escarpado', ok:'empinado', mal:['plano','ancho','corto']},
+  {frase:'El cuarto estaba impecable: no había ni una mota de polvo.', p:'impecable', ok:'muy limpio', mal:['muy sucio','muy grande','muy oscuro']},
+  {frase:'Era un problema arduo y nos tomó toda la tarde.', p:'arduo', ok:'difícil', mal:['fácil','corto','divertido']},
+  {frase:'El niño era muy locuaz: no paraba de hablar.', p:'locuaz', ok:'hablador', mal:['callado','tímido','serio']},
+  {frase:'Recibimos una noticia grata y todos sonreímos.', p:'grata', ok:'agradable', mal:['triste','confusa','falsa']},
+  {frase:'El perro estaba famélico; se comió todo en un instante.', p:'famélico', ok:'con mucha hambre', mal:['satisfecho','asustado','dormido']},
+  {frase:'Su letra era ilegible: nadie pudo leer el recado.', p:'ilegible', ok:'imposible de leer', mal:['muy bonita','muy grande','escrita en azul']},
+  {frase:'Se acercó de forma sigilosa, sin que nadie la oyera.', p:'sigilosa', ok:'silenciosa y discreta', mal:['ruidosa','apresurada','descuidada']},
+  {frase:'La cosecha fue abundante: llenaron veinte costales.', p:'abundante', ok:'muy grande', mal:['escasa','tardía','echada a perder']},
+  {frase:'Se mostró reacio a subir al juego mecánico.', p:'reacio', ok:'poco dispuesto', mal:['emocionado','listo','apurado']},
+  {frase:'El agua del manantial era cristalina y se veía el fondo.', p:'cristalina', ok:'transparente', mal:['turbia','helada','salada']},
+  {frase:'Nos dio una explicación concisa: dos frases y quedó claro.', p:'concisa', ok:'breve', mal:['larga','confusa','equivocada']},
+  {frase:'El anciano era muy generoso: repartía pan a todos.', p:'generoso', ok:'desprendido', mal:['tacaño','enojón','distraído']},
+  {frase:'La calle quedó desierta después de la lluvia.', p:'desierta', ok:'sin gente', mal:['llena','mojada','oscura']},
+  {frase:'Habló de manera cortés y todos lo escucharon con gusto.', p:'cortés', ok:'educado', mal:['grosero','fuerte','rápido']},
+  {frase:'El paquete era voluminoso y no cabía en el coche.', p:'voluminoso', ok:'de gran tamaño', mal:['ligero','pequeño','frágil']},
+  {frase:'Su respuesta fue ambigua: no se entendía si era sí o no.', p:'ambigua', ok:'poco clara', mal:['clarísima','larga','graciosa']},
+  {frase:'El clima era gélido: se congelaban las manos.', p:'gélido', ok:'muy frío', mal:['muy caliente','templado','húmedo']},
+  {frase:'Trabajó de forma incansable hasta terminar el mural.', p:'incansable', ok:'sin descansar', mal:['con flojera','muy despacio','entre bromas']},
+  {frase:'La casa era espaciosa: cabían todos los primos.', p:'espaciosa', ok:'amplia', mal:['estrecha','antigua','nueva']},
+  {frase:'El anuncio era engañoso y varios se quejaron.', p:'engañoso', ok:'que confunde a propósito', mal:['verdadero','divertido','colorido']},
+  {frase:'Caminaba con pasos vacilantes, como si fuera a caerse.', p:'vacilantes', ok:'inseguros', mal:['firmes','rápidos','largos']},
+  {frase:'La sopa quedó insípida: le faltó sal.', p:'insípida', ok:'sin sabor', mal:['muy salada','picante','dulce']},
+  {frase:'Fue un gesto noble: devolvió la cartera con todo el dinero.', p:'noble', ok:'honrado', mal:['tramposo','tonto','apresurado']},
+  {frase:'Las instrucciones eran minuciosas: explicaban cada detalle.', p:'minuciosas', ok:'muy detalladas', mal:['muy vagas','muy cortas','equivocadas']},
 ];
 
 /* =========================================================
@@ -1341,7 +1672,7 @@ const BANCO = {
                 return qOpc('Antónimos', `¿Cuál es un antónimo de «${it.p}»?`, it.ok, [it.ok, ...it.mal]); },
         () => { const it = sacar('sil', SILABAS);
                 return q('Sílabas', `¿Cuántas sílabas tiene la palabra «${it.p}»?`, it.n, 2,
-                  {pista:'Sepárala dando una palmada por sílaba.'}); },
+                  {min:1, pista:'Sepárala dando una palmada por sílaba.'}); },
         () => { const grupo = sacar('alf', ALFABETICO);
                 const ord = grupo.slice().sort((a,b)=>a.localeCompare(b,'es'));
                 return qOpc('Diccionario', '¿Cuál de estas palabras va primero en el diccionario?', ord[0], grupo); },

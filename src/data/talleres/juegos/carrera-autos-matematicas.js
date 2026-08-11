@@ -18,7 +18,7 @@ export const TALLER = {
     // (suben S, bajan B) es de dos pasos y hasta trae la pista que lo dice.
     { id: "8-9", nombre: "Carrera del bloque 8 a 9 años", edades: "8-9", temas: [
       "suma-resta", "multiplicacion", "dobles-mitades", "series", "valor-posicional",
-      "division-reparto", "figuras", "tiempo-reloj", "multiplos-divisores",
+      "division-reparto", "residuo", "figuras", "tiempo-reloj", "multiplos-divisores",
       "problemas-un-paso", "problemas-dos-pasos",
     ] },
     { id: "10-12", nombre: "Carrera del bloque 10 a 12 años", edades: "10-12", temas: [

@@ -12,14 +12,17 @@ export const TALLER = {
     "De 8 a 9 años, ortografía, sinónimos, sílabas y clases de palabra; de 10 a 12, acentuación, " +
     "homófonos, puntuación, conectores y tiempos verbales.",
   // Aquí la "actividad" es el bloque de edad: el juego es el mismo y lo que
-  // cambia es el banco de reactivos que se sortea en la pista.
+  // cambia es el banco de reactivos que se sortea en la pista. Los temas del
+  // bloque menor incluyen homófonos y conectores porque son sus reactivos de
+  // peso 5, el techo de ese banco.
   actividades: [
     { id: "8-9", nombre: "Carrera del bloque 8 a 9 años", edades: "8-9", temas: [
       "ortografia", "sinonimos-antonimos", "silabas", "orden-alfabetico",
       "clases-palabra", "plurales", "mayusculas", "signos",
+      "homofonos", "conectores",
     ] },
     { id: "10-12", nombre: "Carrera del bloque 10 a 12 años", edades: "10-12", temas: [
-      "acentuacion", "homofonos", "puntuacion", "conectores",
+      "ortografia", "acentuacion", "homofonos", "puntuacion", "conectores",
       "clases-palabra", "tiempos-verbales", "sujeto-predicado", "vocabulario-contexto",
     ] },
   ],

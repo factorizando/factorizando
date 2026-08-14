@@ -1,0 +1,40 @@
+<!-- @dsCard group="Components" viewport="700x300" subtitle="Barra superior y pestañas de materia" name="Navegación" -->
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<script crossorigin src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+<script crossorigin src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.24.7/babel.min.js"></script>
+<script src="../../_fx_loader.js"></script>
+<style>body{margin:0;padding:20px;background:var(--fx-bg);font-family:var(--fx-font-body)}
+.grp{display:flex;flex-direction:column;gap:14px}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.lbl{font-family:var(--fx-font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--fx-text-muted)}</style>
+</head><body><div id="root"></div>
+<script type="text/babel" data-presets="react">
+window.fxLoadBundle('../../_ds_bundle.js')
+  .then(function () { return window.fxComponents('../', [{"name":"NavBar","path":"navigation/NavBar.jsx"},{"name":"Tabs","path":"navigation/Tabs.jsx"},{"name":"Logo","path":"core/Logo.jsx"},{"name":"Button","path":"core/Button.jsx"}]); })
+  .then(function (NS) {
+const { NavBar, Tabs, Logo, Button } = NS;
+
+const items = [
+  { id: 'mat', label: 'Matemáticas' }, { id: 'bio', label: 'Biología', tint: 'var(--fx-sage-tint)', color: 'var(--fx-sage-text)' },
+  { id: 'qui', label: 'Química', tint: 'var(--fx-coral-tint)', color: 'var(--fx-coral-text)' }, { id: 'his', label: 'Historia' }
+];
+function Demo() {
+  const [a, setA] = React.useState('qui');
+  const [t, setT] = React.useState('lec');
+  return (
+    <div className="grp">
+      <div style={{ border: '1px solid var(--fx-border)', borderRadius: 14, overflow: 'hidden', background: 'var(--fx-bg)' }}>
+        <NavBar items={items} activeId={a} onSelect={setA} />
+      </div>
+      <Tabs accent="var(--fx-coral)" value={t} onChange={setT}
+        items={[{ id: 'lec', label: 'Lecciones', count: 9 }, { id: 'pra', label: 'Práctica', count: 176 }, { id: 'pro', label: 'Progreso' }]} />
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+  })
+  .catch(function (e) { document.getElementById('root').textContent = 'ERR: ' + (e && e.stack || e); });
+</script></body></html>

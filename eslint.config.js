@@ -5,7 +5,9 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  // 'Claude Design' es el bundle de handoff del diseño (prototipos HTML/JSX que
+  // no se compilan ni se importan desde src/): no se revisa.
+  globalIgnores(['dist', 'Claude Design']),
   {
     files: ['**/*.{js,jsx}'],
     extends: [

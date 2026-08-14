@@ -1,0 +1,42 @@
+:root {
+  /* Primario */
+  --fx-primary-50: #EEF4FE;
+  --fx-primary-100: #D7E5FC;
+  --fx-primary-200: #B4CDF8;
+  --fx-primary-300: #85AEF1;
+  --fx-primary-400: #3F80E5;
+  --fx-primary-500: #0056D2;
+  --fx-primary-600: #0047AF;
+  --fx-primary-700: #003A8F;
+  --fx-primary-800: #082F6C;
+  --fx-primary-900: #0A2540;
+
+  /* Neutros (matiz azul-verde, nunca gris puro) */
+  --fx-bg: #F7F9FC;
+  --fx-surface: #FFFFFF;
+  --fx-surface-sunken: #EFF3F9;
+  --fx-border: #E3E9F2;
+  --fx-border-strong: #CDD8E6;
+  --fx-text-heading: #0A2540;
+  --fx-text-body: #33475B;
+  --fx-text-muted: #5A6B7F;
+  --fx-text-disabled: #8E9AA8;
+  --fx-text-on-primary: #FFFFFF;
+  --fx-text-on-dark: #C7D6E6;
+
+  /* Materias */
+  --fx-math: #0056D2;   --fx-math-tint: #EEF4FE;   --fx-math-text: #0047AF;
+  --fx-sage: #4F9377;   --fx-sage-tint: #EDF5F1;   --fx-sage-text: #2F6B52;
+  --fx-coral: #DE6E55;  --fx-coral-tint: #FBEEEA;  --fx-coral-text: #A8482F;
+  --fx-amber: #D2942E;  --fx-amber-tint: #FBF3E5;  --fx-amber-text: #8A6210;
+  --fx-indigo: #6C63B5; --fx-indigo-tint: #F0EFF8; --fx-indigo-text: #4C4490;
+
+  /* Estados */
+  --fx-success: #1B8ACB; --fx-success-bg: #E9F4FB; --fx-success-border: #C6E2F2; --fx-success-text: #0F5C8A;
+  --fx-warning: #D9A200; --fx-warning-bg: #FBF4DC; --fx-warning-border: #EBD9A0; --fx-warning-text: #8A6A00;
+  --fx-error:   #F0C22B; --fx-error-bg:   #FDF8E6; --fx-error-border:   #F3E4AC; --fx-error-text:   #96751A;
+  --fx-info:    #0056D2; --fx-info-bg:    #EEF4FE; --fx-info-border:    #D7E5FC; --fx-info-text:    #003A8F;
+
+  /* Foco */
+  --fx-focus-ring: 0 0 0 3px rgba(0, 86, 210, 0.28);
+}

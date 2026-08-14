@@ -1,0 +1,42 @@
+<!-- @dsCard group="Plataforma" viewport="1280x900" subtitle="Recorrido: inicio → materia → lección" name="Plataforma web" -->
+<!-- @startingPoint section="Plataforma" subtitle="Inicio, materia y lección, con navegación real" viewport="1280x900" -->
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><title>FactoR[i]zando · plataforma</title>
+<link rel="stylesheet" href="../../styles.css">
+<script crossorigin src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+<script crossorigin src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.24.7/babel.min.js"></script>
+<script src="../../_fx_loader.js"></script>
+<style>body{margin:0;background:var(--fx-bg)} a:hover{text-decoration:underline}</style>
+</head><body>
+<div id="root"></div>
+<script type="text/babel" data-presets="react">
+try {
+var ENTRIES = [{"name":"Button","path":"core/Button.jsx"},{"name":"IconButton","path":"core/IconButton.jsx"},{"name":"Card","path":"core/Card.jsx"},{"name":"Badge","path":"core/Badge.jsx"},{"name":"ProgressBar","path":"core/ProgressBar.jsx"},{"name":"Logo","path":"core/Logo.jsx"},{"name":"Input","path":"forms/Input.jsx"},{"name":"Select","path":"forms/Select.jsx"},{"name":"Checkbox","path":"forms/Checkbox.jsx"},{"name":"Radio","path":"forms/Radio.jsx"},{"name":"Switch","path":"forms/Switch.jsx"},{"name":"NavBar","path":"navigation/NavBar.jsx"},{"name":"Tabs","path":"navigation/Tabs.jsx"},{"name":"Alert","path":"feedback/Alert.jsx"},{"name":"SubjectCard","path":"patterns/SubjectCard.jsx"}];
+
+function App() {
+  const [view, setView] = React.useState({ name: 'home' });
+  const find = id => window.__FX_SUBJECTS.find(s => s.id === id) || window.__FX_SUBJECTS[0];
+  if (view.name === 'materia') return <Materia subject={view.subject} onHome={() => setView({ name: 'home' })} onOpen={s => setView({ name: 'leccion', subject: s })} />;
+  if (view.name === 'leccion') return <Leccion subject={view.subject} onBack={() => setView({ name: 'materia', subject: view.subject })} />;
+  return <Home onOpen={id => setView({ name: 'materia', subject: find(id) })} />;
+}
+
+window.fxLoadBundle('../../_ds_bundle.js')
+  .then(function () { return window.fxComponents('../../components/', ENTRIES); })
+  .then(function (ns) {
+    window.__FX = ns;
+    return Promise.all(['Home.jsx', 'Materia.jsx', 'Leccion.jsx'].map(function (f) {
+      return fetch(f).then(function (r) { return r.text(); });
+    }));
+  })
+  .then(function (srcs) {
+    srcs.forEach(function (src) {
+      new Function('React', Babel.transform(src, { presets: ['react'] }).code)(React);
+    });
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  })
+  .catch(function (e) { document.getElementById('root').textContent = 'ERR: ' + (e && e.stack || e); });
+} catch (err) { document.getElementById('root').textContent = 'SYNC: ' + (err && err.stack || err); }
+</script>
+</body></html>

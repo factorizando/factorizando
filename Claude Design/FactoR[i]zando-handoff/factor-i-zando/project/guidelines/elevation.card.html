@@ -1,0 +1,13 @@
+<!-- @dsCard group="Spacing" viewport="700x160" subtitle="Tarjeta, hover y flotante; nunca sombras duras" name="Sombras" -->
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin:0; padding:20px; background:var(--fx-bg); font-family:var(--fx-font-body); color:var(--fx-text-body); }
+  .row { display:flex; gap:10px; flex-wrap:wrap; }
+  .sw { display:flex; flex-direction:column; gap:6px; }
+  .chip { height:64px; border-radius:12px; border:1px solid var(--fx-border); }
+  .lbl { font-family:var(--fx-font-mono); font-size:10px; color:var(--fx-text-muted); }
+  .nm { font-size:12px; font-weight:600; color:var(--fx-text-heading); }
+</style></head>
+<body><div class="row"><div class="sw" style="flex:1"><div style="height:76px;background:var(--fx-surface);border:1px solid var(--fx-border);border-radius:14px;box-shadow:var(--fx-shadow-card)"></div><span class="nm">card</span></div><div class="sw" style="flex:1"><div style="height:76px;background:var(--fx-surface);border:1px solid var(--fx-border);border-radius:14px;box-shadow:var(--fx-shadow-card-hover)"></div><span class="nm">card-hover</span></div><div class="sw" style="flex:1"><div style="height:76px;background:var(--fx-surface);border:1px solid var(--fx-border);border-radius:14px;box-shadow:var(--fx-shadow-float)"></div><span class="nm">float</span></div><div class="sw" style="flex:1"><div style="height:76px;background:var(--fx-surface);border:1px solid var(--fx-border);border-radius:14px;box-shadow:var(--fx-shadow-primary)"></div><span class="nm">primary</span></div></div></body></html>

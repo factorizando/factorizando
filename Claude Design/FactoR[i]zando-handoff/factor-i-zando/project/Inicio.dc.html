@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;padding:0}
+  body{background:#F7F9FC;font-family:'IBM Plex Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased;color:#0A2540}
+  *{box-sizing:border-box}
+  a{color:#0056D2;text-decoration:none}
+  a:hover{color:#003E9B;text-decoration:underline}
+</style>
+</helmet>
+<div style="min-height:100vh;background:#F7F9FC">
+
+  <header style="position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid rgba(10,37,64,.10)">
+    <div style="max-width:1240px;margin:0 auto;padding:14px clamp(20px,4vw,32px);display:flex;align-items:center;gap:clamp(16px,2vw,32px)">
+      <a href="#" style="display:flex;align-items:baseline;gap:1px;font-family:Sora,sans-serif;font-weight:700;font-size:clamp(18px,2.2vw,21px);letter-spacing:-.02em;color:#0A2540;text-decoration:none;flex:none">
+        <span>FactoR</span><span style="color:#0056D2">[i]</span><span>zando</span>
+      </a>
+      <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+      <nav style="display:flex;align-items:center;gap:clamp(16px,1.8vw,26px);flex:1 1 auto;min-width:0;overflow-x:auto;white-space:nowrap;scrollbar-width:none;padding:2px 0">
+        <a href="#" style="font-size:15px;font-weight:500;color:#243B53;text-decoration:none" style-hover="color:#0056D2">Matemáticas</a>
+        <a href="#" style="font-size:15px;font-weight:500;color:#243B53;text-decoration:none" style-hover="color:#0056D2">Biología</a>
+        <a href="#" style="font-size:15px;font-weight:500;color:#243B53;text-decoration:none" style-hover="color:#0056D2">Química</a>
+        <a href="#" style="font-size:15px;font-weight:500;color:#243B53;text-decoration:none" style-hover="color:#0056D2">Historia</a>
+        <a href="#" style="font-size:15px;font-weight:500;color:#243B53;text-decoration:none" style-hover="color:#0056D2">Geografía</a>
+        <a href="#" style="font-size:15px;font-weight:500;color:#243B53;text-decoration:none" style-hover="color:#0056D2">Física</a>
+      </nav>
+      </sc-if>
+      <div style="display:flex;align-items:center;gap:14px;flex:none;margin-left:auto">
+        <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+          <a href="#" style="font-size:15px;font-weight:500;color:#0056D2;text-decoration:none">Iniciar sesión</a>
+        </sc-if>
+        <a href="#" style="display:inline-flex;align-items:center;height:44px;padding:0 clamp(16px,2vw,22px);border-radius:8px;background:#0056D2;color:#fff;font-size:15px;font-weight:600;white-space:nowrap;text-decoration:none;box-shadow:0 1px 2px rgba(10,37,64,.18)" style-hover="background:#003E9B;color:#fff;text-decoration:none">{{ ctaLabel }}</a>
+        <sc-if value="{{ isCompact }}" hint-placeholder-val="{{ false }}">
+          <button type="button" onClick="{{ toggleMenu }}" aria-label="Abrir menú de materias" aria-expanded="{{ menuOpen }}" style="width:44px;height:44px;flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;background:#fff;border:1px solid rgba(10,37,64,.16);border-radius:9px;cursor:pointer;padding:0" style-hover="border-color:#0056D2">
+            <span style="width:19px;height:2px;border-radius:1px;background:#0A2540"></span>
+            <span style="width:19px;height:2px;border-radius:1px;background:#0A2540"></span>
+            <span style="width:19px;height:2px;border-radius:1px;background:#0A2540"></span>
+          </button>
+        </sc-if>
+      </div>
+    </div>
+    <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="border-top:1px solid rgba(10,37,64,.10);background:#fff;padding:10px clamp(20px,4vw,32px) 22px;box-shadow:0 16px 30px -22px rgba(10,37,64,.35)">
+      <span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;color:#4F6076;padding:12px 0 6px">Materias</span>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:2px">
+        <a href="#" style="display:flex;align-items:center;gap:12px;min-height:48px;padding:0 6px;font-size:16px;font-weight:500;color:#0A2540;text-decoration:none;border-radius:8px" style-hover="background:#F1F5FC;text-decoration:none"><span style="width:9px;height:9px;border-radius:50%;background:#0056D2;flex:none"></span>Matemáticas</a>
+        <a href="#" style="display:flex;align-items:center;gap:12px;min-height:48px;padding:0 6px;font-size:16px;font-weight:500;color:#0A2540;text-decoration:none;border-radius:8px" style-hover="background:#F1F5FC;text-decoration:none"><span style="width:9px;height:9px;border-radius:50%;background:#12855A;flex:none"></span>Biología</a>
+        <a href="#" style="display:flex;align-items:center;gap:12px;min-height:48px;padding:0 6px;font-size:16px;font-weight:500;color:#0A2540;text-decoration:none;border-radius:8px" style-hover="background:#F1F5FC;text-decoration:none"><span style="width:9px;height:9px;border-radius:50%;background:#C2410C;flex:none"></span>Química</a>
+        <a href="#" style="display:flex;align-items:center;gap:12px;min-height:48px;padding:0 6px;font-size:16px;font-weight:500;color:#0A2540;text-decoration:none;border-radius:8px" style-hover="background:#F1F5FC;text-decoration:none"><span style="width:9px;height:9px;border-radius:50%;background:#A16207;flex:none"></span>Historia</a>
+        <a href="#" style="display:flex;align-items:center;gap:12px;min-height:48px;padding:0 6px;font-size:16px;font-weight:500;color:#0A2540;text-decoration:none;border-radius:8px" style-hover="background:#F1F5FC;text-decoration:none"><span style="width:9px;height:9px;border-radius:50%;background:#0F766E;flex:none"></span>Geografía</a>
+        <a href="#" style="display:flex;align-items:center;gap:12px;min-height:48px;padding:0 6px;font-size:16px;font-weight:500;color:#0A2540;text-decoration:none;border-radius:8px" style-hover="background:#F1F5FC;text-decoration:none"><span style="width:9px;height:9px;border-radius:50%;background:#5B4BC4;flex:none"></span>Física</a>
+      </div>
+      <a href="#" style="display:flex;align-items:center;min-height:48px;margin-top:10px;padding-top:12px;border-top:1px solid rgba(10,37,64,.10);font-size:16px;font-weight:600;color:#0056D2;text-decoration:none">Iniciar sesión</a>
+    </div>
+    </sc-if>
+  </header>
+
+  <section style="background-color:#F7F9FC;background-image:linear-gradient(rgba(10,37,64,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(10,37,64,.045) 1px,transparent 1px);background-size:32px 32px;border-bottom:1px solid rgba(10,37,64,.08)">
+    <div style="max-width:1240px;margin:0 auto;padding:clamp(48px,7vw,104px) clamp(20px,4vw,32px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:clamp(40px,5vw,72px);align-items:center">
+
+      <div style="display:flex;flex-direction:column;align-items:flex-start;gap:26px;max-width:600px">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.13em;text-transform:uppercase;color:#0056D2;padding:7px 12px;border:1px solid rgba(0,86,210,.28);border-radius:6px;background:rgba(0,86,210,.05)">6 materias · nivel secundaria</span>
+        <h1 style="margin:0;font-family:Sora,sans-serif;font-weight:700;font-size:clamp(31px,5vw,60px);line-height:1.06;letter-spacing:-.028em;color:#0A2540;text-wrap:balance">Descompón cualquier tema hasta que tenga sentido.</h1>
+        <p style="margin:0;font-size:clamp(17px,1.4vw,19px);line-height:1.65;color:#4F6076;text-wrap:pretty">FactoR[i]zando convierte cada lección en ejercicios paso a paso: intentas, te equivocas, ves el porqué y sigues. Sin videos de 40 minutos ni memorizar fórmulas sueltas.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:6px">
+          <a href="#" style="display:inline-flex;align-items:center;height:52px;padding:0 30px;border-radius:9px;background:#0056D2;color:#fff;font-size:17px;font-weight:600;text-decoration:none;box-shadow:0 2px 6px rgba(0,86,210,.30)" style-hover="background:#003E9B;color:#fff;text-decoration:none">Empezar gratis</a>
+          <a href="#" style="display:inline-flex;align-items:center;height:52px;padding:0 26px;border-radius:9px;background:#fff;border:1px solid rgba(10,37,64,.18);color:#0A2540;font-size:17px;font-weight:600;text-decoration:none" style-hover="border-color:#0056D2;color:#0056D2;text-decoration:none">Ver una lección</a>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:22px;margin-top:10px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#4F6076">
+          <span>1 840 ejercicios</span><span style="color:rgba(10,37,64,.25)">/</span><span>sin tarjeta de crédito</span><span style="color:rgba(10,37,64,.25)">/</span><span>progreso guardado</span>
+        </div>
+      </div>
+
+      <sc-if value="{{ showHeroWidget }}" hint-placeholder-val="{{ true }}">
+      <div style="justify-self:center;width:100%;max-width:460px;background:#fff;border:1px solid rgba(10,37,64,.10);border-radius:14px;box-shadow:0 18px 44px -20px rgba(10,37,64,.28);overflow:hidden">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:14px clamp(16px,4vw,20px);flex-wrap:wrap;gap:10px;border-bottom:1px solid rgba(10,37,64,.08);background:#FBFCFE">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:#4F6076">Matemáticas · ejercicio 4 / 12</span>
+          <span style="display:flex;gap:5px">
+            <span style="width:22px;height:4px;border-radius:2px;background:#0056D2"></span>
+            <span style="width:22px;height:4px;border-radius:2px;background:#0056D2"></span>
+            <span style="width:22px;height:4px;border-radius:2px;background:#0056D2"></span>
+            <span style="width:22px;height:4px;border-radius:2px;background:rgba(10,37,64,.14)"></span>
+          </span>
+        </div>
+        <div style="padding:clamp(22px,5vw,28px) clamp(18px,4vw,24px);display:flex;flex-direction:column;gap:20px">
+          <p style="margin:0;font-size:15px;color:#4F6076">Factoriza el trinomio:</p>
+          <p style="margin:0;font-family:'IBM Plex Mono',monospace;font-size:clamp(24px,6vw,30px);font-weight:500;color:#0A2540;letter-spacing:-.01em">x² + 7x + 12</p>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;align-items:center;gap:12px;padding:13px 15px;border-radius:9px;background:rgba(18,133,90,.08);border:1px solid rgba(18,133,90,.22)">
+              <span style="width:22px;height:22px;border-radius:50%;background:#12855A;color:#fff;font-size:13px;display:flex;align-items:center;justify-content:center;flex:none">✓</span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:15px;color:#0A2540;white-space:nowrap">3 · 4 = 12</span>
+              <span style="margin-left:auto;font-size:13px;color:#12855A;font-weight:600">producto</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;padding:13px 15px;border-radius:9px;background:rgba(18,133,90,.08);border:1px solid rgba(18,133,90,.22)">
+              <span style="width:22px;height:22px;border-radius:50%;background:#12855A;color:#fff;font-size:13px;display:flex;align-items:center;justify-content:center;flex:none">✓</span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:15px;color:#0A2540;white-space:nowrap">3 + 4 = 7</span>
+              <span style="margin-left:auto;font-size:13px;color:#12855A;font-weight:600">suma</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;padding:13px 15px;border-radius:9px;background:#fff;border:1.5px dashed rgba(0,86,210,.40)">
+              <span style="width:22px;height:22px;border-radius:50%;border:1.5px solid rgba(0,86,210,.45);flex:none"></span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:15px;color:#0056D2;white-space:nowrap">( x + __ )( x + __ )</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:15px;padding:9px 16px;border-radius:8px;background:#EEF3FC;border:1px solid rgba(0,86,210,.20);color:#0056D2">3</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:15px;padding:9px 16px;border-radius:8px;background:#EEF3FC;border:1px solid rgba(0,86,210,.20);color:#0056D2">4</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:15px;padding:9px 16px;border-radius:8px;background:#F4F6F9;border:1px solid rgba(10,37,64,.12);color:#4F6076">6</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:15px;padding:9px 16px;border-radius:8px;background:#F4F6F9;border:1px solid rgba(10,37,64,.12);color:#4F6076">2</span>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+    </div>
+  </section>
+
+  <section style="max-width:1240px;margin:0 auto;padding:clamp(56px,7vw,104px) clamp(20px,4vw,32px)">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap;margin-bottom:clamp(34px,4vw,52px)">
+      <div style="max-width:560px;display:flex;flex-direction:column;gap:14px">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.13em;text-transform:uppercase;color:#4F6076">Explora por materia</span>
+        <h2 style="margin:0;font-family:Sora,sans-serif;font-weight:600;font-size:clamp(25px,3.2vw,40px);line-height:1.15;letter-spacing:-.02em;color:#0A2540">Cada materia con su propio ritmo y su propio color.</h2>
+      </div>
+      <a href="#" style="font-size:15px;font-weight:600;color:#0056D2;text-decoration:none;padding-bottom:4px;border-bottom:1.5px solid rgba(0,86,210,.35)">Ver el plan completo →</a>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:clamp(18px,2vw,28px)">
+
+      <a href="#" style="display:flex;flex-direction:column;gap:16px;padding:clamp(22px,3vw,28px);background:#fff;border:1px solid rgba(10,37,64,.10);border-top:3px solid #0056D2;border-radius:12px;text-decoration:none;transition:box-shadow .18s ease,transform .18s ease" style-hover="box-shadow:0 16px 34px -18px rgba(10,37,64,.30);transform:translateY(-3px);text-decoration:none">
+        <span style="width:48px;height:48px;border-radius:10px;background:rgba(0,86,210,.10);color:#0056D2;font-family:'IBM Plex Mono',monospace;font-size:22px;display:flex;align-items:center;justify-content:center">∑</span>
+        <span style="font-family:Sora,sans-serif;font-weight:600;font-size:20px;color:#0A2540">Matemáticas</span>
+        <span style="font-size:15.5px;line-height:1.6;color:#4F6076;text-wrap:pretty">Álgebra, funciones y geometría resueltas paso a paso, con pistas en lugar de respuestas.</span>
+        <sc-if value="{{ showMeta }}" hint-placeholder-val="{{ true }}">
+          <span style="margin-top:auto;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#0056D2;letter-spacing:.04em">14 módulos · 420 ejercicios</span>
+        </sc-if>
+      </a>
+
+      <a href="#" style="display:flex;flex-direction:column;gap:16px;padding:clamp(22px,3vw,28px);background:#fff;border:1px solid rgba(10,37,64,.10);border-top:3px solid #12855A;border-radius:12px;text-decoration:none;transition:box-shadow .18s ease,transform .18s ease" style-hover="box-shadow:0 16px 34px -18px rgba(10,37,64,.30);transform:translateY(-3px);text-decoration:none">
+        <span style="width:48px;height:48px;border-radius:10px;background:rgba(18,133,90,.10);color:#12855A;font-family:'IBM Plex Mono',monospace;font-size:22px;display:flex;align-items:center;justify-content:center">◍</span>
+        <span style="font-family:Sora,sans-serif;font-weight:600;font-size:20px;color:#0A2540">Biología</span>
+        <span style="font-size:15.5px;line-height:1.6;color:#4F6076;text-wrap:pretty">De la célula al ecosistema, con diagramas que se arman por partes y no solo se miran.</span>
+        <sc-if value="{{ showMeta }}" hint-placeholder-val="{{ true }}">
+          <span style="margin-top:auto;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#12855A;letter-spacing:.04em">11 módulos · 260 ejercicios</span>
+        </sc-if>
+      </a>
+
+      <a href="#" style="display:flex;flex-direction:column;gap:16px;padding:clamp(22px,3vw,28px);background:#fff;border:1px solid rgba(10,37,64,.10);border-top:3px solid #C2410C;border-radius:12px;text-decoration:none;transition:box-shadow .18s ease,transform .18s ease" style-hover="box-shadow:0 16px 34px -18px rgba(10,37,64,.30);transform:translateY(-3px);text-decoration:none">
+        <span style="width:48px;height:48px;border-radius:10px;background:rgba(194,65,12,.10);color:#C2410C;font-family:'IBM Plex Mono',monospace;font-size:22px;display:flex;align-items:center;justify-content:center">⬡</span>
+        <span style="font-family:Sora,sans-serif;font-weight:600;font-size:20px;color:#0A2540">Química</span>
+        <span style="font-size:15.5px;line-height:1.6;color:#4F6076;text-wrap:pretty">Balancea reacciones y practica estequiometría con retroalimentación inmediata.</span>
+        <sc-if value="{{ showMeta }}" hint-placeholder-val="{{ true }}">
+          <span style="margin-top:auto;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#C2410C;letter-spacing:.04em">9 módulos · 215 ejercicios</span>
+        </sc-if>
+      </a>
+
+      <a href="#" style="display:flex;flex-direction:column;gap:16px;padding:clamp(22px,3vw,28px);background:#fff;border:1px solid rgba(10,37,64,.10);border-top:3px solid #A16207;border-radius:12px;text-decoration:none;transition:box-shadow .18s ease,transform .18s ease" style-hover="box-shadow:0 16px 34px -18px rgba(10,37,64,.30);transform:translateY(-3px);text-decoration:none">
+        <span style="width:48px;height:48px;border-radius:10px;background:rgba(161,98,7,.10);color:#A16207;font-family:'IBM Plex Mono',monospace;font-size:22px;display:flex;align-items:center;justify-content:center">⧗</span>
+        <span style="font-family:Sora,sans-serif;font-weight:600;font-size:20px;color:#0A2540">Historia</span>
+        <span style="font-size:15.5px;line-height:1.6;color:#4F6076;text-wrap:pretty">Líneas de tiempo que ordenas tú: causas, consecuencias y fuentes contrastadas.</span>
+        <sc-if value="{{ showMeta }}" hint-placeholder-val="{{ true }}">
+          <span style="margin-top:auto;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#A16207;letter-spacing:.04em">8 módulos · 190 ejercicios</span>
+        </sc-if>
+      </a>
+
+      <a href="#" style="display:flex;flex-direction:column;gap:16px;padding:clamp(22px,3vw,28px);background:#fff;border:1px solid rgba(10,37,64,.10);border-top:3px solid #0F766E;border-radius:12px;text-decoration:none;transition:box-shadow .18s ease,transform .18s ease" style-hover="box-shadow:0 16px 34px -18px rgba(10,37,64,.30);transform:translateY(-3px);text-decoration:none">
+        <span style="width:48px;height:48px;border-radius:10px;background:rgba(15,118,110,.10);color:#0F766E;font-family:'IBM Plex Mono',monospace;font-size:22px;display:flex;align-items:center;justify-content:center">◎</span>
+        <span style="font-family:Sora,sans-serif;font-weight:600;font-size:20px;color:#0A2540">Geografía</span>
+        <span style="font-size:15.5px;line-height:1.6;color:#4F6076;text-wrap:pretty">Mapas interactivos para relacionar relieve, clima y población sin memorizar listas.</span>
+        <sc-if value="{{ showMeta }}" hint-placeholder-val="{{ true }}">
+          <span style="margin-top:auto;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#0F766E;letter-spacing:.04em">7 módulos · 165 ejercicios</span>
+        </sc-if>
+      </a>
+
+      <a href="#" style="display:flex;flex-direction:column;gap:16px;padding:clamp(22px,3vw,28px);background:#fff;border:1px solid rgba(10,37,64,.10);border-top:3px solid #5B4BC4;border-radius:12px;text-decoration:none;transition:box-shadow .18s ease,transform .18s ease" style-hover="box-shadow:0 16px 34px -18px rgba(10,37,64,.30);transform:translateY(-3px);text-decoration:none">
+        <span style="width:48px;height:48px;border-radius:10px;background:rgba(91,75,196,.10);color:#5B4BC4;font-family:'IBM Plex Mono',monospace;font-size:22px;display:flex;align-items:center;justify-content:center">♪</span>
+        <span style="font-family:Sora,sans-serif;font-weight:600;font-size:20px;color:#0A2540">Física</span>
+        <span style="font-size:15.5px;line-height:1.6;color:#4F6076;text-wrap:pretty">Ondas, frecuencia y movimiento explicados con sonido: escuchas lo que calculas.</span>
+        <sc-if value="{{ showMeta }}" hint-placeholder-val="{{ true }}">
+          <span style="margin-top:auto;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#5B4BC4;letter-spacing:.04em">10 módulos · 240 ejercicios</span>
+        </sc-if>
+      </a>
+
+    </div>
+  </section>
+
+  <footer style="background:#0A2540;color:#fff">
+    <div style="max-width:1240px;margin:0 auto;padding:clamp(44px,5vw,72px) clamp(20px,4vw,32px) clamp(26px,3vw,36px)">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr));gap:clamp(28px,4vw,40px)">
+        <div style="display:flex;flex-direction:column;gap:14px;max-width:280px">
+          <span style="display:flex;align-items:baseline;gap:1px;font-family:Sora,sans-serif;font-weight:700;font-size:19px;letter-spacing:-.02em;color:#fff">
+            <span>FactoR</span><span style="color:#7FB2FF">[i]</span><span>zando</span>
+          </span>
+          <span style="font-size:14.5px;line-height:1.6;color:rgba(255,255,255,.72)">Ejercicios interactivos de secundaria, hechos en español.</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.55)">Plataforma</span>
+          <a href="#" style="font-size:14.5px;color:rgba(255,255,255,.86);text-decoration:none" style-hover="color:#fff">Materias</a>
+          <a href="#" style="font-size:14.5px;color:rgba(255,255,255,.86);text-decoration:none" style-hover="color:#fff">Cómo funciona</a>
+          <a href="#" style="font-size:14.5px;color:rgba(255,255,255,.86);text-decoration:none" style-hover="color:#fff">Precios</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.55)">Para docentes</span>
+          <a href="#" style="font-size:14.5px;color:rgba(255,255,255,.86);text-decoration:none" style-hover="color:#fff">Grupos y aulas</a>
+          <a href="#" style="font-size:14.5px;color:rgba(255,255,255,.86);text-decoration:none" style-hover="color:#fff">Reportes de avance</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.55)">Soporte</span>
+          <a href="#" style="font-size:14.5px;color:rgba(255,255,255,.86);text-decoration:none" style-hover="color:#fff">Centro de ayuda</a>
+          <a href="#" style="font-size:14.5px;color:rgba(255,255,255,.86);text-decoration:none" style-hover="color:#fff">Contacto</a>
+        </div>
+      </div>
+      <div style="margin-top:44px;padding-top:22px;border-top:1px solid rgba(255,255,255,.16);display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between;align-items:center">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:rgba(255,255,255,.62)">© 2026 FactoR[i]zando</span>
+        <div style="display:flex;gap:22px;flex-wrap:wrap">
+          <a href="#" style="font-size:13.5px;color:rgba(255,255,255,.72);text-decoration:none" style-hover="color:#fff">Privacidad</a>
+          <a href="#" style="font-size:13.5px;color:rgba(255,255,255,.72);text-decoration:none" style-hover="color:#fff">Términos</a>
+          <a href="#" style="font-size:13.5px;color:rgba(255,255,255,.72);text-decoration:none" style-hover="color:#fff">Accesibilidad</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;ctaLabel&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Comenzar&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;showMeta&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Contenido&quot;},&quot;showHeroWidget&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Contenido&quot;}}">
+class Component extends DCLogic {
+  state = { w: typeof window !== 'undefined' ? window.innerWidth : 1440, menuOpen: false };
+  componentDidMount() {
+    this._onResize = () => {
+      const w = window.innerWidth;
+      this.setState(s => ({ w, menuOpen: w >= 900 ? false : s.menuOpen }));
+    };
+    window.addEventListener('resize', this._onResize);
+    this._onResize();
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this._onResize); }
+  renderVals() {
+    const isDesktop = this.state.w >= 900;
+    return {
+      isDesktop,
+      isCompact: !isDesktop,
+      menuOpen: !isDesktop && this.state.menuOpen,
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      ctaLabel: this.props.ctaLabel ?? 'Comenzar',
+      showMeta: this.props.showMeta ?? true,
+      showHeroWidget: this.props.showHeroWidget ?? true,
+    };
+  }
+}
+</script>
+</body>
+</html>

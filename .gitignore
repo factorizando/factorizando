@@ -27,3 +27,6 @@ dist-ssr
 
 # Datos temporales / fuentes pesadas (CSV del catálogo SEP, etc.) — no versionar
 temporal/
+
+# Bundle de handoff de Claude Design: se versiona la carpeta, no el zip.
+Claude Design/*.zip

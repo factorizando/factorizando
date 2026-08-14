@@ -1,0 +1,231 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Design system FactoR[i]zando · v0.1
+   Portado del handoff de Claude Design (`Claude Design/FactoR[i]zando-handoff/`):
+   tokens/colors.css, typography.css, spacing.css, elevation.css.
+
+   Convive con los tokens antiguos (--bg, --text, --accent…) de theme.css: todo
+   aquí lleva prefijo --fx-, así que ninguna pantalla existente cambia de aspecto.
+   Las pantallas migradas consumen SOLO --fx-*.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  /* ── Primario ── 500 es el color de acción; 600/700 hover y pressed. */
+  --fx-primary-50: #eef4fe;
+  --fx-primary-100: #d7e5fc;
+  --fx-primary-200: #b4cdf8;
+  --fx-primary-300: #85aef1;
+  --fx-primary-400: #3f80e5;
+  --fx-primary-500: #0056d2;
+  --fx-primary-600: #0047af;
+  --fx-primary-700: #003a8f;
+  --fx-primary-800: #082f6c;
+  --fx-primary-900: #0a2540;
+
+  /* ── Neutros ── matiz azul-verde, nunca gris puro. */
+  --fx-bg: #f7f9fc;
+  --fx-surface: #ffffff;
+  --fx-surface-sunken: #eff3f9;
+  --fx-border: #e3e9f2;
+  --fx-border-strong: #cdd8e6;
+  --fx-text-heading: #0a2540;
+  --fx-text-body: #33475b;
+  --fx-text-muted: #5a6b7f;
+  --fx-text-disabled: #8e9aa8;
+  --fx-text-on-primary: #ffffff;
+  --fx-text-on-dark: #c7d6e6;
+
+  /* ── Acentos por materia ── base para íconos/barras, -tint para fondos,
+        -text para texto (los tonos puros no cumplen AA sobre blanco). */
+  --fx-math: #0056d2;   --fx-math-tint: #eef4fe;   --fx-math-text: #0047af;
+  --fx-sage: #4f9377;   --fx-sage-tint: #edf5f1;   --fx-sage-text: #2f6b52;
+  --fx-coral: #de6e55;  --fx-coral-tint: #fbeeea;  --fx-coral-text: #a8482f;
+  --fx-amber: #d2942e;  --fx-amber-tint: #fbf3e5;  --fx-amber-text: #8a6210;
+  --fx-indigo: #6c63b5; --fx-indigo-tint: #f0eff8; --fx-indigo-text: #4c4490;
+
+  /* ── Estados ── sin rojo ni verde (decisión de marca): éxito azul, aviso y
+        error en dos ámbares vecinos, por eso SIEMPRE van con glifo y título. */
+  --fx-success: #1b8acb; --fx-success-bg: #e9f4fb; --fx-success-border: #c6e2f2; --fx-success-text: #0f5c8a;
+  --fx-warning: #d9a200; --fx-warning-bg: #fbf4dc; --fx-warning-border: #ebd9a0; --fx-warning-text: #8a6a00;
+  --fx-error:   #f0c22b; --fx-error-bg:   #fdf8e6; --fx-error-border:   #f3e4ac; --fx-error-text:   #96751a;
+  --fx-info:    #0056d2; --fx-info-bg:    #eef4fe; --fx-info-border:    #d7e5fc; --fx-info-text:    #003a8f;
+
+  --fx-focus-ring: 0 0 0 3px rgba(0, 86, 210, 0.28);
+
+  /* ── Tipografía ── */
+  --fx-font-heading: "Sora", system-ui, sans-serif;
+  --fx-font-body: "Figtree", system-ui, sans-serif;
+  --fx-font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --fx-font-math: "STIX Two Text", "Latin Modern Math", "Cambria Math", serif;
+
+  --fx-h1-size: 48px;   --fx-h1-lh: 1.10; --fx-h1-ls: -0.025em; --fx-h1-weight: 600;
+  --fx-h2-size: 36px;   --fx-h2-lh: 1.15; --fx-h2-ls: -0.020em; --fx-h2-weight: 600;
+  --fx-h3-size: 28px;   --fx-h3-lh: 1.25; --fx-h3-ls: -0.015em; --fx-h3-weight: 600;
+  --fx-h4-size: 22px;   --fx-h4-lh: 1.30; --fx-h4-ls: -0.010em; --fx-h4-weight: 500;
+  --fx-h5-size: 18px;   --fx-h5-lh: 1.40; --fx-h5-ls: 0;        --fx-h5-weight: 500;
+  --fx-h6-size: 14px;   --fx-h6-lh: 1.40; --fx-h6-ls: 0.08em;   --fx-h6-weight: 600;
+
+  /* Escala de cuerpo — UN ESCALÓN POR ENCIMA del handoff (que define 18/16/14/12).
+     Razón: 16px es cuerpo de interfaz, pero aquí casi todo el texto es de
+     lectura, el contenedor mide 1280px (a más aire, el texto se percibe más
+     chico) y Figtree 400 es ligero. Rango de referencia en plataformas
+     educativas: 14–16px para interfaz, 17–19px para texto explicativo.
+     Para reajustar el tamaño de TODO el sitio migrado, mover solo estos
+     cuatro valores: las clases de abajo los consumen por var(). */
+  --fx-lead-size: 21px;    --fx-lead-lh: 1.60;   /* entradilla del hero */
+  --fx-body-lg-size: 19px; --fx-body-lg-lh: 1.64; /* texto de sección */
+  --fx-body-size: 17px;    --fx-body-lh: 1.68;   /* cuerpo por defecto */
+  --fx-small-size: 15px;   --fx-small-lh: 1.60;  /* metadatos, ayudas */
+  --fx-caption-size: 13px; --fx-caption-lh: 1.40; --fx-caption-ls: 0.06em;
+  --fx-mono-size: 17px;
+
+  /* ── Espacio, radio, controles ── */
+  --fx-space-1: 4px;  --fx-space-2: 8px;   --fx-space-3: 12px; --fx-space-4: 16px;
+  --fx-space-5: 20px; --fx-space-6: 24px;  --fx-space-8: 32px; --fx-space-10: 40px;
+  --fx-space-12: 48px; --fx-space-16: 64px; --fx-space-20: 80px;
+
+  --fx-radius-sm: 8px;
+  --fx-radius-md: 10px;
+  --fx-radius-lg: 18px;
+  --fx-radius-xl: 22px;
+  --fx-radius-pill: 999px;
+
+  --fx-control-sm: 40px;
+  --fx-control-md: 46px;
+  --fx-control-lg: 54px;
+
+  --fx-container: 1280px;
+  --fx-gutter: clamp(20px, 4vw, 48px);
+  --fx-section-gap: clamp(40px, 5vw, 72px);
+
+  /* ── Elevación y movimiento ── corto y sobrio, sin rebotes. */
+  --fx-shadow-card: 0 1px 2px rgba(10, 37, 64, 0.04), 0 8px 24px rgba(10, 37, 64, 0.06);
+  --fx-shadow-card-hover: 0 1px 2px rgba(10, 37, 64, 0.04), 0 14px 32px rgba(10, 37, 64, 0.09);
+  --fx-shadow-float: 0 1px 2px rgba(10, 37, 64, 0.04), 0 14px 40px rgba(10, 37, 64, 0.08);
+  --fx-shadow-primary: 0 2px 6px rgba(0, 86, 210, 0.28);
+  --fx-transition: 140ms ease;
+  --fx-transition-lift: 160ms ease;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Primitivas compartidas por las pantallas migradas (Home, materia, header).
+   Solo aplican a lo que lleva clase `fx-…`, así que no tocan las pantallas
+   antiguas. Lo específico de cada página vive en su propio bloque <style>.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.fx-page {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--fx-bg);
+  color: var(--fx-text-body);
+  font-family: var(--fx-font-body);
+  -webkit-font-smoothing: antialiased;
+}
+.fx-page *, .fx-page *::before, .fx-page *::after { box-sizing: border-box; }
+
+/* ── Layout de sección ── */
+.fx-sec { max-width: var(--fx-container); margin: 0 auto; padding: var(--fx-section-gap) var(--fx-gutter); }
+.fx-sec-cab { display: flex; flex-direction: column; gap: 10px; max-width: 660px; margin-bottom: 36px; }
+
+/* ── Tipografía ── */
+.fx-eyebrow { font-family: var(--fx-font-mono); font-size: var(--fx-caption-size); letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--fx-text-muted); }
+.fx-h1 { font-family: var(--fx-font-heading); font-weight: 600;
+  font-size: clamp(38px, 4.6vw, 58px); line-height: 1.08; letter-spacing: -0.028em;
+  color: var(--fx-text-heading); margin: 0; text-wrap: balance; }
+.fx-h2 { font-family: var(--fx-font-heading); font-weight: 600;
+  font-size: clamp(28px, 3vw, 38px); line-height: 1.16; letter-spacing: -0.022em;
+  color: var(--fx-text-heading); margin: 0; }
+.fx-h3-card { font-family: var(--fx-font-heading); font-weight: 600; font-size: 24px;
+  line-height: 1.28; letter-spacing: -0.015em; color: var(--fx-text-heading); margin: 0; }
+.fx-h4-card { font-family: var(--fx-font-heading); font-weight: 600; font-size: 22px;
+  line-height: 1.3; letter-spacing: -0.012em; color: var(--fx-text-heading); margin: 0; }
+.fx-h5 { font-family: var(--fx-font-heading); font-weight: 600; font-size: 19px;
+  color: var(--fx-text-heading); }
+.fx-body-lg { font-size: var(--fx-lead-size); line-height: var(--fx-lead-lh); color: var(--fx-text-body); margin: 0; text-wrap: pretty; }
+.fx-sec-texto { font-size: var(--fx-body-lg-size); line-height: var(--fx-body-lg-lh); color: var(--fx-text-body); margin: 4px 0 0; text-wrap: pretty; }
+.fx-card-texto { font-size: var(--fx-body-size); line-height: var(--fx-body-lh); color: var(--fx-text-body); margin: 0; text-wrap: pretty; }
+.fx-small-muted { font-size: var(--fx-small-size); line-height: var(--fx-small-lh); color: var(--fx-text-muted); }
+.fx-formula { font-family: var(--fx-font-mono); font-size: var(--fx-body-size); color: var(--fx-text-heading);
+  background: var(--fx-bg); border: 1px solid var(--fx-border); padding: 7px 11px;
+  border-radius: 9px; white-space: nowrap; }
+
+/* ── Botones ── hover = un paso más oscuro del azul; pressed = 700. ── */
+.fx-btn-primario { font-family: var(--fx-font-body); font-weight: 600; color: var(--fx-text-on-primary);
+  background: var(--fx-primary-500); border: none; border-radius: var(--fx-radius-md);
+  cursor: pointer; box-shadow: var(--fx-shadow-primary); text-decoration: none;
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: background var(--fx-transition), transform var(--fx-transition); }
+.fx-btn-primario:hover { background: var(--fx-primary-600); transform: translateY(-1px);
+  color: var(--fx-text-on-primary); text-decoration: none; }
+.fx-btn-primario:active { background: var(--fx-primary-700); transform: translateY(0); }
+.fx-btn-secundario { font-family: var(--fx-font-body); font-weight: 600; color: var(--fx-primary-700);
+  background: var(--fx-surface); border: 1px solid var(--fx-primary-200);
+  border-radius: var(--fx-radius-md); cursor: pointer; text-decoration: none;
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: background var(--fx-transition), border-color var(--fx-transition); }
+.fx-btn-secundario:hover { background: var(--fx-primary-50); border-color: var(--fx-primary-300);
+  color: var(--fx-primary-700); text-decoration: none; }
+.fx-btn-sm { height: var(--fx-control-sm); padding: 0 20px; font-size: var(--fx-small-size); white-space: nowrap; }
+.fx-btn-md { height: var(--fx-control-md); padding: 0 20px; font-size: var(--fx-body-size); white-space: nowrap; }
+.fx-btn-lg { height: var(--fx-control-lg); padding: 0 26px; font-size: 18px; border-radius: 12px; }
+
+/* ── Pastillas ── */
+.fx-pill { font-family: var(--fx-font-body); font-size: var(--fx-body-size); font-weight: 600;
+  color: var(--fx-text-body); background: var(--fx-surface); border: 1px solid var(--fx-border);
+  border-radius: var(--fx-radius-pill); height: 44px; padding: 0 20px; cursor: pointer;
+  display: inline-flex; align-items: center; text-decoration: none;
+  transition: background var(--fx-transition), border-color var(--fx-transition); }
+.fx-pill:hover { background: var(--fx-primary-50); border-color: var(--fx-primary-200);
+  color: var(--fx-primary-700); text-decoration: none; }
+.fx-chips { display: flex; gap: 8px; flex-wrap: wrap; padding-top: 6px; }
+.fx-chip { font-size: var(--fx-small-size); font-weight: 600; color: var(--fx-primary-700);
+  background: var(--fx-primary-50); border: 1px solid var(--fx-primary-100);
+  padding: 8px 14px; border-radius: var(--fx-radius-pill); }
+
+/* ── Tarjetas ── el acento de materia va como línea superior, nunca izquierda. ── */
+.fx-grid { display: grid; gap: 24px; }
+.fx-card { background: var(--fx-surface); border: 1px solid var(--fx-border);
+  border-radius: var(--fx-radius-lg); box-shadow: 0 1px 2px rgba(10,37,64,0.04);
+  text-decoration: none; color: var(--fx-text-body);
+  transition: transform var(--fx-transition-lift), box-shadow var(--fx-transition-lift); }
+a.fx-card:hover { transform: translateY(-3px); box-shadow: var(--fx-shadow-card-hover);
+  text-decoration: none; color: var(--fx-text-body); }
+.fx-card-alta { display: flex; flex-direction: column; gap: 18px; padding: 28px; height: 100%; }
+.fx-card-inerte { opacity: .62; }
+.fx-card-fila { display: flex; align-items: center; gap: 16px; padding: 20px 22px; }
+.fx-card-fila-txt { display: flex; flex-direction: column; gap: 3px; min-width: 0; flex: 1; }
+.fx-card-cabeza { display: flex; flex-direction: column; gap: 8px; }
+.fx-card-pie { display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; margin-top: auto; padding-top: 8px; }
+.fx-card-nivel { font-family: var(--fx-font-mono); font-size: var(--fx-caption-size); font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--fx-text-muted); }
+.fx-card-cta { font-size: var(--fx-body-size); font-weight: 600; color: var(--fx-primary-600);
+  margin-top: auto; padding-top: 10px; white-space: nowrap; }
+.fx-card-pie .fx-card-cta { margin-top: 0; padding-top: 0; }
+.fx-flecha { color: var(--fx-text-muted); font-size: 18px; opacity: .5;
+  transition: opacity var(--fx-transition), transform var(--fx-transition); }
+a.fx-card-fila:hover .fx-flecha { opacity: 1; transform: translateX(3px); }
+
+/* ── Acentos por materia ── */
+.fx-acento-math { border-top: 3px solid var(--fx-math); }
+.fx-acento-sage { border-top: 3px solid var(--fx-sage); }
+.fx-acento-coral { border-top: 3px solid var(--fx-coral); }
+.fx-acento-amber { border-top: 3px solid var(--fx-amber); }
+.fx-acento-indigo { border-top: 3px solid var(--fx-indigo); }
+.fx-cta-math { color: var(--fx-primary-600); }
+.fx-cta-sage { color: var(--fx-sage-text); }
+.fx-cta-coral { color: var(--fx-coral-text); }
+.fx-cta-amber { color: var(--fx-amber-text); }
+.fx-cta-indigo { color: var(--fx-indigo-text); }
+
+/* ── Marcas de materia ── glifos Unicode, no SVG dibujado a mano. ── */
+.fx-card-ic { width: 48px; height: 48px; border-radius: var(--fx-radius-md);
+  display: flex; align-items: center; justify-content: center; font-size: 22px; flex: none; }
+.fx-glifo-mono { font-family: var(--fx-font-mono); }
+.fx-glifo-math { font-family: var(--fx-font-math); font-size: 24px; }
+.fx-glifo-body { font-family: var(--fx-font-body); }
+.fx-ic-math { background: var(--fx-math-tint); color: var(--fx-math); }
+.fx-ic-sage { background: var(--fx-sage-tint); color: var(--fx-sage-text); }
+.fx-ic-coral { background: var(--fx-coral-tint); color: var(--fx-coral-text); }
+.fx-ic-amber { background: var(--fx-amber-tint); color: var(--fx-amber-text); }
+.fx-ic-indigo { background: var(--fx-indigo-tint); color: var(--fx-indigo-text); }

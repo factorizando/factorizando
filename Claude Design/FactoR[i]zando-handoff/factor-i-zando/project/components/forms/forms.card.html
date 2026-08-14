@@ -1,0 +1,44 @@
+<!-- @dsCard group="Components" viewport="700x340" subtitle="Campos, selección y preferencias" name="Formularios" -->
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<script crossorigin src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+<script crossorigin src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.24.7/babel.min.js"></script>
+<script src="../../_fx_loader.js"></script>
+<style>body{margin:0;padding:20px;background:var(--fx-bg);font-family:var(--fx-font-body)}
+.grp{display:flex;flex-direction:column;gap:14px}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.lbl{font-family:var(--fx-font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--fx-text-muted)}</style>
+</head><body><div id="root"></div>
+<script type="text/babel" data-presets="react">
+window.fxLoadBundle('../../_ds_bundle.js')
+  .then(function () { return window.fxComponents('../', [{"name":"Input","path":"forms/Input.jsx"},{"name":"Select","path":"forms/Select.jsx"},{"name":"Checkbox","path":"forms/Checkbox.jsx"},{"name":"Radio","path":"forms/Radio.jsx"},{"name":"Switch","path":"forms/Switch.jsx"}]); })
+  .then(function (NS) {
+const { Input, Select, Checkbox, Radio, Switch } = NS;
+
+function Demo() {
+  const [c, setC] = React.useState(true);
+  const [r, setR] = React.useState('a');
+  const [s, setS] = React.useState(true);
+  return (
+    <div className="grp">
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16 }}>
+        <Input label="Tu respuesta" mono defaultValue="2³ × 3" suffix="= 24" />
+        <Input label="Correo" placeholder="nombre@escuela.mx" hint="Solo para guardar tu avance" />
+        <Select label="Grado" options={['4.º primaria', '5.º primaria', '6.º primaria']} />
+      </div>
+      <Input label="Respuesta numérica" mono defaultValue="7.4" error="Revisa las unidades: se pide en cm." style={{ maxWidth: 360 }} />
+      <div className="row" style={{ gap: 28 }}>
+        <Checkbox label="Recordar mi progreso" checked={c} onChange={() => setC(!c)} />
+        <Radio name="q" label="Verdadero" checked={r === 'a'} onChange={() => setR('a')} />
+        <Radio name="q" label="Falso" checked={r === 'b'} onChange={() => setR('b')} />
+        <Switch label="Leer en voz alta" checked={s} onChange={setS} />
+      </div>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+  })
+  .catch(function (e) { document.getElementById('root').textContent = 'ERR: ' + (e && e.stack || e); });
+</script></body></html>

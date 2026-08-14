@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=STIX+Two+Text:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #F7F9FC; -webkit-font-smoothing: antialiased; }
+  a { color: #0056D2; text-decoration: none; }
+  a:hover { color: #00398C; text-decoration: underline; }
+</style>
+</helmet>
+
+<div style="font-family: Figtree, sans-serif; color: #0A2540; background: #F7F9FC; padding: 64px 72px 96px; display: flex; flex-direction: column; gap: 72px; max-width: 1360px; margin: 0 auto;">
+
+  <header style="display: flex; flex-direction: column; gap: 16px; border-bottom: 1px solid #E3E9F2; padding-bottom: 40px;">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <div style="width: 34px; height: 34px; border-radius: 10px; background: #0056D2; display: grid; place-items: center; color: #fff; font-family: Sora, sans-serif; font-weight: 700; font-size: 17px;">F</div>
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: #5A6B7F;">Design system · v0.1</span>
+    </div>
+    <h1 style="font-family: Sora, sans-serif; font-weight: 600; font-size: 52px; line-height: 1.08; letter-spacing: -0.025em; margin: 0;">FactoR<span style="font-family: 'STIX Two Text', 'Cambria Math', serif; font-weight: 400; color: #0056D2;">[<span style="font-style: italic;">i</span>]</span>zando</h1>
+    <p style="font-size: 19px; line-height: 1.6; color: #33475B; max-width: 62ch; margin: 0; text-wrap: pretty;">Fundamentos visuales para una plataforma de aprendizaje interactivo: paleta clara y cálida para sesiones largas de estudio, azul de acción dominante y acentos por materia que conviven sin competir.</p>
+  </header>
+
+  <section style="display: flex; flex-direction: column; gap: 28px;">
+    <div style="display: flex; flex-direction: column; gap: 6px;">
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: #5A6B7F;">01 · Color</span>
+      <h2 style="font-family: Sora, sans-serif; font-weight: 600; font-size: 34px; line-height: 1.2; letter-spacing: -0.02em; margin: 0;">Azul primario</h2>
+      <p style="font-size: 16px; line-height: 1.65; color: #5A6B7F; margin: 4px 0 0; max-width: 60ch;">500 es el color de acción: botones primarios, links, estados activos. 600/700 para hover y pressed; 50–100 para fondos de selección y badges.</p>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(10, 1fr); gap: 10px;">
+      <div style="display: flex; flex-direction: column; gap: 8px;"><div style="height: 92px; border-radius: 12px; background: #EEF4FE; border: 1px solid #E3E9F2;"></div><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #0A2540;">50</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5A6B7F;">#EEF4FE</span></div>
+      <div style="display: flex; flex-direction: column; gap: 8px;"><div style="height: 92px; border-radius: 12px; background: #D7E5FC;"></div><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #0A2540;">100</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5A6B7F;">#D7E5FC</span></div>
+      <div style="display: flex; flex-direction: column; gap: 8px;"><div style="height: 92px; border-radius: 12px; background: #B4CDF8;"></div><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #0A2540;">200</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5A6B7F;">#B4CDF8</span></div>
+      <div style="display: flex; flex-direction: column; gap: 8px;"><div style="height: 92px; border-radius: 12px; background: #85AEF1;"></div><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #0A2540;">300</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5A6B7F;">#85AEF1</span></div>
+      <div style="display: flex; flex-direction: column; gap: 8px;"><div style="height: 92px; border-radius: 12px; background: #3F80E5;"></div><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #0A2540;">400</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5A6B7F;">#3F80E5</span></div>
+      <div style="display: flex; flex-direction: column; gap: 8px;"><div style="height: 92px; border-radius: 12px; background: #0056D2; box-shadow: 0 6px 16px rgba(0,86,210,0.28);"></div><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #0056D2; font-weight: 500;">500 · base</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5A6B7F;">#0056D2</span></div>
+      <div style="display: flex; flex-direction: column; gap: 8px;"><div style="height: 92px; border-radius: 12px; background: #0047AF;"></div><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #0A2540;">600</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5A6B7F;">#0047AF</span></div>
+      <div style="display: flex; flex-direction: column; gap: 8px;"><div style="height: 92px; border-radius: 12px; background: #003A8F;"></div><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #0A2540;">700</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5A6B7F;">#003A8F</span></div>
+      <div style="display: flex; flex-direction: column; gap: 8px;"><div style="height: 92px; border-radius: 12px; background: #082F6C;"></div><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #0A2540;">800</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5A6B7F;">#082F6C</span></div>
+      <div style="display: flex; flex-direction: column; gap: 8px;"><div style="height: 92px; border-radius: 12px; background: #0A2540;"></div><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #0A2540;">900 · navy</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5A6B7F;">#0A2540</span></div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 12px;">
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <h3 style="font-family: Sora, sans-serif; font-weight: 600; font-size: 20px; margin: 0; letter-spacing: -0.01em;">Neutros cálidos</h3>
+        <p style="font-size: 15px; line-height: 1.6; color: #5A6B7F; margin: 0;">Los grises llevan una pizca de azul-verde en lugar de gris puro: menos clínico, más descansado a las tres horas de estudio.</p>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div style="display: flex; align-items: center; gap: 14px; padding: 12px 14px; border-radius: 10px; background: #FFFFFF; border: 1px solid #E3E9F2;"><div style="width: 40px; height: 40px; border-radius: 8px; background: #FFFFFF; border: 1px solid #E3E9F2;"></div><div style="display: flex; flex-direction: column;"><span style="font-size: 14px; font-weight: 600;">surface</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5A6B7F;">#FFFFFF</span></div></div>
+          <div style="display: flex; align-items: center; gap: 14px; padding: 12px 14px; border-radius: 10px; background: #FFFFFF; border: 1px solid #E3E9F2;"><div style="width: 40px; height: 40px; border-radius: 8px; background: #F7F9FC; border: 1px solid #E3E9F2;"></div><div style="display: flex; flex-direction: column;"><span style="font-size: 14px; font-weight: 600;">background</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5A6B7F;">#F7F9FC</span></div></div>
+          <div style="display: flex; align-items: center; gap: 14px; padding: 12px 14px; border-radius: 10px; background: #FFFFFF; border: 1px solid #E3E9F2;"><div style="width: 40px; height: 40px; border-radius: 8px; background: #EFF3F9;"></div><div style="display: flex; flex-direction: column;"><span style="font-size: 14px; font-weight: 600;">surface-sunken</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5A6B7F;">#EFF3F9</span></div></div>
+          <div style="display: flex; align-items: center; gap: 14px; padding: 12px 14px; border-radius: 10px; background: #FFFFFF; border: 1px solid #E3E9F2;"><div style="width: 40px; height: 40px; border-radius: 8px; background: #E3E9F2;"></div><div style="display: flex; flex-direction: column;"><span style="font-size: 14px; font-weight: 600;">border</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5A6B7F;">#E3E9F2</span></div></div>
+          <div style="display: flex; align-items: center; gap: 14px; padding: 12px 14px; border-radius: 10px; background: #FFFFFF; border: 1px solid #E3E9F2;"><div style="width: 40px; height: 40px; border-radius: 8px; background: #5A6B7F;"></div><div style="display: flex; flex-direction: column;"><span style="font-size: 14px; font-weight: 600;">text-muted</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5A6B7F;">#5A6B7F</span></div></div>
+          <div style="display: flex; align-items: center; gap: 14px; padding: 12px 14px; border-radius: 10px; background: #FFFFFF; border: 1px solid #E3E9F2;"><div style="width: 40px; height: 40px; border-radius: 8px; background: #33475B;"></div><div style="display: flex; flex-direction: column;"><span style="font-size: 14px; font-weight: 600;">text-body</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5A6B7F;">#33475B</span></div></div>
+          <div style="display: flex; align-items: center; gap: 14px; padding: 12px 14px; border-radius: 10px; background: #FFFFFF; border: 1px solid #E3E9F2;"><div style="width: 40px; height: 40px; border-radius: 8px; background: #0A2540;"></div><div style="display: flex; flex-direction: column;"><span style="font-size: 14px; font-weight: 600;">text-heading</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5A6B7F;">#0A2540</span></div></div>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <h3 style="font-family: Sora, sans-serif; font-weight: 600; font-size: 20px; margin: 0; letter-spacing: -0.01em;">Acentos por materia</h3>
+        <p style="font-size: 15px; line-height: 1.6; color: #5A6B7F; margin: 0;">Cada materia tiene un tono base (íconos, gráficas, barras de progreso) y un tinte al 10% para fondos. Todos comparten luminosidad y saturación media, así ninguno grita más que el azul.</p>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <div style="display: flex; align-items: stretch; gap: 0; border-radius: 12px; overflow: hidden; border: 1px solid #E3E9F2; background: #fff;">
+            <div style="width: 84px; background: #0056D2;"></div>
+            <div style="width: 46px; background: #EEF4FE;"></div>
+            <div style="flex: 1; padding: 12px 16px; display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 15px; font-weight: 600;">Matemáticas</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5A6B7F;">subject-math · #0056D2</span></div>
+          </div>
+          <div style="display: flex; align-items: stretch; gap: 0; border-radius: 12px; overflow: hidden; border: 1px solid #E3E9F2; background: #fff;">
+            <div style="width: 84px; background: #4F9377;"></div>
+            <div style="width: 46px; background: #EDF5F1;"></div>
+            <div style="flex: 1; padding: 12px 16px; display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 15px; font-weight: 600;">Biología · Geografía</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5A6B7F;">subject-sage · #4F9377</span></div>
+          </div>
+          <div style="display: flex; align-items: stretch; gap: 0; border-radius: 12px; overflow: hidden; border: 1px solid #E3E9F2; background: #fff;">
+            <div style="width: 84px; background: #DE6E55;"></div>
+            <div style="width: 46px; background: #FBEEEA;"></div>
+            <div style="flex: 1; padding: 12px 16px; display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 15px; font-weight: 600;">Química</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5A6B7F;">subject-coral · #DE6E55</span></div>
+          </div>
+          <div style="display: flex; align-items: stretch; gap: 0; border-radius: 12px; overflow: hidden; border: 1px solid #E3E9F2; background: #fff;">
+            <div style="width: 84px; background: #D2942E;"></div>
+            <div style="width: 46px; background: #FBF3E5;"></div>
+            <div style="flex: 1; padding: 12px 16px; display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 15px; font-weight: 600;">Historia</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5A6B7F;">subject-amber · #D2942E</span></div>
+          </div>
+          <div style="display: flex; align-items: stretch; gap: 0; border-radius: 12px; overflow: hidden; border: 1px solid #E3E9F2; background: #fff;">
+            <div style="width: 84px; background: #6C63B5;"></div>
+            <div style="width: 46px; background: #F0EFF8;"></div>
+            <div style="flex: 1; padding: 12px 16px; display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 15px; font-weight: 600;">Física / Música</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5A6B7F;">subject-indigo · #6C63B5</span></div>
+          </div>
+        </div>
+
+        <h3 style="font-family: Sora, sans-serif; font-weight: 600; font-size: 20px; margin: 20px 0 0; letter-spacing: -0.01em;">Estados</h3>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+          <div style="border-radius: 12px; border: 1px solid #C6E2F2; background: #E9F4FB; padding: 14px; display: flex; flex-direction: column; gap: 8px;"><div style="width: 22px; height: 22px; border-radius: 6px; background: #1B8ACB;"></div><span style="font-size: 13px; font-weight: 600; color: #0F5C8A;">Éxito</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5A6B7F;">#1B8ACB</span></div>
+          <div style="border-radius: 12px; border: 1px solid #EBD9A0; background: #FBF4DC; padding: 14px; display: flex; flex-direction: column; gap: 8px;"><div style="width: 22px; height: 22px; border-radius: 6px; background: #D9A200;"></div><span style="font-size: 13px; font-weight: 600; color: #8A6A00;">Advertencia</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5A6B7F;">#D9A200</span></div>
+          <div style="border-radius: 12px; border: 1px solid #F3E4AC; background: #FDF8E6; padding: 14px; display: flex; flex-direction: column; gap: 8px;"><div style="width: 22px; height: 22px; border-radius: 6px; background: #F0C22B;"></div><span style="font-size: 13px; font-weight: 600; color: #96751A;">Error</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5A6B7F;">#F0C22B</span></div>
+          <div style="border-radius: 12px; border: 1px solid #D7E5FC; background: #EEF4FE; padding: 14px; display: flex; flex-direction: column; gap: 8px;"><div style="width: 22px; height: 22px; border-radius: 6px; background: #0056D2;"></div><span style="font-size: 13px; font-weight: 600; color: #003A8F;">Información</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5A6B7F;">#0056D2</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 28px; border-top: 1px solid #E3E9F2; padding-top: 56px;">
+    <div style="display: flex; flex-direction: column; gap: 6px;">
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: #5A6B7F;">02 · Tipografía</span>
+      <h2 style="font-family: Sora, sans-serif; font-weight: 600; font-size: 34px; line-height: 1.2; letter-spacing: -0.02em; margin: 0;">Sora + Figtree</h2>
+      <p style="font-size: 16px; line-height: 1.65; color: #5A6B7F; margin: 4px 0 0; max-width: 66ch;">Sora para encabezados: geométrica, con terminaciones rectas y numerales altos y abiertos — se lee bien grande y en cifras de dashboard. Figtree para cuerpo: humanista de esqueleto geométrico, con <em>x-height</em> generosa que aguanta párrafos largos de explicación. IBM Plex Mono queda reservado a fórmulas, código y unidades.</p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px;">
+      <div style="background: #fff; border: 1px solid #E3E9F2; border-radius: 16px; padding: 32px; display: flex; flex-direction: column; gap: 22px;">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid #EFF3F9; padding-bottom: 14px;">
+          <span style="font-family: Sora, sans-serif; font-weight: 600; font-size: 16px;">Escala de encabezados</span>
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5A6B7F;">Sora</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 20px;"><span style="font-family: Sora, sans-serif; font-weight: 600; font-size: 48px; line-height: 1.1; letter-spacing: -0.025em;">Factoriza 24</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5A6B7F; white-space: nowrap;">H1 · 48/53 · 600 · -2.5%</span></div>
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 20px;"><span style="font-family: Sora, sans-serif; font-weight: 600; font-size: 36px; line-height: 1.15; letter-spacing: -0.02em;">Números primos</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5A6B7F; white-space: nowrap;">H2 · 36/41 · 600 · -2%</span></div>
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 20px;"><span style="font-family: Sora, sans-serif; font-weight: 600; font-size: 28px; line-height: 1.25; letter-spacing: -0.015em;">La célula eucariota</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5A6B7F; white-space: nowrap;">H3 · 28/35 · 600</span></div>
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 20px;"><span style="font-family: Sora, sans-serif; font-weight: 500; font-size: 22px; line-height: 1.3;">Ondas y frecuencia</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5A6B7F; white-space: nowrap;">H4 · 22/29 · 500</span></div>
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 20px;"><span style="font-family: Sora, sans-serif; font-weight: 500; font-size: 18px; line-height: 1.4;">Ejercicio 3 · Tabla periódica</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5A6B7F; white-space: nowrap;">H5 · 18/25 · 500</span></div>
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 20px;"><span style="font-family: Sora, sans-serif; font-weight: 600; font-size: 14px; line-height: 1.4; letter-spacing: 0.08em; text-transform: uppercase; color: #33475B;">Sección · Álgebra</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5A6B7F; white-space: nowrap;">H6 · 14 · 600 · +8%</span></div>
+        </div>
+        <div style="border-top: 1px solid #EFF3F9; padding-top: 18px; display: flex; flex-direction: column; gap: 8px;">
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #5A6B7F;">Numerales tabulares</span>
+          <span style="font-family: Sora, sans-serif; font-weight: 500; font-size: 30px; letter-spacing: 0.01em; font-variant-numeric: tabular-nums;">0123456789</span>
+        </div>
+      </div>
+
+      <div style="background: #fff; border: 1px solid #E3E9F2; border-radius: 16px; padding: 32px; display: flex; flex-direction: column; gap: 22px;">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid #EFF3F9; padding-bottom: 14px;">
+          <span style="font-family: Sora, sans-serif; font-weight: 600; font-size: 16px;">Cuerpo y texto de apoyo</span>
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5A6B7F;">Figtree</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+          <div style="display: flex; flex-direction: column; gap: 6px;"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5A6B7F;">BODY LG · 18/30 · 400</span><p style="font-size: 18px; line-height: 1.66; color: #33475B; margin: 0; text-wrap: pretty;">Un número primo solo puede dividirse entre 1 y sí mismo. Cuando factorizamos, buscamos precisamente esas piezas indivisibles que forman el número original.</p></div>
+          <div style="display: flex; flex-direction: column; gap: 6px;"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5A6B7F;">BODY · 16/27 · 400 — texto por defecto</span><p style="font-size: 16px; line-height: 1.68; color: #33475B; margin: 0; text-wrap: pretty;">Arrastra cada factor a la rama que le corresponde. Si el árbol queda completo, todas las hojas serán números primos y el producto volverá a darte 24.</p></div>
+          <div style="display: flex; flex-direction: column; gap: 6px;"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5A6B7F;">SMALL · 14/22 · 400 — ayudas, metadatos</span><p style="font-size: 14px; line-height: 1.6; color: #5A6B7F; margin: 0;">Puedes repetir el ejercicio cuantas veces quieras; solo se guarda tu mejor intento.</p></div>
+          <div style="display: flex; flex-direction: column; gap: 6px;"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5A6B7F;">CAPTION · 12 · 500 · +6% — etiquetas de gráfica</span><span style="font-size: 12px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: #5A6B7F;">Progreso semanal · Unidad 4</span></div>
+          <div style="display: flex; flex-direction: column; gap: 6px; background: #F7F9FC; border: 1px solid #E3E9F2; border-radius: 12px; padding: 16px;"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5A6B7F;">FORMULA · IBM Plex Mono 17</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 17px; color: #0A2540;">24 = 2³ × 3</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 17px; color: #0A2540;">v = λ · f&nbsp;&nbsp;&nbsp;&nbsp;pH = −log[H⁺]</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 28px; border-top: 1px solid #E3E9F2; padding-top: 56px;">
+    <div style="display: flex; flex-direction: column; gap: 6px;">
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: #5A6B7F;">03 · Aplicado</span>
+      <h2 style="font-family: Sora, sans-serif; font-weight: 600; font-size: 34px; line-height: 1.2; letter-spacing: -0.02em; margin: 0;">Tarjeta de lección y botones</h2>
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start;">
+
+      <div id="1a" style="display: flex; flex-direction: column; gap: 14px; width: 420px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 500; color: #fff; background: #0A2540; padding: 3px 8px; border-radius: 6px;">1a</span>
+          <span style="font-size: 13px; color: #5A6B7F;">Matemáticas · acento primario</span>
+        </div>
+        <div style="background: #fff; border: 1px solid #E3E9F2; border-radius: 18px; overflow: hidden; box-shadow: 0 1px 2px rgba(10,37,64,0.04), 0 8px 24px rgba(10,37,64,0.06);">
+          <div style="height: 150px; background: repeating-linear-gradient(135deg, #EEF4FE 0 10px, #E2ECFD 10px 20px); display: grid; place-items: center; border-bottom: 1px solid #E3E9F2;">
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #3F80E5;">ilustración · árbol de factores</span>
+          </div>
+          <div style="padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #003A8F; background: #EEF4FE; padding: 5px 10px; border-radius: 999px;">Matemáticas</span>
+              <span style="font-size: 13px; color: #5A6B7F;">Unidad 4 · 12 min</span>
+            </div>
+            <h3 style="font-family: Sora, sans-serif; font-weight: 600; font-size: 24px; line-height: 1.25; letter-spacing: -0.015em; margin: 0;">Factorización en primos</h3>
+            <p style="font-size: 15px; line-height: 1.65; color: #33475B; margin: 0; text-wrap: pretty;">Descompón cualquier número en sus factores primos y comprueba tu resultado con el árbol interactivo.</p>
+            <div style="display: flex; flex-direction: column; gap: 7px;">
+              <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                <span style="font-size: 12px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: #5A6B7F;">Progreso</span>
+                <span style="font-family: Sora, sans-serif; font-size: 14px; font-weight: 500; color: #0A2540; font-variant-numeric: tabular-nums;">7 / 10</span>
+              </div>
+              <div style="height: 7px; border-radius: 999px; background: #EFF3F9; overflow: hidden;"><div style="width: 70%; height: 100%; background: #0056D2; border-radius: 999px;"></div></div>
+            </div>
+            <div style="display: flex; gap: 10px; align-items: center; padding-top: 4px;">
+              <button style="font-family: Figtree, sans-serif; font-size: 15px; font-weight: 600; color: #fff; background: #0056D2; border: none; border-radius: 10px; padding: 12px 20px; cursor: pointer; box-shadow: 0 2px 6px rgba(0,86,210,0.28); transition: background 140ms ease, transform 140ms ease;" style-hover="background: #0047AF; transform: translateY(-1px);" style-active="background: #003A8F; transform: translateY(0);">Continuar lección</button>
+              <button style="font-family: Figtree, sans-serif; font-size: 15px; font-weight: 600; color: #003A8F; background: #fff; border: 1px solid #B4CDF8; border-radius: 10px; padding: 12px 18px; cursor: pointer; transition: background 140ms ease, border-color 140ms ease;" style-hover="background: #EEF4FE; border-color: #85AEF1;">Repasar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="1b" style="display: flex; flex-direction: column; gap: 14px; width: 420px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 500; color: #fff; background: #0A2540; padding: 3px 8px; border-radius: 6px;">1b</span>
+          <span style="font-size: 13px; color: #5A6B7F;">Química · acento coral, misma estructura</span>
+        </div>
+        <div style="background: #fff; border: 1px solid #E3E9F2; border-radius: 18px; overflow: hidden; box-shadow: 0 1px 2px rgba(10,37,64,0.04), 0 8px 24px rgba(10,37,64,0.06);">
+          <div style="height: 150px; background: repeating-linear-gradient(135deg, #FBEEEA 0 10px, #F7E3DD 10px 20px); display: grid; place-items: center; border-bottom: 1px solid #E3E9F2;">
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #C05A42;">ilustración · escala de pH</span>
+          </div>
+          <div style="padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #A8482F; background: #FBEEEA; padding: 5px 10px; border-radius: 999px;">Química</span>
+              <span style="font-size: 13px; color: #5A6B7F;">Unidad 2 · 9 min</span>
+            </div>
+            <h3 style="font-family: Sora, sans-serif; font-weight: 600; font-size: 24px; line-height: 1.25; letter-spacing: -0.015em; margin: 0;">Ácidos y bases</h3>
+            <p style="font-size: 15px; line-height: 1.65; color: #33475B; margin: 0; text-wrap: pretty;">Mide el pH de seis disoluciones en el laboratorio virtual y ordénalas de la más ácida a la más alcalina.</p>
+            <div style="display: flex; flex-direction: column; gap: 7px;">
+              <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                <span style="font-size: 12px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: #5A6B7F;">Progreso</span>
+                <span style="font-family: Sora, sans-serif; font-size: 14px; font-weight: 500; color: #0A2540; font-variant-numeric: tabular-nums;">3 / 8</span>
+              </div>
+              <div style="height: 7px; border-radius: 999px; background: #EFF3F9; overflow: hidden;"><div style="width: 37%; height: 100%; background: #DE6E55; border-radius: 999px;"></div></div>
+            </div>
+            <div style="display: flex; gap: 10px; align-items: center; padding-top: 4px;">
+              <button style="font-family: Figtree, sans-serif; font-size: 15px; font-weight: 600; color: #fff; background: #0056D2; border: none; border-radius: 10px; padding: 12px 20px; cursor: pointer; box-shadow: 0 2px 6px rgba(0,86,210,0.28); transition: background 140ms ease, transform 140ms ease;" style-hover="background: #0047AF; transform: translateY(-1px);" style-active="background: #003A8F; transform: translateY(0);">Abrir laboratorio</button>
+              <button style="font-family: Figtree, sans-serif; font-size: 15px; font-weight: 600; color: #33475B; background: #fff; border: 1px solid #E3E9F2; border-radius: 10px; padding: 12px 18px; cursor: pointer; transition: background 140ms ease;" style-hover="background: #F7F9FC;">Guardar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 18px; width: 380px; background: #fff; border: 1px solid #E3E9F2; border-radius: 18px; padding: 28px;">
+        <span style="font-family: Sora, sans-serif; font-weight: 600; font-size: 16px;">Botones · jerarquía</span>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <button style="font-family: Figtree, sans-serif; font-size: 16px; font-weight: 600; color: #fff; background: #0056D2; border: none; border-radius: 10px; padding: 14px 22px; cursor: pointer; box-shadow: 0 2px 6px rgba(0,86,210,0.28);" style-hover="background: #0047AF;">Primario · Empezar ahora</button>
+          <button style="font-family: Figtree, sans-serif; font-size: 16px; font-weight: 600; color: #003A8F; background: #EEF4FE; border: 1px solid #D7E5FC; border-radius: 10px; padding: 14px 22px; cursor: pointer;" style-hover="background: #D7E5FC;">Secundario · Ver temario</button>
+          <button style="font-family: Figtree, sans-serif; font-size: 16px; font-weight: 600; color: #33475B; background: transparent; border: 1px solid #E3E9F2; border-radius: 10px; padding: 14px 22px; cursor: pointer;" style-hover="background: #F7F9FC; border-color: #B4CDF8;">Terciario · Más tarde</button>
+          <button style="font-family: Figtree, sans-serif; font-size: 16px; font-weight: 600; color: #fff; background: #1B8ACB; border: none; border-radius: 10px; padding: 14px 22px; cursor: pointer;" style-hover="background: #16719F;">Éxito · Comprobar respuesta</button>
+          <button style="font-family: Figtree, sans-serif; font-size: 16px; font-weight: 600; color: #8E9AA8; background: #EFF3F9; border: none; border-radius: 10px; padding: 14px 22px; cursor: not-allowed;">Deshabilitado</button>
+        </div>
+        <div style="border-top: 1px solid #EFF3F9; padding-top: 16px; display: flex; flex-direction: column; gap: 10px;">
+          <span style="font-size: 12px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: #5A6B7F;">Tamaños táctiles</span>
+          <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+            <button style="font-family: Figtree, sans-serif; font-size: 14px; font-weight: 600; color: #fff; background: #0056D2; border: none; border-radius: 8px; height: 40px; padding: 0 16px; display: inline-flex; align-items: center; cursor: pointer;">sm · 40px</button>
+            <button style="font-family: Figtree, sans-serif; font-size: 15px; font-weight: 600; color: #fff; background: #0056D2; border: none; border-radius: 10px; height: 46px; padding: 0 20px; display: inline-flex; align-items: center; cursor: pointer;">md · 46px</button>
+            <button style="font-family: Figtree, sans-serif; font-size: 17px; font-weight: 600; color: #fff; background: #0056D2; border: none; border-radius: 12px; height: 54px; padding: 0 26px; display: inline-flex; align-items: center; cursor: pointer;">lg · 54px</button>
+          </div>
+          <p style="font-size: 13px; line-height: 1.6; color: #5A6B7F; margin: 0;">Primaria usa por defecto <strong style="color: #33475B; font-weight: 600;">lg</strong>: objetivos de 54px, cómodos en tablet.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 20px; border-top: 1px solid #E3E9F2; padding-top: 56px;">
+    <div style="display: flex; flex-direction: column; gap: 6px;">
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: #5A6B7F;">04 · Tokens</span>
+      <h2 style="font-family: Sora, sans-serif; font-weight: 600; font-size: 34px; line-height: 1.2; letter-spacing: -0.02em; margin: 0;">Variables CSS</h2>
+    </div>
+    <pre style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; line-height: 1.85; color: #33475B; background: #fff; border: 1px solid #E3E9F2; border-radius: 16px; padding: 28px 32px; margin: 0; overflow-x: auto;">:root {
+  /* Primario */
+  --fx-primary-50:#EEF4FE;  --fx-primary-100:#D7E5FC; --fx-primary-200:#B4CDF8;
+  --fx-primary-300:#85AEF1; --fx-primary-400:#3F80E5; --fx-primary-500:#0056D2;
+  --fx-primary-600:#0047AF; --fx-primary-700:#003A8F; --fx-primary-800:#082F6C;
+  --fx-primary-900:#0A2540;
+
+  /* Neutros */
+  --fx-bg:#F7F9FC;          --fx-surface:#FFFFFF;     --fx-surface-sunken:#EFF3F9;
+  --fx-border:#E3E9F2;      --fx-border-strong:#CDD8E6;
+  --fx-text-heading:#0A2540;--fx-text-body:#33475B;   --fx-text-muted:#5A6B7F;
+  --fx-text-disabled:#8E9AA8; --fx-text-on-primary:#FFFFFF;
+
+  /* Materias */
+  --fx-math:#0056D2;    --fx-math-tint:#EEF4FE;
+  --fx-sage:#4F9377;    --fx-sage-tint:#EDF5F1;   /* biología, geografía */
+  --fx-coral:#DE6E55;   --fx-coral-tint:#FBEEEA;  /* química */
+  --fx-amber:#D2942E;   --fx-amber-tint:#FBF3E5;  /* historia */
+  --fx-indigo:#6C63B5;  --fx-indigo-tint:#F0EFF8; /* física, música */
+
+  /* Estados */
+  --fx-success:#1B8ACB; --fx-success-bg:#E9F4FB; --fx-success-text:#0F5C8A;
+  --fx-warning:#D9A200; --fx-warning-bg:#FBF4DC; --fx-warning-text:#8A6A00;
+  --fx-error:#F0C22B;   --fx-error-bg:#FDF8E6;   --fx-error-text:#96751A;
+  --fx-info:#0056D2;    --fx-info-bg:#EEF4FE;    --fx-info-text:#003A8F;
+
+  /* Tipografía */
+  --fx-font-heading:'Sora', system-ui, sans-serif;
+  --fx-font-body:'Figtree', system-ui, sans-serif;
+  --fx-font-mono:'IBM Plex Mono', ui-monospace, monospace;
+  --fx-h1:48px/1.10; --fx-h2:36px/1.15; --fx-h3:28px/1.25;
+  --fx-h4:22px/1.30; --fx-h5:18px/1.40; --fx-h6:14px/1.40;
+  --fx-body-lg:18px/1.66; --fx-body:16px/1.68;
+  --fx-small:14px/1.60;   --fx-caption:12px/1.40;
+
+  /* Radios y sombras */
+  --fx-radius-sm:8px; --fx-radius-md:10px; --fx-radius-lg:18px; --fx-radius-pill:999px;
+  --fx-shadow-card:0 1px 2px rgba(10,37,64,.04), 0 8px 24px rgba(10,37,64,.06);
+  --fx-shadow-primary:0 2px 6px rgba(0,86,210,.28);
+}</pre>
+  </section>
+</div>
+
+</x-dc>
+</body>
+</html>

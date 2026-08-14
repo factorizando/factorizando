@@ -31,6 +31,7 @@ import PresentacionAlumno from "./pages/PresentacionAlumno.jsx";
 import PresentacionVer from "./pages/PresentacionVer.jsx";
 import DocumentoVer from "./pages/DocumentoVer.jsx";
 import CursoVer from "./pages/CursoVer.jsx";
+import MateriaVer from "./pages/MateriaVer.jsx";
 import TemaPreview from "./pages/TemaPreview.jsx";
 import AdminAlumnos from "./pages/admin/AdminAlumnos.jsx";
 import AdminTutores from "./pages/admin/AdminTutores.jsx";
@@ -73,6 +74,7 @@ function AppRoutes() {
         <Route path="/exani-ii" element={<ExaniII />} />
         <Route path="/documento/:id" element={<DocumentoVer />} />
         <Route path="/curso/:id" element={<CursoVer />} />
+        <Route path="/materia/:slug" element={<MateriaVer />} />
         <Route path="/refrigerios" element={<Refrigerios />} />
         {/* Banco de pruebas del comprobante. Solo en dev: import.meta.env.DEV
             queda en `false` al compilar, así que la rama y su import se podan. */}

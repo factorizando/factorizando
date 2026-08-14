@@ -4,6 +4,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&display=swap');
 /* Tipografía de UI */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+/* Design system FactoR[i]zando: Sora (títulos), Figtree (cuerpo),
+   IBM Plex Mono (fórmulas y eyebrows), STIX Two Text (modo matemático). */
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=STIX+Two+Text:ital,wght@0,400;0,500;1,400;1,500&display=swap');
+@import "./styles/fx.css";
 
 *, *::before, *::after {
   box-sizing: border-box;

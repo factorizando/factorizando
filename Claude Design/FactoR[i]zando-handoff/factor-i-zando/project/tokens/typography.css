@@ -1,0 +1,19 @@
+:root {
+  --fx-font-heading: "Sora", system-ui, sans-serif;
+  --fx-font-body: "Figtree", system-ui, sans-serif;
+  --fx-font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --fx-font-math: "STIX Two Text", "Latin Modern Math", "Cambria Math", serif;
+
+  --fx-h1-size: 48px;   --fx-h1-lh: 1.10; --fx-h1-ls: -0.025em; --fx-h1-weight: 600;
+  --fx-h2-size: 36px;   --fx-h2-lh: 1.15; --fx-h2-ls: -0.020em; --fx-h2-weight: 600;
+  --fx-h3-size: 28px;   --fx-h3-lh: 1.25; --fx-h3-ls: -0.015em; --fx-h3-weight: 600;
+  --fx-h4-size: 22px;   --fx-h4-lh: 1.30; --fx-h4-ls: -0.010em; --fx-h4-weight: 500;
+  --fx-h5-size: 18px;   --fx-h5-lh: 1.40; --fx-h5-ls: 0;        --fx-h5-weight: 500;
+  --fx-h6-size: 14px;   --fx-h6-lh: 1.40; --fx-h6-ls: 0.08em;   --fx-h6-weight: 600;
+
+  --fx-body-lg-size: 18px; --fx-body-lg-lh: 1.66;
+  --fx-body-size: 16px;    --fx-body-lh: 1.68;
+  --fx-small-size: 14px;   --fx-small-lh: 1.60;
+  --fx-caption-size: 12px; --fx-caption-lh: 1.40; --fx-caption-ls: 0.06em;
+  --fx-mono-size: 17px;
+}

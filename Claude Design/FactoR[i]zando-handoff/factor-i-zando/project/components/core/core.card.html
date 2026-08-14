@@ -1,0 +1,52 @@
+<!-- @dsCard group="Components" viewport="700x380" subtitle="Primitivas base del sistema" name="Core · botones, tarjeta, badge, progreso" -->
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<script crossorigin src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+<script crossorigin src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.24.7/babel.min.js"></script>
+<script src="../../_fx_loader.js"></script>
+<style>body{margin:0;padding:20px;background:var(--fx-bg);font-family:var(--fx-font-body)}
+.grp{display:flex;flex-direction:column;gap:14px}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.lbl{font-family:var(--fx-font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--fx-text-muted)}</style>
+</head><body><div id="root"></div>
+<script type="text/babel" data-presets="react">
+window.fxLoadBundle('../../_ds_bundle.js')
+  .then(function () { return window.fxComponents('../', [{"name":"Button","path":"core/Button.jsx"},{"name":"IconButton","path":"core/IconButton.jsx"},{"name":"Card","path":"core/Card.jsx"},{"name":"Badge","path":"core/Badge.jsx"},{"name":"ProgressBar","path":"core/ProgressBar.jsx"},{"name":"Logo","path":"core/Logo.jsx"}]); })
+  .then(function (NS) {
+const { Button, IconButton, Card, Badge, ProgressBar, Logo } = NS;
+
+function Demo() {
+  return (
+    <div className="grp">
+      <span className="lbl">Button · variantes</span>
+      <div className="row">
+        <Button>Empezar gratis</Button>
+        <Button variant="secondary">Ver temario</Button>
+        <Button variant="tertiary">Más tarde</Button>
+        <Button variant="success">Comprobar respuesta</Button>
+        <Button disabled>Deshabilitado</Button>
+      </div>
+      <span className="lbl">Tamaños · 40 / 46 / 54</span>
+      <div className="row">
+        <Button size="sm">sm</Button><Button size="md">md</Button><Button size="lg">lg</Button>
+        <IconButton label="Más" variant="outline">+</IconButton>
+        <IconButton label="Sonido" variant="solid">♪</IconButton>
+      </div>
+      <span className="lbl">Badge · Logo · ProgressBar</span>
+      <div className="row">
+        <Badge tone="math">Matemáticas</Badge><Badge tone="coral">Química</Badge>
+        <Badge tone="amber">Historia</Badge><Badge tone="success">Completado</Badge>
+        <Logo size={17} />
+      </div>
+      <Card padding={18} style={{ maxWidth: 340 }}>
+        <ProgressBar value={7} max={10} label="Progreso" valueLabel="7 / 10" color="var(--fx-math)" />
+      </Card>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+  })
+  .catch(function (e) { document.getElementById('root').textContent = 'ERR: ' + (e && e.stack || e); });
+</script></body></html>

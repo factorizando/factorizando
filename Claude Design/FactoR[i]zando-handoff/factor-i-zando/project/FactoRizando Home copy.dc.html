@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&amp;family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #F7F9FC; -webkit-font-smoothing: antialiased; }
+  a { color: #0056D2; text-decoration: none; }
+  a:hover { color: #003A8F; text-decoration: underline; }
+</style>
+</helmet>
+
+<div style="font-family: Figtree, sans-serif; color: #33475B; background: #F7F9FC; min-height: 100vh;">
+
+  <header data-screen-label="Nav" style="position: sticky; top: 0; z-index: 20; background: rgba(247,249,252,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid #E3E9F2;">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 16px clamp(20px, 4vw, 48px); display: flex; align-items: center; gap: clamp(16px, 3vw, 40px); flex-wrap: wrap;">
+      <a href="#" style="display: flex; align-items: center; gap: 10px; text-decoration: none; flex: 0 0 auto;" style-hover="text-decoration: none;">
+        <span style="width: 32px; height: 32px; border-radius: 9px; background: #0056D2; display: grid; place-items: center; color: #fff; font-family: Sora, sans-serif; font-weight: 700; font-size: 16px;">F</span>
+        <span style="font-family: Sora, sans-serif; font-weight: 600; font-size: 19px; letter-spacing: -0.02em; color: #0A2540;">FactoR<span style="font-family: 'STIX Two Text', 'Cambria Math', serif; font-weight: 400; color: #0056D2;">[<span style="font-style: italic;">i</span>]</span>zando</span>
+      </a>
+      <nav style="display: flex; align-items: center; gap: 4px; flex-wrap: wrap; flex: 1 1 auto;">
+        <a href="#materias" style="font-size: 15px; font-weight: 500; color: #33475B; padding: 8px 12px; border-radius: 8px; text-decoration: none;" style-hover="background: #EEF4FE; color: #003A8F; text-decoration: none;">Matemáticas</a>
+        <a href="#materias" style="font-size: 15px; font-weight: 500; color: #33475B; padding: 8px 12px; border-radius: 8px; text-decoration: none;" style-hover="background: #F0EFF8; color: #4C4490; text-decoration: none;">Español</a><a href="#materias" style="font-size: 15px; font-weight: 500; color: #33475B; padding: 8px 12px; border-radius: 8px; text-decoration: none;" style-hover="background: #F0EFF8; color: #4C4490; text-decoration: none;">Física<br></a><a href="#materias" style="font-size: 15px; font-weight: 500; color: #33475B; padding: 8px 12px; border-radius: 8px; text-decoration: none;" style-hover="background: #EDF5F1; color: #2F6B52; text-decoration: none;">Biología</a>
+        <a href="#materias" style="font-size: 15px; font-weight: 500; color: #33475B; padding: 8px 12px; border-radius: 8px; text-decoration: none;" style-hover="background: #FBEEEA; color: #A8482F; text-decoration: none;">Química</a>
+        <a href="#materias" style="font-size: 15px; font-weight: 500; color: #33475B; padding: 8px 12px; border-radius: 8px; text-decoration: none;" style-hover="background: #FBF3E5; color: #8A6210; text-decoration: none;">Historia</a><a href="#materias" style="font-size: 15px; font-weight: 500; color: #33475B; padding: 8px 12px; border-radius: 8px; text-decoration: none;" style-hover="background: #EDF5F1; color: #2F6B52; text-decoration: none;">Geografía</a>
+        
+        
+      </nav>
+      <div style="display: flex; align-items: center; gap: 12px; flex: 0 0 auto;">
+        <a href="#" style="font-size: 15px; font-weight: 600; color: #003A8F; padding: 10px 14px; border-radius: 9px; text-decoration: none;" style-hover="background: #EEF4FE; text-decoration: none;">Entrar</a>
+        <button style="font-family: Figtree, sans-serif; font-size: 15px; font-weight: 600; color: #fff; background: #0056D2; border: none; border-radius: 10px; height: 44px; padding: 0 20px; cursor: pointer; box-shadow: 0 2px 6px rgba(0,86,210,0.28); transition: background 140ms ease;" style-hover="background: #0047AF;">{{ ctaLabel }}</button>
+      </div>
+    </div>
+  </header>
+
+  <section data-screen-label="Hero" style="max-width: 1280px; margin: 0 auto; padding: clamp(48px, 7vw, 96px) clamp(20px, 4vw, 48px) clamp(40px, 5vw, 72px);">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: clamp(32px, 5vw, 72px); align-items: center;">
+      <div style="display: flex; flex-direction: column; gap: 24px; max-width: 560px;">
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: #0047AF; background: #EEF4FE; border: 1px solid #D7E5FC; padding: 7px 12px; border-radius: 999px; align-self: flex-start;">{{ heroBadge }}</span>
+        <h1 style="font-family: Sora, sans-serif; font-weight: 600; font-size: clamp(38px, 4.6vw, 58px); line-height: 1.08; letter-spacing: -0.028em; color: #0A2540; margin: 0; text-wrap: balance;">Descompón cualquier tema hasta que tenga sentido.</h1>
+        <p style="font-size: 19px; line-height: 1.62; color: #33475B; margin: 0; text-wrap: pretty;">FactoR[i]zando convierte cada lección en ejercicios paso a paso: intentas, te equivocas, ves el porqué y sigues. Sin videos de 40 minutos ni memorizar fórmulas sueltas.</p>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; padding-top: 4px;">
+          <button style="font-family: Figtree, sans-serif; font-size: 17px; font-weight: 600; color: #fff; background: #0056D2; border: none; border-radius: 12px; height: 54px; padding: 0 28px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,86,210,0.3); transition: background 140ms ease, transform 140ms ease;" style-hover="background: #0047AF; transform: translateY(-1px);" style-active="background: #003A8F; transform: translateY(0);">Empezar gratis</button>
+          <button style="font-family: Figtree, sans-serif; font-size: 17px; font-weight: 600; color: #003A8F; background: #fff; border: 1px solid #B4CDF8; border-radius: 12px; height: 54px; padding: 0 24px; cursor: pointer; transition: background 140ms ease, border-color 140ms ease;" style-hover="background: #EEF4FE; border-color: #85AEF1;">Ver una lección</button>
+        </div>
+        <sc-if value="{{ showStats }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; gap: clamp(20px, 4vw, 44px); flex-wrap: wrap; border-top: 1px solid #E3E9F2; margin-top: 12px; padding-top: 24px;">
+            <div style="display: flex; flex-direction: column; gap: 3px;">
+              <span style="font-family: Sora, sans-serif; font-weight: 600; font-size: 28px; color: #0A2540; font-variant-numeric: tabular-nums; letter-spacing: -0.02em;">1 240</span>
+              <span style="font-size: 13px; color: #5A6B7F;">ejercicios interactivos</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 3px;">
+              <span style="font-family: Sora, sans-serif; font-weight: 600; font-size: 28px; color: #0A2540; font-variant-numeric: tabular-nums; letter-spacing: -0.02em;">6</span>
+              <span style="font-size: 13px; color: #5A6B7F;">materias, 9 grados</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 3px;">
+              <span style="font-family: Sora, sans-serif; font-weight: 600; font-size: 28px; color: #0A2540; font-variant-numeric: tabular-nums; letter-spacing: -0.02em;">12 min
+</span>
+              <span style="font-size: 13px; color: #5A6B7F;">por lección, en promedio</span>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 16px; min-width: 320px;">
+        <div style="background: #fff; border: 1px solid #E3E9F2; border-radius: 20px; padding: 14px; box-shadow: 0 1px 2px rgba(10,37,64,0.04), 0 14px 40px rgba(10,37,64,0.08);">
+          <div style="aspect-ratio: 4 / 3; border-radius: 12px; background: repeating-linear-gradient(135deg, #EEF4FE 0 10px, #E2ECFD 10px 20px); display: grid; place-items: center; text-align: center; padding: 20px;">
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; line-height: 1.7; letter-spacing: 0.06em; text-transform: uppercase; color: #0047AF;">captura del producto<br>widget · árbol de factores</span>
+          </div>
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 10px 6px;">
+            <div style="display: flex; flex-direction: column; gap: 2px;">
+              <span style="font-family: Sora, sans-serif; font-weight: 600; font-size: 16px; color: #0A2540;">Factorización en primos</span>
+              <span style="font-size: 13px; color: #5A6B7F;">Matemáticas · 6.º grado</span>
+            </div>
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 15px; color: #0A2540; background: #F7F9FC; border: 1px solid #E3E9F2; padding: 7px 11px; border-radius: 9px;">24 = 2³ × 3</span>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; background: #fff; border: 1px solid #E3E9F2; border-radius: 14px; padding: 14px 18px;">
+          <span style="width: 10px; height: 10px; border-radius: 999px; background: #1B8ACB; flex: 0 0 auto;"></span>
+          <span style="font-size: 14px; color: #33475B;">Respuesta correcta — <strong style="font-weight: 600; color: #0A2540;">7 de 10</strong> completados esta semana.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="materias" data-screen-label="Materias" style="max-width: 1280px; margin: 0 auto; padding: clamp(40px, 5vw, 72px) clamp(20px, 4vw, 48px);">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; flex-wrap: wrap; margin-bottom: 40px;">
+      <div style="display: flex; flex-direction: column; gap: 10px; max-width: 620px;">
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: #5A6B7F;">Materias</span>
+        <h2 style="font-family: Sora, sans-serif; font-weight: 600; font-size: clamp(28px, 3vw, 38px); line-height: 1.16; letter-spacing: -0.022em; color: #0A2540; margin: 0;">Elige por dónde empezar</h2>
+        <p style="font-size: 17px; line-height: 1.62; color: #33475B; margin: 4px 0 0; text-wrap: pretty;">Cada materia tiene su color: lo reconocerás en las gráficas, en tu progreso y en los widgets.</p>
+      </div>
+      <a href="#" style="font-size: 15px; font-weight: 600; color: #003A8F; border: 1px solid #B4CDF8; border-radius: 10px; padding: 12px 18px; text-decoration: none; white-space: nowrap;" style-hover="background: #EEF4FE; text-decoration: none;">Ver el temario completo</a>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; max-width: 1060px;">
+
+      <a href="#" style="text-decoration: none; display: flex; flex-direction: column; gap: 18px; background: #fff; border: 1px solid #E3E9F2; border-top: 3px solid #0056D2; border-radius: 18px; padding: 28px; box-shadow: 0 1px 2px rgba(10,37,64,0.04); transition: transform 160ms ease, box-shadow 160ms ease;" style-hover="transform: translateY(-3px); box-shadow: 0 1px 2px rgba(10,37,64,0.04), 0 14px 32px rgba(10,37,64,0.09); text-decoration: none;">
+        
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <span style="width:48px;height:48px;border-radius:10px;background:rgba(0,86,210,.10);color:#0056D2;font-family:'IBM Plex Mono',monospace;font-size:22px;display:flex;align-items:center;justify-content:center">Σ</span><h3 style="font-family: Sora, sans-serif; font-weight: 600; font-size: 21px; line-height: 1.3; letter-spacing: -0.012em; color: #0A2540; margin: 0;">Matemáticas</h3>
+          <p style="font-size: 15px; line-height: 1.62; color: #33475B; margin: 0; text-wrap: pretty;">Aritmética, álgebra y geometría con pizarras donde el resultado cambia mientras lo resuelves.</p>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 8px;">
+          <span style="font-size: 13px; color: #5A6B7F;">14 unidades · 312 ejercicios</span>
+          <span style="font-size: 15px; font-weight: 600; color: #0047AF;">Abrir →</span>
+        </div>
+      </a>
+
+      <a href="#" style="text-decoration: none; display: flex; flex-direction: column; gap: 18px; background: #fff; border: 1px solid #E3E9F2; border-top: 3px solid #6C63B5; border-radius: 18px; padding: 28px; box-shadow: 0 1px 2px rgba(10,37,64,0.04); transition: transform 160ms ease, box-shadow 160ms ease;" style-hover="transform: translateY(-3px); box-shadow: 0 1px 2px rgba(10,37,64,0.04), 0 14px 32px rgba(10,37,64,0.09); text-decoration: none;">
+        <div style="width: 52px; height: 52px; border-radius: 14px; background: #F0EFF8; display: grid; place-items: center;">
+          <span style="display: flex; align-items: flex-end; gap: 3px; height: 22px;">
+            <span style="width: 4px; height: 10px; border-radius: 999px; background: #6C63B5;"></span>
+            <span style="width: 4px; height: 22px; border-radius: 999px; background: #6C63B5;"></span>
+            <span style="width: 4px; height: 15px; border-radius: 999px; background: #A9A3D8;"></span>
+          </span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <h3 style="font-family: Sora, sans-serif; font-weight: 600; font-size: 21px; line-height: 1.3; letter-spacing: -0.012em; color: #0A2540; margin: 0;">Física</h3>
+          <p style="font-size: 15px; line-height: 1.62; color: #33475B; margin: 0; text-wrap: pretty;">Ondas, frecuencia y armonía en un mismo lugar: mueve la cuerda y escucha cómo cambia la nota.</p>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 8px;">
+          <span style="font-size: 13px; color: #5A6B7F;">7 unidades · 118 ejercicios</span>
+          <span style="font-size: 15px; font-weight: 600; color: #4C4490;">Abrir →</span>
+        </div>
+      </a><a href="#" style="text-decoration: none; display: flex; flex-direction: column; gap: 18px; background: #fff; border: 1px solid #E3E9F2; border-top: 3px solid #4F9377; border-radius: 18px; padding: 28px; box-shadow: 0 1px 2px rgba(10,37,64,0.04); transition: transform 160ms ease, box-shadow 160ms ease;" style-hover="transform: translateY(-3px); box-shadow: 0 1px 2px rgba(10,37,64,0.04), 0 14px 32px rgba(10,37,64,0.09); text-decoration: none;">
+        <div style="width: 52px; height: 52px; border-radius: 14px; background: #EDF5F1; display: grid; place-items: center;">
+          <span style="width: 20px; height: 20px; border-radius: 999px 4px 999px 4px; background: #4F9377;"></span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <h3 style="font-family: Sora, sans-serif; font-weight: 600; font-size: 21px; line-height: 1.3; letter-spacing: -0.012em; color: #0A2540; margin: 0;">Biología</h3>
+          <p style="font-size: 15px; line-height: 1.62; color: #33475B; margin: 0; text-wrap: pretty;">De la célula a los ecosistemas: modelos que se desarman por capas para ver qué hay dentro.</p>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 8px;">
+          <span style="font-size: 13px; color: #5A6B7F;">11 unidades · 208 ejercicios</span>
+          <span style="font-size: 15px; font-weight: 600; color: #2F6B52;">Abrir →</span>
+        </div>
+      </a>
+
+      <a href="#" style="text-decoration: none; display: flex; flex-direction: column; gap: 18px; background: #fff; border: 1px solid #E3E9F2; border-top: 3px solid #DE6E55; border-radius: 18px; padding: 28px; box-shadow: 0 1px 2px rgba(10,37,64,0.04); transition: transform 160ms ease, box-shadow 160ms ease;" style-hover="transform: translateY(-3px); box-shadow: 0 1px 2px rgba(10,37,64,0.04), 0 14px 32px rgba(10,37,64,0.09); text-decoration: none;">
+        
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <span style="width: 48px; height: 48px; border-radius: 10px; color: #C2410C; font-family: 'IBM Plex Mono',monospace; font-size: 22px; display: flex; align-items: center; justify-content: center; background-color: #FBEEEAD4">⬡</span><h3 style="font-family: Sora, sans-serif; font-weight: 600; font-size: 21px; line-height: 1.3; letter-spacing: -0.012em; color: #0A2540; margin: 0;">Química</h3>
+          <p style="font-size: 15px; line-height: 1.62; color: #33475B; margin: 0; text-wrap: pretty;">Laboratorio virtual: mezcla disoluciones, mide el pH y balancea ecuaciones sin gastar reactivos.</p>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 8px;">
+          <span style="font-size: 13px; color: #5A6B7F;">9 unidades · 176 ejercicios</span>
+          <span style="font-size: 15px; font-weight: 600; color: #A8482F;">Abrir →</span>
+        </div>
+      </a>
+
+      <a href="#" style="text-decoration: none; display: flex; flex-direction: column; gap: 18px; background: #fff; border: 1px solid #E3E9F2; border-top: 3px solid #D2942E; border-radius: 18px; padding: 28px; box-shadow: 0 1px 2px rgba(10,37,64,0.04); transition: transform 160ms ease, box-shadow 160ms ease;" style-hover="transform: translateY(-3px); box-shadow: 0 1px 2px rgba(10,37,64,0.04), 0 14px 32px rgba(10,37,64,0.09); text-decoration: none;">
+        <div style="width: 52px; height: 52px; border-radius: 14px; background: #FBF3E5; display: grid; place-items: center;">
+          <span style="width: 22px; height: 4px; border-radius: 999px; background: #D2942E; box-shadow: 0 7px 0 #D2942E, 0 -7px 0 #E8BE7A;"></span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <h3 style="font-family: Sora, sans-serif; font-weight: 600; font-size: 21px; line-height: 1.3; letter-spacing: -0.012em; color: #0A2540; margin: 0;">Historia</h3>
+          <p style="font-size: 15px; line-height: 1.62; color: #33475B; margin: 0; text-wrap: pretty;">Líneas de tiempo que se recorren y comparan: qué pasaba al mismo tiempo en el otro lado del mundo.</p>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 8px;">
+          <span style="font-size: 13px; color: #5A6B7F;">10 unidades · 154 ejercicios</span>
+          <span style="font-size: 15px; font-weight: 600; color: #8A6210;">Abrir →</span>
+        </div>
+      </a>
+
+      <a href="#" style="text-decoration: none; display: flex; flex-direction: column; gap: 18px; background: #fff; border: 1px solid #E3E9F2; border-top: 3px solid #4F9377; border-radius: 18px; padding: 28px; box-shadow: 0 1px 2px rgba(10,37,64,0.04); transition: transform 160ms ease, box-shadow 160ms ease;" style-hover="transform: translateY(-3px); box-shadow: 0 1px 2px rgba(10,37,64,0.04), 0 14px 32px rgba(10,37,64,0.09); text-decoration: none;">
+        <div style="width: 52px; height: 52px; border-radius: 14px; background: #EDF5F1; display: grid; place-items: center;">
+          <span style="width: 22px; height: 22px; border-radius: 999px; border: 4px solid #4F9377;"></span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <h3 style="font-family: Sora, sans-serif; font-weight: 600; font-size: 21px; line-height: 1.3; letter-spacing: -0.012em; color: #0A2540; margin: 0;">Geografía</h3>
+          <p style="font-size: 15px; line-height: 1.62; color: #33475B; margin: 0; text-wrap: pretty;">Mapas reales con capas de clima, relieve y población que puedes encender y apagar.</p>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 8px;">
+          <span style="font-size: 13px; color: #5A6B7F;">8 unidades · 132 ejercicios</span>
+          <span style="font-size: 15px; font-weight: 600; color: #2F6B52;">Abrir →</span>
+        </div>
+      </a>
+
+      
+    </div>
+  </section>
+
+  <section data-screen-label="CTA" style="max-width: 1280px; margin: 0 auto; padding: clamp(24px, 4vw, 48px) clamp(20px, 4vw, 48px) clamp(56px, 6vw, 88px);">
+    <div style="background: #0A2540; border-radius: 22px; padding: clamp(32px, 5vw, 56px); display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap;">
+      <div style="display: flex; flex-direction: column; gap: 12px; max-width: 620px;">
+        <h2 style="font-family: Sora, sans-serif; font-weight: 600; font-size: clamp(26px, 2.8vw, 34px); line-height: 1.2; letter-spacing: -0.022em; color: #fff; margin: 0; text-wrap: balance;">¿Das clase? Crea un grupo en dos minutos</h2>
+        <p style="font-size: 17px; line-height: 1.6; color: #C7D6E6; margin: 0; text-wrap: pretty;">Asigna unidades, revisa el progreso por estudiante y detecta dónde se atoró el grupo. Gratis para escuelas públicas.</p>
+      </div>
+      <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+        <button style="font-family: Figtree, sans-serif; font-size: 16px; font-weight: 600; color: #0A2540; background: #fff; border: none; border-radius: 11px; height: 52px; padding: 0 24px; cursor: pointer; transition: background 140ms ease;" style-hover="background: #EEF4FE;">Crear grupo</button>
+        <button style="font-family: Figtree, sans-serif; font-size: 16px; font-weight: 600; color: #fff; background: transparent; border: 1px solid #3F5B7A; border-radius: 11px; height: 52px; padding: 0 22px; cursor: pointer; transition: background 140ms ease;" style-hover="background: #123252;">Hablar con alguien</button>
+      </div>
+    </div>
+  </section>
+
+  <footer data-screen-label="Footer" style="border-top: 1px solid #E3E9F2; background: #fff;">
+    <div style="max-width: 1280px; margin: 0 auto; padding: clamp(40px, 5vw, 64px) clamp(20px, 4vw, 48px) 32px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px;">
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="width: 28px; height: 28px; border-radius: 8px; background: #0056D2; display: grid; place-items: center; color: #fff; font-family: Sora, sans-serif; font-weight: 700; font-size: 14px;">F</span>
+          <span style="font-family: Sora, sans-serif; font-weight: 600; font-size: 16px; color: #0A2540; letter-spacing: -0.02em;">FactoR<span style="font-family: 'STIX Two Text', 'Cambria Math', serif; font-weight: 400; color: #0056D2;">[<span style="font-style: italic;">i</span>]</span>zando</span>
+        </div>
+        <p style="font-size: 14px; line-height: 1.6; color: #5A6B7F; margin: 0; max-width: 26ch;">Aprender haciendo, de primaria a preparatoria.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #0A2540;">Materias</span>
+        <a href="#materias" style="font-size: 14px; color: #33475B; text-decoration: none;" style-hover="color: #0047AF;">Matemáticas</a>
+        <a href="#materias" style="font-size: 14px; color: #33475B; text-decoration: none;" style-hover="color: #0047AF;">Física</a><a href="#materias" style="font-size: 14px; color: #33475B; text-decoration: none;" style-hover="color: #0047AF;">Biología</a>
+        <a href="#materias" style="font-size: 14px; color: #33475B; text-decoration: none;" style-hover="color: #0047AF;">Química</a>
+        <a href="#materias" style="font-size: 14px; color: #33475B; text-decoration: none;" style-hover="color: #0047AF;">Historia</a><a href="#materias" style="font-size: 14px; color: #33475B; text-decoration: none;" style-hover="color: #0047AF;">Geografía</a>
+        
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #0A2540;">Plataforma</span>
+        <a href="#" style="font-size: 14px; color: #33475B; text-decoration: none;" style-hover="color: #0047AF;">Para docentes</a>
+        <a href="#" style="font-size: 14px; color: #33475B; text-decoration: none;" style-hover="color: #0047AF;">Para escuelas</a>
+        <a href="#" style="font-size: 14px; color: #33475B; text-decoration: none;" style-hover="color: #0047AF;">Precios</a>
+        <a href="#" style="font-size: 14px; color: #33475B; text-decoration: none;" style-hover="color: #0047AF;">Ayuda</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #0A2540;">Nosotros</span>
+        <a href="#" style="font-size: 14px; color: #33475B; text-decoration: none;" style-hover="color: #0047AF;">Quiénes somos</a>
+        <a href="#" style="font-size: 14px; color: #33475B; text-decoration: none;" style-hover="color: #0047AF;">Accesibilidad</a>
+        <a href="#" style="font-size: 14px; color: #33475B; text-decoration: none;" style-hover="color: #0047AF;">Privacidad</a>
+        <a href="#" style="font-size: 14px; color: #33475B; text-decoration: none;" style-hover="color: #0047AF;">Contacto</a>
+      </div>
+    </div>
+    <div style="max-width: 1280px; margin: 0 auto; padding: 20px clamp(20px, 4vw, 48px) 40px; border-top: 1px solid #EFF3F9; display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap;">
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5A6B7F;">© 2026 FactoR[i]zando</span>
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5A6B7F;">Hecho en español · es-MX</span>
+    </div>
+  </footer>
+</div></x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;ctaLabel&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Comenzar&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;heroBadge&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Nuevo · Laboratorios de química&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;showStats&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      ctaLabel: this.props.ctaLabel ?? 'Comenzar',
+      heroBadge: this.props.heroBadge ?? 'Nuevo · Laboratorios de química',
+      showStats: this.props.showStats ?? true
+    };
+  }
+}
+</script>
+</body>
+</html>

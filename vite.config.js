@@ -52,7 +52,11 @@ export default defineConfig({
         ],
       },
       workbox: {
-        maximumFileSizeToCacheInBytes: 8 * 1024 * 1024,
+        // El bundle va en un solo chunk que ya pasó los 8 MiB (three, jsxgraph,
+        // mathjs y todo el contenido entran juntos), y al cruzar el límite el
+        // build falla en vez de solo dejarlo fuera de la precaché. Subirlo es
+        // el parche; lo que toca de fondo es partir el bundle.
+        maximumFileSizeToCacheInBytes: 12 * 1024 * 1024,
         globPatterns: ['**/*.{js,css,html,png,svg,woff2}'],
         // Explícito aunque sea el valor por omisión: al activarse la versión
         // nueva se purgan las precachés anteriores. En modo prompt esto solo

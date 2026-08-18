@@ -14,8 +14,8 @@ import { useCallback, useState } from "react";
 import { generarPartida } from "../../../data/talleres/pizzas-cajas-vasos/index.js";
 import { sonar } from "./lib/sonido.js";
 import { C, ACENTO, TAM } from "./estilo.js";
-import { useRonda, plural } from "./hooks.js";
-import { Boton, Cabecera, Cierre, Operacion, Panel, RespuestaDada, Retro, Rotulo, TecladoNumerico } from "./ui.jsx";
+import { useRonda, plural } from "../comun/hooks.js";
+import { Boton, Cabecera, Cierre, Operacion, Panel, RespuestaDada, Retro, Rotulo, TecladoNumerico } from "../comun/ui.jsx";
 import { CajaPizza, MonteRebanadas, Rebanada } from "./Figuras.jsx";
 
 const COLOR = ACENTO.pizzeria;

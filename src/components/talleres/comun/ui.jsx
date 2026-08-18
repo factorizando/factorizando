@@ -70,6 +70,28 @@ export function Rotulo({ children, color = C.apagado, estilo = {} }) {
   );
 }
 
+// Tarjeta de menú: elegir rango, juego o modo. El borde se enciende con el
+// color del juego al pasar por encima, que es la única pista de "esto se
+// toca" que necesita un niño de siete años.
+export function TarjetaMenu({ children, onClick, acento, minHeight = 150, estilo = {} }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      style={{
+        textAlign: "left", background: C.panel, border: `2px solid ${C.borde}`,
+        borderRadius: 16, padding: "22px 22px", cursor: "pointer",
+        fontFamily: "inherit", color: C.texto, minHeight,
+        touchAction: "manipulation", ...estilo,
+      }}
+      onPointerEnter={(e) => { e.currentTarget.style.borderColor = acento; }}
+      onPointerLeave={(e) => { e.currentTarget.style.borderColor = C.borde; }}
+    >
+      {children}
+    </button>
+  );
+}
+
 // Progreso como fila de barras y no como porcentaje: al niño le interesa
 // cuánto falta, no qué calificación lleva. Las acertadas se pintan del color
 // del juego; las falladas quedan tenues, nunca rojas.

@@ -13,16 +13,18 @@
 // vez elegido, el niño ya no vuelve a ver esa pantalla; el maestro sí puede
 // cambiarlo desde la barra de arriba.
 import { useCallback, useState } from "react";
-import { JUEGOS, RANGOS, RANGOS_POR_ID } from "../../../data/talleres/pizzas-cajas-vasos/index.js";
+import {
+  JUEGOS, JUEGOS_POR_ID, RANGOS, RANGOS_POR_ID, etiquetaCategoria,
+} from "../../../data/talleres/pizzas-cajas-vasos/index.js";
 import { alternarSilencio, estaSilenciado } from "./lib/sonido.js";
-import { anotarIntento, cerrarPartida, compararConAnterior } from "./lib/registro.js";
+import { anotarIntento, cerrarPartida, compararConAnterior, registro } from "./lib/registro.js";
 import { C, ACENTO, FUENTE, TAM } from "./estilo.js";
-import { Rotulo } from "./ui.jsx";
+import { Rotulo, TarjetaMenu } from "../comun/ui.jsx";
 import JuegoPizzeria from "./JuegoPizzeria.jsx";
 import JuegoFabrica from "./JuegoFabrica.jsx";
 import JuegoHuerto from "./JuegoHuerto.jsx";
 import JuegoVasos from "./JuegoVasos.jsx";
-import PanelProfesor from "./PanelProfesor.jsx";
+import PanelProfesor from "../comun/PanelProfesor.jsx";
 
 // Nombre con el que la partida entra al expediente del alumno. Se escribe
 // como lo diría el maestro, no como lo nombra el código.
@@ -31,25 +33,6 @@ function nombreActividad(juego, modo) {
   if (juego === "fabrica") return modo === "huerto" ? "El Huerto · área y producto" : "La Fábrica de Cajas · multiplicación";
   const comoSeLlama = { llenar: "llenar", comparar: "comparar", equivalencias: "equivalencias", mezcla: "mezclado" };
   return `Los Vasos Medidores · ${comoSeLlama[modo] || "fracciones"}`;
-}
-
-function Tarjeta({ children, onClick, acento, minHeight = 150, estilo = {} }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      style={{
-        textAlign: "left", background: C.panel, border: `2px solid ${C.borde}`,
-        borderRadius: 16, padding: "22px 22px", cursor: "pointer",
-        fontFamily: "inherit", color: C.texto, minHeight,
-        touchAction: "manipulation", ...estilo,
-      }}
-      onPointerEnter={(e) => { e.currentTarget.style.borderColor = acento; }}
-      onPointerLeave={(e) => { e.currentTarget.style.borderColor = C.borde; }}
-    >
-      {children}
-    </button>
-  );
 }
 
 export default function PizzasCajasVasos({ alumnoId, guardarSesion, cargarSesiones }) {
@@ -118,6 +101,17 @@ export default function PizzasCajasVasos({ alumnoId, guardarSesion, cargarSesion
     }
   }
 
+  const panelMaestro = verPanel ? (
+    <PanelProfesor
+      alumnoId={alumnoId}
+      registro={registro}
+      cargarSesiones={cargarSesiones}
+      nombreJuego={(id) => JUEGOS_POR_ID[id]?.nombre || id}
+      etiquetaCategoria={etiquetaCategoria}
+      onCerrar={() => setVerPanel(false)}
+    />
+  ) : null;
+
   const botonPanel = (
     <button
       type="button"
@@ -151,7 +145,7 @@ export default function PizzasCajasVasos({ alumnoId, guardarSesion, cargarSesion
 
           <div style={{ display: "grid", gap: 16, gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
             {RANGOS.map((r) => (
-              <Tarjeta key={r.id} acento={C.naranja} onClick={() => setRangoId(r.id)} minHeight={190}>
+              <TarjetaMenu key={r.id} acento={C.naranja} onClick={() => setRangoId(r.id)} minHeight={190}>
                 <div style={{ fontSize: 30, fontWeight: 800, marginBottom: 8 }}>{r.nombre}</div>
                 <div style={{ color: C.tenue, fontSize: 16.5, lineHeight: 1.45, marginBottom: 16 }}>{r.detalle}</div>
                 <ul style={{ margin: 0, paddingLeft: 18, color: C.apagado, fontSize: 15, lineHeight: 1.7 }}>
@@ -160,13 +154,11 @@ export default function PizzasCajasVasos({ alumnoId, guardarSesion, cargarSesion
                     {r.fabrica.dosCifras ? " (y algunos de dos cifras)" : ""}</li>
                   <li>Fracciones con denominadores hasta {Math.max(...r.vasos.denominadores)}</li>
                 </ul>
-              </Tarjeta>
+              </TarjetaMenu>
             ))}
           </div>
         </div>
-        {verPanel && (
-          <PanelProfesor alumnoId={alumnoId} cargarSesiones={cargarSesiones} onCerrar={() => setVerPanel(false)} />
-        )}
+        {panelMaestro}
       </div>
     );
   }
@@ -239,7 +231,7 @@ export default function PizzasCajasVasos({ alumnoId, guardarSesion, cargarSesion
               gridTemplateColumns: "repeat(auto-fit, minmax(270px, 1fr))",
             }}>
               {JUEGOS.map((j) => (
-                <Tarjeta key={j.id} acento={ACENTO[j.id]} onClick={() => abrirJuego(j)} minHeight={200}>
+                <TarjetaMenu key={j.id} acento={ACENTO[j.id]} onClick={() => abrirJuego(j)} minHeight={200}>
                   <div style={{ fontSize: 46, lineHeight: 1, marginBottom: 14 }}>{j.icono}</div>
                   <div style={{ fontSize: 24, fontWeight: 800, marginBottom: 6 }}>{j.nombre}</div>
                   <div style={{ color: C.tenue, fontSize: 16, lineHeight: 1.45, marginBottom: 14 }}>{j.resumen}</div>
@@ -250,7 +242,7 @@ export default function PizzasCajasVasos({ alumnoId, guardarSesion, cargarSesion
                   }}>
                     {j.operacion}
                   </div>
-                </Tarjeta>
+                </TarjetaMenu>
               ))}
             </div>
           </>
@@ -265,13 +257,13 @@ export default function PizzasCajasVasos({ alumnoId, guardarSesion, cargarSesion
               gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))",
             }}>
               {modosDisponibles.map((m) => (
-                <Tarjeta
+                <TarjetaMenu
                   key={m.id} acento={ACENTO[m.id] || ACENTO[juego.id]}
                   onClick={() => setModo(m.id)} minHeight={120}
                 >
                   <div style={{ fontSize: 21, fontWeight: 800, marginBottom: 6 }}>{m.nombre}</div>
                   <div style={{ color: C.tenue, fontSize: 15.5, lineHeight: 1.45 }}>{m.desc}</div>
-                </Tarjeta>
+                </TarjetaMenu>
               ))}
             </div>
             {juego.id === "vasos" && rangoId === "7-8" && (
@@ -318,9 +310,7 @@ export default function PizzasCajasVasos({ alumnoId, guardarSesion, cargarSesion
         )}
       </div>
 
-      {verPanel && (
-        <PanelProfesor alumnoId={alumnoId} cargarSesiones={cargarSesiones} onCerrar={() => setVerPanel(false)} />
-      )}
+      {panelMaestro}
     </div>
   );
 }

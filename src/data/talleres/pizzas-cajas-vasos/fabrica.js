@@ -5,7 +5,7 @@
 // Lo que cambia con la edad no es la pregunta sino si el contenido se dibuja
 // (y entonces se puede contar) o solo se rotula (y entonces hay que
 // multiplicar).
-import { entero } from "./azar.js";
+import { entero } from "../azar.js";
 
 export function generarFabrica(rango) {
   const cfg = rango.fabrica;

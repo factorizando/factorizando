@@ -4,7 +4,7 @@
 // de dificultad (rangos.js) y los generadores de cada juego. La interfaz solo
 // pide `generarPartida(juego, rango)` y dibuja lo que le devuelvan.
 import { RANGOS, RANGOS_POR_ID, EJERCICIOS_POR_PARTIDA } from "./rangos.js";
-import { serie } from "./azar.js";
+import { serie } from "../azar.js";
 import { generarPizzeria } from "./pizzeria.js";
 import { generarFabrica, generarHuerto } from "./fabrica.js";
 import { generarVaso } from "./vasos.js";

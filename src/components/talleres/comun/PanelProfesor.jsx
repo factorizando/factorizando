@@ -9,17 +9,11 @@
 // residuo cuando la división es exacta, o que compara mal en cuanto los
 // denominadores son distintos, sí.
 import { useCallback, useEffect, useState } from "react";
-import { JUEGOS_POR_ID, etiquetaCategoria } from "../../../data/talleres/pizzas-cajas-vasos/index.js";
-import {
-  borrarRegistro, categoriasFlojas, exportarJSON, partidas, resumenPorJuego,
-} from "./lib/registro.js";
 import { C, FUENTE } from "./estilo.js";
 import { Boton, Panel, Rotulo } from "./ui.jsx";
 
 const fmt = (ms) =>
   new Date(ms).toLocaleDateString("es-MX", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
-
-const nombreJuego = (id) => JUEGOS_POR_ID[id]?.nombre || id;
 
 function Seccion({ titulo, nota, children }) {
   return (
@@ -39,7 +33,11 @@ const Vacio = ({ children }) => (
   <p style={{ color: C.apagado, fontSize: 15, margin: 0 }}>{children}</p>
 );
 
-export default function PanelProfesor({ alumnoId, cargarSesiones, onCerrar }) {
+// `registro` es el que devuelve `crearRegistro(<taller>)`; `nombreJuego` y
+// `etiquetaCategoria` traducen los ids del taller a como los diría el maestro.
+export default function PanelProfesor({
+  alumnoId, registro, nombreJuego, etiquetaCategoria, cargarSesiones, onCerrar,
+}) {
   const [sesiones, setSesiones] = useState(null);
   const [error, setError] = useState(null);
   const [confirmando, setConfirmando] = useState(false);
@@ -47,10 +45,10 @@ export default function PanelProfesor({ alumnoId, cargarSesiones, onCerrar }) {
   // Se lee del dispositivo una vez y se vuelve a leer al borrar; no hay nadie
   // más escribiendo mientras el panel está abierto.
   const leerLocal = useCallback(() => ({
-    flojas: categoriasFlojas(alumnoId),
-    historial: partidas(alumnoId),
-    resumen: resumenPorJuego(alumnoId),
-  }), [alumnoId]);
+    flojas: registro.categoriasFlojas(alumnoId),
+    historial: registro.partidas(alumnoId),
+    resumen: registro.resumenPorJuego(alumnoId),
+  }), [alumnoId, registro]);
   const [{ flojas, historial, resumen }, setLocal] = useState(leerLocal);
 
   useEffect(() => {
@@ -63,17 +61,17 @@ export default function PanelProfesor({ alumnoId, cargarSesiones, onCerrar }) {
   }, [alumnoId, cargarSesiones]);
 
   function exportar() {
-    const blob = new Blob([exportarJSON(alumnoId)], { type: "application/json" });
+    const blob = new Blob([registro.exportarJSON(alumnoId)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `pizzas-cajas-vasos-${alumnoId || "libre"}.json`;
+    a.download = `${registro.tallerId}-${alumnoId || "libre"}.json`;
     a.click();
     URL.revokeObjectURL(url);
   }
 
   function borrar() {
-    borrarRegistro(alumnoId);
+    registro.borrarRegistro(alumnoId);
     setConfirmando(false);
     setLocal(leerLocal());
   }

@@ -10,7 +10,7 @@
 // numerador (1/3 contra 1/2): a esta edad el niño lee "3 es más que 2" y
 // contesta 1/3. Ese error hay que provocarlo para poder corregirlo, así que
 // no se evita: se busca. Ese es el sesgo de `PESOS_COMPARAR`.
-import { entero, elegir, elegirPesado, barajar } from "./azar.js";
+import { entero, elegir, elegirPesado, barajar } from "../azar.js";
 
 const PESOS_COMPARAR = [
   ["mismo-numerador", 5],   // la trampa: mismo numerador, denominador distinto

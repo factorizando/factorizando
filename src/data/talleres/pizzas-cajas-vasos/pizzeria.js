@@ -9,7 +9,7 @@
 // Se mezclan divisiones exactas a propósito (`proporcionExacta`): si siempre
 // sobrara algo, el alumno aprendería que en la pizzería siempre sobra, que es
 // otra manera de no entender el residuo.
-import { entero } from "./azar.js";
+import { entero } from "../azar.js";
 
 // Las cuatro categorías son las que ve el maestro en el panel. Están partidas
 // por paso porque fallar el cociente y fallar el residuo son dos problemas

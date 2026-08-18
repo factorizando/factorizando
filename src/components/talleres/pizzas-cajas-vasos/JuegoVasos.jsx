@@ -16,8 +16,8 @@ import { useCallback, useRef, useState } from "react";
 import { generarPartida } from "../../../data/talleres/pizzas-cajas-vasos/index.js";
 import { sonar } from "./lib/sonido.js";
 import { C, ACENTO, TAM } from "./estilo.js";
-import { useRonda } from "./hooks.js";
-import { Boton, Cabecera, Cierre, Panel, Retro, Rotulo } from "./ui.jsx";
+import { useRonda } from "../comun/hooks.js";
+import { Boton, Cabecera, Cierre, Panel, Retro, Rotulo } from "../comun/ui.jsx";
 import { Fraccion, Vaso } from "./Figuras.jsx";
 
 const COLOR = ACENTO.vasos;

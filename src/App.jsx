@@ -47,6 +47,7 @@ import MiSuscripcion from "./pages/alumno/MiSuscripcion.jsx";
 import Refrigerios from "./pages/Refrigerios.jsx";
 import PreviewComprobante from "./pages/PreviewComprobante.jsx";
 import Decodificacion from "./components/talleres/decodificacion/Decodificacion.jsx";
+import PizzasCajasVasos from "./components/talleres/pizzas-cajas-vasos/PizzasCajasVasos.jsx";
 
 // Detecta el evento de recuperación de contraseña (al abrir el enlace del correo)
 // y lleva al usuario a la pantalla para fijar la nueva contraseña.
@@ -90,6 +91,16 @@ function AppRoutes() {
             element={
               <div style={{ height: "100vh" }}>
                 <Decodificacion alumnoId={null} />
+              </div>
+            }
+          />
+        )}
+        {import.meta.env.DEV && (
+          <Route
+            path="/preview-pizzas-cajas-vasos"
+            element={
+              <div style={{ height: "100vh" }}>
+                <PizzasCajasVasos alumnoId={null} />
               </div>
             }
           />

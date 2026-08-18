@@ -53,6 +53,10 @@ export const TEMAS = [
 
   { id: "fracciones", label: "Fracciones", materia: "Matemáticas", area: "Fracciones y decimales",
     alias: ["medios", "cuartos", "numerador", "denominador", "quebrados"] },
+  { id: "comparar-fracciones", label: "Comparar fracciones", materia: "Matemáticas", area: "Fracciones y decimales",
+    alias: ["cuál es mayor", "mayor fracción", "ordenar fracciones", "un tercio o un medio", "denominador grande"] },
+  { id: "fracciones-equivalentes", label: "Fracciones equivalentes", materia: "Matemáticas", area: "Fracciones y decimales",
+    alias: ["equivalente", "valen lo mismo", "simplificar", "dos cuartos", "amplificar"] },
   { id: "fraccion-cantidad", label: "Fracción de una cantidad", materia: "Matemáticas", area: "Fracciones y decimales",
     alias: ["tres cuartos de", "la mitad de", "parte de un total"] },
   { id: "decimales", label: "Decimales", materia: "Matemáticas", area: "Fracciones y decimales",

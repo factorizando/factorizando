@@ -5,8 +5,10 @@ import { C } from "../comun/estilo.js";
 export { C, FUENTE, TAM } from "../comun/estilo.js";
 
 export const ACENTO = {
+  "vuelta-patio": C.amarillo,
   "cerca-pasto": C.verde,
   "misma-cerca": C.cafe,
+  mosaiquero: C.azul,
 };
 
 // Los dos materiales del taller. Que la cerca y el pasto no se parezcan en
@@ -18,4 +20,8 @@ export const MATERIAL = {
   cerca: "#c98a52",
   cercaApagada: "#4a3b2c",
   poste: "#8a5c33",
+  huella: "#ffd166",        // los pasos ya caminados
+  camino: "#3a3f36",        // la orilla todavía sin caminar
+  mosaicoA: "#3f8a8a",      // las dos partes en que se corta una figura:
+  mosaicoB: "#8a6fbf",      // tienen que distinguirse de un vistazo
 };

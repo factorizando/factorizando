@@ -6,7 +6,7 @@
 // —dos números que salen de la misma figura— el taller no tendría de dónde
 // agarrarse para separarlas, que es justo lo que se está enseñando.
 import { C, MATERIAL } from "./estilo.js";
-import { idCelda, tramosDe } from "./lib/piezas.js";
+import { idCelda, ladoDe, tramosDe } from "./lib/piezas.js";
 
 // De la posición del dedo a la pieza que hay debajo. Se hace con la geometría
 // y no con el elemento del DOM porque el puntero va capturado por el SVG
@@ -23,9 +23,10 @@ function puntoEnCeldas(e, lado, margen) {
 // El tramo más cercano al dedo, si está lo bastante cerca. El radio es
 // generoso a propósito: en una tablet proyectada nadie recorre la orilla al
 // píxel, y lo que se está midiendo es si entiende qué es la orilla.
-function tramoBajo(punto, ancho, alto) {
+function tramoBajo(punto, ancho, alto, ladosOcultos = []) {
   let mejor = null, mejorD = 0.75;
   tramosDe(ancho, alto).forEach((t) => {
+    if (ladosOcultos.includes(ladoDe(t.id))) return;
     const d = Math.hypot(punto.x - (t.x1 + t.x2) / 2, punto.y - (t.y1 + t.y2) / 2);
     if (d < mejorD) { mejor = t.id; mejorD = d; }
   });
@@ -211,5 +212,181 @@ export function TarjetaTerreno({
         {revelada ? `${area}${unidades ? " m²" : " cuadros"}` : "¿cuánto pasto?"}
       </div>
     </button>
+  );
+}
+
+// ── El patio del juego 4 ──────────────────────────────────────────────────
+// Aquí la orilla no es una cerca que se pone, es un camino que se recorre: se
+// dibujan huellas y va un caminante en la última pisada. En el modo atajo, dos
+// de los lados están cerrados con un "?" y no se dejan caminar —esos son los
+// que hay que adivinar—.
+export function PatioVuelta({
+  ancho, alto, pintados, ladosOcultos = [], onPintar, medidas = false, unidades = false, lado,
+}) {
+  const paso = lado || Math.max(26, Math.min(74, Math.round(520 / Math.max(ancho, alto))));
+  const margen = 34;
+  const w = ancho * paso + margen * 2;
+  const h = alto * paso + margen * 2;
+  const X = (x) => margen + x * paso;
+  const Y = (y) => margen + y * paso;
+
+  const tramos = tramosDe(ancho, alto);
+  const porLado = { arriba: 0, abajo: 0, izq: 0, der: 0 };
+  tramos.forEach((t) => { if (pintados?.has(t.id)) porLado[ladoDe(t.id)]++; });
+
+  // El caminante se para en la última huella; si no ha empezado, en la esquina.
+  const ultimo = [...tramos].reverse().find((t) => pintados?.has(t.id));
+  const cx = ultimo ? X((ultimo.x1 + ultimo.x2) / 2) : X(0);
+  const cy = ultimo ? Y((ultimo.y1 + ultimo.y2) / 2) : Y(0);
+
+  const etiqueta = (n, total) => (n === 0 ? "" : `${n}${n === total ? (unidades ? " m" : " pasos") : ""}`);
+
+  function pintar(e) {
+    if (!onPintar) return;
+    const punto = puntoEnCeldas(e, paso, margen);
+    const pieza = tramoBajo(punto, ancho, alto, ladosOcultos);
+    if (pieza) onPintar(pieza);
+  }
+
+  return (
+    <svg
+      viewBox={`0 0 ${w} ${h}`}
+      style={{ width: "100%", maxWidth: w, touchAction: "none", display: "block" }}
+      onPointerDown={(e) => { e.currentTarget.setPointerCapture?.(e.pointerId); pintar(e); }}
+      onPointerMove={(e) => { if (e.buttons > 0 || e.pointerType === "touch") pintar(e); }}
+      onPointerUp={(e) => e.currentTarget.releasePointerCapture?.(e.pointerId)}
+    >
+      <rect x={X(0)} y={Y(0)} width={ancho * paso} height={alto * paso} fill={MATERIAL.pastoTenue} rx={4} />
+      {Array.from({ length: ancho + 1 }, (_, i) => (
+        <line key={`v${i}`} x1={X(i)} y1={Y(0)} x2={X(i)} y2={Y(alto)} stroke={C.borde} strokeWidth="1" opacity="0.5" />
+      ))}
+      {Array.from({ length: alto + 1 }, (_, j) => (
+        <line key={`h${j}`} x1={X(0)} y1={Y(j)} x2={X(ancho)} y2={Y(j)} stroke={C.borde} strokeWidth="1" opacity="0.5" />
+      ))}
+
+      {tramos.map((t) => {
+        const oculto = ladosOcultos.includes(ladoDe(t.id));
+        const dado = pintados?.has(t.id);
+        return (
+          <line
+            key={t.id}
+            x1={X(t.x1)} y1={Y(t.y1)} x2={X(t.x2)} y2={Y(t.y2)}
+            stroke={oculto ? C.bordeVivo : dado ? MATERIAL.huella : MATERIAL.camino}
+            strokeWidth={dado ? 11 : 7}
+            strokeDasharray={oculto ? "6 7" : undefined}
+            strokeLinecap="round"
+          />
+        );
+      })}
+
+      {/* separadores entre pisada y pisada: son los pasos, y se cuentan */}
+      {tramos.filter((t) => pintados?.has(t.id)).map((t) => (
+        <circle key={`p${t.id}`} cx={X(t.x2)} cy={Y(t.y2)} r="3.5" fill="#7a5c1e" />
+      ))}
+
+      {/* el caminante */}
+      <g transform={`translate(${cx} ${cy})`}>
+        <circle cx="0" cy="0" r="13" fill={C.fondo} stroke={MATERIAL.huella} strokeWidth="3" />
+        <circle cx="0" cy="-3.5" r="4" fill={MATERIAL.huella} />
+        <rect x="-3.5" y="1.5" width="7" height="8" rx="3" fill={MATERIAL.huella} />
+      </g>
+
+      {/* cuánto midió cada lado */}
+      {medidas && (
+        <>
+          <text x={X(ancho / 2)} y={Y(0) - 12} textAnchor="middle" fontSize="17" fontWeight="800"
+            fill={ladosOcultos.includes("arriba") ? C.apagado : C.texto} fontFamily="inherit">
+            {ladosOcultos.includes("arriba") ? "?" : etiqueta(porLado.arriba, ancho)}
+          </text>
+          <text x={X(ancho / 2)} y={Y(alto) + 26} textAnchor="middle" fontSize="17" fontWeight="800"
+            fill={ladosOcultos.includes("abajo") ? C.apagado : C.texto} fontFamily="inherit">
+            {ladosOcultos.includes("abajo") ? "?" : etiqueta(porLado.abajo, ancho)}
+          </text>
+          <text x={X(0) - 14} y={Y(alto / 2)} textAnchor="middle" dominantBaseline="middle"
+            fontSize="17" fontWeight="800" fontFamily="inherit"
+            fill={ladosOcultos.includes("izq") ? C.apagado : C.texto}
+            transform={`rotate(-90 ${X(0) - 14} ${Y(alto / 2)})`}>
+            {ladosOcultos.includes("izq") ? "?" : etiqueta(porLado.izq, alto)}
+          </text>
+          <text x={X(ancho) + 16} y={Y(alto / 2)} textAnchor="middle" dominantBaseline="middle"
+            fontSize="17" fontWeight="800" fontFamily="inherit"
+            fill={ladosOcultos.includes("der") ? C.apagado : C.texto}
+            transform={`rotate(90 ${X(ancho) + 16} ${Y(alto / 2)})`}>
+            {ladosOcultos.includes("der") ? "?" : etiqueta(porLado.der, alto)}
+          </text>
+        </>
+      )}
+    </svg>
+  );
+}
+
+// ── La figura del juego 5 ─────────────────────────────────────────────────
+// Un patio con una esquina mordida. Mientras no se elige el corte, las dos
+// líneas punteadas están ahí esperando; al elegir uno, la figura se separa en
+// dos rectángulos de colores distintos con sus medidas encima. Que los dos
+// cortes se puedan ver es media clase: el área no depende de cómo se parta.
+export function FiguraCompuesta({
+  W, H, muesca, cortes, corteElegido, onElegirCorte, lado, mostrarProducto = false, unidades = false,
+}) {
+  const paso = lado || Math.max(26, Math.min(70, Math.round(480 / Math.max(W, H))));
+  const margen = 16;
+  const w = W * paso + margen * 2;
+  const h = H * paso + margen * 2;
+  const X = (x) => margen + x * paso;
+  const Y = (y) => margen + y * paso;
+  const corte = cortes.find((c) => c.id === corteElegido) || null;
+  const colores = [MATERIAL.mosaicoA, MATERIAL.mosaicoB];
+
+  const enMuesca = (f, c) =>
+    c >= muesca.x && c < muesca.x + muesca.w && f >= muesca.y && f < muesca.y + muesca.h;
+  const enParte = (f, c, p) => c >= p.x && c < p.x + p.w && f >= p.y && f < p.y + p.h;
+
+  return (
+    <svg viewBox={`0 0 ${w} ${h}`} style={{ width: "100%", maxWidth: w, display: "block" }}>
+      {Array.from({ length: H }, (_, f) =>
+        Array.from({ length: W }, (_, c) => {
+          if (enMuesca(f, c)) return null;
+          const k = corte ? corte.partes.findIndex((p) => enParte(f, c, p)) : -1;
+          return (
+            <rect key={`${f}:${c}`} x={X(c) + 1} y={Y(f) + 1} width={paso - 2} height={paso - 2} rx={3}
+              fill={k >= 0 ? colores[k] : MATERIAL.tierra}
+              stroke={C.borde} strokeWidth="1" />
+          );
+        })
+      )}
+
+      {/* el contorno del patio, para que se lea como una sola pieza */}
+      {corte
+        ? corte.partes.map((p, k) => (
+          <rect key={k} x={X(p.x)} y={Y(p.y)} width={p.w * paso} height={p.h * paso}
+            fill="none" stroke={colores[k]} strokeWidth="4" />
+        ))
+        : cortes.map((c) => (
+          <g key={c.id} style={{ cursor: onElegirCorte ? "pointer" : "default" }}
+            onPointerDown={() => onElegirCorte?.(c.id)}>
+            <line x1={X(c.linea.x1)} y1={Y(c.linea.y1)} x2={X(c.linea.x2)} y2={Y(c.linea.y2)}
+              stroke={C.amarillo} strokeWidth="4" strokeDasharray="9 7" strokeLinecap="round" />
+            {/* objetivo táctil ancho, invisible */}
+            <line x1={X(c.linea.x1)} y1={Y(c.linea.y1)} x2={X(c.linea.x2)} y2={Y(c.linea.y2)}
+              stroke="transparent" strokeWidth="34" strokeLinecap="round" />
+          </g>
+        ))}
+
+      {/* las medidas de cada parte, encima de la parte */}
+      {corte && corte.partes.map((p, k) => (
+        <text key={`t${k}`} x={X(p.x + p.w / 2)} y={Y(p.y + p.h / 2)} textAnchor="middle"
+          dominantBaseline="middle" fontSize={Math.min(22, paso * 0.5)} fontWeight="800"
+          fill="#0f1620" fontFamily="inherit">
+          {p.w} × {p.h}{mostrarProducto ? ` = ${p.w * p.h}` : ""}
+        </text>
+      ))}
+
+      {corte && unidades && (
+        <text x={X(W / 2)} y={Y(H) + 12} textAnchor="middle" fontSize="13" fontWeight="700"
+          fill={C.apagado} fontFamily="inherit">
+          cada mosaico mide 1 m por lado
+        </text>
+      )}
+    </svg>
   );
 }

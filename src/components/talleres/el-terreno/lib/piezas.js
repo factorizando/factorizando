@@ -6,6 +6,10 @@
 export const idCelda = (f, c) => `c:${f}:${c}`;
 export const idTramo = (lado, i) => `t:${lado}:${i}`;
 
+// De vuelta: "t:arriba:3" → "arriba". Lo usan el conteo por lado y los lados
+// que el juego de la vuelta deja cerrados.
+export const ladoDe = (id) => id.split(":")[1];
+
 // Todos los tramos de cerca de un rectángulo de `ancho × alto`, con su
 // geometría. El total es siempre 2 × (ancho + alto), o sea el perímetro: la
 // cerca no se calcula, se cuenta.

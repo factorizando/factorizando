@@ -18,13 +18,25 @@ import { anotarIntento, cerrarPartida, compararConAnterior, registro } from "./l
 import { C, ACENTO, FUENTE, TAM } from "./estilo.js";
 import { Rotulo, TarjetaMenu } from "../comun/ui.jsx";
 import PanelProfesor from "../comun/PanelProfesor.jsx";
+import JuegoVueltaPatio from "./JuegoVueltaPatio.jsx";
 import JuegoCercaPasto from "./JuegoCercaPasto.jsx";
 import JuegoMismaCerca from "./JuegoMismaCerca.jsx";
+import JuegoMosaiquero from "./JuegoMosaiquero.jsx";
 
 // Nombre con el que la partida entra al expediente del alumno.
 const ACTIVIDAD = {
+  "vuelta-patio": "La Vuelta al Patio · perímetro como recorrido",
   "cerca-pasto": "La Cerca y el Pasto · perímetro y área",
   "misma-cerca": "La misma cerca · el área cambia con la forma",
+  mosaiquero: "El Mosaiquero · área de figuras compuestas",
+};
+
+// Cada juego con su componente. El shell solo elige.
+const COMPONENTES = {
+  "vuelta-patio": JuegoVueltaPatio,
+  "cerca-pasto": JuegoCercaPasto,
+  "misma-cerca": JuegoMismaCerca,
+  mosaiquero: JuegoMosaiquero,
 };
 
 export default function ElTerreno({ alumnoId, guardarSesion, cargarSesiones }) {
@@ -35,6 +47,7 @@ export default function ElTerreno({ alumnoId, guardarSesion, cargarSesiones }) {
 
   const rango = rangoId ? RANGOS_POR_ID[rangoId] : null;
   const juego = juegoId ? JUEGOS_POR_ID[juegoId] : null;
+  const Juego = juegoId ? COMPONENTES[juegoId] : null;
 
   const registrar = useCallback(
     (categoria, acerto) => anotarIntento(alumnoId, { rango: rangoId, juego: juegoId, categoria, acerto }),
@@ -57,6 +70,10 @@ export default function ElTerreno({ alumnoId, guardarSesion, cargarSesiones }) {
   const marco = {
     height: "100%", overflowY: "auto", background: C.fondo, color: C.texto, fontFamily: FUENTE,
   };
+
+  // Un juego puede pedir un bloque de edad: El Mosaiquero supone tener firme el
+  // área del rectángulo, así que no se le ofrece a los de 7-8.
+  const juegosDisponibles = JUEGOS.filter((j) => !j.soloRangos || j.soloRangos.includes(rangoId));
 
   const panelMaestro = verPanel ? (
     <PanelProfesor
@@ -181,14 +198,16 @@ export default function ElTerreno({ alumnoId, guardarSesion, cargarSesiones }) {
           <>
             <Rotulo color={C.verde}>Elige un juego</Rotulo>
             <p style={{ color: C.tenue, fontSize: TAM.cuerpo, margin: "10px 0 18px", maxWidth: "60ch", lineHeight: 1.5 }}>
-              El primero separa las dos medidas; el segundo enseña que la cerca no manda sobre el pasto.
-              Conviene en ese orden.
+              Están en el orden en que se enseñan: primero la vuelta al patio, que es el perímetro
+              caminado; luego la cerca y el pasto, que separa las dos medidas; después la misma cerca,
+              que enseña que el perímetro no manda sobre el área; y al final los patios que no son
+              rectángulos.
             </p>
             <div style={{
               display: "grid", gap: 16,
               gridTemplateColumns: "repeat(auto-fit, minmax(290px, 1fr))",
             }}>
-              {JUEGOS.map((j) => (
+              {juegosDisponibles.map((j) => (
                 <TarjetaMenu key={j.id} acento={ACENTO[j.id]} onClick={() => setJuegoId(j.id)} minHeight={200}>
                   <div style={{ fontSize: 46, lineHeight: 1, marginBottom: 14 }}>{j.icono}</div>
                   <div style={{ fontSize: 24, fontWeight: 800, marginBottom: 6 }}>{j.nombre}</div>
@@ -204,15 +223,9 @@ export default function ElTerreno({ alumnoId, guardarSesion, cargarSesiones }) {
               ))}
             </div>
           </>
-        ) : juego.id === "cerca-pasto" ? (
-          <JuegoCercaPasto
-            key={`cerca-pasto-${rangoId}`}
-            rango={rango} registrar={registrar} finalizar={finalizar}
-            onSalir={() => setJuegoId(null)}
-          />
         ) : (
-          <JuegoMismaCerca
-            key={`misma-cerca-${rangoId}`}
+          <Juego
+            key={`${juego.id}-${rangoId}`}
             rango={rango} registrar={registrar} finalizar={finalizar}
             onSalir={() => setJuegoId(null)}
           />

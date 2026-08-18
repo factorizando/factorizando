@@ -11,6 +11,8 @@
 import { RANGOS, RANGOS_POR_ID, CATEGORIAS, generarPartida } from "./index.js";
 import { generarTerreno, generarRondaCercaPasto } from "./cerca-pasto.js";
 import { formasDe, generarRondaMismaCerca } from "./misma-cerca.js";
+import { generarPatio, generarRondaVuelta } from "./vuelta-patio.js";
+import { generarMosaico } from "./mosaiquero.js";
 
 const N = 3000;
 let fallos = 0;
@@ -129,9 +131,91 @@ RANGOS.forEach((r) => {
   });
 });
 
+console.log("\nLa Vuelta al Patio");
+RANGOS.forEach((r) => {
+  prueba(`[${r.id}] el patio nunca es cuadrado`, () => {
+    veces(N, () => {
+      const { ancho, alto } = generarPatio(r);
+      afirmar(ancho !== alto, `${ancho}×${alto}: con los cuatro lados iguales se pierde la pareja`);
+    });
+  });
+
+  prueba(`[${r.id}] la ronda empieza caminando la vuelta completa`, () => {
+    for (let i = 0; i < 80; i++) {
+      const ronda = generarRondaVuelta(r, 10);
+      afirmar(ronda.length === 10, `salieron ${ronda.length}`);
+      afirmar(ronda.slice(0, 3).every((e) => e.tipo === "vuelta"),
+        "un atajo antes de haber caminado tres vueltas");
+      ronda.forEach((e) => {
+        const [min, max] = r.vueltaPatio.lados;
+        afirmar(e.ancho >= min && e.ancho <= max && e.alto >= min && e.alto <= max, "lados fuera de rango");
+        afirmar(e.perimetro === 2 * (e.ancho + e.alto), "perímetro mal calculado");
+        afirmar(e.ladosOcultos.length === (e.tipo === "atajo" ? 2 : 0),
+          "los lados tapados no corresponden al tipo");
+      });
+    }
+  });
+
+  prueba(`[${r.id}] con el tiempo aparecen los atajos`, () => {
+    const lote = generarRondaVuelta(r, 200);
+    afirmar(lote.some((e) => e.tipo === "atajo"), "nunca salió un atajo");
+    afirmar(lote.some((e) => e.tipo === "vuelta"), "nunca salió una vuelta completa");
+  });
+});
+
+console.log("\nEl Mosaiquero");
+prueba("[7-8] el mosaiquero no se ofrece todavía", () => {
+  afirmar(generarMosaico(RANGOS_POR_ID["7-8"]) === null, "el bloque de 7-8 devolvió una figura");
+});
+
+// Las celdas de un rectángulo, como claves "fila:columna".
+function celdasDe({ x, y, w, h }) {
+  const s = new Set();
+  for (let f = y; f < y + h; f++) for (let c = x; c < x + w; c++) s.add(`${f}:${c}`);
+  return s;
+}
+
+prueba("[9-10] la figura es una L de verdad y su área descuenta la muesca", () => {
+  const r = RANGOS_POR_ID["9-10"];
+  veces(N, () => {
+    const m = generarMosaico(r);
+    const [min, max] = r.mosaiquero.caja;
+    afirmar(m.W >= min && m.W <= max && m.H >= min && m.H <= max, "la caja se salió de rango");
+    afirmar(m.muesca.w >= 1 && m.muesca.h >= 1, "sin muesca no es una L");
+    afirmar(m.muesca.w < m.W && m.muesca.h < m.H, "la muesca se comió la figura");
+    afirmar(m.area === m.W * m.H - m.muesca.w * m.muesca.h, "el área no descuenta la muesca");
+  });
+});
+
+prueba("[9-10] cada corte parte la figura exacta: sin huecos y sin encimarse", () => {
+  const r = RANGOS_POR_ID["9-10"];
+  veces(N, () => {
+    const m = generarMosaico(r);
+    const figura = celdasDe({ x: 0, y: 0, w: m.W, h: m.H });
+    celdasDe(m.muesca).forEach((c) => figura.delete(c));
+
+    afirmar(m.cortes.length === 2, "una figura sin sus dos cortes");
+    m.cortes.forEach((corte) => {
+      const [a, b] = corte.partes.map(celdasDe);
+      afirmar(a.size + b.size === m.area,
+        `el corte ${corte.id} suma ${a.size + b.size} y la figura son ${m.area}`);
+      [...a].forEach((c) => afirmar(!b.has(c), `el corte ${corte.id} encima las dos partes`));
+      const union = new Set([...a, ...b]);
+      afirmar(union.size === figura.size, `el corte ${corte.id} deja huecos`);
+      [...union].forEach((c) => afirmar(figura.has(c), `el corte ${corte.id} se sale de la figura`));
+      corte.partes.forEach((p) => afirmar(p.w >= 1 && p.h >= 1, "una parte vacía"));
+    });
+
+    // Los dos cortes dan el mismo total con números distintos: es justo lo que
+    // el juego enseña al final.
+    const totales = m.cortes.map((c) => c.partes.reduce((s, p) => s + p.w * p.h, 0));
+    afirmar(totales[0] === totales[1] && totales[0] === m.area, "los dos cortes no coinciden en el total");
+  });
+});
+
 console.log("\nPartidas completas");
 RANGOS.forEach((r) => {
-  ["cerca-pasto", "misma-cerca"].forEach((juego) => {
+  ["vuelta-patio", "cerca-pasto", "misma-cerca", ...(r.mosaiquero ? ["mosaiquero"] : [])].forEach((juego) => {
     prueba(`[${r.id}] ${juego}: todas las categorías tienen etiqueta`, () => {
       generarPartida(juego, r.id).forEach((e) => {
         afirmar(!!CATEGORIAS[e.categoria], `categoría sin etiqueta: ${e.categoria}`);

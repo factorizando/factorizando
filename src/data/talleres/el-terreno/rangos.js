@@ -33,6 +33,21 @@ export const RANGOS = [
       retos: 3,
       unidades: false,
     },
+    vueltaPatio: {
+      lados: [2, 6],
+      // A los chicos no se les deja contestar sin haber caminado: el número
+      // tiene que salir del recorrido.
+      caminarObligatorio: true,
+      contadorEnVivo: true,
+      unidades: false,
+      // Qué parte de la ronda son de predecir la vuelta habiendo caminado solo
+      // dos lados. A los chicos se les deja caminarla completa casi siempre:
+      // el atajo tiene que salir de haber sentido la repetición, no de una
+      // regla que se les dice.
+      proporcionAtajo: 0.4,
+    },
+    // Las figuras compuestas piden ya tener firme el área del rectángulo.
+    mosaiquero: null,
   },
   {
     id: "9-10",
@@ -51,6 +66,17 @@ export const RANGOS = [
       max: 12,
       formas: 3,
       retos: 3,
+      unidades: true,
+    },
+    vueltaPatio: {
+      lados: [3, 12],
+      caminarObligatorio: false,
+      contadorEnVivo: false,
+      unidades: true,
+      proporcionAtajo: 0.6,
+    },
+    mosaiquero: {
+      caja: [3, 8],           // la caja que envuelve la figura
       unidades: true,
     },
   },

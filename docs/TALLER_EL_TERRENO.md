@@ -1,6 +1,6 @@
 # Taller del Terreno
 
-> Dos juegos para **introducir perímetro y área** en regularización de primaria
+> Cuatro juegos para **introducir perímetro y área** en regularización de primaria
 > (7 a 10 años). Pensado para tablet proyectada a una TV: se juega con el dedo,
 > sin teclado.
 >
@@ -25,10 +25,14 @@ De ahí la decisión que ordena el taller entero:
 
 Los dos juegos atacan los dos errores clásicos, en orden:
 
-| Juego | El error que ataca |
-|---|---|
-| 🚧 **La Cerca y el Pasto** | Confundir las dos medidas: contestar una cuando se pide la otra. |
-| 📏 **La misma cerca, distinto terreno** | Creer que si el perímetro es el mismo, el área también. |
+| Juego | Qué hace | Rango |
+|---|---|---|
+| 👟 **La Vuelta al Patio** | El perímetro como recorrido; de ahí sale `(largo + ancho) × 2`. | 7-10 |
+| 🚧 **La Cerca y el Pasto** | Ataca el confundir las dos medidas: contestar una cuando se pide la otra. | 7-10 |
+| 📏 **La misma cerca, distinto terreno** | Rompe el creer que si el perímetro es el mismo, el área también. | 7-10 |
+| 🧱 **El Mosaiquero** | Área de una figura compuesta: partirla en dos rectángulos. | 9-10 |
+
+Están en el menú en el orden en que se enseñan, y cada uno supone el anterior.
 
 ---
 
@@ -168,13 +172,37 @@ categorías son:
 
 ---
 
+### 👟 La Vuelta al Patio
+
+Antes de ser una suma de lados, el perímetro es **la vuelta completa a un
+patio**. El niño camina la orilla con el dedo dejando huellas y cada lado se
+rotula con los pasos que le tocaron; de ahí sale solo que arriba y abajo dan lo
+mismo, y los otros dos también.
+
+El pago llega en los ejercicios de **atajo**: dos lados están cerrados con un
+«?» y hay que *predecir* la vuelta entera. Ahí `(largo + ancho) × 2` deja de ser
+una fórmula y se vuelve la única manera de contestar. No aparecen hasta haber
+caminado tres vueltas completas —la regla tiene que haberse sentido antes de
+usarse— y el generador **nunca hace un patio cuadrado**, porque con los cuatro
+lados iguales "se repiten de dos en dos" se confunde con "todos miden lo mismo".
+
+### 🧱 El Mosaiquero
+
+El patio tiene una esquina mordida: es una L, y no hay fórmula que aplicar. La
+única salida es **partirla en dos rectángulos**, sacar el área de cada uno y
+sumarlas —el razonamiento que años después se llama modelo de área y propiedad
+distributiva—. El niño elige por dónde cortar tocando una de las dos líneas
+punteadas, y al resolver se le enseña **el otro corte** con sus números:
+distintos pedazos, el mismo total. Que el área no dependa de cómo se parta la
+figura vale tanto como el resultado.
+
+Las figuras se generan con la muesca en la esquina de arriba a la derecha y
+luego se voltean, para que no salgan diez patios con la misma silueta. Las
+pruebas verifican que cada corte cubra la figura exacta: sin huecos, sin
+encimarse y sin salirse.
+
 ## 7. Lo que sigue
 
-Los otros dos juegos del plan, para cuando estos dos estén rodados:
-
-- **🧱 El Mosaiquero** (9-10): cubrir figuras en L o en T partiéndolas en dos
-  rectángulos. Es el puente con la propiedad distributiva y con El Huerto de
-  Pizzas, Cajas y Vasos.
-- **👟 La Vuelta al Patio** (7-8): el perímetro como recorrido, un personaje que
-  camina la orilla contando pasos, para que el atajo `(largo + ancho) × 2` se
-  descubra en vez de dictarse.
+- Preguntar también el **perímetro de la L** en El Mosaiquero: es igual al de la
+  caja que la envuelve, y ese "no cambia" es una sorpresa que se sostiene sola.
+- Figuras en T o en escalón (dos muescas), que ya piden tres rectángulos.

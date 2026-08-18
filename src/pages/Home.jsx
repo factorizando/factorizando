@@ -5,11 +5,14 @@
 // Todo lo que se muestra sale del contenido real: las cifras del hero y los
 // conteos de cada materia se calculan de los índices en `src/data/materias.js`.
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import FxHeader, { FxWordmark } from "../components/FxHeader";
 import AuthModal from "../components/AuthModal";
 import { listaCursos } from "../data/cursos/cursosIndex";
-import { MATERIAS, conteoDeMateria, cifrasDelSitio } from "../data/materias";
+import { MATERIAS } from "../data/materias";
+// Cifras congeladas al compilar por `scripts/generar-catalogo.mjs`. Calcularlas
+// aquí obligaba a la portada a cargar todo el contenido del sitio.
+import catalogo from "../data/catalogo.generado.json";
 import { ICONOS } from "../components/iconos";
 import { supabase } from "../lib/supabase";
 
@@ -30,11 +33,7 @@ export default function Home() {
   const [authOpen, setAuthOpen] = useState(false);
   const [authMode, setAuthMode] = useState("login");
   const cursos = listaCursos();
-  const cifras = useMemo(() => cifrasDelSitio(), []);
-  const conteos = useMemo(
-    () => Object.fromEntries(MATERIAS.map((m) => [m.slug, conteoDeMateria(m.slug)])),
-    []
-  );
+  const { cifras, conteos } = catalogo;
 
   const abrirAuth = (modo) => { setAuthMode(modo); setAuthOpen(true); };
 

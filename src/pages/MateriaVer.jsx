@@ -7,7 +7,10 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useParams, Navigate } from "react-router-dom";
 import FxHeader from "../components/FxHeader";
 import AuthModal from "../components/AuthModal";
-import { MATERIAS, buscarMateria, contenidoDeMateria } from "../data/materias";
+import { MATERIAS, buscarMateria } from "../data/materias";
+// Esta ruta sí carga el contenido real: es la única que lo necesita, y viaja en
+// su propio pedazo del bundle.
+import { contenidoDeMateria } from "../data/materias-contenido";
 
 const NIVELES = { preparatoria: "Preparatoria", universidad: "Universidad" };
 

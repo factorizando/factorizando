@@ -1,0 +1,59 @@
+{
+  "generado": "2026-08-18T23:54:34.362Z",
+  "cifras": {
+    "reactivos": 3772,
+    "cuestionarios": 27,
+    "presentaciones": 65
+  },
+  "conteos": {
+    "matematicas": {
+      "cuestionarios": 9,
+      "presentaciones": 19,
+      "documentos": 13,
+      "cursos": 2,
+      "total": 43
+    },
+    "espanol": {
+      "cuestionarios": 11,
+      "presentaciones": 17,
+      "documentos": 0,
+      "cursos": 0,
+      "total": 28
+    },
+    "fisica": {
+      "cuestionarios": 0,
+      "presentaciones": 10,
+      "documentos": 0,
+      "cursos": 0,
+      "total": 10
+    },
+    "biologia": {
+      "cuestionarios": 2,
+      "presentaciones": 10,
+      "documentos": 0,
+      "cursos": 0,
+      "total": 12
+    },
+    "quimica": {
+      "cuestionarios": 0,
+      "presentaciones": 6,
+      "documentos": 0,
+      "cursos": 0,
+      "total": 6
+    },
+    "geografia": {
+      "cuestionarios": 0,
+      "presentaciones": 3,
+      "documentos": 0,
+      "cursos": 0,
+      "total": 3
+    },
+    "historia": {
+      "cuestionarios": 0,
+      "presentaciones": 0,
+      "documentos": 0,
+      "cursos": 0,
+      "total": 0
+    }
+  }
+}

@@ -52,11 +52,11 @@ export default defineConfig({
         ],
       },
       workbox: {
-        // El bundle va en un solo chunk que ya pasó los 8 MiB (three, jsxgraph,
-        // mathjs y todo el contenido entran juntos), y al cruzar el límite el
-        // build falla en vez de solo dejarlo fuera de la precaché. Subirlo es
-        // el parche; lo que toca de fondo es partir el bundle.
-        maximumFileSizeToCacheInBytes: 12 * 1024 * 1024,
+        // El bundle ya va partido por ruta (ver App.jsx), así que el pedazo más
+        // grande es un banco de contenido, no la app entera. El techo se deja
+        // holgado sobre eso: si algún día un solo archivo lo cruza, el build
+        // falla y conviene enterarse.
+        maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
         globPatterns: ['**/*.{js,css,html,png,svg,woff2}'],
         // Explícito aunque sea el valor por omisión: al activarse la versión
         // nueva se purgan las precachés anteriores. En modo prompt esto solo

@@ -217,13 +217,7 @@ export function perimetroArea(grado) {
   };
 }
 
-export const GENERADORES = {
-  "suma-resta": sumaResta,
-  multiplicacion,
-  "recta-numerica": rectaNumerica,
-  "planos-trayectorias": planosTrayectorias,
-  "perimetro-area": perimetroArea,
-};
+
 
 // Distractores para cuando un acertijo numérico se quiere de opción múltiple:
 // se construyen con los errores típicos, no con números al azar.
@@ -233,3 +227,327 @@ export function opcionesAlrededor(respuesta) {
     .forEach((n) => { if (n > 0 && candidatos.size < 4) candidatos.add(n); });
   return barajar([...candidatos]);
 }
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Temas de 5.º y 6.º
+//
+// Varios de estos se contestan mejor eligiendo que tecleando —comparar dos
+// fracciones, decir cuál número es múltiplo de 7— y por eso devuelven
+// `tipo: "opciones"`. Regla para esos: los distractores salen de los **errores
+// típicos**, nunca de números al azar, y las opciones se revuelven aquí mismo
+// para que la correcta no caiga siempre en el mismo lugar.
+// ═══════════════════════════════════════════════════════════════════════════
+
+// Arma un reactivo de opción múltiple ya revuelto a partir de la respuesta
+// correcta y sus distractores.
+function opcionMultiple({ enunciado, correcta, distractores, explicacion, clave, figura }) {
+  const unicas = [];
+  [correcta, ...distractores].forEach((v) => {
+    const texto = String(v);
+    if (!unicas.includes(texto)) unicas.push(texto);
+  });
+  const revueltas = barajar(unicas.slice(0, 4).map((texto) => ({ texto, ok: texto === String(correcta) })));
+  return {
+    tipo: "opciones",
+    enunciado,
+    opciones: revueltas.map((o) => o.texto),
+    correcta: revueltas.findIndex((o) => o.ok),
+    respuesta: String(correcta),
+    figura: figura || null,
+    explicacion,
+    clave,
+  };
+}
+
+// ── División: la vuelta de la multiplicación (mundo 2) ────────────────────
+export function divisionExacta(grado) {
+  const divisor = entero(2, grado >= 5 ? 12 : 9);
+  const cociente = entero(2, grado >= 5 ? 12 : 9);
+  const total = divisor * cociente;
+
+  // En 5.º entra la pregunta al revés, que es la que de verdad enseña que una
+  // operación es la otra caminada de vuelta.
+  if (grado >= 5 && Math.random() < 0.45) {
+    return {
+      tipo: "numero",
+      enunciado: `¿Por cuánto hay que multiplicar ${divisor} para llegar a ${total}?`,
+      respuesta: cociente,
+      explicacion: `Es la misma pregunta que ${total} ÷ ${divisor}: multiplicar y dividir son el mismo camino de ida y de vuelta.`,
+      clave: `inv:${divisor}x${cociente}`,
+    };
+  }
+
+  return {
+    tipo: "numero",
+    enunciado: `Hay ${total} monedas para repartir entre ${divisor} cofres, todos con lo mismo. ¿Cuántas quedan en cada cofre?`,
+    respuesta: cociente,
+    explicacion: `Busca qué número por ${divisor} da ${total}: ${divisor} × ${cociente} = ${total}.`,
+    clave: `div:${total}/${divisor}`,
+  };
+}
+
+// ── De fracción a decimal y de vuelta (mundo 2) ───────────────────────────
+const EQUIVALENCIAS = [
+  ["1/2", "0.5"], ["1/4", "0.25"], ["3/4", "0.75"], ["1/5", "0.2"],
+  ["2/5", "0.4"], ["3/5", "0.6"], ["1/10", "0.1"], ["7/10", "0.7"], ["1/100", "0.01"],
+];
+
+export function fraccionDecimal() {
+  const [fraccion, decimal] = elegir(EQUIVALENCIAS);
+  const alDerecho = Math.random() < 0.5;
+  const otros = EQUIVALENCIAS.filter(([f]) => f !== fraccion);
+
+  if (alDerecho) {
+    return opcionMultiple({
+      enunciado: `¿Cómo se escribe ${fraccion} con punto decimal?`,
+      correcta: decimal,
+      distractores: barajar(otros).slice(0, 3).map(([, d]) => d),
+      explicacion: `${fraccion} es lo mismo que ${decimal}: son las dos caras del mismo número.`,
+      clave: `fd:${fraccion}`,
+    });
+  }
+  return opcionMultiple({
+    enunciado: `¿Qué fracción vale lo mismo que ${decimal}?`,
+    correcta: fraccion,
+    distractores: barajar(otros).slice(0, 3).map(([f]) => f),
+    explicacion: `${decimal} es ${fraccion}: la misma cantidad escrita de otra manera.`,
+    clave: `df:${decimal}`,
+  });
+}
+
+// ── Decimales (mundo 2) ───────────────────────────────────────────────────
+export function decimales(grado) {
+  if (grado <= 5) {
+    // Comparar. La trampa es la de siempre: 0.65 tiene más cifras que 0.7 y
+    // parece más grande.
+    const a = Number((entero(1, 9) / 10).toFixed(2));
+    const b = Number((entero(11, 99) / 100).toFixed(2));
+    if (a === b) return decimales(grado);
+    const mayor = a > b ? a : b;
+    return opcionMultiple({
+      enunciado: `¿Cuál número es mayor, ${a} o ${b}?`,
+      correcta: mayor,
+      distractores: [a === mayor ? b : a],
+      explicacion: `Compara primero los décimos: ${String(a).split(".")[1][0]} contra ${String(b).split(".")[1][0]}. ` +
+        "Tener más cifras no hace más grande a un decimal.",
+      clave: `dec:${a}v${b}`,
+    });
+  }
+  // Sumar decimales de una cifra: se contesta en décimos para no pelear con
+  // el punto en el teclado.
+  const a = entero(11, 89) / 10;
+  const b = entero(11, 89) / 10;
+  const suma = Number((a + b).toFixed(1));
+  return {
+    tipo: "numero",
+    enunciado: `¿Cuánto es ${a} + ${b}? Escríbelo sin el punto (por ejemplo, 4.2 se escribe 42).`,
+    respuesta: Math.round(suma * 10),
+    explicacion: `Alinea los puntos: ${a} + ${b} = ${suma}. Los enteros con los enteros y los décimos con los décimos.`,
+    clave: `sd:${a}+${b}`,
+  };
+}
+
+// ── Múltiplos y divisores (mundo 3) ───────────────────────────────────────
+export function multiplosDivisores() {
+  const base = elegir([3, 4, 6, 7, 8, 9]);
+  if (Math.random() < 0.5) {
+    const multiplo = base * entero(3, 9);
+    const distractores = [multiplo + 1, multiplo - 1, multiplo + base - 1]
+      .filter((n) => n > 0 && n % base !== 0);
+    return opcionMultiple({
+      enunciado: `¿Cuál de estos números es múltiplo de ${base}?`,
+      correcta: multiplo,
+      distractores,
+      explicacion: `${multiplo} cae justo en la tabla del ${base}: ${base} × ${multiplo / base} = ${multiplo}. Los otros se pasan o no llegan.`,
+      clave: `mul:${base}:${multiplo}`,
+    });
+  }
+  const numero = base * entero(2, 6);
+  const divisores = [];
+  for (let d = 1; d <= numero; d++) if (numero % d === 0) divisores.push(d);
+  return {
+    tipo: "numero",
+    enunciado: `¿Entre cuántos números distintos se puede repartir ${numero} sin que sobre nada?`,
+    respuesta: divisores.length,
+    explicacion: `Son sus divisores: ${divisores.join(", ")}. Cada uno reparte ${numero} en partes iguales.`,
+    clave: `divs:${numero}`,
+  };
+}
+
+// ── Sucesiones (mundo 3) ──────────────────────────────────────────────────
+export function series(grado) {
+  if (grado <= 5) {
+    // Progresión aritmética: se suma siempre lo mismo.
+    const inicio = entero(2, 15);
+    const paso = entero(2, 9);
+    const vistos = Array.from({ length: 4 }, (_, i) => inicio + i * paso);
+    return {
+      tipo: "numero",
+      enunciado: `¿Qué número sigue? ${vistos.join(", ")}, …`,
+      respuesta: inicio + 4 * paso,
+      explicacion: `Cada paso suma ${paso}: de ${vistos[0]} a ${vistos[1]} hay ${paso}, y así hasta el final.`,
+      clave: `ari:${inicio}:${paso}`,
+    };
+  }
+  // Progresión geométrica: se multiplica siempre por lo mismo.
+  const razon = elegir([2, 3]);
+  const inicio = entero(1, razon === 2 ? 6 : 3);
+  const vistos = Array.from({ length: 4 }, (_, i) => inicio * razon ** i);
+  return {
+    tipo: "numero",
+    enunciado: `¿Qué número sigue? ${vistos.join(", ")}, …`,
+    respuesta: inicio * razon ** 4,
+    explicacion: `Aquí no se suma: cada número es el anterior por ${razon}. ${vistos[2]} × ${razon} = ${vistos[3]}.`,
+    clave: `geo:${inicio}:${razon}`,
+  };
+}
+
+// ── Promedio y moda (mundo 3) ─────────────────────────────────────────────
+const DIAS = ["lunes", "martes", "miércoles", "jueves", "viernes"];
+
+export function promedio() {
+  const cuantos = elegir([3, 4, 5]);
+  // Se arma desde el promedio hacia atrás para que dé un número redondo: la
+  // idea es entender qué es promediar, no pelear con el residuo.
+  const media = entero(4, 12);
+  const datos = Array.from({ length: cuantos }, () => 0);
+  let resto = 0;
+  for (let i = 0; i < cuantos - 1; i++) {
+    const d = entero(Math.max(1, media - 3), media + 3);
+    datos[i] = d;
+    resto += d - media;
+  }
+  datos[cuantos - 1] = media - resto;
+  if (datos[cuantos - 1] < 1) return promedio();
+
+  return {
+    tipo: "numero",
+    enunciado: `En ${cuantos} días vendió ${datos.join(", ")} panes. ¿Cuál fue el promedio diario?`,
+    respuesta: media,
+    explicacion: `Se juntan todos (${datos.join(" + ")} = ${media * cuantos}) y se reparten entre los ${cuantos} días.`,
+    clave: `prom:${datos.join("-")}`,
+  };
+}
+
+export function moda() {
+  const repetido = entero(2, 9);
+  const veces = entero(3, 4);
+  const otros = barajar([1, 2, 3, 4, 5, 6, 7, 8, 9].filter((n) => n !== repetido)).slice(0, 3);
+  const datos = barajar([...Array.from({ length: veces }, () => repetido), ...otros]);
+  return {
+    tipo: "numero",
+    enunciado: `Estos son los goles de cada partido: ${datos.join(", ")}. ¿Cuál es la moda?`,
+    respuesta: repetido,
+    explicacion: `La moda es el dato que más se repite: el ${repetido} aparece ${veces} veces y los demás una sola.`,
+    clave: `moda:${datos.join("-")}`,
+  };
+}
+
+// ── Fracciones (mundo 4) ──────────────────────────────────────────────────
+export function fracciones(grado) {
+  const den = elegir(grado <= 4 ? [2, 3, 4, 6] : [3, 4, 5, 6, 8, 10]);
+  const num = entero(1, den - 1);
+  return opcionMultiple({
+    enunciado: "¿Qué fracción de la barra está pintada?",
+    correcta: `${num}/${den}`,
+    distractores: [`${den - num}/${den}`, `${num}/${den + 1}`, `${num + 1}/${den}`],
+    figura: { tipo: "barra", props: { num, den } },
+    explicacion: `La barra está partida en ${den} partes iguales y hay ${num} pintadas: ${num}/${den}. ` +
+      "Abajo va en cuántas se partió y arriba cuántas se tomaron.",
+    clave: `frac:${num}/${den}`,
+  });
+}
+
+export function compararFracciones() {
+  const dens = [2, 3, 4, 5, 6, 8];
+  // Se carga hacia el par trampa: mismo numerador y distinto denominador, que
+  // es donde el niño lee "6 es más que 3" y contesta al revés.
+  const trampa = Math.random() < 0.6;
+  let a, b;
+  if (trampa) {
+    const [d1, d2] = barajar(dens).slice(0, 2).sort((x, y) => x - y);
+    const num = entero(1, d1 - 1);
+    a = { num, den: d1 };
+    b = { num, den: d2 };
+  } else {
+    const den = elegir(dens.filter((d) => d >= 3));
+    const n1 = entero(1, den - 1);
+    let n2 = entero(1, den - 1);
+    while (n2 === n1) n2 = entero(1, den - 1);
+    a = { num: n1, den };
+    b = { num: n2, den };
+  }
+  const mayor = a.num / a.den > b.num / b.den ? a : b;
+  const menor = mayor === a ? b : a;
+  return opcionMultiple({
+    enunciado: `¿Cuál fracción es mayor, ${a.num}/${a.den} o ${b.num}/${b.den}?`,
+    correcta: `${mayor.num}/${mayor.den}`,
+    distractores: [`${menor.num}/${menor.den}`],
+    explicacion: trampa
+      ? `Las dos llevan ${a.num} ${a.num === 1 ? "parte" : "partes"}, pero partir en ${menor.den} deja pedazos más chicos que partir en ${mayor.den}: entre más partes, más chico es cada pedazo.`
+      : `Están partidas igual, en ${a.den}, así que gana la que lleva más partes.`,
+    clave: `cmp:${a.num}/${a.den}:${b.num}/${b.den}`,
+  });
+}
+
+export function operacionesFracciones() {
+  const den = elegir([4, 5, 6, 8, 10]);
+  const resta = Math.random() < 0.4;
+  const n1 = entero(2, den - 2);
+  // Al sumar, el resultado se queda por debajo del entero: convertir a número
+  // mixto es otro tema y no toca aquí.
+  const n2 = resta ? entero(1, n1 - 1) : entero(1, den - n1 - 1);
+  const resultado = resta ? n1 - n2 : n1 + n2;
+  return opcionMultiple({
+    enunciado: `¿Cuánto es ${n1}/${den} ${resta ? "−" : "+"} ${n2}/${den}?`,
+    correcta: `${resultado}/${den}`,
+    distractores: [`${resultado}/${den * 2}`, `${resta ? n1 + n2 : n1 - n2}/${den}`, `${resultado}/${den + n2}`],
+    explicacion: `Los pedazos son del mismo tamaño (${den} partes), así que solo se ${resta ? "quitan" : "juntan"} ` +
+      `los de arriba: ${n1} ${resta ? "−" : "+"} ${n2} = ${resultado}. El de abajo no se toca.`,
+    clave: `opf:${n1}${resta ? "-" : "+"}${n2}/${den}`,
+  });
+}
+
+// ── Circunferencia (mundo 4) ──────────────────────────────────────────────
+export function circunferencia() {
+  const radio = entero(2, 9);
+  const diametro = radio * 2;
+  if (Math.random() < 0.5) {
+    return {
+      tipo: "numero",
+      enunciado: `Una fuente redonda mide ${radio} m de radio. ¿Cuánto mide su diámetro?`,
+      respuesta: diametro,
+      figura: { tipo: "circulo", props: { radio, marca: "radio" } },
+      explicacion: `El diámetro cruza el círculo de lado a lado por el centro: son dos radios, ${radio} + ${radio}.`,
+      clave: `circ:d:${radio}`,
+    };
+  }
+  const contorno = Math.round(diametro * 3.14);
+  return opcionMultiple({
+    enunciado: `Una rueda mide ${diametro} m de diámetro. ¿Cuánto mide su contorno, más o menos? (π vale como 3.14)`,
+    correcta: contorno,
+    distractores: [diametro * 2, diametro * 4, Math.round(radio * 3.14)],
+    figura: { tipo: "circulo", props: { radio, marca: "diametro" } },
+    explicacion: `El contorno es el diámetro por π: ${diametro} × 3.14 ≈ ${contorno}. Siempre es un poco más de tres diámetros.`,
+    clave: `circ:c:${diametro}`,
+  });
+}
+
+export const GENERADORES = {
+  "suma-resta": sumaResta,
+  multiplicacion,
+  "recta-numerica": rectaNumerica,
+  "planos-trayectorias": planosTrayectorias,
+  "perimetro-area": perimetroArea,
+  "division-exacta": divisionExacta,
+  "fraccion-decimal": fraccionDecimal,
+  decimales,
+  "multiplos-divisores": multiplosDivisores,
+  series,
+  promedio,
+  moda,
+  fracciones,
+  "comparar-fracciones": compararFracciones,
+  "operaciones-fracciones": operacionesFracciones,
+  circunferencia,
+};

@@ -27,9 +27,25 @@ se mueve el jugador y arrastra consigo los temas que se le parecen.
 Que la división viva en la banda que invierte no es un chiste: es lo que uno
 quiere decir cuando enseña que dividir es multiplicar al revés.
 
-**Estado**: Mundo 1 completo (5 niveles). Los otros tres tienen ya su topología,
-sus temas y su ficha en el mapa del reino; les faltan los mapas. El movimiento
-por casillas (`lib/movimiento.js`) ya sabe hacer el toro y la Möbius.
+**Estado**: mundos 1, 2 y 3 jugables (5 + 2 + 2 niveles). El 4 tiene su
+topología, sus temas y su ficha, pero le faltan los mapas y su mecánica de
+piezas que embonan.
+
+**La regla que hace que la topología no sea decorado**: en el toro y en la banda,
+cada nivel lleva una pared que lo parte de arriba abajo. En un plano sería un
+callejón sin salida; ahí es el camino, porque la única manera de pasar al otro
+lado es cruzar una costura. Las pruebas lo verifican: si un nivel de esos mundos
+se puede terminar caminando como en un plano, falla.
+
+**Cómo se ven las costuras**: alrededor del mapa hay franjas de color, una por
+fila y una por columna. Cada franja lleva el color de la franja con la que está
+pegada del otro lado. En el toro los colores de la izquierda y la derecha van en
+el mismo orden; en la banda de Möbius, **al revés** — y ahí se ve el volteo antes
+de que nadie lo explique.
+
+**Los mundos se abren en orden**, como en Mario: cada uno pide llevar la mitad
+del anterior. El maestro puede abrirlos todos desde su panel para enseñar la
+banda el primer día.
 
 ## 2. Cómo se juega
 
@@ -100,15 +116,36 @@ descubre corriendo `node .../pruebas.js`, no frente a un niño.
 y su entrada en `GENERADORES`. Recibe el grado y devuelve
 `{ tipo, enunciado, respuesta, figura?, explicacion, clave }`.
 
-**Un acertijo de español**: una línea más en el `BANCO`. La respuesta correcta
-**siempre se escribe primero** (`correcta: 0`) y se revuelve al servirla; así se
-escribe y se revisa sin contar índices. Los distractores tienen que ser palabras
-de la misma oración: si vienen de otro lado, se acierta sin leer.
+**Un acertijo de español**: una línea más en el `BANCO`, de una de dos formas:
+
+```js
+// opción múltiple
+{ tema, grado, texto?, pregunta, opciones: [...], correcta: 0, explicacion }
+// ordenar (se resuelve tocando las tarjetas en orden)
+{ tema, grado, pregunta, orden: ["Ser vivo", "Animal", "Perro", "Pastor alemán"], explicacion }
+```
+
+La respuesta correcta **siempre se escribe primero** (`correcta: 0`, o la
+secuencia ya ordenada) y el juego la revuelve al servirla; así se escribe y se
+revisa sin contar índices. Los distractores tienen que ser palabras de la misma
+oración: si vienen de otro lado, se acierta sin leer. Los de ordenar se tocan y
+no se arrastran, por lo mismo que en el taller de decodificación: el arrastre en
+una tablet proyectada falla seguido y vuelve el ejercicio uno de puntería.
 
 **Un tema nuevo** se agrega antes en `src/data/talleres/temas.js` y luego en
 `grados.js`, que es lo que decide en qué grado se pregunta.
 
-## 6. Privacidad
+## 6. Lo que falta
+
+- **Mundo 4 (Escher)**: mapas y la mecánica de piezas que embonan. Sus
+  generadores de matemáticas (áreas, fracciones, circunferencia) ya existen.
+- **Mapas conceptuales** como acertijo arrastrable con React Flow; hoy son de
+  opción múltiple.
+- **La vista 3D**: jugar la cuadrícula plana y poder ver la misma partida pegada
+  sobre la dona o la banda. Es lo que cierra la idea del juego.
+- Más niveles en los mundos 2 y 3 (hoy dos cada uno).
+
+## 7. Privacidad
 
 Los avatares son fotos de niños y el repositorio del sitio es público. Por eso
 se recortan y se encogen a 256 px **en el dispositivo** y viven en el

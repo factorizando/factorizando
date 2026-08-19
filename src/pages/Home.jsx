@@ -35,7 +35,10 @@ export default function Home() {
   const cursos = listaCursos();
   const { cifras, conteos } = catalogo;
 
-  const abrirAuth = (modo) => { setAuthMode(modo); setAuthOpen(true); };
+  const abrirAuth = (modo) => {
+    setAuthMode(modo);
+    setAuthOpen(true);
+  };
 
   // Activa el tema claro mientras la Home está montada; lo revierte al salir.
   // Sigue haciendo falta por los componentes compartidos (AuthModal) que aún
@@ -58,7 +61,10 @@ export default function Home() {
         .eq("id", session.user.id)
         .single();
       // Tras confirmar el correo se aterriza aquí: si falta el perfil, completarlo.
-      if (data && !data.perfil_completo) { navigate("/completar-perfil"); return; }
+      if (data && !data.perfil_completo) {
+        navigate("/completar-perfil");
+        return;
+      }
       if (data?.rol === "admin") setIsAdmin(true);
     });
   }, [navigate]);
@@ -77,14 +83,20 @@ export default function Home() {
       <section className="fx-sec fx-hero">
         <div className="fx-hero-texto">
           <span className="fx-badge">Simulacros por convocatoria · EXANI-I, EXANI-II, UNAM</span>
-          <h1 className="fx-h1">Descompón cualquier tema hasta que tenga sentido.</h1>
+          <h1 className="fx-h1">
+            Descompón cualquier problema hasta que cada parte tenga sentido.
+          </h1>
           <p className="fx-body-lg">
-            Cada tema se abre en presentaciones para clase y cuestionarios cronometrados:
-            respondes, te equivocas, lees por qué y sigues. Sin videos de 40 minutos ni
-            fórmulas sueltas que memorizar.
+            Cada tema se abre en presentaciones para clase y cuestionarios cronometrados: respondes,
+            te equivocas, lees por qué y sigues. Sin videos de 40 minutos ni fórmulas sueltas que
+            memorizar.
           </p>
           <div className="fx-hero-botones">
-            <button type="button" className="fx-btn-primario fx-btn-lg" onClick={() => abrirAuth("registro")}>
+            <button
+              type="button"
+              className="fx-btn-primario fx-btn-lg"
+              onClick={() => abrirAuth("registro")}
+            >
               Crear cuenta gratis
             </button>
             {/* Los cuestionarios viven detrás de ProtectedRoute, así que el
@@ -103,7 +115,9 @@ export default function Home() {
 
         <div className="fx-hero-visual">
           <div className="fx-visual-card">
-            <div className="fx-visual-lienzo"><ArbolFactores /></div>
+            <div className="fx-visual-lienzo">
+              <ArbolFactores />
+            </div>
             <div className="fx-visual-pie">
               <div className="fx-visual-txt">
                 <span className="fx-visual-tit">Factorización en primos</span>
@@ -157,10 +171,20 @@ export default function Home() {
         />
 
         <div className="fx-pills" role="group" aria-label="Nivel del material">
-          <Link to="/preparatoria" className="fx-pill">Preparatoria</Link>
-          <Link to="/universidad" className="fx-pill">Universidad</Link>
-          {isAdmin && <Link to="/regularizacion" className="fx-pill">Primaria y secundaria</Link>}
-          <span className="fx-pills-nota">Primaria y secundaria se trabaja en asesoría, con talleres guiados.</span>
+          <Link to="/preparatoria" className="fx-pill">
+            Preparatoria
+          </Link>
+          <Link to="/universidad" className="fx-pill">
+            Universidad
+          </Link>
+          {isAdmin && (
+            <Link to="/regularizacion" className="fx-pill">
+              Primaria y secundaria
+            </Link>
+          )}
+          <span className="fx-pills-nota">
+            Primaria y secundaria se trabaja en asesoría, con talleres guiados.
+          </span>
         </div>
 
         <div className="fx-grid fx-grid-materias">
@@ -181,12 +205,16 @@ export default function Home() {
           <div className="fx-grid fx-grid-cursos">
             {cursos.map((c) => (
               <Link key={c.id} to={`/curso/${c.id}`} className="fx-card fx-card-fila">
-                <span className="fx-card-ic fx-ic-math"><IconoCurso icono={c.icono} /></span>
+                <span className="fx-card-ic fx-ic-math">
+                  <IconoCurso icono={c.icono} />
+                </span>
                 <span className="fx-card-fila-txt">
                   <span className="fx-h5">{c.area}</span>
                   <span className="fx-small-muted">{c.materia}</span>
                 </span>
-                <span className="fx-flecha" aria-hidden="true">→</span>
+                <span className="fx-flecha" aria-hidden="true">
+                  →
+                </span>
               </Link>
             ))}
             <Link to="/clase" className="fx-card fx-card-fila">
@@ -195,7 +223,9 @@ export default function Home() {
                 <span className="fx-h5">Clase en vivo</span>
                 <span className="fx-small-muted">Únete con tu código de sesión</span>
               </span>
-              <span className="fx-flecha" aria-hidden="true">→</span>
+              <span className="fx-flecha" aria-hidden="true">
+                →
+              </span>
             </Link>
           </div>
         </section>
@@ -207,22 +237,24 @@ export default function Home() {
           <div className="fx-cta-texto">
             <h2 className="fx-cta-tit">¿Das clase? Crea un grupo en dos minutos</h2>
             <p className="fx-cta-sub">
-              Asigna unidades, revisa el progreso por estudiante y detecta dónde se atoró el
-              grupo. Gratis para escuelas públicas.
+              Asigna unidades, revisa el progreso por estudiante y detecta dónde se atoró el grupo.
+              Gratis para escuelas públicas.
             </p>
           </div>
           <div className="fx-cta-botones">
             <a
               className="fx-btn-claro"
               href={`${WHATSAPP}?text=${encodeURIComponent("Hola, doy clase y quiero crear un grupo en FactoR[i]zando.")}`}
-              target="_blank" rel="noopener noreferrer"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               Crear grupo
             </a>
             <a
               className="fx-btn-fantasma"
               href={`${WHATSAPP}?text=${encodeURIComponent("Hola, me gustaría hablar con alguien sobre FactoR[i]zando.")}`}
-              target="_blank" rel="noopener noreferrer"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               Hablar con alguien
             </a>
@@ -240,7 +272,9 @@ export default function Home() {
           <div className="fx-footer-col">
             <span className="fx-footer-tit">Materias</span>
             {MATERIAS.map((m) => (
-              <Link key={m.slug} to={`/materia/${m.slug}`} className="fx-footer-link">{m.nombre}</Link>
+              <Link key={m.slug} to={`/materia/${m.slug}`} className="fx-footer-link">
+                {m.nombre}
+              </Link>
             ))}
           </div>
           {/* Columnas del diseño original. Las entradas sin destino todavía se
@@ -261,7 +295,8 @@ export default function Home() {
             <a
               className="fx-footer-link"
               href={`${WHATSAPP}?text=${encodeURIComponent("Hola, me interesa el curso de FactoR[i]zando.")}`}
-              target="_blank" rel="noopener noreferrer"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               Contacto
             </a>
@@ -275,8 +310,12 @@ export default function Home() {
       {/* Admin (solo administrador) */}
       {isAdmin && (
         <div className="fx-admin-bar">
-          <Link to="/admin" className="fx-admin">⚙ Admin</Link>
-          <Link to="/regularizacion" className="fx-admin">➗ Regularización</Link>
+          <Link to="/admin" className="fx-admin">
+            ⚙ Admin
+          </Link>
+          <Link to="/regularizacion" className="fx-admin">
+            ➗ Regularización
+          </Link>
         </div>
       )}
 
@@ -313,7 +352,11 @@ function TarjetaExamen({ to, nivel, titulo, texto, chips, acento }) {
       <h3 className="fx-h3-card">{titulo}</h3>
       <p className="fx-card-texto">{texto}</p>
       <div className="fx-chips">
-        {chips.map((c) => <span key={c} className="fx-chip">{c}</span>)}
+        {chips.map((c) => (
+          <span key={c} className="fx-chip">
+            {c}
+          </span>
+        ))}
       </div>
       <span className="fx-card-cta">Ver la ruta →</span>
     </Link>
@@ -348,7 +391,9 @@ function TarjetaMateria({ materia, conteo }) {
   );
 
   if (!conteo.total) {
-    return <div className={`fx-card fx-card-alta fx-acento-${acento} fx-card-inerte`}>{cuerpo}</div>;
+    return (
+      <div className={`fx-card fx-card-alta fx-acento-${acento} fx-card-inerte`}>{cuerpo}</div>
+    );
   }
   return (
     <Link to={`/materia/${slug}`} className={`fx-card fx-card-alta fx-acento-${acento}`}>
@@ -375,19 +420,19 @@ function TarjetaMateria({ materia, conteo }) {
 const NODOS = [
   { x: 160, y: 40, t: "24", primo: false, d: 0 },
   { x: 100, y: 118, t: "4", primo: false, d: 1.05 },
-  { x: 220, y: 118, t: "6", primo: false, d: 2.10 },
+  { x: 220, y: 118, t: "6", primo: false, d: 2.1 },
   { x: 56, y: 196, t: "2", primo: true, d: 3.15 },
-  { x: 132, y: 196, t: "2", primo: true, d: 4.10 },
+  { x: 132, y: 196, t: "2", primo: true, d: 4.1 },
   { x: 188, y: 196, t: "2", primo: true, d: 5.05 },
-  { x: 264, y: 196, t: "3", primo: true, d: 6.00 },
+  { x: 264, y: 196, t: "3", primo: true, d: 6.0 },
 ];
 const RAMAS = [
   { x1: 160, y1: 40, x2: 100, y2: 118, d: 0.55 },
-  { x1: 160, y1: 40, x2: 220, y2: 118, d: 1.60 },
+  { x1: 160, y1: 40, x2: 220, y2: 118, d: 1.6 },
   { x1: 100, y1: 118, x2: 56, y2: 196, d: 2.65 },
-  { x1: 100, y1: 118, x2: 132, y2: 196, d: 3.60 },
+  { x1: 100, y1: 118, x2: 132, y2: 196, d: 3.6 },
   { x1: 220, y1: 118, x2: 188, y2: 196, d: 4.55 },
-  { x1: 220, y1: 118, x2: 264, y2: 196, d: 5.50 },
+  { x1: 220, y1: 118, x2: 264, y2: 196, d: 5.5 },
 ];
 
 function ArbolFactores() {
@@ -396,7 +441,10 @@ function ArbolFactores() {
 
   useEffect(() => {
     const el = ref.current;
-    if (!el || typeof IntersectionObserver === "undefined") { setVisible(true); return; }
+    if (!el || typeof IntersectionObserver === "undefined") {
+      setVisible(true);
+      return;
+    }
     const io = new IntersectionObserver(([e]) => setVisible(e.isIntersecting), { threshold: 0.4 });
     io.observe(el);
     return () => io.disconnect();
@@ -412,21 +460,34 @@ function ArbolFactores() {
     >
       {RAMAS.map((r, i) => (
         <line
-          key={`r${i}`} className="fx-rama" style={{ "--d": `${r.d}s` }}
-          x1={r.x1} y1={r.y1} x2={r.x2} y2={r.y2}
-          stroke="#B4CDF8" strokeWidth="1.5" strokeLinecap="round"
+          key={`r${i}`}
+          className="fx-rama"
+          style={{ "--d": `${r.d}s` }}
+          x1={r.x1}
+          y1={r.y1}
+          x2={r.x2}
+          y2={r.y2}
+          stroke="#B4CDF8"
+          strokeWidth="1.5"
+          strokeLinecap="round"
         />
       ))}
       {NODOS.map((n, i) => (
         <g key={`n${i}`} className="fx-nodo" style={{ "--d": `${n.d}s` }}>
           <circle
-            cx={n.x} cy={n.y} r="18"
+            cx={n.x}
+            cy={n.y}
+            r="18"
             fill={n.primo ? "#0056D2" : "#FFFFFF"}
-            stroke={n.primo ? "#0056D2" : "#B4CDF8"} strokeWidth="1.5"
+            stroke={n.primo ? "#0056D2" : "#B4CDF8"}
+            strokeWidth="1.5"
           />
           <text
-            x={n.x} y={n.y + 5} textAnchor="middle"
-            fontFamily="IBM Plex Mono, monospace" fontSize="15"
+            x={n.x}
+            y={n.y + 5}
+            textAnchor="middle"
+            fontFamily="IBM Plex Mono, monospace"
+            fontSize="15"
             fill={n.primo ? "#FFFFFF" : "#0A2540"}
           >
             {n.t}

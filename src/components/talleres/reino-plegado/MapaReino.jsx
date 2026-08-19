@@ -6,12 +6,12 @@
 // tablet, así que la comparación pasa de todos modos; mejor que pase mirando
 // un mapa y no un marcador de puntos—.
 import { MUNDOS } from "../../../data/talleres/reino-plegado/index.js";
-import { nivelAbierto, nivelesTerminados } from "./lib/perfiles.js";
+import { mundoAbierto, nivelAbierto, nivelesTerminados } from "./lib/perfiles.js";
 import { Rotulo } from "../comun/ui.jsx";
 import { C, COLORES_JUGADOR, MUNDO_COLOR, TAM } from "./estilo.js";
 import { Avatar } from "./Jugadores.jsx";
 
-export default function MapaReino({ jugador, jugadores, progresos, onAbrirNivel }) {
+export default function MapaReino({ jugador, jugadores, progresos, todoAbierto, onAbrirNivel }) {
   const progreso = progresos[jugador.id] || {};
 
   return (
@@ -26,9 +26,10 @@ export default function MapaReino({ jugador, jugadores, progresos, onAbrirNivel 
       </p>
 
       <div style={{ display: "grid", gap: 18 }}>
-        {MUNDOS.map((mundo) => {
+        {MUNDOS.map((mundo, indiceMundo) => {
           const color = MUNDO_COLOR[mundo.id];
-          const listo = mundo.niveles.length > 0;
+          const abiertoElMundo = mundoAbierto(progreso, MUNDOS, indiceMundo, todoAbierto);
+          const listo = mundo.niveles.length > 0 && abiertoElMundo;
           const terminados = nivelesTerminados(progreso, mundo.id);
 
           // Quién anda por este mundo, para pintar sus caras.
@@ -108,7 +109,9 @@ export default function MapaReino({ jugador, jugadores, progresos, onAbrirNivel 
                   marginTop: 16, color: C.apagado, fontSize: 15, fontWeight: 700,
                   border: `1px dashed ${C.borde}`, borderRadius: 10, padding: "12px 16px",
                 }}>
-                  En construcción. Este mundo ya sabe cómo se dobla; le faltan sus niveles.
+                  {mundo.niveles.length === 0
+                    ? "En construcción. Este mundo ya sabe cómo se dobla; le faltan sus niveles."
+                    : `🔒 Se abre cuando lleves la mitad de ${MUNDOS[indiceMundo - 1].nombre}.`}
                 </p>
               )}
             </div>

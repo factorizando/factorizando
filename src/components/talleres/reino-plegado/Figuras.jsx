@@ -207,6 +207,45 @@ export function Triangulo({ base, altura }) {
   );
 }
 
+// ── Barra de fracciones ───────────────────────────────────────────────────
+export function Barra({ num, den }) {
+  const W = 520, H = 96, m = 10;
+  const ancho = (W - m * 2) / den;
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", maxWidth: W, display: "block" }}>
+      {Array.from({ length: den }, (_, i) => (
+        <rect key={i} x={m + i * ancho} y="18" width={ancho} height="60"
+          fill={i < num ? "#4ea8ff" : "#243040"} stroke={C.fondo} strokeWidth="3" />
+      ))}
+      <rect x={m} y="18" width={W - m * 2} height="60" fill="none" stroke={C.bordeVivo} strokeWidth="3" />
+    </svg>
+  );
+}
+
+// ── Círculo ───────────────────────────────────────────────────────────────
+export function Circulo({ radio, marca }) {
+  const R = 90, cx = 130, cy = 110;
+  return (
+    <svg viewBox="0 0 260 220" style={{ width: "100%", maxWidth: 300, display: "block" }}>
+      <circle cx={cx} cy={cy} r={R} fill="#243040" stroke={C.azul} strokeWidth="4" />
+      <circle cx={cx} cy={cy} r="5" fill={C.tenue} />
+      {marca === "radio" ? (
+        <>
+          <line x1={cx} y1={cy} x2={cx + R} y2={cy} stroke={C.naranja} strokeWidth="4" />
+          <text x={cx + R / 2} y={cy - 12} textAnchor="middle" fontSize="18" fontWeight="800"
+            fill={C.naranja} fontFamily="inherit">{radio} m</text>
+        </>
+      ) : (
+        <>
+          <line x1={cx - R} y1={cy} x2={cx + R} y2={cy} stroke={C.naranja} strokeWidth="4" />
+          <text x={cx} y={cy - 12} textAnchor="middle" fontSize="18" fontWeight="800"
+            fill={C.naranja} fontFamily="inherit">{radio * 2} m</text>
+        </>
+      )}
+    </svg>
+  );
+}
+
 // El acertijo trae `figura: { tipo, props }` y aquí se resuelve cuál es.
 export function FiguraDeAcertijo({ figura }) {
   if (!figura) return null;
@@ -217,5 +256,7 @@ export function FiguraDeAcertijo({ figura }) {
   if (tipo === "croquis") return <Croquis {...props} />;
   if (tipo === "rectangulo") return <Rectangulo {...props} />;
   if (tipo === "triangulo") return <Triangulo {...props} />;
+  if (tipo === "barra") return <Barra {...props} />;
+  if (tipo === "circulo") return <Circulo {...props} />;
   return null;
 }

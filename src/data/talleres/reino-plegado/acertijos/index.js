@@ -37,6 +37,22 @@ function deEspanol(tema, grado, usados) {
   const frescos = disponibles.filter((r) => !usados.has(claveEspanol(r)));
   const r = elegir(frescos.length ? frescos : disponibles);
 
+  // Los de ordenar traen la secuencia correcta y se sirven revueltas. Se
+  // vuelve a revolver si el azar las deja ya en orden: se resolvería sin leer.
+  if (r.orden) {
+    let tarjetas = barajar(r.orden);
+    for (let i = 0; i < 8 && tarjetas.every((t, k) => t === r.orden[k]); i++) tarjetas = barajar(r.orden);
+    return {
+      materia: "espanol",
+      tipo: "orden",
+      enunciado: r.pregunta,
+      tarjetas,
+      orden: r.orden,
+      explicacion: r.explicacion,
+      clave: claveEspanol(r),
+    };
+  }
+
   // El banco guarda siempre la respuesta en la primera opción, porque así se
   // escribe y se revisa sin contar índices. Se revuelve aquí: si no, el juego
   // se gana tocando siempre la de arriba.

@@ -14,7 +14,7 @@ const VERSION = 1;
 const CLAVE = "factorizando:reino-plegado";
 export const MAX_JUGADORES = 6;
 
-const vacio = () => ({ v: VERSION, jugadores: [], progreso: {}, medicion: {} });
+const vacio = () => ({ v: VERSION, jugadores: [], progreso: {}, medicion: {}, todoAbierto: false });
 
 function leer() {
   try {
@@ -101,6 +101,23 @@ export function nivelAbierto(progreso, mundo, indice) {
   if (indice === 0) return true;
   const anterior = mundo.niveles[indice - 1];
   return !!progreso?.[mundo.id]?.[anterior.id]?.completado;
+}
+
+// Un mundo se abre cuando el jugador lleva **la mitad** del anterior. Con cinco
+// niveles en el primero eso son tres: suficiente para que se sienta ganado y
+// poco para que nadie se quede atorado antes de ver la banda de Möbius, que es
+// lo que hace especial al juego. El maestro puede abrirlos todos desde su panel.
+export function mundoAbierto(progreso, mundos, indice, todoAbierto) {
+  if (indice === 0 || todoAbierto) return true;
+  const anterior = mundos[indice - 1];
+  if (!anterior.niveles.length) return true;
+  return nivelesTerminados(progreso, anterior.id) >= Math.ceil(anterior.niveles.length / 2);
+}
+
+export function abrirTodo(valor) {
+  const d = leer();
+  d.todoAbierto = !!valor;
+  return escribir(d);
 }
 
 export function nivelesTerminados(progreso, mundoId) {

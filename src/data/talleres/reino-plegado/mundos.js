@@ -15,8 +15,19 @@
 //   ?  portal de acertijo         S  salida
 //
 // Las pruebas verifican que desde la entrada se llegue a todos los portales y
-// a la salida; si un mapa nuevo queda mal dibujado, el `node pruebas.js` lo
-// dice antes que un niño frente a la TV.
+// a la salida —recorriendo el mapa con la topología del mundo, no en línea
+// recta—; si un mapa nuevo queda mal dibujado, el `node pruebas.js` lo dice
+// antes que un niño frente a la TV.
+//
+// Ojo con los bordes según el mundo:
+//   plano   va cerrado por los cuatro lados.
+//   toro    va ABIERTO por los cuatro: los bordes son las costuras.
+//   mobius  abierto a los lados y cerrado arriba y abajo.
+//
+// Y una regla de diseño que vale por todo el mundo 2 y el 3: si un nivel se
+// puede terminar sin cruzar una costura, la topología es decorado. Por eso
+// llevan una pared que parte el mapa de arriba abajo: en el plano sería un
+// callejón sin salida y aquí es el camino.
 
 export const MUNDOS = [
   {
@@ -118,11 +129,40 @@ export const MUNDOS = [
     descripcion:
       "Sales por la derecha y regresas por la izquierda, pero de cabeza. Todo aquí tiene su " +
       "revés: multiplicar y dividir, la fracción y el decimal, lo que se dice y lo que se quiere decir.",
+    pista:
+      "Los lados están pegados, pero al cruzarlos te volteas: si sales por arriba, entras por abajo. " +
+      "Fíjate en los colores de las orillas.",
     temas: {
       matematicas: ["division-exacta", "multiplicacion", "fraccion-decimal", "decimales"],
       espanol: ["prefijos-sufijos", "literal-figurado"],
     },
-    niveles: [],
+    niveles: [
+      {
+        id: "m1", nombre: "La primera costura",
+        mapa: [
+          "###########",
+          ".@...#....?",
+          ".....#.....",
+          ".?...#.....",
+          ".....#....S",
+          ".....#.....",
+          "###########",
+        ],
+      },
+      {
+        id: "m2", nombre: "El derecho y el revés",
+        mapa: [
+          "#############",
+          ".@...#...#..?",
+          ".....#...#...",
+          ".....#...#...",
+          ".?...#...#..S",
+          ".....#...#...",
+          "..?..#...#...",
+          "#############",
+        ],
+      },
+    ],
   },
   {
     id: "toro",
@@ -134,11 +174,41 @@ export const MUNDOS = [
     descripcion:
       "Sales por un borde y entras por el opuesto, en las dos direcciones. Un mundo que da " +
       "vueltas: múltiplos, sucesiones, promedios y las palabras que encadenan ideas.",
+    pista:
+      "Aquí no hay orillas: si sigues caminando siempre regresas. Las paredes que parecen " +
+      "encerrarte se le dan la vuelta por fuera.",
     temas: {
-      matematicas: ["multiplos-divisores", "series", "promedio", "moda"],
+      // Las tablas son ciclos que se repiten: caben en la dona y le dan a los
+      // chicos de 3.º y 4.º de dónde agarrarse en este mundo.
+      matematicas: ["multiplicacion", "multiplos-divisores", "series", "promedio", "moda"],
       espanol: ["conectores", "jerarquizar", "signos"],
     },
-    niveles: [],
+    niveles: [
+      {
+        id: "t1", nombre: "La vuelta entera",
+        mapa: [
+          ".....#.....",
+          ".@...#...?.",
+          ".....#.....",
+          ".....#.....",
+          ".?...#...S.",
+          ".....#.....",
+          ".....#.....",
+        ],
+      },
+      {
+        id: "t2", nombre: "Los cuatro cuartos",
+        mapa: [
+          ".....#.....",
+          ".@...#..?..",
+          ".....#.....",
+          "###########",
+          ".?...#...S.",
+          ".....#.....",
+          ".....#..?..",
+        ],
+      },
+    ],
   },
   {
     id: "escher",

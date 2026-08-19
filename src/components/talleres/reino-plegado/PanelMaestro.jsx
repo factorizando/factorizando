@@ -38,7 +38,9 @@ function Estimacion({ estado }) {
   );
 }
 
-export default function PanelMaestro({ jugadores, medicion, onExportar, onBorrarTodo, onCerrar }) {
+export default function PanelMaestro({
+  jugadores, medicion, todoAbierto, onAbrirTodo, onExportar, onBorrarTodo, onCerrar,
+}) {
   const [confirmando, setConfirmando] = useState(false);
 
   return (
@@ -109,7 +111,23 @@ export default function PanelMaestro({ jugadores, medicion, onExportar, onBorrar
           })}
         </div>
 
-        <Panel estilo={{ marginTop: 26, display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
+        <Panel estilo={{ marginTop: 26, display: "grid", gap: 14 }}>
+          <label style={{
+            display: "flex", alignItems: "center", gap: 12, cursor: "pointer",
+            color: C.texto, fontSize: 15.5, fontWeight: 700,
+          }}>
+            <input
+              type="checkbox"
+              checked={!!todoAbierto}
+              onChange={(e) => onAbrirTodo(e.target.checked)}
+              style={{ width: 22, height: 22, accentColor: C.azul, cursor: "pointer" }}
+            />
+            Abrir todos los mundos
+            <span style={{ color: C.apagado, fontWeight: 500, fontSize: 14 }}>
+              · normalmente cada mundo se abre al llevar la mitad del anterior
+            </span>
+          </label>
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
           <Boton variante="neutro" tamano="chico" onClick={onExportar}>Exportar avance a JSON</Boton>
           {!confirmando ? (
             <Boton variante="fantasma" tamano="chico" onClick={() => setConfirmando(true)}>
@@ -126,6 +144,7 @@ export default function PanelMaestro({ jugadores, medicion, onExportar, onBorrar
               </Boton>
             </>
           )}
+          </div>
         </Panel>
       </div>
     </div>

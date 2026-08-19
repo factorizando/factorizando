@@ -16,7 +16,7 @@ import { MUNDOS_POR_ID } from "../../../data/talleres/reino-plegado/index.js";
 import { alternarSilencio, estaSilenciado } from "../comun/sonido.js";
 import { C, FUENTE, MUNDO_COLOR, COLORES_JUGADOR } from "./estilo.js";
 import {
-  borrarJugador, borrarTodo, cargarTodo, exportarJSON, guardarJugador,
+  abrirTodo, borrarJugador, borrarTodo, cargarTodo, exportarJSON, guardarJugador,
   guardarMedicion, marcarNivel,
 } from "./lib/perfiles.js";
 import { anotarPrimerIntento, estadoInicial } from "./lib/medicion.js";
@@ -112,6 +112,8 @@ export default function ReinoPlegado({ alumnoId, guardarSesion }) {
         URL.revokeObjectURL(url);
       }}
       onBorrarTodo={() => { borrarTodo(); setJugadorId(null); setEnJuego(null); refrescar(); }}
+      todoAbierto={datos.todoAbierto}
+      onAbrirTodo={(v) => { abrirTodo(v); refrescar(); }}
     />
   ) : null;
 
@@ -180,6 +182,7 @@ export default function ReinoPlegado({ alumnoId, guardarSesion }) {
             jugador={jugador}
             jugadores={datos.jugadores}
             progresos={datos.progreso}
+            todoAbierto={datos.todoAbierto}
             onAbrirNivel={(mundo, nivel) => setEnJuego({ mundo, nivel })}
           />
         ) : (

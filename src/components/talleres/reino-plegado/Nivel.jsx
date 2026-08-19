@@ -20,6 +20,31 @@ import Acertijo from "./Acertijo.jsx";
 const FLECHA = { arriba: "↑", abajo: "↓", izquierda: "←", derecha: "→" };
 const clave = ({ fila, columna }) => `${fila}:${columna}`;
 
+// Los colores de las costuras. Cada franja del borde lleva el color de la
+// franja con la que está pegada del otro lado: eso es todo lo que hace falta
+// para *ver* que el mundo está doblado. En la banda de Möbius los colores del
+// lado derecho van al revés que los del izquierdo, y ahí se ve el volteo.
+const tono = (i) => `hsl(${(i * 53) % 360} 68% 58%)`;
+
+function Costura({ n, lado, vertical, invertida }) {
+  const grosor = 9;
+  return (
+    <div style={{
+      display: "grid",
+      gridTemplateColumns: vertical ? `${grosor}px` : `repeat(${n}, ${lado}px)`,
+      gridTemplateRows: vertical ? `repeat(${n}, ${lado}px)` : `${grosor}px`,
+      gap: 2,
+    }}>
+      {Array.from({ length: n }, (_, i) => (
+        <span key={i} style={{
+          background: tono(invertida ? n - 1 - i : i),
+          borderRadius: 3, opacity: 0.9,
+        }} />
+      ))}
+    </div>
+  );
+}
+
 export default function Nivel({ mundo, nivel, jugador, color, grados, alResponder, onTerminar, onSalir }) {
   const inicio = useMemo(() => buscarCasilla(nivel, "@"), [nivel]);
   const salida = useMemo(() => buscarCasilla(nivel, "S"), [nivel]);
@@ -100,7 +125,14 @@ export default function Nivel({ mundo, nivel, jugador, color, grados, alResponde
   }
 
   const columnas = nivel.mapa[0].length;
+  const filas = nivel.mapa.length;
   const lado = Math.max(30, Math.min(62, Math.round(760 / columnas)));
+  // Qué orillas están pegadas en este mundo.
+  const costuras = {
+    lados: mundo.topologia === "toro" || mundo.topologia === "mobius",
+    arribaAbajo: mundo.topologia === "toro",
+    volteo: mundo.topologia === "mobius",
+  };
 
   if (terminado) {
     const total = portales.length;
@@ -139,6 +171,14 @@ export default function Nivel({ mundo, nivel, jugador, color, grados, alResponde
               ? "Ya tienes todas las llaves: corre a la salida."
               : "Camina hasta un portal y abre lo que guarda."}
           </p>
+          {mundo.pista && (
+            <p style={{
+              margin: "10px 0 0", color: C.texto, fontSize: 15.5, lineHeight: 1.5,
+              maxWidth: "56ch", borderLeft: `3px solid ${color}`, paddingLeft: 12,
+            }}>
+              {mundo.pista}
+            </p>
+          )}
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
           <span style={{ fontSize: 26, letterSpacing: 2 }}>
@@ -151,11 +191,20 @@ export default function Nivel({ mundo, nivel, jugador, color, grados, alResponde
       </div>
 
       <div style={{ display: "flex", gap: 24, flexWrap: "wrap", alignItems: "flex-start" }}>
-        {/* ── El mapa ─────────────────────────────────────────────────── */}
+        {/* ── El mapa, con sus costuras alrededor ─────────────────────── */}
         <div style={{
-          display: "grid", gridTemplateColumns: `repeat(${columnas}, ${lado}px)`,
-          gap: 2, background: C.borde, padding: 2, borderRadius: 10,
+          display: "grid", gap: 6, alignItems: "center", justifyItems: "center",
+          gridTemplateColumns: "auto auto auto",
         }}>
+          <span />
+          {costuras.arribaAbajo ? <Costura n={columnas} lado={lado} /> : <span />}
+          <span />
+
+          {costuras.lados ? <Costura n={filas} lado={lado} vertical /> : <span />}
+          <div style={{
+            display: "grid", gridTemplateColumns: `repeat(${columnas}, ${lado}px)`,
+            gap: 2, background: C.borde, padding: 2, borderRadius: 10,
+          }}>
           {nivel.mapa.map((fila, f) => fila.split("").map((ch, c) => {
             const aqui = pos.fila === f && pos.columna === c;
             const muro = ch === "#";
@@ -199,6 +248,12 @@ export default function Nivel({ mundo, nivel, jugador, color, grados, alResponde
               </button>
             );
           }))}
+          </div>
+          {costuras.lados ? <Costura n={filas} lado={lado} vertical invertida={costuras.volteo} /> : <span />}
+
+          <span />
+          {costuras.arribaAbajo ? <Costura n={columnas} lado={lado} /> : <span />}
+          <span />
         </div>
 
         {/* ── Los controles ───────────────────────────────────────────── */}

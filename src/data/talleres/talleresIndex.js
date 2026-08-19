@@ -12,6 +12,7 @@ import { TALLER as DIVISIONES } from "./matematicas/divisiones.js";
 import { TALLER as PRODUCTO } from "./matematicas/producto.js";
 import { TALLER as PIZZAS_CAJAS_VASOS } from "./matematicas/pizzas-cajas-vasos.js";
 import { TALLER as EL_TERRENO } from "./matematicas/el-terreno.js";
+import { TALLER as REINO_PLEGADO } from "./matematicas/reino-plegado.js";
 import { TALLER as COMPRENSION } from "./espanol/comprension-lectora.js";
 import { TALLER as DECODIFICACION } from "./espanol/decodificacion.js";
 import { TALLER as CARRERA_MATE } from "./juegos/carrera-autos-matematicas.js";
@@ -19,8 +20,10 @@ import { TALLER as CARRERA_ESP } from "./juegos/carrera-autos-espanol.js";
 import Decodificacion from "../../components/talleres/decodificacion/Decodificacion.jsx";
 import PizzasCajasVasos from "../../components/talleres/pizzas-cajas-vasos/PizzasCajasVasos.jsx";
 import ElTerreno from "../../components/talleres/el-terreno/ElTerreno.jsx";
+import ReinoPlegado from "../../components/talleres/reino-plegado/ReinoPlegado.jsx";
 
 export const TALLERES_INDEX = {
+  [REINO_PLEGADO.id]: REINO_PLEGADO,
   [PIZZAS_CAJAS_VASOS.id]: PIZZAS_CAJAS_VASOS,
   [EL_TERRENO.id]: EL_TERRENO,
   [PRODUCTO.id]: PRODUCTO,
@@ -37,6 +40,7 @@ export const TALLERES_REACT = {
   decodificacion: Decodificacion,
   "pizzas-cajas-vasos": PizzasCajasVasos,
   "el-terreno": ElTerreno,
+  "reino-plegado": ReinoPlegado,
 };
 
 export function buscarTaller(id) {

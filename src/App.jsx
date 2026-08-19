@@ -59,6 +59,7 @@ const PreviewComprobante   = lazy(() => import("./pages/PreviewComprobante.jsx")
 const Decodificacion       = lazy(() => import("./components/talleres/decodificacion/Decodificacion.jsx"));
 const PizzasCajasVasos     = lazy(() => import("./components/talleres/pizzas-cajas-vasos/PizzasCajasVasos.jsx"));
 const ElTerreno            = lazy(() => import("./components/talleres/el-terreno/ElTerreno.jsx"));
+const ReinoPlegado         = lazy(() => import("./components/talleres/reino-plegado/ReinoPlegado.jsx"));
 
 // Lo que se ve mientras baja el pedazo de una ruta. En una conexión de
 // salón esto dura un parpadeo; en la primera visita, poco más.
@@ -137,6 +138,16 @@ function AppRoutes() {
             element={
               <div style={{ height: "100vh" }}>
                 <ElTerreno alumnoId={null} />
+              </div>
+            }
+          />
+        )}
+        {import.meta.env.DEV && (
+          <Route
+            path="/preview-reino"
+            element={
+              <div style={{ height: "100vh" }}>
+                <ReinoPlegado alumnoId={null} />
               </div>
             }
           />

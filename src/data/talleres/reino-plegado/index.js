@@ -10,6 +10,7 @@ import {
   enlacesDe, letrasDeEnlace,
 } from "./mundos.js";
 import { GRADOS, MATERIAS, TEMAS_JUEGO, temasDe, gradosDe } from "./grados.js";
+import { barajar } from "../azar.js";
 import { generarAcertijo, temasDisponibles } from "./acertijos/index.js";
 import { BANCO } from "./acertijos/espanol.js";
 import { GENERADORES } from "./acertijos/matematicas.js";
@@ -60,10 +61,17 @@ export function acertijosDeNivel({ mundoId, grado, grados, cantidad, materia: fo
     matematicas: grados?.matematicas ?? grado,
     espanol: grados?.espanol ?? grado,
   };
+  // Los temas se barajan y se recorren con un contador **por materia**. Antes
+  // se indexaba con el número de portal, y como las materias se alternan, los
+  // de español siempre caían en índice impar: los doce portales de un nivel
+  // acababan siendo doce reactivos del mismo tema.
   const fuente = {
     matematicas: temasConRespaldo(mundoId, "matematicas", pedido.matematicas),
     espanol: temasConRespaldo(mundoId, "espanol", pedido.espanol),
   };
+  fuente.matematicas.temas = barajar(fuente.matematicas.temas);
+  fuente.espanol.temas = barajar(fuente.espanol.temas);
+  const vueltas = { matematicas: 0, espanol: 0 };
 
   // El nivel puede traer su propia memoria de lo ya preguntado: en caravana los
   // acertijos se piden de uno en uno y aun así no deben repetirse.
@@ -79,7 +87,8 @@ export function acertijosDeNivel({ mundoId, grado, grados, cantidad, materia: fo
     const usar = fuente[materia].temas.length ? materia : otra;
     const { temas, grado: gradoReal } = fuente[usar];
     if (!temas.length) break;
-    const acertijo = generarAcertijo({ tema: temas[i % temas.length], grado: gradoReal, usados });
+    const tema = temas[vueltas[usar]++ % temas.length];
+    const acertijo = generarAcertijo({ tema, grado: gradoReal, usados });
     if (acertijo) {
       usados.add(acertijo.clave);
       salida.push(acertijo);

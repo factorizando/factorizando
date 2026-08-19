@@ -53,8 +53,11 @@ export function Avatar({ jugador, color, tam = 64, borde = 3 }) {
   );
 }
 
-export default function Jugadores({ jugadores, onElegir, onGuardar, onBorrar }) {
+export default function Jugadores({ jugadores, onElegir, onCaravana, onGuardar, onBorrar }) {
   const [editando, setEditando] = useState(null); // jugador o {} para uno nuevo
+  // `null` = cada quien por su cuenta; un array = armando la caravana, y el
+  // orden en que se tocan las caras es el orden de los turnos.
+  const [caravana, setCaravana] = useState(null);
 
   if (editando) {
     return (
@@ -69,17 +72,52 @@ export default function Jugadores({ jugadores, onElegir, onGuardar, onBorrar }) 
   }
 
   const huecos = Math.max(0, MAX_JUGADORES - jugadores.length);
+  const armando = caravana !== null;
+  const enFila = (id) => (caravana || []).indexOf(id);
+
+  function tocar(j) {
+    if (!armando) return onElegir(j);
+    setCaravana((c) => (c.includes(j.id) ? c.filter((x) => x !== j.id) : [...c, j.id]));
+  }
 
   return (
     <div>
       <Rotulo color={C.azul}>El Reino Plegado</Rotulo>
       <h1 style={{ fontSize: TAM.titulo, fontWeight: 800, margin: "12px 0 10px" }}>
-        ¿Quién juega?
+        {armando ? "¿Quiénes viajan juntos?" : "¿Quién juega?"}
       </h1>
-      <p style={{ color: C.tenue, fontSize: TAM.cuerpo, lineHeight: 1.55, margin: "0 0 28px", maxWidth: "60ch" }}>
-        Toca tu cara para seguir tu partida. Cada quien avanza por su cuenta y en el mapa del reino
-        se ve por dónde va cada uno.
+      <p style={{ color: C.tenue, fontSize: TAM.cuerpo, lineHeight: 1.55, margin: "0 0 22px", maxWidth: "62ch" }}>
+        {armando
+          ? "Toca las caras en el orden en que se van a turnar la tablet. Viajan en un mismo peón por "
+            + "un mismo nivel, y a cada quien le tocan acertijos de su grado."
+          : "Toca tu cara para seguir tu partida. Cada quien avanza por su cuenta y en el mapa del reino "
+            + "se ve por dónde va cada uno."}
       </p>
+
+      {/* Armar caravana: es un modo, no una pantalla aparte, para que se vea
+          que son los mismos jugadores de siempre. */}
+      <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center", marginBottom: 24 }}>
+        {!armando ? (
+          jugadores.length >= 2 && (
+            <Boton variante="neutro" onClick={() => setCaravana([])}>
+              🚩 Jugar en caravana
+            </Boton>
+          )
+        ) : (
+          <>
+            <Boton
+              color={C.azul}
+              disabled={(caravana || []).length < 2}
+              onClick={() => onCaravana(caravana)}
+            >
+              {(caravana || []).length < 2
+                ? "Elige al menos dos"
+                : `Salir de viaje · ${caravana.length} jugadores`}
+            </Boton>
+            <Boton variante="fantasma" onClick={() => setCaravana(null)}>Cancelar</Boton>
+          </>
+        )}
+      </div>
 
       <div style={{ display: "grid", gap: 16, gridTemplateColumns: "repeat(auto-fill, minmax(190px, 1fr))" }}>
         {jugadores.map((j, i) => (
@@ -89,18 +127,37 @@ export default function Jugadores({ jugadores, onElegir, onGuardar, onBorrar }) 
           }}>
             <button
               type="button"
-              onClick={() => onElegir(j)}
+              onClick={() => tocar(j)}
               style={{
                 background: "transparent", border: 0, cursor: "pointer", padding: 0,
                 display: "grid", justifyItems: "center", gap: 12, width: "100%",
                 fontFamily: "inherit", color: C.texto, touchAction: "manipulation",
+                position: "relative",
               }}
             >
-              <Avatar jugador={j} color={COLORES_JUGADOR[i]} tam={96} />
+              <span style={{ position: "relative", display: "block" }}>
+                <Avatar
+                  jugador={j}
+                  color={armando && enFila(j.id) < 0 ? C.borde : COLORES_JUGADOR[i]}
+                  tam={96}
+                />
+                {/* El número dice en qué turno le toca */}
+                {enFila(j.id) >= 0 && (
+                  <span style={{
+                    position: "absolute", right: -4, top: -4, width: 32, height: 32,
+                    borderRadius: "50%", background: COLORES_JUGADOR[i], color: "#10161d",
+                    display: "grid", placeItems: "center", fontSize: 17, fontWeight: 800,
+                    border: `2px solid ${C.fondo}`,
+                  }}>
+                    {enFila(j.id) + 1}
+                  </span>
+                )}
+              </span>
               <span style={{ fontSize: 21, fontWeight: 800 }}>{j.nombre}</span>
             </button>
             <button
               type="button"
+              disabled={armando}
               onClick={() => setEditando(j)}
               style={{
                 marginTop: 10, background: "transparent", border: `1px solid ${C.borde}`,
@@ -113,7 +170,7 @@ export default function Jugadores({ jugadores, onElegir, onGuardar, onBorrar }) 
           </div>
         ))}
 
-        {huecos > 0 && (
+        {huecos > 0 && !armando && (
           <button
             type="button"
             onClick={() => setEditando({})}

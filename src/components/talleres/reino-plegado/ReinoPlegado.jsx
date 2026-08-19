@@ -27,12 +27,19 @@ import PanelMaestro from "./PanelMaestro.jsx";
 
 export default function ReinoPlegado({ alumnoId, guardarSesion }) {
   const [datos, setDatos] = useState(cargarTodo);
-  const [jugadorId, setJugadorId] = useState(null);
+  const [jugadorSolo, setJugadorSolo] = useState(null);
+  const [caravana, setCaravana] = useState(null);   // { ids: [...], turno }
   const [enJuego, setEnJuego] = useState(null);   // { mundo, nivel }
   const [verPanel, setVerPanel] = useState(false);
   const [silencio, setSilencio] = useState(estaSilenciado);
 
   const refrescar = () => setDatos(cargarTodo());
+  // Quien trae la tablet en este momento.
+  const jugadorId = caravana ? caravana.ids[caravana.turno] : jugadorSolo;
+  const enCaravana = useMemo(
+    () => (caravana ? caravana.ids.map((id) => datos.jugadores.find((j) => j.id === id)).filter(Boolean) : []),
+    [caravana, datos.jugadores]
+  );
   const jugador = useMemo(
     () => datos.jugadores.find((j) => j.id === jugadorId) || null,
     [datos.jugadores, jugadorId]
@@ -63,13 +70,20 @@ export default function ReinoPlegado({ alumnoId, guardarSesion }) {
     setDatos(cargarTodo());
   }, [jugadorId, jugador]);
 
+  function pasarTurno() {
+    setCaravana((c) => (c ? { ...c, turno: (c.turno + 1) % c.ids.length } : c));
+  }
+
   function terminarNivel({ aciertos, total }) {
     const { mundo, nivel } = enJuego;
-    marcarNivel(jugadorId, mundo.id, nivel.id, { aciertos, total });
+    // En caravana el nivel queda hecho para todos los que viajaron en ella.
+    const quienes = caravana ? caravana.ids : [jugadorId];
+    quienes.forEach((id) => marcarNivel(id, mundo.id, nivel.id, { aciertos, total }));
     // El expediente del alumno recibe el marcador grueso; el detalle por
     // jugador se queda en la tablet. Sin alumno seleccionado no se escribe.
     Promise.resolve(guardarSesion?.({
-      actividad: `El Reino Plegado · ${mundo.nombre} · ${nivel.nombre} (${jugador.nombre})`,
+      actividad: `El Reino Plegado · ${mundo.nombre} · ${nivel.nombre} `
+        + (caravana ? `(caravana: ${enCaravana.map((j) => j.nombre).join(", ")})` : `(${jugador.nombre})`),
       grupo: `${escalones.matematicas}.º`,
       aciertos,
       errores: total - aciertos,
@@ -111,7 +125,13 @@ export default function ReinoPlegado({ alumnoId, guardarSesion }) {
         a.click();
         URL.revokeObjectURL(url);
       }}
-      onBorrarTodo={() => { borrarTodo(); setJugadorId(null); setEnJuego(null); refrescar(); }}
+      onBorrarTodo={() => {
+        borrarTodo();
+        setJugadorSolo(null);
+        setCaravana(null);
+        setEnJuego(null);
+        refrescar();
+      }}
       todoAbierto={datos.todoAbierto}
       onAbrirTodo={(v) => { abrirTodo(v); refrescar(); }}
     />
@@ -125,7 +145,8 @@ export default function ReinoPlegado({ alumnoId, guardarSesion }) {
           <div style={{ position: "absolute", top: 18, right: 26 }}>{botonPanel}</div>
           <Jugadores
             jugadores={datos.jugadores}
-            onElegir={(j) => setJugadorId(j.id)}
+            onElegir={(j) => setJugadorSolo(j.id)}
+            onCaravana={(ids) => setCaravana({ ids, turno: 0 })}
             onGuardar={(d) => { guardarJugador(d); refrescar(); }}
             onBorrar={(id) => { borrarJugador(id); refrescar(); }}
           />
@@ -147,16 +168,30 @@ export default function ReinoPlegado({ alumnoId, guardarSesion }) {
         <div style={{ display: "flex", alignItems: "center", gap: 12, minWidth: 0 }}>
           <button
             type="button"
-            onClick={() => (enJuego ? setEnJuego(null) : setJugadorId(null))}
+            onClick={() => {
+              if (enJuego) return setEnJuego(null);
+              setCaravana(null);
+              setJugadorSolo(null);
+            }}
             style={{
               background: "transparent", border: "none", color: C.tenue, cursor: "pointer",
               fontFamily: "inherit", fontSize: 15, fontWeight: 700, padding: "8px 6px", minHeight: 44,
             }}
           >
-            ←&nbsp;{enJuego ? "Mapa del reino" : "Cambiar jugador"}
+            ←&nbsp;{enJuego ? "Mapa del reino" : caravana ? "Deshacer la caravana" : "Cambiar jugador"}
           </button>
           <Avatar jugador={jugador} color={colorJugador} tam={34} borde={2} />
           <span style={{ fontSize: 15, fontWeight: 800, color: C.texto }}>{jugador.nombre}</span>
+          {caravana && (
+            <span style={{ display: "flex", alignItems: "center", gap: 6, marginLeft: 4 }}>
+              <span style={{ color: C.apagado, fontSize: 13, fontWeight: 700 }}>en caravana con</span>
+              {enCaravana.filter((j) => j.id !== jugador.id).map((j) => (
+                <span key={j.id} style={{ opacity: 0.6 }} title={j.nombre}>
+                  <Avatar jugador={j} color={C.bordeVivo} tam={26} borde={2} />
+                </span>
+              ))}
+            </span>
+          )}
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -182,18 +217,21 @@ export default function ReinoPlegado({ alumnoId, guardarSesion }) {
             jugador={jugador}
             jugadores={datos.jugadores}
             progresos={datos.progreso}
+            caravana={enCaravana}
             todoAbierto={datos.todoAbierto}
             onAbrirNivel={(mundo, nivel) => setEnJuego({ mundo, nivel })}
           />
         ) : (
           <Nivel
-            key={`${enJuego.mundo.id}:${enJuego.nivel.id}:${jugador.id}`}
+            key={`${enJuego.mundo.id}:${enJuego.nivel.id}:${caravana ? "caravana" : jugador.id}`}
             mundo={MUNDOS_POR_ID[enJuego.mundo.id]}
             nivel={enJuego.nivel}
             jugador={jugador}
             color={color}
             grados={escalones}
+            caravana={caravana ? { jugadores: enCaravana, turno: caravana.turno } : null}
             alResponder={alResponder}
+            onTurnoCumplido={pasarTurno}
             onTerminar={terminarNivel}
             onSalir={() => setEnJuego(null)}
           />

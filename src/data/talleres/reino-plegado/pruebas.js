@@ -256,6 +256,24 @@ prueba("un mundo sin contenido de un grado sirve el más cercano", () => {
   });
 });
 
+prueba("en caravana, cada portal sale del grado de quien lo abre", () => {
+  // Es la razón de ser del modo: un mismo tablero jugado por niños de grados
+  // distintos, y a cada uno lo suyo. Los acertijos se piden de uno en uno, con
+  // el escalón del jugador en turno y una memoria compartida de lo ya visto.
+  const usados = new Set();
+  const chico = acertijosDeNivel({
+    mundoId: "flatland", grados: { matematicas: 3, espanol: 3 }, cantidad: 1,
+    materia: "matematicas", usados,
+  })[0];
+  const grande = acertijosDeNivel({
+    mundoId: "flatland", grados: { matematicas: 6, espanol: 6 }, cantidad: 1,
+    materia: "matematicas", usados,
+  })[0];
+  afirmar(chico.grado === 3, `al de 3.º le tocó ${chico.grado}.º`);
+  afirmar(grande.grado === 6, `al de 6.º le tocó ${grande.grado}.º`);
+  afirmar(chico.clave !== grande.clave, "la memoria compartida no evitó el repetido");
+});
+
 prueba("todo grado tiene de dónde sacar acertijos en todos los mundos con mapas", () => {
   MUNDOS.filter((m) => m.niveles.length).forEach((m) => {
     GRADOS.forEach((g) => {

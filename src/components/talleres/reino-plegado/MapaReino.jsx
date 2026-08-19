@@ -6,19 +6,24 @@
 // tablet, así que la comparación pasa de todos modos; mejor que pase mirando
 // un mapa y no un marcador de puntos—.
 import { MUNDOS } from "../../../data/talleres/reino-plegado/index.js";
-import { mundoAbierto, nivelAbierto, nivelesTerminados } from "./lib/perfiles.js";
+import { mundoAbierto, nivelAbierto, nivelesTerminados, progresoCombinado } from "./lib/perfiles.js";
 import { Rotulo } from "../comun/ui.jsx";
 import { C, COLORES_JUGADOR, MUNDO_COLOR, TAM } from "./estilo.js";
 import { Avatar } from "./Jugadores.jsx";
 
-export default function MapaReino({ jugador, jugadores, progresos, todoAbierto, onAbrirNivel }) {
-  const progreso = progresos[jugador.id] || {};
+export default function MapaReino({ jugador, jugadores, progresos, caravana, todoAbierto, onAbrirNivel }) {
+  // En caravana el avance que manda es el del grupo: lo que haya terminado
+  // cualquiera de sus miembros cuenta como terminado para todos.
+  const viajeros = caravana?.length ? caravana : null;
+  const progreso = viajeros
+    ? progresoCombinado(progresos, viajeros.map((j) => j.id))
+    : progresos[jugador.id] || {};
 
   return (
     <div>
       <Rotulo color={C.azul}>El mapa del reino</Rotulo>
       <h1 style={{ fontSize: TAM.titulo, fontWeight: 800, margin: "12px 0 6px" }}>
-        ¿A dónde vamos, {jugador.nombre}?
+        {viajeros ? "¿A dónde va la caravana?" : `¿A dónde vamos, ${jugador.nombre}?`}
       </h1>
       <p style={{ color: C.tenue, fontSize: TAM.cuerpo, lineHeight: 1.5, margin: "0 0 26px", maxWidth: "62ch" }}>
         Cada mundo está doblado de otra manera. Empieza por el plano: es el único donde las cosas
@@ -32,9 +37,14 @@ export default function MapaReino({ jugador, jugadores, progresos, todoAbierto, 
           const listo = mundo.niveles.length > 0 && abiertoElMundo;
           const terminados = nivelesTerminados(progreso, mundo.id);
 
-          // Quién anda por este mundo, para pintar sus caras.
-          const habitantes = jugadores
-            .map((j, i) => ({ j, color: COLORES_JUGADOR[i], hechos: nivelesTerminados(progresos[j.id] || {}, mundo.id) }))
+          // Quién anda por este mundo, para pintar sus caras. En caravana solo
+          // se pintan los que van en ella: los demás no vienen a este viaje.
+          const habitantes = (viajeros || jugadores)
+            .map((j) => ({
+              j,
+              color: COLORES_JUGADOR[jugadores.findIndex((x) => x.id === j.id)],
+              hechos: nivelesTerminados(progresos[j.id] || {}, mundo.id),
+            }))
             .filter((h) => h.hechos > 0 || (mundo.numero === 1 && h.hechos === 0));
 
           return (

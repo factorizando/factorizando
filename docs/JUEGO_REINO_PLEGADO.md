@@ -65,9 +65,27 @@ cuando alguien toca el botón.
 
 ## 2. Cómo se juega
 
-- Cada jugador toca su avatar y sigue **su** partida. En el mapa del reino se
-  ven las caras de los seis sobre el mundo donde va cada uno: la competencia se
-  ve sin necesidad de red.
+Dos maneras, las dos por turnos en la misma tablet:
+
+**Solo** — cada jugador toca su avatar y sigue **su** partida. En el mapa del
+reino se ven las caras de los seis sobre el mundo donde va cada uno: la
+competencia se ve sin necesidad de red.
+
+**Caravana** — los seis viajan juntos en un mismo peón por un mismo nivel. El
+que está en turno camina hasta un portal y lo abre; al cerrarlo, acierte o no,
+la tablet pasa al siguiente. Las llaves son del grupo y el nivel queda marcado
+para todos, pero **cada acertijo sale del grado de quien lo abre y se le anota a
+él**: un mismo tablero jugado por seis niños de cuatro grados distintos, y a
+cada uno lo suyo. Al final, marcador de quién abrió cuántos portales y cuántos a
+la primera.
+
+Lo que hace posible ese detalle: en caravana **el acertijo no se genera al
+empezar el nivel sino al abrir el portal**, con el escalón del jugador que lo
+está abriendo. Si uno falla, el portal se queda para el que sigue —con otro
+acertijo, de su propio grado—, que es justo lo que uno quiere que pase en un
+equipo. El orden de los turnos es el orden en que se tocan las caras al armar
+la caravana.
+
 - Dentro de un nivel se camina **por casillas** (tocando la casilla de al lado,
   con la cruceta o con las flechas del teclado). Los portales `◈` guardan un
   acertijo; al resolverlo se gana una llave, y con todas las llaves se abre la
@@ -161,6 +179,8 @@ una tablet proyectada falla seguido y vuelve el ejercicio uno de puntería.
 ## 6. Lo que falta
 
 - **Más niveles**: dos por mundo en el 2, 3 y 4; el primero tiene cinco.
+- Que la caravana pueda **elegir quién abre** cada portal en vez de ir en orden
+  fijo (hoy el turno rota solo).
 - **Mapas conceptuales** como acertijo arrastrable con React Flow; hoy son de
   opción múltiple.
 - **El teselado de verdad** en el mundo 4: hoy su identidad son los pasajes, no

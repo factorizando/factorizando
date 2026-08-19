@@ -124,6 +124,23 @@ export function nivelesTerminados(progreso, mundoId) {
   return Object.values(progreso?.[mundoId] || {}).filter((n) => n.completado).length;
 }
 
+// En caravana el avance es del grupo: un nivel cuenta como hecho si cualquiera
+// de los que van en ella lo terminó. Así nadie se queda atrás por haber faltado
+// un día, y el mapa del reino se ve igual para todos los que viajan juntos.
+export function progresoCombinado(progresos, ids) {
+  const salida = {};
+  ids.forEach((id) => {
+    Object.entries(progresos[id] || {}).forEach(([mundoId, niveles]) => {
+      salida[mundoId] = salida[mundoId] || {};
+      Object.entries(niveles).forEach(([nivelId, dato]) => {
+        const previo = salida[mundoId][nivelId];
+        if (!previo || (dato.mejor || 0) > (previo.mejor || 0)) salida[mundoId][nivelId] = dato;
+      });
+    });
+  });
+  return salida;
+}
+
 // ── Medición ──────────────────────────────────────────────────────────────
 export function medicionDe(jugadorId) {
   return leer().medicion[jugadorId] || {};

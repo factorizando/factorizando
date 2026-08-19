@@ -50,7 +50,12 @@ function temasConRespaldo(mundoId, materia, grado) {
 // El grado puede venir distinto por materia —la escalera sube y baja por
 // separado, porque a un niño puede irle muy bien en cuentas y atorarse en
 // gramática— y entonces cada acertijo sale del escalón de SU materia.
-export function acertijosDeNivel({ mundoId, grado, grados, cantidad }) {
+//
+// `materia` sirve para pedir uno suelto de una materia concreta: es lo que
+// necesita el modo caravana, donde cada portal se genera en el momento en que
+// alguien lo abre y con el grado de ESE jugador, no con el de quien empezó el
+// nivel.
+export function acertijosDeNivel({ mundoId, grado, grados, cantidad, materia: forzada, usados: yaVistos }) {
   const pedido = {
     matematicas: grados?.matematicas ?? grado,
     espanol: grados?.espanol ?? grado,
@@ -60,11 +65,14 @@ export function acertijosDeNivel({ mundoId, grado, grados, cantidad }) {
     espanol: temasConRespaldo(mundoId, "espanol", pedido.espanol),
   };
 
-  const usados = new Set();
+  // El nivel puede traer su propia memoria de lo ya preguntado: en caravana los
+  // acertijos se piden de uno en uno y aun así no deben repetirse.
+  const usados = yaVistos || new Set();
   const salida = [];
   // Se empieza por la materia con más temas disponibles, para que la
   // alternancia no se quede sin de dónde sacar.
-  let materia = fuente.espanol.temas.length > fuente.matematicas.temas.length ? "espanol" : "matematicas";
+  let materia = forzada
+    || (fuente.espanol.temas.length > fuente.matematicas.temas.length ? "espanol" : "matematicas");
 
   for (let i = 0; i < cantidad; i++) {
     const otra = materia === "matematicas" ? "espanol" : "matematicas";

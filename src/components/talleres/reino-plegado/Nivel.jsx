@@ -9,13 +9,25 @@
 // tocar con el dedo en una tablet, y es lo que hará evidentes las costuras de
 // los mundos que vienen —salir por un borde y aparecer por el otro solo se
 // entiende si los pasos se cuentan—.
-import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from "react";
+//
+// **Modo caravana**: los seis viajan en un mismo peón por un mismo nivel. El
+// que está en turno camina hasta un portal y lo abre; al cerrarlo, acierte o
+// no, la tablet pasa al siguiente. Las llaves son del grupo.
+//
+// Lo que hace que valga la pena: el acertijo **no se genera al empezar el nivel
+// sino al abrir el portal**, con el escalón del jugador que lo está abriendo.
+// Así un mismo tablero lo juegan seis niños de cuatro grados distintos y a cada
+// uno le toca lo suyo. Si uno falla, el portal se queda para el que sigue —con
+// otro acertijo, de su propio grado—, que es exactamente lo que uno quiere que
+// pase en un equipo.
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   acertijosDeNivel, buscarCasilla, enlacesDe, letrasDeEnlace, portalesDelMapa,
 } from "../../../data/talleres/reino-plegado/index.js";
 import { sonar } from "../comun/sonido.js";
 import { Boton, Panel, Rotulo } from "../comun/ui.jsx";
-import { C, SUELO, TAM } from "./estilo.js";
+import { C, COLORES_JUGADOR, SUELO, TAM } from "./estilo.js";
+import { Avatar } from "./Jugadores.jsx";
 import { direccionHacia, mover } from "./lib/movimiento.js";
 import Acertijo from "./Acertijo.jsx";
 
@@ -54,7 +66,9 @@ function Costura({ n, lado, vertical, invertida }) {
   );
 }
 
-export default function Nivel({ mundo, nivel, jugador, color, grados, alResponder, onTerminar, onSalir }) {
+export default function Nivel({
+  mundo, nivel, jugador, color, grados, caravana, alResponder, onTurnoCumplido, onTerminar, onSalir,
+}) {
   const inicio = useMemo(() => buscarCasilla(nivel, "@"), [nivel]);
   const salida = useMemo(() => buscarCasilla(nivel, "S"), [nivel]);
   const portales = useMemo(() => portalesDelMapa(nivel), [nivel]);
@@ -64,11 +78,14 @@ export default function Nivel({ mundo, nivel, jugador, color, grados, alResponde
   const letras = useMemo(() => letrasDeEnlace(nivel), [nivel]);
 
   const [pos, setPos] = useState(inicio);
-  // Un acertijo por portal, del grado en que va el jugador ahora mismo.
-  const [tanda, setTanda] = useState(() =>
-    acertijosDeNivel({ mundoId: mundo.id, grados, cantidad: portales.length }));
+  // Los acertijos se van creando al abrir cada portal, no al empezar el nivel:
+  // ver la nota de arriba sobre la caravana.
+  const [tanda, setTanda] = useState({});
+  const usados = useRef(new Set());
   const [resueltos, setResueltos] = useState(() => new Set());
   const [intentados, setIntentados] = useState(() => new Set());
+  // Quién abrió cada portal y si le salió a la primera, para el marcador final.
+  const [marcador, setMarcador] = useState({});
   const [abierto, setAbierto] = useState(null);   // índice del portal abierto
   const [ver3D, setVer3D] = useState(false);
   const [terminado, setTerminado] = useState(null);
@@ -81,6 +98,23 @@ export default function Nivel({ mundo, nivel, jugador, color, grados, alResponde
     [portales]
   );
 
+  // El acertijo se pide en el momento de abrir el portal, con el escalón del
+  // jugador que lo abre. `usados` vive en un ref para no repetir reactivos en
+  // todo el nivel, aunque los pidan seis jugadores distintos.
+  const abrirPortal = useCallback((i) => {
+    setTanda((t) => {
+      if (t[i]) return t;
+      // Se alterna materia por portal para que ningún nivel sea "el de mates".
+      const materia = i % 2 === 0 ? "matematicas" : "espanol";
+      const nuevo = acertijosDeNivel({
+        mundoId: mundo.id, grados, cantidad: 1, materia, usados: usados.current,
+      })[0];
+      if (nuevo) usados.current.add(nuevo.clave);
+      return nuevo ? { ...t, [i]: nuevo } : t;
+    });
+    setAbierto(i);
+  }, [mundo.id, grados]);
+
   const caminar = useCallback((direccion) => {
     if (abierto !== null || terminado) return;
     setPos((actual) => {
@@ -91,14 +125,14 @@ export default function Nivel({ mundo, nivel, jugador, color, grados, alResponde
 
       const i = indiceDePortal(siguiente);
       if (i >= 0 && !resueltos.has(i)) {
-        setAbierto(i);
+        abrirPortal(i);
       } else if (salida && clave(siguiente) === clave(salida) && todas) {
         sonar("fin");
         setTerminado(true);
       }
       return siguiente;
     });
-  }, [abierto, terminado, nivel.mapa, mundo.topologia, enlaces, indiceDePortal, resueltos, salida, todas]);
+  }, [abierto, terminado, nivel.mapa, mundo.topologia, enlaces, indiceDePortal, abrirPortal, resueltos, salida, todas]);
 
   // Teclado: para el maestro que prueba en la laptop. En la tablet se toca.
   useEffect(() => {
@@ -122,22 +156,37 @@ export default function Nivel({ mundo, nivel, jugador, color, grados, alResponde
       setIntentados((s) => new Set(s).add(i));
       alResponder?.(acertijo, acerto);
     }
+
+    // El marcador es por jugador: quién abrió cuántos y cuántos a la primera.
+    setMarcador((m) => {
+      const previo = m[jugador.id] || { abiertos: 0, aPrimera: 0, intentos: 0 };
+      return {
+        ...m,
+        [jugador.id]: {
+          abiertos: previo.abiertos + (acerto ? 1 : 0),
+          aPrimera: previo.aPrimera + (acerto && esPrimero ? 1 : 0),
+          intentos: previo.intentos + 1,
+        },
+      };
+    });
+
     if (acerto) {
       // La llave se gana aunque no haya salido a la primera: fallar no cuesta
       // progreso, solo queda anotado para el maestro.
       setResueltos((s) => new Set(s).add(i));
     } else {
-      // Otro acertijo del mismo tema para el siguiente intento: se vuelve a
-      // pensar, no se memoriza la respuesta.
+      // El portal se queda cerrado y sin acertijo: el que llegue después
+      // —en caravana, el siguiente de la fila— recibe uno nuevo de su grado.
       setTanda((t) => {
-        const nuevos = [...t];
-        const reemplazo = acertijosDeNivel({ mundoId: mundo.id, grados, cantidad: 1 })[0];
-        if (reemplazo) nuevos[i] = reemplazo;
-        return nuevos;
+        const copia = { ...t };
+        delete copia[i];
+        return copia;
       });
       setIntentados((s) => new Set(s).add(`fallo:${i}`));
     }
     setAbierto(null);
+    // Pase la tablet: en caravana el turno cambia con cada portal intentado.
+    if (caravana) onTurnoCumplido?.();
   }
 
   const columnas = nivel.mapa[0].length;
@@ -153,20 +202,49 @@ export default function Nivel({ mundo, nivel, jugador, color, grados, alResponde
   if (terminado) {
     const total = portales.length;
     const limpios = total - [...intentados].filter((k) => String(k).startsWith("fallo:")).length;
+    const equipo = caravana?.jugadores || [];
+
     return (
-      <Panel estilo={{ maxWidth: 620, margin: "30px auto", textAlign: "center" }}>
+      <Panel estilo={{ maxWidth: 660, margin: "30px auto", textAlign: "center" }}>
         <Rotulo color={color}>Nivel terminado</Rotulo>
         <div style={{ fontSize: 54, margin: "14px 0 6px" }}>🏁</div>
         <h2 style={{ margin: "0 0 6px", fontSize: 28, fontWeight: 800, color: C.texto }}>
           {nivel.nombre}
         </h2>
-        <p style={{ color: C.tenue, fontSize: TAM.cuerpo, lineHeight: 1.5, margin: "10px auto 22px", maxWidth: "40ch" }}>
-          Abriste los {total} portales{limpios === total
-            ? " y todos te salieron a la primera."
-            : `, ${limpios} a la primera.`}
+        <p style={{ color: C.tenue, fontSize: TAM.cuerpo, lineHeight: 1.5, margin: "10px auto 22px", maxWidth: "44ch" }}>
+          {caravana
+            ? `Entre todos abrieron los ${total} portales.`
+            : `Abriste los ${total} portales${limpios === total
+              ? " y todos te salieron a la primera."
+              : `, ${limpios} a la primera.`}`}
         </p>
+
+        {/* En caravana el marcador es de cada quien: el nivel se gana en
+            equipo, pero cada portal lo abrió alguien. */}
+        {caravana && (
+          <div style={{ display: "grid", gap: 8, margin: "0 auto 24px", maxWidth: 420, textAlign: "left" }}>
+            {equipo.map((j, k) => {
+              const m = marcador[j.id] || { abiertos: 0, aPrimera: 0 };
+              return (
+                <div key={j.id} style={{
+                  display: "flex", alignItems: "center", gap: 12,
+                  background: C.panel, border: `1px solid ${C.borde}`, borderRadius: 10,
+                  padding: "9px 14px",
+                }}>
+                  <Avatar jugador={j} color={COLORES_JUGADOR[k]} tam={36} borde={2} />
+                  <span style={{ flex: 1, fontWeight: 700, color: C.texto }}>{j.nombre}</span>
+                  <span style={{ color: C.tenue, fontSize: 14.5, fontVariantNumeric: "tabular-nums" }}>
+                    {m.abiertos} {m.abiertos === 1 ? "portal" : "portales"}
+                    {m.abiertos > 0 && ` · ${m.aPrimera} a la primera`}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
         <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-          <Boton color={color} tamano="grande" onClick={() => onTerminar({ aciertos: limpios, total })}>
+          <Boton color={color} tamano="grande" onClick={() => onTerminar({ aciertos: limpios, total, marcador })}>
             Volver al mapa del reino
           </Boton>
         </div>
@@ -197,7 +275,8 @@ export default function Nivel({ mundo, nivel, jugador, color, grados, alResponde
           )}
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-          <span style={{ fontSize: 26, letterSpacing: 2 }}>
+          <span style={{ fontSize: 26, letterSpacing: 2 }}
+            title={caravana ? "Las llaves son del grupo" : undefined}>
             {Array.from({ length: portales.length }, (_, i) => (
               <span key={i} style={{ opacity: resueltos.has(i) ? 1 : 0.25 }}>🔑</span>
             ))}
@@ -210,6 +289,35 @@ export default function Nivel({ mundo, nivel, jugador, color, grados, alResponde
           <Boton variante="fantasma" tamano="chico" onClick={onSalir}>Salir del nivel</Boton>
         </div>
       </div>
+
+      {/* ── De quién es el turno ─────────────────────────────────────── */}
+      {caravana && (
+        <div style={{
+          display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap",
+          background: C.panel, border: `2px solid ${color}`, borderRadius: 14,
+          padding: "12px 18px", marginBottom: 18,
+        }}>
+          <Avatar jugador={jugador} color={color} tam={52} />
+          <div>
+            <Rotulo color={color}>Turno de</Rotulo>
+            <div style={{ fontSize: 24, fontWeight: 800, color: C.texto, marginTop: 2 }}>
+              {jugador.nombre}
+            </div>
+          </div>
+          <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 10 }}>
+            <span style={{ color: C.apagado, fontSize: 13.5, fontWeight: 700 }}>siguen</span>
+            {caravana.jugadores
+              .map((j, k) => ({ j, k }))
+              .filter(({ j }) => j.id !== jugador.id)
+              .slice(0, 5)
+              .map(({ j, k }) => (
+                <div key={j.id} style={{ opacity: 0.55 }} title={j.nombre}>
+                  <Avatar jugador={j} color={COLORES_JUGADOR[k]} tam={34} borde={2} />
+                </div>
+              ))}
+          </div>
+        </div>
+      )}
 
       <div style={{ display: "flex", gap: 24, flexWrap: "wrap", alignItems: "flex-start" }}>
         {/* ── El mapa, con sus costuras alrededor ─────────────────────── */}

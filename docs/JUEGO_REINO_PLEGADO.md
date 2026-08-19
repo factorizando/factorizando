@@ -27,7 +27,19 @@ se mueve el jugador y arrastra consigo los temas que se le parecen.
 Que la división viva en la banda que invierte no es un chiste: es lo que uno
 quiere decir cuando enseña que dividir es multiplicar al revés.
 
-**Estado**: los cuatro mundos jugables (5 + 2 + 2 + 2 niveles).
+**Estado**: los cuatro mundos jugables (5 + 2 + 2 + 2 niveles), **12 portales
+por nivel**.
+
+Los doce no son un número redondo cualquiera: con una caravana de seis, son dos
+turnos para cada quien. En solo, un nivel son doce acertijos —diez o quince
+minutos—; si se quiere más corto, el número de portales es simplemente cuántos
+`?` tiene el mapa.
+
+> **Cuidado con el banco de español**: doce portales consumen seis reactivos de
+> español por nivel, y varias combinaciones de mundo y grado tienen justo seis
+> escritos (La Dona en 3.º, 5.º y 6.º; Escher en 5.º). Alcanzan sin repetir,
+> pero repetir el nivel con el mismo jugador vuelve a sacar los mismos. El banco
+> es hoy el cuello de botella, no el motor.
 
 **La regla que hace que la topología no sea decorado**: en el toro y en la banda,
 cada nivel lleva una pared que lo parte de arriba abajo. En un plano sería un
@@ -178,6 +190,8 @@ una tablet proyectada falla seguido y vuelve el ejercicio uno de puntería.
 
 ## 6. Lo que falta
 
+- **Más reactivos de español**: seis por tema y grado es justo lo que gasta un
+  nivel. Doce daría holgura para repetir niveles sin repetir preguntas.
 - **Más niveles**: dos por mundo en el 2, 3 y 4; el primero tiene cinco.
 - Que la caravana pueda **elegir quién abre** cada portal en vez de ir en orden
   fijo (hoy el turno rota solo).

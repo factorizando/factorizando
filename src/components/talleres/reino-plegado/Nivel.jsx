@@ -191,7 +191,9 @@ export default function Nivel({
 
   const columnas = nivel.mapa[0].length;
   const filas = nivel.mapa.length;
-  const lado = Math.max(30, Math.min(62, Math.round(760 / columnas)));
+  // Con doce portales los mapas crecieron; el tope de 720 px deja sitio para
+  // la cruceta al lado en una tablet en horizontal.
+  const lado = Math.max(28, Math.min(52, Math.round(720 / columnas)));
   // Qué orillas están pegadas en este mundo.
   const costuras = {
     lados: mundo.topologia === "toro" || mundo.topologia === "mobius",
@@ -275,12 +277,30 @@ export default function Nivel({
           )}
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-          <span style={{ fontSize: 26, letterSpacing: 2 }}
-            title={caravana ? "Las llaves son del grupo" : undefined}>
-            {Array.from({ length: portales.length }, (_, i) => (
-              <span key={i} style={{ opacity: resueltos.has(i) ? 1 : 0.25 }}>🔑</span>
-            ))}
-          </span>
+          {/* Con pocos portales se ven las llaves una por una; con doce, la
+              fila se vuelve una tira ilegible y mejor un contador. */}
+          {portales.length <= 6 ? (
+            <span style={{ fontSize: 26, letterSpacing: 2 }}
+              title={caravana ? "Las llaves son del grupo" : undefined}>
+              {Array.from({ length: portales.length }, (_, i) => (
+                <span key={i} style={{ opacity: resueltos.has(i) ? 1 : 0.25 }}>🔑</span>
+              ))}
+            </span>
+          ) : (
+            <span style={{
+              display: "flex", alignItems: "center", gap: 8,
+              background: C.panel, border: `1px solid ${C.borde}`, borderRadius: 999,
+              padding: "6px 14px",
+            }} title={caravana ? "Las llaves son del grupo" : undefined}>
+              <span style={{ fontSize: 22 }}>🔑</span>
+              <span style={{
+                fontSize: 20, fontWeight: 800, color: llaves ? color : C.apagado,
+                fontVariantNumeric: "tabular-nums",
+              }}>
+                {llaves}<span style={{ color: C.apagado, fontSize: 15 }}> / {portales.length}</span>
+              </span>
+            </span>
+          )}
           {mundo.topologia !== "plano" && (
             <Boton variante="neutro" tamano="chico" color={color} onClick={() => setVer3D(true)}>
               Ver el mundo doblado

@@ -13,6 +13,8 @@
 // Los mapas se escriben como dibujos de texto, una cadena por fila:
 //   #  muro        .  piso        @  entrada
 //   ?  portal de acertijo         S  salida
+//   a b c…  pasajes: la misma letra dos veces marca las dos bocas de un pasaje
+//           que las une (mundo 4). Pisar una es salir por la otra.
 //
 // Las pruebas verifican que desde la entrada se llegue a todos los portales y
 // a la salida —recorriendo el mapa con la topología del mundo, no en línea
@@ -220,11 +222,43 @@ export const MUNDOS = [
     descripcion:
       "Mosaicos que llenan el suelo sin dejar huecos y escaleras que no deberían conectarse. " +
       "Áreas, fracciones y las piezas que embonan dentro de una oración.",
+    pista:
+      "Este mundo se ve plano y cerrado, pero tiene pasajes: dos losas del mismo color son la " +
+      "misma losa. Písala en un lado y sales por el otro.",
+    // Partir figuras y comparar fracciones supone camino andado: este mundo se
+    // arma con temas de 5.º y 6.º, y los más chicos reciben acertijos del grado
+    // con contenido más cercano (ver `acertijosDeNivel`).
     temas: {
       matematicas: ["perimetro-area", "circunferencia", "fracciones", "comparar-fracciones", "operaciones-fracciones"],
       espanol: ["sintagmas", "mapas-conceptuales"],
     },
-    niveles: [],
+    niveles: [
+      {
+        id: "e1", nombre: "La escalera imposible",
+        mapa: [
+          "#############",
+          "#@...a#..?..#",
+          "#.....#.....#",
+          "#..?..#.....#",
+          "#.....#..a..#",
+          "#.....#...S.#",
+          "#############",
+        ],
+      },
+      {
+        id: "e2", nombre: "El patio que se muerde",
+        // Tres patios que no se tocan; se cruzan encadenando los dos pasajes.
+        mapa: [
+          "###############",
+          "#@..a#..?..#b.#",
+          "#....#.....#..#",
+          "#.?..#..a..#.?#",
+          "#....#.....#..#",
+          "#....#..b..#.S#",
+          "###############",
+        ],
+      },
+    ],
   },
 ];
 
@@ -246,6 +280,37 @@ export function buscarCasilla(nivel, simbolo) {
     if (c >= 0) return { fila: f, columna: c };
   }
   return null;
+}
+
+// Los pasajes del mundo 4: cada letra aparece dos veces y une esas dos casillas.
+// Se devuelve como mapa de "fila:columna" → la otra boca, que es justo lo que
+// necesita `mover`.
+export function enlacesDe(nivel) {
+  const bocas = {};
+  nivel.mapa.forEach((fila, f) => {
+    fila.split("").forEach((ch, c) => {
+      if (/[a-z]/.test(ch)) (bocas[ch] = bocas[ch] || []).push({ fila: f, columna: c });
+    });
+  });
+  const enlaces = {};
+  Object.values(bocas).forEach((par) => {
+    if (par.length !== 2) return;
+    const [x, y] = par;
+    enlaces[`${x.fila}:${x.columna}`] = y;
+    enlaces[`${y.fila}:${y.columna}`] = x;
+  });
+  return enlaces;
+}
+
+// Qué letra le toca a cada casilla de pasaje, para pintarlas del mismo color.
+export function letrasDeEnlace(nivel) {
+  const letras = {};
+  nivel.mapa.forEach((fila, f) => {
+    fila.split("").forEach((ch, c) => {
+      if (/[a-z]/.test(ch)) letras[`${f}:${c}`] = ch;
+    });
+  });
+  return letras;
 }
 
 export function portalesDelMapa(nivel) {

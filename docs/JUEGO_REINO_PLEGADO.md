@@ -22,14 +22,12 @@ se mueve el jugador y arrastra consigo los temas que se le parecen.
 | 1 · **Flatland** | Un rectángulo y ya: ubicarse | Planos y trayectoria, recta numérica, suma y resta agrupando, multiplicación, perímetro | Clases de palabra, mayúsculas, oraciones completas |
 | 2 · **La Banda** | Sales por un lado y vuelves **de cabeza** | Multiplicación ↔ división, fracción ↔ decimal | Prefijos y sufijos, sentido literal y figurado |
 | 3 · **La Dona** | Sales por un borde y entras por el opuesto: ciclos | Múltiplos y divisores, sucesiones, promedio y moda | Conectores, jerarquizar, interrogativos |
-| 4 · **Escher** | Piezas que embonan | Áreas, circunferencia, fracciones | Sintagmas, mapas conceptuales |
+| 4 · **Escher** | Se ve plano y cerrado, pero tiene **pasajes**: dos losas lejanas son la misma | Áreas, circunferencia, fracciones | Sintagmas, mapas conceptuales |
 
 Que la división viva en la banda que invierte no es un chiste: es lo que uno
 quiere decir cuando enseña que dividir es multiplicar al revés.
 
-**Estado**: mundos 1, 2 y 3 jugables (5 + 2 + 2 niveles). El 4 tiene su
-topología, sus temas y su ficha, pero le faltan los mapas y su mecánica de
-piezas que embonan.
+**Estado**: los cuatro mundos jugables (5 + 2 + 2 + 2 niveles).
 
 **La regla que hace que la topología no sea decorado**: en el toro y en la banda,
 cada nivel lleva una pared que lo parte de arriba abajo. En un plano sería un
@@ -46,6 +44,24 @@ de que nadie lo explique.
 **Los mundos se abren en orden**, como en Mario: cada uno pide llevar la mitad
 del anterior. El maestro puede abrirlos todos desde su panel para enseñar la
 banda el primer día.
+
+### La vista 3D
+
+En los tres mundos doblados hay un botón, **«Ver el mundo doblado»**, que enseña
+*ese mismo nivel, con el jugador donde está parado*, cosido sobre la superficie:
+la dona, la banda, o —en el taller de Escher— el suelo plano con los pasajes
+dibujados como arcos que conectan las dos losas. Se puede girar con el dedo.
+
+Es la pieza que cierra la idea del juego: se juega en la cuadrícula plana,
+que es lo único jugable con el dedo, y la vista 3D explica de un golpe por qué
+salir por la derecha te devuelve por la izquierda.
+
+Cómo está hecho (`Vista3D.jsx`): cada casilla del mapa es un pedazo de la
+superficie, tomando muestras de la parametrización y cosiéndolas como
+triángulos con el color de la casilla. No hay modelos ni texturas: la geometría
+se calcula con la misma fórmula que dobla el mundo, y por eso el dibujo nunca
+puede contradecir al movimiento. Se carga aparte —three.js pesa 700 KB— y solo
+cuando alguien toca el botón.
 
 ## 2. Cómo se juega
 
@@ -108,9 +124,16 @@ src/components/talleres/reino-plegado/
 ## 5. Cómo agregar contenido
 
 **Un nivel**: se dibuja con texto en `mundos.js` (`#` muro, `.` piso, `@`
-entrada, `?` portal, `S` salida). Las pruebas verifican que desde la entrada se
-llegue a todos los portales y a la salida, así que un mapa mal dibujado se
-descubre corriendo `node .../pruebas.js`, no frente a un niño.
+entrada, `?` portal, `S` salida, y en el mundo 4 una letra minúscula repetida
+dos veces marca las dos bocas de un pasaje). Las pruebas verifican que desde la
+entrada se llegue a todos los portales y a la salida **recorriéndolo con la
+topología del mundo**, y en los mundos doblados que *no* se pueda terminar sin
+cruzar una costura. Un mapa mal dibujado se descubre corriendo
+`node .../pruebas.js`, no frente a un niño.
+
+Ojo con los bordes según el mundo: el plano y el taller de Escher van cerrados
+por los cuatro lados; el toro va abierto por los cuatro; la banda, abierta a los
+lados y cerrada arriba y abajo.
 
 **Un acertijo de matemáticas**: un generador nuevo en `acertijos/matematicas.js`
 y su entrada en `GENERADORES`. Recibe el grado y devuelve
@@ -137,13 +160,14 @@ una tablet proyectada falla seguido y vuelve el ejercicio uno de puntería.
 
 ## 6. Lo que falta
 
-- **Mundo 4 (Escher)**: mapas y la mecánica de piezas que embonan. Sus
-  generadores de matemáticas (áreas, fracciones, circunferencia) ya existen.
+- **Más niveles**: dos por mundo en el 2, 3 y 4; el primero tiene cinco.
 - **Mapas conceptuales** como acertijo arrastrable con React Flow; hoy son de
   opción múltiple.
-- **La vista 3D**: jugar la cuadrícula plana y poder ver la misma partida pegada
-  sobre la dona o la banda. Es lo que cierra la idea del juego.
-- Más niveles en los mundos 2 y 3 (hoy dos cada uno).
+- **El teselado de verdad** en el mundo 4: hoy su identidad son los pasajes, no
+  los mosaicos que embonan. Una cuadrícula rómbica (isométrica) sería el
+  siguiente paso.
+- Que la vista 3D se pueda **abrir desde el mapa del reino**, no solo dentro de
+  un nivel.
 
 ## 7. Privacidad
 

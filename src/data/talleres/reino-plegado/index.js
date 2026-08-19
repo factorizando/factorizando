@@ -5,7 +5,10 @@
 // de jugarse, estima en qué grado (3.º a 6.º) va cada jugador: ver `grados.js`,
 // que es la tabla que revisó el maestro, y `lib/medicion.js` en los componentes,
 // que es la escalera que sube y baja de grado.
-import { MUNDOS, MUNDOS_POR_ID, portalesDe, portalesDelMapa, buscarCasilla, casillasDe } from "./mundos.js";
+import {
+  MUNDOS, MUNDOS_POR_ID, portalesDe, portalesDelMapa, buscarCasilla, casillasDe,
+  enlacesDe, letrasDeEnlace,
+} from "./mundos.js";
 import { GRADOS, MATERIAS, TEMAS_JUEGO, temasDe, gradosDe } from "./grados.js";
 import { generarAcertijo, temasDisponibles } from "./acertijos/index.js";
 import { BANCO } from "./acertijos/espanol.js";
@@ -13,6 +16,7 @@ import { GENERADORES } from "./acertijos/matematicas.js";
 
 export {
   MUNDOS, MUNDOS_POR_ID, portalesDe, portalesDelMapa, buscarCasilla, casillasDe,
+  enlacesDe, letrasDeEnlace,
   GRADOS, MATERIAS, TEMAS_JUEGO, temasDe, gradosDe,
   generarAcertijo, BANCO, GENERADORES,
 };
@@ -25,6 +29,21 @@ export function temasDelNivel(mundoId, grado) {
   return temasDisponibles(mundo, grado, temasDe);
 }
 
+// Los temas de un mundo para un grado, con red: si ese mundo no trabaja nada
+// de ese grado —el taller de Escher se arma con temas de 5.º y 6.º— se busca el
+// grado con contenido más cercano, prefiriendo hacia abajo. El acertijo se
+// anota con el grado que de verdad salió, no con el que se pidió: si no, la
+// medición diría que un niño de 3.º domina 5.º.
+function temasConRespaldo(mundoId, materia, grado) {
+  const cercanos = [grado, grado - 1, grado + 1, grado - 2, grado + 2, grado - 3, grado + 3];
+  for (const g of cercanos) {
+    if (g < 3 || g > 6) continue;
+    const temas = temasDelNivel(mundoId, g)[materia];
+    if (temas.length) return { temas, grado: g };
+  }
+  return { temas: [], grado };
+}
+
 // La tanda de acertijos de un nivel: uno por portal, alternando materia para
 // que ningún nivel sea "el de matemáticas" o "el de español".
 //
@@ -32,27 +51,27 @@ export function temasDelNivel(mundoId, grado) {
 // separado, porque a un niño puede irle muy bien en cuentas y atorarse en
 // gramática— y entonces cada acertijo sale del escalón de SU materia.
 export function acertijosDeNivel({ mundoId, grado, grados, cantidad }) {
-  const porMateria = {
+  const pedido = {
     matematicas: grados?.matematicas ?? grado,
     espanol: grados?.espanol ?? grado,
   };
-  const temas = {
-    matematicas: temasDelNivel(mundoId, porMateria.matematicas).matematicas,
-    espanol: temasDelNivel(mundoId, porMateria.espanol).espanol,
+  const fuente = {
+    matematicas: temasConRespaldo(mundoId, "matematicas", pedido.matematicas),
+    espanol: temasConRespaldo(mundoId, "espanol", pedido.espanol),
   };
+
   const usados = new Set();
   const salida = [];
   // Se empieza por la materia con más temas disponibles, para que la
   // alternancia no se quede sin de dónde sacar.
-  let materia = temas.espanol.length > temas.matematicas.length ? "espanol" : "matematicas";
+  let materia = fuente.espanol.temas.length > fuente.matematicas.temas.length ? "espanol" : "matematicas";
 
   for (let i = 0; i < cantidad; i++) {
     const otra = materia === "matematicas" ? "espanol" : "matematicas";
-    const lista = temas[materia].length ? temas[materia] : temas[otra];
-    if (!lista.length) break;
-    const tema = lista[i % lista.length];
-    const materiaDelTema = temas.matematicas.includes(tema) ? "matematicas" : "espanol";
-    const acertijo = generarAcertijo({ tema, grado: porMateria[materiaDelTema], usados });
+    const usar = fuente[materia].temas.length ? materia : otra;
+    const { temas, grado: gradoReal } = fuente[usar];
+    if (!temas.length) break;
+    const acertijo = generarAcertijo({ tema: temas[i % temas.length], grado: gradoReal, usados });
     if (acertijo) {
       usados.add(acertijo.clave);
       salida.push(acertijo);

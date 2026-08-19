@@ -10,7 +10,11 @@
 //           abajo. El mundo de Pac-Man, que es una dona.
 //   mobius  sales por un lado y entras por el otro, pero **de cabeza**: la
 //           fila se invierte. Por eso la banda tiene una sola cara.
-export function mover({ fila, columna }, direccion, { mapa, topologia }) {
+//   escher  el mundo se ve plano y cerrado, pero tiene **pasajes**: dos
+//           casillas lejanas son en realidad la misma. Pisas una y ya estás en
+//           la otra, como quien sube una escalera de Escher y vuelve a salir
+//           donde empezó. Los pasajes vienen en `enlaces`.
+export function mover({ fila, columna }, direccion, { mapa, topologia, enlaces }) {
   const alto = mapa.length;
   const ancho = mapa[0].length;
   const [df, dc] = { arriba: [-1, 0], abajo: [1, 0], izquierda: [0, -1], derecha: [0, 1] }[direccion];
@@ -32,6 +36,12 @@ export function mover({ fila, columna }, direccion, { mapa, topologia }) {
   }
 
   if (mapa[f][c] === "#") return { fila, columna };
+
+  // El pasaje se resuelve al *entrar*: nunca te quedas parado en la boca, sales
+  // por la otra. Así no hay rebote entre las dos mitades del pasaje.
+  const salida = enlaces?.[`${f}:${c}`];
+  if (salida) return { ...salida };
+
   return { fila: f, columna: c };
 }
 

@@ -7,7 +7,10 @@
 // un mapa donde no se pueda llegar a un portal o a la salida, un acertijo cuya
 // respuesta no cuadre, y un nivel que pida acertijos de un tema que nadie
 // escribió.
-import { MUNDOS, GRADOS, portalesDe, portalesDelMapa, buscarCasilla, acertijosDeNivel, temasDelNivel } from "./index.js";
+import {
+  MUNDOS, GRADOS, portalesDe, portalesDelMapa, buscarCasilla, enlacesDe,
+  acertijosDeNivel,
+} from "./index.js";
 import { GENERADORES } from "./acertijos/matematicas.js";
 import { BANCO } from "./acertijos/espanol.js";
 import { TEMAS_JUEGO, temasDe } from "./grados.js";
@@ -30,13 +33,14 @@ console.log("\nEl Reino Plegado\n");
 // del mundo puesta, así que en el toro las orillas se cruzan y en la banda,
 // además, se voltean.
 function alcanzables(nivel, topologia) {
+  const enlaces = topologia === "escher" ? enlacesDe(nivel) : null;
   const inicio = buscarCasilla(nivel, "@");
   const vistos = new Set([`${inicio.fila}:${inicio.columna}`]);
   const cola = [inicio];
   while (cola.length) {
     const p = cola.shift();
     for (const d of ["arriba", "abajo", "izquierda", "derecha"]) {
-      const q = mover(p, d, { mapa: nivel.mapa, topologia });
+      const q = mover(p, d, { mapa: nivel.mapa, topologia, enlaces });
       const k = `${q.fila}:${q.columna}`;
       if (!vistos.has(k)) { vistos.add(k); cola.push(q); }
     }
@@ -47,6 +51,8 @@ function alcanzables(nivel, topologia) {
 const BORDES = {
   // arriba/abajo cerrados, lados cerrados
   plano: { arriba: true, lados: true },
+  // se ve igual de cerrado que el plano; lo que lo dobla son los pasajes
+  escher: { arriba: true, lados: true },
   // los lados son costuras; arriba y abajo siguen siendo pared
   mobius: { arriba: true, lados: false },
   // no hay orillas
@@ -86,8 +92,9 @@ MUNDOS.filter((m) => m.niveles.length).forEach((mundo) => {
 });
 
 prueba("en los mundos doblados hay que cruzar la costura de verdad", () => {
-  // Si un nivel del toro o de la banda se puede terminar caminando como en un
-  // plano, entonces la topología es decorado y el mundo no enseña nada.
+  // Si un nivel del toro, de la banda o del taller de Escher se puede terminar
+  // caminando como en un plano, entonces la topología es decorado y el mundo no
+  // enseña nada.
   MUNDOS.filter((m) => m.niveles.length && m.topologia !== "plano").forEach((mundo) => {
     mundo.niveles.forEach((nivel) => {
       const enElPlano = alcanzables(nivel, "plano");
@@ -223,12 +230,37 @@ MUNDOS.filter((m) => m.niveles.length).forEach((mundo) => {
   });
 });
 
+prueba("los pasajes del mundo 4 vienen de dos en dos", () => {
+  MUNDOS.filter((m) => m.topologia === "escher").forEach((mundo) => {
+    mundo.niveles.forEach((nivel) => {
+      const letras = nivel.mapa.join("").split("").filter((c) => /[a-z]/.test(c));
+      const cuenta = {};
+      letras.forEach((l) => { cuenta[l] = (cuenta[l] || 0) + 1; });
+      Object.entries(cuenta).forEach(([l, n]) => {
+        afirmar(n === 2, `${nivel.id}: el pasaje «${l}» aparece ${n} ${n === 1 ? "vez" : "veces"} y no dos`);
+      });
+      afirmar(Object.keys(enlacesDe(nivel)).length === letras.length,
+        `${nivel.id}: algún pasaje quedó suelto`);
+    });
+  });
+});
+
+prueba("un mundo sin contenido de un grado sirve el más cercano", () => {
+  // El taller de Escher se arma con temas de 5.º y 6.º; un niño de 3.º tiene
+  // que recibir algo, y anotado con el grado que de verdad salió.
+  const tanda = acertijosDeNivel({ mundoId: "escher", grados: { matematicas: 3, espanol: 3 }, cantidad: 4 });
+  afirmar(tanda.length === 4, `se quedó sin acertijos: ${tanda.length}`);
+  tanda.forEach((a) => {
+    afirmar(a.grado >= 4, `sirvió un acertijo de ${a.grado}.º, que este mundo no trabaja`);
+    afirmar(GRADOS.includes(a.grado), "grado fuera de rango");
+  });
+});
+
 prueba("todo grado tiene de dónde sacar acertijos en todos los mundos con mapas", () => {
   MUNDOS.filter((m) => m.niveles.length).forEach((m) => {
     GRADOS.forEach((g) => {
-      const t = temasDelNivel(m.id, g);
-      afirmar(t.matematicas.length + t.espanol.length > 0,
-        `${m.id} dejaría a ${g}.º sin acertijos`);
+      const tanda = acertijosDeNivel({ mundoId: m.id, grados: { matematicas: g, espanol: g }, cantidad: 3 });
+      afirmar(tanda.length === 3, `${m.id} dejaría a ${g}.º sin acertijos`);
     });
   });
 });

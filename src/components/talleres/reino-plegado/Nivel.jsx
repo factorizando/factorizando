@@ -9,13 +9,18 @@
 // tocar con el dedo en una tablet, y es lo que hará evidentes las costuras de
 // los mundos que vienen —salir por un borde y aparecer por el otro solo se
 // entiende si los pasos se cuentan—.
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { acertijosDeNivel, buscarCasilla, portalesDelMapa } from "../../../data/talleres/reino-plegado/index.js";
+import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from "react";
+import {
+  acertijosDeNivel, buscarCasilla, enlacesDe, letrasDeEnlace, portalesDelMapa,
+} from "../../../data/talleres/reino-plegado/index.js";
 import { sonar } from "../comun/sonido.js";
 import { Boton, Panel, Rotulo } from "../comun/ui.jsx";
 import { C, SUELO, TAM } from "./estilo.js";
 import { direccionHacia, mover } from "./lib/movimiento.js";
 import Acertijo from "./Acertijo.jsx";
+
+// three pesa 700 KB: solo baja cuando alguien quiere ver el mundo doblado.
+const Vista3D = lazy(() => import("./Vista3D.jsx"));
 
 const FLECHA = { arriba: "↑", abajo: "↓", izquierda: "←", derecha: "→" };
 const clave = ({ fila, columna }) => `${fila}:${columna}`;
@@ -25,6 +30,10 @@ const clave = ({ fila, columna }) => `${fila}:${columna}`;
 // para *ver* que el mundo está doblado. En la banda de Möbius los colores del
 // lado derecho van al revés que los del izquierdo, y ahí se ve el volteo.
 const tono = (i) => `hsl(${(i * 53) % 360} 68% 58%)`;
+// El color de un pasaje sale de su letra: las dos bocas quedan del mismo color
+// y se reconocen de lejos, que es todo lo que hace falta para entender que son
+// la misma losa.
+const tonoEnlace = (letra) => `hsl(${((letra.charCodeAt(0) - 97) * 71 + 25) % 360} 72% 60%)`;
 
 function Costura({ n, lado, vertical, invertida }) {
   const grosor = 9;
@@ -49,6 +58,10 @@ export default function Nivel({ mundo, nivel, jugador, color, grados, alResponde
   const inicio = useMemo(() => buscarCasilla(nivel, "@"), [nivel]);
   const salida = useMemo(() => buscarCasilla(nivel, "S"), [nivel]);
   const portales = useMemo(() => portalesDelMapa(nivel), [nivel]);
+  // Los pasajes del mundo 4. En los demás mundos no hay ninguno y esto queda
+  // en un objeto vacío.
+  const enlaces = useMemo(() => enlacesDe(nivel), [nivel]);
+  const letras = useMemo(() => letrasDeEnlace(nivel), [nivel]);
 
   const [pos, setPos] = useState(inicio);
   // Un acertijo por portal, del grado en que va el jugador ahora mismo.
@@ -57,6 +70,7 @@ export default function Nivel({ mundo, nivel, jugador, color, grados, alResponde
   const [resueltos, setResueltos] = useState(() => new Set());
   const [intentados, setIntentados] = useState(() => new Set());
   const [abierto, setAbierto] = useState(null);   // índice del portal abierto
+  const [ver3D, setVer3D] = useState(false);
   const [terminado, setTerminado] = useState(null);
 
   const llaves = resueltos.size;
@@ -70,7 +84,9 @@ export default function Nivel({ mundo, nivel, jugador, color, grados, alResponde
   const caminar = useCallback((direccion) => {
     if (abierto !== null || terminado) return;
     setPos((actual) => {
-      const siguiente = mover(actual, direccion, { mapa: nivel.mapa, topologia: mundo.topologia });
+      const siguiente = mover(actual, direccion, {
+        mapa: nivel.mapa, topologia: mundo.topologia, enlaces,
+      });
       if (clave(siguiente) === clave(actual)) return actual;
 
       const i = indiceDePortal(siguiente);
@@ -82,7 +98,7 @@ export default function Nivel({ mundo, nivel, jugador, color, grados, alResponde
       }
       return siguiente;
     });
-  }, [abierto, terminado, nivel.mapa, mundo.topologia, indiceDePortal, resueltos, salida, todas]);
+  }, [abierto, terminado, nivel.mapa, mundo.topologia, enlaces, indiceDePortal, resueltos, salida, todas]);
 
   // Teclado: para el maestro que prueba en la laptop. En la tablet se toca.
   useEffect(() => {
@@ -186,6 +202,11 @@ export default function Nivel({ mundo, nivel, jugador, color, grados, alResponde
               <span key={i} style={{ opacity: resueltos.has(i) ? 1 : 0.25 }}>🔑</span>
             ))}
           </span>
+          {mundo.topologia !== "plano" && (
+            <Boton variante="neutro" tamano="chico" color={color} onClick={() => setVer3D(true)}>
+              Ver el mundo doblado
+            </Boton>
+          )}
           <Boton variante="fantasma" tamano="chico" onClick={onSalir}>Salir del nivel</Boton>
         </div>
       </div>
@@ -211,6 +232,7 @@ export default function Nivel({ mundo, nivel, jugador, color, grados, alResponde
             const iPortal = indiceDePortal({ fila: f, columna: c });
             const portalAbierto = iPortal >= 0 && resueltos.has(iPortal);
             const esSalida = ch === "S";
+            const letraEnlace = letras[`${f}:${c}`];
             const vecina = !!direccionHacia(pos, { fila: f, columna: c }) && !muro;
 
             return (
@@ -224,7 +246,11 @@ export default function Nivel({ mundo, nivel, jugador, color, grados, alResponde
                 }}
                 style={{
                   width: lado, height: lado, border: 0, padding: 0,
-                  background: muro ? SUELO.muro : (f + c) % 2 ? SUELO.piso : SUELO.pisoAlt,
+                  background: muro
+                    ? SUELO.muro
+                    : letraEnlace
+                      ? `${tonoEnlace(letraEnlace)}33`
+                      : (f + c) % 2 ? SUELO.piso : SUELO.pisoAlt,
                   boxShadow: muro ? `inset 0 3px 0 ${SUELO.muroAlto}` : "none",
                   cursor: vecina ? "pointer" : "default",
                   display: "grid", placeItems: "center",
@@ -242,6 +268,8 @@ export default function Nivel({ mundo, nivel, jugador, color, grados, alResponde
                     : <span style={{ fontSize: Math.round(lado * 0.55) }}>🙂</span>
                 ) : iPortal >= 0 ? (
                   <span style={{ opacity: portalAbierto ? 0.3 : 1 }}>{portalAbierto ? "·" : "◈"}</span>
+                ) : letraEnlace ? (
+                  <span style={{ color: tonoEnlace(letraEnlace), fontSize: Math.round(lado * 0.46) }}>◆</span>
                 ) : esSalida ? (
                   <span style={{ opacity: todas ? 1 : 0.35 }}>{todas ? "🚪" : "🔒"}</span>
                 ) : null}
@@ -281,6 +309,23 @@ export default function Nivel({ mundo, nivel, jugador, color, grados, alResponde
 
       {abierto !== null && tanda[abierto] && (
         <Acertijo acertijo={tanda[abierto]} color={color} onResuelto={cerrarAcertijo} />
+      )}
+
+      {ver3D && (
+        <Suspense fallback={
+          <div style={{
+            position: "fixed", inset: 0, background: "#0f1620", zIndex: 60,
+            display: "grid", placeItems: "center", color: C.tenue, fontSize: 16,
+          }}>
+            Doblando el mundo…
+          </div>
+        }>
+          <Vista3D
+            mundo={mundo} nivel={nivel} pos={pos}
+            resueltos={resueltos} portales={portales}
+            onCerrar={() => setVer3D(false)}
+          />
+        </Suspense>
       )}
     </div>
   );

@@ -1,2 +1,0 @@
-import{u as s,a as i,r,s as n,j as t,A as o}from"./index-gAROnWhb.js";function p(){const e=s();return i(),r.useEffect(()=>{n.auth.getSession().then(({data:{session:a}})=>{a&&e("/completar-perfil")})},[e]),t.jsxs("div",{className:"auth-page",children:[t.jsx("style",{children:`.auth-page { min-height: 100vh; min-height: 100dvh; background: var(--app-bg);
-        display: flex; align-items: center; justify-content: center; padding: 24px 16px; }`}),t.jsx(o,{mode:"registro",onSwitchMode:a=>e(a==="registro"?"/registro":"/login")})]})}export{p as default};

@@ -128,9 +128,9 @@ export const MUNDOS = [
     ],
   },
 
-  // Los otros tres mundos ya tienen su topología y sus temas decididos; los
-  // mapas llegan cuando el Mundo 1 esté probado con niños. Aparecen en el mapa
-  // del reino como "en construcción" para que se vea a dónde va la cosa.
+  // Los tres mundos doblados llevan cinco niveles, igual que Flatland. El
+  // primero de cada uno enseña la costura y los que siguen la exigen: no hay
+  // nivel que se pueda terminar caminando como en un plano.
   {
     id: "mobius",
     numero: 2,
@@ -175,6 +175,58 @@ export const MUNDOS = [
             ".......#.........",
             ".?..?..#..?..S...",
             "#################",
+          ],
+      },
+      {
+        id: "m3", nombre: "Arriba es abajo",
+        // Cuatro patios y una sola puerta, la de arriba a la izquierda con la de
+        // abajo. Todo lo demás se cruza por la costura, y al cruzarla la altura se
+        // voltea: el que sale por arriba entra por abajo. La salida está en el patio
+        // que no toca ninguna puerta.
+        mapa: [
+            "###############",
+            ".@..?..#..?...?",
+            ".......#.......",
+            "..?...?#..?...S",
+            "###.###########",
+            "..?...?#..?...?",
+            ".......#.......",
+            ".?.....#....?..",
+            "###############",
+          ],
+      },
+      {
+        id: "m4", nombre: "La orilla angosta",
+        // La costura tiene una sola boca de cada lado, y no están a la misma altura:
+        // se sale por la segunda fila y se entra por la sexta. Es la vuelta de la
+        // banda enseñada en un solo paso.
+        mapa: [
+            "#################",
+            "#.?...?.#.?...?.#",
+            ".@......#.......#",
+            "#.####..#..####.#",
+            "#..?..?.#..?..?.#",
+            "#.####..#..####.#",
+            "#.?.....#.....?..",
+            "#...?...#....?.S#",
+            "#################",
+          ],
+      },
+      {
+        id: "m5", nombre: "La banda entera",
+        // Tres franjas. La de en medio —donde está la salida— no toca la costura: se
+        // llega a ella cruzando primero a la tercera y volviendo por la puerta del
+        // centro. Dar la vuelta a la banda para acabar a dos pasos de donde se empezó.
+        mapa: [
+            "###################",
+            ".@..?.#..?..#.?...?",
+            "......#.....#......",
+            "..?...#..?..#...?..",
+            "......#.....#......",
+            "...?..#.?.......?..",
+            "......#.....#......",
+            ".?....#..S..#....?.",
+            "###################",
           ],
       },
     ],
@@ -227,6 +279,62 @@ export const MUNDOS = [
             "..?..?#..?..S..",
           ],
       },
+      {
+        id: "t3", nombre: "Las tres franjas",
+        // Dos paredes de lado a lado. La de arriba tiene una puerta; la de abajo, no:
+        // a la franja del fondo se llega saliéndose por arriba del mundo. La dona
+        // también se dobla a lo alto, no solo a lo ancho.
+        mapa: [
+            "..?.......?....",
+            ".@.............",
+            "....?.......?..",
+            "#######.#######",
+            "...?.......?...",
+            "......?........",
+            "..?.......?....",
+            "###############",
+            "....?..........",
+            ".......S.......",
+            "..?.......?....",
+          ],
+      },
+      {
+        id: "t4", nombre: "La vuelta doble",
+        // Tres calles separadas por dos muros enteros. La puerta de la calle de en
+        // medio —la de la salida— está en su lado derecho, así que hay que salirse
+        // por la orilla izquierda, aparecer en la tercera calle y entrar por atrás.
+        mapa: [
+            "..?..#..?..#..?..",
+            ".@...#.....#.....",
+            "...?.#..?..#...?.",
+            ".....#.....#.....",
+            "..?..#..S.....?..",
+            ".....#.....#.....",
+            "..?..#..?..#..?..",
+            ".....#.....#.....",
+            "...?.#.....#.....",
+          ],
+      },
+      {
+        id: "t5", nombre: "El corazón de la dona",
+        // Nueve patios en cuadrícula: casi todos se comunican dándole la vuelta al
+        // mundo, por arriba o por un costado. El del centro no toca ninguna orilla y
+        // su única puerta da al patio de abajo, al que a su vez solo se llega saliendo
+        // por el techo. Es el nivel donde conviene pensar la dona entera.
+        mapa: [
+            "..?...#..?..#..?...",
+            ".@..........#......",
+            "....?.#.....#....?.",
+            "##.################",
+            "...?..#.....#..?...",
+            "......#..S..#......",
+            "..?...#.....#....?.",
+            "#########.#########",
+            "....?.#..?..#......",
+            "......#.....#......",
+            "..?...#.....#......",
+          ],
+      },
     ],
   },
   {
@@ -276,6 +384,60 @@ export const MUNDOS = [
             "#..?....#a.?.b#..?#",
             "#.#####.#.###.#...#",
             "#...?.?.#..?..#..S#",
+            "###################",
+          ],
+      },
+      {
+        id: "e3", nombre: "El patio de adentro",
+        // Un cuarto tapiado por los cuatro lados, con la salida dentro. No tiene
+        // puerta: tiene un pasaje. La losa marcada del corredor y la de adentro son la
+        // misma losa.
+        mapa: [
+            "#################",
+            "#@..?....?...?..#",
+            "#..?....?..######",
+            "#.#.#.#.#..#..?.#",
+            "#..?....?..#a..S#",
+            "#.#.#.#.#..#.?..#",
+            "#..?.......######",
+            "#..?..a........?#",
+            "#################",
+          ],
+      },
+      {
+        id: "e4", nombre: "El caracol",
+        // Dos cuartos tapiados, uno dentro del otro en la lógica del taller: el
+        // pasaje del corredor lleva al primero, y el del primero lleva al segundo. Se
+        // entra hacia adentro dos veces sin haber abierto una sola puerta.
+        mapa: [
+            "###################",
+            "#.######..?....?..#",
+            "#.#a.?.#..?.....?.#",
+            "#.#.?.b#.....?....#",
+            "#.######..######..#",
+            "#..?......#b..?#..#",
+            "#....?....#.?.S#..#",
+            "#@.?.a....######..#",
+            "###################",
+          ],
+      },
+      {
+        id: "e5", nombre: "El taller completo",
+        // El mapa está partido en dos mitades que no se tocan, y en la mitad de allá
+        // hay además un cuarto tapiado con la salida. Dos pasajes: uno cruza la
+        // pared y el otro entra al cuarto, y su boca está de este lado. Así que hay
+        // que cruzar, recoger, volver a cruzar y entonces sí entrar.
+        mapa: [
+            "###################",
+            "#@..?...?#..?....?#",
+            "#.#.#.#.##.#.#.#.##",
+            "#..?...a.#..?######",
+            "#.#.#.#.##...#....#",
+            "#...?....#.?.#b..?#",
+            "#.#.#.#.##...#.?.S#",
+            "#..b...?.#...######",
+            "#.#.#.#.##..?...a.#",
+            "#........#........#",
             "###################",
           ],
       },

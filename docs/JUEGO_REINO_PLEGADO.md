@@ -27,8 +27,8 @@ se mueve el jugador y arrastra consigo los temas que se le parecen.
 Que la división viva en la banda que invierte no es un chiste: es lo que uno
 quiere decir cuando enseña que dividir es multiplicar al revés.
 
-**Estado**: los cuatro mundos jugables (5 + 2 + 2 + 2 niveles), **12 portales
-por nivel**.
+**Estado**: los cuatro mundos jugables, **cinco niveles cada uno** (veinte en
+total) y **12 portales por nivel**.
 
 Los doce no son un número redondo cualquiera: con una caravana de seis, son dos
 turnos para cada quien. En solo, un nivel son doce acertijos —diez o quince
@@ -187,9 +187,28 @@ una tablet proyectada falla seguido y vuelve el ejercicio uno de puntería.
 **Un tema nuevo** se agrega antes en `src/data/talleres/temas.js` y luego en
 `grados.js`, que es lo que decide en qué grado se pregunta.
 
+**Cómo están armados los niveles de los mundos doblados.** El primero de cada
+mundo enseña la costura y los cuatro siguientes la exigen, subiendo de vueltas:
+
+- *La Banda*: los patios de arriba están pegados con los de abajo del otro lado
+  (`m3`); la costura se angosta hasta una sola boca por lado, y a distinta
+  altura (`m4`); la salida queda en la franja que no toca ninguna orilla, así
+  que hay que dar la vuelta entera y volver por el centro (`m5`).
+- *La Dona*: la pared de abajo no tiene puerta y a la franja del fondo se llega
+  saliéndose por el techo (`t3`); la puerta de la calle de en medio da al lado
+  de allá, y se entra por atrás (`t4`); nueve patios en cuadrícula con el de la
+  salida en el centro, que no toca ninguna orilla (`t5`).
+- *El Taller*: un cuarto tapiado sin puerta, con la salida dentro, al que solo
+  se entra por un pasaje (`e3`); dos cuartos encadenados, cada pasaje dentro
+  del anterior (`e4`); el mapa partido en dos mitades más un cuarto tapiado,
+  con la boca de su pasaje del *otro* lado, así que hay que cruzar, volver y
+  entonces entrar (`e5`).
+
+Ninguno se puede terminar caminando como en un plano; eso es lo que verifica
+`pruebas.js` y no la vista.
+
 ## 6. Lo que falta
 
-- **Más niveles**: dos por mundo en el 2, 3 y 4; el primero tiene cinco.
 - Que la caravana pueda **elegir quién abre** cada portal en vez de ir en orden
   fijo (hoy el turno rota solo).
 - **Mapas conceptuales** como acertijo arrastrable con React Flow; hoy son de

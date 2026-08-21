@@ -13,6 +13,7 @@ import { TALLER as PRODUCTO } from "./matematicas/producto.js";
 import { TALLER as PIZZAS_CAJAS_VASOS } from "./matematicas/pizzas-cajas-vasos.js";
 import { TALLER as EL_TERRENO } from "./matematicas/el-terreno.js";
 import { TALLER as REINO_PLEGADO } from "./matematicas/reino-plegado.js";
+import { TALLER as SOLIDOS_PLATONICOS } from "./matematicas/solidos-platonicos.js";
 import { TALLER as COMPRENSION } from "./espanol/comprension-lectora.js";
 import { TALLER as DECODIFICACION } from "./espanol/decodificacion.js";
 import { TALLER as CARRERA_MATE } from "./juegos/carrera-autos-matematicas.js";
@@ -21,9 +22,11 @@ import Decodificacion from "../../components/talleres/decodificacion/Decodificac
 import PizzasCajasVasos from "../../components/talleres/pizzas-cajas-vasos/PizzasCajasVasos.jsx";
 import ElTerreno from "../../components/talleres/el-terreno/ElTerreno.jsx";
 import ReinoPlegado from "../../components/talleres/reino-plegado/ReinoPlegado.jsx";
+import SolidosPlatonicos from "../../components/talleres/solidos-platonicos/SolidosPlatonicos.jsx";
 
 export const TALLERES_INDEX = {
   [REINO_PLEGADO.id]: REINO_PLEGADO,
+  [SOLIDOS_PLATONICOS.id]: SOLIDOS_PLATONICOS,
   [PIZZAS_CAJAS_VASOS.id]: PIZZAS_CAJAS_VASOS,
   [EL_TERRENO.id]: EL_TERRENO,
   [PRODUCTO.id]: PRODUCTO,
@@ -41,6 +44,7 @@ export const TALLERES_REACT = {
   "pizzas-cajas-vasos": PizzasCajasVasos,
   "el-terreno": ElTerreno,
   "reino-plegado": ReinoPlegado,
+  "solidos-platonicos": SolidosPlatonicos,
 };
 
 export function buscarTaller(id) {

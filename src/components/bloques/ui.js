@@ -48,3 +48,10 @@ export const columnas = (ancho, reflujo) => ({
 // El bloque que aún no se ha revelado sigue ocupando su sitio —para que la
 // diapositiva no salte al aparecer— pero no se lee.
 export const oculto = { opacity: 0, pointerEvents: "none" };
+
+// Cuántas veces hay que avanzar dentro de una diapositiva antes de pasar a la
+// siguiente. El visor la consulta para saber cuándo cambiar de slide. Vive aquí
+// y no en Lienzo.jsx porque ese archivo solo exporta componentes.
+export function revelablesDe(slide) {
+  return (slide?.bloques || []).filter((b) => b.revelar).length;
+}

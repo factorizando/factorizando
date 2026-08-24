@@ -184,6 +184,17 @@ const ACENTOS = {
   historia:    "#e8b34d", // --fx-amber
 };
 
+// Los mismos siete acentos en su versión de tema claro (`:root` de fx.css).
+const ACENTOS_CLARO = {
+  matematicas: "#0056d2",
+  espanol:     "#a15c93",
+  fisica:      "#6c63b5",
+  biologia:    "#4f9377",
+  quimica:     "#de6e55",
+  geografia:   "#2f8c9e",
+  historia:    "#d2942e",
+};
+
 // Superficies, texto y tipografía: el bloque `.fx-oscuro` de fx.css, uno solo
 // para las siete materias. El fondo no es negro puro a propósito: en videollamada
 // el texto claro sobre casi negro se rompe al comprimirse.
@@ -199,6 +210,11 @@ const BASE = {
   sub:    "#5e7085",
   verde:  "#4ade80",
   rojo:   "#f87171",
+};
+
+// Lo que no cambia entre esquemas: las cuatro familias, iguales para las siete
+// materias y para los dos temas.
+const TIPOGRAFIA = {
   mono:    "'IBM Plex Mono', ui-monospace, monospace",
   body:    "'Figtree', system-ui, sans-serif",
   titulo:  "'Sora', system-ui, sans-serif",
@@ -209,6 +225,32 @@ const BASE = {
     "&family=IBM+Plex+Mono:wght@400;500;600" +
     "&family=STIX+Two+Text:ital,wght@0,400;0,500;1,400;1,500",
 };
+
+// Las superficies del tema claro, del `:root` de fx.css.
+const BASE_CLARO = {
+  bg:     "#f7f9fc",
+  card:   "#ffffff",
+  card2:  "#eff3f9",
+  border: "#e3e9f2",
+  borderFuerte: "#cdd8e6",
+  texto:  "#0a2540",
+  cuerpo: "#33475b",
+  muted:  "#5a6b7f",
+  sub:    "#8e9aa8",
+  verde:  "#2f7d53",
+  rojo:   "#b23b32",
+};
+
+// Los canales de dibujo están elegidos para fondo oscuro: sobre blanco, varios
+// —el verde claro de biología, el lima de geografía— desaparecen. Se oscurecen
+// mezclándolos hacia el azul de título. Es una aproximación deliberada: el
+// arreglo de verdad es la fase 4D, que los pasa a valor y trazo en vez de matiz.
+function haciaOscuro(hex, t = 0.42) {
+  const n = parseInt(hex.slice(1), 16);
+  const d = parseInt("0a2540", 16);
+  const mez = (desp) => Math.round(((n >> desp) & 255) * (1 - t) + ((d >> desp) & 255) * t);
+  return `#${[16, 8, 0].map((x) => mez(x).toString(16).padStart(2, "0")).join("")}`;
+}
 
 // Las cinco opacidades del acento se calculan; antes se tecleaban una por una
 // en cada paleta, que es como acababan discrepando entre materias.
@@ -221,18 +263,24 @@ function conAlfa(hex, alfa) {
 // de un dibujo. No son marca, y por eso se conservan tal cual estaban: los usan
 // 215 archivos. Pasarlos al criterio de «valor y trazo, no matiz» de
 // docs/DISENO.md §2.1 es la fase 4D del plan de migración.
-function crearTema(id, DecoSVG, canales) {
-  const acento = ACENTOS[id];
+function crearTema(id, DecoSVG, canales, esquema = "oscuro") {
+  const claro = esquema === "claro";
+  const acento = (claro ? ACENTOS_CLARO : ACENTOS)[id];
+  const canalesDelEsquema = claro
+    ? Object.fromEntries(Object.entries(canales).map(([k, v]) => [k, v.startsWith("#") ? haciaOscuro(v) : v]))
+    : canales;
   return {
     id,
+    esquema,
     acento,
     acentoSuave:  conAlfa(acento, 0.07),
     acentoMed:    conAlfa(acento, 0.11),
     acentoBorde:  conAlfa(acento, 0.28),
     acentoFuerte: conAlfa(acento, 0.4),
     acentoOpaco:  conAlfa(acento, 0.28),
-    ...canales,
-    ...BASE,
+    ...canalesDelEsquema,
+    ...(claro ? BASE_CLARO : BASE),
+    ...TIPOGRAFIA,
     DecoSVG,
   };
 }
@@ -261,6 +309,32 @@ export const TEMAS = {
   }),
 };
 
+// El mismo catálogo en claro. Se usa cuando el visor lo pide: en un salón con luz
+// o en un teléfono a pleno sol, el oscuro pierde.
+export const TEMAS_CLARO = {
+  matematicas: crearTema("matematicas", TriangulosSVG, {
+    azul: "#3b9eff", azulSuave: "rgba(59,158,255,0.07)", azulMed: "rgba(59,158,255,0.10)", azulBorde: "rgba(59,158,255,0.20)", azulTexto: "#b0c8f0",
+  }, "claro"),
+  espanol: crearTema("espanol", LibroSVG, {
+    azul: "#8aaaf7", azulSuave: "rgba(138,170,247,0.07)", azulMed: "rgba(138,170,247,0.10)", azulBorde: "rgba(138,170,247,0.22)", azulTexto: "#c0d0f8",
+  }, "claro"),
+  fisica: crearTema("fisica", OndaSVG, {
+    azul: "#818cf8", azulSuave: "rgba(129,140,248,0.07)", azulMed: "rgba(129,140,248,0.10)", azulBorde: "rgba(129,140,248,0.22)", azulTexto: "#c7d2fe",
+  }, "claro"),
+  biologia: crearTema("biologia", HeliceSVG, {
+    azul: "#86efac", azulSuave: "rgba(134,239,172,0.06)", azulMed: "rgba(134,239,172,0.10)", azulBorde: "rgba(134,239,172,0.20)", azulTexto: "#bbf7d0",
+  }, "claro"),
+  quimica: crearTema("quimica", MoleculaSVG, {
+    azul: "#f472b6", azulSuave: "rgba(244,114,182,0.06)", azulMed: "rgba(244,114,182,0.10)", azulBorde: "rgba(244,114,182,0.22)", azulTexto: "#f9c0df",
+  }, "claro"),
+  geografia: crearTema("geografia", BrujulaSVG, {
+    azul: "#a3e635", azulSuave: "rgba(163,230,53,0.06)", azulMed: "rgba(163,230,53,0.10)", azulBorde: "rgba(163,230,53,0.20)", azulTexto: "#d9f99d",
+  }, "claro"),
+  historia: crearTema("historia", ColumnasSVG, {
+    azul: "#fbbf24", azulSuave: "rgba(251,191,36,0.06)", azulMed: "rgba(251,191,36,0.10)", azulBorde: "rgba(251,191,36,0.22)", azulTexto: "#fde68a",
+  }, "claro"),
+};
+
 // ── Mapa materia → tema (1:1, sin subtemas) ───────────────────────────────────
 
 const MATERIA_A_TEMA = {
@@ -276,9 +350,9 @@ const MATERIA_A_TEMA = {
   "Historia":               "historia",
 };
 
-export function obtenerTema(materia) {
+export function obtenerTema(materia, esquema = "oscuro") {
   const key = MATERIA_A_TEMA[materia] || "matematicas";
-  return TEMAS[key];
+  return (esquema === "claro" ? TEMAS_CLARO : TEMAS)[key];
 }
 
 // ── Hook para cargar las fuentes del tema ─────────────────────────────────────

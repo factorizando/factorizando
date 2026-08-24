@@ -5,8 +5,7 @@
 // se verá en una clase. Sirve para dos cosas —revisar un bloque nuevo sin montar
 // una presentación, y comparar acentos entre materias sin cambiar de archivo—.
 import { useState } from "react";
-import { TEMAS } from "../data/presentaciones/temas.jsx";
-import { useFuentesTema } from "../data/presentaciones/temas.jsx";
+import { TEMAS, TEMAS_CLARO, useFuentesTema } from "../data/presentaciones/temas.jsx";
 import Lienzo from "../components/bloques/Lienzo.jsx";
 
 const MATERIAS = ["matematicas", "espanol", "fisica", "biologia", "quimica", "geografia", "historia"];
@@ -30,11 +29,11 @@ const SLIDES = [
         ],
       },
       {
-        tipo: "par", ancho: 5, etiqueta: "Diptongo vs. hiato — decide la tonicidad",
+        tipo: "par", ancho: 5, revelar: true, etiqueta: "Diptongo vs. hiato — decide la tonicidad",
         asi_es: "Se separa bue-no, dos sílabas: la u es átona.",
         asi_no: "No", tachado: "bu-e-no",
       },
-      { tipo: "nota", ancho: 5, texto: "Cuando una palabra trae h entre vocales, silabéala como si la h no existiera." },
+      { tipo: "nota", ancho: 5, revelar: true, texto: "Cuando una palabra trae h entre vocales, silabéala como si la h no existiera." },
     ],
   },
   {
@@ -120,9 +119,13 @@ const SLIDES = [
 
 export default function PreviewBloques() {
   const [materia, setMateria] = useState("espanol");
+  const [esquema, setEsquema] = useState("oscuro");
   const [idx, setIdx] = useState(0);
   const [respuesta, setRespuesta] = useState(null);
-  const tema = TEMAS[materia];
+  // Revelado: -1 = todo oculto. La barra de abajo lo mueve a mano para poder ver
+  // cómo aparece cada bloque sin tener que montar una presentación.
+  const [revelados, setRevelados] = useState(9);
+  const tema = (esquema === "claro" ? TEMAS_CLARO : TEMAS)[materia];
   useFuentesTema(tema);
 
   const slide = { tipo: "lienzo", ...SLIDES[idx] };
@@ -147,18 +150,25 @@ export default function PreviewBloques() {
             {i + 1}
           </button>
         ))}
+        <span style={{ width: 20 }} />
+        <button type="button" onClick={() => setEsquema((e) => (e === "oscuro" ? "claro" : "oscuro"))} style={boton(esquema === "claro")}>
+          {esquema === "oscuro" ? "tema claro" : "tema oscuro"}
+        </button>
+        <button type="button" onClick={() => setRevelados((r) => (r >= 9 ? -1 : r + 1))} style={boton(revelados < 9)}>
+          revelar {revelados < 9 ? `(${revelados + 1})` : "· reiniciar"}
+        </button>
         <span style={{ marginLeft: "auto", fontFamily: tema.mono, fontSize: 10, color: tema.sub }}>
           {SLIDES[idx].etiqueta}
         </span>
       </div>
       <div style={{ flex: 1, minHeight: 0 }}>
-        <SlideDeBloques slide={slide} tema={tema} respuesta={respuesta} setRespuesta={setRespuesta} />
+        <SlideDeBloques slide={slide} tema={tema} respuesta={respuesta} setRespuesta={setRespuesta} revelados={revelados} />
       </div>
     </div>
   );
 }
 
-function SlideDeBloques({ slide, tema, respuesta, setRespuesta }) {
+function SlideDeBloques({ slide, tema, respuesta, setRespuesta, revelados }) {
   // Los votos del sondeo son de ejemplo: el bloque los recibe por props igual que
   // en el modo director, así que aquí se pasan a mano.
   const sondeo = (slide.bloques || []).find((b) => b.tipo === "sondeo");
@@ -171,6 +181,7 @@ function SlideDeBloques({ slide, tema, respuesta, setRespuesta }) {
       onResponder={setRespuesta}
       votos={sondeo?.votos}
       totalVotos={sondeo?.votos?.reduce((a, b) => a + b, 0)}
+      revelados={revelados}
     />
   );
 }

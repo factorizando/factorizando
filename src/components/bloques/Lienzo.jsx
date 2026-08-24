@@ -32,15 +32,17 @@ function useEscala(ref, activo) {
   return escala;
 }
 
-function Bloque({ bloque, tema, reflujo, contexto, indice, revelados }) {
+function Bloque({ bloque, tema, reflujo, contexto, orden, revelados }) {
   const Componente = BLOQUES[bloque.tipo];
   if (!Componente) {
     if (import.meta.env.DEV) console.warn(`[lienzo] bloque sin registrar: "${bloque.tipo}"`);
     return null;
   }
   // `revelar` oculta el bloque hasta que el profesor avanza. Sin esto el alumno
-  // lee la respuesta antes de que se le pregunte.
-  const escondido = bloque.revelar && indice > revelados;
+  // lee la respuesta antes de que se le pregunte. `orden` es su posición entre
+  // los bloques que se revelan, no entre todos: intercalar un bloque normal no
+  // debe descolocar la cuenta.
+  const escondido = bloque.revelar && orden > revelados;
   return (
     <div style={{ ...columnas(bloque.ancho, reflujo), ...(escondido ? oculto : null), transition: "opacity 0.25s ease" }}>
       <Componente bloque={bloque} tema={tema} reflujo={reflujo} {...contexto} />
@@ -74,9 +76,31 @@ export default function Lienzo({ slide, tema, modo, respuestaDada, onResponder, 
           {slide.titulo && <h2 style={estiloTitulo(tema, reflujo ? 21 : 34)}>{slide.titulo}</h2>}
         </div>
       )}
-      {(slide.bloques || []).map((b, i) => (
-        <Bloque key={i} bloque={b} tema={tema} reflujo={reflujo} contexto={contexto} indice={i} revelados={revelados} />
-      ))}
+      {(() => {
+        let orden = -1;
+        return (slide.bloques || []).map((b, i) => {
+          if (b.revelar) orden += 1;
+          return (
+            <Bloque key={i} bloque={b} tema={tema} reflujo={reflujo}
+              contexto={contexto} orden={orden} revelados={revelados} />
+          );
+        });
+      })()}
+
+      {/* El guion del profesor. Solo en modo director: es lo que dice en voz alta
+          mientras el grupo mira la diapositiva, así que el alumno no debe verlo. */}
+      {modo === "director" && slide.notas && (
+        <div style={{
+          gridColumn: "1 / -1", marginTop: "auto",
+          borderTop: `1px dashed ${tema.borderFuerte}`, paddingTop: 12,
+          display: "flex", gap: 12, alignItems: "flex-start",
+        }}>
+          <span style={{ fontFamily: tema.mono, fontSize: 10, letterSpacing: "0.16em", textTransform: "uppercase", color: tema.sub, flexShrink: 0, marginTop: 2 }}>
+            Guion
+          </span>
+          <span style={{ fontSize: 14, lineHeight: 1.55, color: tema.muted }}>{slide.notas}</span>
+        </div>
+      )}
     </>
   );
 

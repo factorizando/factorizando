@@ -323,7 +323,7 @@ el resto del design system.
 
 ---
 
-## Fase 4B — Renderizador de bloques 🟡 *(24 ago 2026 — falta el chrome del visor)*
+## Fase 4B — Renderizador de bloques ✅ *(24 ago 2026)*
 
 - [x] `tipo: "lienzo"` en `SlideRenderer`, conviviendo con los doce tipos cocidos.
 - [x] **21 bloques** en `src/components/bloques/`, agrupados por familia y resueltos por
@@ -338,12 +338,30 @@ el resto del design system.
       `interactivo` resolviendo por `INTERACTIVOS` — la antigua fase 5.
 - [x] `revelar` por bloque: implementado en `Lienzo` (el bloque oculto **conserva su
       sitio** para que la diapositiva no salte al aparecer).
-- [ ] Conectar `revelar` a la navegación del visor. Hoy el `Lienzo` lo acepta por prop,
-      pero `PresentacionVer` no lo va incrementando.
-- [ ] `notas` de profesor, visibles solo en modo director.
-- [ ] Selector de tema claro/oscuro. Necesita antes el bloque claro en `temas.jsx`:
-      hoy solo existe el oscuro.
-- [ ] Sustituir el riel de puntos por un deslizador pasadas 20 diapositivas.
+- [x] `revelar` conectado a la navegación: dentro de un lienzo con bloques ocultos,
+      avanzar descubre el siguiente antes de pasar de diapositiva. AvPág/RePág siguen
+      saltando de diapositiva directo, que es lo que hace el apuntador, y saltar desde
+      el deslizador muestra la diapositiva entera.
+- [x] `notas` de profesor: al pie del lienzo y **solo en modo director**.
+- [x] Tema claro (`TEMAS_CLARO`) y selector en la barra, con la preferencia guardada.
+- [x] Deslizador en lugar del riel de puntos pasadas 20 diapositivas: barra arrastrable
+      con marcas en los ejercicios y el nombre de la diapositiva actual.
+
+### El selector de tema está condicionado, y por qué
+
+Solo aparece si **todas** las diapositivas son de tipo `lienzo`. Los doce tipos antiguos
+llevan **61 negros y blancos translúcidos cocidos**, así que en claro una tabla se ve con
+fondo oscuro sobre papel blanco. Tokenizarlos sería invertir en el código que la fase 4C
+sustituye, y verificarlo pediría revisar 12 tipos × 65 presentaciones.
+
+Los bloques nuevos no escriben ni un hex —se comprobó: cero `rgba(...)` literales en
+`src/components/bloques/`—, así que en cuanto una presentación se migra en la 4C, el
+botón aparece solo. Hoy no lo ve nadie, que es lo correcto: es mejor que falte a que
+funcione a medias.
+
+Aviso sobre el claro: los canales de dibujo de los diagramas están elegidos para fondo
+oscuro, y en claro se oscurecen mezclándolos hacia el azul de título. Es una aproximación
+deliberada; el arreglo de verdad es la fase 4D.
 
 ### Tres decisiones sobre el catálogo
 

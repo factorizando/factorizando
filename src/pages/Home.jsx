@@ -81,8 +81,11 @@ export default function Home() {
 
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
       <section className="fx-sec fx-hero">
+        {/* El badge es hijo directo del grid, no de la columna de texto: así ocupa
+            su propia fila y la ilustración puede compartir fila con el titular. */}
+        <span className="fx-badge">Simulacros por convocatoria · EXANI-I, EXANI-II, UNAM</span>
+
         <div className="fx-hero-texto">
-          <span className="fx-badge">Simulacros por convocatoria · EXANI-I, EXANI-II, UNAM</span>
           <h1 className="fx-h1">
             Factoriza hasta que cada parte tenga sentido. Reagrupa hasta que aparezca algo nuevo.
           </h1>
@@ -502,14 +505,30 @@ function ArbolFactores() {
 
 const CSS = `
 /* HERO */
-.fx-hero { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-  gap: clamp(32px, 5vw, 72px); align-items: center;
+.fx-hero { display: grid; grid-template-columns: minmax(0, 1fr);
+  column-gap: clamp(32px, 5vw, 72px); row-gap: 24px; align-items: start;
   padding-top: clamp(48px, 7vw, 96px); padding-bottom: clamp(40px, 5vw, 72px); }
-.fx-hero-texto { display: flex; flex-direction: column; gap: 24px; max-width: 560px; }
+.fx-hero-texto { display: flex; flex-direction: column; gap: 24px; max-width: 640px; }
+/* Dos columnas a partir de 830px, explícitas y no por auto-fit: el umbral es el
+   único sitio donde se decide, y las proporciones dejan de depender de a qué
+   ancho encajan dos mínimos de 360px.
+   El texto pide más aire que la ilustración porque el titular lleva dos tiempos:
+   a 558px se partía en cinco renglones y empujaba el botón fuera de pantalla en
+   una laptop de 768px de alto.
+   La colocación por filas es lo que alinea el árbol con el TITULAR y no con el
+   badge —es su metáfora gráfica, no su decoración—, y lo hace sin ningún número
+   mágico: el badge tiene su propia fila, y titular e ilustración comparten la
+   siguiente. Así sigue cuadrando aunque el badge se parta en dos líneas. */
+@media (min-width: 830px) {
+  .fx-hero { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); }
+  .fx-badge { grid-column: 1; grid-row: 1; }
+  .fx-hero-texto { grid-column: 1; grid-row: 2; }
+  .fx-hero-visual { grid-column: 2; grid-row: 2; }
+}
 .fx-badge { font-family: var(--fx-font-mono); font-size: var(--fx-caption-size); letter-spacing: 0.12em;
   text-transform: uppercase; color: var(--fx-primary-600); background: var(--fx-primary-50);
   border: 1px solid var(--fx-primary-100); padding: 7px 12px; border-radius: var(--fx-radius-pill);
-  align-self: flex-start; }
+  align-self: flex-start; justify-self: start; }
 .fx-hero-botones { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; padding-top: 4px; }
 .fx-stats { display: flex; gap: clamp(20px, 4vw, 44px); flex-wrap: wrap;
   border-top: 1px solid var(--fx-border); margin-top: 12px; padding-top: 24px; }

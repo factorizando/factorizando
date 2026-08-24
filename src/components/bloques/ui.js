@@ -41,8 +41,13 @@ export const titulo = (tema, size = 34) => ({
 
 // Rejilla de 12 columnas. Un bloque declara `ancho` en doceavos; sin `ancho`
 // ocupa la fila entera. Por debajo del umbral de reflujo todo pasa a una columna.
-export const columnas = (ancho, reflujo) => ({
+//
+// `alto` son filas: sirve para que un bloque alto —una tabla de seis filas— deje
+// sitio a dos bloques apilados a su derecha. Sin él, la rejilla coloca por filas
+// y el segundo bloque de 5 se iría debajo de la tabla en vez de al lado.
+export const columnas = (ancho, alto, reflujo) => ({
   gridColumn: reflujo ? "1 / -1" : `span ${Math.min(12, Math.max(1, ancho || 12))}`,
+  ...(alto && !reflujo ? { gridRow: `span ${alto}` } : null),
 });
 
 // El bloque que aún no se ha revelado sigue ocupando su sitio —para que la

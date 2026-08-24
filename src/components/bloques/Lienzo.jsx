@@ -44,7 +44,7 @@ function Bloque({ bloque, tema, reflujo, contexto, orden, revelados }) {
   // debe descolocar la cuenta.
   const escondido = bloque.revelar && orden > revelados;
   return (
-    <div style={{ ...columnas(bloque.ancho, reflujo), ...(escondido ? oculto : null), transition: "opacity 0.25s ease" }}>
+    <div style={{ ...columnas(bloque.ancho, bloque.alto, reflujo), ...(escondido ? oculto : null), transition: "opacity 0.25s ease" }}>
       <Componente bloque={bloque} tema={tema} reflujo={reflujo} {...contexto} />
     </div>
   );

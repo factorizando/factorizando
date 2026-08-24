@@ -2570,19 +2570,20 @@ export default function SlideRenderer({
   onResaltar = null,
   expandidos = null,
   onExpandir = null,
+  revelados = Infinity,
 }) {
   useKaTeX();
   useFuentesTema(tema);
   useScrollResaltadoIntoView(resaltadoIdx, slide?.id);
 
-  const props = { slide, tema, modo, votos, votantes, perfiles, totalVotos, respuestaDada, onResponder, resaltadoIdx, onResaltar, expandidos, onExpandir };
+  const props = { slide, tema, modo, votos, votantes, perfiles, totalVotos, respuestaDada, onResponder, resaltadoIdx, onResaltar, expandidos, onExpandir, revelados };
 
   switch (slide.tipo) {
     // El tipo componible: encabezado y bloques sobre una rejilla de 12 columnas.
     // Convive con los doce tipos de abajo, que tienen la maquetación cocida; la
     // fase 4C del plan los va migrando y este acabará siendo el único.
     case "lienzo":
-      return <Lienzo {...props} revelados={props.revelados} />;
+      return <Lienzo {...props} />;
     case "portada":
       return <SlidePortada {...props} />;
     case "definicion":

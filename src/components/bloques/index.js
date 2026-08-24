@@ -14,8 +14,10 @@ import { Tabla, CuadroSemantico, Columnas, Secuencia, LineaTiempo } from "./dato
 import { Pasos, Cierre } from "./pasos.jsx";
 import { Figura, Interactivo, Video } from "./visual.jsx";
 import { Pregunta, Sondeo } from "./evaluacion.jsx";
+import { Portada } from "./portada.jsx";
 
 export const BLOQUES = {
+  portada: Portada,
   // Prosa
   destacado: Destacado,
   texto: Texto,

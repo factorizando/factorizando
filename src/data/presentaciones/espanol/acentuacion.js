@@ -10,10 +10,17 @@ export const PRESENTACION = {
     // ── Portada ──────────────────────────────────────────────────────────────
     {
       id: 0,
-      tipo: "portada",
-      titulo: "Acentuación",
-      subtitulo: "Las 12 reglas esenciales para el EXANI-I",
-      etiqueta: "Español · Ortografía",
+      tipo: "lienzo",
+      notas: "Arranca preguntando quién sabe qué es una sílaba tónica. Casi nadie lo dirá con esas palabras, y ese es el punto: lo hacen bien al hablar y no saben nombrarlo.",
+      bloques: [
+        {
+          tipo: "portada",
+          kicker: "Español · Ortografía",
+          titulo: "Acentuación",
+          subtitulo: "Las 12 reglas esenciales para el EXANI-I",
+          meta: ["Preparatoria", "EXANI-I", "58 diapositivas"],
+        },
+      ],
     },
 
     // ── Resumen visual completo de tildes ─────────────────────────────────────
@@ -27,106 +34,109 @@ export const PRESENTACION = {
     // ── Intro 1: Cómo silabear ────────────────────────────────────────────────
     {
       id: 49,
-      tipo: "regla_rica",
+      tipo: "lienzo",
       etiqueta: "Introducción · Silabeo",
       titulo: "Cómo dividir una palabra en sílabas",
+      notas: "La tabla se lee entera antes de pasar al contraste. Los dos bloques de la derecha están ocultos: revélalos después de que alguien intente silabear «bueno» en voz alta.",
       bloques: [
         {
-          tipo: "texto",
+          tipo: "destacado",
           texto:
-            "La sílaba es la unidad mínima de pronunciación: cada una contiene al menos una vocal. Silabear correctamente es el paso previo a clasificar una palabra y aplicar cualquier regla de acentuación. Seis reglas cubren la mayoría de los casos del español.",
+            "La sílaba es la unidad mínima de pronunciación: cada una contiene al menos una vocal. Silabear correctamente es el paso previo a clasificar una palabra y aplicar cualquier regla de acentuación.",
         },
         {
           tipo: "tabla",
+          ancho: 7,
+          alto: 2,
           titulo: "Reglas de silabeo",
           columnas: ["Situación", "Regla", "Ejemplos"],
+          anchos: ["44%", "30%", null],
           filas: [
-            {
-              tiempo: "1 consonante entre vocales",
-              correcto: "Va con la sílaba siguiente",
-              error: "ma-no · ca-sa · li-bro · pa-lo",
-            },
-            {
-              tiempo: "2 consonantes entre vocales",
-              correcto: "Se separan (una para cada lado)",
-              error: "car-ta · es-ta · per-so-na · tam-bién",
-            },
-            {
-              tiempo:
-                "Grupos inseparables (pr br tr dr fr gr cr pl bl fl gl cl)",
-              correcto: "Van juntos con la vocal siguiente",
-              error: "pa-dre · o-bra · a-gua · re-fres-co · a-brir",
-            },
-            {
-              tiempo: "rr · ll · ch (fonema único)",
-              correcto: "Nunca se separan",
-              error: "pe-rro · ca-lle · mu-cho · ha-cha",
-            },
-            {
-              tiempo: "Diptongo (cerrada átona + abierta)",
-              correcto: "Una sola sílaba",
-              error: "ai-re · bue-no · viu-da · cau-sa",
-            },
-            {
-              tiempo: "Hiato (cerrada tónica + vocal)",
-              correcto: "Sílabas separadas; tilde en la cerrada",
-              error: "pa-ís · Ma-rí-a · ba-úl · pro-hí-be",
-            },
+            ["Una consonante entre vocales", "Va con la sílaba siguiente", "ma-no · li-bro"],
+            ["Dos consonantes entre vocales", "Se separan, una a cada lado", "car-ta · per-so-na"],
+            ["Grupos inseparables (pr, tr, bl, cl…)", "Van juntos con la vocal siguiente", "pa-dre · a-brir"],
+            ["rr · ll · ch (fonema único)", "Nunca se separan", "pe-rro · ha-cha"],
+            ["Diptongo: cerrada átona + abierta", "Una sola sílaba", "ai-re · cau-sa"],
+            ["Hiato: cerrada tónica + vocal", "Sílabas separadas", "pa-ís · ba-úl"],
           ],
         },
         {
           tipo: "par",
-          etiqueta: "diptongo vs. hiato — la tonicidad de la cerrada decide",
-          correcto:
-            "«bueno» → bue-no (2 sílabas): u es átona → diptongo → una sola sílaba.",
-          incorrecto:
-            "«bu-e-no» (3 sílabas) — error: la u es átona, no rompe el diptongo.",
+          ancho: 5,
+          revelar: true,
+          etiqueta: "Diptongo vs. hiato — decide la tonicidad de la cerrada",
+          asi_es: "Se separa bue-no, dos sílabas: la u es átona y forma diptongo.",
+          asi_no: "No",
+          tachado: "bu-e-no",
         },
         {
           tipo: "trampa",
+          ancho: 5,
+          revelar: true,
           letra: "A",
-          titulo:
-            "La h entre vocales es muda — las vocales interactúan como si la h no existiera",
-          correcto:
-            "pro-hí-be (3 sílabas): la í tónica forma hiato con la e; lleva tilde por hiato.",
-          incorrecto:
-            "pro-hi-be sin tilde — error: ignorar que la í es tónica porque la h «separa» visualmente las vocales.",
+          titulo: "La h entre vocales es muda: las vocales interactúan como si no existiera",
+          asi_es: "Se escribe pro-hí-be: la í tónica forma hiato con la e y lleva tilde.",
+          asi_no: "No",
+          tachado: "prohibe",
         },
       ],
     },
     {
       id: 50,
-      tipo: "ejercicio",
-      etiqueta: "Reactivo 1 — Silabeo",
-      pregunta: "¿Cuántas sílabas tiene la palabra «establecimiento»?",
-      opciones: ["5 sílabas", "6 sílabas", "7 sílabas"],
-      correcta: 1,
-      explicacion:
-        "«es-ta-ble-ci-mien-to» — 6 sílabas. El grupo «bl» es inseparable (va junto) y «mien» es diptongo (ie átono), por lo que ambos cuentan como una sola sílaba cada uno.",
-      pasos: [],
+      tipo: "lienzo",
+      notas: "Deja que cuenten en voz alta antes de mostrar. El error típico es partir «bl».",
+      bloques: [
+        {
+          tipo: "pregunta",
+          disposicion: "lado",
+          etiqueta: "Reactivo 1 — Silabeo",
+          enunciado: "¿Cuántas sílabas tiene la palabra «establecimiento»?",
+          apoyo: "establecimiento",
+          apoyoPie: "separa antes de contar",
+          opciones: ["5 sílabas", "6 sílabas", "7 sílabas"],
+          correcta: 1,
+          explicacion:
+            "es-ta-ble-ci-mien-to, seis sílabas. El grupo «bl» es inseparable y «mien» es diptongo (ie átono): cada uno cuenta como una sola sílaba.",
+        },
+      ],
     },
     {
       id: 51,
-      tipo: "ejercicio",
-      etiqueta: "Reactivo 2 — Silabeo",
-      pregunta: "¿Cuál de los siguientes silabeos es correcto?",
-      opciones: ["prob-le-ma", "pro-ble-ma", "pro-bl-e-ma"],
-      correcta: 1,
-      explicacion:
-        "«pro-ble-ma» — el grupo «bl» es inseparable: nunca se divide entre dos sílabas. Siempre va junto con la vocal que sigue.",
-      pasos: [],
+      tipo: "lienzo",
+      notas: "Mismo grupo inseparable que el reactivo anterior, ahora aislado. Si fallan este después de acertar aquel, no interiorizaron la regla: la adivinaron.",
+      bloques: [
+        {
+          tipo: "pregunta",
+          disposicion: "lado",
+          etiqueta: "Reactivo 2 — Silabeo",
+          enunciado: "¿Cuál de los siguientes silabeos es correcto?",
+          apoyo: "problema",
+          apoyoPie: "¿dónde cae el corte?",
+          opciones: ["prob-le-ma", "pro-ble-ma", "pro-bl-e-ma"],
+          correcta: 1,
+          explicacion:
+            "pro-ble-ma: el grupo «bl» es inseparable, nunca se divide entre dos sílabas. Siempre va junto con la vocal que sigue.",
+        },
+      ],
     },
     {
       id: 52,
-      tipo: "ejercicio",
-      etiqueta: "Reactivo 3 — Silabeo",
-      pregunta:
-        "¿Cuál de los siguientes silabeos es correcto para la palabra «prohíbe»?",
-      opciones: ["proh-í-be", "pro-hí-be", "pro-hi-be"],
-      correcta: 1,
-      explicacion:
-        "«pro-hí-be» — la h es muda; la í es tónica y forma hiato con la e. La tilde en la í marca ese hiato. «Pro-hi-be» sin tilde y «proh-í-be» (la h no separa sílabas así) son incorrectos.",
-      pasos: [],
+      tipo: "lienzo",
+      notas: "Cierra el bloque: es la trampa A de la diapositiva anterior, ahora en un reactivo. Si la revelaste bien, esta debería salir.",
+      bloques: [
+        {
+          tipo: "pregunta",
+          disposicion: "lado",
+          etiqueta: "Reactivo 3 — Silabeo",
+          enunciado: "¿Cuál es el silabeo correcto de «prohíbe»?",
+          apoyo: "prohíbe",
+          apoyoPie: "la h no cuenta",
+          opciones: ["proh-í-be", "pro-hí-be", "pro-hi-be"],
+          correcta: 1,
+          explicacion:
+            "pro-hí-be: la h es muda, así que la í tónica forma hiato con la e y la tilde marca ese hiato. Ni la h separa sílabas ni la palabra se escribe sin tilde.",
+        },
+      ],
     },
 
     // ── Intro 2: Cómo encontrar la sílaba tónica ─────────────────────────────

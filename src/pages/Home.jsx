@@ -84,7 +84,7 @@ export default function Home() {
         <div className="fx-hero-texto">
           <span className="fx-badge">Simulacros por convocatoria · EXANI-I, EXANI-II, UNAM</span>
           <h1 className="fx-h1">
-            Descompón cualquier problema hasta que cada parte tenga sentido.
+            Factoriza hasta que cada parte tenga sentido. Reagrupa hasta que aparezca algo nuevo.
           </h1>
           <p className="fx-body-lg">
             Cada tema se abre en presentaciones para clase y cuestionarios cronometrados: respondes,

@@ -151,6 +151,18 @@ Híbrido, no una cosa ni la otra:
 Orden inverso. Cada entrada dice **qué** cambió y **por qué**, que es lo que no se
 puede reconstruir leyendo el código.
 
+### 2026-08-24 · El titular dice el método completo
+
+El H1 de la portada pasa a **«Factoriza hasta que cada parte tenga sentido. Reagrupa
+hasta que aparezca algo nuevo.»**
+*Por qué:* la versión anterior terminaba en la descomposición, y el método que da nombre
+al proyecto tiene dos tiempos — partir en factores y volver a agruparlos de otro modo.
+El segundo es el que genera conocimiento nuevo, y es literalmente cierto en la metáfora:
+la factorización en primos es única, su agrupación no. 24 es 2³×3 siempre, y aun así es
+8×3, 6×4 o 12×2 según lo que quieras ver. Se descartaron tres alternativas más cortas
+porque ninguna conservaba las palabras que ya estaban publicadas; las cinco versiones
+comparadas a tamaño real siguen en la página *Titular del hero* del canvas.
+
 ### 2026-08-24 · Sistema modular de diapositivas
 
 Las presentaciones pasan de tipos de slide cerrados a **bloques componibles** sobre una

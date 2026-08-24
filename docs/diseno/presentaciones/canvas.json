@@ -1,20 +1,154 @@
 {
   "pages": [
-    { "id": "sistema", "name": "Sistema y bloques" },
-    { "id": "diapositivas", "name": "Diapositivas" }
+    {
+      "id": "sistema",
+      "name": "Sistema y bloques"
+    },
+    {
+      "id": "diapositivas",
+      "name": "Diapositivas"
+    },
+    {
+      "id": "titular",
+      "name": "Titular del hero"
+    }
   ],
   "artboards": [
-    { "file": "Fundamentos.dc.html", "page": "sistema", "title": "Fundamentos", "x": 0, "y": 0, "w": 1280, "h": 2620 },
-    { "file": "Movil.dc.html", "page": "sistema", "title": "Celular en horizontal", "x": 0, "y": 2720, "w": 960, "h": 1200 },
-    { "file": "Main.dc.html", "page": "sistema", "title": "Catálogo · oscuro", "x": 1400, "y": 0, "w": 1280, "h": 5900 },
-    { "file": "Claro.dc.html", "page": "sistema", "title": "Catálogo · claro", "x": 2800, "y": 0, "w": 1280, "h": 5900 },
-    { "file": "Portada.dc.html", "page": "diapositivas", "title": "Portada · Matemáticas", "x": 0, "y": 0, "w": 1280, "h": 720 },
-    { "file": "Silabeo.dc.html", "page": "diapositivas", "title": "Regla compuesta · Español", "x": 1360, "y": 0, "w": 1280, "h": 720 },
-    { "file": "Reactivo.dc.html", "page": "diapositivas", "title": "Reactivo · Español", "x": 2720, "y": 0, "w": 1280, "h": 720 }
+    {
+      "file": "Fundamentos.dc.html",
+      "page": "sistema",
+      "title": "Fundamentos",
+      "x": 0,
+      "y": 0,
+      "w": 1280,
+      "h": 2620
+    },
+    {
+      "file": "Movil.dc.html",
+      "page": "sistema",
+      "title": "Celular en horizontal",
+      "x": 0,
+      "y": 2720,
+      "w": 960,
+      "h": 1200
+    },
+    {
+      "file": "Main.dc.html",
+      "page": "sistema",
+      "title": "Catálogo · oscuro",
+      "x": 1400,
+      "y": 0,
+      "w": 1280,
+      "h": 5900
+    },
+    {
+      "file": "Claro.dc.html",
+      "page": "sistema",
+      "title": "Catálogo · claro",
+      "x": 2800,
+      "y": 0,
+      "w": 1280,
+      "h": 5900
+    },
+    {
+      "file": "Portada.dc.html",
+      "page": "diapositivas",
+      "title": "Portada · Matemáticas",
+      "x": 0,
+      "y": 0,
+      "w": 1280,
+      "h": 720
+    },
+    {
+      "file": "Silabeo.dc.html",
+      "page": "diapositivas",
+      "title": "Regla compuesta · Español",
+      "x": 1360,
+      "y": 0,
+      "w": 1280,
+      "h": 720
+    },
+    {
+      "file": "Reactivo.dc.html",
+      "page": "diapositivas",
+      "title": "Reactivo · Español",
+      "x": 2720,
+      "y": 0,
+      "w": 1280,
+      "h": 720
+    },
+    {
+      "file": "TitularActual.dc.html",
+      "page": "titular",
+      "title": "Actual",
+      "x": 0,
+      "y": 0,
+      "w": 656,
+      "h": 680
+    },
+    {
+      "file": "TitularA.dc.html",
+      "page": "titular",
+      "title": "A · los dos tiempos",
+      "x": 736,
+      "y": 0,
+      "w": 656,
+      "h": 680
+    },
+    {
+      "file": "TitularB.dc.html",
+      "page": "titular",
+      "title": "B · el teorema",
+      "x": 1472,
+      "y": 0,
+      "w": 656,
+      "h": 680
+    },
+    {
+      "file": "TitularC.dc.html",
+      "page": "titular",
+      "title": "C · baja la guardia",
+      "x": 2208,
+      "y": 0,
+      "w": 656,
+      "h": 680
+    },
+    {
+      "file": "TitularD.dc.html",
+      "page": "titular",
+      "title": "D · el algoritmo",
+      "x": 2944,
+      "y": 0,
+      "w": 656,
+      "h": 680
+    }
   ],
   "annotations": [
-    { "id": "nota-catalogo", "x": 1400, "y": -150, "w": 400, "text": "Los dos catálogos son el mismo archivo con una sola clase distinta en la raíz.\nSi un bloque se ve bien en los dos, está bien tokenizado." },
-    { "id": "nota-retro", "x": 0, "y": -150, "w": 430, "text": "El verde y el rojo salieron del sistema. Ahora el color marca una sola cosa —la respuesta buscada— y todo lo demás se distingue por relleno, contorno y palabra. La sección 07 explica por qué y qué se dice en vez de «incorrecto»." }
+    {
+      "id": "nota-catalogo",
+      "x": 1400,
+      "y": -150,
+      "w": 400,
+      "text": "Los dos catálogos son el mismo archivo con una sola clase distinta en la raíz.\nSi un bloque se ve bien en los dos, está bien tokenizado."
+    },
+    {
+      "id": "nota-retro",
+      "x": 0,
+      "y": -150,
+      "w": 430,
+      "text": "El verde y el rojo salieron del sistema. Ahora el color marca una sola cosa —la respuesta buscada— y todo lo demás se distingue por relleno, contorno y palabra. La sección 07 explica por qué y qué se dice en vez de «incorrecto»."
+    },
+    {
+      "id": "nota-titular",
+      "page": "titular",
+      "x": 0,
+      "y": -190,
+      "w": 700,
+      "text": "Las cinco a tamano real: 58px de Sora en la columna de 560px del hero, que es donde de verdad se decide el corte de linea.\nEl primero es lo que esta publicado hoy; los otros cuatro anaden el segundo tiempo del metodo — recomponer."
+    }
   ],
-  "launch": { "view": "canvas", "page": "sistema" }
+  "launch": {
+    "view": "canvas",
+    "page": "titular"
+  }
 }

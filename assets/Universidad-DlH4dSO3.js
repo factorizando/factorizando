@@ -1,0 +1,1 @@
+import{j as s}from"./index-BCxiIgKB.js";import{S as a}from"./SubjectPage-BvhN-3CU.js";import{S as e,a as i}from"./exaniIIData-CU_Wj_kp.js";import"./BrandName-DA0wagNm.js";const t=[{id:"unam",label:"UNAM",subjects:e},{id:"exani-ii",label:"EXANI-II",subjects:i}];function u(){return s.jsx(a,{level:"universidad",tabs:t})}export{u as default};

@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=STIX+Two+Text:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; }
+  a { color: #4f92f0; text-decoration: none; }
+  a:hover { color: #85aef1; text-decoration: underline; }
+
+  .slide {
+    --bg:#0e1926; --sup:#16222f; --sup2:#1c2a38;
+    --linea:#243343; --linea2:#31445a;
+    --tit:#edf3fa; --txt:#c6d4e3; --apag:#8497ab; --tenue:#5e7085;
+    --f-tit:'Sora', system-ui, sans-serif;
+    --f-txt:'Figtree', system-ui, sans-serif;
+    --f-mono:'IBM Plex Mono', ui-monospace, monospace;
+    --f-mat:'STIX Two Text', 'Cambria Math', serif;
+    width: 1280px; height: 720px;
+    display: flex; flex-direction: column;
+    background: var(--bg); color: var(--txt);
+    font-family: var(--f-txt); -webkit-font-smoothing: antialiased; overflow: hidden;
+  }
+  .slide *, .slide *::before, .slide *::after { box-sizing: border-box; }
+
+  .barra-sup { height: 52px; flex: none; display: flex; align-items: center; justify-content: space-between;
+    padding: 0 24px; border-bottom: 1px solid var(--linea); background: rgba(0,0,0,0.22); gap: 20px; }
+  .barra-inf { height: 60px; flex: none; display: flex; align-items: center; gap: 24px;
+    padding: 0 24px; border-top: 1px solid var(--linea); background: rgba(0,0,0,0.22); }
+  .rot-sup { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.12em; color: var(--apag); white-space: nowrap; }
+  .cuenta { font-family: var(--f-mono); font-size: 12px; color: var(--txt); font-variant-numeric: tabular-nums; }
+  .acc { display: flex; align-items: center; gap: 8px; }
+  .icono-btn { width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--linea); background: transparent;
+    color: var(--apag); display: grid; place-items: center; }
+  .salir { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.08em; color: var(--apag);
+    border: 1px solid var(--linea); border-radius: 8px; height: 34px; padding: 0 14px; display: flex; align-items: center; }
+
+  .nav { height: 40px; padding: 0 22px; border-radius: 9px; display: flex; align-items: center;
+    font-size: 14.5px; font-weight: 500; flex: none; }
+  .nav-sec { border: 1px solid var(--linea2); background: transparent; color: var(--txt); }
+  .nav-pri { border: 1px solid var(--ac); background: var(--ac); color: #0b1420; font-weight: 600; }
+
+  .scrub { flex: 1; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .scrub .etq { display: flex; justify-content: space-between; font-family: var(--f-mono); font-size: 10.5px;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--tenue); }
+  .pista { position: relative; height: 4px; border-radius: 2px; background: var(--sup2); }
+  .pista .lleno { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 2px; background: var(--ac); }
+  .pista .cursor { position: absolute; top: -4px; width: 12px; height: 12px; border-radius: 50%;
+    background: var(--ac); border: 2px solid var(--bg); }
+  .pista .tic { position: absolute; top: -2px; width: 1.5px; height: 8px; border-radius: 1px; background: var(--tenue); }
+
+  .lienzo { flex: 1; padding: 26px 44px 22px; display: flex; flex-direction: column; gap: 15px; min-height: 0; }
+  .et { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ac); margin-bottom: 7px; }
+  .tt { font-family: var(--f-tit); font-weight: 600; font-size: 34px; line-height: 1.16; letter-spacing: -0.022em; color: var(--tit); margin: 0; }
+  .eyebrow { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--apag); margin-bottom: 11px; }
+  .tarj { background: var(--sup); border: 1px solid var(--linea); border-radius: 10px; padding: 16px 20px; }
+  .ic { width: 15px; height: 15px; flex: none; margin-top: 3px; }
+  .fila { display: flex; gap: 11px; align-items: flex-start; font-size: 15px; line-height: 1.55; }
+  .fila + .fila { margin-top: 9px; }
+  .fila .tx { color: var(--tit); }
+  .fila .tx-m { color: var(--apag); }
+  .slide-mat { --ac:#4f92f0; --ac-t:rgba(79,146,240,0.12); --ac-b:rgba(79,146,240,0.34); }
+  .centro { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 26px; text-align: center; }
+  .titulo-portada { font-family: var(--f-tit); font-weight: 600; font-size: 68px; line-height: 1.04; letter-spacing: -0.032em; color: var(--tit); margin: 0; }
+  .sub-portada { font-size: 20px; line-height: 1.5; color: var(--apag); margin: 0; max-width: 52ch; }
+  .kicker { font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--ac); }
+  .meta { display: flex; align-items: center; gap: 14px; font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tenue); }
+  .meta .sep { width: 3px; height: 3px; border-radius: 50%; background: var(--tenue); }
+</style>
+</helmet>
+
+<div class="slide slide-mat">
+
+  <div class="barra-sup">
+    <span class="rot-sup">El Círculo</span>
+    <span class="cuenta">1 / 33</span>
+    <div class="acc">
+      <span class="icono-btn"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M6 1.5H1.5V6M10 1.5H14.5V6M10 14.5H14.5V10M6 14.5H1.5V10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+      <span class="salir">Salir</span>
+    </div>
+  </div>
+
+  <div class="centro">
+    <svg width="164" height="164" viewBox="0 0 164 164" fill="none">
+      <circle cx="82" cy="82" r="66" stroke="var(--ac)" stroke-width="1.6" fill="var(--ac-t)"></circle>
+      <line x1="82" y1="82" x2="82" y2="16" stroke="var(--ac)" stroke-width="1.4"></line>
+      <line x1="16" y1="82" x2="148" y2="82" stroke="var(--apag)" stroke-width="1.2" stroke-dasharray="4 5"></line>
+      <path d="M82 16 A 66 66 0 0 1 148 82" stroke="var(--tit)" stroke-width="2.6" fill="none"></path>
+      <line x1="148" y1="34" x2="148" y2="130" stroke="var(--tenue)" stroke-width="1.2" stroke-dasharray="3 4"></line>
+      <line x1="34" y1="126" x2="130" y2="126" stroke="var(--apag)" stroke-width="1.2"></line>
+      <circle cx="82" cy="82" r="3.4" fill="var(--ac)"></circle>
+      <circle cx="148" cy="82" r="3.4" fill="var(--ac)"></circle>
+      <text x="88" y="52" fill="var(--apag)" font-size="12" font-family="STIX Two Text, serif" font-style="italic">r</text>
+      <text x="88" y="96" fill="var(--tenue)" font-size="11" font-family="STIX Two Text, serif" font-style="italic">O</text>
+    </svg>
+    <div class="kicker">Matemáticas · Geometría</div>
+    <h1 class="titulo-portada">El Círculo</h1>
+    <p class="sub-portada">Propiedades, sectores, segmentos y áreas sombreadas</p>
+    <div class="meta"><span>Preparatoria</span><span class="sep"></span><span>EXANI-I · EXANI-II</span><span class="sep"></span><span>33 diapositivas</span></div>
+  </div>
+
+  <div class="barra-inf">
+    <span class="nav nav-sec" style="opacity: 0.4;">← Anterior</span>
+    <div class="scrub">
+      <div class="etq"><span>Portada</span><span>1 de 33</span></div>
+      <div class="pista">
+        <span class="lleno" style="width: 3%;"></span>
+        <span class="cursor" style="left: 1.2%;"></span>
+        <span class="tic" style="left: 27%;"></span><span class="tic" style="left: 45%;"></span>
+        <span class="tic" style="left: 63%;"></span><span class="tic" style="left: 81%;"></span><span class="tic" style="left: 94%;"></span>
+      </div>
+    </div>
+    <span class="nav nav-pri">Siguiente →</span>
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

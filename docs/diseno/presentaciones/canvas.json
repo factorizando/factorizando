@@ -1,0 +1,20 @@
+{
+  "pages": [
+    { "id": "sistema", "name": "Sistema y bloques" },
+    { "id": "diapositivas", "name": "Diapositivas" }
+  ],
+  "artboards": [
+    { "file": "Fundamentos.dc.html", "page": "sistema", "title": "Fundamentos", "x": 0, "y": 0, "w": 1280, "h": 2620 },
+    { "file": "Movil.dc.html", "page": "sistema", "title": "Celular en horizontal", "x": 0, "y": 2720, "w": 960, "h": 1200 },
+    { "file": "Main.dc.html", "page": "sistema", "title": "Catálogo · oscuro", "x": 1400, "y": 0, "w": 1280, "h": 5900 },
+    { "file": "Claro.dc.html", "page": "sistema", "title": "Catálogo · claro", "x": 2800, "y": 0, "w": 1280, "h": 5900 },
+    { "file": "Portada.dc.html", "page": "diapositivas", "title": "Portada · Matemáticas", "x": 0, "y": 0, "w": 1280, "h": 720 },
+    { "file": "Silabeo.dc.html", "page": "diapositivas", "title": "Regla compuesta · Español", "x": 1360, "y": 0, "w": 1280, "h": 720 },
+    { "file": "Reactivo.dc.html", "page": "diapositivas", "title": "Reactivo · Español", "x": 2720, "y": 0, "w": 1280, "h": 720 }
+  ],
+  "annotations": [
+    { "id": "nota-catalogo", "x": 1400, "y": -150, "w": 400, "text": "Los dos catálogos son el mismo archivo con una sola clase distinta en la raíz.\nSi un bloque se ve bien en los dos, está bien tokenizado." },
+    { "id": "nota-retro", "x": 0, "y": -150, "w": 430, "text": "El verde y el rojo salieron del sistema. Ahora el color marca una sola cosa —la respuesta buscada— y todo lo demás se distingue por relleno, contorno y palabra. La sección 07 explica por qué y qué se dice en vez de «incorrecto»." }
+  ],
+  "launch": { "view": "canvas", "page": "sistema" }
+}

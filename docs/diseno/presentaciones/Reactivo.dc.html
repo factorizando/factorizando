@@ -1,0 +1,157 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=STIX+Two+Text:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; }
+  a { color: #4f92f0; text-decoration: none; }
+  a:hover { color: #85aef1; text-decoration: underline; }
+
+  .slide {
+    --bg:#0e1926; --sup:#16222f; --sup2:#1c2a38;
+    --linea:#243343; --linea2:#31445a;
+    --tit:#edf3fa; --txt:#c6d4e3; --apag:#8497ab; --tenue:#5e7085;
+    --f-tit:'Sora', system-ui, sans-serif;
+    --f-txt:'Figtree', system-ui, sans-serif;
+    --f-mono:'IBM Plex Mono', ui-monospace, monospace;
+    --f-mat:'STIX Two Text', 'Cambria Math', serif;
+    width: 1280px; height: 720px;
+    display: flex; flex-direction: column;
+    background: var(--bg); color: var(--txt);
+    font-family: var(--f-txt); -webkit-font-smoothing: antialiased; overflow: hidden;
+  }
+  .slide *, .slide *::before, .slide *::after { box-sizing: border-box; }
+
+  .barra-sup { height: 52px; flex: none; display: flex; align-items: center; justify-content: space-between;
+    padding: 0 24px; border-bottom: 1px solid var(--linea); background: rgba(0,0,0,0.22); gap: 20px; }
+  .barra-inf { height: 60px; flex: none; display: flex; align-items: center; gap: 24px;
+    padding: 0 24px; border-top: 1px solid var(--linea); background: rgba(0,0,0,0.22); }
+  .rot-sup { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.12em; color: var(--apag); white-space: nowrap; }
+  .cuenta { font-family: var(--f-mono); font-size: 12px; color: var(--txt); font-variant-numeric: tabular-nums; }
+  .acc { display: flex; align-items: center; gap: 8px; }
+  .icono-btn { width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--linea); background: transparent;
+    color: var(--apag); display: grid; place-items: center; }
+  .salir { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.08em; color: var(--apag);
+    border: 1px solid var(--linea); border-radius: 8px; height: 34px; padding: 0 14px; display: flex; align-items: center; }
+
+  .nav { height: 40px; padding: 0 22px; border-radius: 9px; display: flex; align-items: center;
+    font-size: 14.5px; font-weight: 500; flex: none; }
+  .nav-sec { border: 1px solid var(--linea2); background: transparent; color: var(--txt); }
+  .nav-pri { border: 1px solid var(--ac); background: var(--ac); color: #0b1420; font-weight: 600; }
+
+  .scrub { flex: 1; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .scrub .etq { display: flex; justify-content: space-between; font-family: var(--f-mono); font-size: 10.5px;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--tenue); }
+  .pista { position: relative; height: 4px; border-radius: 2px; background: var(--sup2); }
+  .pista .lleno { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 2px; background: var(--ac); }
+  .pista .cursor { position: absolute; top: -4px; width: 12px; height: 12px; border-radius: 50%;
+    background: var(--ac); border: 2px solid var(--bg); }
+  .pista .tic { position: absolute; top: -2px; width: 1.5px; height: 8px; border-radius: 1px; background: var(--tenue); }
+
+  .lienzo { flex: 1; padding: 26px 44px 22px; display: flex; flex-direction: column; gap: 15px; min-height: 0; }
+  .et { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ac); margin-bottom: 7px; }
+  .tt { font-family: var(--f-tit); font-weight: 600; font-size: 34px; line-height: 1.16; letter-spacing: -0.022em; color: var(--tit); margin: 0; }
+  .eyebrow { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--apag); margin-bottom: 11px; }
+  .tarj { background: var(--sup); border: 1px solid var(--linea); border-radius: 10px; padding: 16px 20px; }
+  .ic { width: 15px; height: 15px; flex: none; margin-top: 3px; }
+  .fila { display: flex; gap: 11px; align-items: flex-start; font-size: 15px; line-height: 1.55; }
+  .fila + .fila { margin-top: 9px; }
+  .fila .tx { color: var(--tit); }
+  .fila .tx-m { color: var(--apag); }
+  .slide-esp { --ac:#c98bbb; --ac-t:rgba(201,139,187,0.12); --ac-b:rgba(201,139,187,0.34); }
+  .rejilla { flex: 1; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 26px; min-height: 0; align-items: start; }
+  .enunciado { font-family: var(--f-tit); font-weight: 500; font-size: 27px; line-height: 1.28; letter-spacing: -0.015em; color: var(--tit); margin: 0; text-wrap: pretty; }
+  .palabra { background: var(--sup); border: 1px solid var(--linea); border-radius: 10px; padding: 18px 20px; text-align: center; }
+  .palabra .w { font-family: var(--f-mono); font-size: 25px; letter-spacing: 0.16em; color: var(--ac); }
+  .palabra .c { font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--tenue); margin-top: 11px; }
+  .crono { display: flex; flex-direction: column; gap: 8px; }
+  .crono .l { display: flex; justify-content: space-between; font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--tenue); }
+  .crono .t { height: 3px; border-radius: 2px; background: var(--sup2); overflow: hidden; }
+  .crono .t i { display: block; height: 100%; width: 62%; background: var(--ac); border-radius: 2px; }
+  .ops { display: flex; flex-direction: column; gap: 12px; }
+  .op { display: flex; align-items: center; gap: 18px; background: var(--sup); border: 1px solid var(--linea);
+    border-radius: 11px; padding: 0 22px; height: 72px; }
+  .op .letra { width: 30px; height: 30px; border-radius: 8px; border: 1px solid var(--linea2); color: var(--apag);
+    font-family: var(--f-mono); font-size: 13px; display: grid; place-items: center; flex: none; }
+  .op .tx2 { font-size: 19px; color: var(--txt); }
+  .pie { display: inline-flex; align-self: flex-start; align-items: center; gap: 9px; border: 1px solid var(--linea2); border-radius: 9px; height: 40px; padding: 0 16px; font-family: var(--f-mono); font-size: 10px;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--tenue); margin-top: 4px; }
+</style>
+</helmet>
+
+<div class="slide slide-esp">
+
+  <div class="barra-sup">
+    <span class="rot-sup">Acentuación</span>
+    <span class="cuenta">4 / 58</span>
+    <div class="acc">
+      <span class="icono-btn"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M6 1.5H1.5V6M10 1.5H14.5V6M10 14.5H14.5V10M6 14.5H1.5V10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+      <span class="salir">Salir</span>
+    </div>
+  </div>
+
+  <div class="lienzo">
+    <div class="rejilla">
+
+      <div style="grid-column: span 5; display: flex; flex-direction: column; gap: 22px;">
+        <div>
+          <div class="et">Reactivo 1 de 8 · Silabeo</div>
+          <p class="enunciado">¿Cuántas sílabas tiene la palabra «establecimiento»?</p>
+        </div>
+        <div class="palabra">
+          <div class="w">establecimiento</div>
+          <div class="c">separa antes de contar</div>
+        </div>
+        <div class="crono">
+          <div class="l"><span>Tiempo</span><span>1:12</span></div>
+          <div class="t"><i></i></div>
+        </div>
+      </div>
+
+      <div style="grid-column: span 7; display: flex; flex-direction: column; justify-content: center; height: 100%;">
+        <div class="ops">
+          <div class="op"><span class="letra">A</span><span class="tx2">Siete sílabas</span></div>
+          <div class="op"><span class="letra">B</span><span class="tx2">Cinco sílabas</span></div>
+          <div class="op"><span class="letra">C</span><span class="tx2">Seis sílabas</span></div>
+        </div>
+        <div class="pie">
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="4.6" stroke="currentColor" stroke-width="1.4"></circle><path d="M10.4 10.5L14 14" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path></svg>
+          Ver pista
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="barra-inf">
+    <span class="nav nav-sec">← Anterior</span>
+    <div class="scrub">
+      <div class="etq"><span>Reactivo 1 de 8</span><span>4 de 58</span></div>
+      <div class="pista">
+        <span class="lleno" style="width: 6.9%;"></span>
+        <span class="cursor" style="left: 5.7%;"></span>
+        <span class="tic" style="left: 12%;"></span><span class="tic" style="left: 24%;"></span><span class="tic" style="left: 36%;"></span>
+        <span class="tic" style="left: 48%;"></span><span class="tic" style="left: 60%;"></span><span class="tic" style="left: 72%;"></span>
+        <span class="tic" style="left: 84%;"></span><span class="tic" style="left: 96%;"></span>
+      </div>
+    </div>
+    <span class="nav nav-pri">Siguiente →</span>
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

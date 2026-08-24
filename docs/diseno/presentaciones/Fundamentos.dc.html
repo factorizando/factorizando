@@ -1,0 +1,365 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=STIX+Two+Text:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; }
+  a { color: #4f92f0; text-decoration: none; }
+  a:hover { color: #85aef1; text-decoration: underline; }
+
+  .fnd {
+    --bg:#0e1926; --sup:#16222f; --sup2:#1c2a38;
+    --linea:#243343; --linea2:#31445a;
+    --tit:#edf3fa; --txt:#c6d4e3; --apag:#8497ab; --tenue:#5e7085;
+    --ac:#4f92f0; --ac-t:rgba(79,146,240,0.12); --ac-b:rgba(79,146,240,0.34);
+    --f-tit:'Sora', system-ui, sans-serif;
+    --f-txt:'Figtree', system-ui, sans-serif;
+    --f-mono:'IBM Plex Mono', ui-monospace, monospace;
+    --f-mat:'STIX Two Text', 'Cambria Math', serif;
+    width: 1280px; min-height: 2620px; padding: 56px 56px 80px;
+    background: var(--bg); color: var(--txt);
+    font-family: var(--f-txt); -webkit-font-smoothing: antialiased;
+  }
+  .fnd *, .fnd *::before, .fnd *::after { box-sizing: border-box; }
+  .fnd .mono { font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--apag); }
+  .fnd h1 { font-family: var(--f-tit); font-weight: 600; font-size: 44px; line-height: 1.08; letter-spacing: -0.026em; color: var(--tit); margin: 0; }
+  .fnd h2 { font-family: var(--f-tit); font-weight: 600; font-size: 26px; line-height: 1.2; letter-spacing: -0.018em; color: var(--tit); margin: 0; }
+  .fnd .lead { font-size: 19px; line-height: 1.62; color: var(--txt); margin: 0; max-width: 76ch; text-wrap: pretty; }
+  .fnd .nota { font-size: 15px; line-height: 1.6; color: var(--apag); margin: 0; max-width: 84ch; text-wrap: pretty; }
+
+  .fnd .cab { display: flex; flex-direction: column; gap: 14px; padding-bottom: 30px; border-bottom: 1px solid var(--linea); margin-bottom: 46px; }
+  .fnd .marca { display: flex; align-items: center; gap: 12px; }
+  .fnd .logo { width: 32px; height: 32px; border-radius: 9px; background: var(--ac); display: grid; place-items: center; color: var(--bg); font-family: var(--f-tit); font-weight: 700; font-size: 16px; }
+
+  .fnd .secs { display: flex; flex-direction: column; gap: 52px; }
+  .fnd .sec { display: flex; flex-direction: column; gap: 18px; }
+  .fnd .sec-cab { display: flex; flex-direction: column; gap: 7px; }
+  .fnd .idx { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ac); }
+
+  .fnd .pal { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 10px; }
+  .fnd .sw { display: flex; flex-direction: column; gap: 7px; }
+  .fnd .sw .chip { height: 62px; border-radius: 9px; border: 1px solid var(--linea); }
+  .fnd .sw .nm { font-family: var(--f-mono); font-size: 11px; color: var(--txt); }
+  .fnd .sw .hx { font-family: var(--f-mono); font-size: 10px; color: var(--tenue); }
+  .fnd .rot { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--apag); margin-bottom: 10px; }
+
+  .fnd .mat { display: grid; grid-template-columns: 190px 1fr 1fr 1fr; gap: 0; }
+  .fnd .mat > div { padding: 12px 16px 12px 0; border-bottom: 1px solid var(--linea); display: flex; align-items: center; gap: 11px; }
+  .fnd .mat .h { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--apag); padding-top: 0; padding-bottom: 10px; }
+  .fnd .mat .nom { font-family: var(--f-tit); font-weight: 500; font-size: 16px; color: var(--tit); }
+  .fnd .pt { width: 22px; height: 22px; border-radius: 6px; flex: none; }
+  .fnd .hex { font-family: var(--f-mono); font-size: 12px; color: var(--txt); }
+  .fnd .nue { font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ac); border: 1px solid var(--ac-b); border-radius: 5px; padding: 2px 6px; }
+
+  .fnd .tipos { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .fnd .caja { background: var(--sup); border: 1px solid var(--linea); border-radius: 10px; padding: 22px 24px; }
+  .fnd .esc { display: flex; flex-direction: column; gap: 16px; }
+  .fnd .ren { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; }
+  .fnd .esp { font-family: var(--f-mono); font-size: 10px; color: var(--tenue); white-space: nowrap; }
+
+  .fnd .rej { position: relative; background: var(--sup); border: 1px solid var(--linea); border-radius: 10px; padding: 22px 24px; }
+  .fnd .colsr { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 20px; }
+  .fnd .colsr span { height: 90px; border-radius: 5px; background: var(--ac-t); border: 1px solid var(--ac-b); }
+
+  .fnd .dos { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .fnd .marco { border: 1px solid var(--linea2); border-radius: 8px; background: var(--sup2); padding: 10px; display: flex; flex-direction: column; gap: 7px; }
+  .fnd .bl { border-radius: 4px; background: var(--ac-t); border: 1px solid var(--ac-b); height: 22px; }
+  .fnd .fila2 { display: flex; gap: 7px; }
+  .fnd .fila2 .bl { flex: 1; }
+
+  .fnd .tres { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .fnd .esp-c { background: var(--sup); border: 1px solid var(--linea); border-radius: 10px; padding: 18px 20px; display: flex; flex-direction: column; gap: 13px; }
+  .fnd .esp-c .et2 { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--apag); }
+  .fnd .esp-c .dsc { font-size: 14px; line-height: 1.5; color: var(--apag); margin: 0; }
+  .fnd .muestra { border-radius: 9px; padding: 12px 14px; display: flex; gap: 11px; align-items: flex-start; font-size: 14.5px; line-height: 1.5; }
+  .fnd .m-conf { background: var(--ac-t); border: 1px solid var(--ac-b); color: var(--tit); }
+  .fnd .m-alt { border: 1px dashed var(--linea2); color: var(--apag); }
+  .fnd .m-rev { border: 1px dashed var(--ac-b); color: var(--txt); }
+  .fnd .tach { font-family: var(--f-mono); font-size: 0.92em; color: var(--apag); text-decoration: line-through; text-decoration-thickness: 1px; }
+  .fnd .ic { width: 15px; height: 15px; flex: none; margin-top: 2px; }
+  .fnd .pal-txt { display: grid; grid-template-columns: 1fr 1fr; }
+  .fnd .pal-txt > div { padding: 11px 18px 11px 0; border-bottom: 1px solid var(--linea); font-size: 15px; }
+  .fnd .pal-txt .antes { color: var(--tenue); }
+  .fnd .pal-txt .antes s { text-decoration-thickness: 1px; }
+  .fnd .pal-txt .ahora { color: var(--tit); }
+  .fnd .pal-txt .h2c { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--apag); padding-bottom: 10px; }
+  .fnd .escala { display: flex; gap: 11px; align-items: center; flex-wrap: wrap; }
+  .fnd .chip3 { border-radius: 999px; padding: 8px 18px; font-size: 13.5px; }
+
+  .fnd .reglas { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 34px; }
+  .fnd .rg { display: flex; gap: 12px; align-items: flex-start; font-size: 15.5px; line-height: 1.55; color: var(--txt); }
+  .fnd .rg .mk { width: 6px; height: 6px; border-radius: 2px; background: var(--ac); flex: none; margin-top: 9px; }
+  .fnd .rg b { color: var(--tit); font-weight: 600; }
+</style>
+</helmet>
+
+<div class="fnd">
+
+  <div class="cab">
+    <div class="marca">
+      <div class="logo">F</div>
+      <span class="mono">Presentaciones · fundamentos del sistema</span>
+    </div>
+    <h1>Un solo sistema, siete materias</h1>
+    <p class="lead">Todo lo que sigue se deriva de los tokens que ya viven en <span style="font-family: var(--f-mono); font-size: 0.85em; color: var(--ac);">src/styles/fx.css</span>. La versión oscura no es una paleta aparte: son los mismos tonos con la luminosidad invertida, para que un mismo bloque se vea igual de sólido proyectado en un salón y leído en un teléfono.</p>
+  </div>
+
+  <div class="secs">
+
+    <section class="sec">
+      <div class="sec-cab">
+        <span class="idx">01 · Color</span>
+        <h2>Superficies</h2>
+        <p class="nota">Nada de negro puro. El fondo oscuro parte de <span style="font-family: var(--f-mono); font-size: 0.88em;">--fx-primary-900</span> y sube dos escalones: en videollamada, el texto claro sobre casi negro se rompe en bloques al comprimirse, y en pantallas OLED produce halo alrededor de las letras.</p>
+      </div>
+      <div>
+        <div class="rot">Oscuro — proyector, salón, videollamada</div>
+        <div class="pal">
+          <div class="sw"><div class="chip" style="background: #0e1926;"></div><span class="nm">fondo</span><span class="hx">#0E1926</span></div>
+          <div class="sw"><div class="chip" style="background: #16222f;"></div><span class="nm">superficie</span><span class="hx">#16222F</span></div>
+          <div class="sw"><div class="chip" style="background: #1c2a38;"></div><span class="nm">hundida</span><span class="hx">#1C2A38</span></div>
+          <div class="sw"><div class="chip" style="background: #243343;"></div><span class="nm">línea</span><span class="hx">#243343</span></div>
+          <div class="sw"><div class="chip" style="background: #5e7085;"></div><span class="nm">tenue</span><span class="hx">#5E7085</span></div>
+          <div class="sw"><div class="chip" style="background: #8497ab;"></div><span class="nm">apagado</span><span class="hx">#8497AB</span></div>
+          <div class="sw"><div class="chip" style="background: #c6d4e3;"></div><span class="nm">cuerpo</span><span class="hx">#C6D4E3</span></div>
+          <div class="sw"><div class="chip" style="background: #edf3fa;"></div><span class="nm">título</span><span class="hx">#EDF3FA</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="rot">Claro — celular a plena luz, impresión, repaso</div>
+        <div class="pal">
+          <div class="sw"><div class="chip" style="background: #f7f9fc;"></div><span class="nm">fondo</span><span class="hx">#F7F9FC</span></div>
+          <div class="sw"><div class="chip" style="background: #ffffff;"></div><span class="nm">superficie</span><span class="hx">#FFFFFF</span></div>
+          <div class="sw"><div class="chip" style="background: #eff3f9;"></div><span class="nm">hundida</span><span class="hx">#EFF3F9</span></div>
+          <div class="sw"><div class="chip" style="background: #e3e9f2;"></div><span class="nm">línea</span><span class="hx">#E3E9F2</span></div>
+          <div class="sw"><div class="chip" style="background: #8e9aa8;"></div><span class="nm">tenue</span><span class="hx">#8E9AA8</span></div>
+          <div class="sw"><div class="chip" style="background: #5a6b7f;"></div><span class="nm">apagado</span><span class="hx">#5A6B7F</span></div>
+          <div class="sw"><div class="chip" style="background: #33475b;"></div><span class="nm">cuerpo</span><span class="hx">#33475B</span></div>
+          <div class="sw"><div class="chip" style="background: #0a2540;"></div><span class="nm">título</span><span class="hx">#0A2540</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="sec-cab">
+        <span class="idx">02 · Acentos</span>
+        <h2>Un color por materia</h2>
+        <p class="nota">Es lo único que cambia entre materias: el acento y el dibujo de la portada. Fondo, tipografía, espaciado y densidad son idénticos, para que un alumno que lleva tres materias sienta una plataforma y no tres. Cinco vienen tal cual del design system. Teal y ciruela son nuevos, y no son adorno: hoy Español y Física comparten índigo, y Biología y Geografía comparten sage — dos colisiones reales en materias.js que estos dos tonos deshacen.</p>
+      </div>
+      <div class="mat">
+        <div class="h nom" style="border-bottom: 1px solid var(--linea);">Materia</div>
+        <div class="h" style="border-bottom: 1px solid var(--linea);">Sobre oscuro</div>
+        <div class="h" style="border-bottom: 1px solid var(--linea);">Sobre claro</div>
+        <div class="h" style="border-bottom: 1px solid var(--linea);">Token</div>
+
+        <div class="nom">Matemáticas</div>
+        <div><span class="pt" style="background: #4f92f0;"></span><span class="hex">#4F92F0</span></div>
+        <div><span class="pt" style="background: #0056d2;"></span><span class="hex">#0056D2</span></div>
+        <div><span class="hex" style="color: var(--apag);">--fx-math</span></div>
+
+        <div class="nom">Español</div>
+        <div><span class="pt" style="background: #c98bbb;"></span><span class="hex">#C98BBB</span></div>
+        <div><span class="pt" style="background: #a15c93;"></span><span class="hex">#A15C93</span></div>
+        <div><span class="nue">nuevo</span><span class="hex" style="color: var(--apag);">--fx-ciruela</span></div>
+
+        <div class="nom">Física</div>
+        <div><span class="pt" style="background: #9a91e0;"></span><span class="hex">#9A91E0</span></div>
+        <div><span class="pt" style="background: #6c63b5;"></span><span class="hex">#6C63B5</span></div>
+        <div><span class="hex" style="color: var(--apag);">--fx-indigo</span></div>
+
+        <div class="nom">Biología</div>
+        <div><span class="pt" style="background: #6fbe9b;"></span><span class="hex">#6FBE9B</span></div>
+        <div><span class="pt" style="background: #4f9377;"></span><span class="hex">#4F9377</span></div>
+        <div><span class="hex" style="color: var(--apag);">--fx-sage</span></div>
+
+        <div class="nom">Química</div>
+        <div><span class="pt" style="background: #f08a70;"></span><span class="hex">#F08A70</span></div>
+        <div><span class="pt" style="background: #de6e55;"></span><span class="hex">#DE6E55</span></div>
+        <div><span class="hex" style="color: var(--apag);">--fx-coral</span></div>
+
+        <div class="nom">Geografía</div>
+        <div><span class="pt" style="background: #57b6c8;"></span><span class="hex">#57B6C8</span></div>
+        <div><span class="pt" style="background: #2f8c9e;"></span><span class="hex">#2F8C9E</span></div>
+        <div><span class="nue">nuevo</span><span class="hex" style="color: var(--apag);">--fx-teal</span></div>
+
+        <div class="nom" style="border-bottom: none;">Historia</div>
+        <div style="border-bottom: none;"><span class="pt" style="background: #e8b34d;"></span><span class="hex">#E8B34D</span></div>
+        <div style="border-bottom: none;"><span class="pt" style="background: #d2942e;"></span><span class="hex">#D2942E</span></div>
+        <div style="border-bottom: none;"><span class="hex" style="color: var(--apag);">--fx-amber</span></div>
+      </div>
+      <p class="nota" style="margin-top: 4px;">No hay ningún color más, y no queda ninguno libre: con siete materias la rueda se acabó. El verde y el rojo de acierto y error salen del sistema (sección 07), y dentro de un dibujo los elementos se separan por <b style="color: var(--tit); font-weight: 600;">valor y trazo</b>, no por un octavo matiz: acento relleno, trazo fuerte en color de título, trazo medio en apagado, y punteado del mismo acento. Cuatro canales que sobreviven a cualquier daltonismo.</p>
+    </section>
+
+    <section class="sec">
+      <div class="sec-cab">
+        <span class="idx">03 · Tipografía</span>
+        <h2>Cuatro familias para todo el sitio</h2>
+        <p class="nota">Hoy las presentaciones piden DM Sans en 695 lugares y esa fuente nunca se carga: lo que se está viendo es la tipografía por defecto del sistema. Con esta escala se cargan cuatro familias una sola vez, iguales para todas las materias. Los tamaños están en píxeles del lienzo de 1280 — al proyectar en 1920 se multiplican por 1.5.</p>
+      </div>
+      <div class="tipos">
+        <div class="caja">
+          <div class="rot">Escala del lienzo</div>
+          <div class="esc">
+            <div class="ren"><span style="font-family: var(--f-tit); font-weight: 600; font-size: 34px; line-height: 1.16; letter-spacing: -0.022em; color: var(--tit);">Título de diapositiva</span><span class="esp">Sora 600 · 34 / 1.16</span></div>
+            <div class="ren"><span style="font-size: 19px; color: var(--tit);">Enunciado destacado</span><span class="esp">Figtree 400 · 19 / 1.58</span></div>
+            <div class="ren"><span style="font-size: 17px; color: var(--txt);">Cuerpo de texto expositivo</span><span class="esp">Figtree 400 · 17 / 1.68</span></div>
+            <div class="ren"><span style="font-size: 15px; color: var(--txt);">Celda de tabla y lista</span><span class="esp">Figtree 400 · 15 / 1.55</span></div>
+            <div class="ren"><span style="font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--apag);">Etiqueta de bloque</span><span class="esp">Plex Mono 400 · 11 · +18%</span></div>
+            <div class="ren"><span style="font-family: var(--f-mat); font-size: 24px; color: var(--tit);">A = πr²</span><span class="esp">STIX Two Text · fórmulas</span></div>
+          </div>
+        </div>
+        <div class="caja">
+          <div class="rot">Por qué cada una</div>
+          <div class="esc">
+            <div><div style="font-family: var(--f-tit); font-weight: 600; font-size: 17px; color: var(--tit); margin-bottom: 4px;">Sora — títulos</div><p class="nota" style="font-size: 14.5px;">Geométrica, de remates rectos y cifras altas: aguanta el tamaño grande y se distingue a distancia de proyección.</p></div>
+            <div><div style="font-family: var(--f-tit); font-weight: 600; font-size: 17px; color: var(--tit); margin-bottom: 4px;">Figtree — cuerpo</div><p class="nota" style="font-size: 14.5px;">Humanista con altura de x generosa. Nunca por debajo de peso 400: el 300 que se usa hoy desaparece en celular y en video comprimido.</p></div>
+            <div><div style="font-family: var(--f-tit); font-weight: 600; font-size: 17px; color: var(--tit); margin-bottom: 4px;">IBM Plex Mono — etiquetas</div><p class="nota" style="font-size: 14.5px;">Solo para rótulos, unidades y ejemplos silabeados, donde el ancho fijo alinea las columnas.</p></div>
+            <div><div style="font-family: var(--f-tit); font-weight: 600; font-size: 17px; color: var(--tit); margin-bottom: 4px;">STIX Two Text — matemáticas</div><p class="nota" style="font-size: 14.5px;">La familia que ya declara <span style="font-family: var(--f-mono); font-size: 0.88em;">--fx-font-math</span>; empata con KaTeX sin que la fórmula se sienta pegada.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="sec-cab">
+        <span class="idx">04 · Rejilla</span>
+        <h2>Doce columnas, márgenes de 56</h2>
+        <p class="nota">Cada bloque declara su ancho en doceavos. Es lo que evita el problema más visible de las diapositivas actuales: un reactivo con tres opciones ocupando el 35 % de la pantalla y dejando el resto en negro.</p>
+      </div>
+      <div class="rej">
+        <div class="colsr">
+          <span></span><span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-top: 12px;">
+          <span class="esp">margen 56</span><span class="esp">canal 20</span><span class="esp">contenido 1168</span><span class="esp">margen 56</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="sec-cab">
+        <span class="idx">05 · Adaptación</span>
+        <h2>Lienzo fijo arriba, reflujo abajo</h2>
+        <p class="nota">De tablet en adelante, la diapositiva es un lienzo de 1280 × 720 que se escala completo: lo que diseñas es exactamente lo que se proyecta. Por debajo de 768 px los bloques se reacomodan a una columna y la tipografía tiene un piso propio, porque un teléfono acostado deja unos 263 px de alto útil una vez descontadas las dos barras.</p>
+      </div>
+      <div class="dos">
+        <div class="caja">
+          <div class="rot">≥ 768 px — lienzo escalado</div>
+          <div class="marco" style="aspect-ratio: 16 / 9;">
+            <div class="bl" style="width: 46%; height: 14px; background: transparent; border-color: var(--linea2);"></div>
+            <div class="bl" style="height: 30px;"></div>
+            <div class="fila2" style="flex: 1;"><div class="bl" style="height: auto;"></div><div class="bl" style="height: auto;"></div></div>
+            <div class="fila2"><div class="bl"></div><div class="bl"></div><div class="bl"></div></div>
+          </div>
+          <p class="nota" style="font-size: 14px; margin-top: 12px;">Rejilla completa. Dos y tres columnas disponibles.</p>
+        </div>
+        <div class="caja">
+          <div class="rot">&lt; 768 px — reflujo a una columna</div>
+          <div class="marco" style="aspect-ratio: 16 / 9; overflow: hidden;">
+            <div class="bl" style="width: 60%; height: 12px; background: transparent; border-color: var(--linea2);"></div>
+            <div class="bl" style="height: 26px;"></div>
+            <div class="bl" style="height: 26px;"></div>
+            <div class="bl" style="height: 26px;"></div>
+            <div class="bl" style="height: 26px; opacity: 0.4;"></div>
+          </div>
+          <p class="nota" style="font-size: 14px; margin-top: 12px;">Todo a un ancho. La diapositiva se desplaza en vertical y el cuerpo nunca baja de 15 px reales.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="sec-cab">
+        <span class="idx">06 · Densidad</span>
+        <h2>Reglas que el autor no puede saltarse</h2>
+      </div>
+      <div class="reglas">
+        <div class="rg"><span class="mk"></span><span>Máximo <b>cinco bloques</b> por diapositiva. Si sobran, es otra diapositiva.</span></div>
+        <div class="rg"><span class="mk"></span><span>Tablas de <b>seis filas</b> como tope; en celular se convierten en tarjetas apiladas.</span></div>
+        <div class="rg"><span class="mk"></span><span>Un solo bloque <b>destacado</b>. Dos enunciados clave equivalen a ninguno.</span></div>
+        <div class="rg"><span class="mk"></span><span>Botones y zonas táctiles de <b>44 px</b> mínimo, medidos en pantalla real.</span></div>
+        <div class="rg"><span class="mk"></span><span>El riel de puntos se sustituye por un <b>deslizador</b> pasadas 20 diapositivas.</span></div>
+        <div class="rg"><span class="mk"></span><span>Los íconos son <b>SVG dibujados</b>, nunca glifos ✓ ✗ que cambian de forma según el sistema.</span></div>
+        <div class="rg"><span class="mk"></span><span>Ningún bloque se apoya <b>solo en el color</b> para distinguirse: siempre hay forma o rótulo.</span></div>
+        <div class="rg"><span class="mk"></span><span>Los bloques con <b>revelar</b> se ocultan hasta que el profesor avanza; el alumno no lee la respuesta antes.</span></div>
+      </div>
+    </section>
+
+
+    <section class="sec">
+      <div class="sec-cab">
+        <span class="idx">07 · Retroalimentación</span>
+        <h2>Ni verde ni rojo</h2>
+        <p class="nota">Marcar el error con rojo hace tres cosas a la vez: dice <b style="color: var(--tit); font-weight: 600;">qué</b> pasó, dice <b style="color: var(--tit); font-weight: 600;">qué tan malo</b> es, y no dice <b style="color: var(--tit); font-weight: 600;">qué hacer</b>. Sobra la segunda y falta la tercera. Aquí el color queda para una sola cosa —la respuesta que buscamos— y lo demás se distingue por relleno, contorno y palabra.</p>
+        <p class="nota">Hay además una razón que no admite discusión: la deficiencia rojo-verde afecta a cerca de uno de cada doce hombres. En un grupo de veinte, uno o dos alumnos no ven la diferencia entre la palomita y la tacha si el matiz es el único canal. Por eso cada estado se distingue también por forma y por rótulo.</p>
+      </div>
+
+      <div class="tres">
+        <div class="esp-c">
+          <span class="et2">Así es · relleno</span>
+          <div class="muestra m-conf">
+            <svg class="ic" viewBox="0 0 16 16" fill="none" style="color: var(--ac);"><path d="M3.5 8.4l3 3 6-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            <span>Se separa <b>bue-no</b>, dos sílabas.</span>
+          </div>
+          <p class="dsc">Fondo del acento y palomita. Es lo único de la diapositiva que lleva color lleno, así que se encuentra de un vistazo desde el fondo del salón.</p>
+        </div>
+
+        <div class="esp-c">
+          <span class="et2">Así no · contorno punteado</span>
+          <div class="muestra m-alt">
+            <svg class="ic" viewBox="0 0 16 16" fill="none" style="color: var(--tenue);"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"></circle><line x1="3.8" y1="12.2" x2="12.2" y2="3.8" stroke="currentColor" stroke-width="1.5"></line></svg>
+            <span>No <span class="tach">bu-e-no</span> — la u átona no rompe el diptongo.</span>
+          </div>
+          <p class="dsc">Para el contraste didáctico, que habla de la lengua y no de nadie. El tachado cae sobre la forma exacta, no sobre la frase entera, y el texto conserva contraste legible.</p>
+        </div>
+
+        <div class="esp-c">
+          <span class="et2">Aún no · lo del alumno</span>
+          <div class="muestra m-rev">
+            <svg class="ic" viewBox="0 0 16 16" fill="none" style="color: var(--ac);"><circle cx="7" cy="7" r="4.6" stroke="currentColor" stroke-width="1.5"></circle><path d="M10.4 10.5L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg>
+            <span>Contaste «cimiento» como tres sílabas. <i>ie</i> es diptongo: cimien·to va en dos.</span>
+          </div>
+          <p class="dsc">Su respuesta nunca se tacha ni se pinta: se enciende la correcta y se explica dónde estuvo la bifurcación. La explicación es lo grande, no la calificación.</p>
+        </div>
+      </div>
+
+      <div class="pal-txt" style="margin-top: 8px;">
+        <div class="h2c" style="border-bottom: 1px solid var(--linea);">Lo que decía</div>
+        <div class="h2c" style="border-bottom: 1px solid var(--linea);">Lo que dice</div>
+        <div class="antes"><s>Correcto</s></div><div class="ahora">Así es</div>
+        <div class="antes"><s>Incorrecto</s></div><div class="ahora">Así no se escribe <span style="color: var(--tenue); font-size: 0.88em;">— sobre la forma</span></div>
+        <div class="antes"><s>Error</s></div><div class="ahora">Aún no <span style="color: var(--tenue); font-size: 0.88em;">— sobre quien responde</span></div>
+        <div class="antes"><s>Fallaste 3 de 8</s></div><div class="ahora">3 por practicar de 8</div>
+        <div class="antes" style="border-bottom: none;"><s>Aciertos · errores</s></div><div class="ahora" style="border-bottom: none;">Dominado · En práctica · Por empezar</div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 8px;">
+        <div class="rot">Los agregados usan un solo matiz en tres intensidades, nunca barras rojas</div>
+        <div class="escala">
+          <span class="chip3" style="border: 1px dashed var(--linea2); color: var(--apag);">Por empezar</span>
+          <span class="chip3" style="background: var(--ac-t); border: 1px solid var(--ac-b); color: var(--tit);">En práctica</span>
+          <span class="chip3" style="background: var(--ac); color: #0b1420; font-weight: 600;">Dominado</span>
+        </div>
+        <p class="nota">Es un cambio de presentación, no de datos: <span style="font-family: var(--f-mono); font-size: 0.88em;">taller_sesiones</span> sigue guardando aciertos y errores, y la escalera de medición del reino sigue contando solo el primer intento. Lo que cambia es que eso deja de mostrársele al alumno como un marcador y le llega al profesor como un mapa de qué practicar.</p>
+        <p class="nota">Dos cautelas honestas. La primera: quitar el rojo no puede volver ambigua la respuesta — el alumno se prepara para un examen con puntaje y necesita saber sin dudar si acertó; por eso el rótulo y la explicación son explícitos aunque el color sea callado. La segunda: la investigación sólida aquí no es la del «rojo baja el rendimiento», que ha tenido problemas de replicación, sino la de que un error corregido en el momento se recuerda mejor que un acierto fácil. Eso es lo que este sistema intenta aprovechar.</p>
+      </div>
+    </section>
+
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

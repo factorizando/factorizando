@@ -41,6 +41,8 @@
   --fx-coral: #de6e55;  --fx-coral-tint: #fbeeea;  --fx-coral-text: #a8482f;
   --fx-amber: #d2942e;  --fx-amber-tint: #fbf3e5;  --fx-amber-text: #8a6210;
   --fx-indigo: #6c63b5; --fx-indigo-tint: #f0eff8; --fx-indigo-text: #4c4490;
+  --fx-teal: #2f8c9e;    --fx-teal-tint: #e8f4f6;    --fx-teal-text: #1f6b7a;
+  --fx-ciruela: #a15c93; --fx-ciruela-tint: #f7edf4; --fx-ciruela-text: #7d4271;
 
   /* ── Estados ── sin rojo ni verde (decisión de marca): éxito azul, aviso y
         error en dos ámbares vecinos, por eso SIEMPRE van con glifo y título. */
@@ -206,17 +208,65 @@ a.fx-card:hover { transform: translateY(-3px); box-shadow: var(--fx-shadow-card-
   transition: opacity var(--fx-transition), transform var(--fx-transition); }
 a.fx-card-fila:hover .fx-flecha { opacity: 1; transform: translateX(3px); }
 
+/* ─────────────────────────────────────────────────────────────────────────────
+   TEMA OSCURO — `class="fx-oscuro"` en cualquier contenedor.
+   No es una paleta aparte: redefine los MISMOS nombres de token, así que un
+   componente escrito con var(--fx-…) funciona en los dos temas sin cambiar una
+   línea. Es lo que permite que una diapositiva se proyecte en un salón y se lea
+   en un teléfono a plena luz siendo el mismo markup.
+
+   El fondo no es negro puro a propósito: parte de --fx-primary-900 y sube dos
+   escalones. En videollamada, el texto claro sobre casi negro se rompe en
+   bloques al comprimirse; en pantallas OLED produce halo alrededor de la letra.
+
+   Los acentos suben en luminosidad porque los de tema claro (#0056d2 y
+   compañía) no alcanzan contraste sobre fondo oscuro.
+   ───────────────────────────────────────────────────────────────────────────── */
+.fx-oscuro {
+  color-scheme: dark;
+
+  /* Neutros */
+  --fx-bg: #0e1926;         --fx-surface: #16222f;    --fx-surface-sunken: #1c2a38;
+  --fx-border: #243343;     --fx-border-strong: #31445a;
+  --fx-text-heading: #edf3fa; --fx-text-body: #c6d4e3; --fx-text-muted: #8497ab;
+  --fx-text-disabled: #5e7085; --fx-text-on-primary: #0b1420;
+
+  /* Primario */
+  --fx-primary-500: #4f92f0; --fx-primary-600: #7fb2f5; --fx-primary-700: #a8c9f8;
+  --fx-primary-50: rgba(79, 146, 240, 0.10); --fx-primary-100: rgba(79, 146, 240, 0.18);
+
+  /* Materias — mismo nombre, luminosidad elevada */
+  --fx-math: #4f92f0;    --fx-math-tint: rgba(79, 146, 240, 0.12);    --fx-math-text: #85aef1;
+  --fx-sage: #6fbe9b;    --fx-sage-tint: rgba(111, 190, 155, 0.12);   --fx-sage-text: #8fd0b3;
+  --fx-coral: #f08a70;   --fx-coral-tint: rgba(240, 138, 112, 0.12);  --fx-coral-text: #f4a894;
+  --fx-amber: #e8b34d;   --fx-amber-tint: rgba(232, 179, 77, 0.12);   --fx-amber-text: #efc677;
+  --fx-indigo: #9a91e0;  --fx-indigo-tint: rgba(154, 145, 224, 0.12); --fx-indigo-text: #b3ace8;
+  --fx-teal: #57b6c8;    --fx-teal-tint: rgba(87, 182, 200, 0.12);    --fx-teal-text: #7ccbd9;
+  --fx-ciruela: #c98bbb; --fx-ciruela-tint: rgba(201, 139, 187, 0.12); --fx-ciruela-text: #d8a6cc;
+
+  /* Elevación: en oscuro la sombra no separa, el borde sí. */
+  --fx-shadow-card: 0 1px 2px rgba(0, 0, 0, 0.40), 0 10px 28px rgba(0, 0, 0, 0.26);
+  --fx-shadow-card-hover: 0 1px 2px rgba(0, 0, 0, 0.40), 0 14px 34px rgba(0, 0, 0, 0.34);
+  --fx-shadow-float: 0 1px 2px rgba(0, 0, 0, 0.40), 0 16px 40px rgba(0, 0, 0, 0.30);
+  --fx-shadow-primary: none;
+  --fx-focus-ring: 0 0 0 3px rgba(79, 146, 240, 0.40);
+}
+
 /* ── Acentos por materia ── */
 .fx-acento-math { border-top: 3px solid var(--fx-math); }
 .fx-acento-sage { border-top: 3px solid var(--fx-sage); }
 .fx-acento-coral { border-top: 3px solid var(--fx-coral); }
 .fx-acento-amber { border-top: 3px solid var(--fx-amber); }
 .fx-acento-indigo { border-top: 3px solid var(--fx-indigo); }
+.fx-acento-teal { border-top: 3px solid var(--fx-teal); }
+.fx-acento-ciruela { border-top: 3px solid var(--fx-ciruela); }
 .fx-cta-math { color: var(--fx-primary-600); }
 .fx-cta-sage { color: var(--fx-sage-text); }
 .fx-cta-coral { color: var(--fx-coral-text); }
 .fx-cta-amber { color: var(--fx-amber-text); }
 .fx-cta-indigo { color: var(--fx-indigo-text); }
+.fx-cta-teal { color: var(--fx-teal-text); }
+.fx-cta-ciruela { color: var(--fx-ciruela-text); }
 
 /* ── Marcas de materia ── glifos Unicode, no SVG dibujado a mano. ── */
 .fx-card-ic { width: 48px; height: 48px; border-radius: var(--fx-radius-md);
@@ -229,3 +279,5 @@ a.fx-card-fila:hover .fx-flecha { opacity: 1; transform: translateX(3px); }
 .fx-ic-coral { background: var(--fx-coral-tint); color: var(--fx-coral-text); }
 .fx-ic-amber { background: var(--fx-amber-tint); color: var(--fx-amber-text); }
 .fx-ic-indigo { background: var(--fx-indigo-tint); color: var(--fx-indigo-text); }
+.fx-ic-teal { background: var(--fx-teal-tint); color: var(--fx-teal-text); }
+.fx-ic-ciruela { background: var(--fx-ciruela-tint); color: var(--fx-ciruela-text); }

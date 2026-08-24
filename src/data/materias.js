@@ -28,7 +28,7 @@ export const MATERIAS = [
   {
     slug: "espanol",
     nombre: "Español",
-    acento: "indigo",
+    acento: "ciruela",
     glifo: "¶",
     fuenteGlifo: "math",
     descripcion:
@@ -64,7 +64,7 @@ export const MATERIAS = [
   {
     slug: "geografia",
     nombre: "Geografía",
-    acento: "sage",
+    acento: "teal",
     glifo: "◎",
     fuenteGlifo: "body",
     descripcion:

@@ -1,0 +1,167 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=STIX+Two+Text:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; }
+  a { color: #4f92f0; text-decoration: none; }
+  a:hover { color: #85aef1; text-decoration: underline; }
+
+  .slide {
+    --bg:#0e1926; --sup:#16222f; --sup2:#1c2a38;
+    --linea:#243343; --linea2:#31445a;
+    --tit:#edf3fa; --txt:#c6d4e3; --apag:#8497ab; --tenue:#5e7085;
+    --f-tit:'Sora', system-ui, sans-serif;
+    --f-txt:'Figtree', system-ui, sans-serif;
+    --f-mono:'IBM Plex Mono', ui-monospace, monospace;
+    --f-mat:'STIX Two Text', 'Cambria Math', serif;
+    width: 1280px; height: 720px;
+    display: flex; flex-direction: column;
+    background: var(--bg); color: var(--txt);
+    font-family: var(--f-txt); -webkit-font-smoothing: antialiased; overflow: hidden;
+  }
+  .slide *, .slide *::before, .slide *::after { box-sizing: border-box; }
+
+  .barra-sup { height: 52px; flex: none; display: flex; align-items: center; justify-content: space-between;
+    padding: 0 24px; border-bottom: 1px solid var(--linea); background: rgba(0,0,0,0.22); gap: 20px; }
+  .barra-inf { height: 60px; flex: none; display: flex; align-items: center; gap: 24px;
+    padding: 0 24px; border-top: 1px solid var(--linea); background: rgba(0,0,0,0.22); }
+  .rot-sup { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.12em; color: var(--apag); white-space: nowrap; }
+  .cuenta { font-family: var(--f-mono); font-size: 12px; color: var(--txt); font-variant-numeric: tabular-nums; }
+  .acc { display: flex; align-items: center; gap: 8px; }
+  .icono-btn { width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--linea); background: transparent;
+    color: var(--apag); display: grid; place-items: center; }
+  .salir { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.08em; color: var(--apag);
+    border: 1px solid var(--linea); border-radius: 8px; height: 34px; padding: 0 14px; display: flex; align-items: center; }
+
+  .nav { height: 40px; padding: 0 22px; border-radius: 9px; display: flex; align-items: center;
+    font-size: 14.5px; font-weight: 500; flex: none; }
+  .nav-sec { border: 1px solid var(--linea2); background: transparent; color: var(--txt); }
+  .nav-pri { border: 1px solid var(--ac); background: var(--ac); color: #0b1420; font-weight: 600; }
+
+  .scrub { flex: 1; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .scrub .etq { display: flex; justify-content: space-between; font-family: var(--f-mono); font-size: 10.5px;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--tenue); }
+  .pista { position: relative; height: 4px; border-radius: 2px; background: var(--sup2); }
+  .pista .lleno { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 2px; background: var(--ac); }
+  .pista .cursor { position: absolute; top: -4px; width: 12px; height: 12px; border-radius: 50%;
+    background: var(--ac); border: 2px solid var(--bg); }
+  .pista .tic { position: absolute; top: -2px; width: 1.5px; height: 8px; border-radius: 1px; background: var(--tenue); }
+
+  .lienzo { flex: 1; padding: 26px 44px 22px; display: flex; flex-direction: column; gap: 15px; min-height: 0; }
+  .et { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ac); margin-bottom: 7px; }
+  .tt { font-family: var(--f-tit); font-weight: 600; font-size: 34px; line-height: 1.16; letter-spacing: -0.022em; color: var(--tit); margin: 0; }
+  .eyebrow { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--apag); margin-bottom: 11px; }
+  .tarj { background: var(--sup); border: 1px solid var(--linea); border-radius: 10px; padding: 16px 20px; }
+  .ic { width: 15px; height: 15px; flex: none; margin-top: 3px; }
+  .fila { display: flex; gap: 11px; align-items: flex-start; font-size: 15px; line-height: 1.55; }
+  .fila + .fila { margin-top: 9px; }
+  .fila .tx { color: var(--tit); }
+  .fila .tx-m { color: var(--apag); }
+  .slide-esp { --ac:#c98bbb; --ac-t:rgba(201,139,187,0.12); --ac-b:rgba(201,139,187,0.34); }
+  .destacado { background: var(--ac-t); border: 1px solid var(--ac-b); border-radius: 10px; padding: 15px 20px;
+    font-size: 18px; line-height: 1.55; color: var(--tit); margin: 0; text-wrap: pretty; }
+  .rejilla { flex: 1; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 16px; min-height: 0; }
+  .lado { display: flex; flex-direction: column; gap: 16px; }
+  table.tb { width: 100%; border-collapse: collapse; }
+  .tb th { font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--apag);
+    text-align: left; font-weight: 500; padding: 0 14px 9px 0; border-bottom: 1px solid var(--linea); }
+  .tb td { font-size: 14px; line-height: 1.4; color: var(--txt); padding: 8px 14px 8px 0; border-bottom: 1px solid var(--linea); vertical-align: top; }
+  .tb td.reg { color: var(--tit); }
+  .tb td.ej { font-family: var(--f-mono); font-size: 12.5px; color: var(--ac); }
+  .tb tr:last-child td { border-bottom: none; padding-bottom: 0; }
+  .nota { background: var(--sup2); border-radius: 8px; padding: 12px 16px; font-size: 14px; line-height: 1.55; color: var(--apag); margin: 0; }
+  .nota b { font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ac); margin-right: 10px; font-weight: 500; }
+  .oculto { opacity: 0.28; }
+  .fila.alt { padding: 8px 11px; border: 1px dashed var(--linea2); border-radius: 8px; }
+  .tach { font-family: var(--f-mono); font-size: 0.92em; color: var(--apag); text-decoration: line-through; text-decoration-thickness: 1px; }
+  .revelar { display: inline-flex; align-items: center; gap: 7px; font-family: var(--f-mono); font-size: 9.5px;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--tenue); }
+</style>
+</helmet>
+
+<div class="slide slide-esp">
+
+  <div class="barra-sup">
+    <span class="rot-sup">Acentuación</span>
+    <span class="cuenta">3 / 58</span>
+    <div class="acc">
+      <span class="icono-btn"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M6 1.5H1.5V6M10 1.5H14.5V6M10 14.5H14.5V10M6 14.5H1.5V10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+      <span class="salir">Salir</span>
+    </div>
+  </div>
+
+  <div class="lienzo">
+    <div>
+      <div class="et">Introducción · Silabeo</div>
+      <h2 class="tt">Cómo dividir una palabra en sílabas</h2>
+    </div>
+
+    <p class="destacado">La sílaba es la unidad mínima de pronunciación y cada una contiene al menos una vocal. Silabear bien es el paso previo a cualquier regla de acentuación: seis reglas cubren casi todo el español.</p>
+
+    <div class="rejilla">
+      <div class="tarj" style="grid-column: span 7;">
+        <div class="eyebrow">Reglas de silabeo</div>
+        <table class="tb">
+          <tr><th style="width: 44%;">Situación</th><th style="width: 30%;">Regla</th><th>Ejemplos</th></tr>
+          <tr><td>Una consonante entre vocales</td><td class="reg">Con la sílaba siguiente</td><td class="ej">ma-no · li-bro</td></tr>
+          <tr><td>Dos consonantes entre vocales</td><td class="reg">Se separan</td><td class="ej">car-ta · per-so-na</td></tr>
+          <tr><td>Grupos inseparables (pr, tr, bl, cl…)</td><td class="reg">Van juntos</td><td class="ej">pa-dre · a-brir</td></tr>
+          <tr><td>rr · ll · ch (fonema único)</td><td class="reg">Nunca se separan</td><td class="ej">pe-rro · ha-cha</td></tr>
+          <tr><td>Diptongo: cerrada átona + abierta</td><td class="reg">Una sola sílaba</td><td class="ej">ai-re · cau-sa</td></tr>
+          <tr><td>Hiato: cerrada tónica + vocal</td><td class="reg">Sílabas separadas</td><td class="ej">pa-ís · ba-úl</td></tr>
+        </table>
+      </div>
+
+      <div class="lado" style="grid-column: span 5;">
+        <div class="tarj">
+          <div class="eyebrow">Diptongo vs. hiato — decide la tonicidad</div>
+          <div class="fila"><svg class="ic" viewBox="0 0 16 16" fill="none" style="color: var(--ac);"><path d="M3.5 8.4l3 3 6-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="tx">Se separa <b>bue-no</b>, dos sílabas: la u es átona.</span></div>
+          <div class="fila alt"><svg class="ic" viewBox="0 0 16 16" fill="none" style="color: var(--tenue);"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"></circle><line x1="3.8" y1="12.2" x2="12.2" y2="3.8" stroke="currentColor" stroke-width="1.5"></line></svg><span class="tx-m">No <span class="tach">bu-e-no</span> — la u átona no rompe el diptongo.</span></div>
+        </div>
+
+        <div class="tarj oculto">
+          <div class="revelar">
+            <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M1.5 8s2.4-4.5 6.5-4.5S14.5 8 14.5 8s-2.4 4.5-6.5 4.5S1.5 8 1.5 8z" stroke="currentColor" stroke-width="1.3"></path><circle cx="8" cy="8" r="1.9" stroke="currentColor" stroke-width="1.3"></circle></svg>
+            Se revela al avanzar
+          </div>
+          <div style="margin-top: 10px;" class="fila"><svg class="ic" viewBox="0 0 16 16" fill="none" style="color: var(--ac);"><path d="M3.5 8.4l3 3 6-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="tx">Se escribe <b>pro-hí-be</b>: la h no separa las vocales.</span></div>
+        </div>
+
+        <p class="nota"><b>Nota</b>Cuando una palabra trae h entre vocales, silabéala como si la h no existiera.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="barra-inf">
+    <span class="nav nav-sec">← Anterior</span>
+    <div class="scrub">
+      <div class="etq"><span>Introducción · Silabeo</span><span>3 de 58</span></div>
+      <div class="pista">
+        <span class="lleno" style="width: 5.2%;"></span>
+        <span class="cursor" style="left: 4%;"></span>
+        <span class="tic" style="left: 12%;"></span><span class="tic" style="left: 24%;"></span><span class="tic" style="left: 36%;"></span>
+        <span class="tic" style="left: 48%;"></span><span class="tic" style="left: 60%;"></span><span class="tic" style="left: 72%;"></span>
+        <span class="tic" style="left: 84%;"></span><span class="tic" style="left: 96%;"></span>
+      </div>
+    </div>
+    <span class="nav nav-pri">Siguiente →</span>
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=STIX+Two+Text:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  .mv {
+    --bg:#0e1926; --sup:#16222f; --sup2:#1c2a38; --linea:#243343; --linea2:#31445a;
+    --tit:#edf3fa; --txt:#c6d4e3; --apag:#8497ab; --tenue:#5e7085;
+    --f-tit:'Sora', system-ui, sans-serif; --f-txt:'Figtree', system-ui, sans-serif;
+    --f-mono:'IBM Plex Mono', ui-monospace, monospace; --f-mat:'STIX Two Text', serif;
+    width: 960px; min-height: 1200px; padding: 48px 54px 64px; background: #0e1926; color: #c6d4e3;
+    font-family: var(--f-txt); -webkit-font-smoothing: antialiased;
+  }
+  .mv *, .mv *::before, .mv *::after { box-sizing: border-box; }
+  .mv .mono { font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--apag); }
+  .mv h1 { font-family: var(--f-tit); font-weight: 600; font-size: 40px; line-height: 1.08; letter-spacing: -0.026em; color: var(--tit); margin: 0; }
+  .mv .lead { font-size: 18px; line-height: 1.6; color: var(--txt); margin: 0; max-width: 72ch; text-wrap: pretty; }
+  .mv .cab { display: flex; flex-direction: column; gap: 13px; padding-bottom: 28px; border-bottom: 1px solid var(--linea); margin-bottom: 40px; }
+  .mv .marca { display: flex; align-items: center; gap: 12px; }
+  .mv .logo { width: 32px; height: 32px; border-radius: 9px; background: #4f92f0; display: grid; place-items: center; color: #0e1926; font-family: var(--f-tit); font-weight: 700; font-size: 16px; }
+  .mv .grupo { display: flex; flex-direction: column; gap: 14px; margin-bottom: 44px; }
+  .mv .rot { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--apag); }
+  .mv .pie { font-size: 14.5px; line-height: 1.55; color: var(--apag); margin: 0; max-width: 80ch; }
+
+  .tel { width: 852px; height: 393px; border-radius: 16px; overflow: hidden; border: 1px solid var(--linea2);
+    display: flex; flex-direction: column; }
+  .tel.osc { --ac:#e8b34d; --ac-t:rgba(232,179,77,0.12); --ac-b:rgba(232,179,77,0.34);
+    --f-bg:#0e1926; --f-sup:#16222f; --f-sup2:#1c2a38; --f-lin:#243343; --f-lin2:#31445a;
+    --f-tit-c:#edf3fa; --f-txt-c:#c6d4e3; --f-apag:#8497ab; --f-tenue:#5e7085; }
+  .tel.clr { --ac:#0056d2; --ac-t:#eef4fe; --ac-b:#b4cdf8;
+    --f-bg:#f7f9fc; --f-sup:#ffffff; --f-sup2:#eff3f9; --f-lin:#e3e9f2; --f-lin2:#cdd8e6;
+    --f-tit-c:#0a2540; --f-txt-c:#33475b; --f-apag:#5a6b7f; --f-tenue:#8e9aa8; }
+  .tel { background: var(--f-bg); color: var(--f-txt-c); }
+
+  .tbar { height: 40px; flex: none; display: flex; align-items: center; justify-content: space-between;
+    padding: 0 14px; border-bottom: 1px solid var(--f-lin); gap: 12px; }
+  .tbar .r { font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.1em; color: var(--f-apag); }
+  .bbar { height: 52px; flex: none; display: flex; align-items: center; gap: 12px; padding: 0 12px; border-top: 1px solid var(--f-lin); }
+  .tnav { height: 44px; min-width: 44px; padding: 0 16px; border-radius: 9px; display: flex; align-items: center;
+    font-size: 14px; font-weight: 500; flex: none; }
+  .tnav-s { border: 1px solid var(--f-lin2); color: var(--f-txt-c); }
+  .tnav-p { background: var(--ac); color: #0b1420; font-weight: 600; }
+  .tclr .tnav-p { color: #ffffff; }
+  .tpista { flex: 1; height: 3px; border-radius: 2px; background: var(--f-sup2); position: relative; min-width: 0; }
+  .tpista i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 2px; background: var(--ac); }
+
+  .tcont { flex: 1; padding: 14px 16px; display: flex; flex-direction: column; gap: 11px; overflow: hidden; position: relative; }
+  .tet { font-family: var(--f-mono); font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ac); margin-bottom: 5px; }
+  .ttt { font-family: var(--f-tit); font-weight: 600; font-size: 21px; line-height: 1.2; letter-spacing: -0.015em; color: var(--f-tit-c); margin: 0; }
+  .tdest { background: var(--ac-t); border: 1px solid var(--ac-b); border-radius: 9px; padding: 11px 14px;
+    font-size: 15px; line-height: 1.5; color: var(--f-tit-c); margin: 0; }
+  .tficha { background: var(--f-sup); border: 1px solid var(--f-lin); border-radius: 9px; padding: 11px 14px; }
+  .tficha .fk { font-size: 15px; line-height: 1.4; color: var(--f-tit-c); margin-bottom: 7px; }
+  .tficha .fr { display: flex; justify-content: space-between; gap: 12px; font-size: 13.5px; }
+  .tficha .fr .a { color: var(--f-tit-c); }
+  .tficha .fr .b { font-family: var(--f-mono); font-size: 12.5px; color: var(--ac); }
+  .tfade { position: absolute; left: 0; right: 0; bottom: 0; height: 44px; pointer-events: none; }
+  .tel.osc .tfade { background: linear-gradient(to bottom, rgba(14,25,38,0), #0e1926); }
+  .tel.clr .tfade { background: linear-gradient(to bottom, rgba(247,249,252,0), #f7f9fc); }
+
+  .top { display: flex; align-items: center; gap: 14px; background: var(--f-sup); border: 1px solid var(--f-lin);
+    border-radius: 10px; padding: 0 16px; height: 52px; }
+  .top .l { width: 26px; height: 26px; border-radius: 7px; border: 1px solid var(--f-lin2); color: var(--f-apag);
+    font-family: var(--f-mono); font-size: 12px; display: grid; place-items: center; flex: none; }
+  .top .t { font-size: 16px; color: var(--f-txt-c); }
+  .tenun { font-family: var(--f-tit); font-weight: 500; font-size: 19px; line-height: 1.28; color: var(--f-tit-c); margin: 0; }
+</style>
+</helmet>
+
+<div class="mv">
+
+  <div class="cab">
+    <div class="marca">
+      <div class="logo">F</div>
+      <span class="mono">Presentaciones · celular en horizontal</span>
+    </div>
+    <h1>Cuando la clase se ve desde un teléfono</h1>
+    <p class="lead">Un iPhone acostado deja 852 × 393 puntos, y las dos barras se llevan 92 de esos 393. Por debajo de 768 px de ancho, los bloques dejan de escalar y se reacomodan a una columna: la tabla se vuelve fichas, la rejilla se colapsa y el cuerpo no baja de 15 px reales.</p>
+  </div>
+
+  <div class="grupo">
+    <div class="rot">Diapositiva 3 · la tabla se convierte en fichas · tema oscuro</div>
+    <div class="tel osc">
+      <div class="tbar"><span class="r">Acentuación</span><span class="r">3 / 58</span></div>
+      <div class="tcont">
+        <div>
+          <div class="tet">Introducción · Silabeo</div>
+          <h2 class="ttt">Cómo dividir una palabra en sílabas</h2>
+        </div>
+        <p class="tdest">La sílaba es la unidad mínima de pronunciación y cada una contiene al menos una vocal.</p>
+        <div class="tficha">
+          <div class="fk">Una consonante entre vocales</div>
+          <div class="fr"><span class="a">Con la sílaba siguiente</span><span class="b">ma-no · li-bro</span></div>
+        </div>
+        <div class="tficha">
+          <div class="fk">Dos consonantes entre vocales</div>
+          <div class="fr"><span class="a">Se separan</span><span class="b">car-ta · per-so-na</span></div>
+        </div>
+        <div class="tficha" style="opacity: 0.5;">
+          <div class="fk">Grupos inseparables (pr, tr, bl, cl…)</div>
+          <div class="fr"><span class="a">Van juntos</span><span class="b">pa-dre · a-brir</span></div>
+        </div>
+        <div class="tfade"></div>
+      </div>
+      <div class="bbar">
+        <span class="tnav tnav-s">←</span>
+        <span class="tpista"><i style="width: 5.2%;"></i></span>
+        <span class="tnav tnav-p">Siguiente →</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="grupo">
+    <div class="rot">Diapositiva 4 · el reactivo a una columna · tema claro</div>
+    <div class="tel clr tclr">
+      <div class="tbar"><span class="r">Acentuación</span><span class="r">4 / 58</span></div>
+      <div class="tcont" style="gap: 13px;">
+        <div>
+          <div class="tet">Reactivo 1 de 8 · Silabeo</div>
+          <p class="tenun">¿Cuántas sílabas tiene la palabra «establecimiento»?</p>
+        </div>
+        <div class="top"><span class="l">A</span><span class="t">Siete sílabas</span></div>
+        <div class="top"><span class="l">B</span><span class="t">Cinco sílabas</span></div>
+        <div class="top"><span class="l">C</span><span class="t">Seis sílabas</span></div>
+      </div>
+      <div class="bbar">
+        <span class="tnav tnav-s">←</span>
+        <span class="tpista"><i style="width: 6.9%;"></i></span>
+        <span class="tnav tnav-p">Siguiente →</span>
+      </div>
+    </div>
+  </div>
+
+  <p class="pie">Las dos barras encogen a 40 y 52 px, y los controles conservan 44 px de alto táctil. El riel de 58 puntos desaparece: en un teléfono era imposible de atinar, así que queda solo la barra de avance, y el salto a una diapositiva concreta se hace desde el índice.</p>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,449 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=STIX+Two+Text:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; }
+  a { color: #4f92f0; text-decoration: none; }
+  a:hover { color: #85aef1; text-decoration: underline; }
+
+  .tema-oscuro {
+    --bg:#0e1926; --sup:#16222f; --sup2:#1c2a38;
+    --linea:#243343; --linea2:#31445a;
+    --tit:#edf3fa; --txt:#c6d4e3; --apag:#8497ab; --tenue:#5e7085;
+    --ac:#4f92f0; --ac-t:rgba(79,146,240,0.12); --ac-b:rgba(79,146,240,0.34);
+    --sombra:0 1px 2px rgba(0,0,0,.40), 0 10px 28px rgba(0,0,0,.26);
+  }
+  .tema-claro {
+    --bg:#f7f9fc; --sup:#ffffff; --sup2:#eff3f9;
+    --linea:#e3e9f2; --linea2:#cdd8e6;
+    --tit:#0a2540; --txt:#33475b; --apag:#5a6b7f; --tenue:#8e9aa8;
+    --ac:#0056d2; --ac-t:#eef4fe; --ac-b:#b4cdf8;
+    --sombra:0 1px 2px rgba(10,37,64,.04), 0 8px 24px rgba(10,37,64,.06);
+  }
+  .lienzo {
+    --f-tit:'Sora', system-ui, sans-serif;
+    --f-txt:'Figtree', system-ui, sans-serif;
+    --f-mono:'IBM Plex Mono', ui-monospace, monospace;
+    --f-mat:'STIX Two Text', 'Cambria Math', serif;
+    width: 1280px; min-height: 5900px; padding: 56px 56px 80px;
+    background: var(--bg); color: var(--txt);
+    font-family: var(--f-txt); -webkit-font-smoothing: antialiased;
+  }
+  .lienzo *, .lienzo *::before, .lienzo *::after { box-sizing: border-box; }
+
+  .cab { display: flex; flex-direction: column; gap: 14px; padding-bottom: 30px; border-bottom: 1px solid var(--linea); margin-bottom: 44px; }
+  .marca { display: flex; align-items: center; gap: 12px; }
+  .logo { width: 32px; height: 32px; border-radius: 9px; background: var(--ac); display: grid; place-items: center; color: var(--bg); font-family: var(--f-tit); font-weight: 700; font-size: 16px; }
+  .mono { font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--apag); }
+  h1.t { font-family: var(--f-tit); font-weight: 600; font-size: 44px; line-height: 1.08; letter-spacing: -0.026em; color: var(--tit); margin: 0; }
+  .lead { font-size: 19px; line-height: 1.62; color: var(--txt); margin: 0; max-width: 76ch; text-wrap: pretty; }
+
+  .ents { display: flex; flex-direction: column; gap: 38px; }
+  .ent { display: flex; flex-direction: column; gap: 12px; }
+  .ent-cab { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .num { font-family: var(--f-mono); font-size: 11px; font-weight: 500; color: var(--bg); background: var(--ac); border-radius: 5px; padding: 2px 7px; letter-spacing: 0.06em; }
+  .tipo { font-family: var(--f-mono); font-size: 14px; font-weight: 600; color: var(--tit); }
+  .campos { font-family: var(--f-mono); font-size: 11.5px; color: var(--tenue); }
+  .uso { font-size: 14px; color: var(--apag); flex: 1; min-width: 260px; text-align: right; }
+  .sin-esquema .campos { display: none; }
+
+  .tarj { background: var(--sup); border: 1px solid var(--linea); border-radius: 10px; padding: 16px 20px; }
+  .eyebrow { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--apag); margin-bottom: 11px; }
+
+  .enc .et { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ac); margin-bottom: 7px; }
+  .enc h2 { font-family: var(--f-tit); font-weight: 600; font-size: 34px; line-height: 1.16; letter-spacing: -0.022em; color: var(--tit); margin: 0; }
+
+  .destacado { background: var(--ac-t); border: 1px solid var(--ac-b); border-radius: 10px; padding: 17px 22px; font-size: 19px; line-height: 1.58; color: var(--tit); margin: 0; text-wrap: pretty; }
+  .parrafo { font-size: 17px; line-height: 1.68; color: var(--txt); margin: 0; max-width: 82ch; text-wrap: pretty; }
+
+  .def .term { font-family: var(--f-tit); font-weight: 600; font-size: 20px; color: var(--tit); margin-bottom: 6px; }
+  .def .cuerpo { font-size: 16px; line-height: 1.62; color: var(--txt); margin: 0; }
+
+  .form { text-align: center; padding: 24px 20px; background: var(--sup); border: 1px solid var(--ac-b); border-radius: 10px; }
+  .form .f { font-family: var(--f-mat); font-size: 30px; color: var(--tit); }
+  .form .de { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--apag); margin-top: 13px; }
+
+  ul.li { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px; }
+  ul.li li { display: flex; gap: 12px; font-size: 16px; line-height: 1.55; color: var(--txt); }
+  ul.li .mk { width: 6px; height: 6px; border-radius: 2px; background: var(--ac); flex: none; margin-top: 9px; }
+
+  .pso { display: flex; gap: 14px; align-items: flex-start; }
+  .pso + .pso { margin-top: 13px; }
+  .pso .b { width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--ac-b); color: var(--ac); font-family: var(--f-mono); font-size: 11.5px; display: grid; place-items: center; flex: none; }
+  .pso .cu { font-size: 15.5px; line-height: 1.55; color: var(--txt); }
+  .mat { font-family: var(--f-mat); font-size: 18px; color: var(--tit); }
+  .qed { font-family: var(--f-mat); font-size: 16px; color: var(--apag); text-align: right; }
+
+  table.tb { width: 100%; border-collapse: collapse; }
+  .tb th { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--apag); text-align: left; font-weight: 500; padding: 0 16px 10px 0; border-bottom: 1px solid var(--linea); }
+  .tb td { font-size: 15px; color: var(--txt); padding: 10px 16px 10px 0; border-bottom: 1px solid var(--linea); vertical-align: top; }
+  .tb td.reg { color: var(--tit); }
+  .tb td.ej { font-family: var(--f-mono); font-size: 13px; color: var(--ac); }
+  .tb tr:last-child td { border-bottom: none; padding-bottom: 0; }
+
+  .ic { width: 15px; height: 15px; flex: none; margin-top: 3px; }
+  .fila { display: flex; gap: 11px; align-items: flex-start; font-size: 15.5px; line-height: 1.55; }
+  .fila + .fila { margin-top: 9px; }
+  .fila .tx { color: var(--tit); }
+  .fila .tx-m { color: var(--apag); }
+
+  .trampa { display: flex; gap: 15px; background: var(--sup); border: 1px solid var(--linea); border-radius: 10px; padding: 16px 20px; }
+  .badge { width: 26px; height: 26px; border-radius: 7px; border: 1px solid var(--ac-b); background: var(--ac-t); color: var(--ac); font-family: var(--f-mono); font-size: 12px; font-weight: 600; display: grid; place-items: center; flex: none; }
+
+  .nota { background: var(--sup2); border-radius: 8px; padding: 13px 17px; font-size: 14.5px; line-height: 1.55; color: var(--apag); }
+  .nota b { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ac); margin-right: 11px; font-weight: 500; }
+
+  .cols { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .col { padding: 6px 18px; text-align: center; border-right: 1px solid var(--linea); }
+  .col:last-child { border-right: none; }
+  .col h4 { font-family: var(--f-tit); font-weight: 600; font-size: 19px; letter-spacing: -0.01em; color: var(--ac); margin: 0 0 2px; }
+  .col .alt { font-size: 13px; color: var(--apag); margin-bottom: 13px; }
+  .celdas { display: flex; gap: 5px; justify-content: center; margin-bottom: 13px; }
+  .celda { width: 26px; height: 26px; border-radius: 6px; border: 1px solid var(--linea2); }
+  .celda.on { border-color: var(--ac); background: var(--ac-t); display: grid; place-items: center; }
+  .punto { width: 5px; height: 5px; border-radius: 50%; background: var(--ac); }
+  .ejm { font-family: var(--f-mat); font-style: italic; font-size: 19px; color: var(--tit); margin-bottom: 7px; }
+  .regla { font-size: 13.5px; line-height: 1.45; color: var(--apag); }
+
+  .cs { display: grid; grid-template-columns: 200px 1fr; }
+  .cs .k { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--apag); padding: 11px 16px 11px 0; border-bottom: 1px solid var(--linea); }
+  .cs .v { font-size: 15px; line-height: 1.5; color: var(--txt); padding: 11px 0; border-bottom: 1px solid var(--linea); }
+  .cs .k:nth-last-child(2), .cs .v:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .seq { display: flex; align-items: center; gap: 11px; }
+  .paso { flex: 1; background: var(--sup2); border: 1px solid var(--linea); border-radius: 9px; padding: 13px 15px; }
+  .paso .n { font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.16em; color: var(--ac); margin-bottom: 6px; }
+  .paso .d { font-size: 14px; line-height: 1.45; color: var(--txt); }
+  .chev { color: var(--tenue); flex: none; }
+
+  .lt { position: relative; padding-top: 30px; }
+  .lt .riel { position: absolute; top: 8px; left: 4px; right: 4px; height: 1px; background: var(--linea2); }
+  .hitos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
+  .hito { position: relative; }
+  .hito .pt { position: absolute; top: -26px; left: 0; width: 9px; height: 9px; border-radius: 50%; background: var(--ac); }
+  .hito .ano { font-family: var(--f-mono); font-size: 12px; color: var(--ac); margin-bottom: 4px; }
+  .hito .ev { font-size: 14px; line-height: 1.45; color: var(--txt); }
+
+  .op { display: flex; align-items: center; gap: 15px; background: var(--sup); border: 1px solid var(--linea); border-radius: 9px; padding: 14px 18px; }
+  .op + .op { margin-top: 9px; }
+  .op .letra { font-family: var(--f-mono); font-size: 12px; color: var(--apag); width: 14px; flex: none; }
+  .op .tx2 { font-size: 16px; color: var(--txt); }
+  .barra { height: 6px; border-radius: 3px; background: var(--sup2); overflow: hidden; flex: 1; }
+  .barra i { display: block; height: 100%; background: var(--ac); border-radius: 3px; }
+  .votos { font-family: var(--f-mono); font-size: 12px; color: var(--apag); width: 34px; text-align: right; flex: none; }
+
+  .fila.alt { padding: 9px 12px; border: 1px dashed var(--linea2); border-radius: 8px; }
+  .tach { font-family: var(--f-mono); font-size: 0.92em; color: var(--apag); text-decoration: line-through; text-decoration-thickness: 1px; }
+  .op-conf { border-color: var(--ac-b); background: var(--ac-t); }
+  .op-elegida { border-style: dashed; }
+  .etq-op { margin-left: auto; font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--tenue); flex: none; }
+  .expl { margin-top: 12px; background: var(--sup2); border-radius: 9px; padding: 13px 17px; font-size: 15px; line-height: 1.55; color: var(--txt); }
+  .expl b { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ac); margin-right: 11px; font-weight: 500; }
+
+  .obj { display: flex; gap: 12px; align-items: flex-start; font-size: 16px; line-height: 1.5; color: var(--txt); }
+  .obj + .obj { margin-top: 10px; }
+  .cuadro { width: 15px; height: 15px; border-radius: 4px; border: 1.5px solid var(--linea2); flex: none; margin-top: 3px; }
+
+  .cierre { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+  .mini { background: var(--sup); border: 1px solid var(--linea); border-radius: 10px; padding: 15px 17px; }
+  .mini .mt { font-family: var(--f-tit); font-weight: 600; font-size: 16px; color: var(--tit); margin-bottom: 6px; }
+  .mini .md { font-size: 14px; line-height: 1.5; color: var(--apag); }
+</style>
+</helmet>
+
+<div class="lienzo tema-oscuro {{esquema}}">
+
+  <div class="cab">
+    <div class="marca">
+      <div class="logo">F</div>
+      <span class="mono">Presentaciones · catálogo de bloques · tema oscuro</span>
+    </div>
+    <h1 class="t">Bloques modulares</h1>
+    <p class="lead">Una diapositiva es un lienzo de 1280 × 720 que apila bloques sobre una rejilla de 12 columnas. Cualquier presentación se escribe combinando estas piezas; ninguna materia necesita componentes propios. El acento cambia por materia, todo lo demás es común.</p>
+  </div>
+
+  <div class="ents">
+
+    <section class="ent">
+      <div class="ent-cab"><span class="num">01</span><span class="tipo">encabezado</span><span class="campos">etiqueta · titulo</span><span class="uso">Va una sola vez, arriba del lienzo.</span></div>
+      <div class="enc">
+        <div class="et">Regla 5 / 12</div>
+        <h2>Diptongo — dos vocales en una sola sílaba</h2>
+      </div>
+    </section>
+
+    <section class="ent">
+      <div class="ent-cab"><span class="num">02</span><span class="tipo">destacado</span><span class="campos">texto</span><span class="uso">El enunciado que define la diapositiva. Uno como máximo.</span></div>
+      <p class="destacado">Toda palabra tiene una sílaba que se pronuncia con mayor intensidad: la sílaba tónica. Según dónde recaiga, la palabra se clasifica en uno de cuatro tipos.</p>
+    </section>
+
+    <section class="ent">
+      <div class="ent-cab"><span class="num">03</span><span class="tipo">texto</span><span class="campos">cuerpo</span><span class="uso">Prosa expositiva. Sin caja, para no competir con lo importante.</span></div>
+      <p class="parrafo">Un diptongo es la unión de dos vocales en una sola sílaba. Se forma al combinar una vocal abierta (a, e, o) con una vocal cerrada átona (i, u) en cualquier orden, o al unir dos vocales cerradas. Si la cerrada es tónica no hay diptongo, sino hiato.</p>
+    </section>
+
+    <section class="ent">
+      <div class="ent-cab"><span class="num">04</span><span class="tipo">definicion</span><span class="campos">termino · cuerpo · etiqueta?</span><span class="uso">Enunciado formal numerable, citable con [[etiqueta]].</span></div>
+      <div class="tarj def">
+        <div class="eyebrow">Definición 2.1 · circunferencia</div>
+        <div class="term">Circunferencia</div>
+        <p class="cuerpo">Conjunto de todos los puntos del plano que equidistan de un punto fijo llamado centro <span class="mat">O</span>. Esa distancia constante <span class="mat">r</span> se llama radio.</p>
+      </div>
+    </section>
+
+    <section class="ent">
+      <div class="ent-cab"><span class="num">05</span><span class="tipo">formula</span><span class="campos">math · de?</span><span class="uso">KaTeX centrado. La procedencia va debajo, nunca en el aire.</span></div>
+      <div class="form">
+        <div class="f">P² = 4πA</div>
+        <div class="de">de una fórmula a la otra sin pasar por el radio</div>
+      </div>
+    </section>
+
+    <section class="ent">
+      <div class="ent-cab"><span class="num">06</span><span class="tipo">lista</span><span class="campos">items[] · estilo: vinetas | numerada</span><span class="uso">Enumeración corta. Si pasa de seis, es una tabla.</span></div>
+      <ul class="li">
+        <li><span class="mk"></span><span>La tilde de un diptongo va sobre la vocal <b>abierta</b>: hu<b>é</b>sped, t<b>a</b>mbién.</span></li>
+        <li><span class="mk"></span><span>Si el diptongo son dos cerradas, la tilde va sobre la <b>segunda</b>: cuíd<b>a</b>te, benjuí.</span></li>
+        <li><span class="mk"></span><span>La <i>y</i> final cuenta como <i>i</i> para formar diptongo, pero nunca lleva tilde.</span></li>
+      </ul>
+    </section>
+
+    <section class="ent">
+      <div class="ent-cab"><span class="num">07</span><span class="tipo">pasos</span><span class="campos">metodo? · pasos[{texto, math}]</span><span class="uso">Demostración o procedimiento. Cierra con ∎.</span></div>
+      <div class="tarj">
+        <div class="eyebrow">Demostración · por sustitución</div>
+        <div class="pso"><span class="b">1</span><div class="cu">Del perímetro despejamos el radio: <span class="mat">r = P / 2π</span>.</div></div>
+        <div class="pso"><span class="b">2</span><div class="cu">Sustituimos ese radio en el área: <span class="mat">A = π (P / 2π)²</span>.</div></div>
+        <div class="pso"><span class="b">3</span><div class="cu">Simplificamos y despejamos: <span class="mat">P² = 4πA</span>.</div></div>
+        <div class="qed">∎</div>
+      </div>
+    </section>
+
+    <section class="ent">
+      <div class="ent-cab"><span class="num">08</span><span class="tipo">tabla</span><span class="campos">columnas[] · filas[][]</span><span class="uso">Máximo seis filas en lienzo; en celular se apila en tarjetas.</span></div>
+      <div class="tarj">
+        <div class="eyebrow">Reglas de silabeo</div>
+        <table class="tb">
+          <tr><th style="width: 38%;">Situación</th><th style="width: 32%;">Regla</th><th>Ejemplos</th></tr>
+          <tr><td>Una consonante entre vocales</td><td class="reg">Va con la sílaba siguiente</td><td class="ej">ma-no · ca-sa · li-bro</td></tr>
+          <tr><td>Dos consonantes entre vocales</td><td class="reg">Se separan, una a cada lado</td><td class="ej">car-ta · per-so-na</td></tr>
+          <tr><td>Grupos inseparables (pr, tr, bl, cl…)</td><td class="reg">Van juntos con la vocal siguiente</td><td class="ej">pa-dre · o-bra · a-brir</td></tr>
+          <tr><td>rr · ll · ch (fonema único)</td><td class="reg">Nunca se separan</td><td class="ej">pe-rro · ca-lle · ha-cha</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <section class="ent">
+      <div class="ent-cab"><span class="num">09</span><span class="tipo">par</span><span class="campos">etiqueta? · asi_es · asi_no</span><span class="uso">Contraste entre dos formas. Habla de la lengua, no de quien responde.</span></div>
+      <div class="tarj">
+        <div class="eyebrow">Diptongo vs. hiato — la tonicidad de la cerrada decide</div>
+        <div class="fila"><svg class="ic" viewBox="0 0 16 16" fill="none" style="color: var(--ac);"><path d="M3.5 8.4l3 3 6-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="tx">Se separa <b>bue-no</b>, dos sílabas: la u es átona y forma diptongo.</span></div>
+        <div class="fila alt"><svg class="ic" viewBox="0 0 16 16" fill="none" style="color: var(--tenue);"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"></circle><line x1="3.8" y1="12.2" x2="12.2" y2="3.8" stroke="currentColor" stroke-width="1.5"></line></svg><span class="tx-m">No <span class="tach">bu-e-no</span>, tres sílabas — la u átona no rompe el diptongo.</span></div>
+      </div>
+    </section>
+
+    <section class="ent">
+      <div class="ent-cab"><span class="num">10</span><span class="tipo">trampa</span><span class="campos">letra · titulo · asi_es · asi_no</span><span class="uso">El distractor que el examen sí usa. Se marca con letra para citarlo en voz alta.</span></div>
+      <div class="trampa">
+        <div class="badge">A</div>
+        <div style="flex: 1;">
+          <div class="eyebrow" style="margin-bottom: 9px;">La h entre vocales es muda — las vocales interactúan como si no existiera</div>
+          <div class="fila"><svg class="ic" viewBox="0 0 16 16" fill="none" style="color: var(--ac);"><path d="M3.5 8.4l3 3 6-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="tx">Se escribe <b>pro-hí-be</b>: la í tónica forma hiato con la e y lleva tilde.</span></div>
+          <div class="fila alt"><svg class="ic" viewBox="0 0 16 16" fill="none" style="color: var(--tenue);"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"></circle><line x1="3.8" y1="12.2" x2="12.2" y2="3.8" stroke="currentColor" stroke-width="1.5"></line></svg><span class="tx-m">No <span class="tach">prohibe</span> sin tilde: la h no impide que la í sea tónica.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ent">
+      <div class="ent-cab"><span class="num">11</span><span class="tipo">nota</span><span class="campos">texto · etiqueta?</span><span class="uso">Apunte al margen. Nunca lleva información que se evalúe.</span></div>
+      <p class="nota"><b>Nota</b>La relación P² = 4πA permite convertir entre perímetro y área sin calcular el radio; se deduce combinando las dos fórmulas anteriores.</p>
+    </section>
+
+    <section class="ent">
+      <div class="ent-cab"><span class="num">12</span><span class="tipo">columnas</span><span class="campos">paneles[{titulo, alterno, celdas, ejemplo, regla}]</span><span class="uso">De dos a cuatro paneles paralelos. Comparación, no enumeración.</span></div>
+      <div class="tarj">
+        <div class="eyebrow">Posición de la sílaba tónica en cada tipo</div>
+        <div class="cols">
+          <div class="col">
+            <h4>Aguda</h4><div class="alt">oxítona</div>
+            <div class="celdas"><span class="celda"></span><span class="celda"></span><span class="celda"></span><span class="celda on"><i class="punto"></i></span></div>
+            <div class="ejm">ca-FÉ</div><div class="regla">tilde si termina en vocal, n o s</div>
+          </div>
+          <div class="col">
+            <h4>Llana</h4><div class="alt">paroxítona</div>
+            <div class="celdas"><span class="celda"></span><span class="celda"></span><span class="celda on"><i class="punto"></i></span><span class="celda"></span></div>
+            <div class="ejm">CA-sa</div><div class="regla">tilde si NO termina en vocal, n o s</div>
+          </div>
+          <div class="col">
+            <h4>Esdrújula</h4><div class="alt">proparoxítona</div>
+            <div class="celdas"><span class="celda"></span><span class="celda on"><i class="punto"></i></span><span class="celda"></span><span class="celda"></span></div>
+            <div class="ejm">MÉ-di-co</div><div class="regla">siempre lleva tilde</div>
+          </div>
+          <div class="col">
+            <h4>Sobreesdrújula</h4><div class="alt">superproparoxítona</div>
+            <div class="celdas"><span class="celda on"><i class="punto"></i></span><span class="celda"></span><span class="celda"></span><span class="celda"></span></div>
+            <div class="ejm">DÍ-ga-me-lo</div><div class="regla">siempre lleva tilde</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ent">
+      <div class="ent-cab"><span class="num">13</span><span class="tipo">cuadro_semantico</span><span class="campos">filas[{clave, valor}]</span><span class="uso">Pares clave→valor. Lo que en pizarrón sería una llave.</span></div>
+      <div class="tarj">
+        <div class="eyebrow">Anatomía del círculo</div>
+        <div class="cs">
+          <div class="k">Radio</div><div class="v">Segmento del centro a cualquier punto de la circunferencia.</div>
+          <div class="k">Cuerda</div><div class="v">Segmento que une dos puntos de la circunferencia.</div>
+          <div class="k">Diámetro</div><div class="v">La cuerda que pasa por el centro; mide exactamente dos radios.</div>
+          <div class="k">Tangente</div><div class="v">Recta que toca la circunferencia en un solo punto, perpendicular al radio.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ent">
+      <div class="ent-cab"><span class="num">14</span><span class="tipo">secuencia</span><span class="campos">pasos[{titulo, detalle}]</span><span class="uso">Proceso ordenado que se lee de izquierda a derecha.</span></div>
+      <div class="seq">
+        <div class="paso"><div class="n">01</div><div class="d">Separa la palabra en sílabas</div></div>
+        <svg class="chev" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3.5l5 4.5-5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        <div class="paso"><div class="n">02</div><div class="d">Localiza la sílaba tónica</div></div>
+        <svg class="chev" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3.5l5 4.5-5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        <div class="paso"><div class="n">03</div><div class="d">Clasifica la palabra</div></div>
+        <svg class="chev" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3.5l5 4.5-5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        <div class="paso"><div class="n">04</div><div class="d">Aplica la regla de su tipo</div></div>
+      </div>
+    </section>
+
+    <section class="ent">
+      <div class="ent-cab"><span class="num">15</span><span class="tipo">linea_tiempo</span><span class="campos">hitos[{marca, texto}]</span><span class="uso">Cronología o progresión. Historia, biología, física.</span></div>
+      <div class="lt">
+        <div class="riel"></div>
+        <div class="hitos">
+          <div class="hito"><span class="pt"></span><div class="ano">Nube</div><div class="ev">Colapso de gas y polvo por gravedad.</div></div>
+          <div class="hito"><span class="pt"></span><div class="ano">Protoestrella</div><div class="ev">El núcleo se calienta al comprimirse.</div></div>
+          <div class="hito"><span class="pt"></span><div class="ano">Secuencia principal</div><div class="ev">Fusión de hidrógeno en equilibrio.</div></div>
+          <div class="hito"><span class="pt"></span><div class="ano">Gigante roja</div><div class="ev">Se agota el hidrógeno del núcleo.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ent">
+      <div class="ent-cab"><span class="num">16</span><span class="tipo">figura</span><span class="campos">forma · vertices[] · etiquetas[] · lados[] · angulos[]</span><span class="uso">Dibujo paramétrico: se declaran los datos, el SVG se calcula.</span></div>
+      <div class="tarj" style="display: flex; justify-content: center;">
+        <svg width="420" height="180" viewBox="0 0 420 180" fill="none">
+          <polygon points="60,150 210,32 360,150" stroke="var(--ac)" stroke-width="1.8" fill="var(--ac-t)"></polygon>
+          <path d="M60 150 A 26 26 0 0 0 82 138" stroke="var(--apag)" stroke-width="1.2" fill="none"></path>
+          <path d="M360 150 A 26 26 0 0 1 338 138" stroke="var(--apag)" stroke-width="1.2" fill="none"></path>
+          <line x1="130" y1="86" x2="142" y2="94" stroke="var(--tit)" stroke-width="1.8" stroke-linecap="round"></line>
+          <line x1="278" y1="94" x2="290" y2="86" stroke="var(--tit)" stroke-width="1.8" stroke-linecap="round"></line>
+          <text x="48" y="167" fill="var(--tit)" font-size="14" font-family="STIX Two Text, serif">A</text>
+          <text x="205" y="24" fill="var(--tit)" font-size="14" font-family="STIX Two Text, serif">B</text>
+          <text x="366" y="167" fill="var(--tit)" font-size="14" font-family="STIX Two Text, serif">C</text>
+          <text x="92" y="88" fill="var(--tit)" font-size="12.5" font-family="IBM Plex Mono, monospace">5 cm</text>
+          <text x="300" y="88" fill="var(--tit)" font-size="12.5" font-family="IBM Plex Mono, monospace">5 cm</text>
+          <text x="196" y="170" fill="var(--apag)" font-size="12.5" font-family="IBM Plex Mono, monospace">base</text>
+        </svg>
+      </div>
+    </section>
+
+    <section class="ent">
+      <div class="ent-cab"><span class="num">17</span><span class="tipo">arbol</span><span class="campos">nodos[] · aristas[] · resultado?</span><span class="uso">Árbol de decisión o de factores. Genérico, no uno por tema.</span></div>
+      <div class="tarj" style="display: flex; justify-content: center;">
+        <svg width="600" height="200" viewBox="0 0 600 200" fill="none">
+          <path d="M300 40 C 300 62, 170 58, 170 82" stroke="var(--linea2)" stroke-width="1.3" fill="none"></path>
+          <path d="M300 40 C 300 62, 430 58, 430 82" stroke="var(--linea2)" stroke-width="1.3" fill="none"></path>
+          <path d="M170 112 C 170 134, 96 132, 96 154" stroke="var(--linea2)" stroke-width="1.3" fill="none"></path>
+          <path d="M170 112 C 170 134, 246 132, 246 154" stroke="var(--linea2)" stroke-width="1.3" fill="none"></path>
+          <rect x="228" y="18" width="144" height="30" rx="9" fill="var(--sup2)" stroke="var(--linea2)"></rect>
+          <text x="300" y="38" fill="var(--tit)" font-size="13.5" text-anchor="middle" font-family="Figtree, sans-serif">¿Es monosílabo?</text>
+          <rect x="98" y="82" width="144" height="30" rx="9" fill="var(--sup2)" stroke="var(--linea2)"></rect>
+          <text x="170" y="102" fill="var(--tit)" font-size="13.5" text-anchor="middle" font-family="Figtree, sans-serif">¿Par diacrítico?</text>
+          <rect x="358" y="82" width="144" height="30" rx="9" fill="var(--sup2)" stroke="var(--linea2)"></rect>
+          <text x="430" y="102" fill="var(--tit)" font-size="13.5" text-anchor="middle" font-family="Figtree, sans-serif">¿Dónde va la tónica?</text>
+          <rect x="34" y="154" width="124" height="32" rx="9" fill="var(--ac-t)" stroke="var(--ac-b)"></rect>
+          <text x="96" y="174" fill="var(--ac)" font-size="12.5" text-anchor="middle" font-family="IBM Plex Mono, monospace">TILDE</text>
+          <rect x="184" y="154" width="124" height="32" rx="9" fill="var(--sup2)" stroke="var(--linea2)"></rect>
+          <text x="246" y="174" fill="var(--apag)" font-size="12.5" text-anchor="middle" font-family="IBM Plex Mono, monospace">SIN TILDE</text>
+          <text x="126" y="70" fill="var(--tenue)" font-size="11" font-family="IBM Plex Mono, monospace">SÍ</text>
+          <text x="462" y="70" fill="var(--tenue)" font-size="11" font-family="IBM Plex Mono, monospace">NO</text>
+        </svg>
+      </div>
+    </section>
+
+    <section class="ent">
+      <div class="ent-cab"><span class="num">18</span><span class="tipo">grafica</span><span class="campos">tipo · series[] · ejes</span><span class="uso">Estadística y datos. Una sola idea por gráfica.</span></div>
+      <div class="tarj">
+        <div class="eyebrow">Frecuencia de calificaciones · grupo A</div>
+        <svg width="100%" height="150" viewBox="0 0 1120 150" preserveAspectRatio="none" fill="none">
+          <line x1="0" y1="130" x2="1120" y2="130" stroke="var(--linea2)" stroke-width="1"></line>
+          <rect x="60" y="88" width="130" height="42" rx="4" fill="var(--ac)" opacity="0.45"></rect>
+          <rect x="250" y="52" width="130" height="78" rx="4" fill="var(--ac)" opacity="0.6"></rect>
+          <rect x="440" y="16" width="130" height="114" rx="4" fill="var(--ac)"></rect>
+          <rect x="630" y="60" width="130" height="70" rx="4" fill="var(--ac)" opacity="0.6"></rect>
+          <rect x="820" y="100" width="130" height="30" rx="4" fill="var(--ac)" opacity="0.45"></rect>
+        </svg>
+      </div>
+    </section>
+
+    <section class="ent">
+      <div class="ent-cab"><span class="num">19</span><span class="tipo">pregunta</span><span class="campos">enunciado · opciones[] · correcta · explicacion</span><span class="uso">Reactivo resuelto: se enciende la respuesta, no se tacha la elegida.</span></div>
+      <div>
+        <p class="parrafo" style="margin-bottom: 14px;">¿Cuántas sílabas tiene la palabra «establecimiento»?</p>
+        <div class="op op-elegida"><span class="letra">A</span><span class="tx2">Siete sílabas</span><span class="etq-op">Elegiste esta</span></div>
+        <div class="op"><span class="letra">B</span><span class="tx2">Cinco sílabas</span></div>
+        <div class="op op-conf"><span class="letra" style="color: var(--ac); border-color: var(--ac-b);">C</span><span class="tx2" style="color: var(--tit);">Seis sílabas</span><span class="etq-op" style="color: var(--ac);">es·ta·ble·ci·mien·to</span></div>
+        <p class="expl"><b>Aún no</b>Contaste «cimiento» como tres sílabas. El grupo <i>ie</i> es diptongo y no se separa: cimien·to va en dos.</p>
+      </div>
+    </section>
+
+    <section class="ent">
+      <div class="ent-cab"><span class="num">20</span><span class="tipo">sondeo</span><span class="campos">opciones[] · votos[]</span><span class="uso">Solo en modo director: el grupo responde y se ve el reparto, sin nombres.</span></div>
+      <div class="tarj">
+        <div class="eyebrow">18 de 22 han respondido</div>
+        <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 11px;"><span class="letra" style="font-family: var(--f-mono); font-size: 12px; color: var(--apag);">A</span><span class="barra"><i style="width: 22%; opacity: 0.45;"></i></span><span class="votos">4</span></div>
+        <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 11px;"><span class="letra" style="font-family: var(--f-mono); font-size: 12px; color: var(--apag);">B</span><span class="barra"><i style="width: 17%; opacity: 0.45;"></i></span><span class="votos">3</span></div>
+        <div style="display: flex; align-items: center; gap: 14px;"><span class="letra" style="font-family: var(--f-mono); font-size: 12px; color: var(--ac);">C</span><span class="barra"><i style="width: 61%;"></i></span><span class="votos" style="color: var(--ac);">11</span></div>
+      </div>
+    </section>
+
+    <section class="ent">
+      <div class="ent-cab"><span class="num">21</span><span class="tipo">objetivos</span><span class="campos">items[]</span><span class="uso">Abre el tema: qué sabrá hacer el alumno al terminar.</span></div>
+      <div class="tarj">
+        <div class="eyebrow">Al terminar esta sesión</div>
+        <div class="obj"><span class="cuadro"></span><span>Separar en sílabas cualquier palabra, incluidas las que llevan h intercalada.</span></div>
+        <div class="obj"><span class="cuadro"></span><span>Clasificar una palabra como aguda, llana, esdrújula o sobreesdrújula.</span></div>
+        <div class="obj"><span class="cuadro"></span><span>Decidir si lleva tilde sin dudar entre diptongo e hiato.</span></div>
+      </div>
+    </section>
+
+    <section class="ent">
+      <div class="ent-cab"><span class="num">22</span><span class="tipo">cierre</span><span class="campos">tarjetas[{titulo, detalle}]</span><span class="uso">Síntesis final. Tres ideas, nunca un resumen de todo.</span></div>
+      <div class="cierre">
+        <div class="mini"><div class="mt">Primero silabea</div><div class="md">Ninguna regla de tilde se puede aplicar sin haber separado la palabra.</div></div>
+        <div class="mini"><div class="mt">La tónica manda</div><div class="md">Su posición decide el tipo, y el tipo decide la regla.</div></div>
+        <div class="mini"><div class="mt">El hiato gana</div><div class="md">Cerrada tónica junto a vocal: tilde siempre, aunque la regla general diga que no.</div></div>
+      </div>
+    </section>
+
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"esquema":{"editor":"boolean","default":true,"section":"Catálogo"}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var v = this.props.esquema;
+    return { esquema: (v === undefined ? true : v) ? "con-esquema" : "sin-esquema" };
+  }
+}
+</script>
+</body>
+</html>

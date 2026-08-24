@@ -19,15 +19,42 @@ const MATERIAS = {
   quimica: /^(qf|qaa|ana)-/,
   biologia: /^(cel|bq|rep|gen|evo|eco)-/,
   espanol: /^(acento|diptongo|cohesion|correferencia|elipsis|lexico|sinonimia|antonimia|campo|marcadores|grafo)/,
+  // Matemáticas es el resto: geometría, álgebra, probabilidad y estadística no
+  // comparten un prefijo de clave, así que se define por descarte. Ojo: `geo-`
+  // mezcla geografía y geometría, y el prefijo miente — la verdad está en qué
+  // presentación usa la clave. Los ocho de geometría ya se reubicaron a mano.
+  matematicas: null,
 };
 
 const materia = process.argv[2];
-if (!materia || !MATERIAS[materia]) {
+if (!materia || !(materia in MATERIAS)) {
   console.error(`Uso: node scripts/mover-diagramas.mjs <${Object.keys(MATERIAS).join("|")}>`);
   process.exit(1);
 }
 
+// Lo que vive en comun.jsx no es una dependencia que se quede atrás: se importa.
+const COMUN = new Set(
+  [...readFileSync("src/components/diagramas/comun.jsx", "utf8")
+      .matchAll(/^export (?:function|const) ([A-Za-z0-9_]+)/gm)].map((m) => m[1])
+);
+
+// Un {/* Encabezado */} dentro de un JSX no es una dependencia.
+const sinComentarios = (t) => t.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/.*/g, "");
+
 let src = readFileSync(RENDERER, "utf8");
+
+// Lo que un componente extraído necesita importar y antes le venía gratis por estar
+// dentro de SlideRenderer: hooks de React, `M` de KaTeX, nodos de xyflow, recharts.
+// Olvidarlos no rompe el build —Vite no resuelve identificadores al compilar— pero
+// revienta al renderizar. Pasó con 49 archivos en el primer lote.
+const IMPORTS = new Map();
+for (const m of src.matchAll(/^import\s+\{([^}]+)\}\s+from\s+['"]([^'"]+)['"];/gm)) {
+  // desde diagramas/<materia>/ hay que subir tres niveles hasta src/
+  const mod = m[2].startsWith("../data/") ? m[2].replace("../data/", "../../../data/") : m[2];
+  for (const ident of m[1].split(",").map((x) => x.trim())) {
+    if (!COMUN.has(ident)) IMPORTS.set(ident, mod);
+  }
+}
 
 // ── Cuerpos de las funciones de nivel superior ──────────────────────────────
 function equilibra(txt, i, abre, cierra) {
@@ -39,11 +66,6 @@ function equilibra(txt, i, abre, cierra) {
     i++;
   }
 }
-// Lo que vive en comun.jsx no es una dependencia que se quede atrás: se importa.
-const COMUN = new Set(["arrowHead", "EjesXY", "Bloque", "Vector", "GenDobleHelice"]);
-
-// Un {/* Encabezado */} dentro de un JSX no es una dependencia.
-const sinComentarios = (t) => t.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/.*/g, "");
 const cuerpos = new Map();
 for (const m of src.matchAll(/^function ([A-Za-z0-9_]+)\s*\(/gm)) {
   const cierrePar = equilibra(src, m.index + m[0].length - 1, "(", ")");
@@ -58,7 +80,10 @@ const finReg = src.indexOf("\n};", iniReg);
 const bloqueReg = src.slice(iniReg, finReg);
 const mapa = [...bloqueReg.matchAll(/^\s*"([a-z0-9-]+)":\s*([A-Za-z0-9_]+),/gm)].map((m) => [m[1], m[2]]);
 
-const delLote = mapa.filter(([k]) => MATERIAS[materia].test(k));
+const otras = Object.entries(MATERIAS).filter(([n, re]) => n !== materia && re);
+const delLote = MATERIAS[materia]
+  ? mapa.filter(([k]) => MATERIAS[materia].test(k))
+  : mapa.filter(([k]) => !otras.some(([, re]) => re.test(k)));
 if (!delLote.length) { console.error(`Sin claves de ${materia} en el registro local.`); process.exit(1); }
 
 // ── Comprobaciones ──────────────────────────────────────────────────────────
@@ -97,9 +122,21 @@ const archivos = [];
 for (const [comp, claves] of porComp) {
   const slug = claves[0];
   const cuerpo = cuerpos.get(comp).texto.replace(/^function /, "export default function ");
-  const usaComun = [...COMUN].filter((h) => new RegExp(`\\b${h}\\b`).test(sinComentarios(cuerpo))).sort();
-  const importComun = usaComun.length
-    ? `import { ${usaComun.join(", ")} } from "../comun.jsx";\n\n`
+  const limpio = sinComentarios(cuerpo);
+  const usa = (n) => new RegExp(`\\b${n}\\b`).test(limpio);
+
+  const porModulo = new Map();
+  for (const [ident, mod] of IMPORTS) {
+    if (!usa(ident)) continue;
+    porModulo.set(mod, [...(porModulo.get(mod) || []), ident]);
+  }
+  const usaComun = [...COMUN].filter(usa).sort();
+  if (usaComun.length) porModulo.set("../comun.jsx", usaComun);
+
+  const importComun = porModulo.size
+    ? [...porModulo].sort((a, b) => a[0].localeCompare(b[0]))
+        .map(([mod, ids]) => `import { ${[...new Set(ids)].sort().join(", ")} } from "${mod}";`)
+        .join("\n") + "\n\n"
     : "";
   const cabecera =
     `// Diagrama «${claves.join("», «")}» — ${materia}.\n` +

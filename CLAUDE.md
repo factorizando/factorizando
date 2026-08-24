@@ -157,7 +157,11 @@ Single-map registries that decouple visual components from consumers (see the §
 - `diagramas/index.js` exports `DIAGRAMS` (`{ "clave": Component }`), static SVGs organized by subject; each receives `{ tema }`.
 - `interactivos/index.js` exports `INTERACTIVOS`, manipulable components: **mafs** (math, draggable points) and **matter-js** (physics); each receives `{ tema, ...props }`.
 
-Documents reference these by key via `figura:`/`interactivo:`. (The legacy `SlideRenderer.jsx` still resolves diagrams inline; migrating it to `DIAGRAMS` is a pending refactor.)
+Documents reference these by key via `figura:`/`interactivo:`; presentations via `svgDiagram:` on a slide or the `id` of a `tipo: "diagrama"` block. **All 311 diagrams now live in `DIAGRAMS`** — `SlideRenderer.jsx` resolves them through a single `<Diagrama clave={…} tema={tema} />`, never an `if` chain. Pieces shared by diagrams of several subjects (`arrowHead`, `EjesXY`, `Bloque`, `Vector`, `qRegPoly`, `_svgH`, the probability and statistics data constants…) live in `diagramas/comun.jsx`.
+
+Adding a diagram: a file in `diagramas/<materia>/<clave>.jsx` exporting a default `({ tema })` component, plus one line in `index.js`. It never touches `SlideRenderer.jsx`.
+
+**Verify with `npm run integridad`, not just the build.** A key with no registry entry does not crash the page — it leaves the hole empty, silently — so the build is blind to it. The script cross-references every key used by a presentation or document against both registries. And note the build is blind to missing imports too: a file extracted without its `M`/hook imports compiles and then throws at render. `npm run lint` is what catches that.
 
 ### Static HTML guides (`public/guias/`)
 Standalone HTML files (for divisibility, grammar categories, etc.) served at `BASE_URL + "guias/<file>.html"`. These are not React — just raw HTML.

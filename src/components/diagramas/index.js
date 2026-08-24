@@ -158,8 +158,320 @@ import TerEscalasSVG from "./fisica/ter-escalas.jsx";
 import TerGasSVG from "./fisica/ter-gas.jsx";
 import TerPortadaSVG from "./fisica/ter-portada.jsx";
 import TerTransferenciaSVG from "./fisica/ter-transferencia.jsx";
+import CriterioAADetalleSVG from "./matematicas/aa-detalle.jsx";
+import CongALADetalleSVG from "./matematicas/ala-cong-detalle.jsx";
+import AnguloCentralSVG from "./matematicas/angulo-central.jsx";
+import AnguloExteriorFormulaSVG from "./matematicas/angulo-exterior-formula.jsx";
+import AnguloInscritoSVG from "./matematicas/angulo-inscrito.jsx";
+import AnguloInteriorFormulaSVG from "./matematicas/angulo-interior-formula.jsx";
+import ProbArbolMonedas from "./matematicas/arbol-monedas.jsx";
+import ProbArbolMultiplicativo from "./matematicas/arbol-multiplicativo.jsx";
+import ProbArbolTresMonedas from "./matematicas/arbol-tres-monedas.jsx";
+import ProbArbolUrna from "./matematicas/arbol-urna.jsx";
+import AreasEstrategiaSVG from "./matematicas/areas-estrategia.jsx";
+import As1CuadCircSVG from "./matematicas/as1-cuad-circ.jsx";
+import As2CoronaSVG from "./matematicas/as2-corona.jsx";
+import As3SemiRectSVG from "./matematicas/as3-semi-rect.jsx";
+import As4SectorTriSVG from "./matematicas/as4-sector-tri.jsx";
+import As5TrapSemiSVG from "./matematicas/as5-trap-semi.jsx";
+import As6HexCircSVG from "./matematicas/as6-hex-circ.jsx";
+import As7TriCircSVG from "./matematicas/as7-tri-circ.jsx";
+import As8ComplejoSVG from "./matematicas/as8-complejo.jsx";
+import BarrasModaSVG from "./matematicas/barras-moda.jsx";
+import BiologiaAdaptacionSVG from "./matematicas/biologia-adaptacion.jsx";
+import BiologiaBiodiversidadSVG from "./matematicas/biologia-biodiversidad.jsx";
+import BiologiaCadenaTroficaSVG from "./matematicas/biologia-cadena-trofica.jsx";
+import BiologiaCelulaSVG from "./matematicas/biologia-celula.jsx";
+import BiologiaEvolucionSVG from "./matematicas/biologia-evolucion.jsx";
+import BiologiaGeneticaAplicadaSVG from "./matematicas/biologia-genetica-aplicada.jsx";
+import BiologiaHerenciaSVG from "./matematicas/biologia-herencia.jsx";
+import BuffonSVG from "./matematicas/buffon.jsx";
+import Cce1RadioSVG from "./matematicas/cce1-radio.jsx";
+import Cce2SectorSVG from "./matematicas/cce2-sector.jsx";
+import Cce3ArcoSVG from "./matematicas/cce3-arco.jsx";
+import Cce4TangSVG from "./matematicas/cce4-tang.jsx";
+import Ce1LllSVG from "./matematicas/ce1-lll.jsx";
+import Ce2CondMedSVG from "./matematicas/ce2-medidas.jsx";
+import Ce3AlaSVG from "./matematicas/ce3-ala.jsx";
+import Ce4AaaSVG from "./matematicas/ce4-aaa.jsx";
+import Ce5AngleSVG from "./matematicas/ce5-angulo.jsx";
+import CirculoFormulasSVG from "./matematicas/circulo-formulas.jsx";
+import CirculoPartesSVG from "./matematicas/circulo-partes.jsx";
+import CombinacionesCasillasSVG from "./matematicas/combinaciones-casillas.jsx";
+import ComplementoSVG from "./matematicas/complemento.jsx";
+import VennNumericoSVG from "./matematicas/conjuntos-numerico.jsx";
+import VennConjuntosSVG from "./matematicas/conjuntos-venn.jsx";
+import CuadradoDetalleSVG from "./matematicas/cuadrado-detalle.jsx";
+import CuartilesSVG from "./matematicas/cuartiles-strip.jsx";
+import CumpleanosSVG from "./matematicas/cumpleanos.jsx";
+import DardoDianaSVG from "./matematicas/dardo-diana.jsx";
+import DesviacionDetalleSVG from "./matematicas/desviacion-detalle.jsx";
+import DispersionSVG from "./matematicas/dispersion.jsx";
+import DistBinomialChart from "./matematicas/dist-binomial.jsx";
+import DistSumaDadosChart from "./matematicas/dist-suma-dados.jsx";
+import DosDadosSVG from "./matematicas/dos-dados.jsx";
+import DotPlotMediaSVG from "./matematicas/dotplot-media.jsx";
+import DotPlotMedianaSVG from "./matematicas/dotplot-mediana.jsx";
+import EjBarrasDeporteSVG from "./matematicas/ej-barras-deporte.jsx";
+import CartaAsSVG from "./matematicas/ej-carta-as.jsx";
+import EjCircularTransporteSVG from "./matematicas/ej-circular-transporte.jsx";
+import CombinaPersonasSVG from "./matematicas/ej-combinatoria.jsx";
+import EjCongALASVG from "./matematicas/ej-cong-ala.jsx";
+import EjCongLAASVG from "./matematicas/ej-cong-laa.jsx";
+import EjCongLALSVG from "./matematicas/ej-cong-lal.jsx";
+import EjCongLLLSVG from "./matematicas/ej-cong-lll.jsx";
+import DadoMayor4SVG from "./matematicas/ej-dado-mayor4.jsx";
+import DosMonedasSVG from "./matematicas/ej-dos-monedas.jsx";
+import Ej_EstMediaSVG from "./matematicas/ej-est-media.jsx";
+import Ej_EstMedianaSVG from "./matematicas/ej-est-mediana.jsx";
+import Ej_EstMedianaParSVG from "./matematicas/ej-est-mediana-par.jsx";
+import Ej_EstModaSVG from "./matematicas/ej-est-moda.jsx";
+import Ej_EstRangoSVG from "./matematicas/ej-est-rango.jsx";
+import TablaFrecuenciasEst from "./matematicas/ej-est-tabla.jsx";
+import EjHistogramaEstaturaSVG from "./matematicas/ej-histograma-estatura.jsx";
+import MonedaDadoSVG from "./matematicas/ej-moneda-dado.jsx";
+import RuletaSVG from "./matematicas/ej-ruleta.jsx";
+import UrnaSinReempSVG from "./matematicas/ej-urna-r5a3.jsx";
+import UrnaSumaSVG from "./matematicas/ej-urna-rav.jsx";
+import Ej1LLLSVG from "./matematicas/ej1-lll.jsx";
+import Ej2K32SVG from "./matematicas/ej2-k32.jsx";
+import EjemploEstudiantesTabla from "./matematicas/ejemplo-estudiantes.jsx";
+import EscalaProbabilidadSVG from "./matematicas/escala-probabilidad.jsx";
+import EspacioMuestralSVG from "./matematicas/espacio-muestral.jsx";
+import EstPortadaSVG from "./matematicas/est-portada.jsx";
+import EulerLineSVG from "./matematicas/euler-line.jsx";
+import FrecuenciasDadoChart from "./matematicas/frecuencias-dado.jsx";
+import EstBarrasChart from "./matematicas/graficas-barras.jsx";
+import EstCircularSVG from "./matematicas/graficas-circular.jsx";
+import CongLAADetalleSVG from "./matematicas/laa-cong-detalle.jsx";
+import CongLALDetalleSVG from "./matematicas/lal-cong-detalle.jsx";
+import CriterioLALDetalleSVG from "./matematicas/lal-detalle.jsx";
+import CongLLLDetalleSVG from "./matematicas/lll-cong-detalle.jsx";
+import CriterioLLLDetalleSVG from "./matematicas/lll-detalle.jsx";
+import MediaDetalleSVG from "./matematicas/media-detalle.jsx";
+import MedianaDetalleSVG from "./matematicas/mediana-detalle.jsx";
+import ModaDetalleSVG from "./matematicas/moda-detalle.jsx";
+import MontyHallSVG from "./matematicas/monty-hall.jsx";
+import OrdenImportaSVG from "./matematicas/orden-importa.jsx";
+import ParalelogramoDefSVG from "./matematicas/paralelogramo-def.jsx";
+import ParalelogramoFormulasSVG from "./matematicas/paralelogramo-formulas.jsx";
+import Pe1RectSVG from "./matematicas/pe1-rect.jsx";
+import Pe2RomboSVG from "./matematicas/pe2-rombo.jsx";
+import Pe3CuadradoSVG from "./matematicas/pe3-cuadrado.jsx";
+import PermutacionesCasillasSVG from "./matematicas/permutaciones-casillas.jsx";
+import Poe1HexSVG from "./matematicas/poe1-hex.jsx";
+import Poe2AngExtSVG from "./matematicas/poe2-angext.jsx";
+import Poe3SumaSVG from "./matematicas/poe3-suma.jsx";
+import PoligonoRegularDefSVG from "./matematicas/poligono-regular-def.jsx";
+import PorcionesCirculoSVG from "./matematicas/porciones-circulo.jsx";
+import ProbabilidadPortadaSVG from "./matematicas/prob-portada.jsx";
+import ProcesoSigmaSVG from "./matematicas/proceso-sigma.jsx";
+import QuimicaBiomoleculasSVG from "./matematicas/quimica-biomoleculas.jsx";
+import QuimicaEnergiaReaccionesSVG from "./matematicas/quimica-energia-reacciones.jsx";
+import QuimicaImpactoSVG from "./matematicas/quimica-impacto.jsx";
+import QuimicaMezclasSVG from "./matematicas/quimica-mezclas.jsx";
+import QuimicaModelosAtomicosSVG from "./matematicas/quimica-modelos-atomicos.jsx";
+import QuimicaReaccionesSVG from "./matematicas/quimica-reacciones.jsx";
+import QuimicaSeparacionSVG from "./matematicas/quimica-separacion.jsx";
+import RangoOutlierSVG from "./matematicas/rango-outlier.jsx";
+import RazonSemejanzaSVG from "./matematicas/razon-semejanza.jsx";
+import RectanguloDetalleSVG from "./matematicas/rectangulo-detalle.jsx";
+import ReglaSumaSVG from "./matematicas/regla-suma.jsx";
+import RomboDetalleSVG from "./matematicas/rombo-detalle.jsx";
+import SeAaEj1SVG from "./matematicas/se-aa-ej1.jsx";
+import SeAaEj2SVG from "./matematicas/se-aa-ej2.jsx";
+import SeAreasSVG from "./matematicas/se-areas.jsx";
+import SeK3SVG from "./matematicas/se-k3.jsx";
+import SeLalEj1SVG from "./matematicas/se-lal-ej1.jsx";
+import SeLalEj2SVG from "./matematicas/se-lal-ej2.jsx";
+import SeLalS2SVG from "./matematicas/se-lal-s2.jsx";
+import SeLllEj1SVG from "./matematicas/se-lll-ej1.jsx";
+import SeLllEj2SVG from "./matematicas/se-lll-ej2.jsx";
+import SeLllS1SVG from "./matematicas/se-lll-s1.jsx";
+import SeLllS2SVG from "./matematicas/se-lll-s2.jsx";
+import SeLllS3SVG from "./matematicas/se-lll-s3.jsx";
+import SeParalelaSVG from "./matematicas/se-paralela.jsx";
+import SePitSVG from "./matematicas/se-pitagoras.jsx";
+import SeSombraSVG from "./matematicas/se-sombra.jsx";
+import SectorCircularSVG from "./matematicas/sector-circular.jsx";
+import SegmentoCircularSVG from "./matematicas/segmento-circular.jsx";
+import TachuelaSVG from "./matematicas/tachuela.jsx";
+import TangenteExteriorSVG from "./matematicas/tangente-exterior.jsx";
+import Te1AreaSVG from "./matematicas/te1-area.jsx";
+import Te2MedianaSVG from "./matematicas/te2-mediana.jsx";
+import Te3IsoSVG from "./matematicas/te3-iso.jsx";
+import TendenciaCentralSVG from "./matematicas/tendencia-central.jsx";
+import TiEj1SVG from "./matematicas/ti-ej1.jsx";
+import TiEj2SVG from "./matematicas/ti-ej2.jsx";
+import TiEj3SVG from "./matematicas/ti-ej3.jsx";
+import TiposVariableSVG from "./matematicas/tipos-variable.jsx";
+import TrapecioDefSVG from "./matematicas/trapecio-def.jsx";
+import TrapecioFormulasSVG from "./matematicas/trapecio-formulas.jsx";
+import TrapIsoDetalleSVG from "./matematicas/trapecio-isosceles-detalle.jsx";
+import TrapRectDetalleSVG from "./matematicas/trapecio-rect-detalle.jsx";
+import AxiomasSVG from "./matematicas/tres-axiomas.jsx";
+import TriangulosCongruentesSVG from "./matematicas/triangulos-congruentes.jsx";
+import TriangulosSemejantesSVG from "./matematicas/triangulos-semejantes.jsx";
+import UnaMonedaSVG from "./matematicas/una-moneda.jsx";
 
 export const DIAGRAMS = {
+  // ── matematicas ──
+  "aa-detalle": CriterioAADetalleSVG,
+  "ala-cong-detalle": CongALADetalleSVG,
+  "angulo-central": AnguloCentralSVG,
+  "angulo-exterior-formula": AnguloExteriorFormulaSVG,
+  "angulo-inscrito": AnguloInscritoSVG,
+  "angulo-interior-formula": AnguloInteriorFormulaSVG,
+  "arbol-monedas": ProbArbolMonedas,
+  "arbol-multiplicativo": ProbArbolMultiplicativo,
+  "arbol-tres-monedas": ProbArbolTresMonedas,
+  "arbol-urna": ProbArbolUrna,
+  "areas-estrategia": AreasEstrategiaSVG,
+  "as1-cuad-circ": As1CuadCircSVG,
+  "as2-corona": As2CoronaSVG,
+  "as3-semi-rect": As3SemiRectSVG,
+  "as4-sector-tri": As4SectorTriSVG,
+  "as5-trap-semi": As5TrapSemiSVG,
+  "as6-hex-circ": As6HexCircSVG,
+  "as7-tri-circ": As7TriCircSVG,
+  "as8-complejo": As8ComplejoSVG,
+  "barras-moda": BarrasModaSVG,
+  "biologia-adaptacion": BiologiaAdaptacionSVG,
+  "biologia-biodiversidad": BiologiaBiodiversidadSVG,
+  "biologia-cadena-trofica": BiologiaCadenaTroficaSVG,
+  "biologia-celula": BiologiaCelulaSVG,
+  "biologia-evolucion": BiologiaEvolucionSVG,
+  "biologia-genetica-aplicada": BiologiaGeneticaAplicadaSVG,
+  "biologia-herencia": BiologiaHerenciaSVG,
+  "buffon": BuffonSVG,
+  "cce1-radio": Cce1RadioSVG,
+  "cce2-sector": Cce2SectorSVG,
+  "cce3-arco": Cce3ArcoSVG,
+  "cce4-tang": Cce4TangSVG,
+  "ce1-lll": Ce1LllSVG,
+  "ce2-medidas": Ce2CondMedSVG,
+  "ce3-ala": Ce3AlaSVG,
+  "ce4-aaa": Ce4AaaSVG,
+  "ce5-angulo": Ce5AngleSVG,
+  "circulo-formulas": CirculoFormulasSVG,
+  "circulo-partes": CirculoPartesSVG,
+  "combinaciones-casillas": CombinacionesCasillasSVG,
+  "complemento": ComplementoSVG,
+  "conjuntos-numerico": VennNumericoSVG,
+  "conjuntos-venn": VennConjuntosSVG,
+  "cuadrado-detalle": CuadradoDetalleSVG,
+  "cuartiles-strip": CuartilesSVG,
+  "cumpleanos": CumpleanosSVG,
+  "dardo-diana": DardoDianaSVG,
+  "desviacion-detalle": DesviacionDetalleSVG,
+  "dispersion": DispersionSVG,
+  "dist-binomial": DistBinomialChart,
+  "dist-suma-dados": DistSumaDadosChart,
+  "dos-dados": DosDadosSVG,
+  "dotplot-media": DotPlotMediaSVG,
+  "dotplot-mediana": DotPlotMedianaSVG,
+  "ej-barras-deporte": EjBarrasDeporteSVG,
+  "ej-carta-as": CartaAsSVG,
+  "ej-circular-transporte": EjCircularTransporteSVG,
+  "ej-combinatoria": CombinaPersonasSVG,
+  "ej-cong-ala": EjCongALASVG,
+  "ej-cong-laa": EjCongLAASVG,
+  "ej-cong-lal": EjCongLALSVG,
+  "ej-cong-lll": EjCongLLLSVG,
+  "ej-dado-mayor4": DadoMayor4SVG,
+  "ej-dos-monedas": DosMonedasSVG,
+  "ej-est-media": Ej_EstMediaSVG,
+  "ej-est-mediana": Ej_EstMedianaSVG,
+  "ej-est-mediana-par": Ej_EstMedianaParSVG,
+  "ej-est-moda": Ej_EstModaSVG,
+  "ej-est-rango": Ej_EstRangoSVG,
+  "ej-est-tabla": TablaFrecuenciasEst,
+  "ej-histograma-estatura": EjHistogramaEstaturaSVG,
+  "ej-moneda-dado": MonedaDadoSVG,
+  "ej-ruleta": RuletaSVG,
+  "ej-urna-r5a3": UrnaSinReempSVG,
+  "ej-urna-rav": UrnaSumaSVG,
+  "ej1-lll": Ej1LLLSVG,
+  "ej2-k32": Ej2K32SVG,
+  "ejemplo-estudiantes": EjemploEstudiantesTabla,
+  "escala-probabilidad": EscalaProbabilidadSVG,
+  "espacio-muestral": EspacioMuestralSVG,
+  "est-portada": EstPortadaSVG,
+  "euler-line": EulerLineSVG,
+  "frecuencias-dado": FrecuenciasDadoChart,
+  "graficas-barras": EstBarrasChart,
+  "graficas-circular": EstCircularSVG,
+  "laa-cong-detalle": CongLAADetalleSVG,
+  "lal-cong-detalle": CongLALDetalleSVG,
+  "lal-detalle": CriterioLALDetalleSVG,
+  "lll-cong-detalle": CongLLLDetalleSVG,
+  "lll-detalle": CriterioLLLDetalleSVG,
+  "media-detalle": MediaDetalleSVG,
+  "mediana-detalle": MedianaDetalleSVG,
+  "moda-detalle": ModaDetalleSVG,
+  "monty-hall": MontyHallSVG,
+  "orden-importa": OrdenImportaSVG,
+  "paralelogramo-def": ParalelogramoDefSVG,
+  "paralelogramo-formulas": ParalelogramoFormulasSVG,
+  "pe1-rect": Pe1RectSVG,
+  "pe2-rombo": Pe2RomboSVG,
+  "pe3-cuadrado": Pe3CuadradoSVG,
+  "permutaciones-casillas": PermutacionesCasillasSVG,
+  "poe1-hex": Poe1HexSVG,
+  "poe2-angext": Poe2AngExtSVG,
+  "poe3-suma": Poe3SumaSVG,
+  "poligono-regular-def": PoligonoRegularDefSVG,
+  "porciones-circulo": PorcionesCirculoSVG,
+  "prob-portada": ProbabilidadPortadaSVG,
+  "proceso-sigma": ProcesoSigmaSVG,
+  "quimica-biomoleculas": QuimicaBiomoleculasSVG,
+  "quimica-energia-reacciones": QuimicaEnergiaReaccionesSVG,
+  "quimica-impacto": QuimicaImpactoSVG,
+  "quimica-mezclas": QuimicaMezclasSVG,
+  "quimica-modelos-atomicos": QuimicaModelosAtomicosSVG,
+  "quimica-reacciones": QuimicaReaccionesSVG,
+  "quimica-separacion": QuimicaSeparacionSVG,
+  "rango-outlier": RangoOutlierSVG,
+  "razon-semejanza": RazonSemejanzaSVG,
+  "rectangulo-detalle": RectanguloDetalleSVG,
+  "regla-suma": ReglaSumaSVG,
+  "rombo-detalle": RomboDetalleSVG,
+  "se-aa-ej1": SeAaEj1SVG,
+  "se-aa-ej2": SeAaEj2SVG,
+  "se-areas": SeAreasSVG,
+  "se-k3": SeK3SVG,
+  "se-lal-ej1": SeLalEj1SVG,
+  "se-lal-ej2": SeLalEj2SVG,
+  "se-lal-s2": SeLalS2SVG,
+  "se-lll-ej1": SeLllEj1SVG,
+  "se-lll-ej2": SeLllEj2SVG,
+  "se-lll-s1": SeLllS1SVG,
+  "se-lll-s2": SeLllS2SVG,
+  "se-lll-s3": SeLllS3SVG,
+  "se-paralela": SeParalelaSVG,
+  "se-pitagoras": SePitSVG,
+  "se-sombra": SeSombraSVG,
+  "sector-circular": SectorCircularSVG,
+  "segmento-circular": SegmentoCircularSVG,
+  "tabla-frecuencias": TablaFrecuenciasEst,
+  "tachuela": TachuelaSVG,
+  "tangente-exterior": TangenteExteriorSVG,
+  "te1-area": Te1AreaSVG,
+  "te2-mediana": Te2MedianaSVG,
+  "te3-iso": Te3IsoSVG,
+  "tendencia-central": TendenciaCentralSVG,
+  "ti-ej1": TiEj1SVG,
+  "ti-ej2": TiEj2SVG,
+  "ti-ej3": TiEj3SVG,
+  "tipos-variable": TiposVariableSVG,
+  "trapecio-def": TrapecioDefSVG,
+  "trapecio-formulas": TrapecioFormulasSVG,
+  "trapecio-isosceles-detalle": TrapIsoDetalleSVG,
+  "trapecio-rect-detalle": TrapRectDetalleSVG,
+  "tres-axiomas": AxiomasSVG,
+  "triangulos-congruentes": TriangulosCongruentesSVG,
+  "triangulos-semejantes": TriangulosSemejantesSVG,
+  "una-moneda": UnaMonedaSVG,
   // ── matematicas (geometría) ──
   "geo-triangulo-angulos": GeoTrianguloAngulosSVG,
   "geo-pitagoras": GeoPitagorasSVG,

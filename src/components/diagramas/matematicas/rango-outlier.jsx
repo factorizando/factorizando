@@ -12,7 +12,7 @@ export default function RangoOutlierSVG({ tema }) {
   return (
     <svg viewBox="0 0 320 154" width="100%" style={{ display: "block", maxHeight: 162 }}>
       {/* Set A */}
-      <text x="22" y={axisA - 22} fill={gr} fontSize="10" fontFamily="'DM Sans',sans-serif" fontWeight="600">{"A = {3, 4, 5, 6, 7}"}</text>
+      <text x="22" y={axisA - 22} fill={gr} fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">{"A = {3, 4, 5, 6, 7}"}</text>
       <line x1={X(1)} y1={axisA} x2={X(25)} y2={axisA} stroke={tema.border} strokeWidth="1.3" />
       {setA.map((v, i) => (
         <g key={i}>
@@ -25,7 +25,7 @@ export default function RangoOutlierSVG({ tema }) {
       <line x1={X(7)} y1={axisA - 13} x2={X(7)} y2={axisA - 5} stroke={gr} strokeWidth="1.6" />
       <text x={(X(3) + X(7)) / 2} y={axisA - 19} fill={gr} fontSize="9.5" fontFamily="'IBM Plex Mono',monospace" fontWeight="700" textAnchor="middle">R = 4</text>
       {/* Set B */}
-      <text x="22" y={axisB - 22} fill={rj} fontSize="10" fontFamily="'DM Sans',sans-serif" fontWeight="600">{"B = {3, 4, 5, 6, 23}"}</text>
+      <text x="22" y={axisB - 22} fill={rj} fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">{"B = {3, 4, 5, 6, 23}"}</text>
       <line x1={X(1)} y1={axisB} x2={X(25)} y2={axisB} stroke={tema.border} strokeWidth="1.3" />
       {setB.map((v, i) => (
         <g key={i}>

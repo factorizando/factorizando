@@ -14,13 +14,13 @@ export default function MontyHallSVG({ tema }) {
           <text x={x + 21} y={86} fill={mu} fontSize="11" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">1/3</text>
         </g>
       ))}
-      <text x="208" y="44" fill={mu} fontSize="11" fontFamily="'DM Sans',sans-serif">3 puertas</text>
+      <text x="208" y="44" fill={mu} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif">3 puertas</text>
       {/* estrategias */}
       <rect x={28} y={104} width={88} height={46} rx={9} fill={`${rj}1f`} stroke={rj} strokeWidth="1.8"/>
-      <text x={72} y={122} fill={rj} fontSize="11.5" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">Te quedas</text>
+      <text x={72} y={122} fill={rj} fontSize="11.5" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="middle">Te quedas</text>
       <text x={72} y={142} fill={rj} fontSize="17" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">1/3</text>
       <rect x={134} y={104} width={88} height={46} rx={9} fill={`${gr}26`} stroke={gr} strokeWidth="2.2"/>
-      <text x={178} y={122} fill={gr} fontSize="11.5" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">Cambias</text>
+      <text x={178} y={122} fill={gr} fontSize="11.5" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="middle">Cambias</text>
       <text x={178} y={142} fill={gr} fontSize="17" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">2/3</text>
     </svg>
   );

@@ -19,13 +19,13 @@ export default function QaaAlimentosSVG({ tema }) {
           {i === 0 && [[-9,30],[0,26],[9,30]].map(([dx,cy],j)=>(<circle key={j} cx={x+dx} cy={cy} r={5} fill={a} opacity="0.6" />))}
           {i === 1 && <g><circle cx={x} cy={26} r={6} fill={a} opacity="0.5" /><line x1={x-3} y1={30} x2={x-3} y2={42} stroke={a} strokeWidth="1.6" /><line x1={x+3} y1={30} x2={x+3} y2={42} stroke={a} strokeWidth="1.6" /></g>}
           {i === 2 && <path d={`M ${x-13} 40 q 6.5 -22 13 0 q 6.5 22 13 0`} fill="none" stroke={a} strokeWidth="2" />}
-          {i === 3 && <g><circle cx={x} cy={32} r={9} fill="none" stroke={bl} strokeWidth="1.6" /><text x={x} y={36} textAnchor="middle" fill={bl} fontSize="9" fontFamily="'DM Sans',sans-serif" fontWeight="700">+</text></g>}
-          <text x={x} y={62} textAnchor="middle" fill={T} fontSize="7.5" fontFamily="'DM Sans',sans-serif" fontWeight="600">{label}</text>
-          <text x={x} y={74} textAnchor="middle" fill={bl} fontSize="6.3" fontFamily="'DM Sans',sans-serif">{sub}</text>
+          {i === 3 && <g><circle cx={x} cy={32} r={9} fill="none" stroke={bl} strokeWidth="1.6" /><text x={x} y={36} textAnchor="middle" fill={bl} fontSize="9" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700">+</text></g>}
+          <text x={x} y={62} textAnchor="middle" fill={T} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">{label}</text>
+          <text x={x} y={74} textAnchor="middle" fill={bl} fontSize="6.3" fontFamily="'Figtree', system-ui, sans-serif">{sub}</text>
         </g>
       ))}
-      <text x={145} y={100} textAnchor="middle" fill={mu} fontSize="7.3" fontFamily="'DM Sans',sans-serif">proteína = aminoácidos unidos por enlace peptídico</text>
-      <text x={145} y={113} textAnchor="middle" fill={mu} fontSize="6.8" fontFamily="'DM Sans',sans-serif">(−NH₂ + −COOH → enlace peptídico + H₂O)</text>
+      <text x={145} y={100} textAnchor="middle" fill={mu} fontSize="7.3" fontFamily="'Figtree', system-ui, sans-serif">proteína = aminoácidos unidos por enlace peptídico</text>
+      <text x={145} y={113} textAnchor="middle" fill={mu} fontSize="6.8" fontFamily="'Figtree', system-ui, sans-serif">(−NH₂ + −COOH → enlace peptídico + H₂O)</text>
     </svg>
   );
 }

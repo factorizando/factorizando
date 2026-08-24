@@ -20,7 +20,7 @@ export default function CombinacionesCasillasSVG({ tema }) {
       {/* comité */}
       <rect x={158} y={56} width={80} height={42} rx={10} fill={`${gr}22`} stroke={gr} strokeWidth="2"/>
       <text x={198} y={82} fill={gr} fontSize="15" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">{"{A,B,C}"}</text>
-      <text x={198} y={116} fill={mu} fontSize="10.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">1 grupo</text>
+      <text x={198} y={116} fill={mu} fontSize="10.5" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">1 grupo</text>
       <text x="125" y="150" fill={T} fontSize="12.5" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">6 órdenes ÷ 3! = 1</text>
     </svg>
   );

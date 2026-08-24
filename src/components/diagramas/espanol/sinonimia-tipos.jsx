@@ -19,8 +19,8 @@ export default function SinonimiasTiposSVG({ tema }) {
         </linearGradient>
       </defs>
       <rect x="5" y="2" width="510" height="5" rx="2.5" fill="url(#ls-sinGrad)"/>
-      <text x="5"   y="16" fill={tema.azul}   fontSize="7" fontFamily="'DM Sans',sans-serif" letterSpacing="0.08em" fontWeight="700">IDENTIDAD SEMÁNTICA ←</text>
-      <text x="515" y="16" fill={tema.acento} fontSize="7" fontFamily="'DM Sans',sans-serif" letterSpacing="0.08em" fontWeight="700" textAnchor="end">→ EQUIVALENCIA CONTEXTUAL</text>
+      <text x="5"   y="16" fill={tema.azul}   fontSize="7" fontFamily="'Figtree', system-ui, sans-serif" letterSpacing="0.08em" fontWeight="700">IDENTIDAD SEMÁNTICA ←</text>
+      <text x="515" y="16" fill={tema.acento} fontSize="7" fontFamily="'Figtree', system-ui, sans-serif" letterSpacing="0.08em" fontWeight="700" textAnchor="end">→ EQUIVALENCIA CONTEXTUAL</text>
       {cols.map((col, i) => {
         const x = startX + i * (colW + gap);
         return (
@@ -28,9 +28,9 @@ export default function SinonimiasTiposSVG({ tema }) {
             <rect x={x} y="20" width={colW} height="116" rx="7" fill={`${col.color}10`} stroke={`${col.color}55`} strokeWidth="1.5"/>
             <rect x={x} y="20" width={colW} height="22" rx="7" fill={`${col.color}25`}/>
             <rect x={x} y="34" width={colW} height="8" fill={`${col.color}25`}/>
-            <text x={x + colW / 2} y="35" fill={col.color} fontSize="9" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.12em">{col.label}</text>
+            <text x={x + colW / 2} y="35" fill={col.color} fontSize="9" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.12em">{col.label}</text>
             {col.desc.map((line, j) => (
-              <text key={j} x={x + colW / 2} y={56 + j * 13} fill={tema.sub} fontSize="8.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{line}</text>
+              <text key={j} x={x + colW / 2} y={56 + j * 13} fill={tema.sub} fontSize="8.5" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">{line}</text>
             ))}
             <line x1={x + 10} y1="84" x2={x + colW - 10} y2="84" stroke={`${col.color}30`} strokeWidth="1"/>
             {col.ex.map((e, j) => (

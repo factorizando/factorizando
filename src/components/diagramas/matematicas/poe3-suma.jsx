@@ -12,8 +12,8 @@ export default function Poe3SumaSVG({ tema }) {
         const a = -Math.PI/2 + 2*Math.PI*k/8;
         return <circle key={k} cx={(145+58*Math.cos(a)).toFixed(1)} cy={(78+58*Math.sin(a)).toFixed(1)} r="3.5" fill={tema.acento} opacity="0.75"/>;
       })}
-      <text x="145" y="84" fill={tema.muted} fontSize="13" fontFamily="'DM Sans',sans-serif" textAnchor="middle">Σ = ?</text>
-      <text x="145" y="150" fill={tema.muted} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">n = 8 lados</text>
+      <text x="145" y="84" fill={tema.muted} fontSize="13" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">Σ = ?</text>
+      <text x="145" y="150" fill={tema.muted} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">n = 8 lados</text>
     </svg>
   );
 }

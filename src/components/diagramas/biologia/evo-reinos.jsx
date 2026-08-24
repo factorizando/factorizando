@@ -19,12 +19,12 @@ export default function EvoReinosSVG({ tema }) {
           <g key={i}>
             <rect x={x} y={28} width={46} height={44} rx={7} fill={`${c}22`} stroke={c} strokeWidth="1.8" />
             <circle cx={x + 23} cy={44} r={8} fill={`${c}44`} stroke={c} strokeWidth="1.3" />
-            <text x={x + 23} y={84} textAnchor="middle" fill={T} fontSize="7.5" fontFamily="'DM Sans',sans-serif" fontWeight="600">{label}</text>
-            <text x={x + 23} y={94} textAnchor="middle" fill={mu} fontSize="6.5" fontFamily="'DM Sans',sans-serif">{sub}</text>
+            <text x={x + 23} y={84} textAnchor="middle" fill={T} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">{label}</text>
+            <text x={x + 23} y={94} textAnchor="middle" fill={mu} fontSize="6.5" fontFamily="'Figtree', system-ui, sans-serif">{sub}</text>
           </g>
         );
       })}
-      <text x={140} y={16} textAnchor="middle" fill={a} fontSize="8" fontFamily="'DM Sans',sans-serif">los cinco reinos (Whittaker)</text>
+      <text x={140} y={16} textAnchor="middle" fill={a} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif">los cinco reinos (Whittaker)</text>
     </svg>
   );
 }

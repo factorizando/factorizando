@@ -19,7 +19,7 @@ export default function TendenciaCentralSVG({ tema }) {
       {[0, 2, 4, 6, 8, 10].map((t) => (
         <g key={t}>
           <line x1={X(t)} y1={axisY - 4} x2={X(t)} y2={axisY + 4} stroke={mu} strokeWidth="1" />
-          <text x={X(t)} y={axisY + 16} fill={mu} fontSize="9" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{t}</text>
+          <text x={X(t)} y={axisY + 16} fill={mu} fontSize="9" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">{t}</text>
         </g>
       ))}
       {datos.map((v, i) => {
@@ -31,7 +31,7 @@ export default function TendenciaCentralSVG({ tema }) {
         <g key={i}>
           <line x1={X(m.v)} y1={axisY} x2={X(m.v)} y2={m.y} stroke={m.c} strokeWidth="1.6" strokeDasharray="3 3" />
           <circle cx={X(m.v)} cy={axisY} r="3.5" fill={m.c} />
-          <text x={X(m.v)} y={m.y + 11} fill={m.c} fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">{m.l}</text>
+          <text x={X(m.v)} y={m.y + 11} fill={m.c} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="middle">{m.l}</text>
         </g>
       ))}
     </svg>

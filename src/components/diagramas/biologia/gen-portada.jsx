@@ -9,7 +9,7 @@ export default function GenPortadaSVG({ tema }) {
   return (
     <svg viewBox="0 0 220 140" width="100%" style={{ display: "block", maxHeight: 140, maxWidth: 240 }}>
       <GenDobleHelice tema={tema} x0={0} w={220} h={120} />
-      <text x={110} y={134} textAnchor="middle" fill={mu} fontSize="8.5" fontFamily="'DM Sans',sans-serif">la información de la vida</text>
+      <text x={110} y={134} textAnchor="middle" fill={mu} fontSize="8.5" fontFamily="'Figtree', system-ui, sans-serif">la información de la vida</text>
     </svg>
   );
 }

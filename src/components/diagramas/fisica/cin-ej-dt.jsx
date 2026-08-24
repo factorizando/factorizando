@@ -15,8 +15,8 @@ export default function CinEjDtSVG({ tema }) {
       <line x1={ox} y1={py} x2={px} y2={py} stroke={mu} strokeWidth="1" strokeDasharray="3 3" />
       <line x1={ox} y1={oy} x2={px} y2={py} stroke={a} strokeWidth="2.5" />
       <circle cx={px} cy={py} r={4} fill={a} />
-      <text x={px} y={oy + 14} fill={mu} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle">5</text>
-      <text x={ox - 9} y={py + 4} fill={mu} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="end">8</text>
+      <text x={px} y={oy + 14} fill={mu} fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">5</text>
+      <text x={ox - 9} y={py + 4} fill={mu} fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="end">8</text>
     </svg>
   );
 }

@@ -112,7 +112,7 @@ export function estChips(tema, valores, destacados, etiqueta) {
           </g>
         );
       })}
-      {etiqueta && <text x={totalW / 2} y={y + h + 20} fill={mu} fontSize="12" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{etiqueta}</text>}
+      {etiqueta && <text x={totalW / 2} y={y + h + 20} fill={mu} fontSize="12" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">{etiqueta}</text>}
     </svg>
   );
 }
@@ -131,12 +131,12 @@ export function estBarras(tema, items, hiIdx, etiqueta) {
           <g key={i}>
             <rect x={x} y={base - hgt} width={bw} height={hgt} rx={4} fill={hi ? tema.acentoMed : tema.azulSuave} stroke={hi ? a : tema.azulBorde} strokeWidth={hi ? 2 : 1.3} />
             <text x={x + bw / 2} y={base - hgt - 5} fill={hi ? a : mu} fontSize="11" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">{d.f}</text>
-            <text x={x + bw / 2} y={base + 15} fill={hi ? a : T} fontSize="13" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{d.x}</text>
+            <text x={x + bw / 2} y={base + 15} fill={hi ? a : T} fontSize="13" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">{d.x}</text>
           </g>
         );
       })}
       <line x1={8} y1={base} x2={totalW - 8} y2={base} stroke={tema.border} strokeWidth="1.4" />
-      {etiqueta && <text x={totalW / 2} y={base + 34} fill={mu} fontSize="11.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{etiqueta}</text>}
+      {etiqueta && <text x={totalW / 2} y={base + 34} fill={mu} fontSize="11.5" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">{etiqueta}</text>}
     </svg>
   );
 }
@@ -178,7 +178,7 @@ export function UrnaSVG({ tema, rojas = 0, azules = 0, verdes = 0 }) {
         const cx = 55 + col * 20, cy = 114 - row * 23;
         return <circle key={i} cx={cx} cy={cy} r={9.5} fill={`${c}59`} stroke={c} strokeWidth="1.8"/>;
       })}
-      <text x="75" y="22" fill={tema.acento} fontSize="13" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{partes.join(" · ")}</text>
+      <text x="75" y="22" fill={tema.acento} fontSize="13" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">{partes.join(" · ")}</text>
     </svg>
   );
 }

@@ -22,15 +22,15 @@ export default function EvoDarwinLamarckSVG({ tema }) {
       {jirafa(40, 24, bl)}
       {jirafa(70, 44, a)}
       {jirafa(100, 34, bl)}
-      <text x={70} y={128} textAnchor="middle" fill={mu} fontSize="7.5" fontFamily="'DM Sans',sans-serif">población con variabilidad</text>
+      <text x={70} y={128} textAnchor="middle" fill={mu} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif">población con variabilidad</text>
       {/* flecha selección */}
       <line x1={130} y1={70} x2={166} y2={70} stroke={a} strokeWidth="2" />
       <polygon points={arrowHead(130, 70, 166, 70, 7)} fill={a} />
-      <text x={148} y={62} textAnchor="middle" fill={a} fontSize="6.5" fontFamily="'DM Sans',sans-serif">selección</text>
+      <text x={148} y={62} textAnchor="middle" fill={a} fontSize="6.5" fontFamily="'Figtree', system-ui, sans-serif">selección</text>
       {/* sobreviven cuello largo */}
       {jirafa(190, 46, a)}
       {jirafa(214, 48, a)}
-      <text x={202} y={128} textAnchor="middle" fill={mu} fontSize="7.5" fontFamily="'DM Sans',sans-serif">sobreviven los aptos</text>
+      <text x={202} y={128} textAnchor="middle" fill={mu} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif">sobreviven los aptos</text>
     </svg>
   );
 }

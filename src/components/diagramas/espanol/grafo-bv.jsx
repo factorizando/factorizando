@@ -11,7 +11,7 @@ export default function GrafoBVSVG({ tema }) {
       {/* Central phoneme node */}
       <rect x="195" y="5" width="130" height="36" rx="10" fill={`${az}20`} stroke={az} strokeWidth="2"/>
       <text x="260" y="22" fill={az} fontSize="15" fontFamily="Georgia,serif" fontStyle="italic" fontWeight="700" textAnchor="middle">/b/</text>
-      <text x="260" y="35" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">oclusiva bilabial sonora</text>
+      <text x="260" y="35" fill={tema.muted} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">oclusiva bilabial sonora</text>
 
       {/* Left branch: B */}
       <line x1="210" y1="41" x2="130" y2="63" stroke={`${az}70`} strokeWidth="1.5"/>
@@ -32,7 +32,7 @@ export default function GrafoBVSVG({ tema }) {
       ))}
 
       {/* Note at bottom */}
-      <text x="260" y="135" fill={tema.muted} fontSize="8" fontFamily="'DM Sans',sans-serif" textAnchor="middle">En español mexicano: /b/ y /v/ suenan igual — la distinción es solo ortográfica</text>
+      <text x="260" y="135" fill={tema.muted} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">En español mexicano: /b/ y /v/ suenan igual — la distinción es solo ortográfica</text>
     </svg>
   );
 }

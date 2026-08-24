@@ -13,12 +13,12 @@ export default function QaaPortadaSVG({ tema }) {
       <circle cx={64} cy={66} r={4} fill={bl} opacity="0.6" />
       {/* molécula O-H-H pequeña */}
       <circle cx={150} cy={52} r={11} fill="rgba(192,132,252,0.25)" stroke={a} strokeWidth="1.8" />
-      <text x={150} y={56} textAnchor="middle" fill={a} fontSize="9" fontFamily="'DM Sans',sans-serif" fontWeight="700">O</text>
+      <text x={150} y={56} textAnchor="middle" fill={a} fontSize="9" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700">O</text>
       <circle cx={134} cy={68} r={6} fill="rgba(244,114,182,0.2)" stroke={bl} strokeWidth="1.4" />
       <circle cx={166} cy={68} r={6} fill="rgba(244,114,182,0.2)" stroke={bl} strokeWidth="1.4" />
       <line x1={143} y1={60} x2={137} y2={65} stroke={a} strokeWidth="1.6" />
       <line x1={157} y1={60} x2={163} y2={65} stroke={a} strokeWidth="1.6" />
-      <text x={110} y={120} textAnchor="middle" fill={mu} fontSize="8.5" fontFamily="'DM Sans',sans-serif">la química de la vida cotidiana</text>
+      <text x={110} y={120} textAnchor="middle" fill={mu} fontSize="8.5" fontFamily="'Figtree', system-ui, sans-serif">la química de la vida cotidiana</text>
     </svg>
   );
 }

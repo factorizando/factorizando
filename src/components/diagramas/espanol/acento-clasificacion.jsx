@@ -16,12 +16,12 @@ export default function AcentoClasificacionSVG({ tema }) {
         const cx = ci * col + col / 2;
         return (
           <g key={ci}>
-            <text x={cx} y={16} fill={color} fontSize="11.5" fontFamily="'DM Sans',sans-serif"
+            <text x={cx} y={16} fill={color} fontSize="11.5" fontFamily="'Figtree', system-ui, sans-serif"
               fontWeight="700" textAnchor="middle" letterSpacing="0.04em">
               {nombre.toUpperCase()}
             </text>
             {subname && (
-              <text x={cx} y={28} fill={tema.muted} fontSize="9" fontFamily="'DM Sans',sans-serif"
+              <text x={cx} y={28} fill={tema.muted} fontSize="9" fontFamily="'Figtree', system-ui, sans-serif"
                 textAnchor="middle" opacity="0.65">{subname}</text>
             )}
             {silabas.map((s, si) => {
@@ -37,7 +37,7 @@ export default function AcentoClasificacionSVG({ tema }) {
                     strokeWidth={isTon ? 1.8 : 1} />
                   {isTon && (
                     <text x={bx + bw / 2} y={54} fill={color} fontSize="9.5"
-                      fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">●</text>
+                      fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="middle">●</text>
                   )}
                 </g>
               );
@@ -45,7 +45,7 @@ export default function AcentoClasificacionSVG({ tema }) {
             <text x={cx} y={84} fill={tema.texto} fontSize="11" fontFamily="Georgia,serif"
               fontStyle="italic" textAnchor="middle" opacity="0.85">{ejemplo}</text>
             {/* Regla de tilde */}
-            <text x={cx} y={102} fill={tema.muted} fontSize="9" fontFamily="'DM Sans',sans-serif"
+            <text x={cx} y={102} fill={tema.muted} fontSize="9" fontFamily="'Figtree', system-ui, sans-serif"
               textAnchor="middle">
               {ci === 0 ? "tilde si termina en V/N/S" :
                ci === 1 ? "tilde si NO termina en V/N/S" :

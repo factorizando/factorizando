@@ -21,7 +21,7 @@ export default function SectorCircularSVG({ tema }) {
       <text x={(cx + +x0)/2-12} y={(cy + +y0)/2+2} fill={a} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">r</text>
       <text x={(cx + +x1)/2+5} y={(cy + +y1)/2+8} fill={a} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">r</text>
       <text x={cx+24} y={cy-18} fill={a} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">θ</text>
-      <text x={+mx+8} y={+my+20} fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif">arco</text>
+      <text x={+mx+8} y={+my+20} fill={a} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif">arco</text>
       {/* Fórmula con A_sector como subíndice y fracción en displaystyle */}
       <foreignObject x={193} y={36} width={109} height={75}>
         <div xmlns="http://www.w3.org/1999/xhtml" style={{ fontSize: "13px" }}>

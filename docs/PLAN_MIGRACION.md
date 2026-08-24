@@ -17,18 +17,42 @@
 
 ---
 
-## Orden de fases (de menor a mayor riesgo)
+## Orden de fases
 
-| # | Fase | Riesgo | Toca |
+Las fases 0-3 se hicieron el 24 ago 2026. Las que siguen se reordenaron ese mismo día,
+después de la sesión de diseño que produjo el sistema de bloques: el plan original es
+anterior y no lo contemplaba.
+
+| # | Fase | Riesgo | Estado |
 |---|---|---|---|
-| 0 | Preparación / red de seguridad | — | scripts, doc |
-| 1 | Limpieza de bajo riesgo | 🟢 bajo | index, exports, extensiones |
-| 2 | Diagramas → registro único | 🟡 medio | `SlideRenderer.jsx` |
-| 3 | Cuestionarios → organización por materia | 🟡 medio | rutas de archivos, índice |
-| 4 | `metadata.examenes` en todo el contenido | 🟢 bajo | metadata |
-| 5 | Nuevos esquemas: video + interactivos | 🟡 medio | renderer, libs |
-| 6 | Calidad de contenido (diferido) | 🟢 bajo | `explanation` vacías |
-| 7 | Sincronizar documentación | 🟢 bajo | CLAUDE.md |
+| 0 | Preparación / red de seguridad | — | ✅ |
+| 1 | Limpieza de bajo riesgo | 🟢 | ✅ |
+| 2 | Diagramas → registro único | 🟡 | ✅ |
+| 3 | Cuestionarios → organización por materia | 🟡 | ✅ |
+| **4A** | **Capa de tema desde `fx.css`** | 🟢 | ← siguiente |
+| 4B | Renderizador de bloques (absorbe la antigua fase 5) | 🟡 | |
+| 4C | Migrar las 65 presentaciones al esquema de bloques | 🟠 | |
+| 4D | Diagramas al criterio de canales por valor | 🟡 | |
+| 5 | `metadata.examenes` en todo el contenido | 🟢 | |
+| 6 | Calidad de contenido (`explanation` vacías) | 🟢 | |
+| 7 | Sincronizar documentación | 🟢 | |
+
+### Por qué 4A antes que 4B
+
+4B lee los mismos tokens que 4A define. Al revés habría que escribir los bloques dos
+veces. Y 4A es la única de las tres que **mejora las 65 presentaciones existentes sin
+tocar una línea de contenido**, que es el objetivo que motivó el rediseño.
+
+### Qué compró la fase 2 para esto
+
+Más de lo que parece: un renderizador de bloques tiene que dibujar figuras, y con las
+cadenas de `if` de antes habría tenido que duplicar 468 comparaciones o importar
+`SlideRenderer` entero. Hoy es `DIAGRAMS["clave"]` desde donde sea.
+
+### La antigua fase 5 se disuelve
+
+Video e interactivos son dos tipos de bloque más. Construirlos contra el esquema viejo y
+otra vez contra el nuevo es trabajo duplicado, así que entran en 4B.
 
 ---
 
@@ -258,45 +282,103 @@ cuestionario abierto de verdad en `/preview-cuestionario/sujeto-predicado-exani-
 
 ---
 
-## Fase 4 — `metadata.examenes` en todo el contenido
+## Fase 4A — Capa de tema desde `fx.css` ✅ *(24 ago 2026)*
 
-- [ ] Añadir `examenes: [...]` a cada cuestionario y presentación (valores: `EXANI-I`,
-      `EXANI-II`, `UNAM`).
-- [ ] Añadir `nivel` donde falte.
-- [ ] (Opcional) Aprovecharlo para filtrar contenido por examen en la navegación, en lugar
-      de depender de carpetas.
+- [x] `temas.jsx`: las 8 paletas a mano pasan a derivarse. `ACENTOS` tiene los siete
+      colores de `fx.css`, `BASE` las superficies y la tipografía, y `conAlfa()` calcula
+      las cinco opacidades del acento — antes se tecleaban una por una en cada paleta,
+      que es como acababan discrepando entre materias.
+- [x] Una sola tipografía para las siete: Sora · Figtree · IBM Plex Mono · STIX Two Text.
+- [x] **`'DM Sans'` eliminado de 695 sitios.** No se cargaba: lo que se veía era la
+      tipografía por defecto del sistema. Ahora Figtree carga de verdad (comprobado con
+      `document.fonts`).
+- [x] Los 6 `'Playfair Display'` de los títulos pasan a Sora.
+- [x] `literatura` retirado: ninguna presentación lo declaraba.
+- [x] Retroalimentación sin verde ni rojo: los 11 glifos `✓`/`✗` pasan a **SVG dibujados**
+      —cambian de forma según el sistema y algunos se pintan como emoji—, el acierto va en
+      el acento y lo que no lo es en gris. La respuesta elegida por el alumno deja de
+      pintarse: contorno punteado y la explicación en primer plano, encabezada por
+      *Así es* / *Aún no*.
+
+### Lo que salió al paso
+
+- **`materia: "Ciencias"`** en cuatro presentaciones y `"Pensamiento Científico"` en una:
+  ninguna estaba en el mapa, así que las cinco se pintaban con el acento de matemáticas.
+  «Ciencias» abarca tres materias, así que el campo no podía decidir el tema; se corrigió
+  a la materia real de cada una, que es la de su carpeta.
+- El mapa `MATERIA_A_TEMA` era **incompleto y funcionaba por suerte**: `"Pensamiento
+  Matemático"` (11 presentaciones) y `"Matemáticas avanzadas"` (3) caían al tema por
+  defecto, que resultaba ser el correcto. Ahora están declaradas.
+- Las opciones de un reactivo resuelto llevaban **cuatro hex a mano** (`#3b9eff` para la
+  correcta, `#f5c842` para la elegida) sin pasar por el tema.
+
+### Lo que NO entró
+
+`tema.azul`, `tema.verde` y `tema.rojo` siguen igual: los usan **215 y 150 archivos de
+diagrama** como canales de dibujo. Eso es la fase 4D.
+
+Fuera de las presentaciones, `QuestionarioGenerico.jsx` (33) y `SubjectPage.jsx` (6)
+todavía piden DM Sans. Son la interfaz de cuestionarios, otra superficie; se migran con
+el resto del design system.
 
 ---
 
-## Fase 5 — Nuevos esquemas: video + interactivos
+## Fase 4B — Renderizador de bloques
 
-- [ ] **Video**: implementar `tipo: "video"` (slide y bloque) con `youtube-nocookie` +
-      click-para-cargar (§4.3 de CONVENCIONES).
-- [ ] **mafs**: `npm i mafs`; crear `src/components/interactivos/index.js` (`INTERACTIVOS`)
-      y los primeros componentes mate (`recta-pendiente`, `funcion-cuadratica`,
-      `triangulo-vertices`, `vector-suma`).
-- [ ] **matter-js** (ya instalado): primeros componentes física (`caida-libre`,
-      `plano-inclinado`, `colisiones`).
-- [ ] Implementar `tipo: "interactivo"` en `SlideRenderer` resolviendo por `INTERACTIVOS`.
-- [ ] Cada interactivo: recibe `{ tema, ...props }`, autónomo, limpia su engine al desmontar.
-- [ ] Probar en las tres vistas (`/ver`, `/presentacion`, `/alumno`).
+El `tipo: "lienzo"` con los 22 bloques catalogados, rejilla de 12 columnas y reflujo
+híbrido (lienzo fijo ≥768 px, una columna por debajo). Aditivo: los 12 tipos actuales
+siguen resolviendo mientras dure la transición, igual que convivieron los dos registros de
+diagramas en la fase 2.
+
+- [ ] Los bloques del catálogo, leyendo los tokens de 4A.
+- [ ] `revelar` por bloque y `notas` de profesor (solo en modo director).
+- [ ] Bloque `video` (youtube-nocookie, click para cargar) y bloque `interactivo`
+      resolviendo por `INTERACTIVOS` — la antigua fase 5.
+- [ ] Selector de tema claro/oscuro en la barra.
+- [ ] Sustituir el riel de puntos por un deslizador pasadas 20 diapositivas.
+
+Referencia visual: el canvas *Bloques de presentación*, fuentes en
+`docs/diseno/presentaciones/`.
+
+---
+
+## Fase 4C — Migrar las 65 presentaciones
+
+Reescritura de contenido, no mecánica. Empezar por el piloto ya maquetado (Acentuación) y
+comparar contra el canvas antes de seguir.
+
+---
+
+## Fase 4D — Diagramas al criterio de canales por valor
+
+Los 311 diagramas separan elementos con un segundo matiz (`tema.azul`) y con verde/rojo.
+`docs/DISENO.md` §2.1 pide hacerlo por **valor y trazo**: acento relleno, trazo fuerte,
+trazo medio, punteado. Son 215 y 150 archivos, así que va por materia y con revisión
+visual — ninguna herramienta detecta que un diagrama quedó feo.
+
+---
+
+## Fase 5 — `metadata.examenes` en todo el contenido
+
+- [ ] Añadir `examenes: [...]` a cada cuestionario y presentación (`EXANI-I`, `EXANI-II`, `UNAM`).
+- [x] `nivel` donde faltaba o estaba mal: hecho en las fases 1 y 3.
+- [ ] (Opcional) Filtrar por examen en la navegación en vez de por carpeta.
 
 ---
 
 ## Fase 6 — Calidad de contenido (diferido)
 
-- [ ] Rellenar las ~350 `explanation: ""` vacías (priorizar por materia/uso).
-- [ ] Revisión de `correctAnswer` y consistencia de opciones (4 opciones, prefijo `a) `).
-
-> Separado a propósito de la estructura; puede correr en paralelo a otras fases.
+- [ ] Las `explanation` vacías: quedan **2 bancos**, `producto-enteros` (250) y `la-celula`
+      (100). El resto se cerró por el camino.
+- [ ] Revisión de `correctAnswer` y consistencia de opciones.
 
 ---
 
 ## Fase 7 — Sincronizar documentación
 
-- [ ] Actualizar `CLAUDE.md`: catálogo completo de slide/bloque, nuevos tipos
-      (`video`, `interactivo`), registro de diagramas e interactivos, organización por materia.
-- [ ] Reflejar que `mafs` está en uso y `jsxgraph` queda en reserva.
+- [x] `CLAUDE.md`: registro de diagramas, índice plano de cuestionarios, rutas de
+      previsualización. Se ha ido actualizando en cada fase.
+- [ ] Reflejar `mafs` en uso y `jsxgraph` en reserva cuando 4B los toque.
 - [ ] Cerrar las "Brechas detectadas" de `CONVENCIONES.md` ya resueltas.
 
 ---

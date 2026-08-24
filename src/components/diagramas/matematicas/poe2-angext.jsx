@@ -23,7 +23,7 @@ export default function Poe2AngExtSVG({ tema }) {
       <text x="112" y="28" fill={tema.acento} fontSize="12"
         fontFamily="Georgia,serif" fontStyle="italic">β=45°</text>
       <text x="145" y="150" fill={tema.muted} fontSize="11"
-        fontFamily="'DM Sans',sans-serif" textAnchor="middle">n = 8 (octágono)</text>
+        fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">n = 8 (octágono)</text>
     </svg>
   );
 }

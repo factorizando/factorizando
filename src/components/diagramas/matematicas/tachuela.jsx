@@ -22,11 +22,11 @@ export default function TachuelaSVG({ tema }) {
           <g key={i}>
             <rect x={b.x} y={base - h} width={bw} height={h} rx={5} fill={`${b.col}33`} stroke={b.bd} strokeWidth="1.8"/>
             <text x={b.x + bw / 2} y={base - h - 8} fill={b.bd} fontSize="14" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">{b.p.toFixed(2)}</text>
-            <text x={b.x + bw / 2} y={base + 16} fill={T} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{b.label}</text>
+            <text x={b.x + bw / 2} y={base + 16} fill={T} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">{b.label}</text>
           </g>
         );
       })}
-      <text x="125" y="150" fill={mu} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">no son ½ y ½ → se mide</text>
+      <text x="125" y="150" fill={mu} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">no son ½ y ½ → se mide</text>
     </svg>
   );
 }

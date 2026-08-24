@@ -20,7 +20,7 @@ export default function EcoPortadaSVG({ tema }) {
       <line x1={142} y1={106} x2={142} y2={112} stroke={bl} strokeWidth="1.4" />
       <line x1={158} y1={106} x2={158} y2={112} stroke={bl} strokeWidth="1.4" />
       <circle cx={164} cy={96} r={4} fill="rgba(134,239,172,0.3)" stroke={bl} strokeWidth="1.2" />
-      <text x={110} y={134} textAnchor="middle" fill={mu} fontSize="8.5" fontFamily="'DM Sans',sans-serif">los seres vivos y su ambiente</text>
+      <text x={110} y={134} textAnchor="middle" fill={mu} fontSize="8.5" fontFamily="'Figtree', system-ui, sans-serif">los seres vivos y su ambiente</text>
     </svg>
   );
 }

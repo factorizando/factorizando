@@ -13,15 +13,15 @@ export default function TerEscalasSVG({ tema }) {
       {cols.map((c, i) => (
         <g key={i}>
           <line x1={c.x} y1={34} x2={c.x} y2={122} stroke={mu} strokeWidth="1.6" />
-          <text x={c.x} y={26} fill={a} fontSize="12" textAnchor="middle" fontFamily="'DM Sans',sans-serif" fontWeight="600">{c.t}</text>
+          <text x={c.x} y={26} fill={a} fontSize="12" textAnchor="middle" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">{c.t}</text>
           <line x1={c.x - 4} y1={yHi} x2={c.x + 4} y2={yHi} stroke={mu} strokeWidth="1.5" />
           <line x1={c.x - 4} y1={yLo} x2={c.x + 4} y2={yLo} stroke={mu} strokeWidth="1.5" />
           <text x={c.x + 8} y={yHi + 3} fill={T} fontSize="9.5" fontFamily="'IBM Plex Mono',monospace">{c.hi}</text>
           <text x={c.x + 8} y={yLo + 3} fill={T} fontSize="9.5" fontFamily="'IBM Plex Mono',monospace">{c.lo}</text>
         </g>
       ))}
-      <text x={16} y={yHi + 2} fill={rj} fontSize="8" fontFamily="'DM Sans',sans-serif">hierve</text>
-      <text x={14} y={yLo + 2} fill={az} fontSize="8" fontFamily="'DM Sans',sans-serif">congela</text>
+      <text x={16} y={yHi + 2} fill={rj} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif">hierve</text>
+      <text x={14} y={yLo + 2} fill={az} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif">congela</text>
     </svg>
   );
 }

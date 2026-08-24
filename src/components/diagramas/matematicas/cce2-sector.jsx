@@ -17,8 +17,8 @@ export default function Cce2SectorSVG({ tema }) {
       <circle cx={cx} cy={cy} r={3.5} fill={a}/>
       <text x={cx+5} y={cy-5} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">O</text>
       <text x={(cx + +x0)/2-16} y={(cy + +y0)/2} fill={a} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">r=6</text>
-      <text x={cx+24} y={cy-20} fill={a} fontSize="12" fontFamily="'DM Sans',sans-serif">120°</text>
-      <text x={+x1+6} y={+y1+6} fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif">A=?</text>
+      <text x={cx+24} y={cy-20} fill={a} fontSize="12" fontFamily="'Figtree', system-ui, sans-serif">120°</text>
+      <text x={+x1+6} y={+y1+6} fill={a} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif">A=?</text>
     </svg>
   );
 }

@@ -13,18 +13,18 @@ export default function EcoPiramideSVG({ tema }) {
   const H = 22, ox = 140, oy = 26;
   return (
     <svg viewBox="0 0 280 130" width="100%" style={{ display: "block", maxHeight: 140 }}>
-      <text x={140} y={14} textAnchor="middle" fill={a} fontSize="8" fontFamily="'DM Sans',sans-serif">pirámide trófica — regla del 10 %</text>
+      <text x={140} y={14} textAnchor="middle" fill={a} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif">pirámide trófica — regla del 10 %</text>
       {niveles.map(({ label, pct, w, c }, i) => {
         const y = oy + (niveles.length - 1 - i) * H;
         return (
           <g key={i}>
             <rect x={ox - w / 2} y={y} width={w} height={H - 3} rx={2} fill={`${c}28`} stroke={c} strokeWidth="1.5" />
-            <text x={ox} y={y + 14} textAnchor="middle" fill={c} fontSize="7.5" fontFamily="'DM Sans',sans-serif" fontWeight="600">{label}</text>
-            <text x={ox - w / 2 + 5} y={y + 14} fill={c} fontSize="7" fontFamily="'DM Sans',sans-serif">{pct}</text>
+            <text x={ox} y={y + 14} textAnchor="middle" fill={c} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">{label}</text>
+            <text x={ox - w / 2 + 5} y={y + 14} fill={c} fontSize="7" fontFamily="'Figtree', system-ui, sans-serif">{pct}</text>
           </g>
         );
       })}
-      <text x={140} y={124} textAnchor="middle" fill={mu} fontSize="7.5" fontFamily="'DM Sans',sans-serif">la energía fluye hacia arriba; ~90 % se pierde como calor</text>
+      <text x={140} y={124} textAnchor="middle" fill={mu} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif">la energía fluye hacia arriba; ~90 % se pierde como calor</text>
     </svg>
   );
 }

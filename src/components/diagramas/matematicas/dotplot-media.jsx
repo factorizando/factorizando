@@ -26,7 +26,7 @@ export default function DotPlotMediaSVG({ tema, data }) {
         return <circle key={i} cx={X(v)} cy={cy} r="5" fill={`${a}55`} stroke={a} strokeWidth="1.5" />;
       })}
       <line x1={X(mean)} y1={axisY - 64} x2={X(mean)} y2={axisY + 4} stroke={bl} strokeWidth="1.8" strokeDasharray="4 3" />
-      <text x={X(mean)} y={axisY - 68} fill={bl} fontSize="11.5" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">x̄ = {meanLabel}</text>
+      <text x={X(mean)} y={axisY - 68} fill={bl} fontSize="11.5" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="middle">x̄ = {meanLabel}</text>
     </svg>
   );
 }

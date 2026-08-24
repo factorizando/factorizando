@@ -11,7 +11,7 @@ export default function ComplementoSVG({ tema }) {
       <circle cx="80" cy="72" r="42" fill={`${a}33`} stroke={a} strokeWidth="2"/>
       <text x="80" y="78" fill={a} fontSize="17" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">E</text>
       <text x="180" y="98" fill={bl} fontSize="16" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">E′</text>
-      <text x="180" y="115" fill={tema.muted} fontSize="9.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">«E no ocurre»</text>
+      <text x="180" y="115" fill={tema.muted} fontSize="9.5" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">«E no ocurre»</text>
     </svg>
   );
 }

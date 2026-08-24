@@ -32,9 +32,9 @@ export default function CirculoFormulasSVG({ tema }) {
       <path d={`M ${arcSx},${arcSy} A ${r},${r} 0 1,1 ${arcEx},${arcEy}`}
         fill="none" stroke={gr} strokeWidth="2.5" markerEnd="url(#cf-arr-g)" opacity="0.85"/>
       {/* Etiqueta en el gap (a la derecha del círculo, sin solaparse) */}
-      <text x={170} y={cy} fill={gr} fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700" dominantBaseline="middle">P = 2πr</text>
-      <text x={cx} y={cy+22} fill={bl} fontSize="14" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" opacity="0.9">A = πr²</text>
-      <text x={cx} y={cy+40} fill="rgba(255,255,255,0.33)" fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">π ≈ 3.1416</text>
+      <text x={170} y={cy} fill={gr} fontSize="13" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" dominantBaseline="middle">P = 2πr</text>
+      <text x={cx} y={cy+22} fill={bl} fontSize="14" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="middle" opacity="0.9">A = πr²</text>
+      <text x={cx} y={cy+40} fill="rgba(255,255,255,0.33)" fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">π ≈ 3.1416</text>
       <circle cx={cx} cy={cy} r={3.5} fill={a}/>
     </svg>
   );

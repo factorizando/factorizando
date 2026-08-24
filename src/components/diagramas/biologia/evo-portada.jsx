@@ -14,7 +14,7 @@ export default function EvoPortadaSVG({ tema }) {
       <path d="M 54 52 q -14 -6 -22 -24 M 54 52 q 12 -8 22 -22 M 166 52 q 14 -6 22 -24 M 166 52 q -12 -8 -22 -22 M 110 46 q -10 -8 -18 -22 M 110 46 q 10 -8 18 -22" fill="none" stroke={bl} strokeWidth="1.8" />
       {[[32,28],[76,30],[92,24],[128,24],[144,30],[188,28]].map(([x,y],i)=><circle key={i} cx={x} cy={y} r={5.5} fill={a} opacity="0.5" stroke={a} strokeWidth="1.3" />)}
       <circle cx={110} cy={124} r={4} fill={bl} />
-      <text x={110} y={138} textAnchor="middle" fill={mu} fontSize="8.5" fontFamily="'DM Sans',sans-serif">un ancestro común, muchas ramas</text>
+      <text x={110} y={138} textAnchor="middle" fill={mu} fontSize="8.5" fontFamily="'Figtree', system-ui, sans-serif">un ancestro común, muchas ramas</text>
     </svg>
   );
 }

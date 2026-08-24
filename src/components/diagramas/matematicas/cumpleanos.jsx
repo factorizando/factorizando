@@ -29,7 +29,7 @@ export default function CumpleanosSVG({ tema }) {
       <circle cx={X(23)} cy={Y(p23)} r="4.5" fill={a} stroke={tema.bg} strokeWidth="1.4"/>
       <text x={X(23)} y={140} fill={a} fontSize="11" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">23</text>
       <text x={X(23) + 8} y={Y(p23) - 6} fill={a} fontSize="11" fontFamily="'IBM Plex Mono',monospace">≈0.51</text>
-      <text x="232" y="150" fill={mu} fontSize="10.5" fontFamily="'DM Sans',sans-serif" textAnchor="end">personas →</text>
+      <text x="232" y="150" fill={mu} fontSize="10.5" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="end">personas →</text>
     </svg>
   );
 }

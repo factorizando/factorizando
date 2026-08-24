@@ -11,20 +11,20 @@ export default function RepAsexualSVG({ tema }) {
     <svg viewBox="0 0 290 130" width="100%" style={{ display: "block", maxHeight: 140 }}>
       {/* Bipartición */}
       {cell(34, 36, 14)}{cell(58, 36, 9)}
-      <text x={44} y={62} textAnchor="middle" fill={T} fontSize="7" fontFamily="'DM Sans',sans-serif">bipartición</text>
+      <text x={44} y={62} textAnchor="middle" fill={T} fontSize="7" fontFamily="'Figtree', system-ui, sans-serif">bipartición</text>
       {/* Gemación */}
       {cell(118, 36, 15)}<circle cx={138} cy={26} r={7} fill="rgba(134,239,172,0.18)" stroke={bl} strokeWidth="1.4" />
-      <text x={124} y={62} textAnchor="middle" fill={T} fontSize="7" fontFamily="'DM Sans',sans-serif">gemación</text>
+      <text x={124} y={62} textAnchor="middle" fill={T} fontSize="7" fontFamily="'Figtree', system-ui, sans-serif">gemación</text>
       {/* Esporulación */}
       {cell(204, 34, 14)}
       {[[226,24],[232,34],[226,44]].map(([x,y],i)=><circle key={i} cx={x} cy={y} r={3} fill={a} opacity="0.6" />)}
-      <text x={210} y={62} textAnchor="middle" fill={T} fontSize="7" fontFamily="'DM Sans',sans-serif">esporulación</text>
+      <text x={210} y={62} textAnchor="middle" fill={T} fontSize="7" fontFamily="'Figtree', system-ui, sans-serif">esporulación</text>
       {/* Fragmentación */}
       <path d="M 40 86 q 18 -8 36 0" fill="none" stroke={a} strokeWidth="3" />
       <path d="M 86 86 q 12 -6 24 0" fill="none" stroke={a} strokeWidth="3" />
-      <text x={70} y={112} textAnchor="middle" fill={T} fontSize="7" fontFamily="'DM Sans',sans-serif">fragmentación</text>
-      <text x={210} y={100} textAnchor="middle" fill={mu} fontSize="7.5" fontFamily="'DM Sans',sans-serif">1 progenitor →</text>
-      <text x={210} y={112} textAnchor="middle" fill={bl} fontSize="7.5" fontFamily="'DM Sans',sans-serif">clones idénticos</text>
+      <text x={70} y={112} textAnchor="middle" fill={T} fontSize="7" fontFamily="'Figtree', system-ui, sans-serif">fragmentación</text>
+      <text x={210} y={100} textAnchor="middle" fill={mu} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif">1 progenitor →</text>
+      <text x={210} y={112} textAnchor="middle" fill={bl} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif">clones idénticos</text>
     </svg>
   );
 }

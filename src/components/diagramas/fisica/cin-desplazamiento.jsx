@@ -18,8 +18,8 @@ export default function CinDesplazamientoSVG({ tema }) {
       <circle cx={Bx} cy={By} r="4" fill={T} />
       <text x={Ax - 12} y={Ay + 6} fill={T} fontSize="13" fontFamily="Georgia,serif">A</text>
       <text x={Bx + 6} y={By + 4} fill={T} fontSize="13" fontFamily="Georgia,serif">B</text>
-      <text x="86" y="34" fill={bl} fontSize="11" fontFamily="'DM Sans',sans-serif">distancia (trayectoria)</text>
-      <text x="118" y="86" fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif">desplazamiento</text>
+      <text x="86" y="34" fill={bl} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif">distancia (trayectoria)</text>
+      <text x="118" y="86" fill={a} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif">desplazamiento</text>
     </svg>
   );
 }

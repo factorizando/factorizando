@@ -28,8 +28,8 @@ export default function BuffonSVG({ tema }) {
       {/* separación d */}
       <line x1={206} y1={30} x2={206} y2={66} stroke={T} strokeWidth="1" strokeDasharray="3 2"/>
       <text x={214} y={52} fill={T} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">d</text>
-      <text x={200} y={92} fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif">cruza</text>
-      <text x={200} y={108} fill={mu} fontSize="11" fontFamily="'DM Sans',sans-serif">no cruza</text>
+      <text x={200} y={92} fill={a} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif">cruza</text>
+      <text x={200} y={108} fill={mu} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif">no cruza</text>
       <text x={200} y={138} fill={T} fontSize="12.5" fontFamily="'IBM Plex Mono',monospace">P=2ℓ/πd</text>
     </svg>
   );

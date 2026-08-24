@@ -14,9 +14,9 @@ export default function CinEjVtAreaSVG({ tema }) {
       <EjesXY ox={ox} oy={oy} xEnd={206} yTop={20} tema={tema} labelX="t (s)" labelY="v (m/s)" />
       <line x1={ox} y1={oy} x2={px} y2={py} stroke={a} strokeWidth="2.5" />
       <line x1={px} y1={oy} x2={px} y2={py} stroke={mu} strokeWidth="1" strokeDasharray="3 3" />
-      <text x={108} y={104} fill={tema.texto} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">área = Δx</text>
-      <text x={px} y={oy + 14} fill={mu} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle">4</text>
-      <text x={ox - 9} y={py + 4} fill={mu} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="end">10</text>
+      <text x={108} y={104} fill={tema.texto} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">área = Δx</text>
+      <text x={px} y={oy + 14} fill={mu} fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">4</text>
+      <text x={ox - 9} y={py + 4} fill={mu} fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="end">10</text>
     </svg>
   );
 }

@@ -28,7 +28,7 @@ export default function EstCircularSVG({ tema }) {
       {segs.map((s, i) => (
         <g key={i} transform={`translate(176 ${32 + i * 24})`}>
           <rect x="0" y="-9" width="13" height="13" rx="3" fill={`${s.c}cc`} />
-          <text x="20" y="2" fill={tema.texto} fontSize="11.5" fontFamily="'DM Sans',sans-serif">{s.lab}</text>
+          <text x="20" y="2" fill={tema.texto} fontSize="11.5" fontFamily="'Figtree', system-ui, sans-serif">{s.lab}</text>
           <text x="120" y="2" fill={s.c} fontSize="11.5" fontFamily="'IBM Plex Mono',monospace" fontWeight="600" textAnchor="end">{s.p}%</text>
         </g>
       ))}

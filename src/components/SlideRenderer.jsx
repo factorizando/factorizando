@@ -62,7 +62,7 @@ function Encabezado({ titulo, etiqueta, tema }) {
       )}
       <h2
         style={{
-          fontFamily: "'Playfair Display', serif",
+          fontFamily: "'Sora', system-ui, sans-serif",
           fontSize: "clamp(24px, 3.5vw, 40px)",
           fontWeight: 700,
           color: tema.texto,
@@ -151,10 +151,10 @@ function HistogramaVotos({ votos, totalVotos, opciones, correcta, votantes, perf
                 fontFamily: tema.mono
               }}
             >
-              <span style={{ color: isOk ? tema.verde : tema.muted }}>
+              <span style={{ color: isOk ? tema.acento : tema.muted }}>
                 {String.fromCharCode(65 + i)}. {op.includes('\\') ? <M>{op}</M> : (op.length > 14 ? op.slice(0, 14) + "…" : op)}
               </span>
-              <span style={{ color: isOk ? tema.verde : tema.sub }}>
+              <span style={{ color: isOk ? tema.acento : tema.sub }}>
                 {count} ({pct}%)
               </span>
             </div>
@@ -170,7 +170,7 @@ function HistogramaVotos({ votos, totalVotos, opciones, correcta, votantes, perf
                 style={{
                   height: "100%",
                   width: `${pct}%`,
-                  background: isOk ? tema.verde : tema.azul,
+                  background: isOk ? tema.acento : tema.sub,
                   borderRadius: 4,
                   transition: "width 0.4s ease"
                 }}
@@ -202,8 +202,8 @@ function HistogramaVotos({ votos, totalVotos, opciones, correcta, votantes, perf
             }}
           >
             <span>Respuestas</span>
-            <span style={{ color: tema.verde }}>
-              {aciertos}/{lista.length} ✓
+            <span style={{ color: tema.acento }}>
+              {aciertos} de {lista.length}
             </span>
           </div>
           <div
@@ -216,13 +216,15 @@ function HistogramaVotos({ votos, totalVotos, opciones, correcta, votantes, perf
             }}
           >
             {lista.map((a, idx) => {
-              const col = a.ok ? tema.verde : tema.rojo;
+              const col = a.ok ? tema.acento : tema.sub;
               return (
                 <div
                   key={a.userId || `anon-${idx}`}
                   style={{ display: "flex", alignItems: "center", gap: 7, fontSize: 12 }}
                 >
-                  <span style={{ color: col, flexShrink: 0, width: 10 }}>{a.ok ? "✓" : "✗"}</span>
+                  <span style={{ color: col, flexShrink: 0, width: 13, display: "inline-flex" }}>
+                    {a.ok ? <IconoAsiEs tema={tema} /> : <IconoAsiNo tema={tema} />}
+                  </span>
                   <span
                     style={{
                       color: tema.sub,
@@ -244,6 +246,35 @@ function HistogramaVotos({ votos, totalVotos, opciones, correcta, votantes, perf
         </div>
       )}
     </div>
+  );
+}
+
+// ── Íconos de retroalimentación ───────────────────────────────────────────────
+// Dibujados, no glifos: ✓ y ✗ cambian de forma y de ancho según el sistema, y en
+// algunos se pintan como emoji a color.
+//
+// El acierto va en el acento de la materia y lo que no lo es va en gris, no en
+// rojo (docs/DISENO.md §2.4). Dos razones: la deficiencia rojo-verde afecta a uno
+// de cada doce hombres —si el matiz es el único canal, uno o dos de cada veinte
+// alumnos no leen la retroalimentación—, y el rojo dice a la vez qué pasó y qué
+// tan malo es, cuando solo hace falta lo primero. La distinción la hace la FORMA.
+function IconoAsiEs({ tema, size = 13 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 16 16" fill="none"
+      style={{ flexShrink: 0, verticalAlign: "-2px" }} aria-hidden="true">
+      <path d="M3.5 8.4l3 3 6-7" stroke={tema.acento} strokeWidth="1.9"
+        strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function IconoAsiNo({ tema, size = 13 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 16 16" fill="none"
+      style={{ flexShrink: 0, verticalAlign: "-2px" }} aria-hidden="true">
+      <circle cx="8" cy="8" r="6" stroke={tema.sub} strokeWidth="1.6" />
+      <line x1="3.8" y1="12.2" x2="12.2" y2="3.8" stroke={tema.sub} strokeWidth="1.6" />
+    </svg>
   );
 }
 
@@ -286,7 +317,7 @@ function SlidePortada({ slide, tema }) {
       </div>
       <h1
         style={{
-          fontFamily: "'Playfair Display', serif",
+          fontFamily: "'Sora', system-ui, sans-serif",
           fontSize: "clamp(32px, 5.5vw, 68px)",
           fontWeight: 700,
           color: tema.texto,
@@ -841,7 +872,7 @@ function TrianguloRegSVG({ tema }) {
   return (
     <svg viewBox="0 0 190 88" width="100%" style={{ display: "block" }}>
       <polygon points={qRegPoly(95,44,36,3,-Math.PI/2)} fill={tema.azulSuave} stroke={tema.azul} strokeWidth="1.8" opacity="0.85"/>
-      <text x="95" y="86" fill={tema.muted} fontSize="9" fontFamily="'DM Sans',sans-serif" textAnchor="middle">60° · 60° · 60°</text>
+      <text x="95" y="86" fill={tema.muted} fontSize="9" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">60° · 60° · 60°</text>
     </svg>
   );
 }
@@ -849,7 +880,7 @@ function CuadradoRegSVG({ tema }) {
   return (
     <svg viewBox="0 0 190 88" width="100%" style={{ display: "block" }}>
       <polygon points={qRegPoly(95,42,32,4,-Math.PI/4)} fill={tema.azulSuave} stroke={tema.azul} strokeWidth="1.8" opacity="0.85"/>
-      <text x="95" y="86" fill={tema.muted} fontSize="9" fontFamily="'DM Sans',sans-serif" textAnchor="middle">90° × 4</text>
+      <text x="95" y="86" fill={tema.muted} fontSize="9" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">90° × 4</text>
     </svg>
   );
 }
@@ -857,7 +888,7 @@ function PentagonoRegSVG({ tema }) {
   return (
     <svg viewBox="0 0 190 88" width="100%" style={{ display: "block" }}>
       <polygon points={qRegPoly(95,44,36,5,-Math.PI/2)} fill={tema.azulSuave} stroke={tema.azul} strokeWidth="1.8" opacity="0.85"/>
-      <text x="95" y="86" fill={tema.muted} fontSize="9" fontFamily="'DM Sans',sans-serif" textAnchor="middle">108° × 5</text>
+      <text x="95" y="86" fill={tema.muted} fontSize="9" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">108° × 5</text>
     </svg>
   );
 }
@@ -865,7 +896,7 @@ function HexagonoRegSVG({ tema }) {
   return (
     <svg viewBox="0 0 190 88" width="100%" style={{ display: "block" }}>
       <polygon points={qRegPoly(95,44,36,6,-Math.PI/2)} fill={tema.azulSuave} stroke={tema.azul} strokeWidth="1.8" opacity="0.85"/>
-      <text x="95" y="86" fill={tema.muted} fontSize="9" fontFamily="'DM Sans',sans-serif" textAnchor="middle">120° × 6</text>
+      <text x="95" y="86" fill={tema.muted} fontSize="9" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">120° × 6</text>
     </svg>
   );
 }
@@ -873,7 +904,7 @@ function HeptagonoRegSVG({ tema }) {
   return (
     <svg viewBox="0 0 190 88" width="100%" style={{ display: "block" }}>
       <polygon points={qRegPoly(95,44,36,7,-Math.PI/2)} fill={tema.azulSuave} stroke={tema.azul} strokeWidth="1.8" opacity="0.85"/>
-      <text x="95" y="86" fill={tema.muted} fontSize="9" fontFamily="'DM Sans',sans-serif" textAnchor="middle">≈128.6° × 7</text>
+      <text x="95" y="86" fill={tema.muted} fontSize="9" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">≈128.6° × 7</text>
     </svg>
   );
 }
@@ -881,7 +912,7 @@ function OctagonoRegSVG({ tema }) {
   return (
     <svg viewBox="0 0 190 88" width="100%" style={{ display: "block" }}>
       <polygon points={qRegPoly(95,44,36,8,-Math.PI/2)} fill={tema.azulSuave} stroke={tema.azul} strokeWidth="1.8" opacity="0.85"/>
-      <text x="95" y="86" fill={tema.muted} fontSize="9" fontFamily="'DM Sans',sans-serif" textAnchor="middle">135° × 8</text>
+      <text x="95" y="86" fill={tema.muted} fontSize="9" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">135° × 8</text>
     </svg>
   );
 }
@@ -1526,17 +1557,22 @@ function SlideEjercicio({ slide, modo, votos, votantes, perfiles, totalVotos, re
 
             let bg = "rgba(255,255,255,0.04)";
             let border = "1px solid rgba(255,255,255,0.1)";
-            let color = "#c4bfb3";
+            let color = tema.texto;
 
+            // Al resolver, la única opción con color es la correcta. La que eligió
+            // el alumno no se tacha ni se pinta de rojo: se marca con un contorno
+            // punteado y se deja que la explicación haga el trabajo
+            // (docs/DISENO.md §2.4). Antes esto eran cuatro hex a mano, azul para
+            // la correcta y ámbar para la elegida, sin pasar por el tema.
             if (modo === "alumno" && done) {
               if (isOk) {
-                bg = "rgba(59,158,255,0.12)";
-                border = "2px solid rgba(59,158,255,0.5)";
-                color = "#3b9eff";
+                bg = tema.acentoMed;
+                border = `2px solid ${tema.acentoFuerte}`;
+                color = tema.acento;
               } else if (isSel) {
-                bg = "rgba(245,200,66,0.10)";
-                border = "2px solid rgba(245,200,66,0.5)";
-                color = "#f5c842";
+                bg = "transparent";
+                border = `1px dashed ${tema.sub}`;
+                color = tema.muted;
               }
             }
 
@@ -1619,7 +1655,10 @@ function SlideEjercicio({ slide, modo, votos, votantes, perfiles, totalVotos, re
               lineHeight: 1.6
             }}
           >
-            {respuestaDada === correcta ? "✓ " : "✗ "}
+            <b style={{ fontFamily: tema.mono, fontSize: 10.5, letterSpacing: "0.16em",
+              textTransform: "uppercase", color: tema.acento, marginRight: 10, fontWeight: 500 }}>
+              {respuestaDada === correcta ? "Así es" : "Aún no"}
+            </b>
             {slide.explicacion}
           </div>
         )}
@@ -1746,7 +1785,7 @@ function SlideReglaRica({ slide, tema, resaltadoIdx, onResaltar }) {
         </div>
         <h2
           style={{
-            fontFamily: "'Playfair Display', serif",
+            fontFamily: "'Sora', system-ui, sans-serif",
             fontSize: "clamp(18px, 2.4vw, 28px)",
             fontWeight: 700,
             color: tema.texto,
@@ -1822,12 +1861,12 @@ function SlideReglaRica({ slide, tema, resaltadoIdx, onResaltar }) {
                 </div>
               )}
               <div style={{ fontSize: 13, color: tema.texto, lineHeight: 1.55, marginBottom: 5 }}>
-                <span style={{ color: tema.verde, marginRight: 6, fontWeight: 700 }}>✓</span>
+                <IconoAsiEs tema={tema} />{" "}
                 {bloque.correcto}
               </div>
               <div style={{ height: 1, background: tema.border, margin: "5px 0" }} />
               <div style={{ fontSize: 13, color: tema.muted, lineHeight: 1.55 }}>
-                <span style={{ color: "#f5c842", marginRight: 6, fontWeight: 700 }}>✗</span>
+                <IconoAsiNo tema={tema} />{" "}
                 {bloque.incorrecto}
               </div>
             </div>
@@ -1868,12 +1907,12 @@ function SlideReglaRica({ slide, tema, resaltadoIdx, onResaltar }) {
               <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12.5 }}>
                 <thead>
                   {(() => {
-                    const [c0, c1, c2] = bloque.columnas || ["Tiempo", "✓ Correcto", "✗ Error"];
+                    const [c0, c1, c2] = bloque.columnas || ["Situación", "Así es", "Así no"];
                     return (
                       <tr style={{ borderBottom: `1px solid ${tema.border}` }}>
                         <th style={{ padding: "5px 14px", textAlign: "left", color: tema.muted, fontFamily: tema.mono, fontSize: 9, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 400 }}>{c0}</th>
-                        <th style={{ padding: "5px 14px", textAlign: "left", color: tema.verde, fontFamily: tema.mono, fontSize: 9, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 400 }}>{c1}</th>
-                        <th style={{ padding: "5px 14px", textAlign: "left", color: "#f5c842", fontFamily: tema.mono, fontSize: 9, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 400 }}>{c2}</th>
+                        <th style={{ padding: "5px 14px", textAlign: "left", color: tema.texto, fontFamily: tema.mono, fontSize: 9, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 400 }}>{c1}</th>
+                        <th style={{ padding: "5px 14px", textAlign: "left", color: tema.muted, fontFamily: tema.mono, fontSize: 9, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 400 }}>{c2}</th>
                       </tr>
                     );
                   })()}
@@ -1885,7 +1924,7 @@ function SlideReglaRica({ slide, tema, resaltadoIdx, onResaltar }) {
                       style={{ borderBottom: j < bloque.filas.length - 1 ? `1px solid rgba(255,255,255,0.05)` : "none" }}
                     >
                       <td style={{ padding: "5px 14px", color: tema.sub, fontStyle: "italic" }}>{fila.tiempo}</td>
-                      <td style={{ padding: "5px 14px", color: tema.verde, fontFamily: tema.mono, fontWeight: 600 }}>{fila.correcto}</td>
+                      <td style={{ padding: "5px 14px", color: tema.texto, fontFamily: tema.mono, fontWeight: 600 }}>{fila.correcto}</td>
                       <td style={{ padding: "5px 14px", color: tema.muted, fontFamily: tema.mono }}>{fila.error}</td>
                     </tr>
                   ))}
@@ -1967,11 +2006,11 @@ function SlideReglaRica({ slide, tema, resaltadoIdx, onResaltar }) {
                   Trampa {bloque.letra} — {bloque.titulo}
                 </div>
                 <div style={{ fontSize: 12.5, color: tema.texto, lineHeight: 1.5, marginBottom: 5 }}>
-                  <span style={{ color: tema.verde, marginRight: 5, fontWeight: 700 }}>✓</span>
+                  <IconoAsiEs tema={tema} />{" "}
                   {bloque.correcto}
                 </div>
                 <div style={{ fontSize: 12.5, color: tema.muted, lineHeight: 1.5 }}>
-                  <span style={{ color: "#f5c842", marginRight: 5, fontWeight: 700 }}>✗</span>
+                  <IconoAsiNo tema={tema} />{" "}
                   {bloque.incorrecto}
                 </div>
               </div>
@@ -2123,7 +2162,7 @@ function SlideArbolDecision({ slide, tema }) {
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       <div style={{ padding: '10px 18px 4px', flexShrink: 0 }}>
         <div style={{ fontFamily: tema.mono, fontSize: 9, letterSpacing: '0.2em', color: tema.acento, textTransform: 'uppercase', opacity: 0.75 }}>{slide.etiqueta}</div>
-        <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(15px, 2.2vw, 22px)', fontWeight: 700, color: tema.texto, margin: '2px 0 0', lineHeight: 1.2 }}>{slide.titulo}</h2>
+        <h2 style={{ fontFamily: "'Sora', system-ui, sans-serif", fontSize: 'clamp(15px, 2.2vw, 22px)', fontWeight: 700, color: tema.texto, margin: '2px 0 0', lineHeight: 1.2 }}>{slide.titulo}</h2>
         <div style={{ fontFamily: tema.mono, fontSize: 8.5, color: tema.muted, marginTop: 3 }}>
           {activeResult ? '✓ Toca otro resultado para cambiar · o toca el mismo para deseleccionar' : 'Toca cualquier resultado (verde/amarillo) para iluminar ese camino'}
         </div>
@@ -2208,7 +2247,7 @@ function SlideResumenAcentuacion({ slide, tema }) {
         <div style={{ fontFamily: tema.mono, fontSize: 10, letterSpacing: "0.2em", color: tema.acento, textTransform: "uppercase", marginBottom: 4, opacity: 0.75 }}>
           {slide.etiqueta}
         </div>
-        <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(16px, 2.2vw, 24px)", fontWeight: 700, color: tema.texto, margin: 0 }}>
+        <h2 style={{ fontFamily: "'Sora', system-ui, sans-serif", fontSize: "clamp(16px, 2.2vw, 24px)", fontWeight: 700, color: tema.texto, margin: 0 }}>
           {slide.titulo}
         </h2>
       </div>
@@ -2327,7 +2366,7 @@ function SlideRegla({ slide, tema, modo, resaltadoIdx, onResaltar }) {
         </div>
         <h2
           style={{
-            fontFamily: "'Playfair Display', serif",
+            fontFamily: "'Sora', system-ui, sans-serif",
             fontSize: "clamp(18px, 2.4vw, 28px)",
             fontWeight: 700,
             color: tema.texto,
@@ -2395,12 +2434,12 @@ function SlideRegla({ slide, tema, modo, resaltadoIdx, onResaltar }) {
               {ej.categoria}
             </div>
             <div style={{ fontSize: 12.5, color: tema.texto, lineHeight: 1.55, flex: 1 }}>
-              <span style={{ color: tema.verde, marginRight: 4, fontWeight: 700 }}>✓</span>
+              <IconoAsiEs tema={tema} />{" "}
               {ej.correcto}
             </div>
             <div style={{ height: 1, background: tema.border, margin: "8px 0" }} />
             <div style={{ fontSize: 12.5, color: tema.muted, lineHeight: 1.55, flex: 1 }}>
-              <span style={{ color: "#f5c842", marginRight: 4, fontWeight: 700 }}>✗</span>
+              <IconoAsiNo tema={tema} />{" "}
               {ej.incorrecto}
             </div>
           </div>

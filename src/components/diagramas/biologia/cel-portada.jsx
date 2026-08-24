@@ -13,7 +13,7 @@ export default function CelPortadaSVG({ tema }) {
       {/* núcleo */}
       <circle cx={108} cy={72} r={30} fill="rgba(134,239,172,0.10)" stroke={bl} strokeWidth="2" />
       <circle cx={108} cy={72} r={11} fill={a} opacity="0.45" />
-      <text x={108} y={45} textAnchor="middle" fill={bl} fontSize="8" fontFamily="'DM Sans',sans-serif">núcleo</text>
+      <text x={108} y={45} textAnchor="middle" fill={bl} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif">núcleo</text>
       {/* mitocondrias */}
       <ellipse cx={56} cy={48} rx={15} ry={7.5} fill="rgba(248,113,113,0.18)" stroke={tema.rojo} strokeWidth="1.6" transform="rotate(-20 56 48)" />
       <ellipse cx={160} cy={104} rx={15} ry={7.5} fill="rgba(248,113,113,0.18)" stroke={tema.rojo} strokeWidth="1.6" transform="rotate(15 160 104)" />
@@ -21,7 +21,7 @@ export default function CelPortadaSVG({ tema }) {
       <circle cx={60} cy={100} r={6} fill={a} opacity="0.3" stroke={a} strokeWidth="1.2" />
       <circle cx={156} cy={44} r={5} fill={bl} opacity="0.35" stroke={bl} strokeWidth="1.2" />
       <path d="M 138 96 q 10 -4 18 2 q -8 6 -18 -2 z" fill={a} opacity="0.25" stroke={a} strokeWidth="1" />
-      <text x={110} y={146} textAnchor="middle" fill={mu} fontSize="8.5" fontFamily="'DM Sans',sans-serif">la unidad de la vida</text>
+      <text x={110} y={146} textAnchor="middle" fill={mu} fontSize="8.5" fontFamily="'Figtree', system-ui, sans-serif">la unidad de la vida</text>
     </svg>
   );
 }

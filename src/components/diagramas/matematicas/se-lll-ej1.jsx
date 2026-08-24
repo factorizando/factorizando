@@ -30,12 +30,12 @@ export default function SeLllEj1SVG({ tema }) {
       <path d={t2p(E,F)} stroke={tema.verde}  strokeWidth="1.8" fill="none"/>
       <path d={t3p(C,A)} stroke={tema.acento} strokeWidth="1.8" fill="none"/>
       <path d={t3p(F,D)} stroke={tema.acento} strokeWidth="1.8" fill="none"/>
-      <text x="22"  y="74"  fill={tema.azul}   fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">4</text>
-      <text x="94"  y="155" fill={tema.verde}  fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">8</text>
-      <text x="153" y="68"  fill={tema.acento} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700">6</text>
-      <text x="240" y="74"  fill={tema.azul}   fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">6</text>
-      <text x="306" y="155" fill={tema.verde}  fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">12</text>
-      <text x="363" y="68"  fill={tema.acento} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700">9</text>
+      <text x="22"  y="74"  fill={tema.azul}   fontSize="12" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="end">4</text>
+      <text x="94"  y="155" fill={tema.verde}  fontSize="12" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="middle">8</text>
+      <text x="153" y="68"  fill={tema.acento} fontSize="12" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700">6</text>
+      <text x="240" y="74"  fill={tema.azul}   fontSize="12" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="end">6</text>
+      <text x="306" y="155" fill={tema.verde}  fontSize="12" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="middle">12</text>
+      <text x="363" y="68"  fill={tema.acento} fontSize="12" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700">9</text>
       <text x="200" y="78"  fill="rgba(240,236,227,0.30)" fontSize="22" fontFamily="Georgia,serif" textAnchor="middle">∼</text>
       <text x="85"  y="3"   fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
       <text x="0"   y="155" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">B</text>

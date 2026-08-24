@@ -7,11 +7,11 @@ export default function TiposVariableSVG({ tema }) {
   const caja = (cx, cy, w, label, color) => (
     <g>
       <rect x={cx - w / 2} y={cy - 14} width={w} height={28} rx={7} fill={tema.card} stroke={color} strokeWidth="1.6" />
-      <text x={cx} y={cy + 5} fill={color} fontSize="12.5" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">{label}</text>
+      <text x={cx} y={cy + 5} fill={color} fontSize="12.5" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="middle">{label}</text>
     </g>
   );
   const ln = (x1, y1, x2, y2) => <line x1={x1} y1={y1} x2={x2} y2={y2} stroke={mu} strokeWidth="1.4" opacity="0.5" />;
-  const ej = (x, label) => <text x={x} y="159" fill={mu} fontSize="8.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{label}</text>;
+  const ej = (x, label) => <text x={x} y="159" fill={mu} fontSize="8.5" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">{label}</text>;
   return (
     <svg viewBox="0 0 380 172" width="100%" style={{ display: "block", maxHeight: 184 }}>
       {ln(190, 32, 94, 58)}

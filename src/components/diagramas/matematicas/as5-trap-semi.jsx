@@ -21,7 +21,7 @@ export default function As5TrapSemiSVG({ tema }) {
       <text x={cx} y={cyBot+22} fill={a} fontSize="14" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">B = 10 cm</text>
       <line x1={bx_l-14} y1={cyBot} x2={bx_l-14} y2={cyTop} stroke="rgba(255,255,255,0.32)" strokeWidth="1" strokeDasharray="3,3"/>
       <text x={bx_l-18} y={(cyBot+cyTop)/2+4} fill={bl} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">h=8</text>
-      <text x={cx} y={cyBot+54} fill={a} fontSize="13" fontFamily="'DM Sans',sans-serif" textAnchor="middle" opacity="0.85">A = πr²/2</text>
+      <text x={cx} y={cyBot+54} fill={a} fontSize="13" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle" opacity="0.85">A = πr²/2</text>
     </svg>
   );
 }

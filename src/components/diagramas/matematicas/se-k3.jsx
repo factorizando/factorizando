@@ -13,8 +13,8 @@ export default function SeK3SVG({ tema }) {
       <line x1="296" y1="57"  x2="240" y2="151" stroke={tema.azul}   strokeWidth="2.8"/>
       <line x1="240" y1="151" x2="364" y2="151" stroke="rgba(240,236,227,0.35)" strokeWidth="1.8"/>
       <line x1="364" y1="151" x2="296" y2="57"  stroke="rgba(240,236,227,0.35)" strokeWidth="1.8"/>
-      <text x="40"  y="108" fill={tema.azul} fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">AB=15</text>
-      <text x="258" y="110" fill={tema.acento} fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">DE=?</text>
+      <text x="40"  y="108" fill={tema.azul} fontSize="13" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="end">AB=15</text>
+      <text x="258" y="110" fill={tema.acento} fontSize="13" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="end">DE=?</text>
       <text x="95"  y="22"  fill="rgba(240,236,227,0.70)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
       <text x="4"   y="179" fill="rgba(240,236,227,0.70)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">B</text>
       <text x="202" y="179" fill="rgba(240,236,227,0.70)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">C</text>
@@ -22,7 +22,7 @@ export default function SeK3SVG({ tema }) {
       <text x="232" y="163" fill="rgba(240,236,227,0.70)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">E</text>
       <text x="368" y="163" fill="rgba(240,236,227,0.70)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">F</text>
       <text x="222" y="87"  fill="rgba(240,236,227,0.28)" fontSize="22" fontFamily="Georgia,serif" textAnchor="middle">∼</text>
-      <text x="222" y="111" fill="rgba(240,236,227,0.55)" fontSize="17" fontWeight="700" fontFamily="'DM Sans',sans-serif" textAnchor="middle">k = 3</text>
+      <text x="222" y="111" fill="rgba(240,236,227,0.55)" fontSize="17" fontWeight="700" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">k = 3</text>
     </svg>
   );
 }

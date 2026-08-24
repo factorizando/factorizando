@@ -19,8 +19,8 @@ export default function As4SectorTriSVG({ tema }) {
       <text x={cx+6} y={cy-6} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">O</text>
       <text x={(cx+x_right)/2} y={cy+16} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">r=6</text>
       <text x={cx-18} y={(cy+y_up)/2} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">r=6</text>
-      <text x={cx+26} y={cy-22} fill={a} fontSize="13" fontFamily="'DM Sans',sans-serif">90°</text>
-      <text x={(x_right+x_up)/2+12} y={(y_right+y_up)/2-22} fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif">segmento</text>
+      <text x={cx+26} y={cy-22} fill={a} fontSize="13" fontFamily="'Figtree', system-ui, sans-serif">90°</text>
+      <text x={(x_right+x_up)/2+12} y={(y_right+y_up)/2-22} fill={a} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif">segmento</text>
     </svg>
   );
 }

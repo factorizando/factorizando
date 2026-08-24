@@ -19,9 +19,9 @@ export default function SePitSVG({ tema }) {
       <line x1={H[0]} y1={H[1]} x2={C[0]} y2={C[1]} stroke={tema.verde}  strokeWidth="2" strokeDasharray="5,3"/>
       {/* Right angle square at H */}
       <path d="M 86,22 L 94,22 L 94,14" fill="none" stroke="rgba(240,236,227,0.50)" strokeWidth="1.2"/>
-      <text x="50"  y="10"  fill={tema.azul}   fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">4</text>
-      <text x="167" y="10"  fill={tema.acento} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">9</text>
-      <text x="96"  y="72"  fill={tema.verde}  fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700">h</text>
+      <text x="50"  y="10"  fill={tema.azul}   fontSize="12" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="middle">4</text>
+      <text x="167" y="10"  fill={tema.acento} fontSize="12" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="middle">9</text>
+      <text x="96"  y="72"  fill={tema.verde}  fontSize="12" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700">h</text>
       <text x="14"  y="27"  fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
       <text x="248" y="27"  fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">B</text>
       <text x="86"  y="135" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">C</text>

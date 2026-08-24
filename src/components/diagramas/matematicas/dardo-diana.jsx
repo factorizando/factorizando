@@ -21,9 +21,9 @@ export default function DardoDianaSVG({ tema }) {
       <circle cx={cx} cy={cy} r="2.5" fill={rj}/>
       <circle cx={cx + 13} cy={cy - 10} r="3.8" fill={T}/>
       {/* Etiquetas */}
-      <text x="176" y="58" fill={rj} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="600">blanco</text>
+      <text x="176" y="58" fill={rj} fontSize="12" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">blanco</text>
       <text x="176" y="76" fill={T} fontSize="14" fontFamily="'IBM Plex Mono',monospace">πr²</text>
-      <text x="176" y="106" fill={bl} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="600">diana</text>
+      <text x="176" y="106" fill={bl} fontSize="12" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">diana</text>
       <text x="176" y="124" fill={T} fontSize="14" fontFamily="'IBM Plex Mono',monospace">πR²</text>
       <text x="176" y="156" fill={a} fontSize="15" fontFamily="'IBM Plex Mono',monospace">P = ¼</text>
     </svg>

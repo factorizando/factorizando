@@ -12,7 +12,7 @@ export default function CelAnimalVegetalSVG({ tema }) {
       <circle cx={68} cy={66} r={6} fill={a} opacity="0.5" />
       <ellipse cx={38} cy={96} rx={10} ry={5} fill="rgba(248,113,113,0.2)" stroke={tema.rojo} strokeWidth="1.3" transform="rotate(-20 38 96)" />
       <circle cx={98} cy={42} r={5} fill={a} opacity="0.3" stroke={a} strokeWidth="1" />
-      <text x={70} y={20} textAnchor="middle" fill={T} fontSize="9.5" fontFamily="'DM Sans',sans-serif" fontWeight="600">Animal</text>
+      <text x={70} y={20} textAnchor="middle" fill={T} fontSize="9.5" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">Animal</text>
       {/* Vegetal — pared rígida rectangular */}
       <rect x={166} y={26} width={104} height={88} rx={6} fill="none" stroke={tema.verde} strokeWidth="3" />
       <rect x={172} y={32} width={92} height={76} rx={4} fill="rgba(52,211,153,0.05)" stroke={a} strokeWidth="1.6" />
@@ -21,8 +21,8 @@ export default function CelAnimalVegetalSVG({ tema }) {
       {/* cloroplastos */}
       <ellipse cx={244} cy={46} rx={9} ry={4.5} fill="rgba(74,222,128,0.3)" stroke={tema.verde} strokeWidth="1.3" transform="rotate(25 244 46)" />
       <ellipse cx={238} cy={92} rx={9} ry={4.5} fill="rgba(74,222,128,0.3)" stroke={tema.verde} strokeWidth="1.3" transform="rotate(-15 238 92)" />
-      <text x={218} y={20} textAnchor="middle" fill={T} fontSize="9.5" fontFamily="'DM Sans',sans-serif" fontWeight="600">Vegetal</text>
-      <text x={218} y={128} textAnchor="middle" fill={tema.verde} fontSize="7.5" fontFamily="'DM Sans',sans-serif">pared · cloroplastos · vacuola</text>
+      <text x={218} y={20} textAnchor="middle" fill={T} fontSize="9.5" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">Vegetal</text>
+      <text x={218} y={128} textAnchor="middle" fill={tema.verde} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif">pared · cloroplastos · vacuola</text>
     </svg>
   );
 }

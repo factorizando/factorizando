@@ -11,20 +11,20 @@ export default function QfMezclasSVG({ tema }) {
       {/* sustancia pura: partículas iguales */}
       <rect x={18} y={20} width={56} height={64} rx={5} fill="rgba(192,132,252,0.06)" stroke={a} strokeWidth="1.6" />
       {[[34,40],[54,40],[34,60],[54,60],[44,76]].map(([cx,cy],i)=>(<circle key={i} cx={cx} cy={cy} r={5} fill={a} opacity="0.7" />))}
-      <text x={46} y={98} textAnchor="middle" fill={T} fontSize="7.5" fontFamily="'DM Sans',sans-serif" fontWeight="600">sustancia pura</text>
-      <text x={46} y={108} textAnchor="middle" fill={mu} fontSize="6.3" fontFamily="'DM Sans',sans-serif">partículas iguales</text>
+      <text x={46} y={98} textAnchor="middle" fill={T} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">sustancia pura</text>
+      <text x={46} y={108} textAnchor="middle" fill={mu} fontSize="6.3" fontFamily="'Figtree', system-ui, sans-serif">partículas iguales</text>
       {/* mezcla homogénea: dos tipos, repartidos */}
       <rect x={117} y={20} width={56} height={64} rx={5} fill="rgba(244,114,182,0.06)" stroke={bl} strokeWidth="1.6" />
       {[[133,40],[153,40],[133,60],[153,60],[143,76]].map(([cx,cy],i)=>(<circle key={i} cx={cx} cy={cy} r={5} fill={i%2?bl:a} opacity="0.7" />))}
-      <text x={145} y={98} textAnchor="middle" fill={T} fontSize="7.5" fontFamily="'DM Sans',sans-serif" fontWeight="600">mezcla homogénea</text>
-      <text x={145} y={108} textAnchor="middle" fill={mu} fontSize="6.3" fontFamily="'DM Sans',sans-serif">una sola fase</text>
+      <text x={145} y={98} textAnchor="middle" fill={T} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">mezcla homogénea</text>
+      <text x={145} y={108} textAnchor="middle" fill={mu} fontSize="6.3" fontFamily="'Figtree', system-ui, sans-serif">una sola fase</text>
       {/* mezcla heterogénea: dos capas */}
       <rect x={216} y={20} width={56} height={64} rx={5} fill="rgba(244,114,182,0.04)" stroke={bl} strokeWidth="1.6" />
       <path d="M 216 56 h 56" stroke={bl} strokeWidth="1" strokeDasharray="3 2" opacity="0.6" />
       {[[232,32],[252,32],[244,44]].map(([cx,cy],i)=>(<circle key={i} cx={cx} cy={cy} r={5} fill={a} opacity="0.7" />))}
       {[[232,70],[252,70],[244,80]].map(([cx,cy],i)=>(<circle key={i} cx={cx} cy={cy} r={5} fill={bl} opacity="0.7" />))}
-      <text x={244} y={98} textAnchor="middle" fill={T} fontSize="7.5" fontFamily="'DM Sans',sans-serif" fontWeight="600">mezcla heterogénea</text>
-      <text x={244} y={108} textAnchor="middle" fill={mu} fontSize="6.3" fontFamily="'DM Sans',sans-serif">fases visibles</text>
+      <text x={244} y={98} textAnchor="middle" fill={T} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">mezcla heterogénea</text>
+      <text x={244} y={108} textAnchor="middle" fill={mu} fontSize="6.3" fontFamily="'Figtree', system-ui, sans-serif">fases visibles</text>
     </svg>
   );
 }

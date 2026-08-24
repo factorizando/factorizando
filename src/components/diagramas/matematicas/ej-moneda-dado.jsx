@@ -10,7 +10,7 @@ export default function MonedaDadoSVG({ tema }) {
     <svg viewBox="0 0 200 100" width="100%" style={{ display: "block", maxHeight: 112 }}>
       <circle cx="50" cy="50" r="34" fill={tema.azulSuave} stroke={bl} strokeWidth="2.5"/>
       <text x="50" y="60" fill={bl} fontSize="28" fontFamily="Georgia,serif" textAnchor="middle">C</text>
-      <text x="100" y="56" fill={tema.muted} fontSize="18" fontFamily="'DM Sans',sans-serif" textAnchor="middle">y</text>
+      <text x="100" y="56" fill={tema.muted} fontSize="18" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">y</text>
       <DadoSVG x={122} y={16} s={68} n={6} color={a} fill={tema.acentoSuave} stroke={a} rPip={5}/>
     </svg>
   );

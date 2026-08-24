@@ -23,7 +23,7 @@ export default function DotPlotMedianaSVG({ tema, data }) {
           </g>
         );
       })}
-      <text x={x0 + W / 2} y={y - 24} fill={gr} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">Me = {medLabel}</text>
+      <text x={x0 + W / 2} y={y - 24} fill={gr} fontSize="12" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="middle">Me = {medLabel}</text>
     </svg>
   );
 }

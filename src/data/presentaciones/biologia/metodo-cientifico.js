@@ -5,7 +5,7 @@
 export const PRESENTACION = {
   id: "metodo-cientifico",
   titulo: "El Método Científico",
-  materia: "Ciencias",
+  materia: "Biología",
   subtema: "Pensamiento Científico",
   slides: [
 

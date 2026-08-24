@@ -22,7 +22,7 @@ export default function CampoSemanticoSVG({ tema }) {
       {/* Level 0: hiperónimo */}
       <rect x="185" y="4" width="150" height="24" rx="6" fill={`${az}22`} stroke={az} strokeWidth="1.5"/>
       <text x="260" y="20" fill={az} fontSize="11" fontFamily="Georgia,serif" fontStyle="italic" fontWeight="700" textAnchor="middle">ANIMAL</text>
-      <text x="260" y="35" fill={az} fontSize="7" fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.1em" opacity="0.7">HIPERÓNIMO</text>
+      <text x="260" y="35" fill={az} fontSize="7" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle" letterSpacing="0.1em" opacity="0.7">HIPERÓNIMO</text>
       {/* Lines to level 1 */}
       <line x1="215" y1="28" x2="75"  y2="62" stroke={`${az}55`} strokeWidth="1.3"/>
       <line x1="260" y1="28" x2="255" y2="62" stroke={`${az}55`} strokeWidth="1.3"/>
@@ -34,7 +34,7 @@ export default function CampoSemanticoSVG({ tema }) {
           <text x={x + 55} y="77" fill={vd} fontSize="10" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">{label}</text>
         </g>
       ))}
-      <text x="260" y="96" fill={vd} fontSize="7" fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.1em" opacity="0.7">COHIPÓNIMOS</text>
+      <text x="260" y="96" fill={vd} fontSize="7" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle" letterSpacing="0.1em" opacity="0.7">COHIPÓNIMOS</text>
       {/* Lines to level 2 */}
       {[
         [55, 37], [55, 105], [255, 222], [255, 290], [433, 394], [433, 472],
@@ -50,7 +50,7 @@ export default function CampoSemanticoSVG({ tema }) {
           <text x={x + w / 2} y="122" fill={ac} fontSize="9" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">{label}</text>
         </g>
       ))}
-      <text x="260" y="143" fill={ac} fontSize="7" fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.1em" opacity="0.7">HIPÓNIMOS (más específicos)</text>
+      <text x="260" y="143" fill={ac} fontSize="7" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle" letterSpacing="0.1em" opacity="0.7">HIPÓNIMOS (más específicos)</text>
     </svg>
   );
 }

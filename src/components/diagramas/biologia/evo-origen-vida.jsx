@@ -19,12 +19,12 @@ export default function EvoOrigenVidaSVG({ tema }) {
         <g key={i}>
           <circle cx={x} cy={58} r={i === 0 ? 9 : i === 1 ? 13 : 18} fill="rgba(52,211,153,0.10)" stroke={i === 2 ? a : bl} strokeWidth="1.8" />
           {i === 2 && <circle cx={x} cy={58} r={6} fill={a} opacity="0.5" />}
-          <text x={x} y={92} textAnchor="middle" fill={T} fontSize="8" fontFamily="'DM Sans',sans-serif" fontWeight="600">{label}</text>
-          <text x={x} y={103} textAnchor="middle" fill={mu} fontSize="6.5" fontFamily="'DM Sans',sans-serif">{sub}</text>
+          <text x={x} y={92} textAnchor="middle" fill={T} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">{label}</text>
+          <text x={x} y={103} textAnchor="middle" fill={mu} fontSize="6.5" fontFamily="'Figtree', system-ui, sans-serif">{sub}</text>
           {i < 2 && <><line x1={x + 18} y1={58} x2={stages[i + 1].x - 20} y2={58} stroke={a} strokeWidth="1.8" /><polygon points={arrowHead(x + 18, 58, stages[i + 1].x - 20, 58, 6)} fill={a} /></>}
         </g>
       ))}
-      <text x={125} y={16} textAnchor="middle" fill={mu} fontSize="7.5" fontFamily="'DM Sans',sans-serif">teoría quimiosintética (Oparin-Haldane)</text>
+      <text x={125} y={16} textAnchor="middle" fill={mu} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif">teoría quimiosintética (Oparin-Haldane)</text>
     </svg>
   );
 }

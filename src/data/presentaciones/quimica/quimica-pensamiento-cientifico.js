@@ -4,7 +4,7 @@
 export const PRESENTACION = {
   id: "quimica-pensamiento-cientifico",
   titulo: "Química: Pensamiento Científico",
-  materia: "Ciencias",
+  materia: "Química",
   subtema: "Química · EXANI-I",
   slides: [
 

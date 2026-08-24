@@ -4,7 +4,7 @@
 
 export default function OrdenImportaSVG({ tema }) {
   const bl = tema.azul, gr = tema.verde, T = tema.texto;
-  const tEst = { fontFamily: "'DM Sans',sans-serif" };
+  const tEst = { fontFamily: "'Figtree', system-ui, sans-serif" };
   return (
     <svg viewBox="0 0 300 118" width="100%" style={{ display: "block", maxHeight: 130 }}>
       <line x1="150" y1="8" x2="150" y2="110" stroke={tema.border} strokeWidth="1"/>

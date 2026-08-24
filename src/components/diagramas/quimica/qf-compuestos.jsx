@@ -7,9 +7,9 @@ export default function QfCompuestosSVG({ tema }) {
   const fila = (y, izq, der, c) => (
     <g>
       <rect x={20} y={y} width={108} height={20} rx={4} fill={`${c}1e`} stroke={c} strokeWidth="1.3" />
-      <text x={74} y={y + 13} textAnchor="middle" fill={T} fontSize="7.5" fontFamily="'DM Sans',sans-serif" fontWeight="600">{izq}</text>
-      <text x={150} y={y + 13} textAnchor="middle" fill={mu} fontSize="6.6" fontFamily="'DM Sans',sans-serif">→</text>
-      <text x={220} y={y + 13} textAnchor="middle" fill={c} fontSize="7.3" fontFamily="'DM Sans',sans-serif">{der}</text>
+      <text x={74} y={y + 13} textAnchor="middle" fill={T} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">{izq}</text>
+      <text x={150} y={y + 13} textAnchor="middle" fill={mu} fontSize="6.6" fontFamily="'Figtree', system-ui, sans-serif">→</text>
+      <text x={220} y={y + 13} textAnchor="middle" fill={c} fontSize="7.3" fontFamily="'Figtree', system-ui, sans-serif">{der}</text>
     </g>
   );
   return (

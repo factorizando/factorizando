@@ -17,7 +17,7 @@ export default function TiEj3SVG({ tema }) {
       <line x1={cx} y1={cy} x2={Bx} y2={By} stroke={bl} strokeWidth="1.4" strokeDasharray="4,3" opacity="0.7"/>
       <text x={(Ax+Bx)/2-12} y={(Ay+By)/2} fill={a} fontSize="12" fontFamily="Georgia,serif">6</text>
       <text x={(Cx+Bx)/2+4} y={(Cy+By)/2-2} fill={a} fontSize="12" fontFamily="Georgia,serif">8</text>
-      <text x={cx} y={Cy+16} fill={gr} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">diámetro</text>
+      <text x={cx} y={Cy+16} fill={gr} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">diámetro</text>
       <text x={(cx+Bx)/2+2} y={(cy+By)/2-3} fill={bl} fontSize="10" fontFamily="Georgia,serif" fontStyle="italic">r</text>
       <circle cx={cx} cy={cy} r={2.8} fill={gr}/>
     </svg>

@@ -12,11 +12,11 @@ export default function CelMitosisSVG({ tema }) {
       <circle cx={48} cy={55} r={28} fill="rgba(52,211,153,0.05)" stroke={a} strokeWidth="2" />
       <line x1={40} y1={48} x2={50} y2={62} stroke={bl} strokeWidth="3" strokeLinecap="round" />
       <line x1={56} y1={48} x2={46} y2={62} stroke={bl} strokeWidth="3" strokeLinecap="round" />
-      <text x={48} y={98} textAnchor="middle" fill={mu} fontSize="8" fontFamily="'DM Sans',sans-serif">madre (2n)</text>
+      <text x={48} y={98} textAnchor="middle" fill={mu} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif">madre (2n)</text>
       {/* flecha */}
       <line x1={84} y1={55} x2={150} y2={55} stroke={a} strokeWidth="2" />
       <polygon points={arrowHead(84, 55, 150, 55, 8)} fill={a} />
-      <text x={117} y={48} textAnchor="middle" fill={a} fontSize="8" fontFamily="'DM Sans',sans-serif">mitosis</text>
+      <text x={117} y={48} textAnchor="middle" fill={a} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif">mitosis</text>
       {/* dos hijas idénticas */}
       {[ [196, 30], [196, 80] ].map(([cx, cy], i) => (
         <g key={i}>
@@ -25,8 +25,8 @@ export default function CelMitosisSVG({ tema }) {
           <line x1={cx + 5} y1={cy - 5} x2={cx - 3} y2={cy + 6} stroke={bl} strokeWidth="2.4" strokeLinecap="round" />
         </g>
       ))}
-      <text x={244} y={58} fill={mu} fontSize="8" fontFamily="'DM Sans',sans-serif">2 idénticas</text>
-      <text x={244} y={70} fill={mu} fontSize="8" fontFamily="'DM Sans',sans-serif">(2n cada una)</text>
+      <text x={244} y={58} fill={mu} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif">2 idénticas</text>
+      <text x={244} y={70} fill={mu} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif">(2n cada una)</text>
     </svg>
   );
 }

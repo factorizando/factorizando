@@ -19,8 +19,8 @@ export default function Cce3ArcoSVG({ tema }) {
       <circle cx={cx} cy={cy} r={3.5} fill={a}/>
       <text x={cx+5} y={cy-4} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">O</text>
       <text x={(cx + +x1)/2+8} y={(cy + +y1)/2+2} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">r=9</text>
-      <text x={cx+24} y={cy-26} fill={a} fontSize="12" fontFamily="'DM Sans',sans-serif">80°</text>
-      <text x={+x1+8} y={+y1-6} fill={gr} fontSize="12" fontFamily="'DM Sans',sans-serif">l=?</text>
+      <text x={cx+24} y={cy-26} fill={a} fontSize="12" fontFamily="'Figtree', system-ui, sans-serif">80°</text>
+      <text x={+x1+8} y={+y1-6} fill={gr} fontSize="12" fontFamily="'Figtree', system-ui, sans-serif">l=?</text>
     </svg>
   );
 }

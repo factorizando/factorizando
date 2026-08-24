@@ -13,15 +13,15 @@ export default function PermutacionesCasillasSVG({ tema }) {
         return (
           <g key={i}>
             <text x={x + bw / 2} y={by - 14} fill={a} fontSize="22" fontFamily="'IBM Plex Mono',monospace" fontWeight="700" textAnchor="middle">{s.n}</text>
-            <text x={x + bw / 2} y={by - 30} fill={mu} fontSize="9.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">opciones</text>
+            <text x={x + bw / 2} y={by - 30} fill={mu} fontSize="9.5" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">opciones</text>
             <rect x={x} y={by} width={bw} height={42} rx={8} fill={tema.acentoMed} stroke={a} strokeWidth="1.8"/>
-            <text x={x + bw / 2} y={by + 27} fill={T} fontSize="15" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">{s.pos}</text>
+            <text x={x + bw / 2} y={by + 27} fill={T} fontSize="15" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="middle">{s.pos}</text>
             {i < 2 && <text x={x + bw + gap / 2} y={by + 28} fill={T} fontSize="18" textAnchor="middle">×</text>}
           </g>
         );
       })}
       <text x="125" y="124" fill={T} fontSize="13.5" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">5 × 4 × 3 = 60 = 5!/2!</text>
-      <text x="125" y="142" fill={mu} fontSize="10.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">cada casilla quita una opción</text>
+      <text x="125" y="142" fill={mu} fontSize="10.5" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">cada casilla quita una opción</text>
     </svg>
   );
 }

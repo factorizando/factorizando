@@ -28,7 +28,7 @@ export default function RuletaSVG({ tema }) {
       {partes}
       <circle cx={cx} cy={cy} r={r} fill="none" stroke={bl} strokeWidth="2"/>
       <circle cx={cx} cy={cy} r="4" fill={bl}/>
-      <text x="172" y="74" fill={a} fontSize="12" fontFamily="'DM Sans',sans-serif">primos</text>
+      <text x="172" y="74" fill={a} fontSize="12" fontFamily="'Figtree', system-ui, sans-serif">primos</text>
       <text x="172" y="92" fill={tema.muted} fontSize="12" fontFamily="'IBM Plex Mono',monospace">2·3·5·7</text>
     </svg>
   );

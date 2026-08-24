@@ -17,8 +17,8 @@ export default function EneEnergiasSVG({ tema }) {
       <polygon points={arrowHead(176, 58, 176, 52, 7)} fill={bl} />
       <polygon points={arrowHead(176, gy - 6, 176, gy, 7)} fill={bl} />
       <text x={182} y={86} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">h</text>
-      <text x={34} y={26} fill={mu} fontSize="9.5" fontFamily="'DM Sans',sans-serif">Ec = ½mv²</text>
-      <text x={150} y={126} fill={mu} fontSize="9.5" fontFamily="'DM Sans',sans-serif">Ep = mgh</text>
+      <text x={34} y={26} fill={mu} fontSize="9.5" fontFamily="'Figtree', system-ui, sans-serif">Ec = ½mv²</text>
+      <text x={150} y={126} fill={mu} fontSize="9.5" fontFamily="'Figtree', system-ui, sans-serif">Ep = mgh</text>
     </svg>
   );
 }

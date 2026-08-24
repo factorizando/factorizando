@@ -9,14 +9,14 @@ export default function EleSerieParaleloSVG({ tema }) {
   return (
     <svg viewBox="0 0 250 132" width="100%" style={{ display: "block", maxHeight: 142 }}>
       {/* serie */}
-      <text x={12} y={38} fill={mu} fontSize="9.5" fontFamily="'DM Sans',sans-serif">serie</text>
+      <text x={12} y={38} fill={mu} fontSize="9.5" fontFamily="'Figtree', system-ui, sans-serif">serie</text>
       <line x1={56} y1={34} x2={84} y2={34} stroke={mu} strokeWidth="1.6" />
       <polyline points={z(84)} fill="none" stroke={a} strokeWidth="2" />
       <line x1={119} y1={34} x2={147} y2={34} stroke={mu} strokeWidth="1.6" />
       <polyline points={z(147)} fill="none" stroke={a} strokeWidth="2" />
       <line x1={182} y1={34} x2={214} y2={34} stroke={mu} strokeWidth="1.6" />
       {/* paralelo */}
-      <text x={12} y={99} fill={mu} fontSize="9.5" fontFamily="'DM Sans',sans-serif">paralelo</text>
+      <text x={12} y={99} fill={mu} fontSize="9.5" fontFamily="'Figtree', system-ui, sans-serif">paralelo</text>
       <line x1={64} y1={96} x2={84} y2={96} stroke={mu} strokeWidth="1.6" />
       <line x1={84} y1={78} x2={84} y2={114} stroke={mu} strokeWidth="1.6" />
       <line x1={186} y1={78} x2={186} y2={114} stroke={mu} strokeWidth="1.6" />

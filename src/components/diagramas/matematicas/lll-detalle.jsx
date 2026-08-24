@@ -44,8 +44,8 @@ export default function CriterioLLLDetalleSVG({ tema }) {
 
       {/* k label + subtitle */}
       <text x="252" y="75"  fill="rgba(240,236,227,0.25)" fontSize="26" fontFamily="Georgia,serif" textAnchor="middle">∼</text>
-      <text x="252" y="100" fill="rgba(240,236,227,0.48)" fontSize="19" fontWeight="700" fontFamily="'DM Sans',sans-serif" textAnchor="middle">k</text>
-      <text x="252" y="118" fill="rgba(240,236,227,0.22)" fontSize="9.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.04em">ka/a = kb/b = kc/c</text>
+      <text x="252" y="100" fill="rgba(240,236,227,0.48)" fontSize="19" fontWeight="700" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">k</text>
+      <text x="252" y="118" fill="rgba(240,236,227,0.22)" fontSize="9.5" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle" letterSpacing="0.04em">ka/a = kb/b = kc/c</text>
     </svg>
   );
 }

@@ -16,15 +16,15 @@ export default function GenAdnSVG({ tema }) {
           <g key={i}>
             <line x1={92} y1={y} x2={168} y2={y} stroke={mu} strokeWidth="1.2" />
             <circle cx={114} cy={y} r={8} fill="rgba(52,211,153,0.18)" stroke={a} strokeWidth="1.3" />
-            <text x={114} y={y + 3} textAnchor="middle" fill={a} fontSize="8" fontFamily="'DM Sans',sans-serif">{l}</text>
+            <text x={114} y={y + 3} textAnchor="middle" fill={a} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif">{l}</text>
             <circle cx={146} cy={y} r={8} fill="rgba(134,239,172,0.18)" stroke={bl} strokeWidth="1.3" />
-            <text x={146} y={y + 3} textAnchor="middle" fill={bl} fontSize="8" fontFamily="'DM Sans',sans-serif">{r}</text>
+            <text x={146} y={y + 3} textAnchor="middle" fill={bl} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif">{r}</text>
           </g>
         );
       })}
-      <text x={30} y={66} textAnchor="middle" fill={T} fontSize="8" fontFamily="'DM Sans',sans-serif">A–T</text>
-      <text x={232} y={66} textAnchor="middle" fill={T} fontSize="8" fontFamily="'DM Sans',sans-serif">C–G</text>
-      <text x={130} y={128} textAnchor="middle" fill={mu} fontSize="7.5" fontFamily="'DM Sans',sans-serif">bases complementarias</text>
+      <text x={30} y={66} textAnchor="middle" fill={T} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif">A–T</text>
+      <text x={232} y={66} textAnchor="middle" fill={T} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif">C–G</text>
+      <text x={130} y={128} textAnchor="middle" fill={mu} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif">bases complementarias</text>
     </svg>
   );
 }

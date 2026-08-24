@@ -17,7 +17,7 @@ export default function CombinaPersonasSVG({ tema }) {
     <svg viewBox="0 0 230 158" width="100%" style={{ display: "block", maxHeight: 166 }}>
       {lines}
       {pts.map((p, i) => <circle key={i} cx={p[0].toFixed(1)} cy={p[1].toFixed(1)} r="7.5" fill={tema.azulSuave} stroke={bl} strokeWidth="2"/>)}
-      <text x="180" y="74" fill={a} fontSize="13" fontFamily="'DM Sans',sans-serif">C(5,2)</text>
+      <text x="180" y="74" fill={a} fontSize="13" fontFamily="'Figtree', system-ui, sans-serif">C(5,2)</text>
       <text x="180" y="95" fill={T} fontSize="16" fontFamily="'IBM Plex Mono',monospace">= 10</text>
     </svg>
   );

@@ -31,8 +31,8 @@ export default function SeLalEj1SVG({ tema }) {
       <path d={t2p(F,D)} stroke={tema.acento} strokeWidth="1.8" fill="none"/>
       <path d={arcPath(A,C,B,22)} stroke={tema.verde} strokeWidth="1.8" fill="none"/>
       <path d={arcPath(D,F,E,22)} stroke={tema.verde} strokeWidth="1.8" fill="none"/>
-      <text x="86"  y="48"  fill={tema.verde} fontSize="10" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">55°</text>
-      <text x="264" y="48"  fill={tema.verde} fontSize="10" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">55°</text>
+      <text x="86"  y="48"  fill={tema.verde} fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="middle">55°</text>
+      <text x="264" y="48"  fill={tema.verde} fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="middle">55°</text>
       <text x="186" y="74"  fill="rgba(240,236,227,0.30)" fontSize="26" fontFamily="Georgia,serif" textAnchor="middle">∼</text>
       <text x="86"  y="5"   fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
       <text x="4"   y="138" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">B</text>

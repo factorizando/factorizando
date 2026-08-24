@@ -11,7 +11,7 @@ export default function DinFuerzaNetaSVG({ tema }) {
       <Bloque x={95} y={42} w={60} h={44} tema={tema} label="m" />
       <Vector x1={155} y1={64} x2={216} y2={64} color={gr} label="F₁" lx={178} ly={56} />
       <Vector x1={95} y1={64} x2={48} y2={64} color={rj} label="F₂" lx={50} ly={56} />
-      <text x={125} y={108} fill={mu} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">fuerza neta = suma vectorial</text>
+      <text x={125} y={108} fill={mu} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">fuerza neta = suma vectorial</text>
     </svg>
   );
 }

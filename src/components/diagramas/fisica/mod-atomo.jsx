@@ -18,7 +18,7 @@ export default function ModAtomoSVG({ tema }) {
         <g transform="rotate(60)"><circle cx="-66" cy="0" r="4.5" fill={bl} /></g>
         <g transform="rotate(120)"><circle cx="66" cy="0" r="4.5" fill={bl} /></g>
       </g>
-      <text x={112} y={122} fill={mu} fontSize="9.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">núcleo (p⁺ + n⁰)</text>
+      <text x={112} y={122} fill={mu} fontSize="9.5" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">núcleo (p⁺ + n⁰)</text>
       <text x={206} y={62} fill={bl} fontSize="11" fontFamily="Georgia,serif">e⁻</text>
     </svg>
   );

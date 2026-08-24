@@ -25,12 +25,12 @@ export default function SeLalS2SVG({ tema }) {
       <line x1={F[0]} y1={F[1]} x2={D[0]} y2={D[1]} stroke={tema.acento} strokeWidth="2.4"/>
       <path d={arcPath(A,C,B,22)} stroke={tema.verde} strokeWidth="1.8" fill="none"/>
       <path d={arcPath(D,F,E,22)} stroke={tema.verde} strokeWidth="1.8" fill="none"/>
-      <text x="86"  y="48"  fill={tema.verde} fontSize="9"  fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">∠A</text>
-      <text x="264" y="48"  fill={tema.verde} fontSize="9"  fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">∠D</text>
-      <text x="29"  y="62"  fill={tema.azul}   fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">9</text>
-      <text x="148" y="61"  fill={tema.acento} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700">15</text>
-      <text x="207" y="62"  fill={tema.azul}   fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">6</text>
-      <text x="327" y="61"  fill={tema.acento} fontSize="14" fontFamily="'DM Sans',sans-serif" fontWeight="700">?</text>
+      <text x="86"  y="48"  fill={tema.verde} fontSize="9"  fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="middle">∠A</text>
+      <text x="264" y="48"  fill={tema.verde} fontSize="9"  fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="middle">∠D</text>
+      <text x="29"  y="62"  fill={tema.azul}   fontSize="12" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="end">9</text>
+      <text x="148" y="61"  fill={tema.acento} fontSize="12" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700">15</text>
+      <text x="207" y="62"  fill={tema.azul}   fontSize="12" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="end">6</text>
+      <text x="327" y="61"  fill={tema.acento} fontSize="14" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700">?</text>
       <text x="186" y="74"  fill="rgba(240,236,227,0.30)" fontSize="26" fontFamily="Georgia,serif" textAnchor="middle">∼</text>
       <text x="86"  y="5"   fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
       <text x="4"   y="138" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">B</text>

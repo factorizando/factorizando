@@ -18,12 +18,12 @@ export default function CelHistoriaSVG({ tema }) {
       {hitos.map(({ x, año, quien, que }, i) => (
         <g key={i}>
           <circle cx={x} cy={58} r={5} fill={a} opacity="0.6" stroke={a} strokeWidth="1.4" />
-          <text x={x} y={34} textAnchor="middle" fill={bl} fontSize="7.5" fontFamily="'DM Sans',sans-serif" fontWeight="700">{año}</text>
-          <text x={x} y={74} textAnchor="middle" fill={T} fontSize="7" fontFamily="'DM Sans',sans-serif" fontWeight="600">{quien}</text>
-          <text x={x} y={84} textAnchor="middle" fill={mu} fontSize="6" fontFamily="'DM Sans',sans-serif">{que}</text>
+          <text x={x} y={34} textAnchor="middle" fill={bl} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700">{año}</text>
+          <text x={x} y={74} textAnchor="middle" fill={T} fontSize="7" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">{quien}</text>
+          <text x={x} y={84} textAnchor="middle" fill={mu} fontSize="6" fontFamily="'Figtree', system-ui, sans-serif">{que}</text>
         </g>
       ))}
-      <text x={135} y={108} textAnchor="middle" fill={mu} fontSize="7.5" fontFamily="'DM Sans',sans-serif">así se construyó la teoría celular</text>
+      <text x={135} y={108} textAnchor="middle" fill={mu} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif">así se construyó la teoría celular</text>
     </svg>
   );
 }

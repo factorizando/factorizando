@@ -26,10 +26,10 @@ export default function SeAaEj1SVG({ tema }) {
       <path d={arcPath(D,F,E,22)} stroke={tema.verde} strokeWidth="1.8" fill="none"/>
       <path d={arcPath(B,A,C,22)} stroke={tema.azul}  strokeWidth="1.8" fill="none"/>
       <path d={arcPath(E,D,F,22)} stroke={tema.azul}  strokeWidth="1.8" fill="none"/>
-      <text x="86"  y="48"  fill={tema.verde} fontSize="10" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">70°</text>
-      <text x="264" y="48"  fill={tema.verde} fontSize="10" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">70°</text>
-      <text x="36"  y="110" fill={tema.azul}  fontSize="10" fontFamily="'DM Sans',sans-serif" fontWeight="600">60°</text>
-      <text x="214" y="110" fill={tema.azul}  fontSize="10" fontFamily="'DM Sans',sans-serif" fontWeight="600">60°</text>
+      <text x="86"  y="48"  fill={tema.verde} fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="middle">70°</text>
+      <text x="264" y="48"  fill={tema.verde} fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="middle">70°</text>
+      <text x="36"  y="110" fill={tema.azul}  fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">60°</text>
+      <text x="214" y="110" fill={tema.azul}  fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">60°</text>
       <text x="186" y="74"  fill="rgba(240,236,227,0.30)" fontSize="26" fontFamily="Georgia,serif" textAnchor="middle">∼</text>
       <text x="86"  y="5"   fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
       <text x="4"   y="138" fill="rgba(240,236,227,0.65)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">B</text>

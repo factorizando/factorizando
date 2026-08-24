@@ -130,28 +130,6 @@ function BrujulaSVG({ tema }) {
   );
 }
 
-function PergaminoSVG({ tema }) {
-  return (
-    <svg width="200" height="130" viewBox="0 0 300 195" fill="none">
-      {/* Cuerpo plano del pergamino */}
-      <rect x="74" y="48" width="152" height="100" rx="3"
-        stroke={tema.acento} strokeWidth="1.5" fill={tema.acentoSuave}/>
-      {/* Rollo izquierdo */}
-      <ellipse cx="60" cy="98" rx="14" ry="50"
-        stroke={tema.acento} strokeWidth="1.5" fill={tema.acentoMed}/>
-      {/* Rollo derecho */}
-      <ellipse cx="240" cy="98" rx="14" ry="50"
-        stroke={tema.azul} strokeWidth="1.5" fill={tema.azulMed}/>
-      {/* Renglones */}
-      <line x1="92" y1="70" x2="208" y2="70" stroke={tema.acento} strokeWidth="1" opacity="0.6"/>
-      <line x1="92" y1="85" x2="208" y2="85" stroke={tema.muted} strokeWidth="1" opacity="0.42"/>
-      <line x1="92" y1="100" x2="208" y2="100" stroke={tema.muted} strokeWidth="1" opacity="0.42"/>
-      <line x1="92" y1="115" x2="208" y2="115" stroke={tema.muted} strokeWidth="1" opacity="0.42"/>
-      <line x1="92" y1="130" x2="168" y2="130" stroke={tema.azul} strokeWidth="1" opacity="0.35"/>
-    </svg>
-  );
-}
-
 function ColumnasSVG({ tema }) {
   return (
     <svg width="200" height="130" viewBox="0 0 300 195" fill="none">
@@ -188,241 +166,111 @@ function ColumnasSVG({ tema }) {
 
 // ── Definición de temas ───────────────────────────────────────────────────────
 
+// ── Los siete acentos ─────────────────────────────────────────────────────────
+// Un color por materia, y es lo ÚNICO que cambia entre ellas junto con el dibujo
+// de portada: fondo, tipografía, espaciado y densidad son idénticos. Un alumno
+// que lleva tres materias debe sentir una plataforma, no tres (docs/DISENO.md §2.5).
+//
+// Los valores son los de tema oscuro de src/styles/fx.css. Van literales porque
+// se usan como atributos `stroke`/`fill` de SVG, y ahí una variable CSS no sirve
+// sin pasar por getComputedStyle. Si cambian en fx.css, cambian aquí.
+const ACENTOS = {
+  matematicas: "#4f92f0", // --fx-math
+  espanol:     "#c98bbb", // --fx-ciruela
+  fisica:      "#9a91e0", // --fx-indigo
+  biologia:    "#6fbe9b", // --fx-sage
+  quimica:     "#f08a70", // --fx-coral
+  geografia:   "#57b6c8", // --fx-teal
+  historia:    "#e8b34d", // --fx-amber
+};
+
+// Superficies, texto y tipografía: el bloque `.fx-oscuro` de fx.css, uno solo
+// para las siete materias. El fondo no es negro puro a propósito: en videollamada
+// el texto claro sobre casi negro se rompe al comprimirse.
+const BASE = {
+  bg:     "#0e1926",
+  card:   "#16222f",
+  border: "#243343",
+  texto:  "#edf3fa",
+  muted:  "#8497ab",
+  sub:    "#5e7085",
+  verde:  "#4ade80",
+  rojo:   "#f87171",
+  mono:    "'IBM Plex Mono', ui-monospace, monospace",
+  body:    "'Figtree', system-ui, sans-serif",
+  titulo:  "'Sora', system-ui, sans-serif",
+  formula: "'STIX Two Text', 'Cambria Math', serif",
+  googleFonts:
+    "family=Sora:wght@400;500;600;700" +
+    "&family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400" +
+    "&family=IBM+Plex+Mono:wght@400;500;600" +
+    "&family=STIX+Two+Text:ital,wght@0,400;0,500;1,400;1,500",
+};
+
+// Las cinco opacidades del acento se calculan; antes se tecleaban una por una
+// en cada paleta, que es como acababan discrepando entre materias.
+function conAlfa(hex, alfa) {
+  const n = parseInt(hex.slice(1), 16);
+  return `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}, ${alfa})`;
+}
+
+// `canales` son los colores con los que los diagramas separan elementos dentro
+// de un dibujo. No son marca, y por eso se conservan tal cual estaban: los usan
+// 215 archivos. Pasarlos al criterio de «valor y trazo, no matiz» de
+// docs/DISENO.md §2.1 es la fase 4D del plan de migración.
+function crearTema(id, DecoSVG, canales) {
+  const acento = ACENTOS[id];
+  return {
+    id,
+    acento,
+    acentoSuave:  conAlfa(acento, 0.07),
+    acentoMed:    conAlfa(acento, 0.11),
+    acentoBorde:  conAlfa(acento, 0.28),
+    acentoFuerte: conAlfa(acento, 0.4),
+    acentoOpaco:  conAlfa(acento, 0.28),
+    ...canales,
+    ...BASE,
+    DecoSVG,
+  };
+}
+
 export const TEMAS = {
-  matematicas: {
-    id: "matematicas",
-    acento:       "#f5c842",
-    acentoSuave:  "rgba(245,200,66,0.06)",
-    acentoMed:    "rgba(245,200,66,0.10)",
-    acentoBorde:  "rgba(245,200,66,0.22)",
-    acentoFuerte: "rgba(245,200,66,0.35)",
-    acentoOpaco:  "rgba(245,200,66,0.28)",
-    azul:         "#3b9eff",
-    azulSuave:    "rgba(59,158,255,0.07)",
-    azulMed:      "rgba(59,158,255,0.10)",
-    azulBorde:    "rgba(59,158,255,0.20)",
-    azulTexto:    "#b0c8f0",
-    verde:        "#4ade80",
-    rojo:         "#f87171",
-    bg:     "#07080b",
-    card:   "rgba(255,255,255,0.04)",
-    border: "rgba(255,255,255,0.08)",
-    texto: "#e8e8e8",
-    muted: "#8a8580",
-    sub:   "#9a958e",
-    mono:        "'IBM Plex Mono', monospace",
-    body:        "'DM Sans', sans-serif",
-    googleFonts: "family=IBM+Plex+Mono:wght@400;600",
-    DecoSVG: TriangulosSVG,
-  },
-
-  espanol: {
-    id: "espanol",
-    acento:       "#6490f5",
-    acentoSuave:  "rgba(100,144,245,0.08)",
-    acentoMed:    "rgba(100,144,245,0.12)",
-    acentoBorde:  "rgba(100,144,245,0.28)",
-    acentoFuerte: "rgba(100,144,245,0.40)",
-    acentoOpaco:  "rgba(100,144,245,0.28)",
-    azul:         "#8aaaf7",
-    azulSuave:    "rgba(138,170,247,0.07)",
-    azulMed:      "rgba(138,170,247,0.10)",
-    azulBorde:    "rgba(138,170,247,0.22)",
-    azulTexto:    "#c0d0f8",
-    verde:        "#4ade80",
-    rojo:         "#f87171",
-    bg:     "#1a1b1e",
-    card:   "#25262b",
-    border: "#33343b",
-    texto: "#e2e3e9",
-    muted: "#8e9099",
-    sub:   "#5a5c65",
-    mono:        "'JetBrains Mono', monospace",
-    body:        "'Source Serif 4', serif",
-    googleFonts: "family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:wght@300;400;600",
-    DecoSVG: LibroSVG,
-  },
-
-  fisica: {
-    id: "fisica",
-    // Cyan eléctrico + índigo — ondas, electricidad, energía
-    acento:       "#22d3ee",
-    acentoSuave:  "rgba(34,211,238,0.06)",
-    acentoMed:    "rgba(34,211,238,0.10)",
-    acentoBorde:  "rgba(34,211,238,0.22)",
-    acentoFuerte: "rgba(34,211,238,0.35)",
-    acentoOpaco:  "rgba(34,211,238,0.28)",
-    azul:         "#818cf8",
-    azulSuave:    "rgba(129,140,248,0.07)",
-    azulMed:      "rgba(129,140,248,0.10)",
-    azulBorde:    "rgba(129,140,248,0.22)",
-    azulTexto:    "#c7d2fe",
-    verde:        "#4ade80",
-    rojo:         "#f87171",
-    bg:     "#070b10",
-    card:   "rgba(255,255,255,0.04)",
-    border: "rgba(255,255,255,0.08)",
-    texto: "#e8f4f8",
-    muted: "#607a85",
-    sub:   "#405a65",
-    mono:        "'IBM Plex Mono', monospace",
-    body:        "'DM Sans', sans-serif",
-    googleFonts: "family=IBM+Plex+Mono:wght@400;600",
-    DecoSVG: OndaSVG,
-  },
-
-  biologia: {
-    id: "biologia",
-    // Esmeralda + verde claro — vida, naturaleza, células
-    acento:       "#34d399",
-    acentoSuave:  "rgba(52,211,153,0.06)",
-    acentoMed:    "rgba(52,211,153,0.10)",
-    acentoBorde:  "rgba(52,211,153,0.22)",
-    acentoFuerte: "rgba(52,211,153,0.35)",
-    acentoOpaco:  "rgba(52,211,153,0.28)",
-    azul:         "#86efac",
-    azulSuave:    "rgba(134,239,172,0.06)",
-    azulMed:      "rgba(134,239,172,0.10)",
-    azulBorde:    "rgba(134,239,172,0.20)",
-    azulTexto:    "#bbf7d0",
-    verde:        "#4ade80",
-    rojo:         "#f87171",
-    bg:     "#060f09",
-    card:   "rgba(255,255,255,0.04)",
-    border: "rgba(255,255,255,0.07)",
-    texto: "#e8f5ee",
-    muted: "#5a8270",
-    sub:   "#3a6050",
-    mono:        "'IBM Plex Mono', monospace",
-    body:        "'DM Sans', sans-serif",
-    googleFonts: "family=IBM+Plex+Mono:wght@400;600",
-    DecoSVG: HeliceSVG,
-  },
-
-  quimica: {
-    id: "quimica",
-    // Violeta + fucsia — moléculas, reacciones, cristales
-    acento:       "#c084fc",
-    acentoSuave:  "rgba(192,132,252,0.07)",
-    acentoMed:    "rgba(192,132,252,0.11)",
-    acentoBorde:  "rgba(192,132,252,0.25)",
-    acentoFuerte: "rgba(192,132,252,0.38)",
-    acentoOpaco:  "rgba(192,132,252,0.28)",
-    azul:         "#f472b6",
-    azulSuave:    "rgba(244,114,182,0.06)",
-    azulMed:      "rgba(244,114,182,0.10)",
-    azulBorde:    "rgba(244,114,182,0.22)",
-    azulTexto:    "#f9c0df",
-    verde:        "#4ade80",
-    rojo:         "#f87171",
-    bg:     "#0d0810",
-    card:   "rgba(255,255,255,0.04)",
-    border: "rgba(192,132,252,0.10)",
-    texto: "#f0ecf8",
-    muted: "#8a7a9a",
-    sub:   "#6a5a7a",
-    mono:        "'IBM Plex Mono', monospace",
-    body:        "'DM Sans', sans-serif",
-    googleFonts: "family=IBM+Plex+Mono:wght@400;600",
-    DecoSVG: MoleculaSVG,
-  },
-
-  geografia: {
-    id: "geografia",
-    // Teal + lima — océanos, vegetación, mapas
-    acento:       "#2dd4bf",
-    acentoSuave:  "rgba(45,212,191,0.06)",
-    acentoMed:    "rgba(45,212,191,0.10)",
-    acentoBorde:  "rgba(45,212,191,0.22)",
-    acentoFuerte: "rgba(45,212,191,0.35)",
-    acentoOpaco:  "rgba(45,212,191,0.28)",
-    azul:         "#a3e635",
-    azulSuave:    "rgba(163,230,53,0.06)",
-    azulMed:      "rgba(163,230,53,0.10)",
-    azulBorde:    "rgba(163,230,53,0.20)",
-    azulTexto:    "#d9f99d",
-    verde:        "#4ade80",
-    rojo:         "#f87171",
-    bg:     "#060e0d",
-    card:   "rgba(255,255,255,0.04)",
-    border: "rgba(255,255,255,0.07)",
-    texto: "#e8f5f4",
-    muted: "#5a8880",
-    sub:   "#3a6860",
-    mono:        "'IBM Plex Mono', monospace",
-    body:        "'DM Sans', sans-serif",
-    googleFonts: "family=IBM+Plex+Mono:wght@400;600",
-    DecoSVG: BrujulaSVG,
-  },
-
-  literatura: {
-    id: "literatura",
-    // Rosa + rosa claro — poesía, narrativa, romanticismo
-    acento:       "#fb7185",
-    acentoSuave:  "rgba(251,113,133,0.07)",
-    acentoMed:    "rgba(251,113,133,0.11)",
-    acentoBorde:  "rgba(251,113,133,0.25)",
-    acentoFuerte: "rgba(251,113,133,0.38)",
-    acentoOpaco:  "rgba(251,113,133,0.28)",
-    azul:         "#fda4af",
-    azulSuave:    "rgba(253,164,175,0.07)",
-    azulMed:      "rgba(253,164,175,0.11)",
-    azulBorde:    "rgba(253,164,175,0.22)",
-    azulTexto:    "#fecdd3",
-    verde:        "#4ade80",
-    rojo:         "#f87171",
-    bg:     "#100809",
-    card:   "rgba(255,255,255,0.04)",
-    border: "rgba(251,113,133,0.10)",
-    texto: "#f8e8ea",
-    muted: "#9a7a7e",
-    sub:   "#7a5a5e",
-    mono:        "'JetBrains Mono', monospace",
-    body:        "'Source Serif 4', serif",
-    googleFonts: "family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:wght@300;400;600",
-    DecoSVG: PergaminoSVG,
-  },
-
-  historia: {
-    id: "historia",
-    // Naranja + ámbar — tierras antiguas, civilizaciones, pergamino
-    acento:       "#f97316",
-    acentoSuave:  "rgba(249,115,22,0.07)",
-    acentoMed:    "rgba(249,115,22,0.11)",
-    acentoBorde:  "rgba(249,115,22,0.25)",
-    acentoFuerte: "rgba(249,115,22,0.38)",
-    acentoOpaco:  "rgba(249,115,22,0.28)",
-    azul:         "#fbbf24",
-    azulSuave:    "rgba(251,191,36,0.06)",
-    azulMed:      "rgba(251,191,36,0.10)",
-    azulBorde:    "rgba(251,191,36,0.22)",
-    azulTexto:    "#fde68a",
-    verde:        "#4ade80",
-    rojo:         "#f87171",
-    bg:     "#0f0a06",
-    card:   "rgba(255,255,255,0.04)",
-    border: "rgba(249,115,22,0.10)",
-    texto: "#f8f0e8",
-    muted: "#9a8070",
-    sub:   "#7a6050",
-    mono:        "'JetBrains Mono', monospace",
-    body:        "'Source Serif 4', serif",
-    googleFonts: "family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:wght@300;400;600",
-    DecoSVG: ColumnasSVG,
-  },
+  matematicas: crearTema("matematicas", TriangulosSVG, {
+    azul: "#3b9eff", azulSuave: "rgba(59,158,255,0.07)", azulMed: "rgba(59,158,255,0.10)", azulBorde: "rgba(59,158,255,0.20)", azulTexto: "#b0c8f0",
+  }),
+  espanol: crearTema("espanol", LibroSVG, {
+    azul: "#8aaaf7", azulSuave: "rgba(138,170,247,0.07)", azulMed: "rgba(138,170,247,0.10)", azulBorde: "rgba(138,170,247,0.22)", azulTexto: "#c0d0f8",
+  }),
+  fisica: crearTema("fisica", OndaSVG, {
+    azul: "#818cf8", azulSuave: "rgba(129,140,248,0.07)", azulMed: "rgba(129,140,248,0.10)", azulBorde: "rgba(129,140,248,0.22)", azulTexto: "#c7d2fe",
+  }),
+  biologia: crearTema("biologia", HeliceSVG, {
+    azul: "#86efac", azulSuave: "rgba(134,239,172,0.06)", azulMed: "rgba(134,239,172,0.10)", azulBorde: "rgba(134,239,172,0.20)", azulTexto: "#bbf7d0",
+  }),
+  quimica: crearTema("quimica", MoleculaSVG, {
+    azul: "#f472b6", azulSuave: "rgba(244,114,182,0.06)", azulMed: "rgba(244,114,182,0.10)", azulBorde: "rgba(244,114,182,0.22)", azulTexto: "#f9c0df",
+  }),
+  geografia: crearTema("geografia", BrujulaSVG, {
+    azul: "#a3e635", azulSuave: "rgba(163,230,53,0.06)", azulMed: "rgba(163,230,53,0.10)", azulBorde: "rgba(163,230,53,0.20)", azulTexto: "#d9f99d",
+  }),
+  historia: crearTema("historia", ColumnasSVG, {
+    azul: "#fbbf24", azulSuave: "rgba(251,191,36,0.06)", azulMed: "rgba(251,191,36,0.10)", azulBorde: "rgba(251,191,36,0.22)", azulTexto: "#fde68a",
+  }),
 };
 
 // ── Mapa materia → tema (1:1, sin subtemas) ───────────────────────────────────
 
 const MATERIA_A_TEMA = {
-  "Matemáticas": "matematicas",
-  "Español":     "espanol",
-  "Física":      "fisica",
-  "Biología":    "biologia",
-  "Química":     "quimica",
-  "Geografía":   "geografia",
-  "Literatura":  "literatura",
-  "Historia":    "historia",
+  "Matemáticas":            "matematicas",
+  "Pensamiento Matemático": "matematicas",  // el área del EXANI-I, no otra materia
+  "Matemáticas avanzadas":  "matematicas",
+  "Español":                "espanol",
+  "Comprensión Lectora":    "espanol",      // no es materia aparte: entra en Español
+  "Física":                 "fisica",
+  "Biología":               "biologia",
+  "Química":                "quimica",
+  "Geografía":              "geografia",
+  "Historia":               "historia",
 };
 
 export function obtenerTema(materia) {

@@ -13,7 +13,7 @@ export default function AnguloInteriorFormulaSVG({ tema }) {
       <path d="M 164,28 A 18,18 0 0,1 136,28" stroke={tema.acento} strokeWidth="2.5" fill="none"/>
       <text x="150" y="46" fill={tema.acento} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">α</text>
       <text x="252" y="80" fill={tema.azul} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" opacity="0.75">n=6</text>
-      <text x="150" y="152" fill={tema.muted} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.03em">α = (n−2)·180° / n</text>
+      <text x="150" y="152" fill={tema.muted} fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle" letterSpacing="0.03em">α = (n−2)·180° / n</text>
     </svg>
   );
 }

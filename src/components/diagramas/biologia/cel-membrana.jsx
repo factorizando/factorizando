@@ -8,7 +8,7 @@ export default function CelMembranaSVG({ tema }) {
   for (let i = 0; i < 13; i++) xs.push(24 + i * 18);
   return (
     <svg viewBox="0 0 260 120" width="100%" style={{ display: "block", maxHeight: 130 }}>
-      <text x={130} y={16} textAnchor="middle" fill={mu} fontSize="8" fontFamily="'DM Sans',sans-serif">bicapa de fosfolípidos (mosaico fluido)</text>
+      <text x={130} y={16} textAnchor="middle" fill={mu} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif">bicapa de fosfolípidos (mosaico fluido)</text>
       {xs.map((x, i) => (
         <g key={i}>
           {/* cabeza arriba */}
@@ -23,7 +23,7 @@ export default function CelMembranaSVG({ tema }) {
       ))}
       {/* proteína integral */}
       <rect x={104} y={36} width={26} height={60} rx={9} fill="rgba(134,239,172,0.18)" stroke={bl} strokeWidth="2" />
-      <text x={117} y={112} textAnchor="middle" fill={bl} fontSize="7.5" fontFamily="'DM Sans',sans-serif">proteína</text>
+      <text x={117} y={112} textAnchor="middle" fill={bl} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif">proteína</text>
     </svg>
   );
 }

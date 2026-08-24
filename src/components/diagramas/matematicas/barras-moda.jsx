@@ -21,7 +21,7 @@ export default function BarrasModaSVG({ tema, data }) {
           <g key={i}>
             <rect x={cx - bw / 2} y={y} width={bw} height={h} rx="4" fill={hi ? `${gr}cc` : `${a}99`} stroke={hi ? gr : a} strokeWidth="1.4" />
             <text x={cx} y={y - 5} fill={hi ? gr : a} fontSize="11.5" fontFamily="'IBM Plex Mono',monospace" fontWeight="700" textAnchor="middle">{f}</text>
-            <text x={cx} y={base + 15} fill={mu} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{kk}</text>
+            <text x={cx} y={base + 15} fill={mu} fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">{kk}</text>
           </g>
         );
       })}

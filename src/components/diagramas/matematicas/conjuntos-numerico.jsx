@@ -12,8 +12,8 @@ export default function VennNumericoSVG({ tema }) {
       <circle cx="120" cy="90" r="56" fill={`${a}1f`} stroke={a} strokeWidth="2" />
       <circle cx="180" cy="90" r="56" fill={`${bl}1f`} stroke={bl} strokeWidth="2" />
       <circle cx="180" cy="90" r="56" fill={`${gr}44`} clipPath="url(#venn-num-A)" />
-      <text x="92" y="36" fill={a} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle">Fútbol (18)</text>
-      <text x="208" y="36" fill={bl} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle">Básquet (15)</text>
+      <text x="92" y="36" fill={a} fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">Fútbol (18)</text>
+      <text x="208" y="36" fill={bl} fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">Básquet (15)</text>
       <text x="86" y="96" fill={a} fontSize="17" fontFamily="'IBM Plex Mono',monospace" fontWeight="700" textAnchor="middle">10</text>
       <text x="150" y="96" fill={gr} fontSize="17" fontFamily="'IBM Plex Mono',monospace" fontWeight="700" textAnchor="middle">8</text>
       <text x="214" y="96" fill={bl} fontSize="17" fontFamily="'IBM Plex Mono',monospace" fontWeight="700" textAnchor="middle">7</text>

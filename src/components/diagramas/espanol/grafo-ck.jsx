@@ -30,7 +30,7 @@ export default function GrafoCKSVG({ tema }) {
   const colW = 162, gap = 5, startX = 5;
   return (
     <svg viewBox="0 0 520 145" width="100%" style={{ display: "block" }}>
-      <text x="260" y="12" fill={tema.muted} fontSize="8" fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.14em" fontWeight="600">EL FONEMA /k/ — TRES REPRESENTACIONES GRÁFICAS</text>
+      <text x="260" y="12" fill={tema.muted} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle" letterSpacing="0.14em" fontWeight="600">EL FONEMA /k/ — TRES REPRESENTACIONES GRÁFICAS</text>
       {cols.map(({ letter, color, rule, sub, examples }, i) => {
         const x = startX + i * (colW + gap);
         return (
@@ -38,8 +38,8 @@ export default function GrafoCKSVG({ tema }) {
             <rect x={x} y="16" width={colW} height="126" rx="6" fill={`${color}10`} stroke={`${color}45`} strokeWidth="1.3"/>
             <rect x={x} y="16" width={colW} height="22" rx="6" fill={`${color}25`}/>
             <rect x={x} y="30" width={colW} height="8" fill={`${color}25`}/>
-            <text x={x + colW / 2} y="32" fill={color} fontSize="9" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.1em">{rule}</text>
-            <text x={x + colW / 2} y="42" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{sub}</text>
+            <text x={x + colW / 2} y="32" fill={color} fontSize="9" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.1em">{rule}</text>
+            <text x={x + colW / 2} y="42" fill={tema.muted} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">{sub}</text>
             <text x={x + colW / 2} y="68" fill={color} fontSize="28" fontFamily="Georgia,serif" fontWeight="700" textAnchor="middle">{letter}</text>
             <line x1={x + 10} y1="78" x2={x + colW - 10} y2="78" stroke={`${color}22`} strokeWidth="1"/>
             {examples.map((ex, j) => (

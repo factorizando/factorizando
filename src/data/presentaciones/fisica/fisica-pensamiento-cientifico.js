@@ -5,7 +5,7 @@
 export const PRESENTACION = {
   id: "fisica-pensamiento-cientifico",
   titulo: "Física: Pensamiento Científico",
-  materia: "Ciencias",
+  materia: "Física",
   subtema: "Física · EXANI-I",
   slides: [
 

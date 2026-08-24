@@ -5,7 +5,7 @@
 export const PRESENTACION = {
   id: "fisica-complemento-cientifico",
   titulo: "Física: Electricidad Estática, Ondas y Calor",
-  materia: "Pensamiento Científico",
+  materia: "Física",
   subtema: "Física",
   slides: [
 

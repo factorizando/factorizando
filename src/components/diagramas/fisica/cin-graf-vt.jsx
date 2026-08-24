@@ -13,8 +13,8 @@ export default function CinGrafVtSVG({ tema }) {
       <EjesXY ox={ox} oy={oy} xEnd={206} yTop={20} tema={tema} labelX="t" labelY="v" />
       <line x1={ox} y1={v0y} x2={196} y2={34} stroke={a} strokeWidth="2.5" />
       <text x={ox - 4} y={v0y - 5} fill={mu} fontSize="10" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">v₀</text>
-      <text x={112} y={92} fill={tema.texto} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">área = Δx</text>
-      <text x={150} y={52} fill={a} fontSize="10.5" fontFamily="'DM Sans',sans-serif">pend. = a</text>
+      <text x={112} y={92} fill={tema.texto} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">área = Δx</text>
+      <text x={150} y={52} fill={a} fontSize="10.5" fontFamily="'Figtree', system-ui, sans-serif">pend. = a</text>
     </svg>
   );
 }

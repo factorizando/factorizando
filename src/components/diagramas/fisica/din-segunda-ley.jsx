@@ -11,7 +11,7 @@ export default function DinSegundaLeySVG({ tema }) {
       <Bloque x={66} y={42} w={54} h={42} tema={tema} label="m" />
       <Vector x1={120} y1={54} x2={200} y2={54} color={gr} label="F" lx={170} ly={48} />
       <Vector x1={120} y1={74} x2={172} y2={74} color={a} label="a" lx={150} ly={94} />
-      <text x={50} y={100} fill={mu} fontSize="10.5" fontFamily="'DM Sans',sans-serif">a en el sentido de F</text>
+      <text x={50} y={100} fill={mu} fontSize="10.5" fontFamily="'Figtree', system-ui, sans-serif">a en el sentido de F</text>
     </svg>
   );
 }

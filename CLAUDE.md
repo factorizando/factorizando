@@ -47,6 +47,10 @@ Dev-only preview at `/preview-cuestionario/:id` (behind `import.meta.env.DEV` in
 `Cuestionario.jsx` receives `?bloque=` and `?modo=aleatorio` query params, filters/shuffles questions, then delegates rendering to `QuestionarioGenerico`. The generic component handles three stages: `theory → quiz → results`. It has a global countdown timer (seconds per question × number of questions).
 
 ### Presentation system (`src/data/presentaciones/`, `src/components/SlideRenderer.jsx`)
+
+**Theming**: `temas.jsx` derives everything from `src/styles/fx.css` — `ACENTOS` holds the seven subject accents, `BASE` the surfaces and the single typography (Sora / Figtree / IBM Plex Mono / STIX Two Text), and `conAlfa()` computes the accent's five opacities instead of them being typed per palette. **The accent and the cover drawing are the only things that differ between subjects.** Add a subject → add it to `ACENTOS` *and* to `MATERIA_A_TEMA`, whose keys are the exact `PRESENTACION.materia` strings; an unmapped value silently falls back to maths.
+
+`tema.azul`, `tema.verde` and `tema.rojo` are **drawing channels** used by 215/150 diagram files, not brand colors — don't repurpose them. Feedback never uses green/red: correct is the accent, anything else is grey, and the distinction is carried by drawn SVG icons (`IconoAsiEs`/`IconoAsiNo`), never `✓`/`✗` glyphs. See `docs/DISENO.md` §2.4.
 Interactive slide presentations for classroom use. Each presentation is a JS module exporting a `PRESENTACION` object:
 ```js
 export const PRESENTACION = {

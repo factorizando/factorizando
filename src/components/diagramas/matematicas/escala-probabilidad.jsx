@@ -23,9 +23,9 @@ export default function EscalaProbabilidadSVG({ tema }) {
       <text x={X(0)} y={y + 24} fill={tema.texto} fontSize="13" fontFamily="Georgia,serif" textAnchor="middle">0</text>
       <text x={X(0.5)} y={y + 24} fill={tema.texto} fontSize="13" fontFamily="Georgia,serif" textAnchor="middle">½</text>
       <text x={X(1)} y={y + 24} fill={tema.texto} fontSize="13" fontFamily="Georgia,serif" textAnchor="middle">1</text>
-      <text x={X(0)} y={y - 15} fill={rj} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">imposible</text>
-      <text x={X(0.5)} y={y - 15} fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">50 / 50</text>
-      <text x={X(1)} y={y - 15} fill={gr} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">seguro</text>
+      <text x={X(0)} y={y - 15} fill={rj} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">imposible</text>
+      <text x={X(0.5)} y={y - 15} fill={a} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">50 / 50</text>
+      <text x={X(1)} y={y - 15} fill={gr} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">seguro</text>
     </svg>
   );
 }

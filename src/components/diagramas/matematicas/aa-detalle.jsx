@@ -45,7 +45,7 @@ export default function CriterioAADetalleSVG({ tema }) {
       <text x="252" y="110" fill="rgba(240,236,227,0.28)" fontSize="30" fontFamily="Georgia,serif" textAnchor="middle">∼</text>
 
       {/* Subtitle: γ derived */}
-      <text x="252" y="196" fill="rgba(240,236,227,0.20)" fontSize="9.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.05em">γ = 180° − α − β  (se determina solo)</text>
+      <text x="252" y="196" fill="rgba(240,236,227,0.20)" fontSize="9.5" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle" letterSpacing="0.05em">γ = 180° − α − β  (se determina solo)</text>
     </svg>
   );
 }

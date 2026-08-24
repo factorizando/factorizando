@@ -21,7 +21,7 @@ export default function RepPortadaSVG({ tema }) {
       <circle cx={158} cy={50} r={7} fill={bl} opacity="0.45" />
       <circle cx={158} cy={92} r={18} fill="rgba(52,211,153,0.06)" stroke={a} strokeWidth="1.8" />
       <circle cx={158} cy={92} r={7} fill={bl} opacity="0.45" />
-      <text x={110} y={128} textAnchor="middle" fill={mu} fontSize="8.5" fontFamily="'DM Sans',sans-serif">cómo se perpetúa la vida</text>
+      <text x={110} y={128} textAnchor="middle" fill={mu} fontSize="8.5" fontFamily="'Figtree', system-ui, sans-serif">cómo se perpetúa la vida</text>
     </svg>
   );
 }

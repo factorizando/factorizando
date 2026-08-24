@@ -24,7 +24,7 @@ export default function EspacioMuestralSVG({ tema }) {
           />
         );
       })}
-      <text x={x0 + 3 * (s + gap) - gap / 2} y={y + s + 22} fill={a} fontSize="12" fontFamily="'DM Sans',sans-serif" textAnchor="middle">
+      <text x={x0 + 3 * (s + gap) - gap / 2} y={y + s + 22} fill={a} fontSize="12" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">
         Ω = {"{1…6}"} · evento E = {"{2, 4, 6}"}
       </text>
     </svg>

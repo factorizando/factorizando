@@ -32,13 +32,13 @@ export default function Ce3AlaSVG({ tema }) {
       <path d={arcPath(B,A,C,22)} stroke={tema.azul} strokeWidth="1.6" fill="none"/>
       <path d={arcPath(E,D,F,22)} stroke={tema.azul} strokeWidth="1.6" fill="none"/>
       {/* Angle labels */}
-      <text x="86"  y="50"  fill={tema.verde} fontSize="10" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">60°</text>
-      <text x="264" y="50"  fill={tema.verde} fontSize="10" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">60°</text>
-      <text x="36"  y="110" fill={tema.azul}  fontSize="10" fontFamily="'DM Sans',sans-serif" fontWeight="600">50°</text>
-      <text x="214" y="110" fill={tema.azul}  fontSize="10" fontFamily="'DM Sans',sans-serif" fontWeight="600">50°</text>
+      <text x="86"  y="50"  fill={tema.verde} fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="middle">60°</text>
+      <text x="264" y="50"  fill={tema.verde} fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="middle">60°</text>
+      <text x="36"  y="110" fill={tema.azul}  fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">50°</text>
+      <text x="214" y="110" fill={tema.azul}  fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">50°</text>
       {/* AB = DE = 8 labels */}
-      <text x="29"  y="62"  fill={tema.acento} fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">8</text>
-      <text x="215" y="62"  fill={tema.acento} fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">8</text>
+      <text x="29"  y="62"  fill={tema.acento} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="end">8</text>
+      <text x="215" y="62"  fill={tema.acento} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="end">8</text>
       {/* Vertex labels */}
       <text x="86"  y="5"   fill="rgba(240,236,227,0.72)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
       <text x="4"   y="138" fill="rgba(240,236,227,0.72)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic">B</text>

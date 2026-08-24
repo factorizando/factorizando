@@ -14,7 +14,7 @@ export default function QfPortadaSVG({ tema }) {
       <circle cx={158} cy={70} r={3.5} fill={bl} />
       <circle cx={86} cy={42} r={3.5} fill={a} />
       <circle cx={86} cy={98} r={3.5} fill={bl} />
-      <text x={110} y={128} textAnchor="middle" fill={mu} fontSize="8.5" fontFamily="'DM Sans',sans-serif">de qué está hecha la materia</text>
+      <text x={110} y={128} textAnchor="middle" fill={mu} fontSize="8.5" fontFamily="'Figtree', system-ui, sans-serif">de qué está hecha la materia</text>
     </svg>
   );
 }

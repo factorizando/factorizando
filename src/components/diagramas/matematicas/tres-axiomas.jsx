@@ -8,7 +8,7 @@ export default function AxiomasSVG({ tema }) {
   const badge = (x, n) => (
     <g>
       <circle cx={x} cy={16} r={9.5} fill={tema.acentoMed} stroke={a} strokeWidth="1.4"/>
-      <text x={x} y={20} fill={a} fontSize="12" fontWeight="700" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{n}</text>
+      <text x={x} y={20} fill={a} fontSize="12" fontWeight="700" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">{n}</text>
     </g>
   );
   return (
@@ -25,15 +25,15 @@ export default function AxiomasSVG({ tema }) {
       <rect x={centros[0] - 8} y="56" width="16" height="44" rx="2" fill={`${gr}33`} stroke={gr} strokeWidth="1.6"/>
       <polygon points={`${centros[0]},42 ${centros[0] - 6},52 ${centros[0] + 6},52`} fill={gr}/>
       <text x={centros[0]} y="122" fill={T} fontSize="12.5" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">P(E) ≥ 0</text>
-      <text x={centros[0]} y="136" fill={mu} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle">no negatividad</text>
+      <text x={centros[0]} y="136" fill={mu} fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">no negatividad</text>
 
       {/* ── Axioma 2: normalización ── */}
       {badge(centros[1], "2")}
       <circle cx={centros[1]} cy="66" r="30" fill={`${a}26`} stroke={a} strokeWidth="2"/>
       <text x={centros[1]} y="72" fill={a} fontSize="20" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">Ω</text>
-      <text x={centros[1] + 30} y="44" fill={gr} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">100%</text>
+      <text x={centros[1] + 30} y="44" fill={gr} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">100%</text>
       <text x={centros[1]} y="122" fill={T} fontSize="12.5" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">P(Ω) = 1</text>
-      <text x={centros[1]} y="136" fill={mu} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle">normalización</text>
+      <text x={centros[1]} y="136" fill={mu} fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">normalización</text>
 
       {/* ── Axioma 3: aditividad ── */}
       {badge(centros[2], "3")}
@@ -41,9 +41,9 @@ export default function AxiomasSVG({ tema }) {
       <text x={centros[2] - 18} y="71" fill={a} fontSize="14" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">E</text>
       <circle cx={centros[2] + 18} cy="66" r="16" fill={`${bl}26`} stroke={bl} strokeWidth="1.8"/>
       <text x={centros[2] + 18} y="71" fill={bl} fontSize="14" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">F</text>
-      <text x={centros[2]} y="71" fill={T} fontSize="13" fontFamily="'DM Sans',sans-serif" textAnchor="middle">+</text>
+      <text x={centros[2]} y="71" fill={T} fontSize="13" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">+</text>
       <text x={centros[2]} y="122" fill={T} fontSize="11" fontFamily="'IBM Plex Mono',monospace" textAnchor="middle">P(E)+P(F)</text>
-      <text x={centros[2]} y="136" fill={mu} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle">aditividad (excluyentes)</text>
+      <text x={centros[2]} y="136" fill={mu} fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">aditividad (excluyentes)</text>
     </svg>
   );
 }

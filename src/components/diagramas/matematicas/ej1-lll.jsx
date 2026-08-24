@@ -40,12 +40,12 @@ export default function Ej1LLLSVG({ tema }) {
       <line x1="241" y1="131" x2="236" y2="137" stroke={tema.acento} strokeWidth="2"/>
 
       {/* Side labels */}
-      <text x="14"  y="129" fill={tema.azul}   fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="end">6</text>
-      <text x="85"  y="185" fill={tema.verde}  fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">8</text>
-      <text x="100" y="112" fill={tema.acento} fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="600">10</text>
-      <text x="200" y="132" fill={tema.azul}   fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="end">3</text>
-      <text x="235" y="163" fill={tema.verde}  fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">4</text>
-      <text x="248" y="118" fill={tema.acento} fontSize="11" fontFamily="'DM Sans',sans-serif" fontWeight="600">5</text>
+      <text x="14"  y="129" fill={tema.azul}   fontSize="13" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="end">6</text>
+      <text x="85"  y="185" fill={tema.verde}  fontSize="13" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="middle">8</text>
+      <text x="100" y="112" fill={tema.acento} fontSize="13" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">10</text>
+      <text x="200" y="132" fill={tema.azul}   fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="end">3</text>
+      <text x="235" y="163" fill={tema.verde}  fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="middle">4</text>
+      <text x="248" y="118" fill={tema.acento} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">5</text>
 
       {/* Vertex labels */}
       <text x="25"  y="73"  fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
@@ -56,8 +56,8 @@ export default function Ej1LLLSVG({ tema }) {
       <text x="264" y="162" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">F</text>
 
       {/* k=2 between the triangles */}
-      <text x="180" y="118" fill="rgba(240,236,227,0.50)" fontSize="16" fontWeight="700" fontFamily="'DM Sans',sans-serif" textAnchor="middle">k = 2</text>
-      <text x="180" y="134" fill="rgba(240,236,227,0.22)" fontSize="8.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">△ABC ∼ △DEF</text>
+      <text x="180" y="118" fill="rgba(240,236,227,0.50)" fontSize="16" fontWeight="700" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">k = 2</text>
+      <text x="180" y="134" fill="rgba(240,236,227,0.22)" fontSize="8.5" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">△ABC ∼ △DEF</text>
     </svg>
   );
 }

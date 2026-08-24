@@ -21,12 +21,12 @@ export default function EjCongLLLSVG({ tema }) {
       <path d="M 238,106 L 238,118 M 247,106 L 247,118" stroke={tema.verde}  strokeWidth="2" fill="none"/>
       <path d="M 103,62 L 112,54 M 108,68 L 117,60 M 113,73 L 122,65"  stroke={tema.acento} strokeWidth="2" fill="none"/>
       <path d="M 263,62 L 272,54 M 268,68 L 277,60 M 273,73 L 282,65"  stroke={tema.acento} strokeWidth="2" fill="none"/>
-      <text x="30"  y="60"  fill={tema.azul}   fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">5</text>
-      <text x="82"  y="127" fill={tema.verde}  fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">6</text>
-      <text x="128" y="57"  fill={tema.acento} fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700">7</text>
-      <text x="190" y="60"  fill={tema.azul}   fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">5</text>
-      <text x="242" y="127" fill={tema.verde}  fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">6</text>
-      <text x="288" y="57"  fill={tema.acento} fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700">7</text>
+      <text x="30"  y="60"  fill={tema.azul}   fontSize="13" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="end">5</text>
+      <text x="82"  y="127" fill={tema.verde}  fontSize="13" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="middle">6</text>
+      <text x="128" y="57"  fill={tema.acento} fontSize="13" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700">7</text>
+      <text x="190" y="60"  fill={tema.azul}   fontSize="13" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="end">5</text>
+      <text x="242" y="127" fill={tema.verde}  fontSize="13" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="middle">6</text>
+      <text x="288" y="57"  fill={tema.acento} fontSize="13" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700">7</text>
       <text x="70"  y="8"   fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
       <text x="3"   y="128" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">B</text>
       <text x="155" y="128" fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">C</text>

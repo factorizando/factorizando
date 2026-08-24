@@ -50,7 +50,7 @@ export default function CriterioLALDetalleSVG({ tema }) {
 
       {/* ∼ + caption */}
       <text x="252" y="82"  fill="rgba(240,236,227,0.25)" fontSize="26" fontFamily="Georgia,serif" textAnchor="middle">∼</text>
-      <text x="252" y="114" fill={tema.verde} fontSize="9.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.03em">∠A = ∠D  (ángulo comprendido)</text>
+      <text x="252" y="114" fill={tema.verde} fontSize="9.5" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle" letterSpacing="0.03em">∠A = ∠D  (ángulo comprendido)</text>
     </svg>
   );
 }

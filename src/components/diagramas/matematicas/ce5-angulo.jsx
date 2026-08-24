@@ -31,9 +31,9 @@ export default function Ce5AngleSVG({ tema }) {
       <path d={arcPath(R,Q,P,18)} stroke={tema.acento} strokeWidth="1.6" fill="none"/>
       <path d={arcPath(Z,Y,X,18)} stroke={tema.acento} strokeWidth="1.6" fill="none"/>
       {/* Angle labels */}
-      <text x="86"  y="48"  fill={tema.azul}  fontSize="10" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">55°</text>
-      <text x="38"  y="110" fill={tema.verde} fontSize="10" fontFamily="'DM Sans',sans-serif" fontWeight="600">75°</text>
-      <text x="354" y="110" fill={tema.acento} fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">?</text>
+      <text x="86"  y="48"  fill={tema.azul}  fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="middle">55°</text>
+      <text x="38"  y="110" fill={tema.verde} fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">75°</text>
+      <text x="354" y="110" fill={tema.acento} fontSize="12" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="middle">?</text>
       {/* ≅ */}
       <text x="186" y="74" fill="rgba(240,236,227,0.28)" fontSize="28" fontFamily="Georgia,serif" textAnchor="middle">≅</text>
       {/* Vertex labels */}

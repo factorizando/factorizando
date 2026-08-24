@@ -15,7 +15,7 @@ export default function GrafoVocalesSVG({ tema }) {
   const colW = 100, gap = 4, startX = 5;
   return (
     <svg viewBox="0 0 520 118" width="100%" style={{ display: "block" }}>
-      <text x="260" y="13" fill={tema.muted} fontSize="8" fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.14em" fontWeight="600">5 FONEMAS VOCÁLICOS — CORRESPONDENCIA BIUNÍVOCA</text>
+      <text x="260" y="13" fill={tema.muted} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle" letterSpacing="0.14em" fontWeight="600">5 FONEMAS VOCÁLICOS — CORRESPONDENCIA BIUNÍVOCA</text>
       {vocales.map(({ phoneme, letter, color, examples }, i) => {
         const x = startX + i * (colW + gap);
         return (
@@ -23,7 +23,7 @@ export default function GrafoVocalesSVG({ tema }) {
             <rect x={x} y="18" width={colW} height="96" rx="6" fill={`${color}10`} stroke={`${color}45`} strokeWidth="1.3"/>
             <rect x={x} y="18" width={colW} height="24" rx="6" fill={`${color}25`}/>
             <rect x={x} y="34" width={colW} height="8" fill={`${color}25`}/>
-            <text x={x + colW / 2} y="35" fill={color} fontSize="10" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.1em">{phoneme}</text>
+            <text x={x + colW / 2} y="35" fill={color} fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.1em">{phoneme}</text>
             {/* Arrow */}
             <text x={x + colW / 2} y="56" fill={color} fontSize="16" textAnchor="middle" opacity="0.6">↓</text>
             {/* Grapheme */}

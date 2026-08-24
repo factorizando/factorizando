@@ -20,8 +20,8 @@ export default function Ej2K32SVG({ tema }) {
       <line x1="364" y1="151" x2="296" y2="57"  stroke="rgba(240,236,227,0.35)" strokeWidth="1.8"/>
 
       {/* Labels on PQ and XY */}
-      <text x="40"  y="108" fill={tema.azul} fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">12</text>
-      <text x="258" y="110" fill={tema.azul} fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="end">?</text>
+      <text x="40"  y="108" fill={tema.azul} fontSize="13" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="end">12</text>
+      <text x="258" y="110" fill={tema.azul} fontSize="13" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="end">?</text>
 
       {/* Vertex labels */}
       <text x="95"  y="22"  fill="rgba(240,236,227,0.70)" fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">P</text>
@@ -33,8 +33,8 @@ export default function Ej2K32SVG({ tema }) {
 
       {/* k = 3/2 in center + ∼ */}
       <text x="222" y="87"  fill="rgba(240,236,227,0.28)" fontSize="22" fontFamily="Georgia,serif" textAnchor="middle">∼</text>
-      <text x="222" y="111" fill="rgba(240,236,227,0.55)" fontSize="17" fontWeight="700" fontFamily="'DM Sans',sans-serif" textAnchor="middle">k = 3/2</text>
-      <text x="222" y="127" fill="rgba(240,236,227,0.22)" fontSize="9" fontFamily="'DM Sans',sans-serif" textAnchor="middle">PQ = 12</text>
+      <text x="222" y="111" fill="rgba(240,236,227,0.55)" fontSize="17" fontWeight="700" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">k = 3/2</text>
+      <text x="222" y="127" fill="rgba(240,236,227,0.22)" fontSize="9" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">PQ = 12</text>
     </svg>
   );
 }

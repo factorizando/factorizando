@@ -4,7 +4,7 @@
 export const PRESENTACION = {
   id: "biologia-pensamiento-cientifico",
   titulo: "Biología: Pensamiento Científico",
-  materia: "Ciencias",
+  materia: "Biología",
   subtema: "Biología · EXANI-I",
   slides: [
 

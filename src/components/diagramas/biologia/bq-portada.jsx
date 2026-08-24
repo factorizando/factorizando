@@ -18,7 +18,7 @@ export default function BqPortadaSVG({ tema }) {
       <line x1={cx} y1={cy} x2={pts[0][0]} y2={pts[0][1]} stroke={bl} strokeWidth="1.4" />
       <line x1={cx} y1={cy} x2={pts[3][0]} y2={pts[3][1]} stroke={bl} strokeWidth="1.4" />
       <circle cx={cx} cy={cy} r={7} fill={bl} opacity="0.6" />
-      <text x={cx} y={128} textAnchor="middle" fill={mu} fontSize="8.5" fontFamily="'DM Sans',sans-serif">las moléculas y la energía de la vida</text>
+      <text x={cx} y={128} textAnchor="middle" fill={mu} fontSize="8.5" fontFamily="'Figtree', system-ui, sans-serif">las moléculas y la energía de la vida</text>
     </svg>
   );
 }

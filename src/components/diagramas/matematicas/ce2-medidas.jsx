@@ -19,11 +19,11 @@ export default function Ce2CondMedSVG({ tema }) {
       <line x1={F[0]} y1={F[1]} x2={D[0]} y2={D[1]} stroke={dim} strokeWidth="1.8"/>
       <line x1={E[0]} y1={E[1]} x2={F[0]} y2={F[1]} stroke={tema.verde} strokeWidth="2.8"/>
       {/* Side labels – left */}
-      <text x="28"  y="74"  fill={dim}        fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">7</text>
-      <text x="93"  y="136" fill={tema.verde}  fontSize="13" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">10</text>
-      <text x="148" y="64"  fill={dim}        fontSize="12" fontFamily="'DM Sans',sans-serif" fontWeight="600" textAnchor="middle">8</text>
+      <text x="28"  y="74"  fill={dim}        fontSize="12" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="middle">7</text>
+      <text x="93"  y="136" fill={tema.verde}  fontSize="13" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="middle">10</text>
+      <text x="148" y="64"  fill={dim}        fontSize="12" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="middle">8</text>
       {/* Side labels – right: only EF=? */}
-      <text x="274" y="136" fill={tema.acento} fontSize="14" fontFamily="'DM Sans',sans-serif" fontWeight="700" textAnchor="middle">?</text>
+      <text x="274" y="136" fill={tema.acento} fontSize="14" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="middle">?</text>
       {/* ≅ */}
       <text x="186" y="74" fill="rgba(240,236,227,0.28)" fontSize="28" fontFamily="Georgia,serif" textAnchor="middle">≅</text>
       {/* Vertex labels */}

@@ -25,7 +25,7 @@ export default function AnguloExteriorFormulaSVG({ tema }) {
       <text x="260" y="115" fill={tema.azul} fontSize="12"
         fontFamily="Georgia,serif" fontStyle="italic" opacity="0.75">n=5</text>
       <text x="155" y="168" fill={tema.muted} fontSize="10"
-        fontFamily="'DM Sans',sans-serif" textAnchor="middle" letterSpacing="0.03em">β = 360° / n</text>
+        fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle" letterSpacing="0.03em">β = 360° / n</text>
     </svg>
   );
 }

@@ -21,9 +21,9 @@ export default function SegmentoCircularSVG({ tema }) {
       <line x1={cx} y1={cy} x2={x1} y2={y1} stroke={bl} strokeWidth="1.5" strokeDasharray="4,3" opacity="0.6"/>
       <circle cx={cx} cy={cy} r={3.5} fill={bl}/>
       <text x={cx+5} y={cy+5} fill={bl} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">O</text>
-      <text x={(+x0 + +x1)/2} y={(+y0 + +y1)/2 - 13} fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle" fontWeight="600">segmento</text>
-      <text x={172} y={68} fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif">A = A₍sector₎</text>
-      <text x={172} y={84} fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif">   − A₍△₎</text>
+      <text x={(+x0 + +x1)/2} y={(+y0 + +y1)/2 - 13} fill={a} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle" fontWeight="600">segmento</text>
+      <text x={172} y={68} fill={a} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif">A = A₍sector₎</text>
+      <text x={172} y={84} fill={a} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif">   − A₍△₎</text>
     </svg>
   );
 }

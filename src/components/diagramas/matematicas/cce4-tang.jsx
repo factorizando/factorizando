@@ -28,8 +28,8 @@ export default function Cce4TangSVG({ tema }) {
       <circle cx={+TAx} cy={+TAy} r={3} fill={gr} opacity="0.85"/>
       <circle cx={+TBx} cy={+TBy} r={3} fill={gr} opacity="0.85"/>
       <text x={+TAx+4} y={+TAy-5} fill={gr} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">A</text>
-      <text x={(cx+px)/2+2} y={py-8} fill="rgba(255,255,255,0.48)" fontSize="11" fontFamily="'DM Sans',sans-serif">PO = 13</text>
-      <text x={(cx+px)/2+2} y={py+18} fill={bl} fontSize="11" fontFamily="'DM Sans',sans-serif">r = 5</text>
+      <text x={(cx+px)/2+2} y={py-8} fill="rgba(255,255,255,0.48)" fontSize="11" fontFamily="'Figtree', system-ui, sans-serif">PO = 13</text>
+      <text x={(cx+px)/2+2} y={py+18} fill={bl} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif">r = 5</text>
     </svg>
   );
 }

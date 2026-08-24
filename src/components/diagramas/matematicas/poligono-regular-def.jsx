@@ -18,7 +18,7 @@ export default function PoligonoRegularDefSVG({ tema }) {
           <polygon points={qRegPoly(cx, cy, r, n, n === 4 ? -Math.PI / 4 : -Math.PI / 2)}
             fill={tema.azulSuave} stroke={tema.azul} strokeWidth="1.8" opacity="0.88"/>
           <text x={cx} y={cy + r + 14} fill={tema.muted} fontSize="10"
-            fontFamily="'DM Sans',sans-serif" textAnchor="middle">{label}</text>
+            fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">{label}</text>
         </g>
       ))}
     </svg>

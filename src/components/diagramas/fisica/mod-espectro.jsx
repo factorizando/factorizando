@@ -20,11 +20,11 @@ export default function ModEspectroSVG({ tema }) {
       </defs>
       <rect x={20} y={40} width={210} height={20} rx={3} fill="url(#mod-spec)" />
       <rect x={108} y={38} width={34} height={24} fill="none" stroke={T} strokeWidth="1.3" />
-      <text x={125} y={32} fill={T} fontSize="9.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">visible</text>
-      <text x={22} y={76} fill={mu} fontSize="9.5" fontFamily="'DM Sans',sans-serif">radio</text>
-      <text x={228} y={76} fill={mu} fontSize="9.5" fontFamily="'DM Sans',sans-serif" textAnchor="end">gamma</text>
+      <text x={125} y={32} fill={T} fontSize="9.5" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">visible</text>
+      <text x={22} y={76} fill={mu} fontSize="9.5" fontFamily="'Figtree', system-ui, sans-serif">radio</text>
+      <text x={228} y={76} fill={mu} fontSize="9.5" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="end">gamma</text>
       <Vector x1={20} y1={92} x2={226} y2={92} color={mu} label="" sw={1.4} />
-      <text x={226} y={104} fill={mu} fontSize="9" fontFamily="'DM Sans',sans-serif" textAnchor="end">frecuencia y energía →</text>
+      <text x={226} y={104} fill={mu} fontSize="9" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="end">frecuencia y energía →</text>
     </svg>
   );
 }

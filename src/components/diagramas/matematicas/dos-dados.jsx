@@ -17,13 +17,13 @@ export default function DosDadosSVG({ tema }) {
   }
   const labels = [];
   for (let k = 0; k < 6; k++) {
-    labels.push(<text key={`t${k}`} x={gx + k * s + (s - 2) / 2} y={gy - 7} fill={bl} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{k + 1}</text>);
-    labels.push(<text key={`l${k}`} x={gx - 9} y={gy + k * s + (s - 2) / 2 + 3} fill={a} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle">{k + 1}</text>);
+    labels.push(<text key={`t${k}`} x={gx + k * s + (s - 2) / 2} y={gy - 7} fill={bl} fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">{k + 1}</text>);
+    labels.push(<text key={`l${k}`} x={gx - 9} y={gy + k * s + (s - 2) / 2 + 3} fill={a} fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">{k + 1}</text>);
   }
   return (
     <svg viewBox="0 0 196 176" width="100%" style={{ display: "block", maxHeight: 188 }}>
       {cells}{labels}
-      <text x={gx + 3 * s} y={gy + 6 * s + 16} fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">suma = 7 → 6 de 36</text>
+      <text x={gx + 3 * s} y={gy + 6 * s + 16} fill={a} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">suma = 7 → 6 de 36</text>
     </svg>
   );
 }

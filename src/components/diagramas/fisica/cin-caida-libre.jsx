@@ -17,7 +17,7 @@ export default function CinCaidaLibreSVG({ tema }) {
       <line x1={92} y1={22} x2={92} y2={150} stroke={bl} strokeWidth="2.2" />
       <polygon points={arrowHead(92, 22, 92, 150, 9)} fill={bl} />
       <text x={100} y={92} fill={bl} fontSize="14" fontFamily="Georgia,serif" fontStyle="italic">g</text>
-      <text x={x} y={170} fill={mu} fontSize="9.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">acelera al caer</text>
+      <text x={x} y={170} fill={mu} fontSize="9.5" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">acelera al caer</text>
     </svg>
   );
 }

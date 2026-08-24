@@ -21,11 +21,11 @@ export default function As8ComplejoSVG({ tema }) {
         fill={`${a}28`} stroke={a} strokeWidth="2"/>
       <polygon points={`${rX},${rY+rH} ${rX+rW},${rY+rH} ${rX+rW/2},${rY+rH-triH}`}
         fill="rgba(0,0,0,0.38)" stroke={gr} strokeWidth="1.5" strokeDasharray="5,3"/>
-      <text x={rX+rW/2} y={rY-10} fill={bl} fontSize="13" fontFamily="'DM Sans',sans-serif" textAnchor="middle">12 cm</text>
+      <text x={rX+rW/2} y={rY-10} fill={bl} fontSize="13" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">12 cm</text>
       <text x={rX-8} y={cyMid+4} fill={bl} fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="end">8 cm</text>
-      <text x={rX+rW/2} y={rY+rH-triH/3+4} fill={gr} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle" opacity="0.8">quitar △</text>
-      <text x={ex+rSemi*0.42} y={cyMid-3} fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">semic.</text>
-      <text x={ex+rSemi*0.42} y={cyMid+13} fill={a} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">r = 4</text>
+      <text x={rX+rW/2} y={rY+rH-triH/3+4} fill={gr} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle" opacity="0.8">quitar △</text>
+      <text x={ex+rSemi*0.42} y={cyMid-3} fill={a} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">semic.</text>
+      <text x={ex+rSemi*0.42} y={cyMid+13} fill={a} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">r = 4</text>
     </svg>
   );
 }

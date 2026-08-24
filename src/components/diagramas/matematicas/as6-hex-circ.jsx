@@ -14,8 +14,8 @@ export default function As6HexCircSVG({ tema }) {
     <svg viewBox="0 0 238 232" width="100%" style={{display:"block",maxHeight:222}}>
       <circle cx={cx} cy={cy} r={r} fill={`${a}22`} stroke={a} strokeWidth="1.8" opacity="0.85"/>
       <polygon points={hexPoints} fill={tema.azulSuave} stroke={bl} strokeWidth="2"/>
-      <text x={cx} y={cy+5} fill={bl} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle" opacity="0.65">Hexágono</text>
-      <text x={cx} y={cy+20} fill={bl} fontSize="10" fontFamily="'DM Sans',sans-serif" textAnchor="middle" opacity="0.45">l = r = 6 cm</text>
+      <text x={cx} y={cy+5} fill={bl} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle" opacity="0.65">Hexágono</text>
+      <text x={cx} y={cy+20} fill={bl} fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle" opacity="0.45">l = r = 6 cm</text>
       {(() => {
         const [hx,hy]=hex[0].split(',').map(Number);
         return (

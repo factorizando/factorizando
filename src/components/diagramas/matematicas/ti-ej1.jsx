@@ -16,7 +16,7 @@ export default function TiEj1SVG({ tema }) {
       <path d={`M ${Bx-10},${By+2} L ${Bx-10},${By+12} L ${Bx},${By+12}`} fill="none" stroke={a} strokeWidth="1.6"/>
       <text x={Ax+16} y={Ay-7} fill={bl} fontSize="12" fontFamily="Georgia,serif">35°</text>
       <text x={Cx-22} y={Cy-7} fill={bl} fontSize="13" fontFamily="Georgia,serif">?</text>
-      <text x={cx} y={Cy+18} fill={gr} fontSize="11" fontFamily="'DM Sans',sans-serif" textAnchor="middle">diámetro</text>
+      <text x={cx} y={Cy+18} fill={gr} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">diámetro</text>
       <circle cx={cx} cy={cy} r={2.8} fill={gr}/>
     </svg>
   );

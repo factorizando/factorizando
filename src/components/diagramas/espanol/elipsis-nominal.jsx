@@ -19,8 +19,8 @@ export default function ElipsisNominalSVG({ tema }) {
   const h  = 22;
   return (
     <svg viewBox="0 0 520 105" width="100%" style={{ display: "block" }}>
-      <text x="8" y="14" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" letterSpacing="0.15em" fontWeight="600">ORACIÓN ORIGINAL</text>
-      <text x="8" y="60" fill={tema.muted} fontSize="7.5" fontFamily="'DM Sans',sans-serif" letterSpacing="0.15em" fontWeight="600">CON ELIPSIS NOMINAL</text>
+      <text x="8" y="14" fill={tema.muted} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif" letterSpacing="0.15em" fontWeight="600">ORACIÓN ORIGINAL</text>
+      <text x="8" y="60" fill={tema.muted} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif" letterSpacing="0.15em" fontWeight="600">CON ELIPSIS NOMINAL</text>
       {tokens.map((tok, i) => (
         <g key={i}>
           <rect x={tok.x} y={ry[0]} width={tok.w} height={h} rx="4"
@@ -49,7 +49,7 @@ export default function ElipsisNominalSVG({ tema }) {
       <path d="M 121,26 C 121,6 275,6 275,72" fill="none"
         stroke={`${az}88`} strokeWidth="1.3" strokeDasharray="5,3"/>
       <polygon points="270,68 275,76 280,68" fill={`${az}88`}/>
-      <text x="200" y="10" fill={az} fontSize="7.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">elemento recuperado del contexto</text>
+      <text x="200" y="10" fill={az} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">elemento recuperado del contexto</text>
       <text x="8" y="100" fill={tema.muted} fontSize="8" fontFamily="Georgia,serif" fontStyle="italic">Forma completa: «Quiero el libro azul y el libro rojo.»</text>
     </svg>
   );

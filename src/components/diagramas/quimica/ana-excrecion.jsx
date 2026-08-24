@@ -14,18 +14,18 @@ export default function AnaExcrecionSVG({ tema }) {
   ];
   return (
     <svg viewBox="0 0 290 130" width="100%" style={{ display: "block", maxHeight: 140 }}>
-      <text x={145} y={12} textAnchor="middle" fill={tema.acento} fontSize="8" fontFamily="'DM Sans',sans-serif">cada grupo animal, su estructura de excreción</text>
+      <text x={145} y={12} textAnchor="middle" fill={tema.acento} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif">cada grupo animal, su estructura de excreción</text>
       {filas.map(({ org, grp, est, c }, i) => {
         const y = 22 + i * 26;
         return (
           <g key={i}>
             <rect x={10} y={y} width={86} height={22} rx={5} fill={`${c}1e`} stroke={c} strokeWidth="1.5" />
-            <text x={16} y={y+13} fill={T} fontSize="7.4" fontFamily="'DM Sans',sans-serif" fontWeight="600">{org}</text>
-            <text x={16} y={y+20} fill={mu} fontSize="5.6" fontFamily="'DM Sans',sans-serif">{grp}</text>
+            <text x={16} y={y+13} fill={T} fontSize="7.4" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">{org}</text>
+            <text x={16} y={y+20} fill={mu} fontSize="5.6" fontFamily="'Figtree', system-ui, sans-serif">{grp}</text>
             <line x1={96} y1={y+11} x2={150} y2={y+11} stroke={c} strokeWidth="1.4" />
             <polygon points={arrowHead(120, y+11, 150, y+11, 6)} fill={c} />
             <rect x={150} y={y} width={130} height={22} rx={5} fill="rgba(255,255,255,0.04)" stroke={c} strokeWidth="1.5" />
-            <text x={158} y={y+15} fill={c} fontSize="8" fontFamily="'DM Sans',sans-serif" fontWeight="600">{est}</text>
+            <text x={158} y={y+15} fill={c} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">{est}</text>
           </g>
         );
       })}

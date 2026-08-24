@@ -19,8 +19,8 @@ export default function Ej_EstRangoSVG({ tema }) {
           </g>
         );
       })}
-      <text x={X(5)} y={y - 12} fill={a} fontSize="10.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">mín</text>
-      <text x={X(20)} y={y - 12} fill={a} fontSize="10.5" fontFamily="'DM Sans',sans-serif" textAnchor="middle">máx</text>
+      <text x={X(5)} y={y - 12} fill={a} fontSize="10.5" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">mín</text>
+      <text x={X(20)} y={y - 12} fill={a} fontSize="10.5" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">máx</text>
     </svg>
   );
 }

@@ -32,15 +32,37 @@
 
 ---
 
-## Fase 0 — Preparación
+## Fase 0 — Preparación ✅ *(24 ago 2026)*
 
-- [ ] Confirmar que `npm run build` pasa en limpio (línea base).
-- [ ] Script de verificación de integridad de ids: que cada `quiz:`/`teoria:` en
-      `preparatoriaData.js` / `universidadData.js` resuelva a un id existente en el
-      índice, y que cada `/ver/<id>` exista en `presentacionesIndex.js`. Detecta
-      enlaces rotos **antes** y **después** de mover archivos.
-- [ ] Inventario de duplicados confirmados (p. ej. `sujeto-predicado-uni.js` en
-      `preparatoria/espanol/` y `universidad/espanol/`).
+- [x] Confirmar que `npm run build` pasa en limpio (línea base).
+- [x] Script de verificación de integridad: `npm run integridad`
+      (`scripts/verificar-integridad.mjs`). Corre **antes y después** de cada fase;
+      si la lista sale igual en los dos lados, la fase no rompió nada. Comprueba
+      `quiz:`, `teoria:` (rutas de App.jsx y archivos de `public/guias/`), `/ver/<id>`,
+      los `documentoRef`/`ref` de los cursos, ids repetidos, `metadata.id` contra la
+      clave del índice, y preguntas sin `id`. Sale con código ≠ 0 solo si hay un
+      enlace roto; lo demás son avisos.
+- [x] Inventario de duplicados: lo emite el propio script, así que no se queda
+      desactualizado en un documento.
+
+### Línea base — 24 ago 2026
+
+`29 cuestionarios · 65 presentaciones · 13 documentos · 2 cursos`
+
+**Enlaces rotos: 0.** Todo lo que sigue son avisos, y es el trabajo de las fases 1, 4 y 6:
+
+| Aviso | Cuántos | Fase |
+|---|---|---|
+| Preguntas sin `id` | 25 cuestionarios (~3 500 preguntas) | 1 |
+| `metadata.id` ≠ clave del índice | 3 (`sujeto-predicado-uni`, `estructura-oracion-uni`, `numerosracionales`) | 1 |
+| Presentaciones sin `subtema` | 6 (todas de Español) | 1 |
+| Cuestionarios sin `data` (plantilla) | 2 (`enteros-prepa`, `premedicina`) | 1 |
+| Preguntas sin `explanation` | 3 (`producto-enteros`, `la-celula`, `celula-organelos`) | 6 |
+| Nombre de archivo repetido | 1 (`sujeto-predicado-uni.js` en prepa y uni) | 3 |
+
+> El número de cuestionarios sin `id` en las preguntas es mayor de lo que suponía el
+> plan original: no son "algunos como `la-celula`", son prácticamente todos. Eso cambia
+> el enfoque de la Fase 1 — se hace con un script, no a mano.
 
 ---
 

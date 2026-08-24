@@ -1,7 +1,7 @@
 // src/data/cuestionarios/preparatoria/matematicas/numerosenteros/suma.js
 // Archivo generado automáticamente - Suma de Enteros (250 preguntas)
 
-export const SUMA_ENTEROS = {
+const SUMA_ENTEROS = {
   metadata: {
     id: "suma-enteros",
     titulo: "Suma de Enteros",
@@ -1916,3 +1916,5 @@ export const SUMA_ENTEROS = {
   sections: null,
   theory: null,
 };
+
+export default SUMA_ENTEROS;

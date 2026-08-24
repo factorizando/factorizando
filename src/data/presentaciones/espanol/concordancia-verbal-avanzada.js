@@ -6,6 +6,7 @@ export const PRESENTACION = {
   id: "concordancia-verbal-avanzada",
   titulo: "Concordancia Verbal · Avanzada",
   materia: "Español",
+  subtema: "Redacción Indirecta · EXANI-II",
   slides: [
     // ── Portada ──────────────────────────────────────────────────────────────
     {

@@ -66,18 +66,67 @@
 
 ---
 
-## Fase 1 — Limpieza de bajo riesgo (sin mover archivos)
+## Fase 1 — Limpieza de bajo riesgo ✅ *(24 ago 2026)*
 
-- [ ] `cuestionarios/.../suma.js`: cambiar `export const SUMA_ENTEROS` → `export default`
-      y ajustar su import en `cuestionariosIndex.js`.
-- [ ] Unificar extensión: cuestionarios `.jsx` que **no** contienen JSX → `.js`
-      (revisar simuladores; conservar `.jsx` solo si usan componentes).
-- [ ] Quitar comentarios "TEMPLATE" obsoletos de `cuestionariosIndex.js`.
-- [ ] Añadir `questions[].id` faltantes (p. ej. `la-celula.js`) — id estable por pregunta.
-- [ ] Verificar `metadata.id` === clave del índice en cada cuestionario; corregir desajustes.
-- [ ] Presentaciones sin `materia`/`subtema`: completarlos (~1 y ~7 archivos).
+- [x] `suma.js`: `export const SUMA_ENTEROS` → `export default`, e import ajustado.
+      Era el único banco con export nombrado.
+- [x] Comentarios "TEMPLATE" fuera de `cuestionariosIndex.js`, sustituidos por lo que
+      de verdad hay que saber al editarlo: que el `id` es la URL y lo que se guarda en
+      `resultados.cuestionario_id`.
+- [x] Extensiones: **nada que cambiar.** Los tres cuestionarios `.jsx`
+      (`simulador-prepa-1`, `simulador-prepa-2`, `simulador-exani-i-3`) contienen JSX
+      real —`key={}`, `fill={C.text}`, `.map(… => <rect/>)`—, así que la extensión ya
+      era la correcta. El plan suponía lo contrario.
+- [x] `questions[].id`: resuelto **en el índice, no en los archivos** (ver abajo).
+- [x] `metadata.id` ≠ clave del índice: los 3 corregidos.
+- [x] Presentaciones sin `subtema`: las 6 completadas.
+- [x] Extra: eliminadas dos entradas plantilla sin `data` (`enteros-prepa`,
+      `premedicina`) y dos archivos huérfanos idénticos (`sujeto-predicado-uni.js` en
+      `preparatoria/espanol/` y en `universidad/espanol/`).
 
-> Esta fase no mueve archivos: cero impacto en rutas. Buen primer commit.
+### Por qué los ids de pregunta no se escribieron en los archivos
+
+Eran ~3 500 preguntas en 25 bancos. Escribir `id: N` en cada literal daba el mismo
+valor que calcularlo —la posición dentro del archivo— a cambio de tocar miles de líneas
+escritas a mano. Se resuelve con `numerarPreguntas()` en `cuestionariosIndex.js`: al
+cargar el índice, cada pregunta sin `id` recibe su posición en base 1. **El `id`
+declarado siempre manda**, así que la puerta queda abierta para fijarlo a mano cuando
+haga falta.
+
+Contrapartida honesta: al ser posicional, insertar una pregunta a mitad de archivo
+recorre los ids siguientes. Mientras los bancos crezcan por el final —que es como han
+crecido— no pasa nada; el día que haya que insertar en medio, se declara el `id` en esa
+pregunta. Nada persiste ids de pregunta hoy: `resultados` solo guarda `puntaje`, `total`
+y `cuestionario_id`, así que no había historial que romper.
+
+De paso, `simulador-exani-i-3` usaba ids de texto (`"q0"`…) y pasó a numérico: el corpus
+tiene ahora un solo tipo.
+
+### Pendiente en Supabase (para ti, no lo corro yo)
+
+Tres `metadata.id` cambiaron, y ese campo es el que se guarda en
+`resultados.cuestionario_id`. Los intentos anteriores a hoy quedaron bajo el id viejo.
+Si quieres reconciliar el historial:
+
+```sql
+update resultados set cuestionario_id = 'sujeto-predicado-exani-i'
+  where cuestionario_id = 'sujeto-predicado-uni';
+update resultados set cuestionario_id = 'estructura-oracion-prepa'
+  where cuestionario_id = 'estructura-oracion-uni'
+    and cuestionario_titulo ilike '%prepa%';
+update resultados set cuestionario_id = 'uni-numeros-racionales'
+  where cuestionario_id = 'numerosracionales';
+```
+
+El segundo lleva filtro por título porque `estructura-oracion-uni` sigue siendo un id
+válido —hay dos cuestionarios— y solo hay que mover los del banco de preparatoria.
+Revísalo con un `select` antes de correrlo.
+
+### Estado tras la fase
+
+`27 cuestionarios · 65 presentaciones · 13 documentos · 2 cursos` · **0 enlaces rotos**
+· 2 avisos, los dos de Fase 6 (`producto-enteros` y `la-celula` sin `explanation`).
+Bajamos de 39 avisos a 2.
 
 ---
 

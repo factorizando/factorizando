@@ -6,6 +6,7 @@ export const PRESENTACION = {
   id: "concordancia-nominal-avanzada",
   titulo: "Concordancia Nominal · Avanzada",
   materia: "Español",
+  subtema: "Redacción Indirecta · EXANI-II",
   slides: [
     // ── Portada ──────────────────────────────────────────────────────────────
     {

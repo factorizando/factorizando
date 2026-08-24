@@ -5,6 +5,7 @@ export const PRESENTACION = {
   id: "concordancia-verbal",
   titulo: "Concordancia Verbal",
   materia: "Español",
+  subtema: "Redacción Indirecta",
   slides: [
     // ── Portada ──────────────────────────────────────────────────────────────
     {

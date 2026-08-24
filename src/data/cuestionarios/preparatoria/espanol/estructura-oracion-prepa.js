@@ -1,7 +1,7 @@
 // src/data/cuestionarios/universidad/espanol/oracion/estructura-oracion-uni.js
 export default {
   metadata: {
-    id: "estructura-oracion-uni",
+    id: "estructura-oracion-prepa",
     titulo: "Estructura de la oración",
     nivel: "universidad",
     materia: "Español",

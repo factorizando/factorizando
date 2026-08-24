@@ -2,7 +2,7 @@
 
 export default {
   metadata: {
-    id: "sujeto-predicado-uni",
+    id: "sujeto-predicado-exani-i",
     titulo: "Sujeto y Predicado",
     nivel: "universidad",
     materia: "Español",

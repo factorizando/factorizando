@@ -2,7 +2,7 @@
 // TODO: Completar metadata.materia y metadata.tema
 export default {
   metadata: {
-    id: "numerosracionales",
+    id: "uni-numeros-racionales",
     titulo: "NumerosRacionales",
     nivel: "universidad",
     materia: "",

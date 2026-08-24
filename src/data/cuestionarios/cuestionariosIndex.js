@@ -1,16 +1,12 @@
-// src/data/cuestionarios/cuestionariosIndex.js
-// Este archivo centraliza TODOS los cuestionarios
-// Sigue esta estructura y es fácil agregar nuevos
+// Registro único de cuestionarios.
+//
+// La clave `id` de cada entrada es la que aparece en la URL (`/cuestionario/<id>`)
+// y la que se guarda en `resultados.cuestionario_id`: no se cambia aunque el
+// archivo se mueva de carpeta (ver docs/PLAN_MIGRACION.md).
+//
+// Cada banco exporta por defecto; el índice solo lo referencia.
 
-// IMPORTAR los cuestionarios (ajusta las rutas según tu estructura)
-// import { SUMA_ENTEROS } from './preparatoria/matematicas/numerosenteros/suma';
-// import { DIVISIBILIDAD } from './preparatoria/matematicas/numerosenteros/divisibilidad';
-// ... etc
-
-// Por ahora, esto es un TEMPLATE. Cuando migres tus cuestionarios,
-// importarás cada uno aquí.
-
-import { SUMA_ENTEROS } from "./preparatoria/matematicas/numerosreales/numerosenteros/suma";
+import SUMA_ENTEROS from "./preparatoria/matematicas/numerosreales/numerosenteros/suma";
 import ALGEBRA_PREPA from "./preparatoria/matematicas/algebra/algebra-prepa.js";
 import DIVISIBILIDAD from "./preparatoria/matematicas/numerosreales/numerosenteros/divisibilidad";
 import DIVISIBILIDAD_MCD from "./preparatoria/matematicas/numerosreales/numerosenteros/divisibilidad-mcd-mcm";
@@ -64,7 +60,7 @@ export const CUESTIONARIOS_INDEX = {
                 id: "suma-enteros",
                 titulo: "Suma de Enteros",
                 description: "Aprende a sumar números positivos y negativos",
-                data: SUMA_ENTEROS, // Descomentar cuando importes
+                data: SUMA_ENTEROS,
               },
               {
                 id: "producto-enteros",
@@ -191,12 +187,6 @@ export const CUESTIONARIOS_INDEX = {
         ecuacionesPrimerGrado: {
           label: "Ecuaciones de Primer Grado",
           cuestionarios: [
-            {
-              id: "enteros-prepa",
-              titulo: "Enteros - Preparatoria",
-              description: "",
-              // data: ENTEROS_PREPA,
-            },
           ],
         },
 
@@ -436,16 +426,41 @@ export const CUESTIONARIOS_INDEX = {
       icon: "💊",
       label: "Medicina",
       cuestionarios: [
-        {
-          id: "premedicina",
-          titulo: "Premedicina",
-          description: "",
-          // data: PREMEDICINA,
-        },
       ],
     },
   },
 };
+
+// ─── Identidad estable por pregunta ─────────────────────────────────────────
+// El estándar pide que cada pregunta tenga un `id` propio, y ~3 500 de ellas no
+// lo traían. Se asigna aquí, al cargar el índice, en vez de escribirlo en los
+// 25 archivos de banco: el valor sería el mismo —la posición dentro del
+// archivo— pero editando a mano miles de literales escritos por una persona se
+// gana churn y riesgo sin ganar información.
+//
+// Regla: el `id` declarado manda; si falta, es la posición en base 1. Es
+// idempotente y corre una sola vez, porque los módulos de banco son singletons.
+// Consecuencia a tener presente: al ser posicional, insertar una pregunta en
+// medio de un archivo recorre los ids de ahí en adelante. Mientras los bancos
+// crezcan por el final —que es como han crecido— eso no ocurre; el día que haga
+// falta insertar en medio, se declara el `id` a mano en esa pregunta y esta
+// función lo respeta.
+function numerarPreguntas(nodo) {
+  if (nodo.cuestionarios) {
+    for (const c of nodo.cuestionarios) {
+      const preguntas = c.data?.questions;
+      if (!Array.isArray(preguntas)) continue;
+      preguntas.forEach((q, i) => {
+        if (q.id === undefined) q.id = i + 1;
+      });
+    }
+  }
+  for (const clave in nodo) {
+    const hijo = nodo[clave];
+    if (typeof hijo === "object" && hijo !== null && !Array.isArray(hijo)) numerarPreguntas(hijo);
+  }
+}
+numerarPreguntas(CUESTIONARIOS_INDEX);
 
 // ─── FUNCIÓN AUXILIAR: Buscar un cuestionario por ID ────────────────────────
 export function buscarCuestionario(id) {

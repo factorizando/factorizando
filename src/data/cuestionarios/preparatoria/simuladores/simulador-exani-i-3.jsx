@@ -234,7 +234,7 @@ export default {
 
     // Q0 — Niveles tróficos (A)
     {
-      id: "q0",
+      id: 1,
       question: "En un ecosistema, los organismos que producen su propio alimento mediante fotosíntesis se denominan:",
       options: [
         "Productores",
@@ -247,7 +247,7 @@ export default {
 
     // Q1 — Genética mendeliana: alelo dominante (B)
     {
-      id: "q1",
+      id: 2,
       question: "En la genética mendeliana, cuando un organismo tiene dos alelos diferentes para un rasgo (heterocigoto Aa), el fenotipo que se manifiesta corresponde al alelo:",
       options: [
         "Recesivo",
@@ -260,7 +260,7 @@ export default {
 
     // Q2 — Ciclo del carbono: fotosíntesis (C)
     {
-      id: "q2",
+      id: 3,
       question: "En el ciclo del carbono, ¿qué proceso incorpora el CO₂ atmosférico a los organismos vivos?",
       options: [
         "Respiración celular",
@@ -273,7 +273,7 @@ export default {
 
     // Q3 — Células eucariota vs procariota (A)
     {
-      id: "q3",
+      id: 4,
       question: "¿Cuál es la principal diferencia entre una célula eucariota y una procariota?",
       options: [
         "La célula eucariota tiene núcleo delimitado por membrana; la procariota no.",
@@ -286,7 +286,7 @@ export default {
 
     // Q4 — Selección natural (B)
     {
-      id: "q4",
+      id: 5,
       question: "Según la teoría de la selección natural de Darwin, los organismos que sobreviven y se reproducen con mayor éxito son aquellos que:",
       options: [
         "Mutan más rápidamente",
@@ -299,7 +299,7 @@ export default {
 
     // Q5 — Cadena alimentaria: con SVG (C)
     {
-      id: "q5",
+      id: 6,
       question: "La figura muestra una cadena alimentaria. ¿Qué nivel trófico ocupa el conejo?",
       options: [
         "Productor",
@@ -313,7 +313,7 @@ export default {
 
     // Q6 — MRU: velocidad media (A)
     {
-      id: "q6",
+      id: 7,
       question: "Un automóvil recorre 240 km en 3 horas a velocidad constante. ¿Cuál es su velocidad media?",
       options: [
         "80 km/h",
@@ -326,7 +326,7 @@ export default {
 
     // Q7 — Reacciones químicas: reactivos y productos (B)
     {
-      id: "q7",
+      id: 8,
       question: "En la ecuación química H₂ + O₂ → H₂O, ¿cuáles son los reactivos?",
       options: [
         "Solo H₂O",
@@ -339,7 +339,7 @@ export default {
 
     // Q8 — Tabla periódica: grupo 1 (C)
     {
-      id: "q8",
+      id: 9,
       question: "Los elementos del Grupo 1 (IA) de la tabla periódica se caracterizan por:",
       options: [
         "Ser gases nobles y muy poco reactivos",
@@ -352,7 +352,7 @@ export default {
 
     // Q9 — Energía: tipos (A)
     {
-      id: "q9",
+      id: 10,
       question: "Un objeto que se encuentra en reposo en lo alto de una rampa posee principalmente:",
       options: [
         "Energía potencial gravitatoria",
@@ -365,7 +365,7 @@ export default {
 
     // Q10 — Crecimiento poblacional: curva logística (B)
     {
-      id: "q10",
+      id: 11,
       question: "La gráfica muestra el crecimiento de una población con el tiempo. ¿Qué representa la línea discontinua K?",
       options: [
         "La tasa de natalidad de la población",
@@ -379,7 +379,7 @@ export default {
 
     // Q11 — Fotosíntesis: ecuación general (C)
     {
-      id: "q11",
+      id: 12,
       question: "¿Cuál es la ecuación general simplificada de la fotosíntesis?",
       options: [
         "C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + energía",
@@ -392,7 +392,7 @@ export default {
 
     // Q12 — Genética: cruce Aa × Aa (A)
     {
-      id: "q12",
+      id: 13,
       question: "Al cruzar dos organismos heterocigotos (Aa × Aa), ¿cuál es la proporción fenotípica esperada?",
       options: [
         "3 dominantes : 1 recesivo",
@@ -405,7 +405,7 @@ export default {
 
     // Q13 — Ciclo del nitrógeno: fijación (B)
     {
-      id: "q13",
+      id: 14,
       question: "En el ciclo del nitrógeno, ¿qué organismos son capaces de fijar el nitrógeno atmosférico (N₂) convirtiéndolo en compuestos utilizables?",
       options: [
         "Hongos descomponedores",
@@ -418,7 +418,7 @@ export default {
 
     // Q14 — Organelo celular: mitocondria (C)
     {
-      id: "q14",
+      id: 15,
       question: "¿Cuál es la función principal de la mitocondria en la célula?",
       options: [
         "Sintetizar proteínas a partir del ARN mensajero",
@@ -431,7 +431,7 @@ export default {
 
     // Q15 — Ciclo del agua (A)
     {
-      id: "q15",
+      id: 16,
       question: "En el diagrama del ciclo del agua, ¿qué proceso eleva el vapor de agua hacia la atmósfera para formar las nubes?",
       options: [
         "Evaporación y evapotranspiración",
@@ -445,7 +445,7 @@ export default {
 
     // Q16 — MRUA: fórmula de velocidad (B)
     {
-      id: "q16",
+      id: 17,
       question: "Un objeto parte del reposo y adquiere una aceleración de 3 m/s². ¿Cuál es su velocidad después de 4 segundos?",
       options: [
         "8 m/s",
@@ -458,7 +458,7 @@ export default {
 
     // Q17 — Enlace químico: iónico vs covalente (C)
     {
-      id: "q17",
+      id: 18,
       question: "¿Qué tipo de enlace se forma entre un metal y un no metal, como en el caso del NaCl?",
       options: [
         "Enlace covalente polar",
@@ -471,7 +471,7 @@ export default {
 
     // Q18 — Tabla periódica: halógenos (A)
     {
-      id: "q18",
+      id: 19,
       question: "¿Cuál de los siguientes elementos pertenece al grupo de los halógenos (Grupo 17)?",
       options: [
         "Cloro (Cl)",
@@ -484,7 +484,7 @@ export default {
 
     // Q19 — Trabajo mecánico (B)
     {
-      id: "q19",
+      id: 20,
       question: "Se aplica una fuerza de 50 N para desplazar un objeto 4 m en la dirección de la fuerza. ¿Cuánto trabajo se realizó?",
       options: [
         "12.5 J",
@@ -497,7 +497,7 @@ export default {
 
     // Q20 — Ecosistema: flujo de energía (C)
     {
-      id: "q20",
+      id: 21,
       question: "¿Qué porcentaje aproximado de la energía se transfiere de un nivel trófico al siguiente en un ecosistema?",
       options: [
         "90%",
@@ -510,7 +510,7 @@ export default {
 
     // Q21 — ADN: doble hélice (A)
     {
-      id: "q21",
+      id: 22,
       question: "¿Qué bases nitrogenadas se emparejan en la doble hélice del ADN?",
       options: [
         "Adenina con Timina, y Guanina con Citosina",
@@ -523,7 +523,7 @@ export default {
 
     // Q22 — Célula vegetal vs animal (B)
     {
-      id: "q22",
+      id: 23,
       question: "Según el diagrama comparativo, ¿cuál de las siguientes estructuras está presente en la célula vegetal pero ausente en la célula animal?",
       options: [
         "Núcleo",
@@ -537,7 +537,7 @@ export default {
 
     // Q23 — Segunda ley de Mendel (C)
     {
-      id: "q23",
+      id: 24,
       question: "La segunda ley de Mendel (principio de segregación independiente) establece que:",
       options: [
         "Los alelos dominantes siempre se expresan sobre los recesivos",
@@ -550,7 +550,7 @@ export default {
 
     // Q24 — Ciclo del agua: condensación (A)
     {
-      id: "q24",
+      id: 25,
       question: "¿Qué proceso del ciclo del agua ocurre cuando el vapor de agua enfría y cambia a estado líquido formando nubes?",
       options: [
         "Condensación",
@@ -563,7 +563,7 @@ export default {
 
     // Q25 — Tipos de reacciones químicas (B)
     {
-      id: "q25",
+      id: 26,
       question: "En la reacción: CaCO₃ → CaO + CO₂, ¿de qué tipo de reacción química se trata?",
       options: [
         "Síntesis o combinación",
@@ -576,7 +576,7 @@ export default {
 
     // Q26 — Metales alcalinos (C)
     {
-      id: "q26",
+      id: 27,
       question: "¿Cuál de las siguientes propiedades describe correctamente a los metales alcalinos?",
       options: [
         "Son muy duros y tienen alto punto de fusión",
@@ -589,7 +589,7 @@ export default {
 
     // Q27 — Primera ley de termodinámica (A)
     {
-      id: "q27",
+      id: 28,
       question: "La primera ley de la termodinámica establece que en un sistema cerrado:",
       options: [
         "La energía total se conserva; no se crea ni se destruye, solo se transforma.",
@@ -602,7 +602,7 @@ export default {
 
     // Q28 — Genotipo y fenotipo (B)
     {
-      id: "q28",
+      id: 29,
       question: "¿Cuál es la diferencia entre genotipo y fenotipo?",
       options: [
         "El genotipo es lo que se observa; el fenotipo es la combinación de alelos.",
@@ -615,7 +615,7 @@ export default {
 
     // Q29 — MRU: distancia recorrida (C)
     {
-      id: "q29",
+      id: 30,
       question: "Un tren viaja a velocidad constante de 90 km/h. ¿Qué distancia recorre en 40 minutos?",
       options: [
         "36 km",
@@ -633,7 +633,7 @@ export default {
     // ── TEXTO 1: Los arrecifes de coral (Q30-34) ─────────────────
     // Q30 — Idea principal (A)
     {
-      id: "q30",
+      id: 31,
       question: "Lee el siguiente texto:<br><br><em>Los arrecifes de coral albergan el 25% de las especies marinas a pesar de cubrir menos del 1% del fondo oceánico. El calentamiento global provoca el blanqueamiento coralino: los corales expulsan las algas que les dan color y nutrientes. Si la temperatura global sube 2°C sobre niveles preindustriales, el 99% de los arrecifes podría desaparecer.</em><br><br>¿Cuál es la idea principal del texto?",
       options: [
         "Los arrecifes de coral son ecosistemas muy diversos que están amenazados por el cambio climático.",
@@ -645,7 +645,7 @@ export default {
     },
     // Q31 — Significado de blanqueamiento coralino (B)
     {
-      id: "q31",
+      id: 32,
       question: "Texto: <em>Los arrecifes de coral albergan el 25% de las especies marinas. El calentamiento global provoca el blanqueamiento coralino: los corales expulsan las algas que les dan color y nutrientes. Si la temperatura sube 2°C, el 99% podría desaparecer.</em><br><br>Según el texto, ¿qué es el blanqueamiento coralino?",
       options: [
         "La extinción de las especies que habitan los arrecifes de coral",
@@ -657,7 +657,7 @@ export default {
     },
     // Q32 — Propósito del texto (C)
     {
-      id: "q32",
+      id: 33,
       question: "Texto: <em>Los arrecifes de coral albergan el 25% de las especies marinas. El calentamiento global provoca el blanqueamiento coralino: los corales expulsan las algas que les dan color y nutrientes. Si la temperatura sube 2°C, el 99% podría desaparecer.</em><br><br>¿Cuál es el propósito principal de este texto?",
       options: [
         "Describir el proceso de reproducción de los corales",
@@ -669,7 +669,7 @@ export default {
     },
     // Q33 — Dato explícito (A)
     {
-      id: "q33",
+      id: 34,
       question: "Texto: <em>Los arrecifes de coral albergan el 25% de las especies marinas a pesar de cubrir menos del 1% del fondo oceánico. El calentamiento global provoca el blanqueamiento coralino. Si la temperatura sube 2°C, el 99% de los arrecifes podría desaparecer.</em><br><br>¿Qué porcentaje del fondo oceánico cubren los arrecifes de coral?",
       options: [
         "Menos del 1%",
@@ -681,7 +681,7 @@ export default {
     },
     // Q34 — Consecuencia implícita (B)
     {
-      id: "q34",
+      id: 35,
       question: "Texto: <em>Los arrecifes de coral albergan el 25% de las especies marinas. Si la temperatura global sube 2°C sobre niveles preindustriales, el 99% de los arrecifes podría desaparecer.</em><br><br>¿Qué consecuencia puede inferirse si desaparecen el 99% de los arrecifes?",
       options: [
         "La temperatura oceánica descenderá automáticamente.",
@@ -695,7 +695,7 @@ export default {
     // ── TEXTO 2: Don Aurelio (fragmento literario, Q35-39) ────────
     // Q35 — Atmósfera del fragmento (C)
     {
-      id: "q35",
+      id: 36,
       question: "Lee el siguiente fragmento:<br><br><em>La tarde caía despacio sobre el pueblo. Las casas, mudas y soñolientas, parecían aguardar algo que nunca llegaría. Don Aurelio cruzó la plaza sin mirar a nadie, aunque todos lo miraban a él: era el único que había regresado de la ciudad con las manos vacías y el corazón lleno de silencio.</em><br><br>¿Cuál es la atmósfera predominante en este fragmento?",
       options: [
         "Alegre y esperanzadora",
@@ -707,7 +707,7 @@ export default {
     },
     // Q36 — Figura retórica (A)
     {
-      id: "q36",
+      id: 37,
       question: "Fragmento: <em>Las casas, mudas y soñolientas, parecían aguardar algo que nunca llegaría. Don Aurelio cruzó la plaza sin mirar a nadie, aunque todos lo miraban a él.</em><br><br>¿Qué figura retórica se emplea en la expresión 'Las casas... parecían aguardar'?",
       options: [
         "Personificación",
@@ -719,7 +719,7 @@ export default {
     },
     // Q37 — Caracterización del personaje (B)
     {
-      id: "q37",
+      id: 38,
       question: "Fragmento: <em>Don Aurelio cruzó la plaza sin mirar a nadie, aunque todos lo miraban a él: era el único que había regresado de la ciudad con las manos vacías y el corazón lleno de silencio.</em><br><br>¿Qué se puede inferir sobre Don Aurelio?",
       options: [
         "Es un personaje admirado y celebrado por el pueblo.",
@@ -731,7 +731,7 @@ export default {
     },
     // Q38 — Significado contextual (C)
     {
-      id: "q38",
+      id: 39,
       question: "Fragmento: <em>Don Aurelio regresó de la ciudad con las manos vacías y el corazón lleno de silencio.</em><br><br>¿Qué expresa la frase 'el corazón lleno de silencio'?",
       options: [
         "Que Don Aurelio es una persona callada por naturaleza.",
@@ -743,7 +743,7 @@ export default {
     },
     // Q39 — Tipo de narrador (A)
     {
-      id: "q39",
+      id: 40,
       question: "Fragmento: <em>La tarde caía despacio sobre el pueblo. Don Aurelio cruzó la plaza sin mirar a nadie, aunque todos lo miraban a él.</em><br><br>¿Qué tipo de narrador presenta el fragmento?",
       options: [
         "Narrador en tercera persona (omnisciente o testigo)",
@@ -757,7 +757,7 @@ export default {
     // ── TEXTO 3: La imprenta de Gutenberg (Q40-44) ───────────────
     // Q40 — Principal efecto de la imprenta (B)
     {
-      id: "q40",
+      id: 41,
       question: "Lee el siguiente texto:<br><br><em>Antes de la imprenta de tipos móviles de Gutenberg (c. 1450), los copistas tardaban meses en transcribir un solo libro. La nueva tecnología multiplicó los textos por Europa en pocas décadas, impulsando la Reforma Protestante y el Renacimiento científico. Algunos historiadores la consideran la invención más influyente del segundo milenio.</em><br><br>¿Cuál fue el principal efecto de la imprenta según el texto?",
       options: [
         "Eliminó la necesidad de los copistas en los monasterios.",
@@ -769,7 +769,7 @@ export default {
     },
     // Q41 — Uso de "algunos historiadores" (C)
     {
-      id: "q41",
+      id: 42,
       question: "Texto: <em>Antes de la imprenta de Gutenberg (c. 1450), los copistas tardaban meses en transcribir un libro. La nueva tecnología multiplicó los textos por Europa. Algunos historiadores la consideran la invención más influyente del segundo milenio.</em><br><br>¿Por qué el autor usa la expresión 'algunos historiadores consideran' al final?",
       options: [
         "Para indicar que la imprenta no tuvo un impacto real.",
@@ -781,7 +781,7 @@ export default {
     },
     // Q42 — Situación previa a la imprenta (A)
     {
-      id: "q42",
+      id: 43,
       question: "Texto: <em>Antes de la imprenta de Gutenberg (c. 1450), los copistas tardaban meses en transcribir un solo libro. La nueva tecnología multiplicó los textos por Europa en pocas décadas, impulsando la Reforma Protestante y el Renacimiento científico.</em><br><br>¿Cómo se reproducían los libros antes de la imprenta?",
       options: [
         "Mediante la copia manual por parte de copistas, un proceso lento.",
@@ -793,7 +793,7 @@ export default {
     },
     // Q43 — Significado de "copistas" (B)
     {
-      id: "q43",
+      id: 44,
       question: "Texto: <em>Antes de la imprenta de Gutenberg (c. 1450), los copistas tardaban meses en transcribir un solo libro.</em><br><br>¿Cuál es el significado de la palabra 'copistas' en este contexto?",
       options: [
         "Inventores de máquinas de escritura mecánica",
@@ -805,7 +805,7 @@ export default {
     },
     // Q44 — Inferencia del texto (C)
     {
-      id: "q44",
+      id: 45,
       question: "Texto: <em>Antes de la imprenta (c. 1450), los copistas tardaban meses en transcribir un libro. La nueva tecnología multiplicó los textos por Europa, impulsando la Reforma Protestante y el Renacimiento científico.</em><br><br>¿Qué puede inferirse sobre la relación entre acceso a la información y cambios sociales?",
       options: [
         "Los cambios sociales solo dependen de factores económicos, no informativos.",
@@ -819,7 +819,7 @@ export default {
     // ── TEXTO 4: Redes sociales (Q45-49) ─────────────────────────
     // Q45 — Postura del autor (A)
     {
-      id: "q45",
+      id: 46,
       question: "Lee el siguiente texto:<br><br><em>Las redes sociales facilitan la comunicación instantánea, pero generan burbujas informativas que refuerzan las creencias previas de cada usuario. Estudios psicológicos asocian su uso excesivo con mayor ansiedad y menor capacidad de atención. Es urgente que los usuarios desarrollen un consumo consciente y crítico de los medios digitales.</em><br><br>¿Cuál es la postura del autor ante las redes sociales?",
       options: [
         "Reconoce sus beneficios pero advierte sobre sus riesgos y propone una actitud crítica.",
@@ -831,7 +831,7 @@ export default {
     },
     // Q46 — Significado de "burbujas informativas" (B)
     {
-      id: "q46",
+      id: 47,
       question: "Texto: <em>Las redes sociales generan burbujas informativas que refuerzan las creencias previas de cada usuario.</em><br><br>¿Qué significa 'burbujas informativas' según el contexto?",
       options: [
         "Noticias falsas difundidas masivamente en internet",
@@ -843,7 +843,7 @@ export default {
     },
     // Q47 — Estructura argumentativa (C)
     {
-      id: "q47",
+      id: 48,
       question: "Texto: <em>Las redes sociales facilitan la comunicación instantánea, pero generan burbujas informativas. Estudios psicológicos asocian su uso excesivo con mayor ansiedad. Es urgente que los usuarios desarrollen un consumo consciente.</em><br><br>¿Cómo está estructurado el argumento del texto?",
       options: [
         "Presenta solo datos positivos sobre las redes para luego refutarlos.",
@@ -855,7 +855,7 @@ export default {
     },
     // Q48 — Tema central (A)
     {
-      id: "q48",
+      id: 49,
       question: "Texto: <em>Las redes sociales facilitan la comunicación, pero generan burbujas informativas. Estudios psicológicos asocian su uso excesivo con ansiedad y menor atención. Es urgente que los usuarios desarrollen un consumo crítico de los medios digitales.</em><br><br>¿Cuál es el tema central del texto?",
       options: [
         "Los efectos negativos del uso excesivo de redes sociales y la necesidad de un consumo crítico",
@@ -867,7 +867,7 @@ export default {
     },
     // Q49 — Evidencia utilizada (B)
     {
-      id: "q49",
+      id: 50,
       question: "Texto: <em>Las redes sociales generan burbujas informativas. Estudios psicológicos asocian su uso excesivo con mayor ansiedad y menor capacidad de atención.</em><br><br>¿Qué tipo de evidencia utiliza el autor para apoyar su argumento?",
       options: [
         "Anécdotas personales sobre el uso de redes sociales",
@@ -881,7 +881,7 @@ export default {
     // ── TEXTO 5: Neuroplasticidad (Q50-54) ───────────────────────
     // Q50 — Idea principal (C)
     {
-      id: "q50",
+      id: 51,
       question: "Lee el siguiente texto:<br><br><em>Durante décadas se creyó que el cerebro adulto era una estructura fija e inmutable. Investigaciones recientes demostraron la neuroplasticidad: la capacidad del cerebro de reorganizarse formando nuevas conexiones neuronales a lo largo de toda la vida. Actividades como aprender un instrumento musical o un nuevo idioma generan cambios estructurales mensurables en el cerebro.</em><br><br>¿Cuál es la idea principal del texto?",
       options: [
         "Aprender música es el único método para mejorar las capacidades mentales.",
@@ -893,7 +893,7 @@ export default {
     },
     // Q51 — Cambio de perspectiva (A)
     {
-      id: "q51",
+      id: 52,
       question: "Texto: <em>Durante décadas se creyó que el cerebro adulto era una estructura fija e inmutable. Investigaciones recientes demostraron la neuroplasticidad: la capacidad del cerebro de reorganizarse a lo largo de toda la vida.</em><br><br>¿Qué cambio de perspectiva describe el texto?",
       options: [
         "De considerar el cerebro adulto inmutable a reconocer su capacidad de cambio continuo.",
@@ -905,7 +905,7 @@ export default {
     },
     // Q52 — Significado de "inmutable" (B)
     {
-      id: "q52",
+      id: 53,
       question: "Texto: <em>Durante décadas se creyó que el cerebro adulto era una estructura fija e inmutable.</em><br><br>¿Cuál es el significado de la palabra 'inmutable' en este contexto?",
       options: [
         "Muy grande y complejo",
@@ -917,7 +917,7 @@ export default {
     },
     // Q53 — Propósito de los ejemplos (C)
     {
-      id: "q53",
+      id: 54,
       question: "Texto: <em>Investigaciones recientes demostraron la neuroplasticidad. Actividades como aprender un instrumento musical o un nuevo idioma generan cambios estructurales mensurables en el cerebro.</em><br><br>¿Por qué el autor menciona actividades específicas como aprender música o idiomas?",
       options: [
         "Para recomendar actividades de ocio sin relación con el tema.",
@@ -929,7 +929,7 @@ export default {
     },
     // Q54 — Implicación práctica (A)
     {
-      id: "q54",
+      id: 55,
       question: "Texto: <em>El cerebro conserva la capacidad de reorganizarse formando nuevas conexiones neuronales a lo largo de toda la vida. Actividades como aprender música o un nuevo idioma generan cambios estructurales mensurables en el cerebro.</em><br><br>¿Qué implicación práctica puede derivarse de este descubrimiento para el aprendizaje?",
       options: [
         "Las personas pueden continuar aprendiendo y desarrollando habilidades a cualquier edad.",
@@ -943,7 +943,7 @@ export default {
     // ── TEXTO 6: Escasez de agua (Q55-59) ────────────────────────
     // Q55 — Dato estadístico (B)
     {
-      id: "q55",
+      id: 56,
       question: "Lee el siguiente texto:<br><br><em>El agua dulce representa solo el 2.5% del agua total del planeta; más del 68% de esa fracción está atrapada en glaciares y polos. Aunque es un recurso renovable gracias al ciclo hidrológico, su distribución es profundamente desigual. La ONU proyecta que para 2050, dos tercios de la humanidad vivirá en condiciones de estrés hídrico.</em><br><br>¿Qué porcentaje del agua dulce está retenido en glaciares y polos?",
       options: [
         "2.5%",
@@ -955,7 +955,7 @@ export default {
     },
     // Q56 — Significado de "estrés hídrico" (C)
     {
-      id: "q56",
+      id: 57,
       question: "Texto: <em>La ONU proyecta que para 2050, dos tercios de la humanidad vivirá en condiciones de estrés hídrico.</em><br><br>¿Qué significa 'estrés hídrico' según el contexto del texto?",
       options: [
         "Exceso de lluvias que provoca inundaciones masivas",
@@ -967,7 +967,7 @@ export default {
     },
     // Q57 — Propósito del texto (A)
     {
-      id: "q57",
+      id: 58,
       question: "Texto: <em>El agua dulce representa solo el 2.5% del agua total. Su distribución es desigual: unas regiones sufren inundaciones, otras padecen sequías. La ONU proyecta que para 2050, dos tercios de la humanidad vivirá en estrés hídrico.</em><br><br>¿Cuál es el propósito principal de este texto?",
       options: [
         "Informar sobre la escasez y distribución desigual del agua dulce en el mundo.",
@@ -979,7 +979,7 @@ export default {
     },
     // Q58 — Paradoja o contraste (B)
     {
-      id: "q58",
+      id: 59,
       question: "Texto: <em>Aunque el agua es un recurso renovable gracias al ciclo hidrológico, su distribución es profundamente desigual: unas regiones sufren inundaciones, otras padecen sequías prolongadas.</em><br><br>¿Qué contraste o paradoja presenta el texto?",
       options: [
         "El agua es escasa en todo el planeta sin excepción.",
@@ -991,7 +991,7 @@ export default {
     },
     // Q59 — Conclusión inferida (C)
     {
-      id: "q59",
+      id: 60,
       question: "Texto: <em>El agua dulce representa solo el 2.5% del agua total; más del 68% está en glaciares. Su distribución es desigual. La ONU proyecta que para 2050, dos tercios de la humanidad vivirá en estrés hídrico.</em><br><br>¿Qué conclusión puede inferirse a partir de estos datos?",
       options: [
         "La crisis del agua ya fue resuelta gracias al ciclo hidrológico.",
@@ -1010,7 +1010,7 @@ export default {
 
     // Q60 — Propósito del resumen ejecutivo (A)
     {
-      id: "q60",
+      id: 61,
       question: "Lee el siguiente fragmento:<br><br><em>'El presente resumen ejecutivo tiene como objetivo sintetizar los hallazgos del estudio sobre la calidad del aire en zonas metropolitanas durante el periodo 2022-2024. Se identificaron tres factores principales que inciden en los niveles de contaminación...'</em><br><br>¿Cuál es el propósito principal de este texto?",
       options: [
         "Presentar de forma condensada los resultados más relevantes de un estudio",
@@ -1023,7 +1023,7 @@ export default {
 
     // Q61 — Registro formal en informe académico (B)
     {
-      id: "q61",
+      id: 62,
       question: "¿Cuál de las siguientes oraciones tiene el registro formal adecuado para un informe académico?",
       options: [
         "Los resultados que obtuvimos fueron bastante buenos y nos pusieron muy contentos.",
@@ -1036,7 +1036,7 @@ export default {
 
     // Q62 — Tipo de texto: reseña bibliográfica (C)
     {
-      id: "q62",
+      id: 63,
       question: "Lee el siguiente fragmento:<br><br><em>'La obra Cien años de soledad, de Gabriel García Márquez, es considerada una de las más grandes novelas del siglo XX. En ella, el autor logra conjugar la historia de una familia con la de toda una nación...'</em><br><br>¿A qué tipo de texto pertenece este fragmento?",
       options: [
         "Artículo periodístico de nota informativa",
@@ -1049,7 +1049,7 @@ export default {
 
     // Q63 — Corrección gramatical: leísmo (A)
     {
-      id: "q63",
+      id: 64,
       question: "¿Cuál de las siguientes oraciones presenta el uso correcto del pronombre de objeto directo?",
       options: [
         "El director lo felicitó por su desempeño. (refiriéndose a un alumno)",
@@ -1062,7 +1062,7 @@ export default {
 
     // Q64 — Sinonimia: sucinto (B)
     {
-      id: "q64",
+      id: 65,
       question: "¿Cuál de las siguientes palabras puede sustituir a **sucinto** sin cambiar el sentido en: *'El autor ofrece una explicación sucinta del fenómeno'*?",
       options: [
         "detallada",
@@ -1075,7 +1075,7 @@ export default {
 
     // Q65 — Marcador textual adversativo (C)
     {
-      id: "q65",
+      id: 66,
       question: "Selecciona el marcador textual que mejor completa el siguiente párrafo:<br><br><em>'Las energías renovables reducen la emisión de gases contaminantes. ________, su implementación requiere inversiones iniciales significativas.'</em>",
       options: [
         "Además",
@@ -1088,7 +1088,7 @@ export default {
 
     // Q66 — Ortografía: uso correcto de h y v (A)
     {
-      id: "q66",
+      id: 67,
       question: "¿Cuál de las siguientes palabras está escrita correctamente?",
       options: [
         "hervir",
@@ -1101,7 +1101,7 @@ export default {
 
     // Q67 — Puntuación: punto y coma en enumeración compleja (B)
     {
-      id: "q67",
+      id: 68,
       question: "¿En cuál de las siguientes oraciones se usa correctamente el punto y coma?",
       options: [
         "Se presentaron tres ponentes; y todos abordaron el mismo tema.",
@@ -1114,7 +1114,7 @@ export default {
 
     // Q68 — Tilde diacrítica: él/el, tú/tu, más/mas (C)
     {
-      id: "q68",
+      id: 69,
       question: "Elige la oración donde todas las tildes diacríticas están escritas correctamente:",
       options: [
         "Él no sabe si tú vendrás, más ya se lo notifiqué.",
@@ -1127,7 +1127,7 @@ export default {
 
     // Q69 — Correferencia pronominal (A)
     {
-      id: "q69",
+      id: 70,
       question: "¿Cuál de las siguientes oraciones presenta correferencia pronominal correcta?",
       options: [
         "La investigadora presentó sus conclusiones; ella misma respondió las preguntas.",
@@ -1140,7 +1140,7 @@ export default {
 
     // Q70 — Concordancia con sujeto colectivo (B)
     {
-      id: "q70",
+      id: 71,
       question: "¿Cuál de las siguientes oraciones presenta concordancia correcta entre sujeto y verbo?",
       options: [
         "La mayoría de los estudiantes aprobaron el examen.",
@@ -1153,7 +1153,7 @@ export default {
 
     // Q71 — Propósito del abstract (C)
     {
-      id: "q71",
+      id: 72,
       question: "Lee el siguiente fragmento:<br><br><em>'Este artículo analiza los efectos del cambio climático en la biodiversidad marina del Pacífico mexicano entre 2015 y 2023. Se empleó una metodología cuantitativa basada en datos satelitales. Los resultados indican una reducción del 18% en la diversidad de especies...'</em><br><br>¿A qué parte de un artículo científico pertenece este fragmento?",
       options: [
         "Marco teórico",
@@ -1166,7 +1166,7 @@ export default {
 
     // Q72 — Coma antes de "pero" (A)
     {
-      id: "q72",
+      id: 73,
       question: "¿En cuál de las siguientes oraciones se usa correctamente la coma?",
       options: [
         "Estudié toda la noche, pero no logré aprobar el examen.",
@@ -1179,7 +1179,7 @@ export default {
 
     // Q73 — Marcador adversativo: no obstante (B)
     {
-      id: "q73",
+      id: 74,
       question: "Selecciona el marcador textual que mejor completa la oración:<br><br><em>'El proyecto contaba con amplio financiamiento. ________, no pudo concluirse en el tiempo establecido.'</em>",
       options: [
         "Por consiguiente",
@@ -1192,7 +1192,7 @@ export default {
 
     // Q74 — Ortografía: imperfecto con -b- (C)
     {
-      id: "q74",
+      id: 75,
       question: "¿Cuál de las siguientes formas verbales está escrita correctamente?",
       options: [
         "Ayer, el equipo rezibia instrucciones del coordinador.",
@@ -1205,7 +1205,7 @@ export default {
 
     // Q75 — Registro formal en carta académica (A)
     {
-      id: "q75",
+      id: 76,
       question: "¿Cuál de los siguientes cierres es adecuado para una carta formal dirigida a una institución académica?",
       options: [
         "En espera de una respuesta favorable, quedo a sus órdenes. Atentamente,",
@@ -1220,7 +1220,7 @@ export default {
 
     // Q76 — Sinonimia: reiterado (B)
     {
-      id: "q76",
+      id: 77,
       question: "¿Cuál de las siguientes palabras puede sustituir a **reiterado** sin cambiar el sentido en: *'El comité hizo reiterados llamados a la calma'*?",
       options: [
         "esporádicos",
@@ -1233,7 +1233,7 @@ export default {
 
     // Q77 — Corrección de voz pasiva (C)
     {
-      id: "q77",
+      id: 78,
       question: "¿Cuál de las siguientes oraciones está escrita correctamente en voz pasiva?",
       options: [
         "El informe fue redactado por los investigadores haber revisado los datos.",
@@ -1246,7 +1246,7 @@ export default {
 
     // Q78 — Propósito de convocatoria (A)
     {
-      id: "q78",
+      id: 79,
       question: "Lee el siguiente fragmento:<br><br><em>'Se invita a todos los estudiantes de nivel medio superior a participar en el Concurso Nacional de Ciencia y Tecnología. Las bases y requisitos pueden consultarse en el portal oficial. La fecha límite de inscripción es el 30 de noviembre.'</em><br><br>¿Cuál es el propósito de este texto?",
       options: [
         "Informar y convocar a participar en un evento específico",
@@ -1259,7 +1259,7 @@ export default {
 
     // Q79 — Registro en boletín informativo institucional (B)
     {
-      id: "q79",
+      id: 80,
       question: "¿Cuál de las siguientes oraciones tiene el registro adecuado para un boletín informativo de una dependencia gubernamental?",
       options: [
         "¡Ojo! Las obras en la avenida principal están tardando un chorro.",
@@ -1272,7 +1272,7 @@ export default {
 
     // Q80 — Tipo de texto: artículo de opinión (C)
     {
-      id: "q80",
+      id: 81,
       question: "Lee el siguiente fragmento:<br><br><em>'La educación presencial no puede ni debe ser reemplazada por la educación en línea. Si bien la tecnología ofrece herramientas valiosas, la interacción humana directa es irreemplazable para el desarrollo integral del estudiante.'</em><br><br>¿A qué tipo de texto pertenece este fragmento?",
       options: [
         "Nota informativa",
@@ -1285,7 +1285,7 @@ export default {
 
     // Q81 — Concordancia de número (A)
     {
-      id: "q81",
+      id: 82,
       question: "¿Cuál de las siguientes oraciones presenta concordancia de número correcta?",
       options: [
         "Los alumnos que participaron en el torneo obtuvieron reconocimientos.",
@@ -1298,7 +1298,7 @@ export default {
 
     // Q82 — Antonimia: aprobación (B)
     {
-      id: "q82",
+      id: 83,
       question: "¿Cuál es el antónimo más adecuado de **aprobación** en el contexto: *'La propuesta recibió la aprobación del consejo directivo'*?",
       options: [
         "validación",
@@ -1311,7 +1311,7 @@ export default {
 
     // Q83 — Marcador aditivo: además (C)
     {
-      id: "q83",
+      id: 84,
       question: "Selecciona el marcador textual que mejor completa el párrafo:<br><br><em>'El nuevo reglamento prohíbe el uso de dispositivos electrónicos en el aula. ________, establece sanciones para quienes incumplan la norma.'</em>",
       options: [
         "Sin embargo",
@@ -1324,7 +1324,7 @@ export default {
 
     // Q84 — Ortografía: cónyuge (A)
     {
-      id: "q84",
+      id: 85,
       question: "¿Cuál de las siguientes palabras está escrita correctamente?",
       options: [
         "cónyuge",
@@ -1337,7 +1337,7 @@ export default {
 
     // Q85 — Dos puntos antes de enumeración (B)
     {
-      id: "q85",
+      id: 86,
       question: "¿En cuál de las siguientes oraciones se usan correctamente los dos puntos?",
       options: [
         "Traerás lo siguiente, cuaderno, lápiz y borrador.",
@@ -1350,7 +1350,7 @@ export default {
 
     // Q86 — Tilde diacrítica: más/mas (C)
     {
-      id: "q86",
+      id: 87,
       question: "¿En cuál de las siguientes oraciones se usa correctamente la tilde en **más / mas**?",
       options: [
         "Quiero más café, más ya no hay.",
@@ -1363,7 +1363,7 @@ export default {
 
     // Q87 — Elipsis nominal (A)
     {
-      id: "q87",
+      id: 88,
       question: "¿Cuál de las siguientes oraciones hace uso correcto de la elipsis nominal?",
       options: [
         "Juan presentó su proyecto; María, el suyo.",
@@ -1376,7 +1376,7 @@ export default {
 
     // Q88 — Registro en circular laboral (B)
     {
-      id: "q88",
+      id: 89,
       question: "¿Cuál de las siguientes opciones tiene el registro adecuado para una circular laboral?",
       options: [
         "Oigan, por favor recuerden que mañana hay junta, no falten.",
@@ -1389,7 +1389,7 @@ export default {
 
     // Q89 — Sinonimia: propicio (C)
     {
-      id: "q89",
+      id: 90,
       question: "¿Cuál de las siguientes palabras puede sustituir a **propicio** sin cambiar el sentido en: *'El clima propicio permitió el avance de las negociaciones'*?",
       options: [
         "adverso",
@@ -1406,7 +1406,7 @@ export default {
 
     // Q90 — Sistema de ecuaciones: punto de intersección (C)
     {
-      id: "q90",
+      id: 91,
       question: "La gráfica muestra las rectas y = x − 1 e y = −x + 3. ¿Cuáles son las coordenadas del punto de intersección?",
       options: [
         "(1, 0)",
@@ -1420,7 +1420,7 @@ export default {
 
     // Q91 — Sucesión cuadrática (A)
     {
-      id: "q91",
+      id: 92,
       question: "¿Cuál es el siguiente término de la sucesión: 2, 5, 10, 17, 26, ...?",
       options: [
         "37",
@@ -1433,7 +1433,7 @@ export default {
 
     // Q92 — Porcentaje de descuento (B)
     {
-      id: "q92",
+      id: 93,
       question: "Un artículo cuesta $480. Si se aplica un descuento del 25%, ¿cuál es el precio final?",
       options: [
         "$400",
@@ -1446,7 +1446,7 @@ export default {
 
     // Q93 — Venn: elementos en A∪B (A)
     {
-      id: "q93",
+      id: 94,
       question: "El diagrama de Venn muestra los estudiantes que participan en las actividades A y B. ¿Cuántos estudiantes pertenecen a A ∪ B?",
       options: [
         "30",
@@ -1460,7 +1460,7 @@ export default {
 
     // Q94 — Desigualdad en recta numérica (C)
     {
-      id: "q94",
+      id: 95,
       question: "La recta numérica muestra la solución de una desigualdad con el extremo cerrado en x = 1 y sombreado hacia la derecha. ¿Cuál expresión representa esa solución?",
       options: [
         "x < 1",
@@ -1474,7 +1474,7 @@ export default {
 
     // Q95 — Gráfica de barras: día con más ventas (B)
     {
-      id: "q95",
+      id: 96,
       question: "Según la gráfica de barras, ¿en qué día se registró el mayor número de ventas?",
       options: [
         "Martes",
@@ -1488,7 +1488,7 @@ export default {
 
     // Q96 — Área del anillo entre dos circunferencias concéntricas (A)
     {
-      id: "q96",
+      id: 97,
       question: "La figura muestra dos circunferencias concéntricas con R = 8 cm y r = 5 cm. ¿Cuál es el área de la región sombreada entre ellas?",
       options: [
         "39π cm²",
@@ -1502,7 +1502,7 @@ export default {
 
     // Q97 — Cuadrículas 4×4: mayor proporción sombreada (C)
     {
-      id: "q97",
+      id: 98,
       question: "Las tres figuras muestran cuadrículas de 4 × 4 con distintas regiones sombreadas. ¿En cuál figura la proporción del área sombreada es mayor?",
       options: [
         "Figura A (4 celdas sombreadas)",
@@ -1516,7 +1516,7 @@ export default {
 
     // Q98 — Área de triángulo en cuadrícula de puntos (B)
     {
-      id: "q98",
+      id: 99,
       question: "En la cuadrícula de puntos (distancia entre puntos = 1 u), el triángulo tiene vértices en (0,0), (4,0) y (1,3). ¿Cuál es su área?",
       options: [
         "4 u²",
@@ -1530,7 +1530,7 @@ export default {
 
     // Q99 — Proporcionalidad inversa (A)
     {
-      id: "q99",
+      id: 100,
       question: "Si 3 trabajadores completan una tarea en 12 días, ¿en cuántos días la completarán 4 trabajadores? (misma tarea, sin parar)",
       options: [
         "9 días",
@@ -1543,7 +1543,7 @@ export default {
 
     // Q100 — Área de figura compuesta (C)
     {
-      id: "q100",
+      id: 101,
       question: "Un rectángulo mide 10 cm × 6 cm. Se recorta un triángulo rectángulo de base 4 cm y altura 3 cm de una esquina. ¿Cuál es el área restante?",
       options: [
         "48 cm²",
@@ -1556,7 +1556,7 @@ export default {
 
     // Q101 — Sistema de ecuaciones: método de suma (B)
     {
-      id: "q101",
+      id: 102,
       question: "Resuelve el sistema de ecuaciones: 2x + y = 7 y x − y = 2.",
       options: [
         "x = 2, y = 3",
@@ -1569,7 +1569,7 @@ export default {
 
     // Q102 — Área sombreada en cuadrado con triángulos (A)
     {
-      id: "q102",
+      id: 103,
       question: "El cuadrado de la figura tiene lado 10 cm. Los cuatro triángulos sombreados tienen un vértice en el centro y sus bases en los lados del cuadrado. ¿Cuál es el área total sombreada?",
       options: [
         "50 cm²",
@@ -1583,7 +1583,7 @@ export default {
 
     // Q103 — Factorización de trinomio (C)
     {
-      id: "q103",
+      id: 104,
       question: "¿Cuál es la factorización correcta de $x^2 - 9x + 20$?",
       options: [
         "$(x + 4)(x + 5)$",
@@ -1596,7 +1596,7 @@ export default {
 
     // Q104 — Cuadrado grande dividido: lado del cuadrado central (B)
     {
-      id: "q104",
+      id: 105,
       question: "La figura muestra un cuadrado de lado 10 cm dividido en cuatro rectángulos de 6 cm × 4 cm y un cuadrado central marcado con ?. ¿Cuánto mide el lado del cuadrado central?",
       options: [
         "4 cm",
@@ -1610,7 +1610,7 @@ export default {
 
     // Q105 — Probabilidad clásica con dado (A)
     {
-      id: "q105",
+      id: 106,
       question: "Se lanza un dado equilibrado de 6 caras. ¿Cuál es la probabilidad de obtener un número par?",
       options: [
         "$\\frac{1}{2}$",
@@ -1623,7 +1623,7 @@ export default {
 
     // Q106 — Ecuación de primer grado (C)
     {
-      id: "q106",
+      id: 107,
       question: "Resuelve: 3(x − 2) + 5 = 2x + 4",
       options: [
         "x = 3",
@@ -1636,7 +1636,7 @@ export default {
 
     // Q107 — Moda y mediana (B)
     {
-      id: "q107",
+      id: 108,
       question: "Para el conjunto: 4, 7, 3, 7, 5, 7, 2, 5 — ¿cuáles son la moda y la mediana, respectivamente?",
       options: [
         "Moda = 5, mediana = 7",
@@ -1649,7 +1649,7 @@ export default {
 
     // Q108 — Razones y proporciones (A)
     {
-      id: "q108",
+      id: 109,
       question: "En una escuela la razón maestros : alumnos es 1 : 25. Si hay 600 alumnos, ¿cuántos maestros hay?",
       options: [
         "24",
@@ -1662,7 +1662,7 @@ export default {
 
     // Q109 — Regla de tres compuesta (C)
     {
-      id: "q109",
+      id: 110,
       question: "Si 5 obreros construyen 3 m de muro en 4 horas, ¿cuántos metros construirán 10 obreros en 2 horas?",
       options: [
         "6 m",
@@ -1675,7 +1675,7 @@ export default {
 
     // Q110 — Leyes de exponentes (B)
     {
-      id: "q110",
+      id: 111,
       question: "¿Cuál es el valor de $(2^3)^2 \\div 2^4$?",
       options: [
         "8",
@@ -1688,7 +1688,7 @@ export default {
 
     // Q111 — Pendiente de una recta (A)
     {
-      id: "q111",
+      id: 112,
       question: "¿Cuál es la pendiente de la recta que pasa por los puntos (1, 3) y (4, 9)?",
       options: [
         "2",
@@ -1701,7 +1701,7 @@ export default {
 
     // Q112 — Raíces de ecuación cuadrática (C)
     {
-      id: "q112",
+      id: 113,
       question: "¿Cuáles son las soluciones de $x^2 - 5x + 6 = 0$?",
       options: [
         "x = 1 y x = 6",
@@ -1714,7 +1714,7 @@ export default {
 
     // Q113 — Suma de progresión aritmética (B)
     {
-      id: "q113",
+      id: 114,
       question: "¿Cuál es la suma de los primeros 10 términos de la sucesión 1, 4, 7, 10, ...?",
       options: [
         "130",
@@ -1727,7 +1727,7 @@ export default {
 
     // Q114 — Razón trigonométrica: cateto opuesto (A)
     {
-      id: "q114",
+      id: 115,
       question: "En un triángulo rectángulo, el ángulo A = 30° y la hipotenusa mide 10 cm. ¿Cuánto mide el cateto opuesto al ángulo A?",
       options: [
         "5 cm",
@@ -1740,7 +1740,7 @@ export default {
 
     // Q115 — Logaritmo en base 2 (C)
     {
-      id: "q115",
+      id: 116,
       question: "¿Cuál es el valor de $\\log_2(32)$?",
       options: [
         "3",
@@ -1753,7 +1753,7 @@ export default {
 
     // Q116 — Valor numérico de expresión algebraica (B)
     {
-      id: "q116",
+      id: 117,
       question: "Si $a = 2$ y $b = -3$, ¿cuál es el valor de $2a^2 - b$?",
       options: [
         "5",
@@ -1766,7 +1766,7 @@ export default {
 
     // Q117 — Distancia entre dos puntos (A)
     {
-      id: "q117",
+      id: 118,
       question: "¿Cuál es la distancia entre los puntos P(1, 2) y Q(4, 6)?",
       options: [
         "5",
@@ -1779,7 +1779,7 @@ export default {
 
     // Q118 — Área de círculo con π ≈ 22/7 (C)
     {
-      id: "q118",
+      id: 119,
       question: "¿Cuál es el área de un círculo con radio 7 cm? (usa $\\pi \\approx \\frac{22}{7}$)",
       options: [
         "44 cm²",
@@ -1792,7 +1792,7 @@ export default {
 
     // Q119 — Ecuación con fracciones (B)
     {
-      id: "q119",
+      id: 120,
       question: "Resuelve: $\\frac{1}{x} + \\frac{1}{2} = \\frac{3}{4}$",
       options: [
         "x = 2",
@@ -1805,7 +1805,7 @@ export default {
 
     // Q120 — Radical: raíz cuarta (A)
     {
-      id: "q120",
+      id: 121,
       question: "¿Cuál es el valor de $\\sqrt[4]{81}$?",
       options: [
         "3",
@@ -1818,7 +1818,7 @@ export default {
 
     // Q121 — Probabilidad de evento compuesto (C)
     {
-      id: "q121",
+      id: 122,
       question: "Se lanza una moneda y un dado de 6 caras. ¿Cuál es la probabilidad de obtener cara y un número mayor que 4?",
       options: [
         "$\\frac{1}{4}$",
@@ -1831,7 +1831,7 @@ export default {
 
     // Q122 — Notación de conjuntos por comprensión (B)
     {
-      id: "q122",
+      id: 123,
       question: "¿Cuál es la notación por comprensión correcta para el conjunto {2, 4, 6, 8, 10}?",
       options: [
         "{x | x es par y 0 < x ≤ 12}",
@@ -1844,7 +1844,7 @@ export default {
 
     // Q123 — Simplificación de fracción algebraica (A)
     {
-      id: "q123",
+      id: 124,
       question: "Simplifica la expresión: $\\frac{x^2 - 4}{x + 2}$, para $x \\neq -2$.",
       options: [
         "$x - 2$",
@@ -1857,7 +1857,7 @@ export default {
 
     // Q124 — Área de trapecio (C)
     {
-      id: "q124",
+      id: 125,
       question: "Un trapecio tiene bases de 8 cm y 12 cm, y una altura de 5 cm. ¿Cuál es su área?",
       options: [
         "40 cm²",
@@ -1870,7 +1870,7 @@ export default {
 
     // Q125 — Conversión de unidades: litros a metros cúbicos (B)
     {
-      id: "q125",
+      id: 126,
       question: "Una piscina tiene capacidad de 45,000 litros. ¿A cuántos metros cúbicos equivale?",
       options: [
         "4.5 m³",
@@ -1883,7 +1883,7 @@ export default {
 
     // Q126 — Ecuación con fracciones (A)
     {
-      id: "q126",
+      id: 127,
       question: "Resuelve: $\\frac{x}{2} + 3 = \\frac{x + 10}{4}$",
       options: [
         "x = −2",
@@ -1896,7 +1896,7 @@ export default {
 
     // Q127 — Dominio de función radical (C)
     {
-      id: "q127",
+      id: 128,
       question: "¿Cuál es el dominio de la función $f(x) = \\sqrt{x - 3}$?",
       options: [
         "x > 0",
@@ -1909,7 +1909,7 @@ export default {
 
     // Q128 — Suma de fracciones algebraicas (B)
     {
-      id: "q128",
+      id: 129,
       question: "Simplifica: $\\frac{1}{x} + \\frac{1}{x + 1}$",
       options: [
         "$\\frac{2}{2x + 1}$",
@@ -1922,7 +1922,7 @@ export default {
 
     // Q129 — Variación directa (A)
     {
-      id: "q129",
+      id: 130,
       question: "Si y varía directamente con x, y cuando x = 4 el valor de y = 12, ¿cuál es y cuando x = 7?",
       options: [
         "21",

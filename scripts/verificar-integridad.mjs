@@ -139,8 +139,12 @@ try {
     }
 
     const preguntas = c.data.questions ?? [];
-    const sinId = preguntas.filter((q) => q.id === undefined).length;
-    if (sinId) avi(`cuestionario "${c.id}": ${sinId} de ${preguntas.length} preguntas sin \`id\``);
+    const ids = preguntas.map((q) => q.id);
+    const sinId = ids.filter((i) => i === undefined).length;
+    if (sinId) err(`cuestionario "${c.id}": ${sinId} de ${preguntas.length} preguntas sin \`id\` (el normalizador del índice debería haberlo cubierto)`);
+    if (new Set(ids).size !== ids.length) err(`cuestionario "${c.id}": ids de pregunta repetidos`);
+    const tipos = [...new Set(ids.map((i) => typeof i))];
+    if (tipos.length > 1) avi(`cuestionario "${c.id}": ids de tipos mezclados (${tipos.join(", ")})`);
     const vacias = preguntas.filter((q) => !q.explanation).length;
     if (vacias) avi(`cuestionario "${c.id}": ${vacias} de ${preguntas.length} preguntas sin \`explanation\``);
   }

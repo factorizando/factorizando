@@ -323,22 +323,43 @@ el resto del design system.
 
 ---
 
-## Fase 4B — Renderizador de bloques
+## Fase 4B — Renderizador de bloques 🟡 *(24 ago 2026 — falta el chrome del visor)*
 
-El `tipo: "lienzo"` con los 22 bloques catalogados, rejilla de 12 columnas y reflujo
-híbrido (lienzo fijo ≥768 px, una columna por debajo). Aditivo: los 12 tipos actuales
-siguen resolviendo mientras dure la transición, igual que convivieron los dos registros de
-diagramas en la fase 2.
-
-- [ ] Los bloques del catálogo, leyendo los tokens de 4A.
-- [ ] `revelar` por bloque y `notas` de profesor (solo en modo director).
-- [ ] Bloque `video` (youtube-nocookie, click para cargar) y bloque `interactivo`
-      resolviendo por `INTERACTIVOS` — la antigua fase 5.
-- [ ] Selector de tema claro/oscuro en la barra.
+- [x] `tipo: "lienzo"` en `SlideRenderer`, conviviendo con los doce tipos cocidos.
+- [x] **21 bloques** en `src/components/bloques/`, agrupados por familia y resueltos por
+      un registro `BLOQUES` — un mapa, no una cadena de `if`, que es la lección de la
+      fase 2. Ninguno escribe un hex: todo sale de `tema`.
+- [x] Rejilla de 12 columnas; cada bloque declara `ancho` en doceavos.
+- [x] Reflujo híbrido: lienzo fijo de 1280 × 720 escalado con `ResizeObserver` de 768 px
+      en adelante, una columna por debajo. La tabla se convierte en fichas apiladas y el
+      título baja a 21 px. Verificado a 740 px: sin desbordamiento horizontal.
+- [x] Bloque `video` (youtube-nocookie, no carga hasta que alguien lo pide: un iframe de
+      YouTube descarga ~1 MB y planta una cookie aunque nadie le dé al play) y bloque
+      `interactivo` resolviendo por `INTERACTIVOS` — la antigua fase 5.
+- [x] `revelar` por bloque: implementado en `Lienzo` (el bloque oculto **conserva su
+      sitio** para que la diapositiva no salte al aparecer).
+- [ ] Conectar `revelar` a la navegación del visor. Hoy el `Lienzo` lo acepta por prop,
+      pero `PresentacionVer` no lo va incrementando.
+- [ ] `notas` de profesor, visibles solo en modo director.
+- [ ] Selector de tema claro/oscuro. Necesita antes el bloque claro en `temas.jsx`:
+      hoy solo existe el oscuro.
 - [ ] Sustituir el riel de puntos por un deslizador pasadas 20 diapositivas.
 
-Referencia visual: el canvas *Bloques de presentación*, fuentes en
-`docs/diseno/presentaciones/`.
+### Tres decisiones sobre el catálogo
+
+- **`encabezado` no es un bloque**: la etiqueta y el título son del lienzo. Un bloque que
+  solo puede ir primero y solo una vez no es un bloque.
+- **`arbol` y `grafica` tampoco**: son dibujos, y los dibujos ya se resuelven por
+  registro. Un árbol de decisión y una gráfica de barras entran por `figura` con su clave.
+  Un bloque por librería habría sido un registro paralelo al que ya existe.
+- Por eso son 21 y no los 22 del canvas: los tres de arriba menos los dos que se
+  quedaron.
+
+### El catálogo vivo
+
+`/preview-bloques` (solo en desarrollo) renderiza los 21 tipos con contenido real y un
+selector de materia. Es el equivalente en código del canvas de diseño: aquí lo pinta el
+componente de verdad, así que si algo se ve bien ahí, se ve bien en clase.
 
 ---
 

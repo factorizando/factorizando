@@ -65,6 +65,10 @@ Presentation modules live in `src/data/presentaciones/<materia>/<slug>.js`, orga
 
 **Slide types:** `portada`, `definicion`, `concepto`, `lista_criterios`, `criterio_detalle`, `ejercicio`, `resumen`.
 
+**`tipo: "lienzo"` is the composable slide** and the one new presentations should use: `{ etiqueta, titulo, bloques: [...] }` over a 12-column grid, where each block declares `ancho` in twelfths. Blocks live in `src/components/bloques/` grouped by family and resolve through the `BLOQUES` registry in `index.js` — a map, never an `if` chain. A block gets `{ bloque, tema, reflujo }`; `reflujo` is true below 768px, where the canvas stops scaling and everything goes to one column (tables become stacked cards). Blocks write no hex: every value comes from `tema`. `revelar: true` hides a block until the teacher advances, keeping its space so the slide doesn't jump.
+
+`encabezado`, `arbol` and `grafica` are deliberately *not* blocks: the first belongs to the slide, and the other two are drawings that already resolve through `DIAGRAMS` via `figura`. Live catalog of all 21 at `/preview-bloques` (dev only).
+
 Each slide can include a `svgDiagram` key referencing an inline SVG component or a JSXGraph component defined in `SlideRenderer.jsx`. All diagrams (SVGs and JSXGraph) are in that file.
 
 **JSXGraph diagrams** — JSXGraph is installed but **NOT yet used in SlideRenderer** because it injects `background-color: white` into the container div at runtime, which blanks the entire slide. When integrating JSXGraph in a future component, you must override its CSS injection AFTER `initBoard` returns AND use `!important` or direct `style` property overrides. Until a clean integration pattern is validated, prefer inline SVG for all static diagrams.

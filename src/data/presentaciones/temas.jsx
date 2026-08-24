@@ -190,8 +190,11 @@ const ACENTOS = {
 const BASE = {
   bg:     "#0e1926",
   card:   "#16222f",
+  card2:  "#1c2a38",  // superficie hundida: celdas, pasos, fichas
   border: "#243343",
-  texto:  "#edf3fa",
+  borderFuerte: "#31445a",
+  texto:  "#edf3fa",  // títulos
+  cuerpo: "#c6d4e3",  // texto corrido: un escalón por debajo del título
   muted:  "#8497ab",
   sub:    "#5e7085",
   verde:  "#4ade80",

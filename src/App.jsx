@@ -56,6 +56,7 @@ const MisInscripciones     = lazy(() => import("./pages/alumno/MisInscripciones.
 const MiSuscripcion        = lazy(() => import("./pages/alumno/MiSuscripcion.jsx"));
 const Refrigerios          = lazy(() => import("./pages/Refrigerios.jsx"));
 const PreviewComprobante   = lazy(() => import("./pages/PreviewComprobante.jsx"));
+const PreviewBloques      = lazy(() => import("./pages/PreviewBloques.jsx"));
 const Decodificacion       = lazy(() => import("./components/talleres/decodificacion/Decodificacion.jsx"));
 const PizzasCajasVasos     = lazy(() => import("./components/talleres/pizzas-cajas-vasos/PizzasCajasVasos.jsx"));
 const ElTerreno            = lazy(() => import("./components/talleres/el-terreno/ElTerreno.jsx"));
@@ -176,6 +177,12 @@ function AppRoutes() {
             —un diagrama sin registrar no rompe nada, solo deja el hueco vacío—. */}
         {import.meta.env.DEV && (
           <Route path="/preview-ver/:id" element={<PresentacionVer />} />
+        )}
+        {/* Catálogo vivo de bloques: los 21 tipos con contenido real, y un
+            selector de materia para ver el acento de cada una. Es el equivalente
+            en código del canvas de diseño. */}
+        {import.meta.env.DEV && (
+          <Route path="/preview-bloques" element={<PreviewBloques />} />
         )}
 
         {/* ── Protegidas ── */}

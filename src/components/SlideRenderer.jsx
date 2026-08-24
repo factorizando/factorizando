@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from "react";
 import { M, useKaTeX } from "../data/teoria/shared.jsx";
 import { TEMAS, useFuentesTema } from "../data/presentaciones/temas.jsx";
 import { DIAGRAMS } from "./diagramas/index.js";
+import Lienzo from "./bloques/Lienzo.jsx";
 import { qRegPoly } from "./diagramas/comun.jsx";
 import JXG from 'jsxgraph';
 import { ReactFlow, Handle, Position, Background } from '@xyflow/react';
@@ -2577,6 +2578,11 @@ export default function SlideRenderer({
   const props = { slide, tema, modo, votos, votantes, perfiles, totalVotos, respuestaDada, onResponder, resaltadoIdx, onResaltar, expandidos, onExpandir };
 
   switch (slide.tipo) {
+    // El tipo componible: encabezado y bloques sobre una rejilla de 12 columnas.
+    // Convive con los doce tipos de abajo, que tienen la maquetación cocida; la
+    // fase 4C del plan los va migrando y este acabará siendo el único.
+    case "lienzo":
+      return <Lienzo {...props} revelados={props.revelados} />;
     case "portada":
       return <SlidePortada {...props} />;
     case "definicion":

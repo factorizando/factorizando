@@ -1,3 +1,5 @@
+import { M } from "../../../data/teoria/shared.jsx";
+
 // Figura estática: parábola y=x² con recta secante (P→Q) y recta tangente en P.
 // Diagrama de "preámbulo": ilustra la idea geométrica antes de la definición formal.
 export default function DerivadaSecante({ tema }) {

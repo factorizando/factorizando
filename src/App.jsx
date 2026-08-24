@@ -170,6 +170,13 @@ function AppRoutes() {
         {import.meta.env.DEV && (
           <Route path="/preview-cuestionario/:id" element={<Cuestionario />} />
         )}
+        {/* Y lo mismo para las presentaciones: /ver/:id pide sesión, así que
+            comprobar que un diagrama se dibuja obligaba a entrar. Es la única
+            forma de verificar la fase 2 de la migración, donde compilar no basta
+            —un diagrama sin registrar no rompe nada, solo deja el hueco vacío—. */}
+        {import.meta.env.DEV && (
+          <Route path="/preview-ver/:id" element={<PresentacionVer />} />
+        )}
 
         {/* ── Protegidas ── */}
         <Route

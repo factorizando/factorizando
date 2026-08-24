@@ -169,21 +169,50 @@ Bajamos de 39 avisos a 2.
 
 ---
 
-## Fase 2 — Diagramas al registro único
+## Fase 2 — Diagramas al registro único 🟡 *(24 ago 2026 — falta matemáticas)*
 
-Objetivo: vaciar `SlideRenderer.jsx` (~12,700 líneas) de los 322 `...SVG` y 251 `if`.
+**2a · La resolución pasa de código a dato** ✅
 
-- [ ] Crear `src/components/diagramas/` con un `index.js` que exporte `DIAGRAMS`.
-- [ ] En `SlideRenderer`, reemplazar las cadenas de `if (slide.svgDiagram === ...)`
-      y los objetos `svgMap` por `DIAGRAMS[slide.svgDiagram]`.
-- [ ] Mover los componentes `...SVG` a `diagramas/<materia>/` en lotes por materia
-      (geometría, espanol, fisica, geografia, biologia, quimica). Un commit por materia.
-- [ ] Mantener firma `({ tema })` y respeto a la paleta en cada componente movido.
-- [ ] (Opcional) `React.lazy` por materia para reducir el bundle inicial.
+- [x] Las seis cadenas de `if` y el objeto `svgMap` —468 comparaciones repartidas por el
+      archivo— se sustituyen por un mapa y un único `<Diagrama>` que resuelve.
+- [x] `buscarDiagrama()` consulta primero `DIAGRAMS` y luego el mapa local, así que el
+      registro definitivo y lo aún no mudado conviven. Eso es lo que permite ir por lotes.
 
-> Riesgo: es el archivo más grande. Mitigación: mover **por materia**, compilando entre
-> lotes; el registro permite coexistencia (algunos en `index.js`, otros aún inline) durante
-> la transición.
+**2b · Los componentes salen del archivo** 🟡
+
+- [x] `scripts/mover-diagramas.mjs <materia>` hace la extracción con guardas: no toca un
+      componente que se use fuera del registro, aborta si depende de algo que se queda
+      atrás, y no escribe nada hasta que todo pasa.
+- [x] `src/components/diagramas/comun.jsx`: `arrowHead`, `EjesXY`, `Bloque`, `Vector` y
+      `GenDobleHelice`, que eran lo único que impedía extraer física, química y biología.
+- [x] geografía (14) · geometría (8) · español (23) · química (18) · biología (36) · física (53)
+- [ ] **matemáticas (156 claves, ~4 500 líneas)** — pendiente. Necesita subir antes a
+      `comun.jsx`: `_svgH`, `qRegPoly`, `estChips`, `estBarras`, `DadoSVG`, `UrnaSVG` y las
+      constantes `PROB_NODE_TYPES`, `DIST_BINOMIAL`, `DIST_SUMA_DADOS`, `DADO_FREC`, `GRADE_FREC`.
+- [ ] (Opcional) `React.lazy` por materia. Mover archivos no adelgaza el bundle por sí solo;
+      SlideRenderer sigue importándolos todos.
+
+### Estado
+
+`SlideRenderer.jsx`: **12 749 → 7492 líneas**. 155 diagramas en `DIAGRAMS`, 156 aún locales,
+311 en total · 302 usados · 0 sin resolver.
+
+### Tres cosas que salieron mal y cómo se detectaron
+
+1. **49 archivos extraídos sin sus imports.** El script no arrastraba `M` (KaTeX en línea)
+   ni los hooks de React. Compilaba igual —Vite no comprueba identificadores no resueltos en
+   tiempo de build— y habría reventado al renderizar. **Lo cazó `npm run lint`**, no el build.
+2. **Las rutas relativas subían dos niveles y hacían falta tres.** Desde
+   `diagramas/<materia>/` hasta `src/data/` son `../../../`. Esa sí la cazó el build.
+3. **El prefijo `geo-` mezcla geografía y geometría.** Ocho diagramas (`geo-pitagoras`,
+   `geo-isometrias`, `geo-cubo-desarrollo`…) son de matemáticas y acabaron en la carpeta
+   equivocada. No lo detectó ninguna herramienta: se vio al leer la lista de archivos. La
+   verdad no está en el prefijo de la clave sino en **qué presentación la usa**, que es como
+   se reclasificaron.
+
+> Moraleja para el lote de matemáticas: compilar no es verificar. El orden que funcionó es
+> build → lint → `npm run integridad` → abrir una diapositiva de verdad en
+> `/preview-ver/<id>`.
 
 ---
 

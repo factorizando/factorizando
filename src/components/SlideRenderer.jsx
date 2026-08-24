@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import { M, useKaTeX } from "../data/teoria/shared.jsx";
 import { TEMAS, useFuentesTema } from "../data/presentaciones/temas.jsx";
+import { DIAGRAMS } from "./diagramas/index.js";
 import JXG from 'jsxgraph';
 import { ReactFlow, Handle, Position, Background } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
@@ -248,27 +249,9 @@ function HistogramaVotos({ votos, totalVotos, opciones, correcta, votantes, perf
 // ── Tipos de diapositiva ──────────────────────────────────────────────────────
 
 function SlidePortadaDiagram({ slide, tema }) {
-  if (slide.svgDiagram === "euler-line") return <EulerLineSVG tema={tema} />;
-  if (slide.svgDiagram === "prob-portada") return <ProbabilidadPortadaSVG tema={tema} />;
-  if (slide.svgDiagram === "est-portada") return <EstPortadaSVG tema={tema} />;
-  if (slide.svgDiagram === "cin-portada") return <CinPortadaSVG tema={tema} />;
-  if (slide.svgDiagram === "din-portada") return <DinPortadaSVG tema={tema} />;
-  if (slide.svgDiagram === "ene-portada") return <EnePortadaSVG tema={tema} />;
-  if (slide.svgDiagram === "ter-portada") return <TerPortadaSVG tema={tema} />;
-  if (slide.svgDiagram === "ond-portada") return <OndPortadaSVG tema={tema} />;
-  if (slide.svgDiagram === "ele-portada") return <ElePortadaSVG tema={tema} />;
-  if (slide.svgDiagram === "flu-portada") return <FluPortadaSVG tema={tema} />;
-  if (slide.svgDiagram === "mod-portada") return <ModPortadaSVG tema={tema} />;
-  if (slide.svgDiagram === "cel-portada") return <CelPortadaSVG tema={tema} />;
-  if (slide.svgDiagram === "cel-historia") return <CelHistoriaSVG tema={tema} />;
-  if (slide.svgDiagram === "bq-portada") return <BqPortadaSVG tema={tema} />;
-  if (slide.svgDiagram === "rep-portada") return <RepPortadaSVG tema={tema} />;
-  if (slide.svgDiagram === "gen-portada") return <GenPortadaSVG tema={tema} />;
-  if (slide.svgDiagram === "evo-portada") return <EvoPortadaSVG tema={tema} />;
-  if (slide.svgDiagram === "eco-portada") return <EcoPortadaSVG tema={tema} />;
-  if (slide.svgDiagram === "qf-portada") return <QfPortadaSVG tema={tema} />;
-  if (slide.svgDiagram === "qaa-portada") return <QaaPortadaSVG tema={tema} />;
-  if (slide.svgDiagram === "ana-portada") return <AnaPortadaSVG tema={tema} />;
+  // La portada cae al SVG decorativo del tema cuando la diapositiva no pide uno.
+  const D = buscarDiagrama(slide.svgDiagram);
+  if (D) return <D tema={tema} />;
   const DecoSVG = tema.DecoSVG;
   return <DecoSVG tema={tema} />;
 }
@@ -552,16 +535,7 @@ function SlideDefinicion({ slide, tema, resaltadoIdx, onResaltar }) {
         </p>
       </div>
 
-      {slide.svgDiagram === "triangulos-semejantes" && (
-        <TriangulosSemejantesSVG tema={tema} />
-      )}
-      {slide.svgDiagram === "triangulos-congruentes" && (
-        <TriangulosCongruentesSVG tema={tema} />
-      )}
-      {slide.svgDiagram === "paralelogramo-def"    && <ParalelogramoDefSVG    tema={tema} />}
-      {slide.svgDiagram === "trapecio-def"         && <TrapecioDefSVG         tema={tema} />}
-      {slide.svgDiagram === "poligono-regular-def" && <PoligonoRegularDefSVG  tema={tema} />}
-      {slide.svgDiagram === "circulo-partes"       && <CirculoPartesSVG       tema={tema} />}
+      <Diagrama clave={slide.svgDiagram} tema={tema} />
 
       <div style={{ display: "grid", gridTemplateColumns: narrow ? "1fr" : "1fr 1fr", gap: 12 }}>
         {slide.condiciones.map((c, i) => {
@@ -782,103 +756,7 @@ function SlideConcepto({ slide, tema, resaltadoIdx, onResaltar, expandidos, onEx
             cursor: onResaltar ? "pointer" : "default"
           }}
         >
-      {slide.svgDiagram === "razon-semejanza"          && <RazonSemejanzaSVG          tema={tema} />}
-      {slide.svgDiagram === "paralelogramo-formulas"   && <ParalelogramoFormulasSVG   tema={tema} />}
-      {slide.svgDiagram === "trapecio-formulas"        && <TrapecioFormulasSVG        tema={tema} />}
-      {slide.svgDiagram === "angulo-interior-formula"  && <AnguloInteriorFormulaSVG   tema={tema} />}
-      {slide.svgDiagram === "angulo-exterior-formula"  && <AnguloExteriorFormulaSVG   tema={tema} />}
-      {slide.svgDiagram === "circulo-partes"           && <CirculoPartesSVG           tema={tema} />}
-      {slide.svgDiagram === "circulo-formulas"         && <CirculoFormulasSVG         tema={tema} />}
-      {slide.svgDiagram === "porciones-circulo"        && <PorcionesCirculoSVG        tema={tema} />}
-      {slide.svgDiagram === "areas-estrategia"         && <AreasEstrategiaSVG         tema={tema} />}
-      {slide.svgDiagram === "espacio-muestral"         && <EspacioMuestralSVG         tema={tema} />}
-      {slide.svgDiagram === "escala-probabilidad"      && <EscalaProbabilidadSVG     tema={tema} />}
-      {slide.svgDiagram === "tres-axiomas"             && <AxiomasSVG                 tema={tema} />}
-      {slide.svgDiagram === "dos-dados"                && <DosDadosSVG                tema={tema} />}
-      {slide.svgDiagram === "orden-importa"            && <OrdenImportaSVG            tema={tema} />}
-      {slide.svgDiagram === "frecuencias-dado"         && <FrecuenciasDadoChart       tema={tema} />}
-      {slide.svgDiagram === "conjuntos-venn"           && <VennConjuntosSVG          tema={tema} />}
-      {slide.svgDiagram === "conjuntos-numerico"       && <VennNumericoSVG           tema={tema} />}
-      {slide.svgDiagram === "dist-suma-dados"          && <DistSumaDadosChart        tema={tema} />}
-      {slide.svgDiagram === "dist-binomial"            && <DistBinomialChart         tema={tema} />}
-      {slide.svgDiagram === "tipos-variable"           && <TiposVariableSVG          tema={tema} />}
-      {slide.svgDiagram === "tabla-frecuencias"        && <TablaFrecuenciasEst       tema={tema} />}
-      {slide.svgDiagram === "ejemplo-estudiantes"      && <EjemploEstudiantesTabla   tema={tema} />}
-      {slide.svgDiagram === "graficas-barras"          && <EstBarrasChart            tema={tema} />}
-      {slide.svgDiagram === "tendencia-central"        && <TendenciaCentralSVG       tema={tema} />}
-      {slide.svgDiagram === "dispersion"               && <DispersionSVG             tema={tema} />}
-      {slide.svgDiagram === "graficas-circular"        && <EstCircularSVG            tema={tema} />}
-      {slide.svgDiagram === "ej-barras-deporte"        && <EjBarrasDeporteSVG        tema={tema} />}
-      {slide.svgDiagram === "ej-histograma-estatura"   && <EjHistogramaEstaturaSVG   tema={tema} />}
-      {slide.svgDiagram === "ej-circular-transporte"   && <EjCircularTransporteSVG   tema={tema} />}
-      {slide.svgDiagram === "dotplot-media"            && <DotPlotMediaSVG           tema={tema} data={slide.diagramData} />}
-      {slide.svgDiagram === "dotplot-mediana"          && <DotPlotMedianaSVG         tema={tema} data={slide.diagramData} />}
-      {slide.svgDiagram === "barras-moda"              && <BarrasModaSVG             tema={tema} data={slide.diagramData} />}
-      {slide.svgDiagram === "cuartiles-strip"          && <CuartilesSVG              tema={tema} data={slide.diagramData} />}
-      {slide.svgDiagram === "cin-desplazamiento"       && <CinDesplazamientoSVG     tema={tema} />}
-      {slide.svgDiagram === "din-fuerza-neta"          && <DinFuerzaNetaSVG         tema={tema} />}
-      {slide.svgDiagram === "din-friccion"             && <DinFriccionSVG           tema={tema} />}
-      {slide.svgDiagram === "ene-trabajo"              && <EneTrabajoSVG            tema={tema} />}
-      {slide.svgDiagram === "ter-transferencia"        && <TerTransferenciaSVG      tema={tema} />}
-      {slide.svgDiagram === "ond-onda"                 && <OndOndaSVG               tema={tema} />}
-      {slide.svgDiagram === "ond-tipos"                && <OndTiposSVG              tema={tema} />}
-      {slide.svgDiagram === "ele-coulomb"              && <EleCoulombSVG            tema={tema} />}
-      {slide.svgDiagram === "ele-magnetismo"           && <EleMagnetismoSVG         tema={tema} />}
-      {slide.svgDiagram === "flu-continuidad"          && <FluContinuidadSVG        tema={tema} />}
-      {slide.svgDiagram === "mod-atomo"                && <ModAtomoSVG              tema={tema} />}
-      {slide.svgDiagram === "mod-espectro"             && <ModEspectroSVG           tema={tema} />}
-      {slide.svgDiagram === "cel-portada"              && <CelPortadaSVG            tema={tema} />}
-      {slide.svgDiagram === "cel-proc-euc"             && <CelProcEucSVG            tema={tema} />}
-      {slide.svgDiagram === "cel-animal-vegetal"       && <CelAnimalVegetalSVG      tema={tema} />}
-      {slide.svgDiagram === "cel-membrana"             && <CelMembranaSVG           tema={tema} />}
-      {slide.svgDiagram === "cel-transporte"           && <CelTransporteSVG         tema={tema} />}
-      {slide.svgDiagram === "cel-mitosis"              && <CelMitosisSVG            tema={tema} />}
-      {slide.svgDiagram === "cel-meiosis"              && <CelMeiosisSVG            tema={tema} />}
-      {slide.svgDiagram === "cel-historia"             && <CelHistoriaSVG           tema={tema} />}
-      {slide.svgDiagram === "bq-portada"               && <BqPortadaSVG             tema={tema} />}
-      {slide.svgDiagram === "bq-biomoleculas"          && <BqBiomoleculasSVG        tema={tema} />}
-      {slide.svgDiagram === "bq-enzima"                && <BqEnzimaSVG              tema={tema} />}
-      {slide.svgDiagram === "bq-atp"                   && <BqAtpSVG                 tema={tema} />}
-      {slide.svgDiagram === "bq-respiracion"           && <BqRespiracionSVG         tema={tema} />}
-      {slide.svgDiagram === "bq-fotosintesis"          && <BqFotosintesisSVG        tema={tema} />}
-      {slide.svgDiagram === "rep-portada"              && <RepPortadaSVG            tema={tema} />}
-      {slide.svgDiagram === "rep-asexual"              && <RepAsexualSVG            tema={tema} />}
-      {slide.svgDiagram === "rep-sexual"               && <RepSexualSVG             tema={tema} />}
-      {slide.svgDiagram === "rep-planta"               && <RepPlantaSVG             tema={tema} />}
-      {slide.svgDiagram === "gen-portada"              && <GenPortadaSVG            tema={tema} />}
-      {slide.svgDiagram === "gen-adn"                  && <GenAdnSVG                tema={tema} />}
-      {slide.svgDiagram === "gen-dogma"                && <GenDogmaSVG              tema={tema} />}
-      {slide.svgDiagram === "gen-punnett"              && <GenPunnettSVG            tema={tema} />}
-      {slide.svgDiagram === "gen-mutacion"             && <GenMutacionSVG           tema={tema} />}
-      {slide.svgDiagram === "gen-biotecnologia"        && <GenBiotecnologiaSVG      tema={tema} />}
-      {slide.svgDiagram === "evo-portada"              && <EvoPortadaSVG            tema={tema} />}
-      {slide.svgDiagram === "evo-origen-vida"          && <EvoOrigenVidaSVG         tema={tema} />}
-      {slide.svgDiagram === "evo-darwin-lamarck"       && <EvoDarwinLamarckSVG      tema={tema} />}
-      {slide.svgDiagram === "evo-pruebas"              && <EvoPruebasSVG            tema={tema} />}
-      {slide.svgDiagram === "evo-reinos"               && <EvoReinosSVG             tema={tema} />}
-      {slide.svgDiagram === "evo-taxonomia"            && <EvoTaxonomiaSVG          tema={tema} />}
-      {slide.svgDiagram === "eco-portada"              && <EcoPortadaSVG            tema={tema} />}
-      {slide.svgDiagram === "eco-niveles"              && <EcoNivelesSVG            tema={tema} />}
-      {slide.svgDiagram === "eco-piramide"             && <EcoPiramideSVG           tema={tema} />}
-      {slide.svgDiagram === "eco-ciclo-carbono"        && <EcoCicloCarbonoSVG       tema={tema} />}
-      {slide.svgDiagram === "eco-biomas"               && <EcoBiomasSVG             tema={tema} />}
-      {slide.svgDiagram === "gen-pcr"                  && <GenPcrSVG                tema={tema} />}
-      {slide.svgDiagram === "ana-portada"              && <AnaPortadaSVG            tema={tema} />}
-      {slide.svgDiagram === "ana-tejidos"              && <AnaTejidosSVG            tema={tema} />}
-      {slide.svgDiagram === "ana-vegetal"              && <AnaVegetalSVG            tema={tema} />}
-      {slide.svgDiagram === "ana-excrecion"            && <AnaExcrecionSVG          tema={tema} />}
-      {slide.svgDiagram === "ana-fungi"                && <AnaFungiSVG              tema={tema} />}
-      {slide.svgDiagram === "qf-mezclas"               && <QfMezclasSVG             tema={tema} />}
-      {slide.svgDiagram === "qf-atomo"                 && <QfAtomoSVG               tema={tema} />}
-      {slide.svgDiagram === "qf-tabla"                 && <QfTablaSVG               tema={tema} />}
-      {slide.svgDiagram === "qf-compuestos"            && <QfCompuestosSVG          tema={tema} />}
-      {slide.svgDiagram === "qf-mol"                   && <QfMolSVG                 tema={tema} />}
-      {slide.svgDiagram === "qaa-agua"                 && <QaaAguaSVG               tema={tema} />}
-      {slide.svgDiagram === "qaa-ph"                   && <QaaPhSVG                 tema={tema} />}
-      {slide.svgDiagram === "qaa-aire"                 && <QaaAireSVG               tema={tema} />}
-      {slide.svgDiagram === "qaa-contaminacion"        && <QaaContaminacionSVG      tema={tema} />}
-      {slide.svgDiagram === "qaa-alimentos"            && <QaaAlimentosSVG          tema={tema} />}
-      {slide.svgDiagram === "qaa-energia"              && <QaaEnergiaSVG            tema={tema} />}
+      <Diagrama clave={slide.svgDiagram} tema={tema} />
         </div>
       )}
 
@@ -2149,115 +2027,7 @@ function SlideCriterioDetalle({ slide, tema, resaltadoIdx, onResaltar }) {
             cursor: onResaltar ? "pointer" : "default"
           }}
         >
-      {slide.svgDiagram === "aa-detalle"               && <CriterioAADetalleSVG   tema={tema} />}
-      {slide.svgDiagram === "lll-detalle"              && <CriterioLLLDetalleSVG  tema={tema} />}
-      {slide.svgDiagram === "lal-detalle"              && <CriterioLALDetalleSVG  tema={tema} />}
-      {slide.svgDiagram === "lll-cong-detalle"         && <CongLLLDetalleSVG      tema={tema} />}
-      {slide.svgDiagram === "lal-cong-detalle"         && <CongLALDetalleSVG      tema={tema} />}
-      {slide.svgDiagram === "ala-cong-detalle"         && <CongALADetalleSVG      tema={tema} />}
-      {slide.svgDiagram === "laa-cong-detalle"         && <CongLAADetalleSVG      tema={tema} />}
-      {slide.svgDiagram === "rectangulo-detalle"       && <RectanguloDetalleSVG   tema={tema} />}
-      {slide.svgDiagram === "rombo-detalle"            && <RomboDetalleSVG        tema={tema} />}
-      {slide.svgDiagram === "cuadrado-detalle"         && <CuadradoDetalleSVG     tema={tema} />}
-      {slide.svgDiagram === "trapecio-isosceles-detalle" && <TrapIsoDetalleSVG    tema={tema} />}
-      {slide.svgDiagram === "trapecio-rect-detalle"    && <TrapRectDetalleSVG     tema={tema} />}
-      {slide.svgDiagram === "angulo-central"           && <AnguloCentralSVG       tema={tema} />}
-      {slide.svgDiagram === "sector-circular"          && <SectorCircularSVG      tema={tema} />}
-      {slide.svgDiagram === "segmento-circular"        && <SegmentoCircularSVG    tema={tema} />}
-      {slide.svgDiagram === "tangente-exterior"        && <TangenteExteriorSVG    tema={tema} />}
-      {slide.svgDiagram === "angulo-inscrito"          && <AnguloInscritoSVG      tema={tema} />}
-      {slide.svgDiagram === "escala-probabilidad"      && <EscalaProbabilidadSVG  tema={tema} />}
-      {slide.svgDiagram === "arbol-multiplicativo"     && <ProbArbolMultiplicativo  tema={tema} />}
-      {slide.svgDiagram === "una-moneda"               && <UnaMonedaSVG           tema={tema} />}
-      {slide.svgDiagram === "espacio-muestral"         && <EspacioMuestralSVG     tema={tema} />}
-      {slide.svgDiagram === "dardo-diana"              && <DardoDianaSVG          tema={tema} />}
-      {slide.svgDiagram === "buffon"                   && <BuffonSVG              tema={tema} />}
-      {slide.svgDiagram === "tachuela"                 && <TachuelaSVG            tema={tema} />}
-      {slide.svgDiagram === "cumpleanos"               && <CumpleanosSVG          tema={tema} />}
-      {slide.svgDiagram === "monty-hall"               && <MontyHallSVG           tema={tema} />}
-      {slide.svgDiagram === "permutaciones-casillas"   && <PermutacionesCasillasSVG tema={tema} />}
-      {slide.svgDiagram === "combinaciones-casillas"   && <CombinacionesCasillasSVG tema={tema} />}
-      {slide.svgDiagram === "arbol-tres-monedas"      && <ProbArbolTresMonedas     tema={tema} />}
-      {slide.svgDiagram === "complemento"              && <ComplementoSVG         tema={tema} />}
-      {slide.svgDiagram === "regla-suma"               && <ReglaSumaSVG           tema={tema} />}
-      {slide.svgDiagram === "conjuntos-venn"           && <VennConjuntosSVG       tema={tema} />}
-      {slide.svgDiagram === "conjuntos-numerico"       && <VennNumericoSVG        tema={tema} />}
-      {slide.svgDiagram === "dist-suma-dados"          && <DistSumaDadosChart     tema={tema} />}
-      {slide.svgDiagram === "dist-binomial"            && <DistBinomialChart      tema={tema} />}
-      {slide.svgDiagram === "arbol-monedas"            && <ProbArbolMonedas       tema={tema} />}
-      {slide.svgDiagram === "arbol-urna"               && <ProbArbolUrna          tema={tema} />}
-      {slide.svgDiagram === "media-detalle"            && <MediaDetalleSVG        tema={tema} />}
-      {slide.svgDiagram === "mediana-detalle"          && <MedianaDetalleSVG      tema={tema} />}
-      {slide.svgDiagram === "moda-detalle"             && <ModaDetalleSVG         tema={tema} />}
-      {slide.svgDiagram === "desviacion-detalle"       && <DesviacionDetalleSVG   tema={tema} />}
-      {slide.svgDiagram === "rango-outlier"            && <RangoOutlierSVG        tema={tema} />}
-      {slide.svgDiagram === "proceso-sigma"            && <ProcesoSigmaSVG        tema={tema} />}
-      {slide.svgDiagram === "cin-graf-xt"              && <CinGrafXtSVG           tema={tema} />}
-      {slide.svgDiagram === "cin-graf-vt"              && <CinGrafVtSVG           tema={tema} />}
-      {slide.svgDiagram === "cin-caida-libre"          && <CinCaidaLibreSVG       tema={tema} />}
-      {slide.svgDiagram === "cin-tiro-parabolico"      && <CinTiroParabolicoSVG   tema={tema} />}
-      {slide.svgDiagram === "cel-portada"              && <CelPortadaSVG          tema={tema} />}
-      {slide.svgDiagram === "cel-proc-euc"             && <CelProcEucSVG          tema={tema} />}
-      {slide.svgDiagram === "cel-animal-vegetal"       && <CelAnimalVegetalSVG    tema={tema} />}
-      {slide.svgDiagram === "cel-membrana"             && <CelMembranaSVG         tema={tema} />}
-      {slide.svgDiagram === "cel-transporte"           && <CelTransporteSVG       tema={tema} />}
-      {slide.svgDiagram === "cel-mitosis"              && <CelMitosisSVG          tema={tema} />}
-      {slide.svgDiagram === "cel-meiosis"              && <CelMeiosisSVG          tema={tema} />}
-      {slide.svgDiagram === "cel-historia"             && <CelHistoriaSVG         tema={tema} />}
-      {slide.svgDiagram === "bq-portada"               && <BqPortadaSVG           tema={tema} />}
-      {slide.svgDiagram === "bq-biomoleculas"          && <BqBiomoleculasSVG      tema={tema} />}
-      {slide.svgDiagram === "bq-enzima"                && <BqEnzimaSVG            tema={tema} />}
-      {slide.svgDiagram === "bq-atp"                   && <BqAtpSVG               tema={tema} />}
-      {slide.svgDiagram === "bq-respiracion"           && <BqRespiracionSVG       tema={tema} />}
-      {slide.svgDiagram === "bq-fotosintesis"          && <BqFotosintesisSVG      tema={tema} />}
-      {slide.svgDiagram === "rep-portada"              && <RepPortadaSVG          tema={tema} />}
-      {slide.svgDiagram === "rep-asexual"              && <RepAsexualSVG          tema={tema} />}
-      {slide.svgDiagram === "rep-sexual"               && <RepSexualSVG           tema={tema} />}
-      {slide.svgDiagram === "rep-planta"               && <RepPlantaSVG           tema={tema} />}
-      {slide.svgDiagram === "gen-portada"              && <GenPortadaSVG          tema={tema} />}
-      {slide.svgDiagram === "gen-adn"                  && <GenAdnSVG              tema={tema} />}
-      {slide.svgDiagram === "gen-dogma"                && <GenDogmaSVG            tema={tema} />}
-      {slide.svgDiagram === "gen-punnett"              && <GenPunnettSVG          tema={tema} />}
-      {slide.svgDiagram === "gen-mutacion"             && <GenMutacionSVG         tema={tema} />}
-      {slide.svgDiagram === "gen-biotecnologia"        && <GenBiotecnologiaSVG    tema={tema} />}
-      {slide.svgDiagram === "evo-portada"              && <EvoPortadaSVG          tema={tema} />}
-      {slide.svgDiagram === "evo-origen-vida"          && <EvoOrigenVidaSVG       tema={tema} />}
-      {slide.svgDiagram === "evo-darwin-lamarck"       && <EvoDarwinLamarckSVG    tema={tema} />}
-      {slide.svgDiagram === "evo-pruebas"              && <EvoPruebasSVG          tema={tema} />}
-      {slide.svgDiagram === "evo-reinos"               && <EvoReinosSVG           tema={tema} />}
-      {slide.svgDiagram === "evo-taxonomia"            && <EvoTaxonomiaSVG        tema={tema} />}
-      {slide.svgDiagram === "eco-portada"              && <EcoPortadaSVG          tema={tema} />}
-      {slide.svgDiagram === "eco-niveles"              && <EcoNivelesSVG          tema={tema} />}
-      {slide.svgDiagram === "eco-piramide"             && <EcoPiramideSVG         tema={tema} />}
-      {slide.svgDiagram === "eco-ciclo-carbono"        && <EcoCicloCarbonoSVG     tema={tema} />}
-      {slide.svgDiagram === "eco-biomas"               && <EcoBiomasSVG           tema={tema} />}
-      {slide.svgDiagram === "gen-pcr"                  && <GenPcrSVG              tema={tema} />}
-      {slide.svgDiagram === "ana-portada"              && <AnaPortadaSVG          tema={tema} />}
-      {slide.svgDiagram === "ana-tejidos"              && <AnaTejidosSVG          tema={tema} />}
-      {slide.svgDiagram === "ana-vegetal"              && <AnaVegetalSVG          tema={tema} />}
-      {slide.svgDiagram === "ana-excrecion"            && <AnaExcrecionSVG        tema={tema} />}
-      {slide.svgDiagram === "ana-fungi"                && <AnaFungiSVG            tema={tema} />}
-      {slide.svgDiagram === "din-segunda-ley"          && <DinSegundaLeySVG       tema={tema} />}
-      {slide.svgDiagram === "din-tercera-ley"          && <DinTerceraLeySVG       tema={tema} />}
-      {slide.svgDiagram === "din-hooke"                && <DinHookeSVG            tema={tema} />}
-      {slide.svgDiagram === "ene-energias"             && <EneEnergiasSVG         tema={tema} />}
-      {slide.svgDiagram === "ene-conservacion"         && <EneConservacionSVG     tema={tema} />}
-      {slide.svgDiagram === "ene-momento"              && <EneMomentoSVG          tema={tema} />}
-      {slide.svgDiagram === "ter-escalas"              && <TerEscalasSVG          tema={tema} />}
-      {slide.svgDiagram === "ter-dilatacion"           && <TerDilatacionSVG       tema={tema} />}
-      {slide.svgDiagram === "ter-gas"                  && <TerGasSVG              tema={tema} />}
-      {slide.svgDiagram === "ond-reflexion-refraccion" && <OndReflexRefracSVG     tema={tema} />}
-      {slide.svgDiagram === "ond-lente"                && <OndLenteSVG            tema={tema} />}
-      {slide.svgDiagram === "ele-coulomb"              && <EleCoulombSVG          tema={tema} />}
-      {slide.svgDiagram === "ele-circuito"             && <EleCircuitoSVG         tema={tema} />}
-      {slide.svgDiagram === "ele-serie-paralelo"       && <EleSerieParaleloSVG    tema={tema} />}
-      {slide.svgDiagram === "flu-presion"              && <FluPresionSVG          tema={tema} />}
-      {slide.svgDiagram === "flu-pascal"               && <FluPascalSVG           tema={tema} />}
-      {slide.svgDiagram === "flu-arquimedes"           && <FluArquimedesSVG       tema={tema} />}
-      {slide.svgDiagram === "flu-continuidad"          && <FluContinuidadSVG      tema={tema} />}
-      {slide.svgDiagram === "mod-atomo"                && <ModAtomoSVG            tema={tema} />}
-      {slide.svgDiagram === "mod-fotoelectrico"        && <ModFotoelectricoSVG    tema={tema} />}
-      {slide.svgDiagram === "mod-radioactividad"       && <ModRadioactividadSVG   tema={tema} />}
+      <Diagrama clave={slide.svgDiagram} tema={tema} />
         </div>
       )}
 
@@ -2896,24 +2666,7 @@ function SlideEjemplo({ slide, tema, resaltadoIdx, onResaltar }) {
         </div>
       )}
 
-      {slide.svgDiagram === "ej1-lll"     && <Ej1LLLSVG     tema={tema} />}
-      {slide.svgDiagram === "ej2-k32"     && <Ej2K32SVG     tema={tema} />}
-      {slide.svgDiagram === "ej-cong-lll" && <EjCongLLLSVG  tema={tema} />}
-      {slide.svgDiagram === "ej-cong-lal" && <EjCongLALSVG  tema={tema} />}
-      {slide.svgDiagram === "ej-cong-ala" && <EjCongALASVG  tema={tema} />}
-      {slide.svgDiagram === "ej-cong-laa" && <EjCongLAASVG  tema={tema} />}
-      {slide.svgDiagram === "se-aa-ej1"   && <SeAaEj1SVG    tema={tema} />}
-      {slide.svgDiagram === "se-aa-ej2"   && <SeAaEj2SVG    tema={tema} />}
-      {slide.svgDiagram === "se-lll-ej1"  && <SeLllEj1SVG   tema={tema} />}
-      {slide.svgDiagram === "se-lll-s1"   && <SeLllS1SVG    tema={tema} />}
-      {slide.svgDiagram === "se-lll-s2"   && <SeLllS2SVG    tema={tema} />}
-      {slide.svgDiagram === "se-lll-s3"   && <SeLllS3SVG    tema={tema} />}
-      {slide.svgDiagram === "se-lll-ej2"  && <SeLllEj2SVG   tema={tema} />}
-      {slide.svgDiagram === "se-lal-ej1"  && <SeLalEj1SVG   tema={tema} />}
-      {slide.svgDiagram === "se-lal-ej2"  && <SeLalEj2SVG   tema={tema} />}
-      {slide.svgDiagram === "se-lal-s2"           && <SeLalS2SVG              tema={tema} />}
-      {slide.svgDiagram === "fisica-cambios-estado" && <FisicaCambiosEstadoSVG  tema={tema} />}
-      {slide.svgDiagram === "fisica-caida-libre"    && <FisicaCaidaLibreSVG     tema={tema} />}
+      <Diagrama clave={slide.svgDiagram} tema={tema} />
 
       <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
         {slide.pasos.map((p, i) => {
@@ -6414,158 +6167,6 @@ function ModRadioactividadSVG({ tema }) {
   );
 }
 
-function renderEjercicioSVG(svgDiagram, tema) {
-  if (svgDiagram === "ce1-lll")      return <Ce1LllSVG     tema={tema} />;
-  if (svgDiagram === "ce2-medidas")  return <Ce2CondMedSVG tema={tema} />;
-  if (svgDiagram === "ce3-ala")      return <Ce3AlaSVG     tema={tema} />;
-  if (svgDiagram === "ce4-aaa")      return <Ce4AaaSVG     tema={tema} />;
-  if (svgDiagram === "ce5-angulo")   return <Ce5AngleSVG   tema={tema} />;
-  if (svgDiagram === "se-aa-ej1")    return <SeAaEj1SVG    tema={tema} />;
-  if (svgDiagram === "se-aa-ej2")    return <SeAaEj2SVG    tema={tema} />;
-  if (svgDiagram === "se-lll-ej1")   return <SeLllEj1SVG   tema={tema} />;
-  if (svgDiagram === "se-lll-s1")    return <SeLllS1SVG    tema={tema} />;
-  if (svgDiagram === "se-lll-s2")    return <SeLllS2SVG    tema={tema} />;
-  if (svgDiagram === "se-lll-s3")    return <SeLllS3SVG    tema={tema} />;
-  if (svgDiagram === "se-lll-ej2")   return <SeLllEj2SVG   tema={tema} />;
-  if (svgDiagram === "se-lal-ej1")   return <SeLalEj1SVG   tema={tema} />;
-  if (svgDiagram === "se-lal-ej2")   return <SeLalEj2SVG   tema={tema} />;
-  if (svgDiagram === "se-lal-s2")    return <SeLalS2SVG    tema={tema} />;
-  if (svgDiagram === "se-k3")         return <SeK3SVG         tema={tema} />;
-  if (svgDiagram === "se-areas")     return <SeAreasSVG     tema={tema} />;
-  if (svgDiagram === "se-pitagoras") return <SePitSVG       tema={tema} />;
-  if (svgDiagram === "se-paralela")  return <SeParalelaSVG  tema={tema} />;
-  if (svgDiagram === "se-sombra")    return <SeSombraSVG    tema={tema} />;
-  if (svgDiagram === "pe1-rect")     return <Pe1RectSVG     tema={tema} />;
-  if (svgDiagram === "pe2-rombo")    return <Pe2RomboSVG    tema={tema} />;
-  if (svgDiagram === "pe3-cuadrado") return <Pe3CuadradoSVG tema={tema} />;
-  if (svgDiagram === "te1-area")     return <Te1AreaSVG     tema={tema} />;
-  if (svgDiagram === "te2-mediana")  return <Te2MedianaSVG  tema={tema} />;
-  if (svgDiagram === "te3-iso")      return <Te3IsoSVG      tema={tema} />;
-  if (svgDiagram === "poe1-hex")     return <Poe1HexSVG     tema={tema} />;
-  if (svgDiagram === "poe2-angext")  return <Poe2AngExtSVG  tema={tema} />;
-  if (svgDiagram === "poe3-suma")    return <Poe3SumaSVG    tema={tema} />;
-  if (svgDiagram === "cce1-radio")   return <Cce1RadioSVG   tema={tema} />;
-  if (svgDiagram === "cce2-sector")  return <Cce2SectorSVG  tema={tema} />;
-  if (svgDiagram === "cce3-arco")    return <Cce3ArcoSVG    tema={tema} />;
-  if (svgDiagram === "cce4-tang")    return <Cce4TangSVG    tema={tema} />;
-  if (svgDiagram === "ti-ej1")       return <TiEj1SVG       tema={tema} />;
-  if (svgDiagram === "ti-ej2")       return <TiEj2SVG       tema={tema} />;
-  if (svgDiagram === "ti-ej3")       return <TiEj3SVG       tema={tema} />;
-  if (svgDiagram === "ej-dado-mayor4") return <DadoMayor4SVG  tema={tema} />;
-  if (svgDiagram === "ej-carta-as")    return <CartaAsSVG     tema={tema} />;
-  if (svgDiagram === "dos-dados")      return <DosDadosSVG    tema={tema} />;
-  if (svgDiagram === "ej-dos-monedas") return <DosMonedasSVG  tema={tema} />;
-  if (svgDiagram === "ej-urna-rav")    return <UrnaSumaSVG    tema={tema} />;
-  if (svgDiagram === "ej-moneda-dado") return <MonedaDadoSVG  tema={tema} />;
-  if (svgDiagram === "ej-urna-r5a3")   return <UrnaSinReempSVG tema={tema} />;
-  if (svgDiagram === "ej-ruleta")      return <RuletaSVG      tema={tema} />;
-  if (svgDiagram === "ej-combinatoria") return <CombinaPersonasSVG tema={tema} />;
-  if (svgDiagram === "conjuntos-venn")     return <VennConjuntosSVG    tema={tema} />;
-  if (svgDiagram === "conjuntos-numerico") return <VennNumericoSVG     tema={tema} />;
-  if (svgDiagram === "dist-suma-dados")    return <DistSumaDadosChart  tema={tema} />;
-  if (svgDiagram === "dist-binomial")      return <DistBinomialChart   tema={tema} />;
-  if (svgDiagram === "ej-est-media")       return <Ej_EstMediaSVG      tema={tema} />;
-  if (svgDiagram === "ej-est-mediana")     return <Ej_EstMedianaSVG    tema={tema} />;
-  if (svgDiagram === "ej-est-moda")        return <Ej_EstModaSVG       tema={tema} />;
-  if (svgDiagram === "ej-est-rango")       return <Ej_EstRangoSVG      tema={tema} />;
-  if (svgDiagram === "ej-est-tabla")       return <TablaFrecuenciasEst tema={tema} />;
-  if (svgDiagram === "ej-est-mediana-par") return <Ej_EstMedianaParSVG tema={tema} />;
-  if (svgDiagram === "graficas-barras")    return <EstBarrasChart      tema={tema} />;
-  if (svgDiagram === "cel-portada")        return <CelPortadaSVG       tema={tema} />;
-  if (svgDiagram === "cel-proc-euc")       return <CelProcEucSVG       tema={tema} />;
-  if (svgDiagram === "cel-animal-vegetal") return <CelAnimalVegetalSVG tema={tema} />;
-  if (svgDiagram === "cel-membrana")       return <CelMembranaSVG      tema={tema} />;
-  if (svgDiagram === "cel-transporte")     return <CelTransporteSVG    tema={tema} />;
-  if (svgDiagram === "cel-mitosis")        return <CelMitosisSVG       tema={tema} />;
-  if (svgDiagram === "cel-meiosis")        return <CelMeiosisSVG       tema={tema} />;
-  if (svgDiagram === "cel-historia")       return <CelHistoriaSVG      tema={tema} />;
-  if (svgDiagram === "bq-portada")         return <BqPortadaSVG        tema={tema} />;
-  if (svgDiagram === "bq-biomoleculas")    return <BqBiomoleculasSVG   tema={tema} />;
-  if (svgDiagram === "bq-enzima")          return <BqEnzimaSVG         tema={tema} />;
-  if (svgDiagram === "bq-atp")             return <BqAtpSVG            tema={tema} />;
-  if (svgDiagram === "bq-respiracion")     return <BqRespiracionSVG    tema={tema} />;
-  if (svgDiagram === "bq-fotosintesis")    return <BqFotosintesisSVG   tema={tema} />;
-  if (svgDiagram === "rep-portada")        return <RepPortadaSVG       tema={tema} />;
-  if (svgDiagram === "rep-asexual")        return <RepAsexualSVG       tema={tema} />;
-  if (svgDiagram === "rep-sexual")         return <RepSexualSVG        tema={tema} />;
-  if (svgDiagram === "rep-planta")         return <RepPlantaSVG        tema={tema} />;
-  if (svgDiagram === "gen-portada")        return <GenPortadaSVG       tema={tema} />;
-  if (svgDiagram === "gen-adn")            return <GenAdnSVG           tema={tema} />;
-  if (svgDiagram === "gen-dogma")          return <GenDogmaSVG         tema={tema} />;
-  if (svgDiagram === "gen-punnett")        return <GenPunnettSVG       tema={tema} />;
-  if (svgDiagram === "gen-mutacion")       return <GenMutacionSVG      tema={tema} />;
-  if (svgDiagram === "gen-biotecnologia")  return <GenBiotecnologiaSVG tema={tema} />;
-  if (svgDiagram === "evo-portada")        return <EvoPortadaSVG       tema={tema} />;
-  if (svgDiagram === "evo-origen-vida")    return <EvoOrigenVidaSVG    tema={tema} />;
-  if (svgDiagram === "evo-darwin-lamarck") return <EvoDarwinLamarckSVG tema={tema} />;
-  if (svgDiagram === "evo-pruebas")        return <EvoPruebasSVG       tema={tema} />;
-  if (svgDiagram === "evo-reinos")         return <EvoReinosSVG        tema={tema} />;
-  if (svgDiagram === "evo-taxonomia")      return <EvoTaxonomiaSVG     tema={tema} />;
-  if (svgDiagram === "eco-portada")        return <EcoPortadaSVG       tema={tema} />;
-  if (svgDiagram === "eco-niveles")        return <EcoNivelesSVG       tema={tema} />;
-  if (svgDiagram === "eco-piramide")       return <EcoPiramideSVG      tema={tema} />;
-  if (svgDiagram === "eco-ciclo-carbono")  return <EcoCicloCarbonoSVG  tema={tema} />;
-  if (svgDiagram === "eco-biomas")         return <EcoBiomasSVG        tema={tema} />;
-  if (svgDiagram === "gen-pcr")            return <GenPcrSVG           tema={tema} />;
-  if (svgDiagram === "ana-portada")        return <AnaPortadaSVG       tema={tema} />;
-  if (svgDiagram === "ana-tejidos")        return <AnaTejidosSVG       tema={tema} />;
-  if (svgDiagram === "ana-vegetal")        return <AnaVegetalSVG       tema={tema} />;
-  if (svgDiagram === "ana-excrecion")      return <AnaExcrecionSVG     tema={tema} />;
-  if (svgDiagram === "ana-fungi")          return <AnaFungiSVG         tema={tema} />;
-  if (svgDiagram === "qf-portada")         return <QfPortadaSVG        tema={tema} />;
-  if (svgDiagram === "qf-mezclas")         return <QfMezclasSVG        tema={tema} />;
-  if (svgDiagram === "qf-atomo")           return <QfAtomoSVG          tema={tema} />;
-  if (svgDiagram === "qf-tabla")           return <QfTablaSVG          tema={tema} />;
-  if (svgDiagram === "qf-compuestos")      return <QfCompuestosSVG     tema={tema} />;
-  if (svgDiagram === "qf-mol")             return <QfMolSVG            tema={tema} />;
-  if (svgDiagram === "qaa-portada")        return <QaaPortadaSVG       tema={tema} />;
-  if (svgDiagram === "qaa-agua")           return <QaaAguaSVG          tema={tema} />;
-  if (svgDiagram === "qaa-ph")             return <QaaPhSVG            tema={tema} />;
-  if (svgDiagram === "qaa-aire")           return <QaaAireSVG          tema={tema} />;
-  if (svgDiagram === "qaa-contaminacion")  return <QaaContaminacionSVG tema={tema} />;
-  if (svgDiagram === "qaa-alimentos")      return <QaaAlimentosSVG     tema={tema} />;
-  if (svgDiagram === "qaa-energia")        return <QaaEnergiaSVG       tema={tema} />;
-  if (svgDiagram === "cin-graf-xt")        return <CinGrafXtSVG        tema={tema} />;
-  if (svgDiagram === "cin-ej-dt")          return <CinEjDtSVG          tema={tema} />;
-  if (svgDiagram === "cin-caida-libre")    return <CinCaidaLibreSVG    tema={tema} />;
-  if (svgDiagram === "cin-tiro-parabolico") return <CinTiroParabolicoSVG tema={tema} />;
-  if (svgDiagram === "cin-ej-vt-area")     return <CinEjVtAreaSVG      tema={tema} />;
-  if (svgDiagram === "din-fuerza-neta")    return <DinFuerzaNetaSVG    tema={tema} />;
-  if (svgDiagram === "din-hooke")          return <DinHookeSVG         tema={tema} />;
-  if (svgDiagram === "din-tercera-ley")    return <DinTerceraLeySVG    tema={tema} />;
-  if (svgDiagram === "ene-trabajo")        return <EneTrabajoSVG       tema={tema} />;
-  if (svgDiagram === "ene-conservacion")   return <EneConservacionSVG  tema={tema} />;
-  if (svgDiagram === "ene-momento")        return <EneMomentoSVG       tema={tema} />;
-  if (svgDiagram === "ter-escalas")        return <TerEscalasSVG       tema={tema} />;
-  if (svgDiagram === "ter-dilatacion")     return <TerDilatacionSVG    tema={tema} />;
-  if (svgDiagram === "ter-gas")            return <TerGasSVG           tema={tema} />;
-  if (svgDiagram === "ter-transferencia")  return <TerTransferenciaSVG tema={tema} />;
-  if (svgDiagram === "ond-onda")           return <OndOndaSVG          tema={tema} />;
-  if (svgDiagram === "ond-tipos")          return <OndTiposSVG         tema={tema} />;
-  if (svgDiagram === "ond-reflexion-refraccion") return <OndReflexRefracSVG tema={tema} />;
-  if (svgDiagram === "ond-lente")          return <OndLenteSVG         tema={tema} />;
-  if (svgDiagram === "ele-coulomb")        return <EleCoulombSVG       tema={tema} />;
-  if (svgDiagram === "ele-circuito")       return <EleCircuitoSVG      tema={tema} />;
-  if (svgDiagram === "ele-serie-paralelo") return <EleSerieParaleloSVG tema={tema} />;
-  if (svgDiagram === "ele-magnetismo")     return <EleMagnetismoSVG    tema={tema} />;
-  if (svgDiagram === "flu-presion")        return <FluPresionSVG       tema={tema} />;
-  if (svgDiagram === "flu-pascal")         return <FluPascalSVG        tema={tema} />;
-  if (svgDiagram === "flu-arquimedes")     return <FluArquimedesSVG    tema={tema} />;
-  if (svgDiagram === "flu-continuidad")    return <FluContinuidadSVG   tema={tema} />;
-  if (svgDiagram === "mod-atomo")          return <ModAtomoSVG         tema={tema} />;
-  if (svgDiagram === "mod-espectro")       return <ModEspectroSVG      tema={tema} />;
-  if (svgDiagram === "mod-fotoelectrico")  return <ModFotoelectricoSVG tema={tema} />;
-  if (svgDiagram === "mod-radioactividad") return <ModRadioactividadSVG tema={tema} />;
-  if (svgDiagram === "as1-cuad-circ") return <As1CuadCircSVG tema={tema} />;
-  if (svgDiagram === "as2-corona")   return <As2CoronaSVG   tema={tema} />;
-  if (svgDiagram === "as3-semi-rect") return <As3SemiRectSVG tema={tema} />;
-  if (svgDiagram === "as4-sector-tri") return <As4SectorTriSVG tema={tema} />;
-  if (svgDiagram === "as5-trap-semi") return <As5TrapSemiSVG tema={tema} />;
-  if (svgDiagram === "as6-hex-circ") return <As6HexCircSVG  tema={tema} />;
-  if (svgDiagram === "as7-tri-circ") return <As7TriCircSVG  tema={tema} />;
-  if (svgDiagram === "as8-complejo") return <As8ComplejoSVG tema={tema} />;
-  return null;
-}
 
 function SlideEjercicio({ slide, modo, votos, votantes, perfiles, totalVotos, respuestaDada, onResponder, tema, resaltadoIdx, onResaltar }) {
   const done = respuestaDada !== null && respuestaDada !== undefined;
@@ -6648,7 +6249,7 @@ function SlideEjercicio({ slide, modo, votos, votantes, perfiles, totalVotos, re
         {/* Diagrama SVG del ejercicio */}
         {slide.svgDiagram && (
           <div style={{ maxWidth: 380, width: "100%", alignSelf: "center" }}>
-            {renderEjercicioSVG(slide.svgDiagram, tema)}
+            <Diagrama clave={slide.svgDiagram} tema={tema} />
           </div>
         )}
 
@@ -7033,84 +6634,6 @@ function SlideReglaRica({ slide, tema, resaltadoIdx, onResaltar }) {
         }
 
         if (bloque.tipo === "diagrama") {
-          const svgMap = {
-            "acento-clasificacion":   <AcentoClasificacionSVG    tema={tema} />,
-            "diptongo-hiato":         <DiptongoHiatoSVG          tema={tema} />,
-            "cohesion-panorama":           <CohesionPanoramaSVG          tema={tema} />,
-            "correferencia-personal":      <CorrreferenciaPersonalSVG    tema={tema} />,
-            "elipsis-nominal":             <ElipsisNominalSVG            tema={tema} />,
-            "lexico-semantica-panorama":   <LexicoSemanticaPanoramaSVG   tema={tema} />,
-            "sinonimia-tipos":             <SinonimiasTiposSVG           tema={tema} />,
-            "sinonimia-contextual":        <SinonimiaContextualSVG       tema={tema} />,
-            "antonimia-tipos":             <AntonimiasTiposSVG           tema={tema} />,
-            "antonimia-contextual":        <AntonimiaContextualSVG       tema={tema} />,
-            "campo-semantico":                  <CampoSemanticoSVG                 tema={tema} />,
-            "marcadores-panorama":             <MarcadoresPanoramaSVG             tema={tema} />,
-            "marcadores-adicion":              <MarcadoresAdicionSVG              tema={tema} />,
-            "marcadores-adversativos":         <MarcadoresAdversativosSVG         tema={tema} />,
-            "marcadores-causa-consecuencia":   <MarcadoresCausaConsecuenciaSVG    tema={tema} />,
-            "marcadores-temporales":           <MarcadoresTemporalesSVG           tema={tema} />,
-            "marcadores-reformulacion":        <MarcadoresReformulacionSVG        tema={tema} />,
-            "grafo-panorama":    <GrafoPanoramaSVG    tema={tema} />,
-            "grafo-vocales":     <GrafoVocalesSVG     tema={tema} />,
-            "grafo-bv":          <GrafoBVSVG          tema={tema} />,
-            "grafo-ck":          <GrafoCKSVG          tema={tema} />,
-            "grafo-gj":          <GrafoGJSVG          tema={tema} />,
-            "grafo-secuencias":  <GrafoSecuenciasSVG  tema={tema} />,
-            // Geografía — Tema 1: Tierra
-            "geo-coordenadas":        <GeoCoordenadaSVG        tema={tema} />,
-            "geo-husos":              <GeoHusosSVG              tema={tema} />,
-            "geo-placas":             <GeoPlacastSVG            tema={tema} />,
-            "geo-ciclo-hidrologico":  <GeoCicloHidrologicoSVG  tema={tema} />,
-            // Geografía — Globo 3D
-            "geo-globo-3d": <GloboTerraqueo3D tema={tema} />,
-            // Geografía — Complemento: Recursos, Mar y Política
-            "geo-minerales":      <GeoMineralesSVG      tema={tema} />,
-            "geo-rios":           <GeoRiosSVG           tema={tema} />,
-            "geo-ciclones":       <GeoCiclonesSVG       tema={tema} />,
-            "geo-organizacion":   <GeoOrganizacionSVG   tema={tema} />,
-            // Geografía — Tema 2: Humana
-            "geo-regiones":   <GeoRegionesSVG   tema={tema} />,
-            "geo-deterioro":  <GeoDeterioroSVG  tema={tema} />,
-            "geo-poblacion":  <GeoPoblacionSVG  tema={tema} />,
-            "geo-economia":   <GeoEconomiaSVG   tema={tema} />,
-            // Biología: Pensamiento Científico
-            "biologia-celula":              <BiologiaCelulaSVG              tema={tema} />,
-            "biologia-herencia":            <BiologiaHerenciaSVG            tema={tema} />,
-            "biologia-evolucion":           <BiologiaEvolucionSVG           tema={tema} />,
-            "biologia-genetica-aplicada":   <BiologiaGeneticaAplicadaSVG   tema={tema} />,
-            "biologia-biodiversidad":       <BiologiaBiodiversidadSVG       tema={tema} />,
-            "biologia-adaptacion":          <BiologiaAdaptacionSVG          tema={tema} />,
-            "biologia-cadena-trofica":      <BiologiaCadenaTroficaSVG       tema={tema} />,
-            // Química: Pensamiento Científico
-            "quimica-modelos-atomicos":      <QuimicaModelosAtomicosSVG      tema={tema} />,
-            "quimica-biomoleculas":          <QuimicaBiomoleculasSVG          tema={tema} />,
-            "quimica-mezclas":               <QuimicaMezclasSVG               tema={tema} />,
-            "quimica-separacion":            <QuimicaSeparacionSVG            tema={tema} />,
-            "quimica-reacciones":            <QuimicaReaccionesSVG            tema={tema} />,
-            "quimica-energia-reacciones":    <QuimicaEnergiaReaccionesSVG    tema={tema} />,
-            "quimica-impacto":               <QuimicaImpactoSVG               tema={tema} />,
-            // Física: Pensamiento Científico
-            "fisica-estados-materia":   <FisicaEstadosMateriaSVG   tema={tema} />,
-            "fisica-fuerzas":           <FisicaFuerzasSVG           tema={tema} />,
-            "fisica-vel-acel":          <FisicaVelAcelSVG           tema={tema} />,
-            "fisica-sistema-solar":     <FisicaSistemaSolarSVG      tema={tema} />,
-            "fisica-energia-mecanica":  <FisicaEnergiaMecanicaSVG   tema={tema} />,
-            "fisica-circuito":          <FisicaCircuitoSVG          tema={tema} />,
-            "fisica-transformaciones":    <FisicaTransformacionesSVG    tema={tema} />,
-            "fisica-cambios-estado":      <FisicaCambiosEstadoSVG       tema={tema} />,
-            "fisica-caida-libre":         <FisicaCaidaLibreSVG          tema={tema} />,
-            // Geometría — Preparatoria (EXANI-I)
-            "geo-figuras-planas":   <GeoFigurasPlanasSVG   tema={tema} />,
-            "geo-cuerpos-volumen":  <GeoCuerposVolumenSVG  tema={tema} />,
-            "geo-cubo-desarrollo":  <GeoCuboDesarrolloSVG  tema={tema} />,
-            "geo-isometrias":       <GeoIsometriasSVG      tema={tema} />,
-            "geo-ejes-simetria":    <GeoEjesSimetriaSVG    tema={tema} />,
-            "geo-congruencia":      <GeoCongruenciaSVG     tema={tema} />,
-            "geo-triangulo-angulos": <GeoTrianguloAngulosSVG tema={tema} />,
-            "geo-pitagoras":        <GeoPitagorasSVG       tema={tema} />,
-            "geo-desigualdad":      <GeoDesigualdadSVG     tema={tema} />,
-          };
           return (
             <div key={i} onClick={handleClick} data-resaltado={activo ? "true" : undefined}
               style={{
@@ -7123,7 +6646,7 @@ function SlideReglaRica({ slide, tema, resaltadoIdx, onResaltar }) {
                   {bloque.titulo}
                 </div>
               )}
-              {svgMap[bloque.id] || null}
+              <Diagrama clave={bloque.id} tema={tema} />
             </div>
           );
         }
@@ -12691,6 +12214,339 @@ function useScrollResaltadoIntoView(resaltadoIdx, slideId) {
     });
     return () => cancelAnimationFrame(raf);
   }, [resaltadoIdx, slideId]);
+}
+
+
+// ─── Registro de diagramas ──────────────────────────────────────────────────
+// Antes, cada diapositiva resolvía su diagrama con una cadena de `if` propia:
+// seis cadenas repartidas por el archivo, 468 comparaciones en total, y añadir
+// un diagrama obligaba a tocar la que correspondiera. Ahora la relación
+// clave → componente es un dato, y `<Diagrama>` es el único sitio que resuelve.
+//
+// Este mapa es TRANSITORIO: los componentes siguen definidos más arriba en este
+// mismo archivo. La fase 2b de docs/PLAN_MIGRACION.md los va sacando a
+// `src/components/diagramas/<materia>/`, y cada uno que se mueve desaparece de
+// aquí y aparece en DIAGRAMS. Los dos conviven mientras dure la mudanza.
+const DIAGRAMAS_LOCALES = {
+  "aa-detalle": CriterioAADetalleSVG,
+  "acento-clasificacion": AcentoClasificacionSVG,
+  "ala-cong-detalle": CongALADetalleSVG,
+  "ana-excrecion": AnaExcrecionSVG,
+  "ana-fungi": AnaFungiSVG,
+  "ana-portada": AnaPortadaSVG,
+  "ana-tejidos": AnaTejidosSVG,
+  "ana-vegetal": AnaVegetalSVG,
+  "angulo-central": AnguloCentralSVG,
+  "angulo-exterior-formula": AnguloExteriorFormulaSVG,
+  "angulo-inscrito": AnguloInscritoSVG,
+  "angulo-interior-formula": AnguloInteriorFormulaSVG,
+  "antonimia-contextual": AntonimiaContextualSVG,
+  "antonimia-tipos": AntonimiasTiposSVG,
+  "arbol-monedas": ProbArbolMonedas,
+  "arbol-multiplicativo": ProbArbolMultiplicativo,
+  "arbol-tres-monedas": ProbArbolTresMonedas,
+  "arbol-urna": ProbArbolUrna,
+  "areas-estrategia": AreasEstrategiaSVG,
+  "as1-cuad-circ": As1CuadCircSVG,
+  "as2-corona": As2CoronaSVG,
+  "as3-semi-rect": As3SemiRectSVG,
+  "as4-sector-tri": As4SectorTriSVG,
+  "as5-trap-semi": As5TrapSemiSVG,
+  "as6-hex-circ": As6HexCircSVG,
+  "as7-tri-circ": As7TriCircSVG,
+  "as8-complejo": As8ComplejoSVG,
+  "barras-moda": BarrasModaSVG,
+  "biologia-adaptacion": BiologiaAdaptacionSVG,
+  "biologia-biodiversidad": BiologiaBiodiversidadSVG,
+  "biologia-cadena-trofica": BiologiaCadenaTroficaSVG,
+  "biologia-celula": BiologiaCelulaSVG,
+  "biologia-evolucion": BiologiaEvolucionSVG,
+  "biologia-genetica-aplicada": BiologiaGeneticaAplicadaSVG,
+  "biologia-herencia": BiologiaHerenciaSVG,
+  "bq-atp": BqAtpSVG,
+  "bq-biomoleculas": BqBiomoleculasSVG,
+  "bq-enzima": BqEnzimaSVG,
+  "bq-fotosintesis": BqFotosintesisSVG,
+  "bq-portada": BqPortadaSVG,
+  "bq-respiracion": BqRespiracionSVG,
+  "buffon": BuffonSVG,
+  "campo-semantico": CampoSemanticoSVG,
+  "cce1-radio": Cce1RadioSVG,
+  "cce2-sector": Cce2SectorSVG,
+  "cce3-arco": Cce3ArcoSVG,
+  "cce4-tang": Cce4TangSVG,
+  "ce1-lll": Ce1LllSVG,
+  "ce2-medidas": Ce2CondMedSVG,
+  "ce3-ala": Ce3AlaSVG,
+  "ce4-aaa": Ce4AaaSVG,
+  "ce5-angulo": Ce5AngleSVG,
+  "cel-animal-vegetal": CelAnimalVegetalSVG,
+  "cel-historia": CelHistoriaSVG,
+  "cel-meiosis": CelMeiosisSVG,
+  "cel-membrana": CelMembranaSVG,
+  "cel-mitosis": CelMitosisSVG,
+  "cel-portada": CelPortadaSVG,
+  "cel-proc-euc": CelProcEucSVG,
+  "cel-transporte": CelTransporteSVG,
+  "cin-caida-libre": CinCaidaLibreSVG,
+  "cin-desplazamiento": CinDesplazamientoSVG,
+  "cin-ej-dt": CinEjDtSVG,
+  "cin-ej-vt-area": CinEjVtAreaSVG,
+  "cin-graf-vt": CinGrafVtSVG,
+  "cin-graf-xt": CinGrafXtSVG,
+  "cin-portada": CinPortadaSVG,
+  "cin-tiro-parabolico": CinTiroParabolicoSVG,
+  "circulo-formulas": CirculoFormulasSVG,
+  "circulo-partes": CirculoPartesSVG,
+  "cohesion-panorama": CohesionPanoramaSVG,
+  "combinaciones-casillas": CombinacionesCasillasSVG,
+  "complemento": ComplementoSVG,
+  "conjuntos-numerico": VennNumericoSVG,
+  "conjuntos-venn": VennConjuntosSVG,
+  "correferencia-personal": CorrreferenciaPersonalSVG,
+  "cuadrado-detalle": CuadradoDetalleSVG,
+  "cuartiles-strip": CuartilesSVG,
+  "cumpleanos": CumpleanosSVG,
+  "dardo-diana": DardoDianaSVG,
+  "desviacion-detalle": DesviacionDetalleSVG,
+  "din-friccion": DinFriccionSVG,
+  "din-fuerza-neta": DinFuerzaNetaSVG,
+  "din-hooke": DinHookeSVG,
+  "din-portada": DinPortadaSVG,
+  "din-segunda-ley": DinSegundaLeySVG,
+  "din-tercera-ley": DinTerceraLeySVG,
+  "diptongo-hiato": DiptongoHiatoSVG,
+  "dispersion": DispersionSVG,
+  "dist-binomial": DistBinomialChart,
+  "dist-suma-dados": DistSumaDadosChart,
+  "dos-dados": DosDadosSVG,
+  "dotplot-media": DotPlotMediaSVG,
+  "dotplot-mediana": DotPlotMedianaSVG,
+  "eco-biomas": EcoBiomasSVG,
+  "eco-ciclo-carbono": EcoCicloCarbonoSVG,
+  "eco-niveles": EcoNivelesSVG,
+  "eco-piramide": EcoPiramideSVG,
+  "eco-portada": EcoPortadaSVG,
+  "ej-barras-deporte": EjBarrasDeporteSVG,
+  "ej-carta-as": CartaAsSVG,
+  "ej-circular-transporte": EjCircularTransporteSVG,
+  "ej-combinatoria": CombinaPersonasSVG,
+  "ej-cong-ala": EjCongALASVG,
+  "ej-cong-laa": EjCongLAASVG,
+  "ej-cong-lal": EjCongLALSVG,
+  "ej-cong-lll": EjCongLLLSVG,
+  "ej-dado-mayor4": DadoMayor4SVG,
+  "ej-dos-monedas": DosMonedasSVG,
+  "ej-est-media": Ej_EstMediaSVG,
+  "ej-est-mediana": Ej_EstMedianaSVG,
+  "ej-est-mediana-par": Ej_EstMedianaParSVG,
+  "ej-est-moda": Ej_EstModaSVG,
+  "ej-est-rango": Ej_EstRangoSVG,
+  "ej-est-tabla": TablaFrecuenciasEst,
+  "ej-histograma-estatura": EjHistogramaEstaturaSVG,
+  "ej-moneda-dado": MonedaDadoSVG,
+  "ej-ruleta": RuletaSVG,
+  "ej-urna-r5a3": UrnaSinReempSVG,
+  "ej-urna-rav": UrnaSumaSVG,
+  "ej1-lll": Ej1LLLSVG,
+  "ej2-k32": Ej2K32SVG,
+  "ejemplo-estudiantes": EjemploEstudiantesTabla,
+  "ele-circuito": EleCircuitoSVG,
+  "ele-coulomb": EleCoulombSVG,
+  "ele-magnetismo": EleMagnetismoSVG,
+  "ele-portada": ElePortadaSVG,
+  "ele-serie-paralelo": EleSerieParaleloSVG,
+  "elipsis-nominal": ElipsisNominalSVG,
+  "ene-conservacion": EneConservacionSVG,
+  "ene-energias": EneEnergiasSVG,
+  "ene-momento": EneMomentoSVG,
+  "ene-portada": EnePortadaSVG,
+  "ene-trabajo": EneTrabajoSVG,
+  "escala-probabilidad": EscalaProbabilidadSVG,
+  "espacio-muestral": EspacioMuestralSVG,
+  "est-portada": EstPortadaSVG,
+  "euler-line": EulerLineSVG,
+  "evo-darwin-lamarck": EvoDarwinLamarckSVG,
+  "evo-origen-vida": EvoOrigenVidaSVG,
+  "evo-portada": EvoPortadaSVG,
+  "evo-pruebas": EvoPruebasSVG,
+  "evo-reinos": EvoReinosSVG,
+  "evo-taxonomia": EvoTaxonomiaSVG,
+  "fisica-caida-libre": FisicaCaidaLibreSVG,
+  "fisica-cambios-estado": FisicaCambiosEstadoSVG,
+  "fisica-circuito": FisicaCircuitoSVG,
+  "fisica-energia-mecanica": FisicaEnergiaMecanicaSVG,
+  "fisica-estados-materia": FisicaEstadosMateriaSVG,
+  "fisica-fuerzas": FisicaFuerzasSVG,
+  "fisica-sistema-solar": FisicaSistemaSolarSVG,
+  "fisica-transformaciones": FisicaTransformacionesSVG,
+  "fisica-vel-acel": FisicaVelAcelSVG,
+  "flu-arquimedes": FluArquimedesSVG,
+  "flu-continuidad": FluContinuidadSVG,
+  "flu-pascal": FluPascalSVG,
+  "flu-portada": FluPortadaSVG,
+  "flu-presion": FluPresionSVG,
+  "frecuencias-dado": FrecuenciasDadoChart,
+  "gen-adn": GenAdnSVG,
+  "gen-biotecnologia": GenBiotecnologiaSVG,
+  "gen-dogma": GenDogmaSVG,
+  "gen-mutacion": GenMutacionSVG,
+  "gen-pcr": GenPcrSVG,
+  "gen-portada": GenPortadaSVG,
+  "gen-punnett": GenPunnettSVG,
+  "geo-ciclo-hidrologico": GeoCicloHidrologicoSVG,
+  "geo-ciclones": GeoCiclonesSVG,
+  "geo-congruencia": GeoCongruenciaSVG,
+  "geo-coordenadas": GeoCoordenadaSVG,
+  "geo-cubo-desarrollo": GeoCuboDesarrolloSVG,
+  "geo-cuerpos-volumen": GeoCuerposVolumenSVG,
+  "geo-desigualdad": GeoDesigualdadSVG,
+  "geo-deterioro": GeoDeterioroSVG,
+  "geo-economia": GeoEconomiaSVG,
+  "geo-ejes-simetria": GeoEjesSimetriaSVG,
+  "geo-figuras-planas": GeoFigurasPlanasSVG,
+  "geo-globo-3d": GloboTerraqueo3D,
+  "geo-husos": GeoHusosSVG,
+  "geo-isometrias": GeoIsometriasSVG,
+  "geo-minerales": GeoMineralesSVG,
+  "geo-organizacion": GeoOrganizacionSVG,
+  "geo-pitagoras": GeoPitagorasSVG,
+  "geo-placas": GeoPlacastSVG,
+  "geo-poblacion": GeoPoblacionSVG,
+  "geo-regiones": GeoRegionesSVG,
+  "geo-rios": GeoRiosSVG,
+  "geo-triangulo-angulos": GeoTrianguloAngulosSVG,
+  "graficas-barras": EstBarrasChart,
+  "graficas-circular": EstCircularSVG,
+  "grafo-bv": GrafoBVSVG,
+  "grafo-ck": GrafoCKSVG,
+  "grafo-gj": GrafoGJSVG,
+  "grafo-panorama": GrafoPanoramaSVG,
+  "grafo-secuencias": GrafoSecuenciasSVG,
+  "grafo-vocales": GrafoVocalesSVG,
+  "laa-cong-detalle": CongLAADetalleSVG,
+  "lal-cong-detalle": CongLALDetalleSVG,
+  "lal-detalle": CriterioLALDetalleSVG,
+  "lexico-semantica-panorama": LexicoSemanticaPanoramaSVG,
+  "lll-cong-detalle": CongLLLDetalleSVG,
+  "lll-detalle": CriterioLLLDetalleSVG,
+  "marcadores-adicion": MarcadoresAdicionSVG,
+  "marcadores-adversativos": MarcadoresAdversativosSVG,
+  "marcadores-causa-consecuencia": MarcadoresCausaConsecuenciaSVG,
+  "marcadores-panorama": MarcadoresPanoramaSVG,
+  "marcadores-reformulacion": MarcadoresReformulacionSVG,
+  "marcadores-temporales": MarcadoresTemporalesSVG,
+  "media-detalle": MediaDetalleSVG,
+  "mediana-detalle": MedianaDetalleSVG,
+  "mod-atomo": ModAtomoSVG,
+  "mod-espectro": ModEspectroSVG,
+  "mod-fotoelectrico": ModFotoelectricoSVG,
+  "mod-portada": ModPortadaSVG,
+  "mod-radioactividad": ModRadioactividadSVG,
+  "moda-detalle": ModaDetalleSVG,
+  "monty-hall": MontyHallSVG,
+  "ond-lente": OndLenteSVG,
+  "ond-onda": OndOndaSVG,
+  "ond-portada": OndPortadaSVG,
+  "ond-reflexion-refraccion": OndReflexRefracSVG,
+  "ond-tipos": OndTiposSVG,
+  "orden-importa": OrdenImportaSVG,
+  "paralelogramo-def": ParalelogramoDefSVG,
+  "paralelogramo-formulas": ParalelogramoFormulasSVG,
+  "pe1-rect": Pe1RectSVG,
+  "pe2-rombo": Pe2RomboSVG,
+  "pe3-cuadrado": Pe3CuadradoSVG,
+  "permutaciones-casillas": PermutacionesCasillasSVG,
+  "poe1-hex": Poe1HexSVG,
+  "poe2-angext": Poe2AngExtSVG,
+  "poe3-suma": Poe3SumaSVG,
+  "poligono-regular-def": PoligonoRegularDefSVG,
+  "porciones-circulo": PorcionesCirculoSVG,
+  "prob-portada": ProbabilidadPortadaSVG,
+  "proceso-sigma": ProcesoSigmaSVG,
+  "qaa-agua": QaaAguaSVG,
+  "qaa-aire": QaaAireSVG,
+  "qaa-alimentos": QaaAlimentosSVG,
+  "qaa-contaminacion": QaaContaminacionSVG,
+  "qaa-energia": QaaEnergiaSVG,
+  "qaa-ph": QaaPhSVG,
+  "qaa-portada": QaaPortadaSVG,
+  "qf-atomo": QfAtomoSVG,
+  "qf-compuestos": QfCompuestosSVG,
+  "qf-mezclas": QfMezclasSVG,
+  "qf-mol": QfMolSVG,
+  "qf-portada": QfPortadaSVG,
+  "qf-tabla": QfTablaSVG,
+  "quimica-biomoleculas": QuimicaBiomoleculasSVG,
+  "quimica-energia-reacciones": QuimicaEnergiaReaccionesSVG,
+  "quimica-impacto": QuimicaImpactoSVG,
+  "quimica-mezclas": QuimicaMezclasSVG,
+  "quimica-modelos-atomicos": QuimicaModelosAtomicosSVG,
+  "quimica-reacciones": QuimicaReaccionesSVG,
+  "quimica-separacion": QuimicaSeparacionSVG,
+  "rango-outlier": RangoOutlierSVG,
+  "razon-semejanza": RazonSemejanzaSVG,
+  "rectangulo-detalle": RectanguloDetalleSVG,
+  "regla-suma": ReglaSumaSVG,
+  "rep-asexual": RepAsexualSVG,
+  "rep-planta": RepPlantaSVG,
+  "rep-portada": RepPortadaSVG,
+  "rep-sexual": RepSexualSVG,
+  "rombo-detalle": RomboDetalleSVG,
+  "se-aa-ej1": SeAaEj1SVG,
+  "se-aa-ej2": SeAaEj2SVG,
+  "se-areas": SeAreasSVG,
+  "se-k3": SeK3SVG,
+  "se-lal-ej1": SeLalEj1SVG,
+  "se-lal-ej2": SeLalEj2SVG,
+  "se-lal-s2": SeLalS2SVG,
+  "se-lll-ej1": SeLllEj1SVG,
+  "se-lll-ej2": SeLllEj2SVG,
+  "se-lll-s1": SeLllS1SVG,
+  "se-lll-s2": SeLllS2SVG,
+  "se-lll-s3": SeLllS3SVG,
+  "se-paralela": SeParalelaSVG,
+  "se-pitagoras": SePitSVG,
+  "se-sombra": SeSombraSVG,
+  "sector-circular": SectorCircularSVG,
+  "segmento-circular": SegmentoCircularSVG,
+  "sinonimia-contextual": SinonimiaContextualSVG,
+  "sinonimia-tipos": SinonimiasTiposSVG,
+  "tabla-frecuencias": TablaFrecuenciasEst,
+  "tachuela": TachuelaSVG,
+  "tangente-exterior": TangenteExteriorSVG,
+  "te1-area": Te1AreaSVG,
+  "te2-mediana": Te2MedianaSVG,
+  "te3-iso": Te3IsoSVG,
+  "tendencia-central": TendenciaCentralSVG,
+  "ter-dilatacion": TerDilatacionSVG,
+  "ter-escalas": TerEscalasSVG,
+  "ter-gas": TerGasSVG,
+  "ter-portada": TerPortadaSVG,
+  "ter-transferencia": TerTransferenciaSVG,
+  "ti-ej1": TiEj1SVG,
+  "ti-ej2": TiEj2SVG,
+  "ti-ej3": TiEj3SVG,
+  "tipos-variable": TiposVariableSVG,
+  "trapecio-def": TrapecioDefSVG,
+  "trapecio-formulas": TrapecioFormulasSVG,
+  "trapecio-isosceles-detalle": TrapIsoDetalleSVG,
+  "trapecio-rect-detalle": TrapRectDetalleSVG,
+  "tres-axiomas": AxiomasSVG,
+  "triangulos-congruentes": TriangulosCongruentesSVG,
+  "triangulos-semejantes": TriangulosSemejantesSVG,
+  "una-moneda": UnaMonedaSVG,
+};
+
+// El registro definitivo manda; el local es lo que aún no se ha mudado.
+function buscarDiagrama(clave) {
+  if (!clave) return null;
+  return DIAGRAMS[clave] ?? DIAGRAMAS_LOCALES[clave] ?? null;
+}
+
+function Diagrama({ clave, tema }) {
+  const D = buscarDiagrama(clave);
+  return D ? <D tema={tema} /> : null;
 }
 
 export default function SlideRenderer({

@@ -123,6 +123,59 @@ try {
     }
   }
 
+  // ── Diagramas: toda clave usada tiene que resolver ────────────────────────
+  // Un `svgDiagram` sin entrada en el registro no rompe la página: simplemente no
+  // dibuja nada, en silencio. Es justo el fallo que puede introducir la fase 2 al
+  // mover componentes, así que se comprueba aquí. Las claves se leen del texto de
+  // los dos registros para no tener que cargar SlideRenderer (arrastraría three.js).
+  const clavesDe = (ruta, marcador) => {
+    const txt = readFileSync(ruta, "utf8");
+    const i = txt.indexOf(marcador);
+    if (i === -1) return new Set();
+    const fin = txt.indexOf("\n};", i);
+    return new Set([...txt.slice(i, fin).matchAll(/^\s*"([a-z0-9-]+)":/gm)].map((m) => m[1]));
+  };
+  const registro = new Set([
+    ...clavesDe("src/components/diagramas/index.js", "export const DIAGRAMS"),
+    ...clavesDe("src/components/SlideRenderer.jsx", "const DIAGRAMAS_LOCALES"),
+  ]);
+
+  const usadas = new Map();
+  for (const [id, p] of Object.entries(pres.PRESENTACIONES_INDEX)) {
+    for (const slide of p.slides ?? []) {
+      const anota = (clave) => {
+        if (!clave) return;
+        if (!usadas.has(clave)) usadas.set(clave, []);
+        usadas.get(clave).push(`${id} › slide ${slide.id}`);
+      };
+      anota(slide.svgDiagram);
+      for (const b of slide.bloques ?? []) if (b.tipo === "diagrama") anota(b.id);
+    }
+  }
+  // Los documentos también dibujan, con `figura:` dentro de sus elementos.
+  for (const [id, d] of Object.entries(docs.DOCUMENTOS_INDEX)) {
+    const recorrer = (x) => {
+      if (Array.isArray(x)) return x.forEach(recorrer);
+      if (!x || typeof x !== "object") return;
+      if (typeof x.figura === "string") {
+        if (!usadas.has(x.figura)) usadas.set(x.figura, []);
+        usadas.get(x.figura).push(`documento ${id}`);
+      }
+      for (const k in x) recorrer(x[k]);
+    };
+    recorrer(d.contenido);
+  }
+  for (const [clave, donde] of usadas) {
+    if (!registro.has(clave)) {
+      err(`diagrama sin registrar "${clave}" (${donde.length} uso${donde.length > 1 ? "s" : ""})  ·  ${donde[0]}`);
+    }
+  }
+  const huerfanas = [...registro].filter((k) => !usadas.has(k));
+  if (huerfanas.length) {
+    avi(`${huerfanas.length} diagramas registrados que no usa ninguna presentación ni documento: ${huerfanas.slice(0, 8).join(", ")}${huerfanas.length > 8 ? "…" : ""}`);
+  }
+  console.log(`[diagramas] ${registro.size} registrados · ${usadas.size} usados`);
+
   // ── Higiene de los propios bancos ─────────────────────────────────────────
   const vistos = new Map();
   for (const c of cuestionarios) {

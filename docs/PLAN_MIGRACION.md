@@ -105,22 +105,61 @@ tiene ahora un solo tipo.
 ### Pendiente en Supabase (para ti, no lo corro yo)
 
 Tres `metadata.id` cambiaron, y ese campo es el que se guarda en
-`resultados.cuestionario_id`. Los intentos anteriores a hoy quedaron bajo el id viejo.
-Si quieres reconciliar el historial:
+`resultados.cuestionario_id`. Los intentos anteriores al 24 ago 2026 quedaron bajo el id
+viejo. **Primero mira cuánto hay**, que puede no valer la pena:
+
+```sql
+select cuestionario_id, cuestionario_titulo, count(*) as intentos,
+       min(created_at)::date as desde, max(created_at)::date as hasta
+from resultados
+where cuestionario_id in ('sujeto-predicado-uni', 'numerosracionales', 'estructura-oracion-uni')
+group by 1, 2
+order by 1;
+```
+
+**Dos son seguros** — ningún otro cuestionario escribió nunca esos ids:
 
 ```sql
 update resultados set cuestionario_id = 'sujeto-predicado-exani-i'
-  where cuestionario_id = 'sujeto-predicado-uni';
-update resultados set cuestionario_id = 'estructura-oracion-prepa'
-  where cuestionario_id = 'estructura-oracion-uni'
-    and cuestionario_titulo ilike '%prepa%';
+ where cuestionario_id = 'sujeto-predicado-uni';
+
 update resultados set cuestionario_id = 'uni-numeros-racionales'
-  where cuestionario_id = 'numerosracionales';
+ where cuestionario_id = 'numerosracionales';
 ```
 
-El segundo lleva filtro por título porque `estructura-oracion-uni` sigue siendo un id
-válido —hay dos cuestionarios— y solo hay que mover los del banco de preparatoria.
-Revísalo con un `select` antes de correrlo.
+**El tercero NO se puede reconciliar, y no hay que intentarlo.** `estructura-oracion-uni`
+y `estructura-oracion-prepa` son dos cuestionarios distintos que hasta hoy escribían el
+**mismo** `cuestionario_id`, con el **mismo** `cuestionario_titulo` ("Estructura de la
+oración") y el mismo `nivel`. No existe ninguna columna que los separe.
+
+Lo único que acota es la fecha: el banco de preparatoria se enlazó el **2026-04-30**
+(commit `518c433`); el de universidad existía desde el 23-abr. Así que:
+
+- `created_at < '2026-04-30'` → seguro del de universidad.
+- `created_at >= '2026-04-30'` → ambiguo, mezcla de los dos, irrecuperable.
+
+La recomendación es **dejarlo como está**: `estructura-oracion-uni` sigue siendo un id
+válido, así que esas filas no quedan huérfanas; solo están sobreatribuidas. De hoy en
+adelante los dos escriben ids distintos y el problema no se repite.
+
+```sql
+-- Solo para dimensionar cuántas filas quedan ambiguas:
+select count(*) filter (where created_at <  date '2026-04-30') as seguras_uni,
+       count(*) filter (where created_at >= date '2026-04-30') as ambiguas
+from resultados where cuestionario_id = 'estructura-oracion-uni';
+```
+
+> `resultados` no está en `supabase/migrations/`: se creó desde el panel, como avisa el
+> historial desincronizado. Estas consultas suponen que tiene `created_at`, que es el
+> valor por defecto de Supabase; compruébalo antes.
+
+### Hallazgo suelto para la Fase 4
+
+`metadata.nivel` dice `"universidad"` en dos bancos que son de preparatoria
+(`sujeto-predicado-exani-i`, `estructura-oracion-prepa`) — herencia de haberse copiado
+de sus hermanos de universidad. Y `uni-numeros-racionales` tiene
+`titulo: "NumerosRacionales"` sin espacios ni acento. No rompe nada hoy; se arregla al
+tocar `metadata` en la Fase 4.
 
 ### Estado tras la fase
 

@@ -163,6 +163,13 @@ function AppRoutes() {
             }
           />
         )}
+        {/* Mismo patrón para los cuestionarios: /cuestionario/:id pide sesión, así
+            que revisarlos —o comprobar un cambio en el banco— obligaba a entrar.
+            Esto monta el mismo componente sin ProtectedRoute; como no hay sesión,
+            guardarResultado() no escribe nada. Acepta ?bloque= y ?modo= igual. */}
+        {import.meta.env.DEV && (
+          <Route path="/preview-cuestionario/:id" element={<Cuestionario />} />
+        )}
 
         {/* ── Protegidas ── */}
         <Route

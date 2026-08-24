@@ -40,6 +40,10 @@ There are two parallel trees:
    All quizzes are registered in `cuestionariosIndex.js` and looked up by ID via `buscarCuestionario(id)`.
 
 ### Quiz flow (`src/pages/Cuestionario.jsx` + `src/components/QuestionarioGenerico.jsx`)
+
+Dev-only preview at `/preview-cuestionario/:id` (behind `import.meta.env.DEV` in `App.jsx`, same pattern as `/preview-decodificacion`): mounts the same page without `ProtectedRoute`, since `/cuestionario/:id` requires a session and that made reviewing a bank impossible without logging in. With no session `guardarResultado()` writes nothing. Accepts `?bloque=` and `?modo=` like the real route.
+
+`questions[].id` is **not** written in the bank files. `numerarPreguntas()` in `cuestionariosIndex.js` assigns it at load — the declared `id` always wins, otherwise it's the 1-based position. It is positional, so inserting a question mid-file shifts the ids after it; declare the `id` by hand in that question if that ever matters. Nothing persists per-question ids: `resultados` stores only `puntaje`, `total` and `cuestionario_id`.
 `Cuestionario.jsx` receives `?bloque=` and `?modo=aleatorio` query params, filters/shuffles questions, then delegates rendering to `QuestionarioGenerico`. The generic component handles three stages: `theory → quiz → results`. It has a global countdown timer (seconds per question × number of questions).
 
 ### Presentation system (`src/data/presentaciones/`, `src/components/SlideRenderer.jsx`)

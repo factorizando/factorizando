@@ -3,7 +3,7 @@
 export default {
   metadata: {
     id: "uni-numeros-racionales",
-    titulo: "NumerosRacionales",
+    titulo: "Números racionales",
     nivel: "universidad",
     materia: "",
     tema: "",

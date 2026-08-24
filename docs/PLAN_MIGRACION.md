@@ -102,7 +102,7 @@ y `cuestionario_id`, así que no había historial que romper.
 De paso, `simulador-exani-i-3` usaba ids de texto (`"q0"`…) y pasó a numérico: el corpus
 tiene ahora un solo tipo.
 
-### Pendiente en Supabase (para ti, no lo corro yo)
+### Supabase ✅ *(corrido por el usuario el 24 ago 2026, sin errores)*
 
 Tres `metadata.id` cambiaron, y ese campo es el que se guarda en
 `resultados.cuestionario_id`. Los intentos anteriores al 24 ago 2026 quedaron bajo el id
@@ -117,7 +117,7 @@ group by 1, 2
 order by 1;
 ```
 
-**Dos son seguros** — ningún otro cuestionario escribió nunca esos ids:
+**Los dos seguros ya se corrieron.** Ningún otro cuestionario escribió nunca esos ids:
 
 ```sql
 update resultados set cuestionario_id = 'sujeto-predicado-exani-i'
@@ -215,20 +215,46 @@ por materia, que queda pendiente.
 
 ---
 
-## Fase 3 — Cuestionarios: de nivel a materia
+## Fase 3 — Cuestionarios: de nivel a materia ✅ *(24 ago 2026)*
 
-Migrar `cuestionarios/preparatoria/*` y `cuestionarios/universidad/*` a
-`cuestionarios/<materia>/*` (eje único, como las presentaciones).
+- [x] Duplicados: ya no había. Los dos `sujeto-predicado-uni.js` resultaron ser copias
+      idénticas muertas y se borraron en la fase 1; no había nada que fusionar.
+- [x] 27 archivos a `cuestionarios/<materia>/`, con `git mv` para conservar el historial.
+      Los cinco simuladores van a `simuladores/`: cubren el examen completo y no son de
+      una materia. Desaparecen `preparatoria/` y `universidad/`.
+- [x] **El nombre del archivo es el id.** Antes `suma.js` tenía id `suma-enteros`; ahora
+      desde `/cuestionario/<id>` se encuentra el banco sin buscar. Los ids **no cambian**,
+      así que ninguna ruta se mueve. Esto sustituye al "sin sufijos `-uni`/`-prepa`" que
+      pedía el plan: dos archivos habrían colisionado en `estructura-oracion.js`, y hacer
+      que el nombre diverja del id complica más de lo que simplifica.
+- [x] **Índice aplanado**, clave = id, como `presentacionesIndex.js`. `buscarCuestionario`
+      pasa de recorrer un árbol a un acceso directo.
+- [x] `materias-contenido.js` deja de deducir nada: `CLAVE_A_MATERIA` se elimina.
 
-- [ ] Resolver duplicados primero: fusionar `sujeto-predicado-uni.js` (prepa+uni) en un
-      único archivo por materia; el examen se distingue con `metadata.examenes`.
-- [ ] Mover archivos a `cuestionarios/<materia>/<slug>.js` (sin sufijos `-uni`/`-prepa`/`-exani-i`).
-- [ ] Actualizar imports en `cuestionariosIndex.js`. **Los `id` se conservan** → rutas intactas.
-- [ ] Correr el script de integridad de ids (Fase 0) y `npm run build`.
-- [ ] Decidir si el árbol anidado de `cuestionariosIndex.js` se aplana (registro plano por
-      id, como `presentacionesIndex.js`) — coherencia entre ambos índices.
+### Por qué aplanar no era cosmético
 
-> Riesgo: rutas. Mitigación: ids estables + script de verificación antes/después.
+`materia` y `nivel` no eran datos: se deducían de la **forma** del árbol —la primera clave
+era el nivel, alguna clave intermedia era la materia—. Eso ataba dos hechos del contenido a
+una estructura de carpetas, y era lo que obligaba a `materias-contenido.js` a recorrerla
+para contar. Ahora son campos de la entrada.
+
+### Lo que la mudanza destapó
+
+Al hacer explícito el nivel apareció una contradicción que llevaba tiempo ahí: **`la-celula`
+y `celula-organelos` colgaban de `preparatoria`** en el árbol, mientras su archivo, su
+`metadata.nivel` y el único sitio que los enlaza (`universidadData.js`) decían universidad.
+El árbol era el que estaba mal; se corrigió. `npm run integridad` ahora compara las dos
+fuentes de nivel para que no vuelva a divergir en silencio.
+
+También se corrigieron dos `metadata.nivel` heredados de una copia
+(`sujeto-predicado-exani-i`, `estructura-oracion-prepa`) y el título `"NumerosRacionales"`.
+
+### Verificación
+
+El catálogo generado es **idéntico** antes y después —`3772 reactivos · 27 cuestionarios ·
+65 presentaciones` y los siete conteos por materia—, que es la prueba de que reorganizar no
+cambió lo que el sitio ve. Más build, lint, `npm run integridad` sin enlaces rotos, y un
+cuestionario abierto de verdad en `/preview-cuestionario/sujeto-predicado-exani-i`.
 
 ---
 

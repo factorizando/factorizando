@@ -223,9 +223,11 @@ The following libraries are installed for math and science content:
 
 ## Adding a new quiz
 
-1. Create a data file under `src/data/cuestionarios/<level>/<subject>/<name>.js` exporting the quiz object.
-2. Import it in `src/data/cuestionarios/cuestionariosIndex.js` and add it to `CUESTIONARIOS_INDEX` with a unique `id`.
+1. Create `src/data/cuestionarios/<materia>/<id>.js` — **the filename is the id**, so the URL `/cuestionario/<id>` tells you the file. Whole-exam simulators go in `simuladores/`. Export the quiz object as default.
+2. Add it to `CUESTIONARIOS_INDEX` in `cuestionariosIndex.js`, keyed by that same id, with `{ titulo, descripcion, materia, nivel, data }`. The index is **flat** (like `presentacionesIndex.js`); `materia: null` means it belongs to no single subject and is excluded from per-subject counts.
 3. Reference it from the navigation tree in `preparatoriaData.js` or `universidadData.js` with `quiz: "/cuestionario/<id>"`.
+
+The id is frozen: it is the URL *and* what `resultados.cuestionario_id` stores, so moving a file must never change it. `questions[].id` is assigned at load — don't write it in the bank. Verify with `npm run integridad`, and preview without logging in at `/preview-cuestionario/<id>` (dev only).
 
 ## Adding a new theory page
 

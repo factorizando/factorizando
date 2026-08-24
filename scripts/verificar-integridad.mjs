@@ -184,6 +184,13 @@ try {
 
     const metaId = c.data?.metadata?.id;
     if (metaId && metaId !== c.id) avi(`metadata.id "${metaId}" ≠ clave del índice "${c.id}"`);
+    // Dos sitios dicen el nivel: la entrada del índice y el metadata del banco.
+    // Que discrepen es cómo se coló que dos bancos de preparatoria se declararan
+    // de universidad al copiarse de sus hermanos.
+    const metaNivel = c.data?.metadata?.nivel;
+    if (metaNivel && c.nivel && metaNivel !== c.nivel) {
+      avi(`"${c.id}": el índice dice nivel "${c.nivel}" y su metadata dice "${metaNivel}"`);
+    }
     if (!c.data) {
       const m = `cuestionario "${c.id}" sin \`data\` (plantilla con el import comentado)`;
       if (enlazados.has(c.id)) err(`${m} — y el árbol de navegación lo enlaza`);

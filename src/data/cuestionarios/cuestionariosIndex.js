@@ -1,501 +1,275 @@
-// Registro único de cuestionarios.
+// Registro único de cuestionarios, plano y con la clave = el id de la URL.
 //
-// La clave `id` de cada entrada es la que aparece en la URL (`/cuestionario/<id>`)
-// y la que se guarda en `resultados.cuestionario_id`: no se cambia aunque el
-// archivo se mueva de carpeta (ver docs/PLAN_MIGRACION.md).
+// La clave es lo que aparece en `/cuestionario/<id>` y lo que se guarda en
+// `resultados.cuestionario_id`: **no cambia** aunque el archivo se mueva de
+// carpeta (docs/PLAN_MIGRACION.md). Cada archivo se llama igual que su id, así
+// que desde la URL se encuentra el banco sin buscar.
 //
-// Cada banco exporta por defecto; el índice solo lo referencia.
+// Antes esto era un árbol anidado por nivel y tema, y `materia` y `nivel` se
+// deducían de la FORMA del árbol: la primera clave era el nivel y alguna clave
+// intermedia era la materia. Eso ataba dos datos a una estructura de carpetas y
+// obligaba a `materias-contenido.js` a recorrerla para contarlos. Ahora los dos
+// son campos de la entrada, que es lo que son.
+//
+// `materia: null` en los simuladores es deliberado: cubren el examen completo y
+// no pertenecen a una sola materia. Por eso no suman en los conteos por materia.
 
-import SUMA_ENTEROS from "./preparatoria/matematicas/numerosreales/numerosenteros/suma";
-import ALGEBRA_PREPA from "./preparatoria/matematicas/algebra/algebra-prepa.js";
-import DIVISIBILIDAD from "./preparatoria/matematicas/numerosreales/numerosenteros/divisibilidad";
-import DIVISIBILIDAD_MCD from "./preparatoria/matematicas/numerosreales/numerosenteros/divisibilidad-mcd-mcm";
-import PRODUCTO_ENTEROS from "./preparatoria/matematicas/numerosreales/numerosenteros/producto-enteros.js";
-import NUMEROS_ENTEROS from "./preparatoria/matematicas/numerosreales/numerosenteros/numeros-enteros.js";
-import PRIMOS_MCD_MCM from "./preparatoria/matematicas/numerosreales/numerosenteros/primos-mcd-mcm.js";
-import RACIONALES_PREPA from "./preparatoria/matematicas/numerosreales/numerosracionales/racionales-prepa.js";
-import CELULA_ORGANELOS from "./universidad/biologia/celula-organelos.js";
-import LA_CELULA from "./universidad/biologia/la-celula.js";
-import UNI_RACIONALES from "./universidad/matematicas/numerosreales/uni-numeros-racionales.js";
-import ORTOGRAFIA_GRAFIAS from "./universidad/espanol/ortografia-grafias.js";
-import SINONIMOS from "./universidad/espanol/sinonimos-antonimos-analogias.js";
-import SINTAXIS_ESPANOL from "./universidad/espanol/sintaxis-espanol.js";
-import SIMULADOR_PREPA_1 from "./preparatoria/simuladores/simulador-prepa-1.jsx";
-import SIMULADOR_PREPA_2 from "./preparatoria/simuladores/simulador-prepa-2.jsx";
-import SIMULADOR_EXANI_I from "./preparatoria/simuladores/simulador-exani-i.js";
-import SIMULADOR_EXANI_I_2 from "./preparatoria/simuladores/simulador-exani-i-2.js";
-import SIMULADOR_EXANI_I_3 from "./preparatoria/simuladores/simulador-exani-i-3.jsx";
-import SUJETO_PREDICADO from "./preparatoria/espanol/sujeto-predicado-exani-i.js";
-import ESTRUCTURA_ORACION_UNI from "./universidad/espanol/estructura-oracion-uni.js";
-import ESTRUCTURA_ORACION_PREPA from "./preparatoria/espanol/estructura-oracion-prepa.js";
-import CL_AMBITO_ESTUDIO from "./universidad/exani-ii/cl-ambito-estudio.js";
-import CL_AMBITO_LITERARIO from "./universidad/exani-ii/cl-ambito-literario.js";
-import CL_PARTICIPACION_SOCIAL from "./universidad/exani-ii/cl-participacion-social.js";
-import CL_EXANI_I_1 from "./preparatoria/comprension/cl-exani-i-1.js";
-import CL_EXANI_I_2 from "./preparatoria/comprension/cl-exani-i-2.js";
+import CELULA_ORGANELOS from "./biologia/celula-organelos.js";
+import LA_CELULA from "./biologia/la-celula.js";
+import CL_AMBITO_ESTUDIO from "./espanol/cl-ambito-estudio.js";
+import CL_AMBITO_LITERARIO from "./espanol/cl-ambito-literario.js";
+import CL_EXANI_I_1 from "./espanol/cl-exani-i-1.js";
+import CL_EXANI_I_2 from "./espanol/cl-exani-i-2.js";
+import CL_PARTICIPACION_SOCIAL from "./espanol/cl-participacion-social.js";
+import ESTRUCTURA_ORACION_PREPA from "./espanol/estructura-oracion-prepa.js";
+import ESTRUCTURA_ORACION_UNI from "./espanol/estructura-oracion-uni.js";
+import ORTOGRAFIA_GRAFIAS from "./espanol/ortografia-grafias.js";
+import SINONIMOS from "./espanol/sinonimos-antonimos-analogias.js";
+import SINTAXIS_ESPANOL from "./espanol/sintaxis-espanol.js";
+import SUJETO_PREDICADO from "./espanol/sujeto-predicado-exani-i.js";
+import ALGEBRA_PREPA from "./matematicas/algebra-prepa.js";
+import DIVISIBILIDAD from "./matematicas/divisibilidad.js";
+import DIVISIBILIDAD_MCD from "./matematicas/divisibilidad-mcd-mcm.js";
+import NUMEROS_ENTEROS from "./matematicas/numeros-enteros.js";
+import PRIMOS_MCD_MCM from "./matematicas/primos-mcd-mcm.js";
+import PRODUCTO_ENTEROS from "./matematicas/producto-enteros.js";
+import RACIONALES_PREPA from "./matematicas/racionales-prepa.js";
+import SUMA_ENTEROS from "./matematicas/suma-enteros.js";
+import UNI_RACIONALES from "./matematicas/uni-numeros-racionales.js";
+import SIMULADOR_EXANI_I from "./simuladores/simulador-exani-i.js";
+import SIMULADOR_EXANI_I_2 from "./simuladores/simulador-exani-i-2.js";
+import SIMULADOR_EXANI_I_3 from "./simuladores/simulador-exani-i-3.jsx";
+import SIMULADOR_PREPA_1 from "./simuladores/simulador-prepa-1.jsx";
+import SIMULADOR_PREPA_2 from "./simuladores/simulador-prepa-2.jsx";
 
 export const CUESTIONARIOS_INDEX = {
-  // ──────────────────────────────────────────────────────────────────────────
-  // PREPARATORIA
-  // ──────────────────────────────────────────────────────────────────────────
-  preparatoria: {
-    matematicas: {
-      icon: "📐",
-      label: "Matemáticas",
-      nivel: "Números Reales",
-
-      numerosReales: {
-        icon: "🔢",
-        label: "Números Reales",
-
-        numerosEnteros: {
-          icon: "#️⃣",
-          label: "Números Enteros",
-
-          sumaProducto: {
-            icon: "➕➖",
-            label: "Suma y Producto",
-            cuestionarios: [
-              {
-                id: "suma-enteros",
-                titulo: "Suma de Enteros",
-                description: "Aprende a sumar números positivos y negativos",
-                data: SUMA_ENTEROS,
-              },
-              {
-                id: "producto-enteros",
-                titulo: "Producto de Enteros",
-                description: "Domina la multiplicación de números enteros",
-                data: PRODUCTO_ENTEROS,
-              },
-            ],
-          },
-
-          exponenciacion: {
-            icon: "⬆️",
-            label: "Exponenciación",
-            cuestionarios: [
-              // {
-              //   id: "exponentes",
-              //   titulo: "Leyes de los Exponentes",
-              //   description: "",
-              //   data: EXPONENTES,
-              // },
-            ],
-          },
-
-          divisibilidad: {
-            icon: "🧮",
-            label: "Divisibilidad",
-            cuestionarios: [
-              {
-                id: "divisibilidad",
-                titulo: "Primos, M.C.D. y M.C.M.",
-                description:
-                  "Domina los conceptos fundamentales de divisibilidad",
-                data: DIVISIBILIDAD,
-              },
-              {
-                id: "divisibilidad-mcd-mcm",
-                titulo: "Divisibilidad, M.C.D. y M.C.M. (Avanzado)",
-                description: "Ejercicios más complejos",
-                data: DIVISIBILIDAD_MCD,
-              },
-              {
-                id: "numeros-enteros",
-                titulo: "Números Enteros",
-                description: "Repasa todos los conceptos de números enteros",
-                data: NUMEROS_ENTEROS,
-              },
-              {
-                id: "primos-mcd-mcm",
-                titulo: "Números Primos, M.C.D. y M.C.M.",
-                description: "Ejercicios específicos de números primos",
-                data: PRIMOS_MCD_MCM,
-              },
-            ],
-          },
-        },
-
-        numerosRacionales: {
-          icon: "🔶",
-          label: "Números Racionales",
-
-          sumaProductoFracciones: {
-            icon: "➕✖️",
-            label: "Suma y Producto de Fracciones",
-            cuestionarios: [
-              {
-                id: "racionales-prepa",
-                titulo: "Números Racionales - Preparatoria",
-                description:
-                  "Suma, resta, multiplicación y división de fracciones",
-                data: RACIONALES_PREPA,
-              },
-            ],
-          },
-
-          divisionFracciones: {
-            icon: "➗",
-            label: "División de Fracciones",
-            cuestionarios: [
-              // Aquí irían cuestionarios específicos de división
-            ],
-          },
-
-          fraccionesDecimales: {
-            icon: "🔄",
-            label: "Fracciones - Decimales",
-            cuestionarios: [],
-          },
-
-          porcentajes: {
-            icon: "%",
-            label: "Porcentajes",
-            cuestionarios: [],
-          },
-
-          proporciones: {
-            icon: "⚖️",
-            label: "Proporciones",
-            cuestionarios: [],
-          },
-
-          raizCuadrada: {
-            icon: "√",
-            label: "Raíz Cuadrada",
-            cuestionarios: [],
-          },
-
-          leyesExponentes: {
-            icon: "⬆️",
-            label: "Leyes de los Exponentes",
-            cuestionarios: [],
-          },
-        },
-      },
-
-      algebra: {
-        icon: "🔤",
-        label: "Álgebra",
-
-        simplificacionTerminos: {
-          label: "Simplificación de Términos Semejantes",
-          cuestionarios: [],
-        },
-
-        ecuacionesPrimerGrado: {
-          label: "Ecuaciones de Primer Grado",
-          cuestionarios: [
-          ],
-        },
-
-        productosNotables: {
-          label: "Productos Notables",
-          cuestionarios: [],
-        },
-
-        ecuacionesSegundoGrado: {
-          label: "Ecuación de Segundo Grado",
-          cuestionarios: [
-            {
-              id: "algebra-prepa",
-              titulo: "Álgebra - Preparatoria",
-              description: "",
-              data: ALGEBRA_PREPA,
-            },
-          ],
-        },
-
-        sistemasEcuaciones: {
-          label: "Sistemas de Ecuaciones",
-          cuestionarios: [],
-        },
-      },
-
-      geometria: {
-        icon: "🔺",
-        label: "Geometría",
-        cuestionarios: [],
-      },
-
-      probabilidadEstadistica: {
-        icon: "📊",
-        label: "Probabilidad y Estadística",
-        cuestionarios: [],
-      },
-    },
-
-    espanol: {
-      icon: "📚",
-      label: "Español",
-      cuestionarios: [
-        {
-          id: "sujeto-predicado-exani-i",
-          titulo: "Estructura de la Oración: Sujeto y Predicado",
-          description:
-            "Aprende a identificar el sujeto y predicado en las oraciones",
-          data: SUJETO_PREDICADO, // Descomentar cuando importes
-        },
-        {
-          id: "estructura-oracion-prepa",
-          titulo: "Estructura de la Oración",
-          description: "Repasa todos los conceptos de estructura de la oración",
-          data: ESTRUCTURA_ORACION_PREPA,
-        },
-      ],
-    },
-
-    fisica: {
-      icon: "⚛️",
-      label: "Física",
-      cuestionarios: [],
-    },
-
-    biologia: {
-      icon: "🧬",
-      label: "Biología",
-      cuestionarios: [
-        {
-          id: "la-celula",
-          titulo: "La Célula",
-          description: "",
-          data: LA_CELULA,
-        },
-        {
-          id: "celula-organelos",
-          titulo: "Célula y Organelos",
-          description: "",
-          data: CELULA_ORGANELOS,
-        },
-      ],
-    },
-
-    quimica: {
-      icon: "⚗️",
-      label: "Química",
-      cuestionarios: [],
-    },
-    simuladores: {
-      icon: "🕹️",
-      label: "Simuladores",
-      cuestionarios: [
-        {
-          id: "simulador-exani-i",
-          titulo: "Simulador EXANI-I",
-          description: "Simulador oficial tipo EXANI-I: Pensamiento Científico, Comprensión Lectora, Redacción Indirecta y Pensamiento Matemático",
-          data: SIMULADOR_EXANI_I,
-        },
-        {
-          id: "simulador-exani-i-2",
-          titulo: "Simulador EXANI-I #2",
-          description: "Segundo simulador tipo EXANI-I con reactivos distintos: Pensamiento Científico, Comprensión Lectora, Redacción Indirecta y Pensamiento Matemático",
-          data: SIMULADOR_EXANI_I_2,
-        },
-        {
-          id: "simulador-exani-i-3",
-          titulo: "Simulador EXANI-I #3",
-          description: "Tercer simulador tipo EXANI-I con SVGs en Pensamiento Matemático y Pensamiento Científico: cadenas tróficas, neuroplasticidad, sistemas de ecuaciones, estadística y más.",
-          data: SIMULADOR_EXANI_I_3,
-        },
-        {
-          id: "simulador-prepa-1",
-          titulo: "Simulador de Examen 1",
-          description: "",
-          data: SIMULADOR_PREPA_1,
-        },
-        {
-          id: "simulador-prepa-2",
-          titulo: "Simulador de Examen 2",
-          description: "",
-          data: SIMULADOR_PREPA_2,
-        },
-      ],
-    },
-
-    comprensionLectora: {
-      icon: "📖",
-      label: "Comprensión Lectora",
-      cuestionarios: [
-        {
-          id: "cl-exani-i-1",
-          titulo: "Textos informativos y cotidianos",
-          description: "Texto expositivo, anuncio publicitario y tabla de datos",
-          data: CL_EXANI_I_1,
-        },
-        {
-          id: "cl-exani-i-2",
-          titulo: "Textos narrativos y literarios",
-          description: "Relato, fragmento de teatro e instructivo",
-          data: CL_EXANI_I_2,
-        },
-      ],
-    },
+  // ── biologia ──
+  // Los dos colgaban de `preparatoria` en el árbol viejo aunque su archivo, su
+  // metadata y el único sitio que los enlaza (universidadData) dicen universidad.
+  // Se corrigió al aplanar: el árbol era el que estaba mal.
+  "celula-organelos": {
+    titulo: "Célula y Organelos",
+    descripcion: "",
+    materia: "biologia",
+    nivel: "universidad",
+    data: CELULA_ORGANELOS,
+  },
+  "la-celula": {
+    titulo: "La Célula",
+    descripcion: "",
+    materia: "biologia",
+    nivel: "universidad",
+    data: LA_CELULA,
   },
 
-  // ──────────────────────────────────────────────────────────────────────────
-  // UNIVERSIDAD
-  // ──────────────────────────────────────────────────────────────────────────
-  universidad: {
-    exaniII: {
-      icon: "📝",
-      label: "EXANI-II",
+  // ── espanol ──
+  "cl-ambito-estudio": {
+    titulo: "Ámbito de estudio",
+    descripcion: "Textos argumentativo-periodístico y ensayo académico",
+    materia: "espanol",
+    nivel: "universidad",
+    data: CL_AMBITO_ESTUDIO,
+  },
+  "cl-ambito-literario": {
+    titulo: "Ámbito literario",
+    descripcion: "Textos: cuento y poema",
+    materia: "espanol",
+    nivel: "universidad",
+    data: CL_AMBITO_LITERARIO,
+  },
+  "cl-exani-i-1": {
+    titulo: "Textos informativos y cotidianos",
+    descripcion: "Texto expositivo, anuncio publicitario y tabla de datos",
+    materia: "espanol",
+    nivel: "preparatoria",
+    data: CL_EXANI_I_1,
+  },
+  "cl-exani-i-2": {
+    titulo: "Textos narrativos y literarios",
+    descripcion: "Relato, fragmento de teatro e instructivo",
+    materia: "espanol",
+    nivel: "preparatoria",
+    data: CL_EXANI_I_2,
+  },
+  "cl-participacion-social": {
+    titulo: "Ámbito de participación social",
+    descripcion: "Textos: noticia y documento administrativo",
+    materia: "espanol",
+    nivel: "universidad",
+    data: CL_PARTICIPACION_SOCIAL,
+  },
+  "estructura-oracion-prepa": {
+    titulo: "Estructura de la Oración",
+    descripcion: "Repasa todos los conceptos de estructura de la oración",
+    materia: "espanol",
+    nivel: "preparatoria",
+    data: ESTRUCTURA_ORACION_PREPA,
+  },
+  "estructura-oracion-uni": {
+    titulo: "Estructura de la Oración",
+    descripcion: "",
+    materia: "espanol",
+    nivel: "universidad",
+    data: ESTRUCTURA_ORACION_UNI,
+  },
+  "ortografia-grafias": {
+    titulo: "Ortografía y Grafías",
+    descripcion: "",
+    materia: "espanol",
+    nivel: "universidad",
+    data: ORTOGRAFIA_GRAFIAS,
+  },
+  "sinonimos-antonimos-analogias": {
+    titulo: "Sinónimos, Antónimos y Analogías",
+    descripcion: "",
+    materia: "espanol",
+    nivel: "universidad",
+    data: SINONIMOS,
+  },
+  "sintaxis-espanol": {
+    titulo: "Sintaxis en Español",
+    descripcion: "",
+    materia: "espanol",
+    nivel: "universidad",
+    data: SINTAXIS_ESPANOL,
+  },
+  "sujeto-predicado-exani-i": {
+    titulo: "Estructura de la Oración: Sujeto y Predicado",
+    descripcion: "Aprende a identificar el sujeto y predicado en las oraciones",
+    materia: "espanol",
+    nivel: "preparatoria",
+    data: SUJETO_PREDICADO,
+  },
 
-      comprensionLectora: {
-        icon: "📖",
-        label: "Comprensión lectora",
-        cuestionarios: [
-          {
-            id: "cl-ambito-estudio",
-            titulo: "Ámbito de estudio",
-            description: "Textos argumentativo-periodístico y ensayo académico",
-            data: CL_AMBITO_ESTUDIO,
-          },
-          {
-            id: "cl-ambito-literario",
-            titulo: "Ámbito literario",
-            description: "Textos: cuento y poema",
-            data: CL_AMBITO_LITERARIO,
-          },
-          {
-            id: "cl-participacion-social",
-            titulo: "Ámbito de participación social",
-            description: "Textos: noticia y documento administrativo",
-            data: CL_PARTICIPACION_SOCIAL,
-          },
-        ],
-      },
-    },
-    matematicas: {
-      icon: "🔢",
-      label: "Matemáticas",
+  // ── matematicas ──
+  "algebra-prepa": {
+    titulo: "Álgebra - Preparatoria",
+    descripcion: "",
+    materia: "matematicas",
+    nivel: "preparatoria",
+    data: ALGEBRA_PREPA,
+  },
+  "divisibilidad": {
+    titulo: "Primos, M.C.D. y M.C.M.",
+    descripcion: "Domina los conceptos fundamentales de divisibilidad",
+    materia: "matematicas",
+    nivel: "preparatoria",
+    data: DIVISIBILIDAD,
+  },
+  "divisibilidad-mcd-mcm": {
+    titulo: "Divisibilidad, M.C.D. y M.C.M. (Avanzado)",
+    descripcion: "Ejercicios más complejos",
+    materia: "matematicas",
+    nivel: "preparatoria",
+    data: DIVISIBILIDAD_MCD,
+  },
+  "numeros-enteros": {
+    titulo: "Números Enteros",
+    descripcion: "Repasa todos los conceptos de números enteros",
+    materia: "matematicas",
+    nivel: "preparatoria",
+    data: NUMEROS_ENTEROS,
+  },
+  "primos-mcd-mcm": {
+    titulo: "Números Primos, M.C.D. y M.C.M.",
+    descripcion: "Ejercicios específicos de números primos",
+    materia: "matematicas",
+    nivel: "preparatoria",
+    data: PRIMOS_MCD_MCM,
+  },
+  "producto-enteros": {
+    titulo: "Producto de Enteros",
+    descripcion: "Domina la multiplicación de números enteros",
+    materia: "matematicas",
+    nivel: "preparatoria",
+    data: PRODUCTO_ENTEROS,
+  },
+  "racionales-prepa": {
+    titulo: "Números Racionales - Preparatoria",
+    descripcion: "Suma, resta, multiplicación y división de fracciones",
+    materia: "matematicas",
+    nivel: "preparatoria",
+    data: RACIONALES_PREPA,
+  },
+  "suma-enteros": {
+    titulo: "Suma de Enteros",
+    descripcion: "Aprende a sumar números positivos y negativos",
+    materia: "matematicas",
+    nivel: "preparatoria",
+    data: SUMA_ENTEROS,
+  },
+  "uni-numeros-racionales": {
+    titulo: "Números Racionales (Universidad)",
+    descripcion: "",
+    materia: "matematicas",
+    nivel: "universidad",
+    data: UNI_RACIONALES,
+  },
 
-      calculo: {
-        icon: "📈",
-        label: "Cálculo",
-        cuestionarios: [
-          {
-            id: "uni-numeros-racionales",
-            titulo: "Números Racionales (Universidad)",
-            description: "",
-            data: UNI_RACIONALES,
-          },
-        ],
-      },
-    },
-    espanol: {
-      icon: "📖",
-      label: "Español",
-      cuestionarios: [
-        {
-          id: "ortografia-grafias",
-          titulo: "Ortografía y Grafías",
-          description: "",
-          data: ORTOGRAFIA_GRAFIAS,
-        },
-        {
-          id: "sinonimos-antonimos-analogias",
-          titulo: "Sinónimos, Antónimos y Analogías",
-          description: "",
-          data: SINONIMOS,
-        },
-        {
-          id: "sintaxis-espanol",
-          titulo: "Sintaxis en Español",
-          description: "",
-          data: SINTAXIS_ESPANOL,
-        },
-        {
-          id: "estructura-oracion-uni",
-          titulo: "Estructura de la Oración",
-          data: ESTRUCTURA_ORACION_UNI,
-        },
-      ],
-    },
-    biologia: {
-      icon: "🧬",
-      label: "Biología",
-
-      celular: {
-        label: "Biología Celular",
-        cuestionarios: [],
-      },
-    },
-
-    medicina: {
-      icon: "💊",
-      label: "Medicina",
-      cuestionarios: [
-      ],
-    },
+  // ── simuladores ──
+  "simulador-exani-i": {
+    titulo: "Simulador EXANI-I",
+    descripcion: "Simulador oficial tipo EXANI-I: Pensamiento Científico, Comprensión Lectora, Redacción Indirecta y Pensamiento Matemático",
+    materia: null,
+    nivel: "preparatoria",
+    data: SIMULADOR_EXANI_I,
+  },
+  "simulador-exani-i-2": {
+    titulo: "Simulador EXANI-I #2",
+    descripcion: "Segundo simulador tipo EXANI-I con reactivos distintos: Pensamiento Científico, Comprensión Lectora, Redacción Indirecta y Pensamiento Matemático",
+    materia: null,
+    nivel: "preparatoria",
+    data: SIMULADOR_EXANI_I_2,
+  },
+  "simulador-exani-i-3": {
+    titulo: "Simulador EXANI-I #3",
+    descripcion: "Tercer simulador tipo EXANI-I con SVGs en Pensamiento Matemático y Pensamiento Científico: cadenas tróficas, neuroplasticidad, sistemas de ecuaciones, estadística y más.",
+    materia: null,
+    nivel: "preparatoria",
+    data: SIMULADOR_EXANI_I_3,
+  },
+  "simulador-prepa-1": {
+    titulo: "Simulador de Examen 1",
+    descripcion: "",
+    materia: null,
+    nivel: "preparatoria",
+    data: SIMULADOR_PREPA_1,
+  },
+  "simulador-prepa-2": {
+    titulo: "Simulador de Examen 2",
+    descripcion: "",
+    materia: null,
+    nivel: "preparatoria",
+    data: SIMULADOR_PREPA_2,
   },
 };
 
 // ─── Identidad estable por pregunta ─────────────────────────────────────────
 // El estándar pide que cada pregunta tenga un `id` propio, y ~3 500 de ellas no
 // lo traían. Se asigna aquí, al cargar el índice, en vez de escribirlo en los
-// 25 archivos de banco: el valor sería el mismo —la posición dentro del
-// archivo— pero editando a mano miles de literales escritos por una persona se
-// gana churn y riesgo sin ganar información.
+// archivos de banco: el valor sería el mismo —la posición dentro del archivo—
+// pero editando a mano miles de literales se gana churn y riesgo sin ganar
+// información. El `id` declarado siempre manda.
 //
-// Regla: el `id` declarado manda; si falta, es la posición en base 1. Es
-// idempotente y corre una sola vez, porque los módulos de banco son singletons.
-// Consecuencia a tener presente: al ser posicional, insertar una pregunta en
-// medio de un archivo recorre los ids de ahí en adelante. Mientras los bancos
-// crezcan por el final —que es como han crecido— eso no ocurre; el día que haga
-// falta insertar en medio, se declara el `id` a mano en esa pregunta y esta
-// función lo respeta.
-function numerarPreguntas(nodo) {
-  if (nodo.cuestionarios) {
-    for (const c of nodo.cuestionarios) {
-      const preguntas = c.data?.questions;
-      if (!Array.isArray(preguntas)) continue;
-      preguntas.forEach((q, i) => {
-        if (q.id === undefined) q.id = i + 1;
-      });
-    }
-  }
-  for (const clave in nodo) {
-    const hijo = nodo[clave];
-    if (typeof hijo === "object" && hijo !== null && !Array.isArray(hijo)) numerarPreguntas(hijo);
-  }
+// Al ser posicional, insertar una pregunta en medio recorre los ids siguientes.
+// Mientras los bancos crezcan por el final no ocurre; si algún día hace falta
+// insertar en medio, se declara el `id` a mano en esa pregunta.
+for (const entrada of Object.values(CUESTIONARIOS_INDEX)) {
+  const preguntas = entrada.data?.questions;
+  if (!Array.isArray(preguntas)) continue;
+  preguntas.forEach((q, i) => {
+    if (q.id === undefined) q.id = i + 1;
+  });
 }
-numerarPreguntas(CUESTIONARIOS_INDEX);
 
-// ─── FUNCIÓN AUXILIAR: Buscar un cuestionario por ID ────────────────────────
+// ─── Búsqueda ───────────────────────────────────────────────────────────────
+// Antes recorría el árbol; ahora es un acceso directo. Devuelve la entrada con
+// su `id` incorporado, que es la forma que esperan Cuestionario y SelectorBloque.
 export function buscarCuestionario(id) {
-  const traverse = (obj) => {
-    if (obj.cuestionarios && Array.isArray(obj.cuestionarios)) {
-      const found = obj.cuestionarios.find((c) => c.id === id);
-      if (found) return found;
-    }
-    for (const key in obj) {
-      if (typeof obj[key] === "object" && obj[key] !== null) {
-        const result = traverse(obj[key]);
-        if (result) return result;
-      }
-    }
-    return null;
-  };
-
-  return traverse(CUESTIONARIOS_INDEX);
+  const entrada = CUESTIONARIOS_INDEX[id];
+  return entrada ? { id, ...entrada } : null;
 }
 
-// ─── FUNCIÓN AUXILIAR: Obtener lista plana de todos los cuestionarios ────────
 export function obtenerTodosCuestionarios() {
-  const cuestionarios = [];
-
-  const traverse = (obj) => {
-    if (obj.cuestionarios && Array.isArray(obj.cuestionarios)) {
-      cuestionarios.push(...obj.cuestionarios);
-    }
-    for (const key in obj) {
-      if (typeof obj[key] === "object" && obj[key] !== null) {
-        traverse(obj[key]);
-      }
-    }
-  };
-
-  traverse(CUESTIONARIOS_INDEX);
-  return cuestionarios;
+  return Object.entries(CUESTIONARIOS_INDEX).map(([id, entrada]) => ({ id, ...entrada }));
 }

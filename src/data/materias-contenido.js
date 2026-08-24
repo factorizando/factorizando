@@ -20,18 +20,6 @@ import { MATERIAS } from "./materias.js";
 // ── Clasificación ────────────────────────────────────────────────────────────
 // Claves del árbol de cuestionarios → materia. Lo que no aparece aquí
 // (`simuladores`, `exaniII`) no es una materia: es una ruta de examen.
-const CLAVE_A_MATERIA = {
-  matematicas: "matematicas",
-  espanol: "espanol",
-  comprensionLectora: "espanol",
-  fisica: "fisica",
-  biologia: "biologia",
-  medicina: "biologia",
-  quimica: "quimica",
-  geografia: "geografia",
-  historia: "historia",
-};
-
 // Carpetas de src/data/presentaciones/ → materia.
 const CARPETA_A_MATERIA = {
   matematicas: "matematicas",
@@ -60,37 +48,22 @@ function porTexto(materia) {
 }
 
 // ── Cuestionarios ────────────────────────────────────────────────────────────
-// Recorre el índice arrastrando el nivel (1.er nivel) y la materia (la clave
-// más profunda que sí es una materia). Descarta las entradas sin `data`: están
-// declaradas pero el módulo aún no existe, y abrirlas daría una pantalla vacía.
+// El índice es plano y cada entrada dice su materia y su nivel, así que aquí ya
+// no hay que deducir nada recorriendo un árbol. Se descartan las entradas sin
+// `data` —declaradas pero sin módulo— porque abrirlas daría una pantalla vacía,
+// y las de `materia: null`, que son los simuladores: cubren el examen completo
+// y no suman en el conteo de ninguna materia.
 function recolectarCuestionarios() {
-  const salida = [];
-
-  const recorrer = (nodo, nivel, materia) => {
-    if (Array.isArray(nodo.cuestionarios)) {
-      for (const c of nodo.cuestionarios) {
-        if (!c?.data) continue;
-        salida.push({
-          id: c.id,
-          titulo: c.titulo,
-          descripcion: c.description || "",
-          nivel,
-          materia,
-          preguntas: c.data.questions?.length || 0,
-        });
-      }
-    }
-    for (const clave of Object.keys(nodo)) {
-      const hijo = nodo[clave];
-      if (typeof hijo !== "object" || hijo === null || Array.isArray(hijo)) continue;
-      recorrer(hijo, nivel, CLAVE_A_MATERIA[clave] || materia);
-    }
-  };
-
-  for (const nivel of Object.keys(CUESTIONARIOS_INDEX)) {
-    recorrer(CUESTIONARIOS_INDEX[nivel], nivel, null);
-  }
-  return salida;
+  return Object.entries(CUESTIONARIOS_INDEX)
+    .filter(([, c]) => c?.data)
+    .map(([id, c]) => ({
+      id,
+      titulo: c.titulo,
+      descripcion: c.descripcion || "",
+      nivel: c.nivel,
+      materia: c.materia,
+      preguntas: c.data.questions?.length || 0,
+    }));
 }
 
 // ── Presentaciones ───────────────────────────────────────────────────────────

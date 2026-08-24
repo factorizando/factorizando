@@ -4,7 +4,7 @@ export default {
   metadata: {
     id: "sujeto-predicado-exani-i",
     titulo: "Sujeto y Predicado",
-    nivel: "universidad",
+    nivel: "preparatoria",
     materia: "Español",
     tema: "Estructura de la oración",
   },

@@ -3,7 +3,7 @@ export default {
   metadata: {
     id: "estructura-oracion-prepa",
     titulo: "Estructura de la oración",
-    nivel: "universidad",
+    nivel: "preparatoria",
     materia: "Español",
     tema: "La oración",
   },

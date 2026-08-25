@@ -5,10 +5,12 @@
 // matter-js (física). Los componentes viven por materia.
 import DerivadaTangente from "./matematicas/derivada-tangente.jsx";
 import SimFrecuentista from "./matematicas/sim-frecuentista.jsx";
+import ArbolTilde from "./espanol/arbol-tilde.jsx";
 
 export const INTERACTIVOS = {
   "derivada-tangente": DerivadaTangente,
   "sim-frecuentista": SimFrecuentista,
+  "arbol-tilde": ArbolTilde,
 };
 
 export function buscarInteractivo(clave) {

@@ -23,9 +23,17 @@ export const PRESENTACION = {
     },
     {
       id: "resumen-visual",
-      tipo: "arbol_decision",
+      tipo: "lienzo",
       etiqueta: "Mapa de referencia",
       titulo: "¿Cuándo lleva tilde?",
+      notas: "Déjala abierta mientras resuelven los primeros reactivos. Tocar un resultado ilumina su camino, así que sirve para responder «¿por qué esta lleva tilde?» sin explicarlo de nuevo.",
+      bloques: [
+        {
+          tipo: "interactivo",
+          clave: "arbol-tilde",
+          instruccion: "Toca cualquier resultado para iluminar el camino que lleva hasta él",
+        },
+      ],
     },
     {
       id: 49,

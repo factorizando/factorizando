@@ -383,10 +383,29 @@ componente de verdad, así que si algo se ve bien ahí, se ve bien en clase.
 
 ## Fase 4C — Migrar las 65 presentaciones 🟡 *(24 ago 2026 — Acentuación completa, 1 de 65)*
 
-- [x] **Acentuación: 69 de 70 diapositivas** en `tipo: "lienzo"` (58 originales, doce
-      partidas en dos). Queda el árbol de decisión, que no es traducción mecánica: es un
-      tipo interactivo con xyflow.
+- [x] **Acentuación: 70 de 70 diapositivas** en `tipo: "lienzo"`. El árbol de decisión
+      pasó al registro de **interactivos** (`arbol-tilde`): es manipulable, así que su
+      sitio es ese y no un `slide.tipo` propio que solo una presentación usaba. Con eso
+      desaparece el último tipo antiguo de esta presentación y **aparece el selector de
+      tema claro**, que estaba condicionado a que todas las diapositivas fueran lienzo.
 - [ ] Las otras 64 presentaciones.
+
+### Lo que costó sacar el árbol
+
+Cuatro fallos que ni el build ni el lint ven, todos por el mismo motivo —al salir de
+`SlideRenderer` el componente pierde el contexto que le llegaba gratis—:
+
+1. **ReactFlow colapsó a cero de alto.** Traía `height: 100%`, que dentro de una celda de
+   rejilla se resuelve contra un padre de altura automática. Los 16 nodos estaban en el
+   DOM y no se veía nada. Ahora lleva altura propia.
+2. **Las aristas eran invisibles en tema claro**: iban en blanco translúcido. Tokenizadas.
+3. **El memo de las aristas dependía solo de `activeResult`**, así que al cambiar de tema
+   se quedaban con el color del anterior. El de los nodos ya traía `tema`; este no.
+4. Nodos que ReactFlow pinta y no ven el tema (`FNResult`, `FNStart`) recibían colores
+   cocidos; ahora les llegan por `data`.
+
+De paso, el camino iluminado deja de ser verde `#4ade80` y va en el acento: iluminar es
+señalar una selección, no marcar un acierto.
 
 ### La regla de reacomodo
 

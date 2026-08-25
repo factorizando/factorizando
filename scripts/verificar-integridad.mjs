@@ -149,7 +149,13 @@ try {
         usadas.get(clave).push(`${id} › slide ${slide.id}`);
       };
       anota(slide.svgDiagram);
-      for (const b of slide.bloques ?? []) if (b.tipo === "diagrama") anota(b.id);
+      for (const b of slide.bloques ?? []) {
+        // `diagrama` es el bloque del esquema antiguo (clave en `id`); `figura`
+        // el del sistema de bloques (clave en `clave`). Mientras dure la fase 4C
+        // conviven, y olvidar el segundo dejaría sin vigilar justo lo migrado.
+        if (b.tipo === "diagrama") anota(b.id);
+        if (b.tipo === "figura") anota(b.clave);
+      }
     }
   }
   // Los documentos también dibujan, con `figura:` dentro de sus elementos.

@@ -381,10 +381,11 @@ componente de verdad, así que si algo se ve bien ahí, se ve bien en clase.
 
 ---
 
-## Fase 4C — Migrar las 65 presentaciones 🟡 *(24 ago 2026 — 1 de 65)*
+## Fase 4C — Migrar las 65 presentaciones 🟡 *(24 ago 2026 — Acentuación completa, 1 de 65)*
 
-- [x] **Acentuación: 57 de 58 diapositivas** en `tipo: "lienzo"`. Queda el árbol de
-      decisión, que no es una traducción mecánica: es un tipo interactivo con xyflow.
+- [x] **Acentuación: 69 de 70 diapositivas** en `tipo: "lienzo"` (58 originales, doce
+      partidas en dos). Queda el árbol de decisión, que no es traducción mecánica: es un
+      tipo interactivo con xyflow.
 - [ ] Las otras 64 presentaciones.
 
 ### La regla de reacomodo
@@ -406,28 +407,36 @@ una palabra entre comillas angulares, esa palabra pasa a ser el apoyo visual.
 **No se inventaron `notas`.** Solo las cinco del piloto, escritas a mano. Rellenar 52
 guiones de profesor plausibles sería relleno, y el guion es de quien da la clase.
 
-### Lo que la migración destapó: doce diapositivas no caben
+### Lo que la migración destapó, y cómo se resolvió
 
-Al medir las 58 en el navegador, **doce necesitan entre 734 y 1139 px sobre un lienzo de
-720**. La peor (Regla 5, diptongo) tiene **seis bloques** —uno es una figura de 348 px—
-cuando `docs/DISENO.md` §2.3 pide cinco como máximo.
+Al medir las 58 en el navegador, **doce necesitaban entre 734 y 1139 px sobre un lienzo de
+720**. No era un problema de reacomodo —probar la tabla a ancho completo mejoró unas y
+empeoró otras— sino contenido de más: la peor tenía **seis bloques** cuando §2.3 pide cinco.
 
-Probé si era un problema de reacomodo: pasar la tabla a ancho completo y los contrastes a
-una fila mejoró unas y empeoró otras. No lo es. **Es contenido de más.**
+Tampoco era una regresión: el tipo `regla_rica` al que sustituyen ya llevaba
+`overflowY: "auto"`, así que esas doce llevaban desbordándose desde siempre y proyectadas
+su final no se veía salvo que alguien arrastrara. Lo nuevo fue saber cuáles.
 
-Y no es una regresión del sistema de bloques: el tipo `regla_rica` al que sustituye ya
-llevaba `overflowY: "auto"`, así que esas doce llevan desbordándose desde siempre.
-Proyectadas en clase, su final no se veía salvo que alguien arrastrara. Lo que cambia es
-que ahora se sabe cuáles son.
+**Se partieron en dos: 58 → 70 diapositivas.** El corte no es mecánico, sale del contenido:
 
-**Cómo queda mientras tanto:** el contenido que no cabe se desplaza *dentro* del lienzo
-—ni se recorta ni encoge la diapositiva, que traicionaría lo único que promete el lienzo
-fijo— y en desarrollo la consola nombra cada diapositiva que lo necesita, con su altura y
-su número de bloques. Verificado: ninguna de las 58 recorta contenido.
+- **Regla / uso** en once: la primera mitad lleva el enunciado y la tabla —*qué dice la
+  regla*—; la segunda, las frases de ejemplo y la trampa —*cómo se ve y dónde falla*—. La
+  segunda se titula «… — en la frase». Solo la trampa conserva `revelar`: es el remate de
+  la explicación, no la explicación.
+- **Por tema** en Diptongo: llevaba dos ideas. El destacado terminaba en «si la cerrada es
+  tónica, no hay diptongo sino hiato», la figura se titula «Diptongo vs. Hiato» y la trampa
+  dice lo mismo — **tres bloques sobre la segunda idea**. Así que la figura viaja con la
+  trampa a «Diptongo — cuándo se rompe», que además hace de puente a la Regla 6.
 
-**La decisión pendiente es de contenido, no técnica:** partir esas doce en dos
-diapositivas cada una (58 → ~70) es lo que pide el diseño, pero cambia la secuencia
-didáctica y eso lo decide quien da la clase.
+Dos siguieron sin caber tras el corte, y las dos se arreglaron por contenido:
+
+- **Clasificación del acento**: la figura muestra dónde cae la tónica en cada tipo y la
+  tabla da ejemplos de esos mismos cuatro tipos. Juntas pesaban 784 px; la figura pasó a
+  encabezar la mitad de los ejemplos, que es donde se mira mientras se leen las frases.
+- **Tilde diacrítica**: se pasaba 8 px. Su destacado terminaba explicando el cambio de la
+  RAE 2010 y **la trampa de la otra mitad dice exactamente eso**. Recortada la duplicación.
+
+**Resultado medido: 0 de 70 desbordan.** La más alta mide justo 720.
 
 ---
 

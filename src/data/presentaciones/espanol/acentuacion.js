@@ -256,16 +256,11 @@ export const PRESENTACION = {
         {
           tipo: "destacado",
           texto: "Toda palabra tiene una sílaba que se pronuncia con mayor intensidad: la sílaba tónica. Según dónde recaiga esa sílaba, la palabra se clasifica en uno de cuatro tipos. Identificar el tipo es el primer paso para saber si la palabra lleva tilde o no.",
-        },
-        {
-          tipo: "figura",
-          clave: "acento-clasificacion",
-          titulo: "Posición de la sílaba tónica (●) en cada tipo",
+          ancho: 12,
         },
         {
           tipo: "tabla",
-          ancho: 7,
-          alto: 2,
+          ancho: 12,
           titulo: "Los cuatro tipos de palabras según el acento",
           columnas: ["Tipo", "Sílaba tónica", "Ejemplo (tónica en MAYÚSCULAS)"],
           filas: [
@@ -275,17 +270,30 @@ export const PRESENTACION = {
             ["Sobreesdrújula", "antes de antepenúlt.", "CÓ-me-te-lo · DÍ-ga-se-la · ÁY-u-da-me"],
           ],
         },
+      ],
+    },
+    {
+      id: "1b",
+      tipo: "lienzo",
+      etiqueta: "Regla 1 / 12",
+      titulo: "Clasificación según la posición del acento — en la frase",
+      bloques: [
+        {
+          tipo: "figura",
+          clave: "acento-clasificacion",
+          titulo: "Posición de la sílaba tónica (●) en cada tipo",
+          ancho: 12,
+        },
         {
           tipo: "par",
-          ancho: 5,
-          revelar: true,
+          ancho: 6,
           etiqueta: "aguda vs. llana — misma raíz, distinto acento y significado",
           asi_es: "can-TÓ (aguda, última sílaba) → llevará tilde porque termina en vocal.",
           asi_no: "CAN-to (llana, penúltima sílaba) → no lleva tilde porque termina en vocal.",
         },
         {
           tipo: "trampa",
-          ancho: 5,
+          ancho: 6,
           revelar: true,
           letra: "A",
           titulo: "«Acento» ≠ «tilde» — el acento es fonético, la tilde (´) es el signo gráfico que lo marca",
@@ -354,6 +362,7 @@ export const PRESENTACION = {
         {
           tipo: "destacado",
           texto: "Las palabras agudas llevan tilde cuando terminan en vocal (a, e, i, o, u), en n o en s. Si terminan en cualquier otra consonante, no llevan tilde. Esta es la regla más frecuente en el EXANI-I.",
+          ancho: 12,
         },
         {
           tipo: "tabla",
@@ -367,10 +376,17 @@ export const PRESENTACION = {
             ["cualquier otra consonante", "No", "reloj · comer · verdad · capaz · canal · papel"],
           ],
         },
+      ],
+    },
+    {
+      id: "5b",
+      tipo: "lienzo",
+      etiqueta: "Regla 2 / 12",
+      titulo: "Palabras agudas — en la frase",
+      bloques: [
         {
           tipo: "par",
           ancho: 4,
-          revelar: true,
           etiqueta: "termina en vocal → con tilde",
           asi_es: "El bebé durmió toda la noche sin despertarse.",
           asi_no: "El bebe durmio toda la noche sin despertarse.",
@@ -378,7 +394,6 @@ export const PRESENTACION = {
         {
           tipo: "par",
           ancho: 4,
-          revelar: true,
           etiqueta: "termina en consonante distinta de n/s → sin tilde",
           asi_es: "El reloj del salón marcaba exactamente las tres de la tarde.",
           asi_no: "El relój del salón marcaba exactamente las tres de la tarde.",
@@ -450,6 +465,7 @@ export const PRESENTACION = {
         {
           tipo: "destacado",
           texto: "Las palabras llanas (o graves) llevan tilde cuando NO terminan en vocal, n ni s. Si terminan en vocal, n o s, no llevan tilde. Esta regla es la complementaria exacta de la Regla 2: lo que pide tilde en agudas, no la pide en llanas, y viceversa.",
+          ancho: 12,
         },
         {
           tipo: "tabla",
@@ -463,10 +479,17 @@ export const PRESENTACION = {
             ["otra consonante (l/r/d/z/x…)", "Sí", "árbol · ángel · fácil · lápiz · tórax · álbum"],
           ],
         },
+      ],
+    },
+    {
+      id: "9b",
+      tipo: "lienzo",
+      etiqueta: "Regla 3 / 12",
+      titulo: "Palabras llanas — en la frase",
+      bloques: [
         {
           tipo: "par",
           ancho: 4,
-          revelar: true,
           etiqueta: "termina en l → con tilde",
           asi_es: "El árbol del patio perdió todas sus hojas durante el otoño.",
           asi_no: "El arbol del patio perdió todas sus hojas durante el otoño.",
@@ -474,7 +497,6 @@ export const PRESENTACION = {
         {
           tipo: "par",
           ancho: 4,
-          revelar: true,
           etiqueta: "termina en n → sin tilde (error muy frecuente en el EXANI-I)",
           asi_es: "El examen de matemáticas se realizará el próximo lunes por la mañana.",
           asi_no: "El exámen de matemáticas se realizará el próximo lunes por la mañana.",
@@ -546,6 +568,7 @@ export const PRESENTACION = {
         {
           tipo: "destacado",
           texto: "Las palabras esdrújulas y sobreesdrújulas siempre llevan tilde, sin ninguna excepción. No hace falta analizar la terminación: basta con identificar que el acento recae en la antepenúltima sílaba (o en una anterior). Esta es la regla más fácil de aplicar.",
+          ancho: 12,
         },
         {
           tipo: "tabla",
@@ -559,10 +582,17 @@ export const PRESENTACION = {
             ["Sobreesdrújulas", "dígamelo · cómpratelo · envíaselo", "digamelo · compratelo · enviaselo"],
           ],
         },
+      ],
+    },
+    {
+      id: "13b",
+      tipo: "lienzo",
+      etiqueta: "Regla 4 / 12",
+      titulo: "Esdrújulas y sobreesdrújulas — en la frase",
+      bloques: [
         {
           tipo: "par",
           ancho: 4,
-          revelar: true,
           etiqueta: "esdrújula — antepenúltima sílaba tónica",
           asi_es: "El médico recomendó seguir una dieta balanceada y hacer ejercicio.",
           asi_no: "El medico recomendó seguir una dieta balanceada y hacer ejercicio.",
@@ -570,7 +600,6 @@ export const PRESENTACION = {
         {
           tipo: "par",
           ancho: 4,
-          revelar: true,
           etiqueta: "sobreesdrújula — siempre lleva tilde, sin excepción",
           asi_es: "Dígamelo cuanto antes para poder coordinar la respuesta con el equipo.",
           asi_no: "Digamelo cuanto antes para poder coordinar la respuesta con el equipo.",
@@ -646,13 +675,8 @@ export const PRESENTACION = {
       titulo: "Diptongo — dos vocales en una sola sílaba",
       bloques: [
         {
-          tipo: "figura",
-          clave: "diptongo-hiato",
-          titulo: "Diptongo vs. Hiato — la tonicidad de la cerrada decide",
-        },
-        {
           tipo: "destacado",
-          texto: "Un diptongo es la unión de dos vocales en una sola sílaba. Se forma cuando se combinan una vocal abierta (a, e, o) con una vocal cerrada ÁTONA (i, u) en cualquier orden, o cuando se unen dos vocales cerradas (i+u / u+i). Si la vocal cerrada es TÓNICA, no hay diptongo, sino hiato (ver Regla 6).",
+          texto: "Un diptongo es la unión de dos vocales en una sola sílaba. Se forma cuando se combinan una vocal abierta (a, e, o) con una vocal cerrada ÁTONA (i, u) en cualquier orden, o cuando se unen dos vocales cerradas (i+u / u+i).",
         },
         {
           tipo: "tabla",
@@ -676,23 +700,34 @@ export const PRESENTACION = {
         },
         {
           tipo: "par",
-          ancho: 4,
-          revelar: true,
+          ancho: 6,
           etiqueta: "la tilde en diptongo va sobre la vocal abierta — no sobre la cerrada",
           asi_es: "El huésped ilustre llegó antes de que comenzara la ceremonia.",
           asi_no: "El húesped ilustre llegó antes de que comenzara la ceremonia.",
         },
         {
           tipo: "par",
-          ancho: 4,
-          revelar: true,
+          ancho: 6,
           etiqueta: "diptongo ui — dos cerradas, una sola sílaba",
           asi_es: "El ruido del tráfico dificultaba la concentración de los estudiantes.",
           asi_no: "El rúido del tráfico — error: «ui» es diptongo; «rui-do» tiene dos sílabas, no tres.",
         },
+      ],
+    },
+    {
+      id: "17b",
+      tipo: "lienzo",
+      etiqueta: "Regla 5 / 12",
+      titulo: "Diptongo — cuándo se rompe",
+      bloques: [
+        {
+          tipo: "figura",
+          clave: "diptongo-hiato",
+          titulo: "Diptongo vs. Hiato — la tonicidad de la cerrada decide",
+        },
         {
           tipo: "trampa",
-          ancho: 4,
+          ancho: 12,
           revelar: true,
           letra: "A",
           titulo: "La vocal cerrada TÓNICA rompe el diptongo y forma hiato — entonces exige tilde propia",
@@ -763,6 +798,7 @@ export const PRESENTACION = {
         {
           tipo: "destacado",
           texto: "El hiato ocurre cuando dos vocales contiguas pertenecen a sílabas distintas. Hay dos casos: (1) dos vocales abiertas siempre forman hiato; (2) vocal cerrada TÓNICA junto a cualquier vocal forma hiato y siempre lleva tilde en esa vocal cerrada, aunque la regla general de agudas/llanas/esdrújulas no la pida.",
+          ancho: 12,
         },
         {
           tipo: "tabla",
@@ -787,10 +823,17 @@ export const PRESENTACION = {
             ],
           ],
         },
+      ],
+    },
+    {
+      id: "21b",
+      tipo: "lienzo",
+      etiqueta: "Regla 6 / 12",
+      titulo: "Hiato — en la frase",
+      bloques: [
         {
           tipo: "par",
           ancho: 4,
-          revelar: true,
           etiqueta: "hiato con vocal débil tónica — tilde aunque sea llana terminada en vocal",
           asi_es: "María estudia biología en la universidad pública de su ciudad.",
           asi_no: "Maria estudia biologia en la universidad pública de su ciudad.",
@@ -798,7 +841,6 @@ export const PRESENTACION = {
         {
           tipo: "par",
           ancho: 4,
-          revelar: true,
           etiqueta: "hiato vs. diptongo — «continua» ≠ «continúa»",
           asi_es: "El agua continúa fluyendo hacia el mar después de las lluvias. (con-ti-NÚ-a → hiato; u tónica → tilde)",
           asi_no: "El agua continua fluyendo — sin tilde: «continua» sería el adjetivo (llana, diptongo), no el verbo.",
@@ -872,6 +914,7 @@ export const PRESENTACION = {
         {
           tipo: "destacado",
           texto: "Los monosílabos (palabras de una sola sílaba) no llevan tilde. Solo la llevan cuando existe una tilde diacrítica que los distingue de otro monosílabo de distinta función gramatical (ver Regla 8). No añadas tildes a monosílabos por intuición o por considerar que «suenan fuertes».",
+          ancho: 12,
         },
         {
           tipo: "tabla",
@@ -901,10 +944,17 @@ export const PRESENTACION = {
             ],
           ],
         },
+      ],
+    },
+    {
+      id: "25b",
+      tipo: "lienzo",
+      etiqueta: "Regla 7 / 12",
+      titulo: "Monosílabos — en la frase",
+      bloques: [
         {
           tipo: "par",
           ancho: 4,
-          revelar: true,
           etiqueta: "formas verbales monosílabas — sin tilde",
           asi_es: "El estudiante dio su mejor esfuerzo durante todo el semestre académico.",
           asi_no: "El estudiante dió su mejor esfuerzo durante todo el semestre académico.",
@@ -912,7 +962,6 @@ export const PRESENTACION = {
         {
           tipo: "par",
           ancho: 4,
-          revelar: true,
           etiqueta: "«fue», «fui» — sin tilde aunque sean verbos importantes",
           asi_es: "Fue una experiencia enriquecedora para todos los participantes del congreso.",
           asi_no: "Fué una experiencia enriquecedora para todos los participantes del congreso.",
@@ -983,7 +1032,8 @@ export const PRESENTACION = {
       bloques: [
         {
           tipo: "destacado",
-          texto: "La tilde diacrítica diferencia palabras homófonas (misma pronunciación, distinta función gramatical). Solo existe en los pares establecidos por la RAE. Nota importante: desde la Ortografía de 2010, «solo» (adverbio) y los demostrativos «este/ese/aquel» ya NO llevan tilde obligatoria.",
+          texto: "La tilde diacrítica diferencia palabras homófonas (misma pronunciación, distinta función gramatical). Solo existe en los pares establecidos por la RAE.",
+          ancho: 12,
         },
         {
           tipo: "tabla",
@@ -1010,10 +1060,17 @@ export const PRESENTACION = {
             ["aun (= incluso)", "aún (= todavía)", "Aun así lo hizo. · Aún no ha llegado."],
           ],
         },
+      ],
+    },
+    {
+      id: "29b",
+      tipo: "lienzo",
+      etiqueta: "Regla 8 / 12",
+      titulo: "Tilde diacrítica — en la frase",
+      bloques: [
         {
           tipo: "par",
           ancho: 4,
-          revelar: true,
           etiqueta: "él (pronombre) vs. el (artículo)",
           asi_es: "Él presentó el informe ante el consejo directivo de la institución.",
           asi_no: "El presentó el informe ante el consejo directivo de la institución.",
@@ -1021,7 +1078,6 @@ export const PRESENTACION = {
         {
           tipo: "par",
           ancho: 4,
-          revelar: true,
           etiqueta: "aún (todavía) vs. aun (incluso)",
           asi_es: "Aún no hemos recibido la respuesta formal del comité evaluador.",
           asi_no: "Aun no hemos recibido — sin tilde cambia el significado: pasaría a significar «incluso no».",
@@ -1097,6 +1153,7 @@ export const PRESENTACION = {
         {
           tipo: "destacado",
           texto: "Las palabras qué, quién/quiénes, cómo, cuándo, dónde, adónde, cuál/cuáles y cuánto/a/os/as llevan tilde cuando funcionan como interrogativos o exclamativos, tanto en preguntas directas (¿Qué quieres?) como en preguntas indirectas (No sé qué quieres) y en exclamaciones (¡Qué bonito!). Sin tilde, son relativos o conjunciones.",
+          ancho: 12,
         },
         {
           tipo: "tabla",
@@ -1117,10 +1174,17 @@ export const PRESENTACION = {
             ["cuánto", "cuanto (relativo)", "¡Cuánta gente! · haz cuanto puedas"],
           ],
         },
+      ],
+    },
+    {
+      id: "33b",
+      tipo: "lienzo",
+      etiqueta: "Regla 9 / 12",
+      titulo: "Interrogativos y exclamativos tónicos — en la frase",
+      bloques: [
         {
           tipo: "par",
           ancho: 4,
-          revelar: true,
           etiqueta: "pregunta directa — siempre tilde",
           asi_es: "¿Cuándo entregarás el informe final al director del departamento?",
           asi_no: "¿Cuando entregarás el informe final al director del departamento?",
@@ -1128,7 +1192,6 @@ export const PRESENTACION = {
         {
           tipo: "par",
           ancho: 4,
-          revelar: true,
           etiqueta: "pregunta indirecta — también lleva tilde",
           asi_es: "El comité no sabe cuándo se publicarán los resultados del proceso de evaluación.",
           asi_no: "El comité no sabe cuando se publicarán los resultados del proceso de evaluación.",
@@ -1206,6 +1269,7 @@ export const PRESENTACION = {
         {
           tipo: "destacado",
           texto: "Los adverbios terminados en -mente conservan la tilde del adjetivo base del que derivan, si es que este la tenía. Si el adjetivo no llevaba tilde, el adverbio tampoco la lleva. Esto se debe a que, desde el punto de vista formal, el adjetivo conserva su carácter de palabra independiente dentro del compuesto.",
+          ancho: 12,
         },
         {
           tipo: "tabla",
@@ -1223,10 +1287,17 @@ export const PRESENTACION = {
             ["difícil", "Sí (llana termina en l)", "difícilmente"],
           ],
         },
+      ],
+    },
+    {
+      id: "37b",
+      tipo: "lienzo",
+      etiqueta: "Regla 10 / 12",
+      titulo: "Adverbios en -mente — en la frase",
+      bloques: [
         {
           tipo: "par",
           ancho: 4,
-          revelar: true,
           etiqueta: "adjetivo con tilde → adverbio conserva tilde",
           asi_es: "El equipo respondió rápidamente a las demandas del cliente institucional.",
           asi_no: "El equipo respondió rapidamente a las demandas del cliente institucional.",
@@ -1234,7 +1305,6 @@ export const PRESENTACION = {
         {
           tipo: "par",
           ancho: 4,
-          revelar: true,
           etiqueta: "adjetivo sin tilde → adverbio sin tilde",
           asi_es: "La reunión transcurrió felizmente sin ningún contratiempo significativo.",
           asi_no: "La reunión transcurrió félizmente sin ningún contratiempo significativo.",
@@ -1306,6 +1376,7 @@ export const PRESENTACION = {
         {
           tipo: "destacado",
           texto: "Los pronombres enclíticos (me, te, se, le, lo, la, nos, les, los, las) se unen al verbo formando una sola palabra. El resultado debe aplicar las reglas generales de acentuación: si el conjunto resulta esdrújulo o sobreesdrújulo, siempre lleva tilde; si queda como aguda o llana, aplica la regla correspondiente.",
+          ancho: 12,
         },
         {
           tipo: "tabla",
@@ -1320,10 +1391,17 @@ export const PRESENTACION = {
             ["mirar", "aguda sin tilde (r)", "mírate (mirar−r+te) → esdrújula: CON tilde"],
           ],
         },
+      ],
+    },
+    {
+      id: "41b",
+      tipo: "lienzo",
+      etiqueta: "Regla 11 / 12",
+      titulo: "Verbos con pronombres enclíticos — en la frase",
+      bloques: [
         {
           tipo: "par",
           ancho: 4,
-          revelar: true,
           etiqueta: "da (monosílabo, sin tilde) → dámelo (esdrújula, con tilde)",
           asi_es: "Dámelo antes de que salga el director de la oficina central.",
           asi_no: "Damelo antes de que salga el director de la oficina central.",
@@ -1331,7 +1409,6 @@ export const PRESENTACION = {
         {
           tipo: "par",
           ancho: 4,
-          revelar: true,
           etiqueta: "canta (llana, sin tilde) → cántame (esdrújula, con tilde)",
           asi_es: "Cántame algo antes de que empiece la presentación formal.",
           asi_no: "Cantame algo antes de que empiece la presentación formal.",
@@ -1405,6 +1482,7 @@ export const PRESENTACION = {
         {
           tipo: "destacado",
           texto: "Las palabras compuestas siguen reglas distintas según se escriban con o sin guion. Sin guion, el compuesto es una palabra nueva y sigue las reglas generales de acentuación (el primer elemento pierde su tilde propia). Con guion, cada elemento conserva su tilde individual porque se mantienen como palabras independientes.",
+          ancho: 12,
         },
         {
           tipo: "tabla",
@@ -1429,10 +1507,17 @@ export const PRESENTACION = {
             ],
           ],
         },
+      ],
+    },
+    {
+      id: "45b",
+      tipo: "lienzo",
+      etiqueta: "Regla 12 / 12",
+      titulo: "Palabras compuestas — en la frase",
+      bloques: [
         {
           tipo: "par",
           ancho: 4,
-          revelar: true,
           etiqueta: "sin guion — el primer elemento pierde su tilde",
           asi_es: "El trabajo de décimo segundo grado corresponde al nivel bachillerato. → «decimosegundo» (llana sin tilde)",
           asi_no: "El trabajo de «décimo segundo» se escribe junto como «décimosegundo» — error: el compuesto sin guion es una nueva palabra llana terminada en o, sin tilde.",
@@ -1440,7 +1525,6 @@ export const PRESENTACION = {
         {
           tipo: "par",
           ancho: 4,
-          revelar: true,
           etiqueta: "con guion — cada elemento conserva su tilde",
           asi_es: "El análisis físico-químico del agua reveló la presencia de contaminantes.",
           asi_no: "El análisis fisico-quimico del agua — error: con guion, «físico» y «químico» conservan sus tildes individuales.",

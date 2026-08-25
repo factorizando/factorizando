@@ -62,6 +62,21 @@ export default function Lienzo({ slide, tema, modo, respuestaDada, onResponder, 
 
   const reflujo = ancho < UMBRAL;
   const escala = useEscala(cajaRef, !reflujo);
+  const contenidoRef = useRef(null);
+
+  // Avisa en desarrollo cuando una diapositiva no cabe. Es la comprobación que
+  // ninguna herramienta estática puede hacer: depende de cómo envuelve el texto.
+  useEffect(() => {
+    if (!import.meta.env.DEV || reflujo || !contenidoRef.current) return;
+    const alto = contenidoRef.current.scrollHeight;
+    if (alto > ALTO + 2) {
+      console.warn(
+        `[lienzo] «${slide.titulo || slide.etiqueta || slide.id}» necesita ${alto}px de ${ALTO}: ` +
+        `${(slide.bloques || []).length} bloques. Se desplaza dentro del lienzo; ` +
+        `docs/DISENO.md §2.3 pide cinco bloques como máximo.`
+      );
+    }
+  }, [slide, reflujo, escala]);
   const contexto = { respuestaDada, onResponder, votos, totalVotos, modo };
 
   const contenido = (
@@ -121,8 +136,20 @@ export default function Lienzo({ slide, tema, modo, respuestaDada, onResponder, 
 
   return (
     <div ref={cajaRef} style={{ height: "100%", width: "100%", display: "grid", placeItems: "center", overflow: "hidden" }}>
-      <div style={{
-        width: ANCHO, height: ALTO,
+      {/* El contenido que no cabe en 720 px se desplaza DENTRO del lienzo, en vez
+          de recortarse o de encoger la diapositiva entera. Encogerla sería
+          traicionar lo único que promete el lienzo fijo —que el cuerpo mida lo
+          mismo en el proyector que en la laptop—, y recortar perdería material
+          en silencio.
+
+          Que haga falta es señal de que la diapositiva lleva más de lo que cabe:
+          el aviso de abajo la nombra en desarrollo. No es una regresión del
+          sistema de bloques — el tipo `regla_rica` que sustituye ya llevaba
+          `overflowY: auto` y esas diapositivas llevan desbordándose desde
+          siempre; proyectadas, su final no se veía salvo que alguien arrastrara.
+          Lo que cambia es que ahora se sabe cuáles son. */}
+      <div ref={contenidoRef} style={{
+        width: ANCHO, height: ALTO, overflowY: "auto",
         transform: `scale(${escala})`,
         transformOrigin: "center",
         flexShrink: 0,

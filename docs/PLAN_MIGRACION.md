@@ -381,10 +381,53 @@ componente de verdad, así que si algo se ve bien ahí, se ve bien en clase.
 
 ---
 
-## Fase 4C — Migrar las 65 presentaciones
+## Fase 4C — Migrar las 65 presentaciones 🟡 *(24 ago 2026 — 1 de 65)*
 
-Reescritura de contenido, no mecánica. Empezar por el piloto ya maquetado (Acentuación) y
-comparar contra el canvas antes de seguir.
+- [x] **Acentuación: 57 de 58 diapositivas** en `tipo: "lienzo"`. Queda el árbol de
+      decisión, que no es una traducción mecánica: es un tipo interactivo con xyflow.
+- [ ] Las otras 64 presentaciones.
+
+### La regla de reacomodo
+
+Las trece `regla_rica` seguían casi todas la misma forma
+(`texto + tabla + par + par + trampa`), así que el reacomodo se pudo hacer con una regla
+y no diapositiva por diapositiva:
+
+- el primer `texto` es el enunciado que define la diapositiva → `destacado` a ancho completo;
+- con **uno o dos** contrastes tras la tabla, se apilan a su derecha (tabla 7 / contraste 5,
+  y la tabla crece en filas para dejarles sitio);
+- con **tres**, la tabla ocupa el ancho completo y los contrastes van en fila debajo — que
+  además es lo que son entre sí, paralelos;
+- los contrastes a la derecha entran con `revelar`.
+
+Los 39 reactivos van todos con `disposicion: "lado"`, y en los 24 cuyo enunciado ya trae
+una palabra entre comillas angulares, esa palabra pasa a ser el apoyo visual.
+
+**No se inventaron `notas`.** Solo las cinco del piloto, escritas a mano. Rellenar 52
+guiones de profesor plausibles sería relleno, y el guion es de quien da la clase.
+
+### Lo que la migración destapó: doce diapositivas no caben
+
+Al medir las 58 en el navegador, **doce necesitan entre 734 y 1139 px sobre un lienzo de
+720**. La peor (Regla 5, diptongo) tiene **seis bloques** —uno es una figura de 348 px—
+cuando `docs/DISENO.md` §2.3 pide cinco como máximo.
+
+Probé si era un problema de reacomodo: pasar la tabla a ancho completo y los contrastes a
+una fila mejoró unas y empeoró otras. No lo es. **Es contenido de más.**
+
+Y no es una regresión del sistema de bloques: el tipo `regla_rica` al que sustituye ya
+llevaba `overflowY: "auto"`, así que esas doce llevan desbordándose desde siempre.
+Proyectadas en clase, su final no se veía salvo que alguien arrastrara. Lo que cambia es
+que ahora se sabe cuáles son.
+
+**Cómo queda mientras tanto:** el contenido que no cabe se desplaza *dentro* del lienzo
+—ni se recorta ni encoge la diapositiva, que traicionaría lo único que promete el lienzo
+fijo— y en desarrollo la consola nombra cada diapositiva que lo necesita, con su altura y
+su número de bloques. Verificado: ninguna de las 58 recorta contenido.
+
+**La decisión pendiente es de contenido, no técnica:** partir esas doce en dos
+diapositivas cada una (58 → ~70) es lo que pide el diseño, pero cambia la secuencia
+didáctica y eso lo decide quien da la clase.
 
 ---
 

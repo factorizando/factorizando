@@ -17,31 +17,43 @@ export function Pregunta({ bloque, tema, respuestaDada, onResponder, reflujo }) 
   const correcta = bloque.correcta;
   const aLado = bloque.disposicion === "lado" && !reflujo;
 
+  // El rótulo va FUERA de las dos columnas, no dentro de la primera. Cuando
+  // estaba dentro, las opciones se alineaban con él y no con la pregunta: 49 px
+  // de desfase que se veían como un escalón. Sacarlo es la solución estructural
+  // —las dos columnas empiezan a la misma altura por construcción— en vez de
+  // compensar con un margen calculado, que se rompe en cuanto el rótulo ocupa
+  // dos líneas.
+  const columnas = aLado
+    ? { display: "grid", gridTemplateColumns: "5fr 7fr", gap: 26, alignItems: "start" }
+    : undefined;
+
   return (
-    <div style={aLado ? { display: "grid", gridTemplateColumns: "5fr 7fr", gap: 26, alignItems: "start" } : undefined}>
+    <div>
       {bloque.etiqueta && (
-        <div style={{ fontFamily: tema.mono, fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", color: tema.acento, marginBottom: 7, gridColumn: aLado ? 1 : undefined }}>
+        <div style={{ fontFamily: tema.mono, fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", color: tema.acento, marginBottom: 12 }}>
           {bloque.etiqueta}
         </div>
       )}
-      <p style={{ fontFamily: tema.titulo, fontWeight: 500, fontSize: aLado ? 27 : 24, lineHeight: 1.28, letterSpacing: "-0.015em", color: tema.texto, margin: aLado ? 0 : "0 0 18px", textWrap: "pretty" }}>
-        {bloque.enunciado}
-      </p>
 
-      {/* El enunciado y su apoyo van en la primera columna; las opciones en la
-          segunda. Cerrar el <div> aquí es lo que separa ambas. */}
-      {aLado && bloque.apoyo && (
-        <div style={{ gridColumn: 1, marginTop: 22, background: tema.card, border: `1px solid ${tema.border}`, borderRadius: 10, padding: "18px 20px", textAlign: "center" }}>
-          <div style={{ fontFamily: tema.mono, fontSize: 25, letterSpacing: "0.16em", color: tema.acento }}>{bloque.apoyo}</div>
-          {bloque.apoyoPie && (
-            <div style={{ fontFamily: tema.mono, fontSize: 10, letterSpacing: "0.16em", textTransform: "uppercase", color: tema.sub, marginTop: 11 }}>
-              {bloque.apoyoPie}
+      <div style={columnas}>
+        <div>
+          <p style={{ fontFamily: tema.titulo, fontWeight: 500, fontSize: aLado ? 27 : 24, lineHeight: 1.28, letterSpacing: "-0.015em", color: tema.texto, margin: aLado ? 0 : "0 0 18px", textWrap: "pretty" }}>
+            {bloque.enunciado}
+          </p>
+
+          {aLado && bloque.apoyo && (
+            <div style={{ marginTop: 22, background: tema.card, border: `1px solid ${tema.border}`, borderRadius: 10, padding: "18px 20px", textAlign: "center" }}>
+              <div style={{ fontFamily: tema.mono, fontSize: 25, letterSpacing: "0.16em", color: tema.acento }}>{bloque.apoyo}</div>
+              {bloque.apoyoPie && (
+                <div style={{ fontFamily: tema.mono, fontSize: 10, letterSpacing: "0.16em", textTransform: "uppercase", color: tema.sub, marginTop: 11 }}>
+                  {bloque.apoyoPie}
+                </div>
+              )}
             </div>
           )}
         </div>
-      )}
 
-      <div style={{ display: "flex", flexDirection: "column", gap: 12, ...(aLado ? { gridColumn: 2, gridRow: "1 / span 3" } : null) }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         {(bloque.opciones || []).map((op, i) => {
           const esCorrecta = resuelto && i === correcta;
           const esElegida = resuelto && i === respuestaDada && i !== correcta;
@@ -86,8 +98,10 @@ export function Pregunta({ bloque, tema, respuestaDada, onResponder, reflujo }) 
         })}
       </div>
 
+      </div>
+
       {resuelto && bloque.explicacion && (
-        <p style={{ marginTop: 14, gridColumn: aLado ? "1 / -1" : undefined, background: tema.card2, borderRadius: 9, padding: "13px 17px", fontSize: 15, lineHeight: 1.55, color: tema.cuerpo }}>
+        <p style={{ marginTop: 14, background: tema.card2, borderRadius: 9, padding: "13px 17px", fontSize: 15, lineHeight: 1.55, color: tema.cuerpo }}>
           <b style={{ fontFamily: tema.mono, fontSize: 10.5, letterSpacing: "0.16em", textTransform: "uppercase", color: tema.acento, marginRight: 11, fontWeight: 500 }}>
             {respuestaDada === correcta ? "Así es" : "Aún no"}
           </b>

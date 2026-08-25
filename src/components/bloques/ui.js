@@ -14,11 +14,18 @@ export const eyebrow = (tema) => ({
   marginBottom: 11,
 });
 
+// `height: 100%` es lo que hace que dos tarjetas de la misma fila terminen a la
+// misma altura aunque una lleve más texto. Sin eso, la celda de la rejilla se
+// estira pero la tarjeta se queda con el alto de su contenido, y los bordes
+// inferiores quedan desparejos — se nota sobre todo con una tabla alta al lado
+// de dos bloques apilados.
 export const tarjeta = (tema) => ({
   background: tema.card,
   border: `1px solid ${tema.border}`,
   borderRadius: 10,
   padding: "16px 20px",
+  height: "100%",
+  boxSizing: "border-box",
 });
 
 export const parrafo = (tema) => ({

@@ -78,6 +78,12 @@ un bloque de presentación → `fx.css` para el token exacto → código.
   centrar hace saltar la diapositiva cada vez que algo aparece — medido: 32 px justo
   mientras se lee la pregunta. En el reflujo de móvil se ancla al inicio: ahí el contenedor
   se desplaza, y centrado el sobrante se sale por arriba, fuera del alcance del scroll.
+- **Las tarjetas de una misma fila terminan a la misma altura.** La celda de la rejilla se
+  estira sola, pero la tarjeta de dentro no: sin `height: 100%` los bordes inferiores quedan
+  desparejos, y se nota sobre todo con una tabla alta al lado de dos bloques apilados.
+- **Tres bloques en fila solo si son lo mismo.** Dos ejemplos en paralelo caben a 6 columnas
+  cada uno; una trampa es otra cosa y va debajo, a las doce. Meter los tres a 4 columnas
+  aprieta el que más texto tenga.
 - **Un control no es más ancho porque quepa.** En un reactivo, el texto más largo de una
   opción ocupa 74 px de mediana; en un botón de 680 px eso es un 11 % de tinta y un 89 % de
   recuadro vacío que se lleva la vista antes que la pregunta. La pregunta va a 7 columnas y

@@ -16,6 +16,8 @@ export function Pregunta({ bloque, tema, respuestaDada, onResponder, reflujo }) 
   const resuelto = respuestaDada != null;
   const correcta = bloque.correcta;
   const aLado = bloque.disposicion === "lado" && !reflujo;
+  // Una oración con hueco, no una palabra: cambia cómo se compone la tarjeta.
+  const esOracion = /_{2,}/.test(bloque.apoyo || "") && (bloque.apoyo || "").trim().split(/\s+/).length >= 4;
 
   // El rótulo va FUERA de las dos columnas, no dentro de la primera. Cuando
   // estaba dentro, las opciones se alineaban con él y no con la pregunta: 49 px
@@ -45,11 +47,25 @@ export function Pregunta({ bloque, tema, respuestaDada, onResponder, reflujo }) 
             {bloque.enunciado}
           </p>
 
-          {aLado && bloque.apoyo && (
-            <div style={{ marginTop: 22, background: tema.card, border: `1px solid ${tema.border}`, borderRadius: 10, padding: "18px 20px", textAlign: "center" }}>
-              <div style={{ fontFamily: tema.mono, fontSize: 25, letterSpacing: "0.16em", color: tema.acento }}>{bloque.apoyo}</div>
+          {/* El apoyo se dibuja SIEMPRE que exista, no solo en dos columnas.
+              Estaba condicionado a `aLado`, así que en un teléfono la oración a
+              completar desaparecía y quedaba «Completa la oración» sin oración.
+              Es contenido, no adorno de la disposición ancha. */}
+          {bloque.apoyo && (
+            // El apoyo es una palabra suelta o una oración con hueco. Una palabra
+            // se agranda y se separa —es lo que hay que mirar letra por letra—;
+            // una oración a ese tamaño y con esa separación se vuelve ilegible,
+            // así que baja de cuerpo y se alinea a la izquierda, como se lee.
+            <div style={{ marginTop: 22, background: tema.card, border: `1px solid ${tema.border}`, borderRadius: 10, padding: "18px 20px", textAlign: esOracion ? "left" : "center" }}>
+              <div style={{
+                fontFamily: tema.mono,
+                fontSize: esOracion ? 17 : 25,
+                lineHeight: esOracion ? 1.6 : 1.2,
+                letterSpacing: esOracion ? "0.02em" : "0.16em",
+                color: tema.acento,
+              }}>{bloque.apoyo}</div>
               {bloque.apoyoPie && (
-                <div style={{ fontFamily: tema.mono, fontSize: 10, letterSpacing: "0.16em", textTransform: "uppercase", color: tema.sub, marginTop: 11 }}>
+                <div style={{ fontFamily: tema.mono, fontSize: 10, letterSpacing: "0.16em", textTransform: "uppercase", color: tema.sub, marginTop: 11, textAlign: esOracion ? "left" : "center" }}>
                   {bloque.apoyoPie}
                 </div>
               )}

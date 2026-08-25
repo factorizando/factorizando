@@ -70,7 +70,18 @@ un bloque de presentación → `fx.css` para el token exacto → código.
 - Los tamaños salen de la escala (`--fx-h1-size` … `--fx-caption-size`). En una
   diapositiva se miden sobre el lienzo de 1280, no sobre el viewport.
 
-### 2.3. Densidad y toque
+### 2.3. Densidad, toque y aire
+
+- **La diapositiva se centra en vertical.** Solo es seguro porque nada cambia de altura
+  sobre la marcha: un bloque con `revelar` conserva su sitio mientras está oculto, y la
+  explicación de un reactivo reserva el suyo con `visibility: hidden`. Sin esas dos cosas,
+  centrar hace saltar la diapositiva cada vez que algo aparece — medido: 32 px justo
+  mientras se lee la pregunta. En el reflujo de móvil se ancla al inicio: ahí el contenedor
+  se desplaza, y centrado el sobrante se sale por arriba, fuera del alcance del scroll.
+- **Un control no es más ancho porque quepa.** En un reactivo, el texto más largo de una
+  opción ocupa 74 px de mediana; en un botón de 680 px eso es un 11 % de tinta y un 89 % de
+  recuadro vacío que se lleva la vista antes que la pregunta. La pregunta va a 7 columnas y
+  las opciones a 5, no al revés.
 
 - Máximo **cinco bloques** por diapositiva; tablas de **seis filas** como tope.
 - Un solo bloque destacado por diapositiva. Dos enunciados clave equivalen a ninguno.

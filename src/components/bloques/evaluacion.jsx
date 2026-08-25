@@ -23,8 +23,12 @@ export function Pregunta({ bloque, tema, respuestaDada, onResponder, reflujo }) 
   // —las dos columnas empiezan a la misma altura por construcción— en vez de
   // compensar con un margen calculado, que se rompe en cuanto el rótulo ocupa
   // dos líneas.
+  // 7 para la pregunta y 5 para las opciones, no al revés. Medido sobre los 42
+  // reactivos de Acentuación: el texto más largo de una opción ocupa 74 px de
+  // mediana dentro de un botón de 680 — un 11 %. Esos recuadros casi vacíos
+  // pesaban más que la pregunta y se llevaban la vista antes que ella.
   const columnas = aLado
-    ? { display: "grid", gridTemplateColumns: "5fr 7fr", gap: 26, alignItems: "start" }
+    ? { display: "grid", gridTemplateColumns: "7fr 5fr", gap: 26, alignItems: "start" }
     : undefined;
 
   return (
@@ -100,8 +104,18 @@ export function Pregunta({ bloque, tema, respuestaDada, onResponder, reflujo }) 
 
       </div>
 
-      {resuelto && bloque.explicacion && (
-        <p style={{ marginTop: 14, background: tema.card2, borderRadius: 9, padding: "13px 17px", fontSize: 15, lineHeight: 1.55, color: tema.cuerpo }}>
+      {/* La explicación ocupa su sitio desde el principio, oculta con
+          `visibility`. Si apareciera de la nada, al responder empujaría la
+          diapositiva y la pregunta se movería justo mientras se lee: medido, 32
+          px de salto con la diapositiva centrada. Reservando el hueco, el salto
+          es cero y la composición puede ir centrada sin pagar ese precio. */}
+      {bloque.explicacion && (
+        <p aria-hidden={!resuelto} style={{
+          marginTop: 14, background: tema.card2, borderRadius: 9, padding: "13px 17px",
+          fontSize: 15, lineHeight: 1.55, color: tema.cuerpo,
+          visibility: resuelto ? "visible" : "hidden",
+          transition: "opacity 0.2s", opacity: resuelto ? 1 : 0,
+        }}>
           <b style={{ fontFamily: tema.mono, fontSize: 10.5, letterSpacing: "0.16em", textTransform: "uppercase", color: tema.acento, marginRight: 11, fontWeight: 500 }}>
             {respuestaDada === correcta ? "Así es" : "Aún no"}
           </b>

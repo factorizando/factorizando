@@ -123,12 +123,20 @@ export default function Lienzo({ slide, tema, modo, respuestaDada, onResponder, 
     display: "grid",
     gridTemplateColumns: reflujo ? "1fr" : "repeat(12, minmax(0, 1fr))",
     gap: reflujo ? 11 : 16,
-    alignContent: "start",
+    // Centrado en vertical. Es seguro porque nada de lo que hay dentro cambia de
+    // altura sobre la marcha: el bloque con `revelar` conserva su sitio mientras
+    // está oculto, y la explicación de un reactivo reserva el suyo. Sin esas dos
+    // cosas, centrar haría saltar la diapositiva cada vez que algo aparece.
+    alignContent: "center",
   };
 
   if (reflujo) {
     return (
-      <div style={{ ...rejilla, padding: "14px 16px", height: "100%", overflowY: "auto", boxSizing: "border-box" }}>
+      // En móvil el contenedor se desplaza, y ahí `alignContent: center` es una
+      // trampa: si el contenido pasa del alto disponible, el sobrante se sale
+      // por ARRIBA y queda fuera del alcance del scroll. Anclado al inicio, lo
+      // que sobra se va por abajo, que es hacia donde se desplaza.
+      <div style={{ ...rejilla, alignContent: "start", padding: "14px 16px", height: "100%", overflowY: "auto", boxSizing: "border-box" }}>
         {contenido}
       </div>
     );

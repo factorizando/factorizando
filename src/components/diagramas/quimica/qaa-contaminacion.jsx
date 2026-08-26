@@ -3,7 +3,7 @@
 // Salió de SlideRenderer.jsx en la fase 2b (docs/PLAN_MIGRACION.md).
 
 export default function QaaContaminacionSVG({ tema }) {
-  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto, rojo = tema.rojo;
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto, rojo = tema.canal(2);
   return (
     <svg viewBox="0 0 290 125" width="100%" style={{ display: "block", maxHeight: 135 }}>
       {/* lluvia ácida */}

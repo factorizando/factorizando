@@ -6,7 +6,7 @@ export default function MarcadoresPanoramaSVG({ tema }) {
   const cats = [
     { col: 0, row: 0, label: "ADICIÓN",       color: tema.azul,   items: ["además, también", "es más, incluso"] },
     { col: 1, row: 0, label: "ADVERSATIVOS",  color: tema.acento, items: ["pero, sin embargo", "aunque, no obstante"] },
-    { col: 2, row: 0, label: "CAUSALES",      color: tema.verde,  items: ["porque, ya que", "puesto que, dado que"] },
+    { col: 2, row: 0, label: "CAUSALES",      color: tema.canal(1),  items: ["porque, ya que", "puesto que, dado que"] },
     { col: 0, row: 1, label: "CONSECUTIVOS",  color: "#c084fc",   items: ["por lo tanto", "en consecuencia, por ende"] },
     { col: 1, row: 1, label: "TEMPORALES",    color: "#fb923c",   items: ["primero, luego", "después, finalmente"] },
     { col: 2, row: 1, label: "REFORMULACIÓN", color: "#94a3b8",   items: ["es decir, o sea", "en resumen, por ejemplo"] },

@@ -5,7 +5,7 @@
 import { Vector } from "../comun.jsx";
 
 export default function ModRadioactividadSVG({ tema }) {
-  const rj = tema.rojo, gr = tema.verde, bl = tema.azul, T = tema.texto;
+  const rj = tema.canal(2), gr = tema.canal(1), bl = tema.azul, T = tema.texto;
   return (
     <svg viewBox="0 0 250 120" width="100%" style={{ display: "block", maxHeight: 130 }}>
       <circle cx={50} cy={60} r={16} fill={tema.acentoMed} stroke={tema.acento} strokeWidth="1.8" />

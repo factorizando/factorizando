@@ -5,7 +5,7 @@
 import { Bloque, Vector } from "../comun.jsx";
 
 export default function EneTrabajoSVG({ tema }) {
-  const gr = tema.verde, mu = tema.muted;
+  const gr = tema.canal(1), mu = tema.muted;
   return (
     <svg viewBox="0 0 250 110" width="100%" style={{ display: "block", maxHeight: 120 }}>
       <Bloque x={50} y={40} w={50} h={36} tema={tema} label="m" />

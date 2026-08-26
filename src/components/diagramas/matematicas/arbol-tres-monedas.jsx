@@ -6,7 +6,7 @@ import { PROB_NODE_TYPES } from "../comun.jsx";
 import { ReactFlow } from "@xyflow/react";
 
 export default function ProbArbolTresMonedas({ tema }) {
-  const T = tema.texto, a = tema.acento, bl = tema.azul, gr = tema.verde;
+  const T = tema.texto, a = tema.acento, bl = tema.azul, gr = tema.canal(1);
   const eStyle = { stroke: 'rgba(255,255,255,0.28)', strokeWidth: 1.4 };
   const lStyle = { fill: tema.azulTexto, fontSize: 9, fontFamily: 'IBM Plex Mono, monospace' };
   const lBg = { fill: tema.bg, rx: 3 };
@@ -27,7 +27,7 @@ export default function ProbArbolTresMonedas({ tema }) {
     { id: 'xcc',  type: 'probnodo', position: { x: 430, y: 174 }, data: { label: 'XCC = ⅛',  t: T, col: a  } },
     { id: 'xcx',  type: 'probnodo', position: { x: 430, y: 216 }, data: { label: 'XCX = ⅛',  t: T, col: tema.muted } },
     { id: 'xxc',  type: 'probnodo', position: { x: 430, y: 258 }, data: { label: 'XXC = ⅛',  t: T, col: tema.muted } },
-    { id: 'xxx',  type: 'probnodo', position: { x: 430, y: 300 }, data: { label: 'XXX = ⅛',  t: T, col: tema.rojo  } },
+    { id: 'xxx',  type: 'probnodo', position: { x: 430, y: 300 }, data: { label: 'XXX = ⅛',  t: T, col: tema.canal(2)  } },
   ];
   const edges = [
     ed('e1',  'root', 'c1',  'C'), ed('e2',  'root', 'x1',  'X'),

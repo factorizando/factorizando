@@ -3,7 +3,7 @@
 // Salió de SlideRenderer.jsx en la fase 2b (docs/PLAN_MIGRACION.md).
 
 export default function AnaTejidosSVG({ tema }) {
-  const mu = tema.muted, T = tema.texto, ro = tema.rojo;
+  const mu = tema.muted, T = tema.texto, ro = tema.canal(2);
   const paneles = [
     { lab: "Epitelial", sub: "recubre", c: "#60a5fa" },
     { lab: "Conectivo", sub: "sangre, hueso", c: "#fb7185" },

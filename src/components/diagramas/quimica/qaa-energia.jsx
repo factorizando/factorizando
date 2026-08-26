@@ -5,7 +5,7 @@
 import { M } from "../../../data/teoria/shared.jsx";
 
 export default function QaaEnergiaSVG({ tema }) {
-  const bl = tema.azul, mu = tema.muted, T = tema.texto, rojo = tema.rojo;
+  const bl = tema.azul, mu = tema.muted, T = tema.texto, rojo = tema.canal(2);
   return (
     <svg viewBox="0 0 290 125" width="100%" style={{ display: "block", maxHeight: 135 }}>
       {/* exotérmica */}

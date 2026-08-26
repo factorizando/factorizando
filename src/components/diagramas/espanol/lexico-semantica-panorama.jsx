@@ -11,13 +11,13 @@ export default function LexicoSemanticaPanoramaSVG({ tema }) {
       <text x="260" y="21" fill={tema.acento} fontSize="9.5" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.1em">COHESIÓN LÉXICO-SEMÁNTICA</text>
       <line x1="190" y1="31" x2="110" y2="54" stroke={`${tema.azul}88`} strokeWidth="1.5" strokeDasharray="4,2"/>
       <line x1="330" y1="31" x2="410" y2="54" stroke={`${tema.acento}88`} strokeWidth="1.5" strokeDasharray="4,2"/>
-      <line x1="260" y1="31" x2="260" y2="108" stroke={`${tema.verde}88`} strokeWidth="1.5" strokeDasharray="4,2"/>
+      <line x1="260" y1="31" x2="260" y2="108" stroke={`${tema.canal(1)}88`} strokeWidth="1.5" strokeDasharray="4,2"/>
       <rect x="40" y="54" width="140" height="26" rx="6" fill={`${tema.azul}18`} stroke={tema.azul} strokeWidth="1.5"/>
       <text x="110" y="71" fill={tema.azul} fontSize="9.5" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.06em">SINONIMIA</text>
       <rect x="340" y="54" width="140" height="26" rx="6" fill={`${tema.acento}18`} stroke={tema.acento} strokeWidth="1.5"/>
       <text x="410" y="71" fill={tema.acento} fontSize="9.5" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.06em">ANTONIMIA</text>
-      <rect x="178" y="108" width="164" height="26" rx="6" fill={`${tema.verde}18`} stroke={tema.verde} strokeWidth="1.5"/>
-      <text x="260" y="125" fill={tema.verde} fontSize="9.5" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.06em">CAMPO SEMÁNTICO</text>
+      <rect x="178" y="108" width="164" height="26" rx="6" fill={`${tema.canal(1)}18`} stroke={tema.canal(1)} strokeWidth="1.5"/>
+      <text x="260" y="125" fill={tema.canal(1)} fontSize="9.5" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.06em">CAMPO SEMÁNTICO</text>
       <line x1="56" y1="80" x2="56" y2="150" stroke={`${tema.azul}50`} strokeWidth="1.2"/>
       {sinItems.map((item, i) => (
         <g key={i}>

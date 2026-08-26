@@ -5,7 +5,7 @@
 import { M } from "../../../data/teoria/shared.jsx";
 
 export default function AnaPortadaSVG({ tema }) {
-  const a = tema.acento, bl = tema.azul, mu = tema.muted, gr = tema.verde, T = tema.texto;
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, gr = tema.canal(1), T = tema.texto;
   return (
     <svg viewBox="0 0 230 140" width="100%" style={{ display: "block", maxHeight: 140, maxWidth: 280 }}>
       {/* hoja con estoma */}

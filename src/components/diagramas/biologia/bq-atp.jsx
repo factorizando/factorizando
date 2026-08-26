@@ -19,9 +19,9 @@ export default function BqAtpSVG({ tema }) {
       <path d="M 88 50 q 44 -16 84 0" fill="none" stroke={a} strokeWidth="2" />
       <polygon points={arrowHead(150, 42, 172, 50, 7)} fill={a} />
       <text x={130} y={34} textAnchor="middle" fill={a} fontSize="7" fontFamily="'Figtree', system-ui, sans-serif">+ energía (carga)</text>
-      <path d="M 172 74 q -44 16 -84 0" fill="none" stroke={tema.rojo} strokeWidth="2" />
-      <polygon points={arrowHead(110, 82, 88, 74, 7)} fill={tema.rojo} />
-      <text x={130} y={98} textAnchor="middle" fill={tema.rojo} fontSize="7" fontFamily="'Figtree', system-ui, sans-serif">− energía (uso)</text>
+      <path d="M 172 74 q -44 16 -84 0" fill="none" stroke={tema.canal(2)} strokeWidth="2" />
+      <polygon points={arrowHead(110, 82, 88, 74, 7)} fill={tema.canal(2)} />
+      <text x={130} y={98} textAnchor="middle" fill={tema.canal(2)} fontSize="7" fontFamily="'Figtree', system-ui, sans-serif">− energía (uso)</text>
       {/* ATP */}
       <rect x={186} y={48} width={50} height={22} rx={4} fill="rgba(52,211,153,0.14)" stroke={a} strokeWidth="1.8" />
       <text x={211} y={63} textAnchor="middle" fill={a} fontSize="9" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700">ATP</text>

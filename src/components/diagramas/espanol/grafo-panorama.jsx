@@ -3,7 +3,7 @@
 // Salió de SlideRenderer.jsx en la fase 2b (docs/PLAN_MIGRACION.md).
 
 export default function GrafoPanoramaSVG({ tema }) {
-  const az = tema.azul, vd = tema.verde, ac = tema.acento;
+  const az = tema.azul, vd = tema.canal(1), ac = tema.acento;
   const purple = "#c084fc", orange = "#fb923c";
 
   // 5 vowel pills — cada una 43px de ancho, 4px de separación, inicio x=12

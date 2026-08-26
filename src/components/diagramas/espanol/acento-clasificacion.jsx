@@ -6,7 +6,7 @@ export default function AcentoClasificacionSVG({ tema }) {
   const tipos = [
     { nombre: "Aguda",        subname: "oxítona",        silabas: ["__","__","__","TÓN"], ejemplo: "ca-FÉ",    color: tema.acento },
     { nombre: "Llana",        subname: "paroxítona",     silabas: ["__","__","TÓN","__"], ejemplo: "CA-sa",   color: tema.azul   },
-    { nombre: "Esdrújula",    subname: "proparoxítona",  silabas: ["__","TÓN","__","__"], ejemplo: "MÉ-di-co", color: tema.verde  },
+    { nombre: "Esdrújula",    subname: "proparoxítona",  silabas: ["__","TÓN","__","__"], ejemplo: "MÉ-di-co", color: tema.canal(1)  },
     { nombre: "Sobreesdrúj.", subname: "",               silabas: ["TÓN","__","__","__"], ejemplo: "DÍ-ga-me-lo", color: "#c084fc" },
   ];
   const W = 680, H = 130, col = W / 4;

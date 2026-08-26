@@ -7,7 +7,7 @@ import { M } from "../../../data/teoria/shared.jsx";
 import { arrowHead } from "../comun.jsx";
 
 export default function OndOndaSVG({ tema }) {
-  const a = tema.acento, mu = tema.muted, bl = tema.azul, gr = tema.verde;
+  const a = tema.acento, mu = tema.muted, bl = tema.azul, gr = tema.canal(1);
   const axis = 64;
   return (
     <svg viewBox="0 0 250 120" width="100%" style={{ display: "block", maxHeight: 130 }}>

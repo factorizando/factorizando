@@ -6,7 +6,7 @@ import { M } from "../../../data/teoria/shared.jsx";
 
 export default function TiEj1SVG({ tema }) {
   const cx=95, cy=82, r=62;
-  const bl=tema.azul, a=tema.acento, gr=tema.verde;
+  const bl=tema.azul, a=tema.acento, gr=tema.canal(1);
   const Ax=cx-r, Ay=cy, Cx=cx+r, Cy=cy, Bx=cx, By=cy-r;
   return (
     <svg viewBox="0 0 200 130" width="100%" style={{display:"block",maxHeight:150}}>

@@ -5,7 +5,7 @@
 import { Bloque, Vector } from "../comun.jsx";
 
 export default function DinHookeSVG({ tema }) {
-  const a = tema.acento, gr = tema.verde, mu = tema.muted;
+  const a = tema.acento, gr = tema.canal(1), mu = tema.muted;
   const zig = "22,60 34,48 46,72 58,48 70,72 82,48 94,72 106,48 118,72 130,60";
   return (
     <svg viewBox="0 0 250 110" width="100%" style={{ display: "block", maxHeight: 120 }}>

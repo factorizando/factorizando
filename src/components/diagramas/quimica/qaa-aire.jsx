@@ -5,7 +5,7 @@
 import { arrowHead } from "../comun.jsx";
 
 export default function QaaAireSVG({ tema }) {
-  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto, grn = tema.verde, rojo = tema.rojo;
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto, grn = tema.canal(1), rojo = tema.canal(2);
   return (
     <svg viewBox="0 0 290 125" width="100%" style={{ display: "block", maxHeight: 135 }}>
       {/* composición del aire (barra) */}

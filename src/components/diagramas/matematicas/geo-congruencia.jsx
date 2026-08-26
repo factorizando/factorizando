@@ -3,7 +3,7 @@
 // Salió de SlideRenderer.jsx en la fase 2b (docs/PLAN_MIGRACION.md).
 
 export default function GeoCongruenciaSVG({ tema }) {
-  const az = tema.azul, a = tema.acento, gr = tema.verde;
+  const az = tema.azul, a = tema.acento, gr = tema.canal(1);
   return (
     <svg viewBox="0 0 320 130" width="100%" style={{ display: "block" }}>
       <rect x="1" y="1" width="154" height="128" rx="5" fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>

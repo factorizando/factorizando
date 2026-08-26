@@ -7,7 +7,7 @@ import { M } from "../../../data/teoria/shared.jsx";
 import { arrowHead } from "../comun.jsx";
 
 export default function QfMolSVG({ tema }) {
-  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto, grn = tema.verde;
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto, grn = tema.canal(1);
   return (
     <svg viewBox="0 0 280 120" width="100%" style={{ display: "block", maxHeight: 130 }}>
       <rect x={20} y={30} width={70} height={40} rx={6} fill="rgba(192,132,252,0.08)" stroke={a} strokeWidth="1.6" />

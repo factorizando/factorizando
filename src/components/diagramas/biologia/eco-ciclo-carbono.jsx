@@ -25,9 +25,9 @@ export default function EcoCicloCarbonoSVG({ tema }) {
       <polygon points={arrowHead(64, 50, 60, 58, 6)} fill={a} />
       <text x={56} y={48} textAnchor="end" fill={a} fontSize="6.5" fontFamily="'Figtree', system-ui, sans-serif">fotosíntesis</text>
       {/* flecha respiración (animal → atmósfera) */}
-      <path d="M 200 86 q 0 -34 -28 -52" fill="none" stroke={tema.rojo} strokeWidth="1.7" />
-      <polygon points={arrowHead(184, 44, 172, 34, 6)} fill={tema.rojo} />
-      <text x={214} y={62} fill={tema.rojo} fontSize="6.5" fontFamily="'Figtree', system-ui, sans-serif">respiración</text>
+      <path d="M 200 86 q 0 -34 -28 -52" fill="none" stroke={tema.canal(2)} strokeWidth="1.7" />
+      <polygon points={arrowHead(184, 44, 172, 34, 6)} fill={tema.canal(2)} />
+      <text x={214} y={62} fill={tema.canal(2)} fontSize="6.5" fontFamily="'Figtree', system-ui, sans-serif">respiración</text>
       {/* planta → animal */}
       <line x1={76} y1={92} x2={180} y2={94} stroke={mu} strokeWidth="1.4" strokeDasharray="3 2" />
       <polygon points={arrowHead(76, 92, 180, 94, 6)} fill={mu} />

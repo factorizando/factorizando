@@ -15,7 +15,7 @@ export default function AntonimiasTiposSVG({ tema }) {
       {/* Column titles */}
       <text x="86"  y="13" fill={tema.azul}   fontSize="9" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.12em">GRADUALES</text>
       <text x="258" y="13" fill={tema.acento} fontSize="9" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.12em">COMPLEMENTARIOS</text>
-      <text x="434" y="13" fill={tema.verde}  fontSize="9" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.12em">RECÍPROCOS</text>
+      <text x="434" y="13" fill={tema.canal(1)}  fontSize="9" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="middle" letterSpacing="0.12em">RECÍPROCOS</text>
       <line x1="172" y1="0" x2="172" y2="148" stroke="rgba(255,255,255,0.08)" strokeWidth="1"/>
       <line x1="344" y1="0" x2="344" y2="148" stroke="rgba(255,255,255,0.08)" strokeWidth="1"/>
       {/* GRADUALES: spectrum bar */}
@@ -43,13 +43,13 @@ export default function AntonimiasTiposSVG({ tema }) {
       <text x="258" y="122" fill={tema.muted} fontSize="7.5" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">«no vivo» = «muerto»</text>
       <text x="258" y="135" fill={tema.muted} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">La negación implica el opuesto</text>
       {/* RECÍPROCOS: bidirectional arrow */}
-      <rect x="356" y="22" width="76" height="28" rx="6" fill={`${tema.verde}18`} stroke={tema.verde} strokeWidth="1.5"/>
-      <text x="394" y="40" fill={tema.verde} fontSize="11" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">comprar</text>
-      <rect x="442" y="22" width="70" height="28" rx="6" fill={`${tema.verde}18`} stroke={tema.verde} strokeWidth="1.5"/>
-      <text x="477" y="40" fill={tema.verde} fontSize="11" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">vender</text>
-      <line x1="432" y1="36" x2="442" y2="36" stroke={tema.verde} strokeWidth="1.8"/>
-      <polygon points="432,32 424,36 432,40" fill={tema.verde}/>
-      <polygon points="442,32 450,36 442,40" fill={tema.verde}/>
+      <rect x="356" y="22" width="76" height="28" rx="6" fill={`${tema.canal(1)}18`} stroke={tema.canal(1)} strokeWidth="1.5"/>
+      <text x="394" y="40" fill={tema.canal(1)} fontSize="11" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">comprar</text>
+      <rect x="442" y="22" width="70" height="28" rx="6" fill={`${tema.canal(1)}18`} stroke={tema.canal(1)} strokeWidth="1.5"/>
+      <text x="477" y="40" fill={tema.canal(1)} fontSize="11" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">vender</text>
+      <line x1="432" y1="36" x2="442" y2="36" stroke={tema.canal(1)} strokeWidth="1.8"/>
+      <polygon points="432,32 424,36 432,40" fill={tema.canal(1)}/>
+      <polygon points="442,32 450,36 442,40" fill={tema.canal(1)}/>
       <text x="434" y="67" fill={tema.muted} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">Presuposición mutua</text>
       <text x="434" y="83"  fill={tema.sub}   fontSize="8.5" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">enseñar / aprender</text>
       <text x="434" y="98"  fill={tema.sub}   fontSize="8.5" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">preguntar / responder</text>

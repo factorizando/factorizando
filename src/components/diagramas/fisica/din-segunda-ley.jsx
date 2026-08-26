@@ -5,7 +5,7 @@
 import { Bloque, Vector } from "../comun.jsx";
 
 export default function DinSegundaLeySVG({ tema }) {
-  const a = tema.acento, gr = tema.verde, mu = tema.muted;
+  const a = tema.acento, gr = tema.canal(1), mu = tema.muted;
   return (
     <svg viewBox="0 0 250 110" width="100%" style={{ display: "block", maxHeight: 120 }}>
       <Bloque x={66} y={42} w={54} h={42} tema={tema} label="m" />

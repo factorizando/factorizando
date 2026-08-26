@@ -3,7 +3,7 @@
 // Salió de SlideRenderer.jsx en la fase 2b (docs/PLAN_MIGRACION.md).
 
 export default function AxiomasSVG({ tema }) {
-  const a = tema.acento, bl = tema.azul, gr = tema.verde, T = tema.texto, mu = tema.muted;
+  const a = tema.acento, bl = tema.azul, gr = tema.canal(1), T = tema.texto, mu = tema.muted;
   const centros = [56, 165, 274];
   const badge = (x, n) => (
     <g>

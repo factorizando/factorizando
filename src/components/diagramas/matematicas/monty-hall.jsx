@@ -3,7 +3,7 @@
 // Salió de SlideRenderer.jsx en la fase 2b (docs/PLAN_MIGRACION.md).
 
 export default function MontyHallSVG({ tema }) {
-  const gr = tema.verde, rj = tema.rojo, mu = tema.muted, T = tema.texto;
+  const gr = tema.canal(1), rj = tema.canal(2), mu = tema.muted, T = tema.texto;
   const puertas = [40, 92, 144];
   return (
     <svg viewBox="0 0 250 168" width="100%" style={{ display: "block", maxHeight: 180 }}>

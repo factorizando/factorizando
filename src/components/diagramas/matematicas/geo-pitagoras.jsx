@@ -5,7 +5,7 @@
 import { M } from "../../../data/teoria/shared.jsx";
 
 export default function GeoPitagorasSVG({ tema }) {
-  const az = tema.azul, a = tema.acento, gr = tema.verde, gold = "#f5c842";
+  const az = tema.azul, a = tema.acento, gr = tema.canal(1), gold = "#f5c842";
   return (
     <svg viewBox="0 0 320 130" width="100%" style={{ display: "block" }}>
       <rect x="1" y="1" width="318" height="128" rx="5" fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>

@@ -3,7 +3,7 @@
 // Salió de SlideRenderer.jsx en la fase 2b (docs/PLAN_MIGRACION.md).
 
 export default function TerEscalasSVG({ tema }) {
-  const a = tema.acento, mu = tema.muted, rj = tema.rojo, az = tema.azul, T = tema.texto;
+  const a = tema.acento, mu = tema.muted, rj = tema.canal(2), az = tema.azul, T = tema.texto;
   const cols = [{ x: 60, t: "°C", hi: "100", lo: "0" }, { x: 125, t: "K", hi: "373", lo: "273" }, { x: 190, t: "°F", hi: "212", lo: "32" }];
   const yHi = 48, yLo = 114;
   return (

@@ -5,7 +5,7 @@
 import { Vector } from "../comun.jsx";
 
 export default function OndReflexRefracSVG({ tema }) {
-  const a = tema.acento, gr = tema.verde, rj = tema.rojo, mu = tema.muted;
+  const a = tema.acento, gr = tema.canal(1), rj = tema.canal(2), mu = tema.muted;
   const ix = 125, iy = 72;
   return (
     <svg viewBox="0 0 250 132" width="100%" style={{ display: "block", maxHeight: 142 }}>

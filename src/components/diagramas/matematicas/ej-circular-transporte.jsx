@@ -8,7 +8,7 @@ export default function EjCircularTransporteSVG({ tema }) {
   const segs = [
     { lab: "Camión", p: 50, g: "180°", c: tema.acento },
     { lab: "Auto",   p: 30, g: "108°", c: tema.azul },
-    { lab: "Bici",   p: 20, g: "72°",  c: tema.verde },
+    { lab: "Bici",   p: 20, g: "72°",  c: tema.canal(1) },
   ];
   const cx = 82, cy = 82, r = 62;
   let ang = -Math.PI / 2;

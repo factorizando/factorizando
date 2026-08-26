@@ -6,7 +6,7 @@ export default function MarcadoresAdicionSVG({ tema }) {
   const cols = [
     { label: "SIMPLE",    color: tema.azul,   markers: ["además", "también", "igualmente"],    caption: "Suma información de igual peso" },
     { label: "ESCALADA",  color: tema.acento, markers: ["es más", "incluso", "hasta"],          caption: "B tiene más fuerza o peso que A" },
-    { label: "PARALELA",  color: tema.verde,  markers: ["asimismo", "del mismo modo", "paralelamente"], caption: "B va en el mismo sentido que A" },
+    { label: "PARALELA",  color: tema.canal(1),  markers: ["asimismo", "del mismo modo", "paralelamente"], caption: "B va en el mismo sentido que A" },
   ];
   return (
     <svg viewBox="0 0 520 118" width="100%" style={{ display: "block" }}>

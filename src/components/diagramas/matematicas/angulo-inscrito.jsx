@@ -6,7 +6,7 @@ import { M } from "../../../data/teoria/shared.jsx";
 
 export default function AnguloInscritoSVG({ tema }) {
   const cx=140, cy=120, r=90;
-  const bl=tema.azul, a=tema.acento, gr=tema.verde;
+  const bl=tema.azul, a=tema.acento, gr=tema.canal(1);
   const D=(d)=>d*Math.PI/180;
   const P=(deg,R=r)=>[+(cx+R*Math.cos(D(deg))).toFixed(1), +(cy+R*Math.sin(D(deg))).toFixed(1)];
   const [Ax,Ay]=P(150), [Cx,Cy]=P(30), [Bx,By]=P(-90);

@@ -3,7 +3,7 @@
 // Salió de SlideRenderer.jsx en la fase 2b (docs/PLAN_MIGRACION.md).
 
 export default function DispersionSVG({ tema }) {
-  const bl = tema.azul, gr = tema.verde, rj = tema.rojo;
+  const bl = tema.azul, gr = tema.canal(1), rj = tema.canal(2);
   const X = (v) => 20 + v * 17.5;
   const fila = (y, datos, color, label) => (
     <g>

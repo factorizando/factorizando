@@ -7,7 +7,7 @@ import { M } from "../../../data/teoria/shared.jsx";
 import { Vector } from "../comun.jsx";
 
 export default function FluArquimedesSVG({ tema }) {
-  const a = tema.acento, mu = tema.muted, az = tema.azul, rj = tema.rojo, gr = tema.verde;
+  const a = tema.acento, mu = tema.muted, az = tema.azul, rj = tema.canal(2), gr = tema.canal(1);
   const surf = 52;
   return (
     <svg viewBox="0 0 250 130" width="100%" style={{ display: "block", maxHeight: 140 }}>

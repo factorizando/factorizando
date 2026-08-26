@@ -6,7 +6,7 @@ import { PROB_NODE_TYPES } from "../comun.jsx";
 import { ReactFlow } from "@xyflow/react";
 
 export default function ProbArbolMonedas({ tema }) {
-  const T = tema.texto, a = tema.acento, bl = tema.azul, gr = tema.verde;
+  const T = tema.texto, a = tema.acento, bl = tema.azul, gr = tema.canal(1);
   const eStyle = { stroke: 'rgba(255,255,255,0.28)', strokeWidth: 1.4 };
   const lStyle = { fill: tema.azulTexto, fontSize: 9, fontFamily: 'IBM Plex Mono, monospace' };
   const lBg = { fill: tema.bg, rx: 3 };

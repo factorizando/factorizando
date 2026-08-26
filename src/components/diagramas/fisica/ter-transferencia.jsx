@@ -5,7 +5,7 @@
 import { Vector } from "../comun.jsx";
 
 export default function TerTransferenciaSVG({ tema }) {
-  const a = tema.acento, mu = tema.muted, rj = tema.rojo, az = tema.azul;
+  const a = tema.acento, mu = tema.muted, rj = tema.canal(2), az = tema.azul;
   return (
     <svg viewBox="0 0 250 104" width="100%" style={{ display: "block", maxHeight: 116 }}>
       {/* conducción */}

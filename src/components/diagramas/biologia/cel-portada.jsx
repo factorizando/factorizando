@@ -15,8 +15,8 @@ export default function CelPortadaSVG({ tema }) {
       <circle cx={108} cy={72} r={11} fill={a} opacity="0.45" />
       <text x={108} y={45} textAnchor="middle" fill={bl} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif">núcleo</text>
       {/* mitocondrias */}
-      <ellipse cx={56} cy={48} rx={15} ry={7.5} fill="rgba(248,113,113,0.18)" stroke={tema.rojo} strokeWidth="1.6" transform="rotate(-20 56 48)" />
-      <ellipse cx={160} cy={104} rx={15} ry={7.5} fill="rgba(248,113,113,0.18)" stroke={tema.rojo} strokeWidth="1.6" transform="rotate(15 160 104)" />
+      <ellipse cx={56} cy={48} rx={15} ry={7.5} fill="rgba(248,113,113,0.18)" stroke={tema.canal(2)} strokeWidth="1.6" transform="rotate(-20 56 48)" />
+      <ellipse cx={160} cy={104} rx={15} ry={7.5} fill="rgba(248,113,113,0.18)" stroke={tema.canal(2)} strokeWidth="1.6" transform="rotate(15 160 104)" />
       {/* organelos varios */}
       <circle cx={60} cy={100} r={6} fill={a} opacity="0.3" stroke={a} strokeWidth="1.2" />
       <circle cx={156} cy={44} r={5} fill={bl} opacity="0.35" stroke={bl} strokeWidth="1.2" />

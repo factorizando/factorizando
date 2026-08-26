@@ -3,7 +3,7 @@
 // Salió de SlideRenderer.jsx en la fase 2b (docs/PLAN_MIGRACION.md).
 
 export default function ProcesoSigmaSVG({ tema }) {
-  const bl = tema.azul, gr = tema.verde, a = tema.acento, mu = tema.muted, bor = tema.border;
+  const bl = tema.azul, gr = tema.canal(1), a = tema.acento, mu = tema.muted, bor = tema.border;
   const C = [57, 160, 263];
   const rows = [
     { x: "4", dx: "−2", dx2: "4" },

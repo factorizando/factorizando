@@ -3,7 +3,7 @@
 // Salió de SlideRenderer.jsx en la fase 2b (docs/PLAN_MIGRACION.md).
 
 export default function GeoFigurasPlanasSVG({ tema }) {
-  const az = tema.azul, a = tema.acento, gr = tema.verde, mut = "rgba(255,255,255,0.4)";
+  const az = tema.azul, a = tema.acento, gr = tema.canal(1), mut = "rgba(255,255,255,0.4)";
   const Cell = ({ x, label }) => (
     <g>
       <rect x={x} y="1" width="102" height="128" rx="5" fill="rgba(0,0,0,0.28)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>

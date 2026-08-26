@@ -5,7 +5,7 @@
 import { Bloque, Vector } from "../comun.jsx";
 
 export default function DinFuerzaNetaSVG({ tema }) {
-  const gr = tema.verde, rj = tema.rojo, mu = tema.muted;
+  const gr = tema.canal(1), rj = tema.canal(2), mu = tema.muted;
   return (
     <svg viewBox="0 0 250 120" width="100%" style={{ display: "block", maxHeight: 128 }}>
       <Bloque x={95} y={42} w={60} h={44} tema={tema} label="m" />

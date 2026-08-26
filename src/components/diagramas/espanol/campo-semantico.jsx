@@ -3,7 +3,7 @@
 // Salió de SlideRenderer.jsx en la fase 2b (docs/PLAN_MIGRACION.md).
 
 export default function CampoSemanticoSVG({ tema }) {
-  const az = tema.azul, vd = tema.verde, ac = tema.acento;
+  const az = tema.azul, vd = tema.canal(1), ac = tema.acento;
   const lv2 = [
     { x: 20,  label: "mamífero" },
     { x: 200, label: "ave" },

@@ -3,7 +3,7 @@
 // Salió de SlideRenderer.jsx en la fase 2b (docs/PLAN_MIGRACION.md).
 
 export default function DotPlotMedianaSVG({ tema, data }) {
-  const a = tema.acento, gr = tema.verde, mu = tema.muted;
+  const a = tema.acento, gr = tema.canal(1), mu = tema.muted;
   const vals = [...(Array.isArray(data) ? data : [])].sort((p, q) => p - q);
   const n = vals.length;
   const centro = n % 2 ? [(n - 1) / 2] : [n / 2 - 1, n / 2];

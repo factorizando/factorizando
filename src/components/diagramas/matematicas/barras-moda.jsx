@@ -3,7 +3,7 @@
 // Salió de SlideRenderer.jsx en la fase 2b (docs/PLAN_MIGRACION.md).
 
 export default function BarrasModaSVG({ tema, data }) {
-  const a = tema.acento, mu = tema.muted, gr = tema.verde;
+  const a = tema.acento, mu = tema.muted, gr = tema.canal(1);
   const vals = Array.isArray(data) ? data : [];
   const freq = {};
   vals.forEach((v) => { freq[v] = (freq[v] || 0) + 1; });

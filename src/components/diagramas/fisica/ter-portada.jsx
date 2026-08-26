@@ -3,7 +3,7 @@
 // Salió de SlideRenderer.jsx en la fase 2b (docs/PLAN_MIGRACION.md).
 
 export default function TerPortadaSVG({ tema }) {
-  const rj = tema.rojo, mu = tema.muted;
+  const rj = tema.canal(2), mu = tema.muted;
   return (
     <svg viewBox="0 0 250 120" width="100%" style={{ display: "block", maxHeight: 132, maxWidth: 320 }}>
       <rect x={118} y={16} width={14} height={76} rx={7} fill={tema.card} stroke={mu} strokeWidth="1.6" />

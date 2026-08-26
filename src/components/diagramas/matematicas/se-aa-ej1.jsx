@@ -22,12 +22,12 @@ export default function SeAaEj1SVG({ tema }) {
       <line x1={D[0]} y1={D[1]} x2={E[0]} y2={E[1]} stroke={st} strokeWidth="2"/>
       <line x1={E[0]} y1={E[1]} x2={F[0]} y2={F[1]} stroke={st} strokeWidth="2"/>
       <line x1={F[0]} y1={F[1]} x2={D[0]} y2={D[1]} stroke={st} strokeWidth="2"/>
-      <path d={arcPath(A,C,B,22)} stroke={tema.verde} strokeWidth="1.8" fill="none"/>
-      <path d={arcPath(D,F,E,22)} stroke={tema.verde} strokeWidth="1.8" fill="none"/>
+      <path d={arcPath(A,C,B,22)} stroke={tema.canal(1)} strokeWidth="1.8" fill="none"/>
+      <path d={arcPath(D,F,E,22)} stroke={tema.canal(1)} strokeWidth="1.8" fill="none"/>
       <path d={arcPath(B,A,C,22)} stroke={tema.azul}  strokeWidth="1.8" fill="none"/>
       <path d={arcPath(E,D,F,22)} stroke={tema.azul}  strokeWidth="1.8" fill="none"/>
-      <text x="86"  y="48"  fill={tema.verde} fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="middle">70°</text>
-      <text x="264" y="48"  fill={tema.verde} fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="middle">70°</text>
+      <text x="86"  y="48"  fill={tema.canal(1)} fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="middle">70°</text>
+      <text x="264" y="48"  fill={tema.canal(1)} fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="middle">70°</text>
       <text x="36"  y="110" fill={tema.azul}  fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">60°</text>
       <text x="214" y="110" fill={tema.azul}  fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">60°</text>
       <text x="186" y="74"  fill="rgba(240,236,227,0.30)" fontSize="26" fontFamily="Georgia,serif" textAnchor="middle">∼</text>

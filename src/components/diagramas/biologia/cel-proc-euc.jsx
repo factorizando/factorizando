@@ -17,7 +17,7 @@ export default function CelProcEucSVG({ tema }) {
       <ellipse cx={216} cy={65} rx={52} ry={34} fill="rgba(52,211,153,0.05)" stroke={a} strokeWidth="2" />
       <circle cx={214} cy={64} r={17} fill="rgba(134,239,172,0.12)" stroke={bl} strokeWidth="1.8" />
       <circle cx={214} cy={64} r={6} fill={a} opacity="0.5" />
-      <ellipse cx={186} cy={48} rx={8} ry={4} fill="rgba(248,113,113,0.2)" stroke={tema.rojo} strokeWidth="1.2" />
+      <ellipse cx={186} cy={48} rx={8} ry={4} fill="rgba(248,113,113,0.2)" stroke={tema.canal(2)} strokeWidth="1.2" />
       <text x={216} y={28} textAnchor="middle" fill={T} fontSize="9" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">Eucariota</text>
       <text x={216} y={113} textAnchor="middle" fill={mu} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif">núcleo + organelos</text>
     </svg>

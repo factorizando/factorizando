@@ -5,7 +5,7 @@
 export default function TangenteExteriorSVG({ tema }) {
   const cx=200, cy=90, r=54;
   const px=22, py=90;
-  const bl=tema.azul, a=tema.acento, gr=tema.verde;
+  const bl=tema.azul, a=tema.acento, gr=tema.canal(1);
   const dist=Math.sqrt((cx-px)**2+(cy-py)**2);
   const tanLen=Math.sqrt(dist*dist-r*r);
   const ang=Math.asin(r/dist);

@@ -3,7 +3,7 @@
 // Salió de SlideRenderer.jsx en la fase 2b (docs/PLAN_MIGRACION.md).
 
 export default function VennConjuntosSVG({ tema }) {
-  const a = tema.acento, bl = tema.azul, gr = tema.verde, mu = tema.muted;
+  const a = tema.acento, bl = tema.azul, gr = tema.canal(1), mu = tema.muted;
   return (
     <svg viewBox="0 0 300 158" width="100%" style={{ display: "block", maxHeight: 168 }}>
       <rect x="8" y="12" width="284" height="134" rx="8" fill={tema.azulSuave} stroke={tema.border} strokeWidth="1.3" />

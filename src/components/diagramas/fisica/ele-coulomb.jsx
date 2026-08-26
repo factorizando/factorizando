@@ -5,7 +5,7 @@
 import { Vector } from "../comun.jsx";
 
 export default function EleCoulombSVG({ tema }) {
-  const rj = tema.rojo, mu = tema.muted, T = tema.texto;
+  const rj = tema.canal(2), mu = tema.muted, T = tema.texto;
   return (
     <svg viewBox="0 0 250 110" width="100%" style={{ display: "block", maxHeight: 120 }}>
       <line x1={76} y1={55} x2={174} y2={55} stroke={mu} strokeWidth="1" strokeDasharray="4 3" />

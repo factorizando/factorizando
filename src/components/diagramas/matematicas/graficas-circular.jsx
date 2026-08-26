@@ -6,10 +6,10 @@ import { M } from "../../../data/teoria/shared.jsx";
 
 export default function EstCircularSVG({ tema }) {
   const segs = [
-    { lab: "calif. 6", p: 10, c: tema.rojo },
+    { lab: "calif. 6", p: 10, c: tema.canal(2) },
     { lab: "calif. 7", p: 25, c: tema.azul },
     { lab: "calif. 8", p: 40, c: tema.acento },
-    { lab: "calif. 9", p: 20, c: tema.verde },
+    { lab: "calif. 9", p: 20, c: tema.canal(1) },
     { lab: "calif. 10", p: 5, c: tema.muted },
   ];
   const cx = 82, cy = 80, r = 60;

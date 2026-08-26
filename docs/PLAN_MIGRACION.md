@@ -32,7 +32,7 @@ anterior y no lo contemplaba.
 | **4A** | **Capa de tema desde `fx.css`** | 🟢 | ← siguiente |
 | 4B | Renderizador de bloques (absorbe la antigua fase 5) | 🟡 | |
 | 4C | Migrar las 65 presentaciones al esquema de bloques | 🟠 | |
-| 4D | Diagramas al criterio de canales por valor | 🟡 | |
+| 4D | Diagramas al criterio de canales por valor | ✅ | 390 usos en 151 archivos; tokens `verde`/`rojo` borrados |
 | 5 | `metadata.examenes` en todo el contenido | 🟢 | |
 | 6 | Calidad de contenido (`explanation` vacías) | 🟢 | |
 | 7 | Sincronizar documentación | 🟢 | |
@@ -433,10 +433,35 @@ tiene las cinco escritas a mano.
 
 ## Fase 4D — Diagramas al criterio de canales por valor
 
-Los 311 diagramas separan elementos con un segundo matiz (`tema.azul`) y con verde/rojo.
-`docs/DISENO.md` §2.1 pide hacerlo por **valor y trazo**: acento relleno, trazo fuerte,
-trazo medio, punteado. Son 215 y 150 archivos, así que va por materia y con revisión
-visual — ninguna herramienta detecta que un diagrama quedó feo.
+- [x] `tema.verde` → `tema.canal(1)` y `tema.rojo` → `tema.canal(2)`: **390 usos en 151
+      archivos**. `tema.azul` se queda: es un matiz ajeno y hace falta cuando algo debe
+      contrastar *con* el acento.
+- [x] Los dos tokens **borrados** del tema. Mientras existan, vuelven por costumbre.
+- [x] Los cinco usos fuera de los diagramas, que el primer barrido no vio porque no estaban
+      en `components/diagramas/`: el aviso y el botón de terminar sesión del director, la
+      muestra de colores de `TemaPreview`, y —la que importaba— la calificación final del
+      alumno, que se pintaba de verde al aprobar y de rojo al reprobar. Semáforo de
+      aprobado/reprobado, justo lo que la §2.4 prohíbe, en el momento más sensible.
+- [x] Los verdes y rojos **cocidos a mano** en el sistema de presentaciones: los fondos de
+      `lista_criterios`, el árbol de acentuación (que llamaba «verde» a *lleva tilde*) y el
+      error del alumno.
+
+**Lo que enseñó medir en vez de compilar.** La escala se aclaraba en los dos temas, y sobre
+papel blanco aclarar es borrar: `canal(2)` caía a **1.58** de contraste en Historia. Fijar la
+dirección tampoco servía —en los acentos ya oscuros no queda recorrido—, así que
+`crearCanales()` prueba las dos, descarta lo que baje de 2.5 contra el fondo *real* del tema
+y se queda con lo que más se aleje. El fondo se le pasa: lo tenía escrito dentro y medí
+contra un `#0e0f11` que ya no existe.
+
+**Y un caso que la rampa no puede arreglar.** En la urna de probabilidad el color es la única
+diferencia entre una bola roja y una azul, y el ejercicio consiste en contarlas; el rojo quedó
+a **1.57 de `tema.azul` en tema claro**, porque en Matemáticas el acento ya es azul. Se arregló
+dibujando la diferencia —llena, anillo, punto—, no retocando el color.
+
+**Pendiente aparte:** quedan 23 verdes y rojos cocidos en diagramas de Biología, Química y
+Física. Casi todos son *descriptivos* (la hoja de la fotosíntesis, la banda verde del espectro,
+el indicador universal de pH): aplanarlos a la rampa haría el diagrama falso. Hay que separar
+esos de los que son tinte arbitrario, uno por uno.
 
 ---
 

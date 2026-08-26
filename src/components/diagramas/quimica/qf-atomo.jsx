@@ -3,7 +3,7 @@
 // Salió de SlideRenderer.jsx en la fase 2b (docs/PLAN_MIGRACION.md).
 
 export default function QfAtomoSVG({ tema }) {
-  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto, grn = tema.verde;
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto, grn = tema.canal(1);
   return (
     <svg viewBox="0 0 280 130" width="100%" style={{ display: "block", maxHeight: 140 }}>
       {/* órbitas */}

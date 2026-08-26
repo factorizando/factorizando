@@ -6,7 +6,7 @@ import { PROB_NODE_TYPES } from "../comun.jsx";
 import { ReactFlow } from "@xyflow/react";
 
 export default function ProbArbolMultiplicativo({ tema }) {
-  const T = tema.texto, a = tema.acento, bl = tema.azul, gr = tema.verde;
+  const T = tema.texto, a = tema.acento, bl = tema.azul, gr = tema.canal(1);
   const eStyle = { stroke: 'rgba(255,255,255,0.28)', strokeWidth: 1.4 };
   const nodes = [
     { id: 'root', type: 'probnodo', position: { x: 0,   y: 128 }, data: { label: 'Menú',   t: T, col: a } },

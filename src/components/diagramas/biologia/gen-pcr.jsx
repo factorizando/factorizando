@@ -5,7 +5,7 @@
 import { arrowHead } from "../comun.jsx";
 
 export default function GenPcrSVG({ tema }) {
-  const a = tema.acento, bl = tema.azul, mu = tema.muted, ro = tema.rojo, T = tema.texto;
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, ro = tema.canal(2), T = tema.texto;
   return (
     <svg viewBox="0 0 290 130" width="100%" style={{ display: "block", maxHeight: 140 }}>
       <text x={145} y={12} textAnchor="middle" fill={a} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif">un ciclo de PCR (las copias se duplican)</text>
@@ -25,7 +25,7 @@ export default function GenPcrSVG({ tema }) {
       <text x={242} y={28} textAnchor="middle" fill={a} fontSize="7" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">3. extiende</text>
       <line x1={218} y1={40} x2={266} y2={40} stroke={bl} strokeWidth="2.4" />
       <line x1={218} y1={56} x2={266} y2={56} stroke={a} strokeWidth="2.4" />
-      <line x1={218} y1={48} x2={266} y2={48} stroke={tema.verde} strokeWidth="2" strokeDasharray="2 2" />
+      <line x1={218} y1={48} x2={266} y2={48} stroke={tema.canal(1)} strokeWidth="2" strokeDasharray="2 2" />
       <text x={242} y={74} textAnchor="middle" fill={mu} fontSize="6" fontFamily="'Figtree', system-ui, sans-serif">polimerasa copia</text>
       {/* flechas entre pasos */}
       <polygon points={arrowHead(82, 47, 96, 47, 6)} fill={mu} />

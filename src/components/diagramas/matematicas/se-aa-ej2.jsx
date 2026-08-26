@@ -13,13 +13,13 @@ export default function SeAaEj2SVG({ tema }) {
       <polygon points={pts([A,B,C])} fill={tema.azulSuave} stroke="none"/>
       <polygon points={pts([D,E,F])} fill={tema.azulSuave} stroke="none"/>
       <line x1={A[0]} y1={A[1]} x2={B[0]} y2={B[1]} stroke={tema.azul}  strokeWidth="2.4"/>
-      <line x1={B[0]} y1={B[1]} x2={C[0]} y2={C[1]} stroke={tema.verde} strokeWidth="2.4"/>
+      <line x1={B[0]} y1={B[1]} x2={C[0]} y2={C[1]} stroke={tema.canal(1)} strokeWidth="2.4"/>
       <line x1={C[0]} y1={C[1]} x2={A[0]} y2={A[1]} stroke={dim}        strokeWidth="1.5"/>
       <line x1={D[0]} y1={D[1]} x2={E[0]} y2={E[1]} stroke={tema.azul}  strokeWidth="2.4"/>
-      <line x1={E[0]} y1={E[1]} x2={F[0]} y2={F[1]} stroke={tema.verde} strokeWidth="2.4"/>
+      <line x1={E[0]} y1={E[1]} x2={F[0]} y2={F[1]} stroke={tema.canal(1)} strokeWidth="2.4"/>
       <line x1={F[0]} y1={F[1]} x2={D[0]} y2={D[1]} stroke={dim}        strokeWidth="1.5"/>
       <text x="29"  y="62"  fill={tema.azul}  fontSize="12" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="end">6</text>
-      <text x="93"  y="136" fill={tema.verde} fontSize="12" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="middle">9</text>
+      <text x="93"  y="136" fill={tema.canal(1)} fontSize="12" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="middle">9</text>
       <text x="214" y="82"  fill={tema.azul}  fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="end">4</text>
       <text x="194" y="96"  fill="rgba(240,236,227,0.50)" fontSize="13" fontWeight="700" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">k=3/2</text>
       <text x="186" y="78"  fill="rgba(240,236,227,0.28)" fontSize="22" fontFamily="Georgia,serif" textAnchor="middle">∼</text>

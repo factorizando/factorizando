@@ -5,7 +5,7 @@
 import { M } from "../../../data/teoria/shared.jsx";
 
 export default function CombinacionesCasillasSVG({ tema }) {
-  const a = tema.acento, gr = tema.verde, mu = tema.muted, T = tema.texto;
+  const a = tema.acento, gr = tema.canal(1), mu = tema.muted, T = tema.texto;
   const perms = ["ABC", "ACB", "BAC", "BCA", "CAB", "CBA"];
   return (
     <svg viewBox="0 0 250 158" width="100%" style={{ display: "block", maxHeight: 170 }}>

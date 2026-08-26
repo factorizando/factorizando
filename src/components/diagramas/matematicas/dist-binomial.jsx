@@ -13,7 +13,7 @@ export default function DistBinomialChart({ tema }) {
           <CartesianGrid stroke="rgba(255,255,255,0.06)" vertical={false} />
           <XAxis dataKey="k" tick={{ fill: tema.muted, fontSize: 12 }} axisLine={{ stroke: tema.border }} tickLine={false} />
           <YAxis domain={[0, 0.4]} tick={{ fill: tema.muted, fontSize: 10 }} axisLine={false} tickLine={false} width={36} tickFormatter={(v) => v.toFixed(2)} />
-          <ReferenceLine x="2" stroke={tema.verde} strokeDasharray="4 3" label={{ value: "más probable", position: "top", fill: tema.verde, fontSize: 9 }} />
+          <ReferenceLine x="2" stroke={tema.canal(1)} strokeDasharray="4 3" label={{ value: "más probable", position: "top", fill: tema.canal(1), fontSize: 9 }} />
           <Bar dataKey="p" fill={tema.acento} radius={[4, 4, 0, 0]} maxBarSize={40} />
         </BarChart>
       </ResponsiveContainer>

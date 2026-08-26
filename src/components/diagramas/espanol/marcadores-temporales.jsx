@@ -3,7 +3,7 @@
 // Salió de SlideRenderer.jsx en la fase 2b (docs/PLAN_MIGRACION.md).
 
 export default function MarcadoresTemporalesSVG({ tema }) {
-  const vd = tema.verde, az = tema.azul, ac = tema.acento;
+  const vd = tema.canal(1), az = tema.azul, ac = tema.acento;
   const TY = 50;
   const pts = [
     { x: 28,  label: "primero",    sub: "en primer lugar",   color: vd  },

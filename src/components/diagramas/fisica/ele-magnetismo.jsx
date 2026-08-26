@@ -5,7 +5,7 @@
 import { M } from "../../../data/teoria/shared.jsx";
 
 export default function EleMagnetismoSVG({ tema }) {
-  const rj = tema.rojo, az = tema.azul, mu = tema.muted, T = tema.texto;
+  const rj = tema.canal(2), az = tema.azul, mu = tema.muted, T = tema.texto;
   const mx = 78, mw = 94, my = 52, mh = 22;
   return (
     <svg viewBox="0 0 250 120" width="100%" style={{ display: "block", maxHeight: 130 }}>

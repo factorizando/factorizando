@@ -37,16 +37,16 @@ export default function EulerLineSVG({ tema }) {
         stroke={tema.texto} strokeWidth="1.5" fill="none" opacity="0.55"/>
       {/* Línea de Euler */}
       <line x1={fx(L1[0])} y1={fx(L1[1])} x2={fx(L2[0])} y2={fx(L2[1])}
-        stroke={tema.verde} strokeWidth="1.6" strokeDasharray="5,3" opacity="0.9"/>
+        stroke={tema.canal(1)} strokeWidth="1.6" strokeDasharray="5,3" opacity="0.9"/>
       {/* Puntos clave */}
       <circle cx={fx(O[0])} cy={fx(O[1])} r="4" fill={tema.acento}/>
-      <circle cx={fx(G[0])} cy={fx(G[1])} r="4" fill={tema.verde}/>
+      <circle cx={fx(G[0])} cy={fx(G[1])} r="4" fill={tema.canal(1)}/>
       <circle cx={fx(H[0])} cy={fx(H[1])} r="4" fill={tema.azul}/>
       {/* Etiquetas O, G, H */}
       <text x={fx(O[0]+7)} y={fx(O[1]+5)}
         fill={tema.acento} fontSize="13" fontFamily="serif" fontStyle="italic">O</text>
       <text x={fx(G[0]-16)} y={fx(G[1]-5)}
-        fill={tema.verde} fontSize="13" fontFamily="serif" fontStyle="italic">G</text>
+        fill={tema.canal(1)} fontSize="13" fontFamily="serif" fontStyle="italic">G</text>
       <text x={fx(H[0]+7)} y={fx(H[1]+5)}
         fill={tema.azul} fontSize="13" fontFamily="serif" fontStyle="italic">H</text>
       {/* Etiquetas de vértices */}

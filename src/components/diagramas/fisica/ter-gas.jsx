@@ -7,7 +7,7 @@ import { M } from "../../../data/teoria/shared.jsx";
 import { Vector } from "../comun.jsx";
 
 export default function TerGasSVG({ tema }) {
-  const a = tema.acento, mu = tema.muted, rj = tema.rojo, az = tema.azul;
+  const a = tema.acento, mu = tema.muted, rj = tema.canal(2), az = tema.azul;
   const dots = [[95, 56], [116, 72], [131, 50], [110, 90], [136, 84], [100, 72], [125, 64], [141, 96]];
   return (
     <svg viewBox="0 0 250 130" width="100%" style={{ display: "block", maxHeight: 140 }}>

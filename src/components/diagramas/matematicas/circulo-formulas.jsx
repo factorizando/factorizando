@@ -6,7 +6,7 @@ import { M } from "../../../data/teoria/shared.jsx";
 
 export default function CirculoFormulasSVG({ tema }) {
   const cx=94, cy=95, r=68;
-  const bl=tema.azul, a=tema.acento, gr=tema.verde;
+  const bl=tema.azul, a=tema.acento, gr=tema.canal(1);
   const D = deg => deg * Math.PI / 180;
   // Arco verde 290° (gap de 70° en la derecha, donde está el radio horizontal)
   // P(35°) = parte inferior-derecha, P(-35°) = parte superior-derecha

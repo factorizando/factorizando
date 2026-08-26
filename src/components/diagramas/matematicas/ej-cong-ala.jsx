@@ -15,16 +15,16 @@ export default function EjCongALASVG({ tema }) {
       <line x1="315" y1="112" x2="230" y2="15"  stroke="rgba(255,255,255,0.18)" strokeWidth="1.5"/>
       <line x1="70"  y1="15"  x2="10"  y2="112" stroke={tema.azul} strokeWidth="2.5"/>
       <line x1="230" y1="15"  x2="170" y2="112" stroke={tema.azul} strokeWidth="2.5"/>
-      <path d="M 82,29 A 18,18 0 0,1 61,30"   stroke={tema.verde}  strokeWidth="2.2" fill="none"/>
-      <path d="M 242,29 A 18,18 0 0,1 221,30"  stroke={tema.verde}  strokeWidth="2.2" fill="none"/>
+      <path d="M 82,29 A 18,18 0 0,1 61,30"   stroke={tema.canal(1)}  strokeWidth="2.2" fill="none"/>
+      <path d="M 242,29 A 18,18 0 0,1 221,30"  stroke={tema.canal(1)}  strokeWidth="2.2" fill="none"/>
       <path d="M 17,100 A 14,14 0 0,1 24,112"  stroke={tema.acento} strokeWidth="2.2" fill="none"/>
       <path d="M 177,100 A 14,14 0 0,1 184,112" stroke={tema.acento} strokeWidth="2.2" fill="none"/>
       <path d="M 35,67 L 45,60"   stroke={tema.azul} strokeWidth="2" fill="none"/>
       <path d="M 195,67 L 205,60" stroke={tema.azul} strokeWidth="2" fill="none"/>
       <text x="30"  y="60"  fill={tema.azul} fontSize="13" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="end">8</text>
       <text x="190" y="60"  fill={tema.azul} fontSize="13" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="end">8</text>
-      <text x="76"  y="48"  fill={tema.verde}  fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="middle">45°</text>
-      <text x="236" y="48"  fill={tema.verde}  fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="middle">45°</text>
+      <text x="76"  y="48"  fill={tema.canal(1)}  fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="middle">45°</text>
+      <text x="236" y="48"  fill={tema.canal(1)}  fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="middle">45°</text>
       <text x="29"  y="99"  fill={tema.acento} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">75°</text>
       <text x="189" y="99"  fill={tema.acento} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">75°</text>
       <text x="70"  y="8"   fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>

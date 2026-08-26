@@ -5,7 +5,7 @@
 import { Bloque, Vector, arrowHead } from "../comun.jsx";
 
 export default function EneEnergiasSVG({ tema }) {
-  const gr = tema.verde, mu = tema.muted, bl = tema.azul;
+  const gr = tema.canal(1), mu = tema.muted, bl = tema.azul;
   const gy = 112;
   return (
     <svg viewBox="0 0 250 130" width="100%" style={{ display: "block", maxHeight: 140 }}>

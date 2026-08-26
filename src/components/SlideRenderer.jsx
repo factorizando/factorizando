@@ -640,15 +640,15 @@ function CriterioLLL_SVG({ tema }) {
       {/* Color-coded sides: AB/DE=azul, BC/EF=verde, CA/FD=acento */}
       <line x1="50" y1="10" x2="8"   y2="78" stroke={tema.azul}   strokeWidth="2" opacity="0.85"/>
       <line x1="148" y1="33" x2="120" y2="78" stroke={tema.azul}   strokeWidth="2" opacity="0.85"/>
-      <line x1="8"   y1="78" x2="96"  y2="78" stroke={tema.verde}  strokeWidth="2" opacity="0.85"/>
-      <line x1="120" y1="78" x2="178" y2="78" stroke={tema.verde}  strokeWidth="2" opacity="0.85"/>
+      <line x1="8"   y1="78" x2="96"  y2="78" stroke={tema.canal(1)}  strokeWidth="2" opacity="0.85"/>
+      <line x1="120" y1="78" x2="178" y2="78" stroke={tema.canal(1)}  strokeWidth="2" opacity="0.85"/>
       <line x1="96"  y1="78" x2="50"  y2="10" stroke={tema.acento} strokeWidth="2" opacity="0.85"/>
       <line x1="178" y1="78" x2="148" y2="33" stroke={tema.acento} strokeWidth="2" opacity="0.85"/>
       {/* Tick marks: 1-azul, 2-verde, 3-acento */}
       <path d="M 25,41 L 33,47" stroke={tema.azul} strokeWidth="1.5" fill="none"/>
       <path d="M 131,53 L 137,58" stroke={tema.azul} strokeWidth="1.5" fill="none"/>
-      <path d="M 49,74 L 49,82 M 55,74 L 55,82" stroke={tema.verde} strokeWidth="1.5" fill="none"/>
-      <path d="M 146,74 L 146,82 M 152,74 L 152,82" stroke={tema.verde} strokeWidth="1.5" fill="none"/>
+      <path d="M 49,74 L 49,82 M 55,74 L 55,82" stroke={tema.canal(1)} strokeWidth="1.5" fill="none"/>
+      <path d="M 146,74 L 146,82 M 152,74 L 152,82" stroke={tema.canal(1)} strokeWidth="1.5" fill="none"/>
       <path d="M 72,36 L 66,40 M 76,42 L 70,46 M 80,48 L 74,52" stroke={tema.acento} strokeWidth="1.5" fill="none"/>
       <path d="M 163,50 L 157,54 M 166,54 L 160,58 M 169,57 L 163,61" stroke={tema.acento} strokeWidth="1.5" fill="none"/>
     </svg>
@@ -669,8 +669,8 @@ function CriterioLAL_SVG({ tema }) {
       <line x1="96"  y1="78" x2="50"  y2="10" stroke={tema.acento} strokeWidth="2" opacity="0.85"/>
       <line x1="178" y1="78" x2="148" y2="33" stroke={tema.acento} strokeWidth="2" opacity="0.85"/>
       {/* Included angle at A and D: verde */}
-      <path d="M 57,20 A 12,12 0 0,1 44,20" stroke={tema.verde} strokeWidth="2" fill="none"/>
-      <path d="M 153,40 A 9,9 0 0,1 143,41" stroke={tema.verde} strokeWidth="2" fill="none"/>
+      <path d="M 57,20 A 12,12 0 0,1 44,20" stroke={tema.canal(1)} strokeWidth="2" fill="none"/>
+      <path d="M 153,40 A 9,9 0 0,1 143,41" stroke={tema.canal(1)} strokeWidth="2" fill="none"/>
       {/* Tick marks: 1 on AB/DE (azul), 2 on CA/FD (acento) */}
       <path d="M 25,41 L 33,47" stroke={tema.azul} strokeWidth="1.5" fill="none"/>
       <path d="M 131,53 L 137,58" stroke={tema.azul} strokeWidth="1.5" fill="none"/>
@@ -687,14 +687,14 @@ function CongLLL_SVG({ tema }) {
       <polygon points="145,10 108,78 190,78" fill={tema.azulSuave} stroke="none"/>
       <line x1="45"  y1="10" x2="8"   y2="78" stroke={tema.azul}   strokeWidth="2" opacity="0.85"/>
       <line x1="145" y1="10" x2="108" y2="78" stroke={tema.azul}   strokeWidth="2" opacity="0.85"/>
-      <line x1="8"   y1="78" x2="90"  y2="78" stroke={tema.verde}  strokeWidth="2" opacity="0.85"/>
-      <line x1="108" y1="78" x2="190" y2="78" stroke={tema.verde}  strokeWidth="2" opacity="0.85"/>
+      <line x1="8"   y1="78" x2="90"  y2="78" stroke={tema.canal(1)}  strokeWidth="2" opacity="0.85"/>
+      <line x1="108" y1="78" x2="190" y2="78" stroke={tema.canal(1)}  strokeWidth="2" opacity="0.85"/>
       <line x1="90"  y1="78" x2="45"  y2="10" stroke={tema.acento} strokeWidth="2" opacity="0.85"/>
       <line x1="190" y1="78" x2="145" y2="10" stroke={tema.acento} strokeWidth="2" opacity="0.85"/>
       <path d="M 23,41 L 31,47"   stroke={tema.azul}   strokeWidth="1.5" fill="none"/>
       <path d="M 123,41 L 131,47" stroke={tema.azul}   strokeWidth="1.5" fill="none"/>
-      <path d="M 46,74 L 46,82 M 52,74 L 52,82"     stroke={tema.verde}  strokeWidth="1.5" fill="none"/>
-      <path d="M 146,74 L 146,82 M 152,74 L 152,82"  stroke={tema.verde}  strokeWidth="1.5" fill="none"/>
+      <path d="M 46,74 L 46,82 M 52,74 L 52,82"     stroke={tema.canal(1)}  strokeWidth="1.5" fill="none"/>
+      <path d="M 146,74 L 146,82 M 152,74 L 152,82"  stroke={tema.canal(1)}  strokeWidth="1.5" fill="none"/>
       <path d="M 67,37 L 61,43 M 72,43 L 66,49 M 77,49 L 71,55"    stroke={tema.acento} strokeWidth="1.5" fill="none"/>
       <path d="M 167,37 L 161,43 M 172,43 L 166,49 M 177,49 L 171,55" stroke={tema.acento} strokeWidth="1.5" fill="none"/>
     </svg>
@@ -712,8 +712,8 @@ function CongLAL_SVG({ tema }) {
       <line x1="145" y1="10" x2="108" y2="78" stroke={tema.azul}   strokeWidth="2" opacity="0.85"/>
       <line x1="90"  y1="78" x2="45"  y2="10" stroke={tema.acento} strokeWidth="2" opacity="0.85"/>
       <line x1="190" y1="78" x2="145" y2="10" stroke={tema.acento} strokeWidth="2" opacity="0.85"/>
-      <path d="M 52,20 A 12,12 0 0,1 39,21"   stroke={tema.verde} strokeWidth="2" fill="none"/>
-      <path d="M 152,20 A 12,12 0 0,1 139,21"  stroke={tema.verde} strokeWidth="2" fill="none"/>
+      <path d="M 52,20 A 12,12 0 0,1 39,21"   stroke={tema.canal(1)} strokeWidth="2" fill="none"/>
+      <path d="M 152,20 A 12,12 0 0,1 139,21"  stroke={tema.canal(1)} strokeWidth="2" fill="none"/>
       <path d="M 23,41 L 31,47"   stroke={tema.azul}   strokeWidth="1.5" fill="none"/>
       <path d="M 123,41 L 131,47" stroke={tema.azul}   strokeWidth="1.5" fill="none"/>
       <path d="M 67,37 L 61,43 M 72,43 L 66,49"  stroke={tema.acento} strokeWidth="1.5" fill="none"/>
@@ -733,8 +733,8 @@ function CongALA_SVG({ tema }) {
       <line x1="190" y1="78" x2="145" y2="10" stroke="rgba(255,255,255,0.14)" strokeWidth="1.5"/>
       <line x1="45"  y1="10" x2="8"   y2="78" stroke={tema.azul} strokeWidth="2" opacity="0.85"/>
       <line x1="145" y1="10" x2="108" y2="78" stroke={tema.azul} strokeWidth="2" opacity="0.85"/>
-      <path d="M 52,20 A 12,12 0 0,1 39,21"   stroke={tema.verde}  strokeWidth="2" fill="none"/>
-      <path d="M 152,20 A 12,12 0 0,1 139,21"  stroke={tema.verde}  strokeWidth="2" fill="none"/>
+      <path d="M 52,20 A 12,12 0 0,1 39,21"   stroke={tema.canal(1)}  strokeWidth="2" fill="none"/>
+      <path d="M 152,20 A 12,12 0 0,1 139,21"  stroke={tema.canal(1)}  strokeWidth="2" fill="none"/>
       <path d="M 13,67 A 12,12 0 0,1 20,78"    stroke={tema.acento} strokeWidth="2" fill="none"/>
       <path d="M 113,67 A 12,12 0 0,1 120,78"  stroke={tema.acento} strokeWidth="2" fill="none"/>
       <path d="M 23,41 L 31,47"   stroke={tema.azul} strokeWidth="1.5" fill="none"/>
@@ -754,8 +754,8 @@ function CongLAA_SVG({ tema }) {
       <line x1="190" y1="78" x2="145" y2="10" stroke="rgba(255,255,255,0.14)" strokeWidth="1.5"/>
       <line x1="8"   y1="78" x2="90"  y2="78" stroke={tema.azul} strokeWidth="2" opacity="0.85"/>
       <line x1="108" y1="78" x2="190" y2="78" stroke={tema.azul} strokeWidth="2" opacity="0.85"/>
-      <path d="M 52,20 A 12,12 0 0,1 39,21"   stroke={tema.verde}  strokeWidth="2" fill="none"/>
-      <path d="M 152,20 A 12,12 0 0,1 139,21"  stroke={tema.verde}  strokeWidth="2" fill="none"/>
+      <path d="M 52,20 A 12,12 0 0,1 39,21"   stroke={tema.canal(1)}  strokeWidth="2" fill="none"/>
+      <path d="M 152,20 A 12,12 0 0,1 139,21"  stroke={tema.canal(1)}  strokeWidth="2" fill="none"/>
       <path d="M 13,67 A 12,12 0 0,1 20,78"    stroke={tema.acento} strokeWidth="2" fill="none"/>
       <path d="M 113,67 A 12,12 0 0,1 120,78"  stroke={tema.acento} strokeWidth="2" fill="none"/>
       <path d="M 46,74 L 46,82"   stroke={tema.azul} strokeWidth="1.5" fill="none"/>
@@ -836,7 +836,7 @@ function TrapEscalenoCriterioSVG({ tema }) {
     <svg viewBox="0 0 190 88" width="100%" style={{ display: "block" }}>
       <polygon points="8,80 178,80 148,8 55,8" fill={tema.azulSuave} stroke="none"/>
       <line x1="8" y1="80" x2="178" y2="80" stroke={tema.azul} strokeWidth="2" opacity="0.9"/>
-      <line x1="55" y1="8" x2="148" y2="8" stroke={tema.verde} strokeWidth="2" opacity="0.9"/>
+      <line x1="55" y1="8" x2="148" y2="8" stroke={tema.canal(1)} strokeWidth="2" opacity="0.9"/>
       <line x1="8" y1="80" x2="55" y2="8" stroke={tema.acento} strokeWidth="1.8" opacity="0.85"/>
       <line x1="178" y1="80" x2="148" y2="8" stroke={tema.azul} strokeWidth="1.8" opacity="0.7"/>
     </svg>
@@ -847,7 +847,7 @@ function TrapIsosCriterioSVG({ tema }) {
     <svg viewBox="0 0 190 88" width="100%" style={{ display: "block" }}>
       <polygon points="8,80 178,80 148,8 38,8" fill={tema.azulSuave} stroke="none"/>
       <line x1="8" y1="80" x2="178" y2="80" stroke={tema.azul} strokeWidth="2" opacity="0.9"/>
-      <line x1="38" y1="8" x2="148" y2="8" stroke={tema.verde} strokeWidth="2" opacity="0.9"/>
+      <line x1="38" y1="8" x2="148" y2="8" stroke={tema.canal(1)} strokeWidth="2" opacity="0.9"/>
       <line x1="8" y1="80" x2="38" y2="8" stroke={tema.acento} strokeWidth="2" opacity="0.85"/>
       <line x1="178" y1="80" x2="148" y2="8" stroke={tema.acento} strokeWidth="2" opacity="0.85"/>
       <path d="M 17,44 L 25,50" stroke={tema.acento} strokeWidth="1.8" fill="none"/>
@@ -860,7 +860,7 @@ function TrapRectCriterioSVG({ tema }) {
     <svg viewBox="0 0 190 88" width="100%" style={{ display: "block" }}>
       <polygon points="20,80 168,80 168,8 80,8" fill={tema.azulSuave} stroke="none"/>
       <line x1="20" y1="80" x2="168" y2="80" stroke={tema.azul} strokeWidth="2" opacity="0.9"/>
-      <line x1="80" y1="8" x2="168" y2="8" stroke={tema.verde} strokeWidth="2" opacity="0.9"/>
+      <line x1="80" y1="8" x2="168" y2="8" stroke={tema.canal(1)} strokeWidth="2" opacity="0.9"/>
       <line x1="20" y1="80" x2="80" y2="8" stroke={tema.acento} strokeWidth="2" opacity="0.85"/>
       <line x1="168" y1="8" x2="168" y2="80" stroke={tema.azul} strokeWidth="2" opacity="0.9"/>
       <path d="M 160,80 L 160,72 L 168,72" stroke={tema.acento} strokeWidth="1.5" fill="none"/>
@@ -919,8 +919,8 @@ function OctagonoRegSVG({ tema }) {
 }
 
 function SlideListaCriterios({ slide, tema, resaltadoIdx, onResaltar }) {
-  const coloresAll = [tema.acento, tema.azul, tema.verde, tema.rojo];
-  const bgColoresAll = [tema.acentoMed, tema.azulMed, "rgba(74,222,128,0.1)", "rgba(248,113,113,0.10)"];
+  const coloresAll = [tema.acento, tema.azul, tema.canal(1), tema.canal(2)];
+  const bgColoresAll = [tema.acentoMed, tema.azulMed, `${tema.canal(1)}1a`, `${tema.canal(2)}1a`];
   const winW = useWindowWidth();
   const narrow = winW < 500;
   const criterioSVGsSemejanza = {
@@ -1323,7 +1323,7 @@ function SlideEjemplo({ slide, tema, resaltadoIdx, onResaltar }) {
 // ── Triángulo inscrito: los tres casos (centro O respecto al ángulo) ────────
 function InscritoCasoBase({ tema, A, C, B, derecha }) {
   const cx=75, cy=72, r=58;
-  const bl=tema.azul, a=tema.acento, gr=tema.verde;
+  const bl=tema.azul, a=tema.acento, gr=tema.canal(1);
   const D=(d)=>d*Math.PI/180;
   const P=(deg)=>[+(cx+r*Math.cos(D(deg))).toFixed(1), +(cy+r*Math.sin(D(deg))).toFixed(1)];
   const [Ax,Ay]=P(A), [Cx,Cy]=P(C), [Bx,By]=P(B);
@@ -1954,7 +1954,7 @@ function SlideReglaRica({ slide, tema, resaltadoIdx, onResaltar }) {
         }
 
         if (bloque.tipo === "trampa") {
-          const colorMap = { A: tema.acento, B: tema.azul, C: tema.verde };
+          const colorMap = { A: tema.acento, B: tema.azul, C: tema.canal(1) };
           const color = colorMap[bloque.letra] || tema.acento;
           return (
             <div
@@ -2056,11 +2056,11 @@ function SlideReglaRica({ slide, tema, resaltadoIdx, onResaltar }) {
 // ─── Acentuación: árbol de decisión ──────────────────────────────────────────
 function SlideResumenAcentuacion({ slide, tema }) {
   const C = {
-    tilde:   "#4ade80",
-    noTilde: "#f5c842",
+    tilde:   tema.canal(1),
+    noTilde: tema.canal(2),
     aguda:   tema.acento,
     llana:   tema.azul,
-    esdruj:  tema.verde,
+    esdruj:  tema.canal(1),
     sobr:    "#c084fc",
     mono:    "#94a3b8",
   };
@@ -2172,7 +2172,7 @@ function SlideResumenAcentuacion({ slide, tema }) {
         borderRadius: 8, padding: "8px 14px", display: "flex", alignItems: "center", gap: 10, flexShrink: 0,
       }}>
         <span style={{ fontFamily: tema.mono, fontSize: 9, fontWeight: 700, color: tema.acento, letterSpacing: "0.12em", whiteSpace: "nowrap" }}>HIATO ESPECIAL</span>
-        <span style={{ fontSize: 11, color: tema.texto }}>Vocal cerrada <b>tónica</b> junto a otra vocal → <span style={{ color: "#4ade80", fontWeight: 700 }}>tilde siempre</span>, aunque la regla general no la pida.</span>
+        <span style={{ fontSize: 11, color: tema.texto }}>Vocal cerrada <b>tónica</b> junto a otra vocal → <span style={{ color: tema.canal(1), fontWeight: 700 }}>tilde siempre</span>, aunque la regla general no la pida.</span>
         <span style={{ fontSize: 10, color: tema.muted, fontStyle: "italic", whiteSpace: "nowrap" }}>pa-ís · Ma-rí-a · ba-úl</span>
       </div>
     </div>

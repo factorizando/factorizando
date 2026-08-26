@@ -9,7 +9,7 @@ export default function As8ComplejoSVG({ tema }) {
   const rW=12*sc, rH=8*sc;
   const rX=38, rY=30;
   const rSemi=rH/2;                 // diámetro = lado corto (8 cm) ⇒ r = 4 cm
-  const a=tema.acento, bl=tema.azul, gr=tema.verde;
+  const a=tema.acento, bl=tema.azul, gr=tema.canal(1);
   const triH=5*sc;
   const ex=rX+rW;                   // borde derecho del rectángulo
   const cyMid=rY+rH/2;

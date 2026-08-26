@@ -26,14 +26,14 @@ export default function Ce3AlaSVG({ tema }) {
       <path d={tp(A,B)} stroke={tema.acento} strokeWidth="1.8" fill="none"/>
       <path d={tp(D,E)} stroke={tema.acento} strokeWidth="1.8" fill="none"/>
       {/* Angle arcs at A and D (60°) */}
-      <path d={arcPath(A,C,B,22)} stroke={tema.verde} strokeWidth="1.6" fill="none"/>
-      <path d={arcPath(D,F,E,22)} stroke={tema.verde} strokeWidth="1.6" fill="none"/>
+      <path d={arcPath(A,C,B,22)} stroke={tema.canal(1)} strokeWidth="1.6" fill="none"/>
+      <path d={arcPath(D,F,E,22)} stroke={tema.canal(1)} strokeWidth="1.6" fill="none"/>
       {/* Angle arcs at B and E (50°) */}
       <path d={arcPath(B,A,C,22)} stroke={tema.azul} strokeWidth="1.6" fill="none"/>
       <path d={arcPath(E,D,F,22)} stroke={tema.azul} strokeWidth="1.6" fill="none"/>
       {/* Angle labels */}
-      <text x="86"  y="50"  fill={tema.verde} fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="middle">60°</text>
-      <text x="264" y="50"  fill={tema.verde} fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="middle">60°</text>
+      <text x="86"  y="50"  fill={tema.canal(1)} fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="middle">60°</text>
+      <text x="264" y="50"  fill={tema.canal(1)} fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="middle">60°</text>
       <text x="36"  y="110" fill={tema.azul}  fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">50°</text>
       <text x="214" y="110" fill={tema.azul}  fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">50°</text>
       {/* AB = DE = 8 labels */}

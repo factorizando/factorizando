@@ -198,6 +198,9 @@ const ACENTOS_CLARO = {
 // Superficies, texto y tipografía: el bloque `.fx-oscuro` de fx.css, uno solo
 // para las siete materias. El fondo no es negro puro a propósito: en videollamada
 // el texto claro sobre casi negro se rompe al comprimirse.
+// Ya no hay `verde` ni `rojo`. Los diagramas que los usaban pasaron a
+// `canal(1)` y `canal(2)`, y la retroalimentación nunca los usó: si el token no
+// existe, nadie puede reintroducirlos por costumbre (docs/DISENO.md §2.1 y §2.4).
 const BASE = {
   bg:     "#0e1926",
   card:   "#16222f",
@@ -208,8 +211,6 @@ const BASE = {
   cuerpo: "#c6d4e3",  // texto corrido: un escalón por debajo del título
   muted:  "#8497ab",
   sub:    "#5e7085",
-  verde:  "#4ade80",
-  rojo:   "#f87171",
 };
 
 // Lo que no cambia entre esquemas: las cuatro familias, iguales para las siete
@@ -237,8 +238,6 @@ const BASE_CLARO = {
   cuerpo: "#33475b",
   muted:  "#5a6b7f",
   sub:    "#8e9aa8",
-  verde:  "#2f7d53",
-  rojo:   "#b23b32",
 };
 
 // Los canales de dibujo están elegidos para fondo oscuro: sobre blanco, varios
@@ -267,19 +266,55 @@ function mezcla(hex, hacia, t) {
   return `#${[16, 8, 0].map((x) => c(x).toString(16).padStart(2, "0")).join("")}`;
 }
 
-function crearCanales(acento, claro) {
-  const luz = claro ? "#0a2540" : "#ffffff";   // hacia dónde se aclara
-  const sombra = claro ? "#ffffff" : "#0a2540"; // hacia dónde se apaga
-  // Medido sobre el acento de matemáticas, el par de pasos más parecido queda en
-  // ~1.6 de contraste. Sirve para dos o tres cosas que además se distinguen por
-  // forma o posición; NO sirve para cuatro categorías que se tocan, como los
-  // sectores de una gráfica circular. Ver la nota de docs/DISENO.md §2.1.
-  return [
-    acento,                          // 0 · el principal
-    mezcla(acento, luz, 0.55),       // 1 · claro
-    mezcla(acento, sombra, 0.45),    // 2 · apagado
-    mezcla(acento, sombra, 0.72),    // 3 · hundido
-  ];
+function luminancia(hex) {
+  const n = parseInt(hex.slice(1, 7), 16);
+  const v = [(n >> 16) & 255, (n >> 8) & 255, n & 255]
+    .map((x) => x / 255)
+    .map((c) => (c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4)));
+  return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2];
+}
+
+function contraste(a, b) {
+  const [x, y] = [luminancia(a), luminancia(b)].sort((p, q) => q - p);
+  return (x + 0.05) / (y + 0.05);
+}
+
+// Los canales son los colores con los que se DIBUJA sobre el fondo del tema.
+// Dos reglas, y la segunda solo apareció al medir las siete materias en los dos
+// temas: (1) ningún canal puede acercarse al fondo, o desaparece —aclarar sobre
+// papel blanco dejaba el canal 2 en 1.58 de contraste en Historia—; (2) tampoco
+// sirve fijar la dirección, porque en los acentos ya oscuros (Español, Historia
+// en claro) oscurecer más no separa nada: no queda recorrido. Así que cada canal
+// prueba las dos direcciones y se queda con la que más lo aleja de los canales
+// ya elegidos, descartando de entrada las que lo dejarían por debajo del piso de
+// visibilidad contra el fondo.
+const PISO_CONTRA_FONDO = 2.5;
+const GRADOS = [0.3, 0.45, 0.6, 0.75, 0.88];
+
+function crearCanales(acento, fondo) {
+  const viables = [];
+  for (const hacia of ["#ffffff", "#0a2540"]) {
+    for (const t of GRADOS) {
+      const c = mezcla(acento, hacia, t);
+      if (contraste(c, fondo) >= PISO_CONTRA_FONDO) viables.push(c);
+    }
+  }
+
+  // Cada canal se queda con el color que más lejos esté del más cercano de los
+  // ya elegidos. Al compartir todos el mismo repertorio, la separación sale de
+  // la medición y no de un grado tecleado: en la práctica manda el canal 1 y el
+  // canal 2 a extremos opuestos cuando el acento tiene recorrido en las dos
+  // direcciones, y a dos puntos distantes de la misma cuando no lo tiene.
+  const canales = [acento];
+  for (let i = 0; i < 3; i += 1) {
+    const lejania = (c) => Math.min(...canales.map((p) => contraste(c, p)));
+    canales.push(
+      viables.length
+        ? viables.reduce((mejor, c) => (lejania(c) > lejania(mejor) ? c : mejor))
+        : acento
+    );
+  }
+  return canales;
 }
 
 // Las cinco opacidades del acento se calculan; antes se tecleaban una por una
@@ -310,7 +345,7 @@ function crearTema(id, DecoSVG, canales, esquema = "oscuro") {
     acentoOpaco:  conAlfa(acento, 0.28),
     ...canalesDelEsquema,
     // `canales[0..3]`: la escala de arriba. `canal(i)` para no indexar fuera.
-    canales: crearCanales(acento, claro),
+    canales: crearCanales(acento, (claro ? BASE_CLARO : BASE).bg),
     canal(i) { return this.canales[Math.min(3, Math.max(0, i | 0))]; },
     ...(claro ? BASE_CLARO : BASE),
     ...TIPOGRAFIA,

@@ -163,8 +163,17 @@ export function DadoSVG({ x, y, s, n, color, fill, stroke, rPip }) {
 }
 
 export function UrnaSVG({ tema, rojas = 0, azules = 0, verdes = 0 }) {
-  const rj = tema.rojo, az = tema.azul, gr = tema.verde;
-  const colores = [...Array(rojas).fill(rj), ...Array(azules).fill(az), ...Array(verdes).fill(gr)];
+  // La urna es el caso donde el color carga TODA la distinción: el ejercicio
+  // pide contar bolas de cada clase. Al pasar a la escala del acento (fase 4D)
+  // dos de las tres clases quedaron a 1.57 de contraste entre sí en tema claro
+  // —en matemáticas el acento ya es azul—, así que cada clase lleva además una
+  // marca dibujada: llena, anillo, punto. Cuenta igual en gris o proyectada.
+  const rj = tema.canal(2), az = tema.azul, gr = tema.canal(1);
+  const bolas = [
+    ...Array(rojas).fill({ c: rj, marca: "llena" }),
+    ...Array(azules).fill({ c: az, marca: "anillo" }),
+    ...Array(verdes).fill({ c: gr, marca: "punto" }),
+  ];
   const partes = [];
   if (rojas) partes.push(`${rojas}R`);
   if (azules) partes.push(`${azules}A`);
@@ -173,10 +182,16 @@ export function UrnaSVG({ tema, rojas = 0, azules = 0, verdes = 0 }) {
     <svg viewBox="0 0 150 152" width="100%" style={{ display: "block", maxHeight: 162, maxWidth: 170 }}>
       <path d="M34,32 L34,120 Q34,134 48,134 L102,134 Q116,134 116,120 L116,32"
         fill="rgba(255,255,255,0.03)" stroke={tema.border} strokeWidth="2"/>
-      {colores.map((c, i) => {
+      {bolas.map(({ c, marca }, i) => {
         const col = i % 3, row = Math.floor(i / 3);
         const cx = 55 + col * 20, cy = 114 - row * 23;
-        return <circle key={i} cx={cx} cy={cy} r={9.5} fill={`${c}59`} stroke={c} strokeWidth="1.8"/>;
+        return (
+          <g key={i}>
+            <circle cx={cx} cy={cy} r={9.5} stroke={c} strokeWidth={marca === "anillo" ? 2.6 : 1.8}
+              fill={marca === "anillo" ? "none" : `${c}${marca === "llena" ? "a6" : "59"}`}/>
+            {marca === "punto" && <circle cx={cx} cy={cy} r={3.2} fill={c}/>}
+          </g>
+        );
       })}
       <text x="75" y="22" fill={tema.acento} fontSize="13" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">{partes.join(" · ")}</text>
     </svg>

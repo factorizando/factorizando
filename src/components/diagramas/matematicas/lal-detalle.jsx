@@ -21,8 +21,8 @@ export default function CriterioLALDetalleSVG({ tema }) {
       <line x1="405" y1="162" x2="341" y2="78"  stroke={tema.acento} strokeWidth="2.5"/>
 
       {/* Included angle at A and D: verde arc */}
-      <path d="M 113,35 A 22,22 0 0,1 89,37" stroke={tema.verde} strokeWidth="2.2" fill="none"/>
-      <path d="M 351,91 A 16,16 0 0,1 333,92" stroke={tema.verde} strokeWidth="2.2" fill="none"/>
+      <path d="M 113,35 A 22,22 0 0,1 89,37" stroke={tema.canal(1)} strokeWidth="2.2" fill="none"/>
+      <path d="M 351,91 A 16,16 0 0,1 333,92" stroke={tema.canal(1)} strokeWidth="2.2" fill="none"/>
 
       {/* Single tick on AB (azul) */}
       <line x1="51" y1="87" x2="61" y2="93" stroke={tema.azul} strokeWidth="2"/>
@@ -37,8 +37,8 @@ export default function CriterioLALDetalleSVG({ tema }) {
       <line x1="371" y1="126" x2="379" y2="120" stroke={tema.acento} strokeWidth="2"/>
 
       {/* Angle labels */}
-      <text x="104" y="52"  fill={tema.verde} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">∠A</text>
-      <text x="344" y="108" fill={tema.verde} fontSize="10" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">∠D</text>
+      <text x="104" y="52"  fill={tema.canal(1)} fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">∠A</text>
+      <text x="344" y="108" fill={tema.canal(1)} fontSize="10" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">∠D</text>
 
       {/* Vertex labels */}
       <text x="100" y="10"  fill={tema.azul}   fontSize="13" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>
@@ -50,7 +50,7 @@ export default function CriterioLALDetalleSVG({ tema }) {
 
       {/* ∼ + caption */}
       <text x="252" y="82"  fill="rgba(240,236,227,0.25)" fontSize="26" fontFamily="Georgia,serif" textAnchor="middle">∼</text>
-      <text x="252" y="114" fill={tema.verde} fontSize="9.5" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle" letterSpacing="0.03em">∠A = ∠D  (ángulo comprendido)</text>
+      <text x="252" y="114" fill={tema.canal(1)} fontSize="9.5" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle" letterSpacing="0.03em">∠A = ∠D  (ángulo comprendido)</text>
     </svg>
   );
 }

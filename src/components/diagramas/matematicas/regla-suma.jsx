@@ -3,7 +3,7 @@
 // Salió de SlideRenderer.jsx en la fase 2b (docs/PLAN_MIGRACION.md).
 
 export default function ReglaSumaSVG({ tema }) {
-  const a = tema.acento, bl = tema.azul, gr = tema.verde, T = tema.texto;
+  const a = tema.acento, bl = tema.azul, gr = tema.canal(1), T = tema.texto;
   return (
     <svg viewBox="0 0 320 150" width="100%" style={{ display: "block", maxHeight: 155 }}>
       <defs>

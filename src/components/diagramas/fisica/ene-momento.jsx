@@ -5,7 +5,7 @@
 import { Vector } from "../comun.jsx";
 
 export default function EneMomentoSVG({ tema }) {
-  const gr = tema.verde, mu = tema.muted, T = tema.texto;
+  const gr = tema.canal(1), mu = tema.muted, T = tema.texto;
   const cart = (x, y, w, label, fill) => (
     <g>
       <rect x={x} y={y} width={w} height={18} rx={3} fill={fill} stroke={tema.acento} strokeWidth="1.5" />

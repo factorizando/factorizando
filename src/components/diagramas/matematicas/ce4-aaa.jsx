@@ -27,8 +27,8 @@ export default function Ce4AaaSVG({ tema }) {
       <path d={arcPath(A,C,B,22)} stroke={tema.azul} strokeWidth="1.6" fill="none"/>
       <path d={arcPath(D,F,E,16)} stroke={tema.azul} strokeWidth="1.6" fill="none"/>
       {/* Double arc at B and E */}
-      <path d={arc2(B,A,C,18)} stroke={tema.verde} strokeWidth="1.4" fill="none"/>
-      <path d={arc2(E,D,F,12)} stroke={tema.verde} strokeWidth="1.4" fill="none"/>
+      <path d={arc2(B,A,C,18)} stroke={tema.canal(1)} strokeWidth="1.4" fill="none"/>
+      <path d={arc2(E,D,F,12)} stroke={tema.canal(1)} strokeWidth="1.4" fill="none"/>
       {/* Single arc at C and F (different color) */}
       <path d={arcPath(C,B,A,22)} stroke={tema.acento} strokeWidth="1.6" fill="none"/>
       <path d={arcPath(F,E,D,16)} stroke={tema.acento} strokeWidth="1.6" fill="none"/>

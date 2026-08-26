@@ -65,6 +65,13 @@ un bloque de presentación → `fx.css` para el token exacto → código.
   y el peor par quedaba en 1.04 —misma luminosidad, solo cambia la saturación—. Ahí el matiz
   hace trabajo que el valor no puede hacer. La regla es elegir matices seguros para el
   daltonismo (azul, ámbar, teal, ciruela; **nunca verde contra rojo**), no renunciar a ellos.
+- **La rampa se aleja del fondo, y hacia dónde lo hace se calcula.** Sobre fondo oscuro
+  un canal destaca aclarándose; sobre papel, oscureciéndose. Fijar la dirección no basta:
+  en los acentos ya oscuros (Español, Historia en claro) oscurecer más no separa nada
+  porque no queda recorrido. `crearCanales()` prueba las dos direcciones con el mismo
+  repertorio de grados, descarta lo que baje de **2.5 de contraste contra el fondo real
+  del tema** y se queda con lo que más se aleje de los canales ya elegidos. El fondo se le
+  pasa; escribirlo dentro fue un error real —medí contra un `#0e0f11` que ya no existía—.
 - **Nada se distingue solo por color.** Siempre hay además forma, posición o rótulo.
 
 ### 2.2. Tipografía
@@ -241,3 +248,25 @@ una plataforma, no tres.
    `docs/diseno/presentaciones/` y volver a publicar el canvas al **mismo enlace**.
 5. Si la decisión debe sobrevivir entre sesiones → un archivo en la memoria del
    proyecto con su razonamiento, enlazado desde `MEMORY.md`.
+
+### 2026-08-25 · Los canales de dibujo pasan a la escala del acento
+
+*Qué:* `tema.verde` y `tema.rojo` dejan de existir. Los 390 usos repartidos en 151 archivos
+de diagrama pasan a `tema.canal(1)` y `tema.canal(2)`, dos pasos de la rampa del propio
+acento. `tema.azul` se queda como estaba: es un matiz ajeno y hace falta cuando algo tiene
+que contrastar con el acento.
+
+*Por qué:* eran los últimos verdes y rojos del sistema. Sobrevivían con el argumento de que
+dentro de un dibujo no significan «bien» y «mal» —y es cierto—, pero conviven en la misma
+pantalla con la retroalimentación, y la coherencia de un tono por materia se rompía cada vez
+que aparecía un diagrama. Borrar el token, y no solo sus usos, es lo que impide reintroducirlos
+por costumbre.
+
+*Lo que enseñó la medición:* la conversión rompió un caso y ninguna herramienta lo iba a
+avisar. En la urna de probabilidad (`UrnaSVG`) el color es la única diferencia entre una bola
+roja y una azul, y el ejercicio consiste en contarlas; al pasar el rojo a la rampa quedó a
+**1.57 de contraste de `tema.azul` en tema claro**, porque en Matemáticas el acento ya es azul.
+El arreglo no fue retocar el color sino dibujar la diferencia —llena, anillo, punto—, que es
+la misma solución que la §2.4 le da a acierto y error. Cuando el color carga toda la
+distinción, la rampa no es suficiente y hay que darle forma.
+

@@ -3,7 +3,7 @@
 // Salió de SlideRenderer.jsx en la fase 2b (docs/PLAN_MIGRACION.md).
 
 export default function RangoOutlierSVG({ tema }) {
-  const gr = tema.verde, rj = tema.rojo, mu = tema.muted;
+  const gr = tema.canal(1), rj = tema.canal(2), mu = tema.muted;
   const X = (v) => 25 + (v - 1) * (270 / 22);
   const axisA = 68, axisB = 120;
   const setA = [3, 4, 5, 6, 7];

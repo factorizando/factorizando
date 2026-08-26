@@ -5,7 +5,7 @@
 export default function MarcadoresReformulacionSVG({ tema }) {
   const rows = [
     { type: "EXPLICATIVA",   color: tema.azul,   marker: "es decir · o sea",          src: "Idea original",    dst: "Misma idea, otras palabras",  desc: "= equivalencia" },
-    { type: "SÍNTESIS",      color: tema.verde,  marker: "en resumen · en síntesis",  src: "Ideas A + B + C",  dst: "Idea condensada",              desc: "∑ condensación" },
+    { type: "SÍNTESIS",      color: tema.canal(1),  marker: "en resumen · en síntesis",  src: "Ideas A + B + C",  dst: "Idea condensada",              desc: "∑ condensación" },
     { type: "EJEMPLIFICACIÓN", color: tema.acento, marker: "por ejemplo · tal como",  src: "Idea general",     dst: "Caso específico concreto",     desc: "∈ instancia" },
   ];
   return (

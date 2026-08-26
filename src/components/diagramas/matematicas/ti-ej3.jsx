@@ -4,7 +4,7 @@
 
 export default function TiEj3SVG({ tema }) {
   const cx=92, cy=80, r=60;
-  const bl=tema.azul, a=tema.acento, gr=tema.verde;
+  const bl=tema.azul, a=tema.acento, gr=tema.canal(1);
   // Hipotenusa = diámetro horizontal A–C; B sobre la circunferencia con ángulo recto
   const Ax=cx-r, Ay=cy, Cx=cx+r, Cy=cy;
   // B colocado para que el ángulo en B sea recto (sobre el semicírculo)

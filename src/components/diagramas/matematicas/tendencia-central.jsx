@@ -3,7 +3,7 @@
 // Salió de SlideRenderer.jsx en la fase 2b (docs/PLAN_MIGRACION.md).
 
 export default function TendenciaCentralSVG({ tema }) {
-  const a = tema.acento, bl = tema.azul, gr = tema.verde, mu = tema.muted;
+  const a = tema.acento, bl = tema.azul, gr = tema.canal(1), mu = tema.muted;
   const X = (v) => 24 + v * 27.6;
   const axisY = 60;
   const datos = [2, 2, 6, 7, 8];

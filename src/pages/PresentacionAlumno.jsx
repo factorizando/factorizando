@@ -271,7 +271,7 @@ export default function PresentacionAlumno() {
             style={{
               width: "100%",
               background: "rgba(255,255,255,0.05)",
-              border: `1px solid ${error ? "rgba(248,113,113,0.45)" : tema.border}`,
+              border: `1px solid ${error ? tema.acentoFuerte : tema.border}`,
               borderRadius: 10,
               padding: "16px 20px",
               color: tema.texto,
@@ -288,7 +288,7 @@ export default function PresentacionAlumno() {
 
           {error ? (
             <p
-              style={{ color: "#f87171", fontSize: 13, marginBottom: 18, lineHeight: 1.5 }}
+              style={{ color: tema.acento, fontSize: 13, marginBottom: 18, lineHeight: 1.5 }}
             >
               {error}
             </p>
@@ -388,7 +388,7 @@ export default function PresentacionAlumno() {
                   /{puntajeFinal.total}
                 </span>
               </div>
-              <div style={{ fontSize: 22, color: puntajeFinal.puntaje / puntajeFinal.total >= 0.6 ? tema.verde : tema.rojo, fontWeight: 700 }}>
+              <div style={{ fontSize: 22, color: tema.acento, fontWeight: 700 }}>
                 {Math.round((puntajeFinal.puntaje / puntajeFinal.total) * 100)}%
               </div>
             </div>

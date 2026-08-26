@@ -6,7 +6,7 @@ import { M } from "../../../data/teoria/shared.jsx";
 
 export default function Cce3ArcoSVG({ tema }) {
   const cx=108, cy=116, r=82;
-  const a=tema.acento, bl=tema.azul, gr=tema.verde;
+  const a=tema.acento, bl=tema.azul, gr=tema.canal(1);
   const D=(d)=>d*Math.PI/180;
   const x0=+(cx+r*Math.cos(D(-90))).toFixed(1), y0=+(cy+r*Math.sin(D(-90))).toFixed(1);
   const x1=+(cx+r*Math.cos(D(-10))).toFixed(1), y1=+(cy+r*Math.sin(D(-10))).toFixed(1);

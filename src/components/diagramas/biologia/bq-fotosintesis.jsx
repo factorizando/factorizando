@@ -13,8 +13,8 @@ export default function BqFotosintesisSVG({ tema }) {
       {[0,1,2,3,4,5,6,7].map(i => { const ang = i*Math.PI/4; return <line key={i} x1={36+13*Math.cos(ang)} y1={28+13*Math.sin(ang)} x2={36+18*Math.cos(ang)} y2={28+18*Math.sin(ang)} stroke={gold} strokeWidth="1.4" />; })}
       <text x={60} y={20} fill={gold} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif">luz</text>
       {/* cloroplasto (hoja) */}
-      <ellipse cx={145} cy={70} rx={70} ry={38} fill="rgba(74,222,128,0.10)" stroke={tema.verde} strokeWidth="2" />
-      <path d="M 145 36 q -10 34 0 68 M 110 56 q 35 10 70 0 M 110 84 q 35 -10 70 0" fill="none" stroke={tema.verde} strokeWidth="1" opacity="0.5" />
+      <ellipse cx={145} cy={70} rx={70} ry={38} fill="rgba(74,222,128,0.10)" stroke={tema.canal(1)} strokeWidth="2" />
+      <path d="M 145 36 q -10 34 0 68 M 110 56 q 35 10 70 0 M 110 84 q 35 -10 70 0" fill="none" stroke={tema.canal(1)} strokeWidth="1" opacity="0.5" />
       <text x={145} y={66} textAnchor="middle" fill={T} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">clorofila</text>
       <text x={145} y={78} textAnchor="middle" fill={mu} fontSize="6.5" fontFamily="'Figtree', system-ui, sans-serif">(cloroplasto)</text>
       {/* entradas */}

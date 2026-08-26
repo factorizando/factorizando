@@ -5,7 +5,7 @@
 import { M } from "../../../data/teoria/shared.jsx";
 
 export default function GeoIsometriasSVG({ tema }) {
-  const a = tema.acento, gr = tema.verde, faint = "rgba(255,255,255,0.18)";
+  const a = tema.acento, gr = tema.canal(1), faint = "rgba(255,255,255,0.18)";
   const pts = "0,0 0,30 20,30 20,22 8,22 8,0";
   const Cell = ({ x, label }) => (
     <g>

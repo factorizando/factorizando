@@ -5,7 +5,7 @@
 import { Bloque, Vector } from "../comun.jsx";
 
 export default function DinFriccionSVG({ tema }) {
-  const a = tema.acento, gr = tema.verde, rj = tema.rojo, az = tema.azul, mu = tema.muted;
+  const a = tema.acento, gr = tema.canal(1), rj = tema.canal(2), az = tema.azul, mu = tema.muted;
   const gy = 92;
   return (
     <svg viewBox="0 0 250 140" width="100%" style={{ display: "block", maxHeight: 150 }}>

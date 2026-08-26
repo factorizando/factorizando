@@ -3,7 +3,7 @@
 // Salió de SlideRenderer.jsx en la fase 2b (docs/PLAN_MIGRACION.md).
 
 export default function ModAtomoSVG({ tema }) {
-  const bl = tema.azul, rj = tema.rojo, mu = tema.muted, T = tema.texto;
+  const bl = tema.azul, rj = tema.canal(2), mu = tema.muted, T = tema.texto;
   return (
     <svg viewBox="0 0 250 130" width="100%" style={{ display: "block", maxHeight: 140 }}>
       <g transform="translate(112 60)">

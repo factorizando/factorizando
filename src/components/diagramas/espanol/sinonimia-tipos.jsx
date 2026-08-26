@@ -5,7 +5,7 @@
 export default function SinonimiasTiposSVG({ tema }) {
   const cols = [
     { label: "TOTAL",       color: tema.azul,   desc: ["Idéntico en todos", "los contextos"],       ex: ["comenzar / iniciar", "automóvil / coche"] },
-    { label: "PARCIAL",     color: tema.verde,  desc: ["Similar con matices", "de registro"],       ex: ["casa / hogar", "morir / fallecer"] },
+    { label: "PARCIAL",     color: tema.canal(1),  desc: ["Similar con matices", "de registro"],       ex: ["casa / hogar", "morir / fallecer"] },
     { label: "CONTEXTUAL",  color: tema.acento, desc: ["Equivalente solo", "en este fragmento"],    ex: ["«el sol» / «astro rey»", "«Newton» / «el físico»"] },
   ];
   const colW = 160, gap = 10, startX = 5;
@@ -14,7 +14,7 @@ export default function SinonimiasTiposSVG({ tema }) {
       <defs>
         <linearGradient id="ls-sinGrad" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0%"   stopColor={tema.azul}   stopOpacity="0.8"/>
-          <stop offset="50%"  stopColor={tema.verde}  stopOpacity="0.8"/>
+          <stop offset="50%"  stopColor={tema.canal(1)}  stopOpacity="0.8"/>
           <stop offset="100%" stopColor={tema.acento} stopOpacity="0.8"/>
         </linearGradient>
       </defs>

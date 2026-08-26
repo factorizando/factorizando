@@ -18,14 +18,14 @@ export default function Ce1LllSVG({ tema }) {
       <polygon points={pts([D,E,F])} fill={tema.azulSuave} stroke="none"/>
       <line x1={A[0]} y1={A[1]} x2={B[0]} y2={B[1]} stroke={tema.azul}   strokeWidth="2.2"/>
       <line x1={D[0]} y1={D[1]} x2={E[0]} y2={E[1]} stroke={tema.azul}   strokeWidth="2.2"/>
-      <line x1={B[0]} y1={B[1]} x2={C[0]} y2={C[1]} stroke={tema.verde}  strokeWidth="2.2"/>
-      <line x1={E[0]} y1={E[1]} x2={F[0]} y2={F[1]} stroke={tema.verde}  strokeWidth="2.2"/>
+      <line x1={B[0]} y1={B[1]} x2={C[0]} y2={C[1]} stroke={tema.canal(1)}  strokeWidth="2.2"/>
+      <line x1={E[0]} y1={E[1]} x2={F[0]} y2={F[1]} stroke={tema.canal(1)}  strokeWidth="2.2"/>
       <line x1={C[0]} y1={C[1]} x2={A[0]} y2={A[1]} stroke={tema.acento} strokeWidth="2.2"/>
       <line x1={F[0]} y1={F[1]} x2={D[0]} y2={D[1]} stroke={tema.acento} strokeWidth="2.2"/>
       <path d={tp(A,B)}  stroke={tema.azul}   strokeWidth="1.8" fill="none"/>
       <path d={tp(D,E)}  stroke={tema.azul}   strokeWidth="1.8" fill="none"/>
-      <path d={t2p(B,C)} stroke={tema.verde}  strokeWidth="1.8" fill="none"/>
-      <path d={t2p(E,F)} stroke={tema.verde}  strokeWidth="1.8" fill="none"/>
+      <path d={t2p(B,C)} stroke={tema.canal(1)}  strokeWidth="1.8" fill="none"/>
+      <path d={t2p(E,F)} stroke={tema.canal(1)}  strokeWidth="1.8" fill="none"/>
       <path d={t3p(C,A)} stroke={tema.acento} strokeWidth="1.8" fill="none"/>
       <path d={t3p(F,D)} stroke={tema.acento} strokeWidth="1.8" fill="none"/>
       <text x="186" y="74" fill="rgba(240,236,227,0.28)" fontSize="28" fontFamily="Georgia,serif" textAnchor="middle">≅</text>

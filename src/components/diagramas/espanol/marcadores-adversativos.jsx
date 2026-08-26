@@ -6,7 +6,7 @@ export default function MarcadoresAdversativosSVG({ tema }) {
   const rows = [
     { marker: "pero",              color: tema.azul,   desc: "Contraste parcial — limita la primera cláusula",    force: 55 },
     { marker: "sin embargo · no obstante", color: tema.acento, desc: "Concesión fuerte (formal) — resultado inesperado", force: 100 },
-    { marker: "aunque",            color: tema.verde,  desc: "Concesión: A es real pero no impide B",              force: 72 },
+    { marker: "aunque",            color: tema.canal(1),  desc: "Concesión: A es real pero no impide B",              force: 72 },
     { marker: "por el contrario",  color: "#c084fc",   desc: "Oposición total — niega o invierte lo anterior",     force: 140 },
   ];
   return (

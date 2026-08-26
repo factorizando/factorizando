@@ -3,7 +3,7 @@
 // Salió de SlideRenderer.jsx en la fase 2b (docs/PLAN_MIGRACION.md).
 
 export default function EscalaProbabilidadSVG({ tema }) {
-  const a = tema.acento, gr = tema.verde, rj = tema.rojo;
+  const a = tema.acento, gr = tema.canal(1), rj = tema.canal(2);
   const x0 = 40, x1 = 280, y = 56;
   const X = (f) => x0 + f * (x1 - x0);
   const ticks = [0, 0.25, 0.5, 0.75, 1];

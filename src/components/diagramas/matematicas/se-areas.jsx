@@ -17,7 +17,7 @@ export default function SeAreasSVG({ tema }) {
       <line x1="262" y1="155" x2="340" y2="155" stroke={dim} strokeWidth="1.8"/>
       <line x1="340" y1="155" x2="296" y2="90"  stroke={dim} strokeWidth="1.8"/>
       <text x="105" y="108" fill={tema.acento} fontSize="15" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700" textAnchor="middle">?</text>
-      <text x="301" y="136" fill={tema.verde}  fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="middle">7 cm²</text>
+      <text x="301" y="136" fill={tema.canal(1)}  fontSize="10" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="middle">7 cm²</text>
       <text x="228" y="82"  fill="rgba(240,236,227,0.28)" fontSize="20" fontFamily="Georgia,serif" textAnchor="middle">∼</text>
       <text x="228" y="104" fill="rgba(240,236,227,0.55)" fontSize="15" fontWeight="700" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle">k = 4</text>
       <text x="95"  y="7"   fill="rgba(240,236,227,0.65)" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic" textAnchor="middle">A</text>

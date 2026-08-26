@@ -5,7 +5,7 @@
 export default function Cce4TangSVG({ tema }) {
   const cx=190, cy=90, r=46;
   const px=28, py=90;
-  const bl=tema.azul, a=tema.acento, gr=tema.verde;
+  const bl=tema.azul, a=tema.acento, gr=tema.canal(1);
   const dist=Math.sqrt((cx-px)**2+(cy-py)**2);
   const tanLen=Math.sqrt(dist*dist-r*r);
   const ang=Math.asin(r/dist);

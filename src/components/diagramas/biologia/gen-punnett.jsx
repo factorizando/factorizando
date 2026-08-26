@@ -23,8 +23,8 @@ export default function GenPunnettSVG({ tema }) {
         const x = ox + (c.gx - 1) * S, y = oy + (c.gy - 1) * S;
         return (
           <g key={i}>
-            <rect x={x} y={y} width={S} height={S} fill={c.domin ? "rgba(52,211,153,0.14)" : "rgba(248,113,113,0.16)"} stroke={c.domin ? a : tema.rojo} strokeWidth="1.6" />
-            <text x={x + S / 2} y={y + S / 2 + 5} textAnchor="middle" fill={c.domin ? a : tema.rojo} fontSize="12" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700">{c.g}</text>
+            <rect x={x} y={y} width={S} height={S} fill={c.domin ? "rgba(52,211,153,0.14)" : "rgba(248,113,113,0.16)"} stroke={c.domin ? a : tema.canal(2)} strokeWidth="1.6" />
+            <text x={x + S / 2} y={y + S / 2 + 5} textAnchor="middle" fill={c.domin ? a : tema.canal(2)} fontSize="12" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700">{c.g}</text>
           </g>
         );
       })}

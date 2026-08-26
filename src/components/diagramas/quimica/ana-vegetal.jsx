@@ -7,7 +7,7 @@ import { M } from "../../../data/teoria/shared.jsx";
 import { arrowHead } from "../comun.jsx";
 
 export default function AnaVegetalSVG({ tema }) {
-  const a = tema.acento, bl = tema.azul, mu = tema.muted, gr = tema.verde, T = tema.texto;
+  const a = tema.acento, bl = tema.azul, mu = tema.muted, gr = tema.canal(1), T = tema.texto;
   return (
     <svg viewBox="0 0 260 140" width="100%" style={{ display: "block", maxHeight: 150 }}>
       {/* tallo */}

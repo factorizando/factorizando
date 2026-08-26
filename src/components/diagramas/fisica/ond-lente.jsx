@@ -5,7 +5,7 @@
 import { M } from "../../../data/teoria/shared.jsx";
 
 export default function OndLenteSVG({ tema }) {
-  const a = tema.acento, gr = tema.verde, mu = tema.muted;
+  const a = tema.acento, gr = tema.canal(1), mu = tema.muted;
   const lx = 120, F = 192, axis = 60;
   return (
     <svg viewBox="0 0 250 120" width="100%" style={{ display: "block", maxHeight: 130 }}>

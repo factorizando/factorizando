@@ -3,7 +3,7 @@
 // Salió de SlideRenderer.jsx en la fase 2b (docs/PLAN_MIGRACION.md).
 
 export default function CorrreferenciaPersonalSVG({ tema }) {
-  const az = tema.azul, vd = tema.verde;
+  const az = tema.azul, vd = tema.canal(1);
   return (
     <svg viewBox="0 0 510 125" width="100%" style={{ display: "block" }}>
       <text x="96"  y="13" fill={tema.muted} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle" letterSpacing="0.16em" fontWeight="600">ANTECEDENTE</text>

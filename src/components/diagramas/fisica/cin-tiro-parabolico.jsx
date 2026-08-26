@@ -7,7 +7,7 @@ import { M } from "../../../data/teoria/shared.jsx";
 import { arrowHead } from "../comun.jsx";
 
 export default function CinTiroParabolicoSVG({ tema }) {
-  const a = tema.acento, bl = tema.azul, gr = tema.verde, mu = tema.muted;
+  const a = tema.acento, bl = tema.azul, gr = tema.canal(1), mu = tema.muted;
   return (
     <svg viewBox="0 0 260 140" width="100%" style={{ display: "block", maxHeight: 150 }}>
       <line x1={16} y1={118} x2={244} y2={118} stroke={mu} strokeWidth="1.5" />

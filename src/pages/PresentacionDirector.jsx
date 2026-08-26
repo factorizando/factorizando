@@ -399,11 +399,11 @@ export default function PresentacionDirector() {
           {error && (
             <p
               style={{
-                color: tema.rojo,
+                color: tema.acento,
                 fontSize: 14,
                 marginBottom: 18,
-                background: "rgba(248,113,113,0.08)",
-                border: "1px solid rgba(248,113,113,0.2)",
+                background: tema.acentoSuave,
+                border: `1px solid ${tema.acentoBorde}`,
                 borderRadius: 8,
                 padding: "10px 16px"
               }}
@@ -535,9 +535,11 @@ export default function PresentacionDirector() {
           <button
             onClick={terminarSesion}
             style={{
-              background: "rgba(248,113,113,0.1)",
-              border: "1px solid rgba(248,113,113,0.28)",
-              color: tema.rojo,
+              // Terminar sesión es destructivo, pero sin token rojo la señal no
+              // puede ser el color: es un botón sobrio y la confirmación hace el trabajo.
+              background: "transparent",
+              border: `1px solid ${tema.border}`,
+              color: tema.muted,
               borderRadius: 6,
               padding: "5px 14px",
               fontSize: 13,

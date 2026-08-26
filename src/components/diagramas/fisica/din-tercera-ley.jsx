@@ -5,7 +5,7 @@
 import { Bloque, Vector } from "../comun.jsx";
 
 export default function DinTerceraLeySVG({ tema }) {
-  const gr = tema.verde, rj = tema.rojo, T = tema.texto;
+  const gr = tema.canal(1), rj = tema.canal(2), T = tema.texto;
   return (
     <svg viewBox="0 0 250 116" width="100%" style={{ display: "block", maxHeight: 126 }}>
       <Bloque x={71} y={48} w={44} h={38} tema={tema} label="A" fill={tema.azulSuave} />

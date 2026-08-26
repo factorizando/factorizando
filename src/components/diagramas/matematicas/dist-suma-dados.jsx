@@ -13,7 +13,7 @@ export default function DistSumaDadosChart({ tema }) {
           <CartesianGrid stroke="rgba(255,255,255,0.06)" vertical={false} />
           <XAxis dataKey="x" tick={{ fill: tema.muted, fontSize: 11 }} axisLine={{ stroke: tema.border }} tickLine={false} />
           <YAxis domain={[0, 6]} ticks={[0, 2, 4, 6]} tick={{ fill: tema.muted, fontSize: 9.5 }} axisLine={false} tickLine={false} width={34} tickFormatter={(v) => `${v}/36`} />
-          <ReferenceLine x="7" stroke={tema.verde} strokeDasharray="4 3" label={{ value: "máx", position: "top", fill: tema.verde, fontSize: 10 }} />
+          <ReferenceLine x="7" stroke={tema.canal(1)} strokeDasharray="4 3" label={{ value: "máx", position: "top", fill: tema.canal(1), fontSize: 10 }} />
           <Bar dataKey="n" fill={tema.acento} radius={[4, 4, 0, 0]} maxBarSize={24} />
         </BarChart>
       </ResponsiveContainer>

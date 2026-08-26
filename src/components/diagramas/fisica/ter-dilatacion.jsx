@@ -3,7 +3,7 @@
 // Salió de SlideRenderer.jsx en la fase 2b (docs/PLAN_MIGRACION.md).
 
 export default function TerDilatacionSVG({ tema }) {
-  const a = tema.acento, rj = tema.rojo, mu = tema.muted, az = tema.azul;
+  const a = tema.acento, rj = tema.canal(2), mu = tema.muted, az = tema.azul;
   return (
     <svg viewBox="0 0 250 110" width="100%" style={{ display: "block", maxHeight: 120 }}>
       <rect x={30} y={26} width={120} height={16} rx={2} fill={tema.azulSuave} stroke={az} strokeWidth="1.5" />

@@ -6,7 +6,7 @@ import { M } from "../../../data/teoria/shared.jsx";
 
 export default function AnguloCentralSVG({ tema }) {
   const cx=105, cy=110, r=80;
-  const bl=tema.azul, a=tema.acento, gr=tema.verde;
+  const bl=tema.azul, a=tema.acento, gr=tema.canal(1);
   const D=(d)=>d*Math.PI/180;
   const ang0=-90, ang1=-30;
   const x0=+(cx+r*Math.cos(D(ang0))).toFixed(1), y0=+(cy+r*Math.sin(D(ang0))).toFixed(1);

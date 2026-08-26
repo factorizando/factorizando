@@ -3,7 +3,7 @@
 // Salió de SlideRenderer.jsx en la fase 2b (docs/PLAN_MIGRACION.md).
 
 export default function SinonimiaContextualSVG({ tema }) {
-  const az = tema.azul, vd = tema.verde, ac = tema.acento;
+  const az = tema.azul, vd = tema.canal(1), ac = tema.acento;
   return (
     <svg viewBox="0 0 520 125" width="100%" style={{ display: "block" }}>
       <text x="260" y="12" fill={tema.muted} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif" textAnchor="middle" letterSpacing="0.14em" fontWeight="600">LA MISMA PALABRA — DISTINTOS SINÓNIMOS SEGÚN EL CONTEXTO</text>

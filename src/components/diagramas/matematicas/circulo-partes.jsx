@@ -6,7 +6,7 @@ import { M } from "../../../data/teoria/shared.jsx";
 
 export default function CirculoPartesSVG({ tema }) {
   const cx=148, cy=100, r=74;
-  const bl=tema.azul, a=tema.acento, gr=tema.verde;
+  const bl=tema.azul, a=tema.acento, gr=tema.canal(1);
   const D=(d)=>d*Math.PI/180;
   const P=(ang)=>[+(cx+r*Math.cos(D(ang))).toFixed(1), +(cy+r*Math.sin(D(ang))).toFixed(1)];
   const [ax,ay]=P(130), [bx,by]=P(50);

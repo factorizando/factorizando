@@ -3,7 +3,7 @@
 // Salió de SlideRenderer.jsx en la fase 2b (docs/PLAN_MIGRACION.md).
 
 export default function DardoDianaSVG({ tema }) {
-  const a = tema.acento, bl = tema.azul, rj = tema.rojo, T = tema.texto;
+  const a = tema.acento, bl = tema.azul, rj = tema.canal(2), T = tema.texto;
   const cx = 84, cy = 88, R = 72, r = 36;
   return (
     <svg viewBox="0 0 250 182" width="100%" style={{ display: "block", maxHeight: 194 }}>

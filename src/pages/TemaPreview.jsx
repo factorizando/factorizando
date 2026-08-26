@@ -71,8 +71,9 @@ function PortadaCard({ materia }) {
       <div style={{ display: "flex", gap: 6, marginTop: 4 }}>
         <div style={{ width: 18, height: 18, borderRadius: "50%", background: tema.acento }} title="Acento" />
         <div style={{ width: 18, height: 18, borderRadius: "50%", background: tema.azul }} title="Azul" />
-        <div style={{ width: 18, height: 18, borderRadius: "50%", background: tema.verde }} title="Verde" />
-        <div style={{ width: 18, height: 18, borderRadius: "50%", background: tema.rojo }} title="Rojo" />
+        {[1, 2, 3].map((i) => (
+          <div key={i} style={{ width: 18, height: 18, borderRadius: "50%", background: tema.canal(i) }} title={`Canal ${i}`} />
+        ))}
       </div>
       <div style={{
         fontFamily: tema.mono,

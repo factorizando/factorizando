@@ -17,20 +17,20 @@ export default function Ej1LLLSVG({ tema }) {
 
       {/* Sides: AB/DE=azul(1), BC/EF=verde(2), CA/FD=acento(3) */}
       <line x1="25"  y1="80"  x2="25"  y2="170" stroke={tema.azul}   strokeWidth="2.5"/>
-      <line x1="25"  y1="170" x2="145" y2="170" stroke={tema.verde}  strokeWidth="2.5"/>
+      <line x1="25"  y1="170" x2="145" y2="170" stroke={tema.canal(1)}  strokeWidth="2.5"/>
       <line x1="145" y1="170" x2="25"  y2="80"  stroke={tema.acento} strokeWidth="2.5"/>
       <line x1="210" y1="110" x2="210" y2="150" stroke={tema.azul}   strokeWidth="2.5"/>
-      <line x1="210" y1="150" x2="260" y2="150" stroke={tema.verde}  strokeWidth="2.5"/>
+      <line x1="210" y1="150" x2="260" y2="150" stroke={tema.canal(1)}  strokeWidth="2.5"/>
       <line x1="260" y1="150" x2="210" y2="110" stroke={tema.acento} strokeWidth="2.5"/>
 
       {/* Ticks — AB/DE: 1 azul */}
       <line x1="18"  y1="125" x2="32"  y2="125" stroke={tema.azul}  strokeWidth="2"/>
       <line x1="203" y1="130" x2="217" y2="130" stroke={tema.azul}  strokeWidth="2"/>
       {/* BC/EF: 2 verde */}
-      <line x1="75"  y1="163" x2="75"  y2="177" stroke={tema.verde} strokeWidth="2"/>
-      <line x1="90"  y1="163" x2="90"  y2="177" stroke={tema.verde} strokeWidth="2"/>
-      <line x1="229" y1="144" x2="229" y2="157" stroke={tema.verde} strokeWidth="2"/>
-      <line x1="240" y1="144" x2="240" y2="157" stroke={tema.verde} strokeWidth="2"/>
+      <line x1="75"  y1="163" x2="75"  y2="177" stroke={tema.canal(1)} strokeWidth="2"/>
+      <line x1="90"  y1="163" x2="90"  y2="177" stroke={tema.canal(1)} strokeWidth="2"/>
+      <line x1="229" y1="144" x2="229" y2="157" stroke={tema.canal(1)} strokeWidth="2"/>
+      <line x1="240" y1="144" x2="240" y2="157" stroke={tema.canal(1)} strokeWidth="2"/>
       {/* CA/FD: 3 acento (perp direction (0.600,−0.800)) */}
       <line x1="90"  y1="121" x2="84"  y2="129" stroke={tema.acento} strokeWidth="2"/>
       <line x1="85"  y1="117" x2="79"  y2="125" stroke={tema.acento} strokeWidth="2"/>
@@ -41,10 +41,10 @@ export default function Ej1LLLSVG({ tema }) {
 
       {/* Side labels */}
       <text x="14"  y="129" fill={tema.azul}   fontSize="13" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="end">6</text>
-      <text x="85"  y="185" fill={tema.verde}  fontSize="13" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="middle">8</text>
+      <text x="85"  y="185" fill={tema.canal(1)}  fontSize="13" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="middle">8</text>
       <text x="100" y="112" fill={tema.acento} fontSize="13" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">10</text>
       <text x="200" y="132" fill={tema.azul}   fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="end">3</text>
-      <text x="235" y="163" fill={tema.verde}  fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="middle">4</text>
+      <text x="235" y="163" fill={tema.canal(1)}  fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600" textAnchor="middle">4</text>
       <text x="248" y="118" fill={tema.acento} fontSize="11" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">5</text>
 
       {/* Vertex labels */}

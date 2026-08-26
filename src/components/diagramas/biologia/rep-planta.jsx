@@ -15,7 +15,7 @@ export default function RepPlantaSVG({ tema }) {
       <text x={150} y={30} fill={a} fontSize="7" fontFamily="'Figtree', system-ui, sans-serif">estambre (polen)</text>
       <text x={146} y={54} fill={gold} fontSize="7" fontFamily="'Figtree', system-ui, sans-serif">pistilo (óvulo)</text>
       {/* tallo */}
-      <line x1={110} y1={61} x2={110} y2={120} stroke={tema.verde} strokeWidth="2.5" />
+      <line x1={110} y1={61} x2={110} y2={120} stroke={tema.canal(1)} strokeWidth="2.5" />
       {/* fruto/semilla */}
       <ellipse cx={84} cy={104} rx={11} ry={9} fill="rgba(52,211,153,0.2)" stroke={a} strokeWidth="1.6" />
       <circle cx={84} cy={104} r={3.5} fill={bl} />

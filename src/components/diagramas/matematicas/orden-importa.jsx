@@ -3,7 +3,7 @@
 // Salió de SlideRenderer.jsx en la fase 2b (docs/PLAN_MIGRACION.md).
 
 export default function OrdenImportaSVG({ tema }) {
-  const bl = tema.azul, gr = tema.verde, T = tema.texto;
+  const bl = tema.azul, gr = tema.canal(1), T = tema.texto;
   const tEst = { fontFamily: "'Figtree', system-ui, sans-serif" };
   return (
     <svg viewBox="0 0 300 118" width="100%" style={{ display: "block", maxHeight: 130 }}>

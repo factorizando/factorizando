@@ -63,15 +63,15 @@ export const PRESENTACION = {
 ```
 Presentation modules live in `src/data/presentaciones/<materia>/<slug>.js`, organized by subject (`matematicas`, `fisica`, `quimica`, `biologia`, `espanol`, `geografia`) — **not** by exam, because ~half are shared across exams (EXANI-I / EXANI-II / UNAM). The `/ver/:id` route resolves by `id` through `presentacionesIndex.js`, so the folder is purely organizational. All modules are registered in `src/data/presentaciones/presentacionesIndex.js`.
 
-**Slide types:** `portada`, `definicion`, `concepto`, `lista_criterios`, `criterio_detalle`, `ejercicio`, `resumen`.
+**Slide types:** `lienzo` — and, in practice, only `lienzo`. After the 4C migration all **3,162 slides across all 65 presentations** are `tipo: "lienzo"`; verify with the loop in `presentacionesIndex.js` rather than trusting this line. `SlideRenderer.jsx` still answers eleven legacy types (`portada`, `definicion`, `concepto`, `lista_criterios`, `criterio_detalle`, `ejercicio`, `ejemplo`, `regla`, `regla_rica`, `resumen`, `resumen_acentuacion`) that **no deck uses any more**: they are dead code kept only because deleting them has not been verified slide by slide. Do not write a new slide against them.
 
 **`tipo: "lienzo"` is the composable slide** and the one new presentations should use: `{ etiqueta, titulo, bloques: [...] }` over a 12-column grid, where each block declares `ancho` in twelfths. Blocks live in `src/components/bloques/` grouped by family and resolve through the `BLOQUES` registry in `index.js` — a map, never an `if` chain. A block gets `{ bloque, tema, reflujo }`; `reflujo` is true below 768px, where the canvas stops scaling and everything goes to one column (tables become stacked cards). Blocks write no hex: every value comes from `tema`. `revelar: true` hides a block until the teacher advances, keeping its space so the slide doesn't jump.
 
-`encabezado`, `arbol` and `grafica` are deliberately *not* blocks: the first belongs to the slide, and the other two are drawings that already resolve through `DIAGRAMS` via `figura`. Live catalog of all 21 at `/preview-bloques` (dev only).
+`encabezado`, `arbol` and `grafica` are deliberately *not* blocks: the first belongs to the slide, and the other two are drawings that already resolve through `DIAGRAMS` via `figura`. Live catalog of all **22** at `/preview-bloques` (dev only) — the registry in `index.js` is the count that matters; this line said 21 while another said 22.
 
 Each slide can include a `svgDiagram` key referencing an inline SVG component or a JSXGraph component defined in `SlideRenderer.jsx`. All diagrams (SVGs and JSXGraph) are in that file.
 
-**JSXGraph diagrams** — JSXGraph is installed but **NOT yet used in SlideRenderer** because it injects `background-color: white` into the container div at runtime, which blanks the entire slide. When integrating JSXGraph in a future component, you must override its CSS injection AFTER `initBoard` returns AND use `!important` or direct `style` property overrides. Until a clean integration pattern is validated, prefer inline SVG for all static diagrams.
+**JSXGraph is installed and unused, and its import is gone.** `SlideRenderer.jsx` carried `import JXG from 'jsxgraph'` with **zero references to `JXG`** — a dead import that dragged the whole library into that chunk: removing it took `SlideRenderer` from **979 KB to 54 KB**. Do not re-add the import "for later": add it in the same commit that uses it. The reason it was never used still stands — JSXGraph injects `background-color: white` into its container at runtime and blanks the slide; whoever integrates it must override that **after** `initBoard` returns, with `!important` or a direct `style` property. Until that pattern is validated, prefer inline SVG for static diagrams.
 
 **SVG square proportions:** When drawing a square in SVG, always verify width === height in the polygon points. The viewBox is often wider than tall (e.g., `190×88`), so the polygon coordinates must be explicitly constrained to equal width/height.
 
@@ -163,7 +163,7 @@ Talleres live in `src/data/talleres/<materia>/`, plus `juegos/` for shared game 
 ### Diagram & interactive registries (`src/components/diagramas/`, `src/components/interactivos/`)
 Single-map registries that decouple visual components from consumers (see the §4.2/§4.4 standard in `docs/CONVENCIONES.md`):
 - `diagramas/index.js` exports `DIAGRAMS` (`{ "clave": Component }`), static SVGs organized by subject; each receives `{ tema }`.
-- `interactivos/index.js` exports `INTERACTIVOS`, manipulable components: **mafs** (math, draggable points) and **matter-js** (physics); each receives `{ tema, ...props }`.
+- `interactivos/index.js` exports `INTERACTIVOS`, manipulable components; each receives `{ tema, ...props }`. It currently holds **three**: `derivada-tangente` (mafs), `sim-frecuentista` (recharts) and `arbol-tilde` (@xyflow/react). The physics half was planned with matter-js and **never built** — see the library table below before assuming it exists.
 
 Documents reference these by key via `figura:`/`interactivo:`; presentations via `svgDiagram:` on a slide or the `id` of a `tipo: "diagrama"` block. **All 311 diagrams now live in `DIAGRAMS`** — `SlideRenderer.jsx` resolves them through a single `<Diagrama clave={…} tema={tema} />`, never an `if` chain. Pieces shared by diagrams of several subjects (`arrowHead`, `EjesXY`, `Bloque`, `Vector`, `qRegPoly`, `_svgH`, the probability and statistics data constants…) live in `diagramas/comun.jsx`.
 
@@ -199,7 +199,7 @@ This pattern is repeated as a local `fmtDate` helper in every admin page — don
 **PDF generation** (`src/utils/comprobantePago.jsx`, `src/components/ComprobantePDF.jsx`): pattern for exporting a React component as a PDF — render the component offscreen (`position: fixed; left: -9999px`) via `createRoot`, wait for images/fonts to load, capture with `html2canvas`, then place the canvas image into a `jsPDF` doc sized to letter paper. Reuse this pattern for any future printable document rather than building a new PDF pipeline.
 
 ### Code splitting (`src/App.jsx`, `scripts/generar-catalogo.mjs`)
-Every route except the landing page and `/login` is loaded with `React.lazy`, wrapped in a single `<Suspense>` in `App`. **Adding a route means adding a `lazy(() => import(...))` line**, not a static import — a static import drags that page's libraries (three, jsxgraph, mathjs, recharts, jspdf) back into the entry chunk. The entry chunk is ~480 KB; before splitting it was 8.4 MB.
+Every route except the landing page and `/login` is loaded with `React.lazy`, wrapped in a single `<Suspense>` in `App`. **Adding a route means adding a `lazy(() => import(...))` line**, not a static import — a static import drags that page's libraries (three, recharts, jspdf) back into the entry chunk. The entry chunk is ~480 KB; before splitting it was 8.4 MB.
 
 The other half of that fix is the catalog: `src/data/materias.js` holds **only** the static list of the seven materias (imported eagerly by Home and FxHeader), while `src/data/materias-contenido.js` walks the real content indexes and must only be imported by a lazy route (`/materia/:slug`) or by the generator script — importing it from an eager module pulls the whole site's content back into the entry chunk. The Home counters come from `src/data/catalogo.generado.json`, regenerated by `npm run catalogo` (wired to `predev`/`prebuild`), which loads `materias-contenido.js` through Vite's own module loader so `import.meta.glob` and `.jsx` content modules resolve. The numbers are still never maintained by hand.
 
@@ -218,16 +218,19 @@ Visual catalog of the 22 slide blocks, both themes, phone landscape: the *Bloque
 
 The following libraries are installed for math and science content:
 
-| Library | Version | Use case |
-|---|---|---|
-| `jsxgraph` | 1.12.2 | Interactive geometry: circles, polygons, angles, loci. Used in `SlideRenderer.jsx` for precise geometric diagrams. |
-| `mathjs` | 15.2.0 | Math computation: algebra, matrices, statistics, expression parsing. Use for answer validation and step-by-step calculations. |
-| `mafs` | 0.21.0 | React-native coordinate planes, function graphs, vectors. Use for slides that show functions or cartesian diagrams. |
-| `recharts` | 3.8.1 | Bar charts, histograms, line charts. Use for statistics and data visualization slides. |
-| `@xyflow/react` | 12.10.2 | Node/edge diagrams. Use for probability tree diagrams. |
-| `matter-js` | 0.20.0 | 2D physics simulation (gravity, collisions, springs). Use for kinematics and mechanics content. |
+The **In use?** column is the point of this table: four of these were installed on a plan and three of those were never used. An unused dependency is not free — `jsxgraph` alone was costing 925 KB in the presentation chunk through a dead import. Before reaching for one, check the column; before adding a new one, remember this row.
 
-**Not installed (and why):** Rapier (3D physics, WASM complexity not needed for 2D content), Desmos API (external dependency), Plotly.js (Recharts covers the use cases more lightly), D3 (Recharts and React Flow are built on it; direct D3 not needed), Three.js (no 3D content in EXANI-I/preparatoria scope).
+| Library | Version | In use? | Use case |
+|---|---|---|---|
+| `@xyflow/react` | 12.10.2 | **yes** — 7 files | Node/edge diagrams. Probability trees, the tilde decision tree. |
+| `recharts` | 3.8.1 | **yes** — 8 files | Bar charts, histograms, line charts. Statistics slides and the taller panels. |
+| `three` | 0.184.0 | **yes** — 2 files | 3D. `reino-plegado`'s `Vista3D` and `solidos-platonicos`; they share the chunk. |
+| `mafs` | 0.21.0 | **yes** — 1 file | Coordinate planes and draggable points. Only `derivada-tangente` so far. |
+| `jsxgraph` | 1.12.2 | **no** | Interactive geometry. Installed, never used; see the JSXGraph note above before importing it. |
+| `mathjs` | 15.2.0 | **no** | Was meant for answer validation and step-by-step algebra. Nothing imports it. |
+| `matter-js` | 0.20.0 | **no** | Was meant for kinematics and mechanics. Nothing imports it; the physics interactives were never built. |
+
+**Not installed (and why):** Rapier (3D physics; three.js covers what the talleres need), Desmos API (external dependency), Plotly.js (Recharts covers the use cases more lightly), D3 (Recharts and React Flow are built on it; direct D3 not needed).
 
 ## Adding a new quiz
 

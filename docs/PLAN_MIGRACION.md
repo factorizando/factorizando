@@ -35,7 +35,7 @@ anterior y no lo contemplaba.
 | 4D | Diagramas al criterio de canales por valor | 🟡 | ✅ 390 usos en 151 archivos |
 | 5 | `metadata.examenes` en todo el contenido | 🟢 | ✅ 92 contenidos; el filtro queda opcional |
 | 6 | Calidad de contenido (`explanation` vacías) | 🟢 | ✅ 350 explicaciones; el sesgo de posición corregido |
-| **7** | **Sincronizar documentación** | 🟢 | ← siguiente |
+| 7 | Sincronizar documentación | 🟢 | ✅ 14 brechas comprobadas; 925 KB de menos |
 
 ### Por qué 4A antes que 4B
 
@@ -547,8 +547,32 @@ glifos `✓`/`✗` y un emoji 💡, y con verde/ámbar cocidos. Es legado sin mi
 
 - [x] `CLAUDE.md`: registro de diagramas, índice plano de cuestionarios, rutas de
       previsualización. Se ha ido actualizando en cada fase.
-- [ ] Reflejar `mafs` en uso y `jsxgraph` en reserva cuando 4B los toque.
-- [ ] Cerrar las "Brechas detectadas" de `CONVENCIONES.md` ya resueltas.
+- [x] Las catorce "Brechas detectadas" de `CONVENCIONES.md`, **comprobadas una por una
+      contra el código**, no dadas por cerradas: doce cerradas, dos abiertas, y cada una
+      con la evidencia que la cierra.
+- [x] La tabla de librerías de `CLAUDE.md`, que mentía en las dos direcciones.
+
+**Verificar en vez de dar por cerrado pagó dos veces.**
+
+La brecha 14 decía «`jsxgraph` importada pero sin usar»: sonaba a residuo de estilo. Al
+mirarlo, el import no tenía **ni una** referencia a `JXG` y arrastraba la librería entera al
+chunk de las presentaciones. Quitarlo dejó `SlideRenderer` en **54 KB desde 979 KB**, y el
+total de assets en 8 948 KB desde 9 872. Una dependencia sin usar no es gratis.
+
+La tabla de librerías afirmaba cosas falsas en los dos sentidos: presentaba `mathjs` y
+`matter-js` como si estuvieran en uso —nada las importa— y declaraba Three.js «no instalada»
+cuando lo está y produce un chunk de 732 KB. Ahora lleva una columna *In use?* con el número
+de archivos, que es lo único que no se puede fingir al editar un documento.
+
+**Y una que no se cierra sola:** tras la 4C, las 3 162 diapositivas de las 65 presentaciones
+son `lienzo`. Los otros once tipos que `SlideRenderer.jsx` todavía atiende no los usa ningún
+mazo: son código muerto. No se borran aquí porque hacerlo pide comprobar mazo por mazo, pero
+`CLAUDE.md` ya dice que no se escriba nada nuevo contra ellos.
+
+**Observado y no reproducido:** en una ráfaga sintética de teclas a 8 ms el visor de
+presentaciones lanzó `Cannot read properties of undefined (reading 'tipo')`. No se reproduce
+a 12 ni a 30 ms —el auto-repeat de un teclado real ronda los 30— y `avanzarSlide()` acota
+bien los índices. Queda anotado: si alguien lo ve a velocidad humana, el rastro empieza aquí.
 
 ---
 

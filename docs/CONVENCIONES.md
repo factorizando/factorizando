@@ -82,7 +82,7 @@ export default {
 ```
 
 Reglas:
-- `questions[].id` **obligatorio** (hoy faltan en varios; ver brechas).
+- `questions[].id` **obligatorio**, pero no se escribe a mano: `numerarPreguntas()` lo asigna al cargar el índice y el `id` declarado gana. `npm run integridad` avisa si alguno falta o se repite.
 - `explanation` nunca vacía. Una pregunta sin explicación no se considera terminada.
 - `correctAnswer` es índice numérico, no la letra.
 - En `bloques`, `cantidad` es redundante con `from`/`to` → se elimina (derivable).
@@ -281,23 +281,47 @@ Hoy un recurso se referencia en **tres** sitios que pueden desincronizarse:
 
 ## Brechas detectadas
 
-Pendientes de alinear al estándar (no resueltas en esta sesión). La hoja de ruta para
-cerrarlas está en [`PLAN_MIGRACION.md`](./PLAN_MIGRACION.md).
+La hoja de ruta está en [`PLAN_MIGRACION.md`](./PLAN_MIGRACION.md). Las catorce brechas
+originales se comprobaron una por una contra el código el 25 de agosto de 2026 (fase 7);
+**doce quedaron cerradas** y las dos que siguen abiertas están abajo con lo que se sabe hoy.
+Al comprobarlas aparecieron además dos cosas que no estaban en la lista, y van al final:
+esa es la razón de verificar en vez de dar por cerrado.
 
-1. **Cuestionarios por nivel → por materia.** Migrar `preparatoria/` y `universidad/`
-   a `<materia>/`; eliminar el duplicado `sujeto-predicado-uni.js`.
-2. **Export mixto.** `suma.js` usa `export const SUMA_ENTEROS`; pasar a `export default`.
-3. **Extensiones.** Revisar `.jsx` que no contienen JSX (cuestionarios) → `.js`.
-4. **`questions[].id` faltantes** en varios cuestionarios (p. ej. `la-celula.js`).
-5. **350 `explanation: ""` vacías** (hueco de calidad — diferido por decisión).
-6. **Presentaciones sin `materia`/`subtema`** (~1 y ~7 archivos).
-7. **CLAUDE.md documenta 7 tipos de slide; existen 15.** Sincronizar.
-8. **`cuestionariosIndex.js` con comentarios "TEMPLATE" obsoletos.**
-9. **`metadata.examenes` no existe aún** en ningún archivo; introducir al migrar.
-10. **Mecanismo de teoría** (JSX vs HTML) por decidir.
-11. **`SlideRenderer.jsx` ~12,700 líneas** con 322 `...SVG` + 251 `if` de `svgDiagram`;
-    desacoplar al registro de diagramas (§4.2).
-12. **Sin soporte de video** — implementar tipo `video` (§4.3).
-13. **Sin capa interactiva** — implementar tipo `interactivo` con `mafs` (mate, *falta
-    instalar*) y `matter-js` (física); registro `INTERACTIVOS` (§4.4).
-14. **`jsxgraph` importada pero sin usar** en `SlideRenderer`; dejar en reserva o retirar.
+### Sigue abierto
+
+1. **Mecanismo de teoría — JSX contra HTML.** Conviven los dos: nueve componentes en
+   `src/data/teoria/*.jsx` y tres guías estáticas en `public/guias/*.html`. No bloquea nada
+   y por eso lleva un año sin decidirse; decidirlo es elegir cuál se retira, no cuál se usa.
+2. **Once tipos de diapositiva muertos en `SlideRenderer.jsx`.** Tras la migración 4C las
+   3 162 diapositivas de las 65 presentaciones son `lienzo`; `portada`, `definicion`,
+   `concepto`, `lista_criterios`, `criterio_detalle`, `ejercicio`, `ejemplo`, `regla`,
+   `regla_rica`, `resumen` y `resumen_acentuacion` ya no los usa ningún mazo. Se conservan
+   porque borrarlos no se ha verificado diapositiva por diapositiva.
+
+### Cerrado (con lo que lo cierra)
+
+| # | Brecha original | Qué la cierra |
+|---|---|---|
+| 1 | Cuestionarios por nivel → por materia | `src/data/cuestionarios/` tiene `matematicas`, `biologia`, `espanol` y `simuladores`; `sujeto-predicado-uni.js` ya no existe |
+| 2 | Export mixto en los bancos | Sólo `cuestionariosIndex.js` usa `export const`, que es lo correcto: es el índice, no un banco |
+| 3 | `.jsx` sin JSX | Ningún `.jsx` de cuestionarios carece de JSX |
+| 4 | `questions[].id` faltantes | `numerarPreguntas()` los asigna al cargar y `npm run integridad` lo vigila |
+| 5 | 350 `explanation: ""` vacías | Fase 6: las 250 de `producto-enteros` y las 100 de `la-celula` |
+| 6 | Presentaciones sin `materia`/`subtema` | `npm run integridad` no reporta ninguna |
+| 7 | CLAUDE.md documentaba 7 tipos de slide | Corregido, y ahora dice cuál se usa de verdad (uno) |
+| 8 | Comentarios «TEMPLATE» obsoletos | Cero en `cuestionariosIndex.js` |
+| 9 | `metadata.examenes` inexistente | Fase 5: en las 65 presentaciones y los 27 cuestionarios, con chequeo de integridad |
+| 11 | `SlideRenderer.jsx` de ~12 700 líneas | 2 431 líneas; los 311 diagramas viven en `DIAGRAMS` |
+| 12 | Sin soporte de video | Bloque `video` en el registro (youtube-nocookie, carga diferida) |
+| 13 | Sin capa interactiva | Registro `INTERACTIVOS` con tres componentes |
+| 14 | `jsxgraph` importada sin usar | Import retirado; el chunk de `SlideRenderer` pasó de 979 KB a 54 KB |
+
+### Lo que apareció al comprobar
+
+- **La brecha 14 no era higiene, eran 925 KB.** «Importada pero sin usar» sonaba a residuo
+  de estilo; el import arrastraba la librería entera al chunk de las presentaciones. Medirlo
+  costó un `npm run build`, y es la lección: una dependencia sin usar no es gratis.
+- **La tabla de librerías de `CLAUDE.md` afirmaba cosas falsas en las dos direcciones.**
+  Presentaba `mathjs` y `matter-js` como si estuvieran en uso —nada las importa— y declaraba
+  Three.js «no instalada» cuando lo está y produce un chunk de 732 KB. Ahora la tabla lleva
+  una columna *In use?* con el número de archivos, que es lo único que no se puede fingir.

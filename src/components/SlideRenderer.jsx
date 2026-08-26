@@ -7,7 +7,6 @@ import { DIAGRAMS } from "./diagramas/index.js";
 import { IconoAsiEs, IconoAsiNo } from "./retroalimentacion.jsx";
 import Lienzo from "./bloques/Lienzo.jsx";
 import { qRegPoly } from "./diagramas/comun.jsx";
-import JXG from 'jsxgraph';
 import { ReactFlow, Handle, Position, Background } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ReferenceLine, ResponsiveContainer } from 'recharts';

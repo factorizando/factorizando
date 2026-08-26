@@ -9,6 +9,10 @@ import { MATERIAS } from "../data/materias.js";
 // Wordmark: "Facto" + "zando" en Sora y la R[i] compuesta en modo matemático
 // (KaTeX). La R va en negrita sólida (\mathbf) en vez de la pizarra doble
 // (\mathbb): a 19px el hueco de la doble línea se cerraba y no resaltaba.
+//
+// El tamaño viaja como variable CSS, no como `style={{fontSize}}`: un estilo
+// en línea gana a cualquier media query, y era la razón de que en móvil no
+// hubiera más salida que esconder la marca entera.
 export function FxWordmark({ size = 19 }) {
   const ready = useKaTeX();
   const ref = useRef(null);
@@ -23,7 +27,7 @@ export function FxWordmark({ size = 19 }) {
     }
   }, [ready]);
   return (
-    <span className="fx-wordmark" style={{ fontSize: size }}>
+    <span className="fx-wordmark" style={{ "--fx-wordmark-size": `${size}px` }}>
       Facto<span className="fx-wordmark-math" ref={ref}>R[i]</span>zando
     </span>
   );
@@ -46,10 +50,14 @@ export default function FxHeader({ onLogin, onRegistro, ctaLabel = "Comenzar" })
   // "Exámenes" es un ancla dentro de la Home. Con HashRouter no se puede usar
   // href="#examenes" (el hash ES la ruta), así que se resuelve por scroll; y
   // desde otra pantalla, volviendo a la Home primero.
+  // El scroll espera un fotograma tras cerrar el menú: mientras el panel está
+  // abierto el desplazamiento del cuerpo está bloqueado, y el destino se mide
+  // con la maquetación ya asentada.
   const irAExamenes = useCallback(() => {
     setMenuAbierto(false);
     const scroll = () =>
-      document.getElementById("examenes")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      requestAnimationFrame(() =>
+        document.getElementById("examenes")?.scrollIntoView({ behavior: "smooth", block: "start" }));
     if (location.pathname === "/") scroll();
     else { navigate("/"); setTimeout(scroll, 120); }
   }, [location.pathname, navigate]);
@@ -63,10 +71,29 @@ export default function FxHeader({ onLogin, onRegistro, ctaLabel = "Comenzar" })
     return () => window.removeEventListener("resize", alRedimensionar);
   }, []);
 
+  // Abierto, el menú se cierra con Escape y bloquea el desplazamiento del
+  // fondo: sin esto, en un teléfono se arrastra la página de debajo mientras el
+  // panel sigue encima y la marca deja de coincidir con lo que se está leyendo.
+  useEffect(() => {
+    if (!menuAbierto) return;
+    const alTeclear = (e) => { if (e.key === "Escape") setMenuAbierto(false); };
+    const previo = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", alTeclear);
+    return () => {
+      document.body.style.overflow = previo;
+      window.removeEventListener("keydown", alTeclear);
+    };
+  }, [menuAbierto]);
+
+  // Y al navegar a otra ruta, aunque el destino no pase por `cerrar`.
+  useEffect(() => { setMenuAbierto(false); }, [location.pathname]);
+
   const cerrar = () => setMenuAbierto(false);
 
   return (
-    <header className="fx-nav">
+    <>
+      <header className="fx-nav">
       <style>{CSS}</style>
 
       <div className="fx-nav-fila">
@@ -85,17 +112,21 @@ export default function FxHeader({ onLogin, onRegistro, ctaLabel = "Comenzar" })
           ))}
         </nav>
 
+        {/* En móvil aquí solo queda la hamburguesa: "Entrar" y el CTA se van
+            los dos al panel. Antes el CTA competía en la barra con la marca en
+            300 px de ancho y la marca era la que perdía. */}
         <div className="fx-nav-acciones">
           <button type="button" className="fx-nav-entrar" onClick={onLogin}>Entrar</button>
-          <button type="button" className="fx-btn-primario fx-btn-sm" onClick={onRegistro}>
+          <button type="button" className="fx-btn-primario fx-btn-sm fx-nav-cta" onClick={onRegistro}>
             {ctaLabel}
           </button>
           <button
             type="button"
             className="fx-nav-hamburguesa"
             onClick={() => setMenuAbierto((v) => !v)}
-            aria-label="Abrir menú"
+            aria-label={menuAbierto ? "Cerrar menú" : "Abrir menú"}
             aria-expanded={menuAbierto}
+            aria-controls="fx-menu-movil"
           >
             <span /><span /><span />
           </button>
@@ -103,28 +134,46 @@ export default function FxHeader({ onLogin, onRegistro, ctaLabel = "Comenzar" })
       </div>
 
       {menuAbierto && (
-        <div className="fx-nav-movil">
-          <button type="button" className="fx-nav-movil-item" onClick={irAExamenes}>Exámenes</button>
-          <span className="fx-nav-movil-titulo">Materias</span>
-          <div className="fx-nav-movil-grid">
-            {MATERIAS.map((m) => (
-              <Link
-                key={m.slug}
-                to={`/materia/${m.slug}`}
-                className="fx-nav-movil-materia"
-                onClick={cerrar}
+        <>
+          <div className="fx-nav-movil" id="fx-menu-movil">
+            <button type="button" className="fx-nav-movil-item" onClick={irAExamenes}>Exámenes</button>
+            <span className="fx-nav-movil-titulo">Materias</span>
+            <div className="fx-nav-movil-grid">
+              {MATERIAS.map((m) => (
+                <Link
+                  key={m.slug}
+                  to={`/materia/${m.slug}`}
+                  className="fx-nav-movil-materia"
+                  onClick={cerrar}
+                >
+                  <span className="fx-punto" style={{ background: `var(--fx-${m.acento})` }} />
+                  {m.nombre}
+                </Link>
+              ))}
+            </div>
+            {/* Las dos acciones de cuenta, en el orden en que se ofrecen: la
+                principal como botón lleno, "Entrar" debajo para quien ya la tiene. */}
+            <div className="fx-nav-movil-cuenta">
+              <button
+                type="button"
+                className="fx-btn-primario fx-nav-movil-cta"
+                onClick={() => { cerrar(); onRegistro?.(); }}
               >
-                <span className="fx-punto" style={{ background: `var(--fx-${m.acento})` }} />
-                {m.nombre}
-              </Link>
-            ))}
+                {ctaLabel}
+              </button>
+              <button type="button" className="fx-nav-movil-entrar" onClick={() => { cerrar(); onLogin?.(); }}>
+                Entrar
+              </button>
+            </div>
           </div>
-          <button type="button" className="fx-nav-movil-entrar" onClick={() => { cerrar(); onLogin?.(); }}>
-            Entrar
-          </button>
-        </div>
+        </>
       )}
-    </header>
+      </header>
+      {/* El velo va FUERA del header a propósito: `backdrop-filter` en `.fx-nav`
+          lo convierte en bloque contenedor, y ahí dentro un `position: fixed`
+          se recorta a la barra en vez de cubrir la pantalla. */}
+      {menuAbierto && <div className="fx-nav-velo" onClick={cerrar} aria-hidden="true" />}
+    </>
   );
 }
 
@@ -137,6 +186,7 @@ const CSS = `
 .fx-marca { display: flex; align-items: center; gap: 10px; text-decoration: none; flex: 0 0 auto; }
 .fx-marca:hover { text-decoration: none; }
 .fx-wordmark { font-family: var(--fx-font-heading); font-weight: 600; letter-spacing: -0.02em;
+  font-size: var(--fx-wordmark-size, 19px);
   color: var(--fx-text-heading); white-space: nowrap; }
 .fx-wordmark-math { color: var(--fx-primary-500); font-family: var(--fx-font-math); font-weight: 700; }
 .fx-wordmark-math .katex { color: var(--fx-primary-500); font-size: .95em; }
@@ -183,17 +233,35 @@ const CSS = `
   color: var(--fx-text-heading); text-decoration: none; border-radius: var(--fx-radius-sm); }
 .fx-nav-movil-materia:hover { background: var(--fx-bg); text-decoration: none; }
 .fx-punto { width: 9px; height: 9px; border-radius: 50%; flex: none; }
-.fx-nav-movil-entrar { display: flex; align-items: center; width: 100%; min-height: 48px;
-  margin-top: 10px; padding-top: 12px; border: none; border-top: 1px solid var(--fx-surface-sunken);
+.fx-nav-movil-cuenta { display: flex; flex-direction: column; gap: 4px; margin-top: 14px;
+  padding-top: 16px; border-top: 1px solid var(--fx-surface-sunken); }
+.fx-nav-movil-cta { width: 100%; min-height: 50px; font-size: 17px; }
+.fx-nav-movil-entrar { display: flex; align-items: center; justify-content: center;
+  width: 100%; min-height: 48px; border: none;
   background: none; font-family: var(--fx-font-body); font-size: 17px; font-weight: 600;
   color: var(--fx-primary-500); cursor: pointer; }
-/* RESPONSIVO — el corte del diseño está en 900px. */
+/* El panel es una hoja desplegable, no una capa flotante: el velo solo apaga y
+   captura el toque de lo que queda debajo, por debajo de la barra (z 20). */
+.fx-nav-velo { position: fixed; inset: 0; z-index: 19; background: rgba(10,37,64,0.28); }
+/* RESPONSIVO — el corte del diseño está en 900px.
+   La marca NO se esconde en ningún ancho: es lo único que dice dónde está el
+   usuario. Lo que se va es el CTA, que baja al panel; con la barra vacía de
+   botones el wordmark cabe entero hasta en 320px, y aun así baja un punto para
+   no pegarse a la hamburguesa. */
 @media (max-width: 899px) {
   .fx-nav-links { display: none; }
   .fx-nav-entrar { display: none; }
+  .fx-nav-cta { display: none; }
   .fx-nav-hamburguesa { display: flex; }
+  /* El panel FLOTA bajo la barra en vez de ir en el flujo. Yendo en el flujo
+     añadía ~870px de alto al header y empujaba la página entera hacia abajo:
+     el salto a un ancla se calculaba con esa altura y, al cerrarse el menú,
+     aterrizaba 870px más abajo de lo debido. */
+  .fx-nav-movil { position: absolute; top: 100%; left: 0; right: 0;
+    max-height: calc(100dvh - 76px); overflow-y: auto; }
 }
 @media (max-width: 420px) {
-  .fx-wordmark { display: none; }
+  .fx-nav-fila { padding-top: 12px; padding-bottom: 12px; }
+  .fx-wordmark { font-size: 18px; }
 }
 `;

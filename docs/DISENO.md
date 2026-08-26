@@ -377,3 +377,56 @@ candidatas reescribió 19 y dejó 43 en paz.
 *Y una que sólo vio el linter:* sustituir «todas las líneas iguales» del archivo puso la
 bandera dos veces en los reactivos que comparten enunciado, dejando la clave repetida en
 el objeto. El build compilaba tan campante; `no-dupe-keys` lo cazó.
+
+### 2026-08-26 · El teléfono no era una versión estrecha del escritorio
+
+*Qué:* la Home y el header público estaban maquetados para 1280px y sólo *reducidos* a
+375. Se corrigen seis cosas, medidas con un navegador real a 320/360/375/414/768/1280 y
+no a ojo.
+
+**La marca no se esconde en ningún ancho.** Había una regla explícita —`.fx-wordmark
+{ display: none }` por debajo de 420px— y era la única salida posible, porque el tamaño
+viajaba en un `style={{fontSize}}` en línea que ninguna media query podía sobrescribir y
+porque el CTA le disputaba la barra. Ahora el tamaño va como variable CSS y **el CTA baja
+al panel**: con la barra libre de botones el wordmark entra entero hasta en 320px. Una
+barra sin marca no es una barra minimalista, es una pantalla que no dice dónde estás.
+
+**`minmax(340px, 1fr)` no se encoge.** La rejilla de exámenes mantenía la pista en 340
+dentro de un contenedor de 280, y la tarjeta se salía por la derecha: `scrollWidth` 360
+sobre un viewport de 320. El mínimo va envuelto en `min(340px, 100%)`. Vale para las tres
+rejillas de la portada y para cualquier `auto-fit` futuro.
+
+**El titular tenía un piso de 38px y ganaba en todo el rango de teléfono.** Seis renglones
+a 375px, y el primer botón a **733px de scroll**: una pantalla entera por debajo del
+pliegue en la portada de un sitio cuyo objetivo es que alguien se registre. `clamp(38px,
+4.6vw, 58px)` → `clamp(32px, 8.5vw, 58px)`, que crece *con* la pantalla; de 680px en
+adelante nada cambia. Con eso y un escalón de cuerpo en `fx.css` (los cuatro valores de
+§2.2, ninguno por debajo del piso de 15px de §2.6), el botón sube a 541px.
+
+**El panel móvil iba en el flujo.** Abrirlo añadía ~870px al header y empujaba la página
+entera; el salto a un ancla se calculaba con esa altura y, al cerrarse el panel,
+aterrizaba 870px más abajo del título. Ahora flota (`position: absolute` bajo la barra),
+así que abrir el menú no mueve nada. Se le añaden velo, cierre con Escape y bloqueo del
+desplazamiento del fondo — y el velo va **fuera** del header, porque `backdrop-filter` en
+`.fx-nav` lo convierte en bloque contenedor y ahí dentro un `position: fixed` se recorta a
+la barra en vez de cubrir la pantalla.
+
+**Una sección con `id` es destino de ancla y la barra es pegajosa.** `.fx-sec[id]
+{ scroll-margin-top: 88px }`, o el título aterriza debajo del header.
+
+**Los enlaces del pie medían 26px de alto.** §2.3 pide 44 y son zonas táctiles reales. El
+corte es el mismo que el del header —por debajo de 900px no se da por supuesto que haya
+ratón—, no el de 720: una tableta en vertical también se toca con el dedo.
+
+*Lo que enseñó hacerlo:* el checklist de §3 se puede *comprobar*, no sólo leer. Un script
+de Playwright que recorre `document.querySelectorAll('body *')` buscando cajas que se
+salgan del viewport, texto por debajo de 15px y controles por debajo de 44 encontró en un
+minuto las tres cosas que llevaban meses ahí. Compilar no ve ninguna: el desbordamiento a
+320px es una tarjeta 40px fuera de pantalla, no un error.
+
+*Queda abierto:* `--fx-caption-size` son 13px y §3 pide no bajar de 15 a 375px de ancho.
+Afecta a `fx-badge`, `fx-eyebrow`, `fx-card-nivel` y `fx-footer-tit` — todos versalitas
+con tracking, donde 13px rinde más de lo que dice el número. §2.6 acota el piso a «el
+cuerpo», así que no está claro que sean el mismo caso; se deja escrito en vez de resuelto
+a medias. Y `MateriaVer.jsx` no tiene una sola media query: no desborda, pero hereda el
+escalón de cuerpo por casualidad, no por diseño.

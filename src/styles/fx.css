@@ -96,6 +96,7 @@
   --fx-control-lg: 54px;
 
   --fx-container: 1280px;
+
   --fx-gutter: clamp(20px, 4vw, 48px);
   --fx-section-gap: clamp(40px, 5vw, 72px);
 
@@ -106,6 +107,21 @@
   --fx-shadow-primary: 0 2px 6px rgba(0, 86, 210, 0.28);
   --fx-transition: 140ms ease;
   --fx-transition-lift: 160ms ease;
+}
+
+/* Escalón de teléfono. La escala de arriba está calibrada para un contenedor de
+   1280px: a 375px de ancho la entradilla de 21px se lleva ocho renglones y el
+   texto de sección compite con los títulos. Se bajan SOLO los cuatro valores de
+   cuerpo, un escalón, y ninguno cruza el piso de 15px que fija §2.6 de
+   docs/DISENO.md. Los tamaños de título ya se resuelven por clamp. */
+@media (max-width: 560px) {
+  :root {
+    --fx-lead-size: 18px;    --fx-lead-lh: 1.55;
+    --fx-body-lg-size: 17px; --fx-body-lg-lh: 1.60;
+    --fx-body-size: 16px;    --fx-body-lh: 1.62;
+    --fx-small-size: 15px;
+    --fx-section-gap: clamp(36px, 8vw, 48px);
+  }
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -126,13 +142,22 @@
 
 /* ── Layout de sección ── */
 .fx-sec { max-width: var(--fx-container); margin: 0 auto; padding: var(--fx-section-gap) var(--fx-gutter); }
+/* Una sección con id es destino de ancla, y la barra es pegajosa: sin este
+   margen el salto desde el menú deja el título debajo del header. Se aplica a
+   cualquier sección anclada, presente o futura. */
+.fx-sec[id] { scroll-margin-top: 88px; }
 .fx-sec-cab { display: flex; flex-direction: column; gap: 10px; max-width: 660px; margin-bottom: 36px; }
 
 /* ── Tipografía ── */
 .fx-eyebrow { font-family: var(--fx-font-mono); font-size: var(--fx-caption-size); letter-spacing: 0.12em;
   text-transform: uppercase; color: var(--fx-text-muted); }
+/* El mínimo del clamp era 38px y ganaba en todo el rango de teléfono: a 375px
+   el titular de la portada se partía en seis renglones y empujaba el primer
+   botón a 733px de scroll. El tramo variable pasa a 8.5vw para que crezca CON
+   la pantalla (32px a 375, 58px a partir de ~680); de 680px en adelante nada
+   cambia respecto de antes. */
 .fx-h1 { font-family: var(--fx-font-heading); font-weight: 600;
-  font-size: clamp(38px, 4.6vw, 58px); line-height: 1.08; letter-spacing: -0.028em;
+  font-size: clamp(32px, 8.5vw, 58px); line-height: 1.08; letter-spacing: -0.028em;
   color: var(--fx-text-heading); margin: 0; text-wrap: balance; }
 .fx-h2 { font-family: var(--fx-font-heading); font-weight: 600;
   font-size: clamp(28px, 3vw, 38px); line-height: 1.16; letter-spacing: -0.022em;

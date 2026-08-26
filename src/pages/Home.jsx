@@ -576,10 +576,13 @@ const CSS = `
 /* PASTILLAS DE NIVEL */
 .fx-pills { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 32px; }
 .fx-pills-nota { font-size: var(--fx-small-size); color: var(--fx-text-muted); padding-left: 6px; }
-/* REJILLAS */
-.fx-grid-examenes { grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); max-width: 900px; }
-.fx-grid-materias { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
-.fx-grid-cursos { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+/* REJILLAS — el mínimo va envuelto en min(…, 100%) porque minmax(340px, 1fr)
+   NO se encoge por debajo de su mínimo: en un teléfono de 320px la pista seguía
+   midiendo 340 y la tarjeta de examen se salía 40px por la derecha (medido:
+   scrollWidth 360 sobre un viewport de 320). */
+.fx-grid-examenes { grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); max-width: 900px; }
+.fx-grid-materias { grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); }
+.fx-grid-cursos { grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); }
 /* CTA NAVY */
 .fx-sec-cta { padding-top: clamp(24px, 4vw, 48px); padding-bottom: clamp(56px, 6vw, 88px); }
 .fx-cta { background: var(--fx-primary-900); border-radius: var(--fx-radius-xl);
@@ -625,5 +628,38 @@ const CSS = `
 @media (max-width: 720px) {
   .fx-hero-visual { min-width: 0; }
   .fx-admin-bar { bottom: 16px; left: 16px; }
+}
+/* Los enlaces del pie son zonas táctiles reales y medían 26px de alto (§2.3 pide
+   44). El corte es el mismo que el del header —debajo de 900px no se da por
+   supuesto que haya ratón—, no el de 720: una tableta en vertical también se
+   toca con el dedo. */
+@media (max-width: 899px) {
+  .fx-footer-link { min-height: 44px; display: flex; align-items: center; }
+  .fx-footer-col { gap: 2px; }
+  .fx-footer-tit { margin-bottom: 6px; }
+  .fx-footer-cols { gap: 28px; }
+}
+/* Teléfono. El hero traía la métrica de escritorio tal cual: el titular a 38px
+   ocupaba seis renglones y el primer botón caía a 733px de scroll — una pantalla
+   entera por debajo del pliegue. Aquí se aprieta el aire, no el contenido. */
+@media (max-width: 560px) {
+  .fx-hero { padding-top: 28px; row-gap: 18px; }
+  .fx-hero-texto { gap: 18px; }
+  .fx-badge { font-size: 12px; letter-spacing: 0.08em; padding: 6px 11px; }
+  /* Los dos botones a lo ancho: apilados y a media caja se leen como un
+     acordeón de anchos distintos. */
+  .fx-hero-botones { flex-direction: column; align-items: stretch; }
+  .fx-hero-botones > * { width: 100%; }
+  /* Tres cifras en fila no caben con etiqueta; en dos columnas sí, y la tercera
+     ocupa la fila entera en vez de quedar colgando a un tercio. */
+  .fx-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 16px;
+    margin-top: 4px; padding-top: 20px; }
+  .fx-stat-valor { font-size: 26px; }
+  .fx-visual-pie { flex-wrap: wrap; gap: 10px; padding: 14px 6px 4px; }
+  .fx-visual-nota { padding: 14px; }
+  .fx-card-alta { padding: 22px; gap: 14px; }
+  .fx-cta { padding: 28px 22px; }
+  .fx-cta-botones { width: 100%; }
+  .fx-cta-botones > * { flex: 1 1 100%; justify-content: center; }
 }
 `;

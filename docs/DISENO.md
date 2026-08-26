@@ -270,3 +270,43 @@ El arreglo no fue retocar el color sino dibujar la diferencia —llena, anillo, 
 la misma solución que la §2.4 le da a acierto y error. Cuando el color carga toda la
 distinción, la rampa no es suficiente y hay que darle forma.
 
+### 2026-08-25 · El cuestionario entra al sistema (§2.4 ya se aplica al alumno)
+
+`QuestionarioGenerico.jsx` era el último sitio donde el alumno recibía un veredicto de
+semáforo, y era el peor: la §2.4 se había aplicado a las presentaciones y a los talleres,
+pero no a la pantalla donde un alumno contesta cien reactivos seguidos.
+
+*Qué había:* la respuesta del alumno se pintaba de ámbar con un `✗`, la correcta llevaba
+un `✓`, la explicación un emoji 💡, el puntaje final cambiaba de azul a ámbar a naranja
+según el tramo, y la palabra «Incorrecta» aparecía cuatro veces dirigida a quien responde.
+Todo salía de una paleta local con diez hex cocidos.
+
+*Qué hay:* los tres tratamientos de la §2.4 sobre el acento. **Así es** con relleno y
+palomita; **Aún no** con contorno punteado, lupa y el texto a contraste pleno — sin relleno
+y sin color propio, porque la regla dura dice que la respuesta del alumno no se pinta ni se
+tacha; y la casilla intacta con su borde neutro. Los tres se distinguen por forma, no por
+matiz, y la rejilla de navegación usa las mismas tres formas.
+
+*El cambio de palabra importa tanto como el de color.* «Incorrectas (99)» pasa a «99 por
+practicar», y las etiquetas por pregunta a *Así es* / *Aún no*. El ícono de la explicación
+es una lupa, no una cruz: no dice «te equivocaste», dice «mira aquí».
+
+*Dos cosas que aparecieron al hacerlo:*
+
+- **`IconoAsiEs` e `IconoAsiNo` vivían dentro de `SlideRenderer.jsx`**, así que sólo los
+  alcanzaban las presentaciones. Ahora están en `src/components/retroalimentacion.jsx`
+  junto a `IconoAunNo` —la lupa, que la §2.4 pedía y no existía—. Mientras el ícono viva
+  dentro de un renderizador, la siguiente pantalla se vuelve a inventar un `✓`.
+- **El tema oscuro no redefinía los tokens de estado.** `.fx-oscuro` reescribía superficies,
+  texto y los siete acentos, pero no `--fx-success/warning/error/info`: un `--fx-warning-bg`
+  sobre fondo oscuro seguía siendo el `#fbf4dc` del tema claro, o sea un bloque casi blanco.
+  Añadidos los cuatro tríos, con la misma construcción que los acentos.
+
+*Nota técnica:* las opacidades del acento se calculan con `color-mix()` a partir del token
+en vez de concatenar un alfa al hex, que es lo que hacía antes (`C.blue + "33"`) y lo que
+impedía usar tokens. Es el primer uso de `color-mix()` en el proyecto.
+
+*Lo que queda fuera:* `BrandName.jsx` tiene su color cocido y lo comparten ocho pantallas
+legadas, así que en tema claro la marca se pierde contra la barra. No se toca desde aquí:
+cambiarlo arreglaría el cuestionario y rompería las otras siete. El reloj sigue usando ⏰
+como ícono, que es la misma infracción de forma más leve.

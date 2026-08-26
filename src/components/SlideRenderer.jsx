@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from "react";
 import { M, useKaTeX } from "../data/teoria/shared.jsx";
 import { TEMAS, useFuentesTema } from "../data/presentaciones/temas.jsx";
 import { DIAGRAMS } from "./diagramas/index.js";
+import { IconoAsiEs, IconoAsiNo } from "./retroalimentacion.jsx";
 import Lienzo from "./bloques/Lienzo.jsx";
 import { qRegPoly } from "./diagramas/comun.jsx";
 import JXG from 'jsxgraph';
@@ -224,7 +225,7 @@ function HistogramaVotos({ votos, totalVotos, opciones, correcta, votantes, perf
                   style={{ display: "flex", alignItems: "center", gap: 7, fontSize: 12 }}
                 >
                   <span style={{ color: col, flexShrink: 0, width: 13, display: "inline-flex" }}>
-                    {a.ok ? <IconoAsiEs tema={tema} /> : <IconoAsiNo tema={tema} />}
+                    {a.ok ? <IconoAsiEs color={tema.acento} /> : <IconoAsiNo color={tema.sub} />}
                   </span>
                   <span
                     style={{
@@ -250,34 +251,6 @@ function HistogramaVotos({ votos, totalVotos, opciones, correcta, votantes, perf
   );
 }
 
-// ── Íconos de retroalimentación ───────────────────────────────────────────────
-// Dibujados, no glifos: ✓ y ✗ cambian de forma y de ancho según el sistema, y en
-// algunos se pintan como emoji a color.
-//
-// El acierto va en el acento de la materia y lo que no lo es va en gris, no en
-// rojo (docs/DISENO.md §2.4). Dos razones: la deficiencia rojo-verde afecta a uno
-// de cada doce hombres —si el matiz es el único canal, uno o dos de cada veinte
-// alumnos no leen la retroalimentación—, y el rojo dice a la vez qué pasó y qué
-// tan malo es, cuando solo hace falta lo primero. La distinción la hace la FORMA.
-function IconoAsiEs({ tema, size = 13 }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 16 16" fill="none"
-      style={{ flexShrink: 0, verticalAlign: "-2px" }} aria-hidden="true">
-      <path d="M3.5 8.4l3 3 6-7" stroke={tema.acento} strokeWidth="1.9"
-        strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function IconoAsiNo({ tema, size = 13 }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 16 16" fill="none"
-      style={{ flexShrink: 0, verticalAlign: "-2px" }} aria-hidden="true">
-      <circle cx="8" cy="8" r="6" stroke={tema.sub} strokeWidth="1.6" />
-      <line x1="3.8" y1="12.2" x2="12.2" y2="3.8" stroke={tema.sub} strokeWidth="1.6" />
-    </svg>
-  );
-}
 
 // ── Tipos de diapositiva ──────────────────────────────────────────────────────
 
@@ -1862,12 +1835,12 @@ function SlideReglaRica({ slide, tema, resaltadoIdx, onResaltar }) {
                 </div>
               )}
               <div style={{ fontSize: 13, color: tema.texto, lineHeight: 1.55, marginBottom: 5 }}>
-                <IconoAsiEs tema={tema} />{" "}
+                <IconoAsiEs color={tema.acento} />{" "}
                 {bloque.correcto}
               </div>
               <div style={{ height: 1, background: tema.border, margin: "5px 0" }} />
               <div style={{ fontSize: 13, color: tema.muted, lineHeight: 1.55 }}>
-                <IconoAsiNo tema={tema} />{" "}
+                <IconoAsiNo color={tema.sub} />{" "}
                 {bloque.incorrecto}
               </div>
             </div>
@@ -2007,11 +1980,11 @@ function SlideReglaRica({ slide, tema, resaltadoIdx, onResaltar }) {
                   Trampa {bloque.letra} — {bloque.titulo}
                 </div>
                 <div style={{ fontSize: 12.5, color: tema.texto, lineHeight: 1.5, marginBottom: 5 }}>
-                  <IconoAsiEs tema={tema} />{" "}
+                  <IconoAsiEs color={tema.acento} />{" "}
                   {bloque.correcto}
                 </div>
                 <div style={{ fontSize: 12.5, color: tema.muted, lineHeight: 1.5 }}>
-                  <IconoAsiNo tema={tema} />{" "}
+                  <IconoAsiNo color={tema.sub} />{" "}
                   {bloque.incorrecto}
                 </div>
               </div>
@@ -2278,12 +2251,12 @@ function SlideRegla({ slide, tema, modo, resaltadoIdx, onResaltar }) {
               {ej.categoria}
             </div>
             <div style={{ fontSize: 12.5, color: tema.texto, lineHeight: 1.55, flex: 1 }}>
-              <IconoAsiEs tema={tema} />{" "}
+              <IconoAsiEs color={tema.acento} />{" "}
               {ej.correcto}
             </div>
             <div style={{ height: 1, background: tema.border, margin: "8px 0" }} />
             <div style={{ fontSize: 12.5, color: tema.muted, lineHeight: 1.55, flex: 1 }}>
-              <IconoAsiNo tema={tema} />{" "}
+              <IconoAsiNo color={tema.sub} />{" "}
               {ej.incorrecto}
             </div>
           </div>

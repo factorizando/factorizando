@@ -244,6 +244,15 @@ a.fx-card-fila:hover .fx-flecha { opacity: 1; transform: translateX(3px); }
   --fx-teal: #57b6c8;    --fx-teal-tint: rgba(87, 182, 200, 0.12);    --fx-teal-text: #7ccbd9;
   --fx-ciruela: #c98bbb; --fx-ciruela-tint: rgba(201, 139, 187, 0.12); --fx-ciruela-text: #d8a6cc;
 
+  /* Estados — faltaban en oscuro, y sin ellos `--fx-warning-bg` seguía siendo el
+     #fbf4dc del tema claro: un bloque casi blanco sobre fondo oscuro. Misma
+     decisión de marca que arriba (sin rojo ni verde), misma construcción que los
+     acentos: base más luminosa y fondos translúcidos en vez de pasteles. */
+  --fx-success: #4aa3e0; --fx-success-bg: rgba(74, 163, 224, 0.12); --fx-success-border: rgba(74, 163, 224, 0.32); --fx-success-text: #8cc4ec;
+  --fx-warning: #e8b34d; --fx-warning-bg: rgba(232, 179, 77, 0.12); --fx-warning-border: rgba(232, 179, 77, 0.32); --fx-warning-text: #efc677;
+  --fx-error:   #f0cf5e; --fx-error-bg:   rgba(240, 207, 94, 0.12); --fx-error-border:   rgba(240, 207, 94, 0.32); --fx-error-text:   #f5dd8e;
+  --fx-info:    #4f92f0; --fx-info-bg:    rgba(79, 146, 240, 0.12); --fx-info-border:    rgba(79, 146, 240, 0.32); --fx-info-text:    #85aef1;
+
   /* Elevación: en oscuro la sombra no separa, el borde sí. */
   --fx-shadow-card: 0 1px 2px rgba(0, 0, 0, 0.40), 0 10px 28px rgba(0, 0, 0, 0.26);
   --fx-shadow-card-hover: 0 1px 2px rgba(0, 0, 0, 0.40), 0 14px 34px rgba(0, 0, 0, 0.34);

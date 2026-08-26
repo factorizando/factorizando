@@ -11,11 +11,11 @@ export default function RepSexualSVG({ tema }) {
   return (
     <svg viewBox="0 0 280 120" width="100%" style={{ display: "block", maxHeight: 130 }}>
       {/* óvulo */}
-      <circle cx={42} cy={60} r={20} fill="rgba(52,211,153,0.10)" stroke={a} strokeWidth="2" />
+      <circle cx={42} cy={60} r={20} fill={`${a}1a`} stroke={a} strokeWidth="2" />
       <circle cx={42} cy={60} r={7} fill={a} opacity="0.5" />
       <text x={42} y={96} textAnchor="middle" fill={T} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif">óvulo (n)</text>
       {/* espermatozoide */}
-      <circle cx={120} cy={42} r={8} fill="rgba(134,239,172,0.2)" stroke={bl} strokeWidth="1.6" />
+      <circle cx={120} cy={42} r={8} fill={`${bl}33`} stroke={bl} strokeWidth="1.6" />
       <path d="M 128 42 q 16 6 30 -2 q -14 10 -30 6" fill="none" stroke={bl} strokeWidth="1.6" />
       <text x={140} y={28} textAnchor="middle" fill={T} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif">esperma (n)</text>
       <line x1={104} y1={50} x2={66} y2={58} stroke={bl} strokeWidth="1.6" strokeDasharray="3 2" />
@@ -24,7 +24,7 @@ export default function RepSexualSVG({ tema }) {
       <polygon points={arrowHead(150, 70, 196, 70, 8)} fill={a} />
       <text x={172} y={62} textAnchor="middle" fill={a} fontSize="7" fontFamily="'Figtree', system-ui, sans-serif">fecundación</text>
       {/* cigoto */}
-      <circle cx={236} cy={70} r={22} fill="rgba(52,211,153,0.12)" stroke={a} strokeWidth="2.2" />
+      <circle cx={236} cy={70} r={22} fill={`${a}1f`} stroke={a} strokeWidth="2.2" />
       <circle cx={230} cy={70} r={7} fill={a} opacity="0.5" />
       <circle cx={242} cy={70} r={7} fill={bl} opacity="0.5" />
       <text x={236} y={106} textAnchor="middle" fill={bl} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700">cigoto (2n)</text>

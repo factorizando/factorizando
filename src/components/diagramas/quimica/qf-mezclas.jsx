@@ -9,7 +9,7 @@ export default function QfMezclasSVG({ tema }) {
   return (
     <svg viewBox="0 0 290 120" width="100%" style={{ display: "block", maxHeight: 130 }}>
       {/* sustancia pura: partículas iguales */}
-      <rect x={18} y={20} width={56} height={64} rx={5} fill="rgba(192,132,252,0.06)" stroke={a} strokeWidth="1.6" />
+      <rect x={18} y={20} width={56} height={64} rx={5} fill={`${a}0f`} stroke={a} strokeWidth="1.6" />
       {[[34,40],[54,40],[34,60],[54,60],[44,76]].map(([cx,cy],i)=>(<circle key={i} cx={cx} cy={cy} r={5} fill={a} opacity="0.7" />))}
       <text x={46} y={98} textAnchor="middle" fill={T} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">sustancia pura</text>
       <text x={46} y={108} textAnchor="middle" fill={mu} fontSize="6.3" fontFamily="'Figtree', system-ui, sans-serif">partículas iguales</text>

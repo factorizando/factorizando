@@ -1,5 +1,10 @@
 // Diagrama «biologia-celula» — matematicas.
-// Recibe { tema } y pinta con la paleta de la materia; sin estado propio.
+// Recibe { tema } pero NO pinta con la paleta de la materia: `grn`, `gold`, `org`
+// y `lila` son literales, así que este diagrama se ve igual en las siete materias
+// y en los dos temas. Es el único que quedó así tras la fase 4D. Convertirlo pide
+// decidir cuánto de su color es descriptivo (la hoja, el núcleo) y cuánto es
+// acento, y eso no es mecánico. Además está mal archivado: vive en `matematicas/`
+// y lo usa `biologia-pensamiento-cientifico`.
 // Salió de SlideRenderer.jsx en la fase 2b (docs/PLAN_MIGRACION.md).
 
 import { M } from "../../../data/teoria/shared.jsx";

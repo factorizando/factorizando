@@ -17,7 +17,7 @@ export default function EvoOrigenVidaSVG({ tema }) {
       <polygon points="20,12 12,40 22,38 14,60 34,30 22,32 30,12" fill={gold} opacity="0.7" />
       {stages.map(({ x, label, sub }, i) => (
         <g key={i}>
-          <circle cx={x} cy={58} r={i === 0 ? 9 : i === 1 ? 13 : 18} fill="rgba(52,211,153,0.10)" stroke={i === 2 ? a : bl} strokeWidth="1.8" />
+          <circle cx={x} cy={58} r={i === 0 ? 9 : i === 1 ? 13 : 18} fill={i === 2 ? `${a}1a` : `${bl}1a`} stroke={i === 2 ? a : bl} strokeWidth="1.8" />
           {i === 2 && <circle cx={x} cy={58} r={6} fill={a} opacity="0.5" />}
           <text x={x} y={92} textAnchor="middle" fill={T} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">{label}</text>
           <text x={x} y={103} textAnchor="middle" fill={mu} fontSize="6.5" fontFamily="'Figtree', system-ui, sans-serif">{sub}</text>

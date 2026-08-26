@@ -16,13 +16,13 @@ export default function AnaPortadaSVG({ tema }) {
       {/* tejido (rejilla de células) */}
       <g>
         {[0,1,2].map(i => [0,1,2].map(j => (
-          <rect key={`${i}-${j}`} x={104 + j*15} y={44 + i*15} width={13} height={13} rx={3} fill="rgba(96,165,250,0.12)" stroke={bl} strokeWidth="1.1" />
+          <rect key={`${i}-${j}`} x={104 + j*15} y={44 + i*15} width={13} height={13} rx={3} fill={`${bl}1f`} stroke={bl} strokeWidth="1.1" />
         )))}
       </g>
       <text x={126} y={100} textAnchor="middle" fill={mu} fontSize="7" fontFamily="'Figtree', system-ui, sans-serif">tejido</text>
       {/* hongo (seta) */}
-      <path d="M 178 64 q 18 -26 36 0 Z" fill="rgba(192,132,252,0.22)" stroke={a} strokeWidth="1.6" />
-      <rect x={192} y={64} width={8} height={20} rx={2} fill="rgba(192,132,252,0.18)" stroke={a} strokeWidth="1.4" />
+      <path d="M 178 64 q 18 -26 36 0 Z" fill={`${a}38`} stroke={a} strokeWidth="1.6" />
+      <rect x={192} y={64} width={8} height={20} rx={2} fill={`${a}2e`} stroke={a} strokeWidth="1.4" />
       <text x={196} y={100} textAnchor="middle" fill={mu} fontSize="7" fontFamily="'Figtree', system-ui, sans-serif">hongo</text>
       <text x={115} y={128} textAnchor="middle" fill={mu} fontSize="8.5" fontFamily="'Figtree', system-ui, sans-serif">tejidos · plantas · animales · hongos</text>
     </svg>

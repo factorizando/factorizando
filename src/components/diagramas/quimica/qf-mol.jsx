@@ -10,7 +10,7 @@ export default function QfMolSVG({ tema }) {
   const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto, grn = tema.canal(1);
   return (
     <svg viewBox="0 0 280 120" width="100%" style={{ display: "block", maxHeight: 130 }}>
-      <rect x={20} y={30} width={70} height={40} rx={6} fill="rgba(192,132,252,0.08)" stroke={a} strokeWidth="1.6" />
+      <rect x={20} y={30} width={70} height={40} rx={6} fill={`${a}14`} stroke={a} strokeWidth="1.6" />
       <text x={55} y={48} textAnchor="middle" fill={T} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">masa (g)</text>
       <text x={55} y={62} textAnchor="middle" fill={mu} fontSize="6.5" fontFamily="'Figtree', system-ui, sans-serif">m</text>
       <text x={110} y={54} textAnchor="middle" fill={a} fontSize="9" fontFamily="'Figtree', system-ui, sans-serif">÷ M</text>

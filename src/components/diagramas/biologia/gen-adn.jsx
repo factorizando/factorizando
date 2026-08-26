@@ -15,9 +15,9 @@ export default function GenAdnSVG({ tema }) {
         return (
           <g key={i}>
             <line x1={92} y1={y} x2={168} y2={y} stroke={mu} strokeWidth="1.2" />
-            <circle cx={114} cy={y} r={8} fill="rgba(52,211,153,0.18)" stroke={a} strokeWidth="1.3" />
+            <circle cx={114} cy={y} r={8} fill={`${a}2e`} stroke={a} strokeWidth="1.3" />
             <text x={114} y={y + 3} textAnchor="middle" fill={a} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif">{l}</text>
-            <circle cx={146} cy={y} r={8} fill="rgba(134,239,172,0.18)" stroke={bl} strokeWidth="1.3" />
+            <circle cx={146} cy={y} r={8} fill={`${bl}2e`} stroke={bl} strokeWidth="1.3" />
             <text x={146} y={y + 3} textAnchor="middle" fill={bl} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif">{r}</text>
           </g>
         );

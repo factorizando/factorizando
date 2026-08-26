@@ -10,7 +10,7 @@ export default function QaaAireSVG({ tema }) {
     <svg viewBox="0 0 290 125" width="100%" style={{ display: "block", maxHeight: 135 }}>
       {/* composición del aire (barra) */}
       <text x={70} y={14} textAnchor="middle" fill={mu} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif">composición del aire</text>
-      <rect x={14} y={22} width={86} height={18} rx={3} fill="rgba(192,132,252,0.5)" stroke={a} strokeWidth="1" />
+      <rect x={14} y={22} width={86} height={18} rx={3} fill={`${a}80`} stroke={a} strokeWidth="1" />
       <text x={57} y={35} textAnchor="middle" fill="#0d0810" fontSize="8" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700">N₂ 78%</text>
       <rect x={102} y={22} width={26} height={18} rx={3} fill={`${bl}99`} stroke={bl} strokeWidth="1" />
       <text x={115} y={35} textAnchor="middle" fill="#0d0810" fontSize="7" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700">O₂</text>

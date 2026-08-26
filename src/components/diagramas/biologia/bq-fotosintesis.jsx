@@ -9,6 +9,8 @@ export default function BqFotosintesisSVG({ tema }) {
   return (
     <svg viewBox="0 0 290 130" width="100%" style={{ display: "block", maxHeight: 140 }}>
       {/* sol */}
+      {/* El amarillo es descriptivo: es la luz del sol, no un acento. Se queda
+          literal a propósito; ver docs/DISENO.md §2.1. */}
       <circle cx={36} cy={28} r={11} fill="rgba(245,200,66,0.3)" stroke={gold} strokeWidth="1.6" />
       {[0,1,2,3,4,5,6,7].map(i => { const ang = i*Math.PI/4; return <line key={i} x1={36+13*Math.cos(ang)} y1={28+13*Math.sin(ang)} x2={36+18*Math.cos(ang)} y2={28+18*Math.sin(ang)} stroke={gold} strokeWidth="1.4" />; })}
       <text x={60} y={20} fill={gold} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif">luz</text>

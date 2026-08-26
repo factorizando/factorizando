@@ -10,7 +10,7 @@ export default function QfPortadaSVG({ tema }) {
       <ellipse cx={110} cy={70} rx={48} ry={20} fill="none" stroke={a} strokeWidth="1.4" opacity="0.6" />
       <ellipse cx={110} cy={70} rx={48} ry={20} fill="none" stroke={bl} strokeWidth="1.4" opacity="0.6" transform="rotate(60 110 70)" />
       <ellipse cx={110} cy={70} rx={48} ry={20} fill="none" stroke={a} strokeWidth="1.4" opacity="0.6" transform="rotate(120 110 70)" />
-      <circle cx={110} cy={70} r={11} fill="rgba(192,132,252,0.25)" stroke={a} strokeWidth="2" />
+      <circle cx={110} cy={70} r={11} fill={`${a}40`} stroke={a} strokeWidth="2" />
       <circle cx={158} cy={70} r={3.5} fill={bl} />
       <circle cx={86} cy={42} r={3.5} fill={a} />
       <circle cx={86} cy={98} r={3.5} fill={bl} />

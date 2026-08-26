@@ -9,7 +9,7 @@ export default function CelTransporteSVG({ tema }) {
   return (
     <svg viewBox="0 0 280 130" width="100%" style={{ display: "block", maxHeight: 140 }}>
       {/* membrana central */}
-      <rect x={132} y={14} width={16} height={104} fill="rgba(52,211,153,0.10)" stroke={a} strokeWidth="1.6" />
+      <rect x={132} y={14} width={16} height={104} fill={`${a}1a`} stroke={a} strokeWidth="1.6" />
       {/* Pasivo — flecha a favor (de muchos puntos a pocos) */}
       <text x={66} y={24} textAnchor="middle" fill={tema.canal(1)} fontSize="8.5" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">Pasivo (sin ATP)</text>
       {[34, 46, 58, 42, 54].map((y, i) => <circle key={i} cx={30 + (i % 3) * 12} cy={y} r={3} fill={a} opacity="0.6" />)}

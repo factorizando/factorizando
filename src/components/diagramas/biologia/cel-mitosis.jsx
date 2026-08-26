@@ -9,7 +9,7 @@ export default function CelMitosisSVG({ tema }) {
   return (
     <svg viewBox="0 0 280 110" width="100%" style={{ display: "block", maxHeight: 120 }}>
       {/* madre */}
-      <circle cx={48} cy={55} r={28} fill="rgba(52,211,153,0.05)" stroke={a} strokeWidth="2" />
+      <circle cx={48} cy={55} r={28} fill={`${a}0d`} stroke={a} strokeWidth="2" />
       <line x1={40} y1={48} x2={50} y2={62} stroke={bl} strokeWidth="3" strokeLinecap="round" />
       <line x1={56} y1={48} x2={46} y2={62} stroke={bl} strokeWidth="3" strokeLinecap="round" />
       <text x={48} y={98} textAnchor="middle" fill={mu} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif">madre (2n)</text>
@@ -20,7 +20,7 @@ export default function CelMitosisSVG({ tema }) {
       {/* dos hijas idénticas */}
       {[ [196, 30], [196, 80] ].map(([cx, cy], i) => (
         <g key={i}>
-          <circle cx={cx} cy={cy} r={20} fill="rgba(52,211,153,0.05)" stroke={a} strokeWidth="1.8" />
+          <circle cx={cx} cy={cy} r={20} fill={`${a}0d`} stroke={a} strokeWidth="1.8" />
           <line x1={cx - 6} y1={cy - 5} x2={cx + 2} y2={cy + 6} stroke={bl} strokeWidth="2.4" strokeLinecap="round" />
           <line x1={cx + 5} y1={cy - 5} x2={cx - 3} y2={cy + 6} stroke={bl} strokeWidth="2.4" strokeLinecap="round" />
         </g>

@@ -13,7 +13,7 @@ export default function BqPortadaSVG({ tema }) {
   }
   return (
     <svg viewBox="0 0 220 140" width="100%" style={{ display: "block", maxHeight: 140, maxWidth: 280 }}>
-      <polygon points={pts.map(p => p.join(",")).join(" ")} fill="rgba(52,211,153,0.06)" stroke={a} strokeWidth="2" />
+      <polygon points={pts.map(p => p.join(",")).join(" ")} fill={`${a}0f`} stroke={a} strokeWidth="2" />
       {pts.map(([x, y], i) => <circle key={i} cx={x} cy={y} r={6} fill={a} opacity="0.55" stroke={a} strokeWidth="1.5" />)}
       <line x1={cx} y1={cy} x2={pts[0][0]} y2={pts[0][1]} stroke={bl} strokeWidth="1.4" />
       <line x1={cx} y1={cy} x2={pts[3][0]} y2={pts[3][1]} stroke={bl} strokeWidth="1.4" />

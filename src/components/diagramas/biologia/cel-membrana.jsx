@@ -22,7 +22,7 @@ export default function CelMembranaSVG({ tema }) {
         </g>
       ))}
       {/* proteína integral */}
-      <rect x={104} y={36} width={26} height={60} rx={9} fill="rgba(134,239,172,0.18)" stroke={bl} strokeWidth="2" />
+      <rect x={104} y={36} width={26} height={60} rx={9} fill={`${bl}2e`} stroke={bl} strokeWidth="2" />
       <text x={117} y={112} textAnchor="middle" fill={bl} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif">proteína</text>
     </svg>
   );

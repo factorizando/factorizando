@@ -10,7 +10,7 @@ export default function CelMeiosisSVG({ tema }) {
   return (
     <svg viewBox="0 0 290 136" width="100%" style={{ display: "block", maxHeight: 150 }}>
       {/* madre */}
-      <circle cx={44} cy={68} r={28} fill="rgba(52,211,153,0.05)" stroke={a} strokeWidth="2" />
+      <circle cx={44} cy={68} r={28} fill={`${a}0d`} stroke={a} strokeWidth="2" />
       <line x1={36} y1={61} x2={46} y2={75} stroke={bl} strokeWidth="3" strokeLinecap="round" />
       <line x1={52} y1={61} x2={42} y2={75} stroke={bl} strokeWidth="3" strokeLinecap="round" />
       <text x={44} y={110} textAnchor="middle" fill={mu} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif">madre (2n)</text>
@@ -21,7 +21,7 @@ export default function CelMeiosisSVG({ tema }) {
       {/* cuatro hijas con la mitad */}
       {hijas.map(([cx, cy], i) => (
         <g key={i}>
-          <circle cx={cx} cy={cy} r={13} fill="rgba(52,211,153,0.05)" stroke={a} strokeWidth="1.6" />
+          <circle cx={cx} cy={cy} r={13} fill={`${a}0d`} stroke={a} strokeWidth="1.6" />
           <line x1={cx - 3} y1={cy - 4} x2={cx + 3} y2={cy + 4} stroke={bl} strokeWidth="2.2" strokeLinecap="round" />
         </g>
       ))}

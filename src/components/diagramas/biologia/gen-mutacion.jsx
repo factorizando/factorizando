@@ -11,7 +11,7 @@ export default function GenMutacionSVG({ tema }) {
       <text x={130} y={14} textAnchor="middle" fill={mu} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif">un cambio en una base = mutación</text>
       {seqA.map((b, i) => (
         <g key={i}>
-          <rect x={28 + i * 42} y={26} width={28} height={20} rx={4} fill="rgba(52,211,153,0.12)" stroke={a} strokeWidth="1.4" />
+          <rect x={28 + i * 42} y={26} width={28} height={20} rx={4} fill={`${a}1f`} stroke={a} strokeWidth="1.4" />
           <text x={42 + i * 42} y={40} textAnchor="middle" fill={a} fontSize="9" fontFamily="'Figtree', system-ui, sans-serif">{b}</text>
         </g>
       ))}

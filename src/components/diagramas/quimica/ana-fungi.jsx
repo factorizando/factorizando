@@ -12,9 +12,9 @@ export default function AnaFungiSVG({ tema }) {
       {/* línea de suelo */}
       <line x1={10} y1={78} x2={230} y2={78} stroke={mu} strokeWidth="1.2" strokeDasharray="3 2" />
       {/* sombrero */}
-      <path d="M 70 54 q 40 -34 80 0 Z" fill="rgba(192,132,252,0.22)" stroke={a} strokeWidth="1.8" />
+      <path d="M 70 54 q 40 -34 80 0 Z" fill={`${a}38`} stroke={a} strokeWidth="1.8" />
       {/* tallo */}
-      <rect x={100} y={54} width={20} height={24} rx={3} fill="rgba(192,132,252,0.16)" stroke={a} strokeWidth="1.5" />
+      <rect x={100} y={54} width={20} height={24} rx={3} fill={`${a}29`} stroke={a} strokeWidth="1.5" />
       <text x={166} y={40} fill={T} fontSize="7" fontFamily="'Figtree', system-ui, sans-serif">cuerpo</text>
       <text x={166} y={49} fill={mu} fontSize="6.2" fontFamily="'Figtree', system-ui, sans-serif">fructífero</text>
       {/* micelio: red de hifas bajo el suelo */}

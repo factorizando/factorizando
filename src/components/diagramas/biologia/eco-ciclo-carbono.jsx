@@ -15,10 +15,10 @@ export default function EcoCicloCarbonoSVG({ tema }) {
       <text x={130} y={27} textAnchor="middle" fill={T} fontSize="9" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">CO₂ atmósfera</text>
       {/* planta */}
       <line x1={60} y1={104} x2={60} y2={78} stroke={a} strokeWidth="2.5" />
-      <circle cx={60} cy={72} r={12} fill="rgba(52,211,153,0.18)" stroke={a} strokeWidth="1.5" />
+      <circle cx={60} cy={72} r={12} fill={`${a}2e`} stroke={a} strokeWidth="1.5" />
       <text x={60} y={120} textAnchor="middle" fill={a} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif">planta</text>
       {/* animal */}
-      <ellipse cx={200} cy={96} rx={16} ry={9} fill="rgba(134,239,172,0.18)" stroke={bl} strokeWidth="1.5" />
+      <ellipse cx={200} cy={96} rx={16} ry={9} fill={`${bl}2e`} stroke={bl} strokeWidth="1.5" />
       <text x={200} y={120} textAnchor="middle" fill={bl} fontSize="7.5" fontFamily="'Figtree', system-ui, sans-serif">animal</text>
       {/* flecha fotosíntesis (atmósfera → planta) */}
       <path d="M 96 30 q -36 8 -36 28" fill="none" stroke={a} strokeWidth="1.7" />

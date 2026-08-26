@@ -6,14 +6,14 @@ import { M } from "../../../data/teoria/shared.jsx";
 
 export default function RepAsexualSVG({ tema }) {
   const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto;
-  const cell = (cx, cy, r) => <circle cx={cx} cy={cy} r={r} fill="rgba(52,211,153,0.07)" stroke={a} strokeWidth="1.6" />;
+  const cell = (cx, cy, r) => <circle cx={cx} cy={cy} r={r} fill={`${a}12`} stroke={a} strokeWidth="1.6" />;
   return (
     <svg viewBox="0 0 290 130" width="100%" style={{ display: "block", maxHeight: 140 }}>
       {/* Bipartición */}
       {cell(34, 36, 14)}{cell(58, 36, 9)}
       <text x={44} y={62} textAnchor="middle" fill={T} fontSize="7" fontFamily="'Figtree', system-ui, sans-serif">bipartición</text>
       {/* Gemación */}
-      {cell(118, 36, 15)}<circle cx={138} cy={26} r={7} fill="rgba(134,239,172,0.18)" stroke={bl} strokeWidth="1.4" />
+      {cell(118, 36, 15)}<circle cx={138} cy={26} r={7} fill={`${bl}2e`} stroke={bl} strokeWidth="1.4" />
       <text x={124} y={62} textAnchor="middle" fill={T} fontSize="7" fontFamily="'Figtree', system-ui, sans-serif">gemación</text>
       {/* Esporulación */}
       {cell(204, 34, 14)}

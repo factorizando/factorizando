@@ -9,9 +9,9 @@ export default function CelPortadaSVG({ tema }) {
   return (
     <svg viewBox="0 0 220 150" width="100%" style={{ display: "block", maxHeight: 150, maxWidth: 280 }}>
       {/* membrana */}
-      <ellipse cx={110} cy={75} rx={96} ry={62} fill="rgba(52,211,153,0.06)" stroke={a} strokeWidth="2.5" />
+      <ellipse cx={110} cy={75} rx={96} ry={62} fill={`${a}0f`} stroke={a} strokeWidth="2.5" />
       {/* núcleo */}
-      <circle cx={108} cy={72} r={30} fill="rgba(134,239,172,0.10)" stroke={bl} strokeWidth="2" />
+      <circle cx={108} cy={72} r={30} fill={`${bl}1a`} stroke={bl} strokeWidth="2" />
       <circle cx={108} cy={72} r={11} fill={a} opacity="0.45" />
       <text x={108} y={45} textAnchor="middle" fill={bl} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif">núcleo</text>
       {/* mitocondrias */}

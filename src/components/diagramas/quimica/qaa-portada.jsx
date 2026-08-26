@@ -12,7 +12,7 @@ export default function QaaPortadaSVG({ tema }) {
       <path d="M 70 30 C 92 60 92 78 70 88 C 48 78 48 60 70 30 Z" fill={`${bl}24`} stroke={bl} strokeWidth="2" />
       <circle cx={64} cy={66} r={4} fill={bl} opacity="0.6" />
       {/* molécula O-H-H pequeña */}
-      <circle cx={150} cy={52} r={11} fill="rgba(192,132,252,0.25)" stroke={a} strokeWidth="1.8" />
+      <circle cx={150} cy={52} r={11} fill={`${a}40`} stroke={a} strokeWidth="1.8" />
       <text x={150} y={56} textAnchor="middle" fill={a} fontSize="9" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700">O</text>
       <circle cx={134} cy={68} r={6} fill={`${bl}33`} stroke={bl} strokeWidth="1.4" />
       <circle cx={166} cy={68} r={6} fill={`${bl}33`} stroke={bl} strokeWidth="1.4" />

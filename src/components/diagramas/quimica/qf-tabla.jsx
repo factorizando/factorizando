@@ -10,7 +10,7 @@ export default function QfTablaSVG({ tema }) {
     <svg viewBox="0 0 290 125" width="100%" style={{ display: "block", maxHeight: 135 }}>
       {/* iónico: transferencia */}
       <text x={72} y={14} textAnchor="middle" fill={a} fontSize="8.5" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700">ENLACE IÓNICO</text>
-      <circle cx={42} cy={46} r={15} fill="rgba(192,132,252,0.12)" stroke={a} strokeWidth="1.6" />
+      <circle cx={42} cy={46} r={15} fill={`${a}1f`} stroke={a} strokeWidth="1.6" />
       <text x={42} y={49} textAnchor="middle" fill={a} fontSize="9" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">Na⁺</text>
       <circle cx={104} cy={46} r={15} fill={`${bl}1f`} stroke={bl} strokeWidth="1.6" />
       <text x={104} y={49} textAnchor="middle" fill={bl} fontSize="9" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">Cl⁻</text>
@@ -20,9 +20,9 @@ export default function QfTablaSVG({ tema }) {
       <text x={72} y={72} textAnchor="middle" fill={mu} fontSize="6.5" fontFamily="'Figtree', system-ui, sans-serif">metal + no metal · transfiere</text>
       {/* covalente: comparte */}
       <text x={216} y={14} textAnchor="middle" fill={bl} fontSize="8.5" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700">ENLACE COVALENTE</text>
-      <circle cx={196} cy={46} r={15} fill="rgba(192,132,252,0.10)" stroke={a} strokeWidth="1.6" />
+      <circle cx={196} cy={46} r={15} fill={`${a}1a`} stroke={a} strokeWidth="1.6" />
       <text x={196} y={49} textAnchor="middle" fill={a} fontSize="9" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">H</text>
-      <circle cx={238} cy={46} r={15} fill="rgba(192,132,252,0.10)" stroke={a} strokeWidth="1.6" />
+      <circle cx={238} cy={46} r={15} fill={`${a}1a`} stroke={a} strokeWidth="1.6" />
       <text x={238} y={49} textAnchor="middle" fill={a} fontSize="9" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">H</text>
       <circle cx={213} cy={46} r={3} fill={bl} /><circle cx={221} cy={46} r={3} fill={bl} />
       <text x={216} y={72} textAnchor="middle" fill={mu} fontSize="6.5" fontFamily="'Figtree', system-ui, sans-serif">no metal + no metal · comparte</text>

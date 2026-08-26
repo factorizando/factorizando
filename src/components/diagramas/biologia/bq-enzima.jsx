@@ -12,11 +12,11 @@ export default function BqEnzimaSVG({ tema }) {
     <svg viewBox="0 0 280 120" width="100%" style={{ display: "block", maxHeight: 130 }}>
       <text x={140} y={14} textAnchor="middle" fill={mu} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif">modelo llave-cerradura</text>
       {/* enzima con hueco */}
-      <path d="M 30 40 h 70 v 14 a 12 12 0 0 0 24 0 v -14 h 30 v 56 H 30 Z" fill="rgba(52,211,153,0.10)" stroke={a} strokeWidth="2" />
+      <path d="M 30 40 h 70 v 14 a 12 12 0 0 0 24 0 v -14 h 30 v 56 H 30 Z" fill={`${a}1a`} stroke={a} strokeWidth="2" />
       <text x={62} y={92} fill={a} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif">enzima</text>
       <text x={112} y={48} textAnchor="middle" fill={mu} fontSize="6.5" fontFamily="'Figtree', system-ui, sans-serif">sitio activo</text>
       {/* sustrato que encaja */}
-      <path d="M 112 26 a 12 12 0 0 1 0 -2 v -8 h -24 v 8 a 12 12 0 0 1 0 2 Z" fill="rgba(134,239,172,0.25)" stroke={bl} strokeWidth="1.8" transform="translate(0 6)" />
+      <path d="M 112 26 a 12 12 0 0 1 0 -2 v -8 h -24 v 8 a 12 12 0 0 1 0 2 Z" fill={`${bl}40`} stroke={bl} strokeWidth="1.8" transform="translate(0 6)" />
       <text x={100} y={22} textAnchor="middle" fill={bl} fontSize="7" fontFamily="'Figtree', system-ui, sans-serif">sustrato</text>
       {/* flecha → productos */}
       <line x1={176} y1={70} x2={214} y2={70} stroke={T} strokeWidth="2" />

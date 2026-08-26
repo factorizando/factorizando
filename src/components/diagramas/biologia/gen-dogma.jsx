@@ -8,17 +8,17 @@ import { arrowHead } from "../comun.jsx";
 
 export default function GenDogmaSVG({ tema }) {
   const a = tema.acento, bl = tema.azul, mu = tema.muted, T = tema.texto;
-  const box = (x, label, color, fill) => (
+  const box = (x, label, color) => (
     <g>
-      <rect x={x} y={48} width={50} height={26} rx={5} fill={fill} stroke={color} strokeWidth="1.8" />
+      <rect x={x} y={48} width={50} height={26} rx={5} fill={`${color}1f`} stroke={color} strokeWidth="1.8" />
       <text x={x + 25} y={65} textAnchor="middle" fill={color} fontSize="8.5" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700">{label}</text>
     </g>
   );
   return (
     <svg viewBox="0 0 280 110" width="100%" style={{ display: "block", maxHeight: 120 }}>
-      {box(14, "ADN", a, "rgba(52,211,153,0.12)")}
-      {box(115, "ARN", bl, "rgba(134,239,172,0.12)")}
-      {box(216, "Proteína", T, "rgba(255,255,255,0.06)")}
+      {box(14, "ADN", a)}
+      {box(115, "ARN", bl)}
+      {box(216, "Proteína", T)}
       <line x1={64} y1={61} x2={113} y2={61} stroke={mu} strokeWidth="2" />
       <polygon points={arrowHead(64, 61, 113, 61, 7)} fill={mu} />
       <text x={89} y={54} textAnchor="middle" fill={mu} fontSize="6.5" fontFamily="'Figtree', system-ui, sans-serif">transcripción</text>

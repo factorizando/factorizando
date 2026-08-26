@@ -14,7 +14,8 @@
     "catalogo": "node scripts/generar-catalogo.mjs",
     "predev": "npm run catalogo",
     "prebuild": "npm run catalogo",
-    "integridad": "node scripts/verificar-integridad.mjs"
+    "integridad": "node scripts/verificar-integridad.mjs",
+    "responsive": "node scripts/verificar-responsive.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.98.0",

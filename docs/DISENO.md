@@ -174,6 +174,12 @@ Híbrido, no una cosa ni la otra:
 - [ ] A 375 px de ancho no se desborda nada y no hay texto por debajo de 15 px.
 - [ ] Los controles miden 44 px de alto en móvil.
 
+Las tres últimas **se comprueban solas**: `npm run responsive` recorre las rutas públicas
+a 320/360/375/414/768/1280 en un navegador de verdad y falla si algo se sale de la pantalla
+o si un control baja de 44 px por debajo del corte táctil de 900. Las tres primeras siguen
+siendo del ojo. Una pantalla pública nueva se añade a `RUTAS` en
+`scripts/verificar-responsive.mjs`.
+
 ---
 
 ## 4. Bitácora de decisiones
@@ -422,7 +428,15 @@ ratón—, no el de 720: una tableta en vertical también se toca con el dedo.
 de Playwright que recorre `document.querySelectorAll('body *')` buscando cajas que se
 salgan del viewport, texto por debajo de 15px y controles por debajo de 44 encontró en un
 minuto las tres cosas que llevaban meses ahí. Compilar no ve ninguna: el desbordamiento a
-320px es una tarjeta 40px fuera de pantalla, no un error.
+320px es una tarjeta 40px fuera de pantalla, no un error. Quedó como **`npm run
+responsive`** (`scripts/verificar-responsive.mjs`), y en su primera pasada completa
+encontró algo que la revisión a mano se había dejado: `/materia/matematicas` desbordaba a
+320px por el mismo `minmax(320px, 1fr)` sin envolver — sólo se había mirado a 375, donde
+cabe. Ésa es exactamente la clase de fallo por la que existe.
+
+Sobre `minmax`, la regla en una línea: **una pista de `repeat(auto-fit, minmax(Npx, 1fr))`
+no se encoge por debajo de N**. Si el contenedor mide menos, el contenido se sale en vez de
+reflujar. Va siempre envuelto: `minmax(min(Npx, 100%), 1fr)`.
 
 *Queda abierto:* `--fx-caption-size` son 13px y §3 pide no bajar de 15 a 375px de ancho.
 Afecta a `fx-badge`, `fx-eyebrow`, `fx-card-nivel` y `fx-footer-tit` — todos versalitas

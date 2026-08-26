@@ -605,7 +605,7 @@ const CSS = `
 .fx-footer { border-top: 1px solid var(--fx-border); background: var(--fx-surface); }
 .fx-footer-cols { max-width: var(--fx-container); margin: 0 auto;
   padding: clamp(40px, 5vw, 64px) var(--fx-gutter) 32px;
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; }
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); gap: 40px; }
 .fx-footer-col { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
 .fx-footer-lema { font-size: var(--fx-small-size); line-height: 1.6; color: var(--fx-text-muted); margin: 0; max-width: 26ch; }
 .fx-footer-tit { font-size: var(--fx-caption-size); font-weight: 600; letter-spacing: 0.08em;

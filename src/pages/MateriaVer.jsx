@@ -209,7 +209,9 @@ const CSS = `
   text-transform: uppercase; color: var(--fx-info-text); background: var(--fx-info-bg);
   border: 1px solid var(--fx-info-border); padding: 4px 9px; border-radius: var(--fx-radius-pill); }
 .fx-mt-nota { display: block; margin: 6px 0 20px; }
-.fx-grid-lista { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 14px; }
+/* min(…, 100%) por lo mismo que en la Home: una pista de 320px no se encoge, y
+   en un teléfono de 320 la tarjeta se salía 20px por la derecha. */
+.fx-grid-lista { grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 14px; }
 /* OTRAS MATERIAS */
 .fx-mt-otras { padding-top: clamp(40px, 5vw, 64px); padding-bottom: clamp(56px, 6vw, 88px); }
 .fx-mt-pills { margin-top: 16px; margin-bottom: 0; }

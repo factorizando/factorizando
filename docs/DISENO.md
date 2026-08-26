@@ -342,3 +342,38 @@ cuando la forma ya la carga, la rampa puede permitirse ser estrecha.
 `DocumentoRenderer` no pasa `tema`. Va con los tokens de `theme.css` como sus dos
 hermanas, y por `style` y no por atributo, porque `var()` no se sustituye en un atributo
 de presentación de SVG.
+
+### 2026-08-26 · El reactivo es un objeto, no tres apilados
+
+Un reactivo tenía la pregunta suelta arriba, un recuadro debajo y un pie bajo el
+recuadro, y muy a menudo el recuadro repetía algo que la pregunta ya decía. Ahora la
+pregunta se compone **dentro** del recuadro, encima del espécimen: la pregunta en
+`tema.texto` y el espécimen en `tema.acento`. Dos niveles en una caja.
+
+*La regla que ordena todo:* **el recuadro es para lo que hay que mirar, no para repetir
+lo que ya se leyó.** De ahí salen los tres casos:
+
+- Si el recuadro aísla algo que se examina —una palabra cuyas sílabas hay que contar,
+  una oración con hueco—, se queda, y la pregunta entra con él (`preguntaDentro: true`).
+  Cuando la pregunta nombraba la palabra, se reescribe: «¿Cuántas sílabas tiene la
+  palabra «establecimiento»?» pasa a «¿Cuántas sílabas tiene la siguiente palabra?».
+- Si el recuadro sólo **copia** algo que la pregunta ya contiene, se va el recuadro, no
+  la pregunta. Fueron 208 frases repetidas enteras y 38 palabras sueltas.
+- Si lo de arriba es una **instrucción** y no una pregunta («Completa la oración»), baja
+  a `apoyoRotulo` dentro del recuadro, en versalitas. Una instrucción no se compone como
+  una pregunta.
+
+*Las dos columnas igualan altura* (`alignItems: stretch`) y el recuadro centra su
+contenido. Medido antes y después en la diapositiva 4 de Acentuación: 176 contra 183 con
+el recuadro ocupando 89 —un tercio de la columna vacío— y ahora 183 contra 183.
+
+*Lo que enseñó hacerlo:* la reescritura automática de enunciados es más peligrosa de lo
+que parece. El primer intento rompió mayúsculas iniciales y, peor, en «¿Qué antonimia
+expresan «verdadero» y «falso»?» se llevó una mitad del par al recuadro y dejó la otra
+arriba —el ejercicio ES la pareja—. La versión buena tiene reglas ancladas al enunciado
+completo y se niega a actuar cuando hay más de una palabra entrecomillada. De 62
+candidatas reescribió 19 y dejó 43 en paz.
+
+*Y una que sólo vio el linter:* sustituir «todas las líneas iguales» del archivo puso la
+bandera dos veces en los reactivos que comparten enunciado, dejando la clave repetida en
+el objeto. El build compilaba tan campante; `no-dupe-keys` lo cazó.

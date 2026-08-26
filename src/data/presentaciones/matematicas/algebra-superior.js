@@ -129,7 +129,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1 — Interpretar la matriz",
           enunciado: "Al aplicar Gauss, un sistema 3×3 queda con la fila «0 0 0 | 0». ¿Qué indica?",
-          apoyo: "0 0 0 | 0",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "El sistema no tiene solución",

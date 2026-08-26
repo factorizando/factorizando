@@ -73,7 +73,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1/5 — Minerales",
           enunciado: "«México ocupa el primer lugar mundial en la producción de:»",
-          apoyo: "México ocupa el primer lugar mundial en la producción de:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Cobre, gracias a las grandes minas a cielo abierto en Sonora.",
@@ -95,7 +95,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 2/5 — Minerales",
           enunciado: "«Los minerales 'energéticos' son aquellos que se utilizan principalmente para:»",
-          apoyo: "Los minerales 'energéticos' son aquellos que se utilizan principalmente para:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "La joyería, la electrónica y las reservas monetarias internacionales, como el oro y el platino.",
@@ -117,7 +117,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 3/5 — Minerales",
           enunciado: "«La mina de Cananea, en Sonora, es la más importante de México en la producción de:»",
-          apoyo: "La mina de Cananea, en Sonora, es la más importante de México en la producción de:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Plata, pues sus vetas de sulfuros de plata son las más ricas del país en ley y volumen de producción.",
@@ -139,7 +139,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 4/5 — Minerales",
           enunciado: "«La Sonda de Campeche, en el Golfo de México, es estratégica para la economía mexicana porque:»",
-          apoyo: "La Sonda de Campeche, en el Golfo de México, es estratégica para la economía mexicana porque:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Es la zona con mayor producción de gas natural del país, que abastece principalmente al norte de México.",
@@ -161,7 +161,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 5/5 — Minerales",
           enunciado: "«¿Cuál de los siguientes estados mexicanos es el principal productor nacional de plata?»",
-          apoyo: "¿Cuál de los siguientes estados mexicanos es el principal productor nacional de plata?",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Sonora, por sus grandes yacimientos de sulfuros de plata asociados a las minas de cobre de Cananea.",
@@ -259,7 +259,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 2/5 — Ríos y lagos",
           enunciado: "«El río Amazonas es el de mayor caudal del mundo. ¿Qué porcentaje aproximado del agua dulce que desemboca en los océanos representa?»",
-          apoyo: "El río Amazonas es el de mayor caudal del mundo. ¿Qué porcentaje aproximado del agua dulce que desemboca en los océanos representa?",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Aproximadamente el 5%, pues aunque es extenso, comparte el volumen con otros grandes ríos tropicales.",
@@ -281,7 +281,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 3/5 — Ríos y lagos",
           enunciado: "«El río Lerma-Santiago es considerado el más importante para el Altiplano Central de México porque:»",
-          apoyo: "El río Lerma-Santiago es considerado el más importante para el Altiplano Central de México porque:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Forma la frontera natural entre México y Guatemala en el extremo sur del país.",
@@ -303,7 +303,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 4/5 — Ríos y lagos",
           enunciado: "«El Mar Caspio es técnicamente el lago más grande del mundo. Sus costas son compartidas por:»",
-          apoyo: "El Mar Caspio es técnicamente el lago más grande del mundo. Sus costas son compartidas por:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Rusia, Kazajistán, Uzbekistán, Irán y Afganistán.",
@@ -325,7 +325,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 5/5 — Ríos y lagos",
           enunciado: "«Los Grandes Lagos de América del Norte (Superior, Hurón, Michigan, Erie y Ontario) son importantes porque:»",
-          apoyo: "Los Grandes Lagos de América del Norte (Superior, Hurón, Michigan, Erie y Ontario) son importantes porque:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Son la mayor reserva de agua salada del hemisferio occidental y permiten la navegación transatlántica hacia Europa.",
@@ -411,7 +411,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1/5 — El mar",
           enunciado: "«La Corriente del Golfo tiene una importancia climática fundamental porque:»",
-          apoyo: "La Corriente del Golfo tiene una importancia climática fundamental porque:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Enfría las costas del este de Norteamérica, generando condiciones favorables para la pesca de profundidad.",
@@ -433,7 +433,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 2/5 — El mar",
           enunciado: "«La Corriente de Humboldt, que fluye frente a las costas de Perú y Chile, es una corriente:»",
-          apoyo: "La Corriente de Humboldt, que fluye frente a las costas de Perú y Chile, es una corriente:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Cálida que modera las temperaturas de las costas andinas y favorece la formación de nubes lluviosas sobre el desierto de Atacama.",
@@ -455,7 +455,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 3/5 — El mar",
           enunciado: "«El fenómeno de 'El Niño' (ENOS) consiste en:»",
-          apoyo: "El fenómeno de 'El Niño' (ENOS) consiste en:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Un huracán de escala 5 que se forma en el Pacífico tropical durante los años con mayor temperatura oceánica superficial.",
@@ -477,7 +477,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 4/5 — El mar",
           enunciado: "«Las mareas son variaciones periódicas del nivel del mar causadas por:»",
-          apoyo: "Las mareas son variaciones periódicas del nivel del mar causadas por:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Las variaciones de presión atmosférica generadas por los ciclones tropicales en las zonas costeras bajas.",
@@ -499,7 +499,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 5/5 — El mar",
           enunciado: "«La 'Zona Económica Exclusiva' (ZEE) de un país costero se extiende hasta:»",
-          apoyo: "La 'Zona Económica Exclusiva' (ZEE) de un país costero se extiende hasta:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Las 12 millas náuticas desde la costa, que es la distancia del mar territorial donde el país ejerce soberanía plena.",
@@ -568,7 +568,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1/5 — Ciclones",
           enunciado: "«Los ciclones tropicales que afectan las costas del Golfo de México y el Mar Caribe tienen su período de mayor actividad entre:»",
-          apoyo: "Los ciclones tropicales que afectan las costas del Golfo de México y el Mar Caribe tienen su período de mayor actividad entre:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Enero y marzo, al inicio del año cuando los frentes fríos del norte impulsan la convección tropical.",
@@ -590,7 +590,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 2/5 — Ciclones",
           enunciado: "«La escala Saffir-Simpson clasifica los huracanes en cinco categorías. Un huracán categoría 5 tiene vientos sostenidos de:»",
-          apoyo: "La escala Saffir-Simpson clasifica los huracanes en cinco categorías. Un huracán categoría 5 tiene vientos sostenidos de:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Entre 119 y 153 km/h, con daños menores a techos, señales y vegetación de escasa resistencia.",
@@ -612,7 +612,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 3/5 — Ciclones",
           enunciado: "«Los ciclones tropicales se forman exclusivamente sobre:»",
-          apoyo: "Los ciclones tropicales se forman exclusivamente sobre:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Las corrientes en chorro de la tropósfera alta, donde la energía cinética del viento genera sistemas de baja presión rotatorios.",
@@ -634,7 +634,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 4/5 — Ciclones",
           enunciado: "«El huracán 'Patricia' (2015) fue históricamente significativo porque:»",
-          apoyo: "El huracán 'Patricia' (2015) fue históricamente significativo porque:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Fue el primer huracán categoría 5 en impactar directamente las costas del Golfo de México en el siglo XXI.",
@@ -656,7 +656,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 5/5 — Ciclones",
           enunciado: "«¿Cuál es la diferencia principal entre un 'ciclón tropical', un 'tifón' y un 'huracán'?»",
-          apoyo: "¿Cuál es la diferencia principal entre un 'ciclón tropical', un 'tifón' y un 'huracán'?",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Son fenómenos climáticos distintos: el ciclón se forma en el Atlántico, el tifón en el Mediterráneo y el huracán en el Pacífico tropical.",
@@ -761,7 +761,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1/5 — Organización política",
           enunciado: "«La disolución de la Unión Soviética (URSS) en 1991 dio origen a:»",
-          apoyo: "La disolución de la Unión Soviética (URSS) en 1991 dio origen a:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "6 nuevos países en los Balcanes, incluyendo Rusia, Ucrania y Serbia.",
@@ -783,7 +783,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 2/5 — Organización política",
           enunciado: "«La desintegración de Yugoslavia (1991-2008) dio origen a siete nuevos estados. ¿Cuál fue el último en independizarse?»",
-          apoyo: "La desintegración de Yugoslavia (1991-2008) dio origen a siete nuevos estados. ¿Cuál fue el último en independizarse?",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Eslovenia (1991), que fue el primero en declarar su independencia tras un conflicto breve de diez días.",
@@ -805,7 +805,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 3/5 — Organización política",
           enunciado: "«La división de Checoslovaquia en 1993, conocida como el 'divorcio de terciopelo', resultó en:»",
-          apoyo: "La división de Checoslovaquia en 1993, conocida como el 'divorcio de terciopelo', resultó en:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "La creación de tres nuevos estados: Bohemia (al oeste), Moravia (al centro) y Eslovaquia (al este).",
@@ -827,7 +827,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 4/5 — Organización política",
           enunciado: "«El concepto de 'multipolaridad' en el orden político mundial del siglo XXI se refiere a:»",
-          apoyo: "El concepto de 'multipolaridad' en el orden político mundial del siglo XXI se refiere a:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "La hegemonía absoluta de un solo país (EUA) que ejerce un dominio político, económico y militar sin contrapeso en todo el planeta.",
@@ -849,7 +849,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 5/5 — Organización política",
           enunciado: "«La reunificación alemana (1990) fue el resultado de:»",
-          apoyo: "La reunificación alemana (1990) fue el resultado de:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Una guerra breve entre Alemania Occidental y Alemania Oriental que terminó con la rendición incondicional del gobierno comunista del Este.",
@@ -931,7 +931,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1/5 — México político",
           enunciado: "«¿Cuántas entidades federativas conforman la República Mexicana?»",
-          apoyo: "¿Cuántas entidades federativas conforman la República Mexicana?",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "30 estados y un Distrito Federal como sede de los poderes nacionales.",
@@ -953,7 +953,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 2/5 — México político",
           enunciado: "«La frontera norte de México con Estados Unidos tiene una longitud de aproximadamente:»",
-          apoyo: "La frontera norte de México con Estados Unidos tiene una longitud de aproximadamente:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "1,500 km, siendo una de las fronteras continentales más cortas de América del Norte.",
@@ -975,7 +975,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 3/5 — México político",
           enunciado: "«La región Norte de México se caracteriza principalmente por:»",
-          apoyo: "La región Norte de México se caracteriza principalmente por:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Ser la región con mayor producción de café, caña de azúcar y cacao, aprovechando su clima cálido y húmedo subtropical.",
@@ -997,7 +997,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 4/5 — México político",
           enunciado: "«La Zona Metropolitana del Valle de México (ZMVM) concentra aproximadamente qué porcentaje de la población nacional:»",
-          apoyo: "La Zona Metropolitana del Valle de México (ZMVM) concentra aproximadamente qué porcentaje de la población nacional:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Menos del 5% de la población total, pues las políticas de descentralización han dispersado la población hacia otras ciudades.",
@@ -1019,7 +1019,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 5/5 — México político",
           enunciado: "«La región Sur-Sureste de México (Veracruz, Chiapas, Oaxaca, Tabasco, Guerrero) se distingue porque:»",
-          apoyo: "La región Sur-Sureste de México (Veracruz, Chiapas, Oaxaca, Tabasco, Guerrero) se distingue porque:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Es la región con mayor nivel de desarrollo económico e IDH del país, gracias a sus extensas reservas de petróleo y gas.",

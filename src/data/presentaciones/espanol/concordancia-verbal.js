@@ -383,7 +383,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1 — Regla 4",
           enunciado: "«Terminamos el proyecto antes del plazo establecido por el organismo evaluador.» — El sujeto implícito es:",
-          apoyo: "Terminamos el proyecto antes del plazo establecido por el organismo evaluador.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Él", "Nosotros", "Ustedes"],
           correcta: 1,
@@ -401,7 +401,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 2 — Regla 4",
           enunciado: "«¿Llegaste a tiempo a la presentación oral ante el jurado del concurso?» — El sujeto implícito es:",
-          apoyo: "¿Llegaste a tiempo a la presentación oral ante el jurado del concurso?",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Tú", "Él", "Ellos"],
           correcta: 0,
@@ -419,7 +419,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 3 — Regla 4",
           enunciado: "«Informaron que el evento se canceló por las lluvias inesperadas en la región.» — El sujeto implícito es:",
-          apoyo: "Informaron que el evento se canceló por las lluvias inesperadas en la región.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Yo", "Nosotros", "Ellos/Ellas"],
           correcta: 2,

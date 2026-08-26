@@ -77,7 +77,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1 — Introducción",
           enunciado: "«Llegó un viajero al pueblo. El forastero se instaló en la posada. Nadie conocía al desconocido.» ¿Qué mecanismo de cohesión mantiene la unidad de este fragmento?",
-          apoyo: "Llegó un viajero al pueblo. El forastero se instaló en la posada. Nadie conocía al desconocido.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Correferencia pronominal — los tres términos son pronombres",
@@ -157,7 +157,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1 — Sinonimia",
           enunciado: "«El orador habló durante dos horas. El conferenciante dominó la atención del público.» ¿Qué tipo de sinonimia vincula «orador» y «conferenciante»?",
-          apoyo: "El orador habló durante dos horas. El conferenciante dominó la atención del público.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Sinónimos totales: intercambiables en cualquier contexto",
@@ -248,6 +248,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 1 — Sinonimia Contextual",
+          preguntaDentro: true,
           enunciado: "¿Qué sinónimo contextual de «árida» mantiene la cohesión?",
           apoyo: "La novela resultó árida y difícil. El ____ de la autora alejó a muchos lectores.",
           apoyoPie: "elige la palabra que falta",
@@ -266,6 +267,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 2 — Sinonimia Contextual",
+          preguntaDentro: true,
           enunciado: "¿Qué sinónimo contextual mantiene la cohesión?",
           apoyo: "Beethoven compuso su 9ª Sinfonía siendo sordo. El ____, a pesar de su discapacidad, creó una de las obras más grandes de la historia.",
           apoyoPie: "elige la palabra que falta",
@@ -335,8 +337,6 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1 — Antonimia",
           enunciado: "¿Qué tipo de antonimia expresan «verdadero» y «falso»?",
-          apoyo: "verdadero",
-          apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Gradual — hay grados de verdad",
             "Complementaria — la negación de uno implica el otro",
@@ -357,7 +357,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 2 — Antonimia",
           enunciado: "«La profesora enseña matemáticas a sus alumnos.» ¿Qué tipo de antonimia tiene «enseñar / aprender» y qué se puede inferir?",
-          apoyo: "La profesora enseña matemáticas a sus alumnos.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Son graduales; los alumnos aprenden más o menos según su esfuerzo",
@@ -425,7 +425,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1 — Antonimia Contextual",
           enunciado: "«Para un velocista olímpico, 12 segundos en los 100 metros es un tiempo lento.» ¿Qué marco de referencia determina el valor de «lento»?",
-          apoyo: "Para un velocista olímpico, 12 segundos en los 100 metros es un tiempo lento.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "El tiempo estándar de cualquier persona que corre",
@@ -447,7 +447,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 2 — Antonimia Contextual",
           enunciado: "«Era un salario bajo para un médico especialista.» ¿Qué inferencia es correcta?",
-          apoyo: "Era un salario bajo para un médico especialista.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "El salario era menor al salario mínimo del país",
@@ -518,6 +518,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 1 — Campo Semántico",
+          preguntaDentro: true,
           enunciado: "¿Qué sustituto léxico crea la cohesión por campo semántico?",
           apoyo: "El águila planeó sobre el valle. El ____ dominó el horizonte durante horas.",
           apoyoPie: "elige la palabra que falta",
@@ -595,6 +596,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 1 — Falsos sinónimos",
+          preguntaDentro: true,
           enunciado: "¿Qué sustituto léxico mantiene la cohesión sin crear un falso sinónimo?",
           apoyo: "El texto científico afirmaba que la Tierra gira alrededor del Sol. La ____ fue aceptada por la comunidad académica.",
           apoyoPie: "elige la palabra que falta",
@@ -614,7 +616,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 2 — Ruptura de registro",
           enunciado: "¿Cuál de las siguientes opciones corrige el problema de cohesión en: «El presidente disertó durante una hora. El mero discurseó hasta el cansancio.»?",
-          apoyo: "El presidente disertó durante una hora. El mero discurseó hasta el cansancio.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "El presidente discurseó hasta el cansancio.",

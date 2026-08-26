@@ -132,7 +132,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1 — Idea principal",
           enunciado: "Lee: «Las abejas polinizan gran parte de los cultivos. Sin su trabajo, muchas frutas y verduras desaparecerían. Por eso, su disminución amenaza la producción de alimentos.» ¿Cuál es la idea principal?",
-          apoyo: "Las abejas polinizan gran parte de los cultivos. Sin su trabajo, muchas frutas y verduras desaparecerían. Por eso, su disminución amenaza la producción de alimentos.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Las abejas vuelan de flor en flor",
@@ -212,7 +212,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1 — Propósito del autor",
           enunciado: "Un cartel muestra una hamburguesa enorme y dice: «COMBO FAMILIAR — ¡Destruye tu hambre por solo $99! Llévalo ya.» ¿Cuál es el propósito principal del texto?",
-          apoyo: "COMBO FAMILIAR — ¡Destruye tu hambre por solo $99! Llévalo ya.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Informar sobre nutrición", "Persuadir al lector de comprar", "Explicar una receta"],
           correcta: 1,
@@ -271,7 +271,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1 — Vocabulario en contexto",
           enunciado: "«Tras caminar todo el día bajo el sol, el grupo de excursionistas llegó exhausto al campamento.» Según el contexto, ¿qué significa «exhausto»?",
-          apoyo: "Tras caminar todo el día bajo el sol, el grupo de excursionistas llegó exhausto al campamento.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Muy cansado", "Desorientado", "Contento"],
           correcta: 0,
@@ -331,7 +331,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1 — Interpretar una gráfica",
           enunciado: "Una gráfica de barras titulada «Calificaciones por alumnos» tiene en el eje vertical «número de alumnos» y en el horizontal las calificaciones 10, 9, 8, 7, 6, 5. La barra más alta está en la calificación 10. ¿Qué se concluye?",
-          apoyo: "Calificaciones por alumnos",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "El promedio del grupo es 10",

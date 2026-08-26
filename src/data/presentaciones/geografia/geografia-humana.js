@@ -71,7 +71,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1/5 — Regiones naturales",
           enunciado: "«¿Cuál de los siguientes biomas posee la mayor biodiversidad del planeta y constituye el principal reservorio mundial de especies, agua dulce y recursos genéticos?»",
-          apoyo: "¿Cuál de los siguientes biomas posee la mayor biodiversidad del planeta y constituye el principal reservorio mundial de especies, agua dulce y recursos genéticos?",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "La tundra ártica, por su extensión y por preservar el permafrost con recursos minerales.",
@@ -93,7 +93,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 2/5 — Regiones naturales",
           enunciado: "«¿Qué factores determinan principalmente la distribución de los biomas en la superficie terrestre?»",
-          apoyo: "¿Qué factores determinan principalmente la distribución de los biomas en la superficie terrestre?",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "La extensión de los continentes y la distancia de cada punto al centro geográfico del planeta.",
@@ -115,7 +115,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 3/5 — Regiones naturales",
           enunciado: "«La región natural que abarca zonas áridas con precipitación menor a 250 mm/año y grandes variaciones de temperatura diaria se denomina:»",
-          apoyo: "La región natural que abarca zonas áridas con precipitación menor a 250 mm/año y grandes variaciones de temperatura diaria se denomina:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Tundra, caracterizada por suelos congelados y vegetación arbustiva baja en latitudes polares.",
@@ -137,7 +137,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 4/5 — Regiones naturales",
           enunciado: "«México es considerado un país 'megadiverso' principalmente porque:»",
-          apoyo: "México es considerado un país 'megadiverso' principalmente porque:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Tiene el mayor territorio de América Latina, lo que permite albergar más especies por su simple extensión.",
@@ -159,7 +159,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 5/5 — Regiones naturales",
           enunciado: "«¿Cuál es el recurso renovable más característico de los bosques templados de pino-encino, predominantes en las sierras de México?»",
-          apoyo: "¿Cuál es el recurso renovable más característico de los bosques templados de pino-encino, predominantes en las sierras de México?",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "La pesca industrial en ríos y lagos de alta montaña donde se reproduce el salmón y la trucha.",
@@ -236,7 +236,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1/5 — Deterioro ambiental",
           enunciado: "«La destrucción de la capa de ozono estratosférica, que protege la vida terrestre de la radiación ultravioleta, se debe principalmente a:»",
-          apoyo: "La destrucción de la capa de ozono estratosférica, que protege la vida terrestre de la radiación ultravioleta, se debe principalmente a:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "El dióxido de carbono (CO₂) emitido por la combustión de gasolina y carbón.",
@@ -258,7 +258,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 2/5 — Deterioro ambiental",
           enunciado: "«El 'efecto invernadero' es un fenómeno que:»",
-          apoyo: "El 'efecto invernadero' es un fenómeno que:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Destruye la capa de ozono de la estratósfera, permitiendo el ingreso de radiación ultravioleta dañina a la superficie.",
@@ -280,7 +280,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 3/5 — Deterioro ambiental",
           enunciado: "«La principal consecuencia del cambio climático global es:»",
-          apoyo: "La principal consecuencia del cambio climático global es:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "El adelgazamiento de la capa de ozono estratosférica y el aumento de la radiación UV en la superficie terrestre.",
@@ -302,7 +302,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 4/5 — Deterioro ambiental",
           enunciado: "«Las 'mareas negras' son un tipo de contaminación marina causada por:»",
-          apoyo: "Las 'mareas negras' son un tipo de contaminación marina causada por:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "La proliferación masiva de algas tóxicas que tiñen el mar de negro o rojizo en zonas costeras con aguas cálidas.",
@@ -324,7 +324,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 5/5 — Deterioro ambiental",
           enunciado: "«¿Cuál de los siguientes acuerdos internacionales buscó reducir la emisión de gases de efecto invernadero para frenar el cambio climático?»",
-          apoyo: "¿Cuál de los siguientes acuerdos internacionales buscó reducir la emisión de gases de efecto invernadero para frenar el cambio climático?",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "El Protocolo de Montreal (1987), que eliminó progresivamente el uso de CFC para proteger la capa de ozono.",
@@ -402,7 +402,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1/5 — Población",
           enunciado: "«Las zonas de mayor concentración de la población mundial corresponden principalmente a:»",
-          apoyo: "Las zonas de mayor concentración de la población mundial corresponden principalmente a:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Las regiones polares y desérticas, donde los recursos naturales son más abundantes y accesibles.",
@@ -424,7 +424,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 2/5 — Población",
           enunciado: "«La 'tasa de crecimiento natural' de una población se calcula como:»",
-          apoyo: "La 'tasa de crecimiento natural' de una población se calcula como:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "El cociente entre la población urbana y la población rural, multiplicado por cien.",
@@ -446,7 +446,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 3/5 — Población",
           enunciado: "«Una pirámide de población con base muy ancha y cúspide muy estrecha indica que el país tiene:»",
-          apoyo: "Una pirámide de población con base muy ancha y cúspide muy estrecha indica que el país tiene:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Alta esperanza de vida, baja natalidad y población predominantemente envejecida, característico de países desarrollados.",
@@ -468,7 +468,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 4/5 — Población",
           enunciado: "«Los 'vacíos demográficos' son zonas con muy baja densidad de población. ¿Cuáles son sus características comunes?»",
-          apoyo: "Los 'vacíos demográficos' son zonas con muy baja densidad de población. ¿Cuáles son sus características comunes?",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Zonas con clima tropical húmedo y alta pluviosidad donde los mosquitos y enfermedades dificultan el asentamiento.",
@@ -490,7 +490,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 5/5 — Población",
           enunciado: "«La 'transición demográfica' describe el proceso mediante el cual una sociedad:»",
-          apoyo: "La 'transición demográfica' describe el proceso mediante el cual una sociedad:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Pasa de ser rural a urbana por efecto de la migración campo-ciudad durante el proceso de industrialización.",
@@ -571,7 +571,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1/5 — Migraciones",
           enunciado: "«La principal causa del proceso migratorio campo-ciudad en México durante el siglo XX fue:»",
-          apoyo: "La principal causa del proceso migratorio campo-ciudad en México durante el siglo XX fue:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "El envejecimiento de la población rural que buscaba climas más cálidos en las ciudades costeras.",
@@ -593,7 +593,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 2/5 — Migraciones",
           enunciado: "«Los factores de 'expulsión' en la migración internacional son aquellos que:»",
-          apoyo: "Los factores de 'expulsión' en la migración internacional son aquellos que:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Atraen a los migrantes hacia el lugar de destino, como los altos salarios, la seguridad y las oportunidades de empleo.",
@@ -615,7 +615,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 3/5 — Migraciones",
           enunciado: "«México ocupa una posición única en el fenómeno migratorio internacional porque es simultáneamente:»",
-          apoyo: "México ocupa una posición única en el fenómeno migratorio internacional porque es simultáneamente:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "País de destino y de retorno, pues recibe migrantes de Europa y Asia y repatría a sus propios ciudadanos de EUA.",
@@ -637,7 +637,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 4/5 — Migraciones",
           enunciado: "«Las remesas que recibe México desde el exterior representan económicamente:»",
-          apoyo: "Las remesas que recibe México desde el exterior representan económicamente:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "La principal fuente de divisas del país, superando ampliamente a la manufactura, el turismo y el petróleo combinados.",
@@ -659,7 +659,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 5/5 — Migraciones",
           enunciado: "«La migración de tipo 'Sur-Norte' se refiere principalmente al desplazamiento de:»",
-          apoyo: "La migración de tipo 'Sur-Norte' se refiere principalmente al desplazamiento de:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Personas de países del Polo Norte que migran hacia zonas templadas del hemisferio sur huyendo del frío extremo.",
@@ -721,7 +721,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1/5 — Economía mundial",
           enunciado: "«¿Cuál de los siguientes indicadores socioeconómicos distingue de manera integral a un país desarrollado de uno en vías de desarrollo?»",
-          apoyo: "¿Cuál de los siguientes indicadores socioeconómicos distingue de manera integral a un país desarrollado de uno en vías de desarrollo?",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "La extensión territorial y la cantidad de recursos naturales disponibles en el subsuelo.",
@@ -743,7 +743,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 2/5 — Economía mundial",
           enunciado: "«El Índice de Desarrollo Humano (IDH) combina tres dimensiones del bienestar. ¿Cuáles son?»",
-          apoyo: "El Índice de Desarrollo Humano (IDH) combina tres dimensiones del bienestar. ¿Cuáles son?",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Producto Interno Bruto (PIB), tasa de industrialización y densidad de infraestructura vial del país.",
@@ -765,7 +765,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 3/5 — Economía mundial",
           enunciado: "«El T-MEC (Tratado entre México, Estados Unidos y Canadá) entró en vigor en 2020 y sustituyó al:»",
-          apoyo: "El T-MEC (Tratado entre México, Estados Unidos y Canadá) entró en vigor en 2020 y sustituyó al:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Acuerdo de Libre Comercio de las Américas (ALCA), que integraba a los 34 países del continente americano.",
@@ -787,7 +787,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 4/5 — Economía mundial",
           enunciado: "«Un país en vías de desarrollo se caracteriza principalmente por:»",
-          apoyo: "Un país en vías de desarrollo se caracteriza principalmente por:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Tener IDH superior a 0.8, alta esperanza de vida, baja natalidad y exportaciones mayoritariamente industriales.",
@@ -809,7 +809,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 5/5 — Economía mundial",
           enunciado: "«El proceso de 'globalización económica' se refiere a:»",
-          apoyo: "El proceso de 'globalización económica' se refiere a:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "La expansión de ideologías políticas democráticas hacia países que anteriormente tenían regímenes autoritarios.",
@@ -934,7 +934,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1/5 — México",
           enunciado: "«México comparte fronteras terrestres con:»",
-          apoyo: "México comparte fronteras terrestres con:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Estados Unidos al norte, y únicamente con Guatemala al sur.",
@@ -956,7 +956,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 2/5 — México",
           enunciado: "«México tiene dos litorales. ¿Cuál de los dos es el más extenso?»",
-          apoyo: "México tiene dos litorales. ¿Cuál de los dos es el más extenso?",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "El litoral del Golfo de México y Mar Caribe, con aproximadamente 7,828 km de costas.",
@@ -978,7 +978,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 3/5 — México",
           enunciado: "«¿En qué sector productivo México ocupa el primer lugar mundial?»",
-          apoyo: "¿En qué sector productivo México ocupa el primer lugar mundial?",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "En la extracción de petróleo crudo, siendo el principal exportador de hidrocarburos de América Latina.",
@@ -1000,7 +1000,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 4/5 — México",
           enunciado: "«El puerto de Manzanillo (Colima) y el puerto de Veracruz son los más importantes de México porque:»",
-          apoyo: "El puerto de Manzanillo (Colima) y el puerto de Veracruz son los más importantes de México porque:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Son los únicos puertos mexicanos con acceso a agua profunda que permite la entrada de cruceros turísticos de gran calado.",
@@ -1022,7 +1022,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 5/5 — México",
           enunciado: "«La Ciudad de México tiene un estatus jurídico especial dentro de la federación mexicana porque:»",
-          apoyo: "La Ciudad de México tiene un estatus jurídico especial dentro de la federación mexicana porque:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Es la única ciudad del país gobernada directamente por el presidente de la República, sin autoridades locales propias.",

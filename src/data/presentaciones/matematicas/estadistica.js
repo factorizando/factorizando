@@ -126,7 +126,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Variables y Datos · Ejercicio 1 / 5",
           enunciado: "La variable «color de ojos» de un grupo de personas es de tipo:",
-          apoyo: "color de ojos",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["cuantitativa discreta", "cualitativa nominal", "cualitativa ordinal"],
           correcta: 1,
@@ -144,7 +144,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Variables y Datos · Ejercicio 2 / 5",
           enunciado: "El «nivel de escolaridad» (primaria, secundaria, preparatoria, universidad) es una variable:",
-          apoyo: "nivel de escolaridad",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["cualitativa ordinal", "cualitativa nominal", "cuantitativa continua"],
           correcta: 0,
@@ -162,7 +162,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Variables y Datos · Ejercicio 3 / 5",
           enunciado: "El «número de hermanos» de cada estudiante es una variable:",
-          apoyo: "número de hermanos",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["cuantitativa continua", "cuantitativa discreta", "cualitativa ordinal"],
           correcta: 1,
@@ -180,7 +180,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Variables y Datos · Ejercicio 4 / 5",
           enunciado: "El «tiempo en segundos» que tarda un corredor en una carrera es una variable:",
-          apoyo: "tiempo en segundos",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["cuantitativa discreta", "cuantitativa continua", "cualitativa nominal"],
           correcta: 1,

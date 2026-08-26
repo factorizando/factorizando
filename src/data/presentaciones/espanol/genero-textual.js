@@ -293,7 +293,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1 — Reseña",
           enunciado: "«El documental expone con claridad el problema del agua y, aunque abusa de las cifras, consigue conmover; es muy recomendable.» ¿Por qué es una reseña?",
-          apoyo: "El documental expone con claridad el problema del agua y, aunque abusa de las cifras, consigue conmover; es muy recomendable.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Porque solo informa de un hecho reciente",
@@ -423,7 +423,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1 — Artículo de opinión",
           enunciado: "«La reforma educativa, tal como está planteada, es un retroceso: ignora a los docentes y debería rechazarse.» ¿A qué género pertenece y por qué?",
-          apoyo: "La reforma educativa, tal como está planteada, es un retroceso: ignora a los docentes y debería rechazarse.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Noticia, porque trata un tema de actualidad",
@@ -491,7 +491,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1 — Crónica",
           enunciado: "«Eran las seis de la mañana cuando las primeras familias llegaron a la plaza; con el correr de las horas, el bullicio fue creciendo hasta volverse fiesta.» ¿Qué género es y qué rasgo lo delata?",
-          apoyo: "Eran las seis de la mañana cuando las primeras familias llegaron a la plaza; con el correr de las horas, el bullicio fue creciendo hasta volverse fiesta.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Noticia, por la pirámide invertida",

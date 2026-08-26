@@ -78,7 +78,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1 / 3 — Introducción",
           enunciado: "«Llegó un viajero al pueblo. El forastero se instaló en la posada. Nadie conocía al desconocido.» ¿Qué mecanismo de cohesión mantiene la unidad de este fragmento?",
-          apoyo: "Llegó un viajero al pueblo. El forastero se instaló en la posada. Nadie conocía al desconocido.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Correferencia pronominal — los tres términos son pronombres",
@@ -120,7 +120,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 3 / 3 — Introducción",
           enunciado: "«En el mercado había manzanas, peras, duraznos y uvas.» ¿Qué relación de significado une estas cuatro palabras?",
-          apoyo: "En el mercado había manzanas, peras, duraznos y uvas.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Pertenecen al mismo campo semántico (frutas)",
@@ -200,7 +200,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1 / 5 — Sinonimia",
           enunciado: "«El orador habló durante dos horas. El conferenciante dominó la atención del público.» ¿Qué tipo de sinonimia vincula «orador» y «conferenciante»?",
-          apoyo: "El orador habló durante dos horas. El conferenciante dominó la atención del público.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Sinónimos totales: intercambiables en cualquier contexto",
@@ -238,7 +238,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 3 / 5 — Sinonimia",
           enunciado: "El par «delgado / flaco» es un ejemplo de sinónimos…",
-          apoyo: "delgado / flaco",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Parciales: comparten significado, pero «flaco» puede tener un matiz peyorativo",
@@ -260,8 +260,6 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 4 / 5 — Sinonimia",
           enunciado: "En un informe médico formal, ¿qué sinónimo de «morir» es el apropiado por su registro?",
-          apoyo: "morir",
-          apoyoPie: "obsérvala antes de responder",
           opciones: ["fallecer", "estirar la pata", "petatearse"],
           correcta: 0,
           explicacion: "«fallecer» es el sinónimo de registro formal, adecuado para un texto médico. «Estirar la pata» y «petatearse» son expresiones coloquiales o jergales que rompen el registro formal del documento.",
@@ -278,7 +276,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 5 / 5 — Sinonimia",
           enunciado: "«Llegó un forastero al pueblo. El recién llegado preguntó por la posada.» ¿Qué relación une «forastero» y «recién llegado»?",
-          apoyo: "Llegó un forastero al pueblo. El recién llegado preguntó por la posada.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Sinonimia contextual: el texto los equipara para nombrar al mismo personaje",
@@ -353,6 +351,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 1 / 5 — Sinonimia Contextual",
+          preguntaDentro: true,
           enunciado: "¿Qué sinónimo contextual de «árida» mantiene la cohesión?",
           apoyo: "La novela resultó árida y difícil. El ____ de la autora alejó a muchos lectores.",
           apoyoPie: "elige la palabra que falta",
@@ -371,6 +370,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 2 / 5 — Sinonimia Contextual",
+          preguntaDentro: true,
           enunciado: "¿Qué sinónimo contextual mantiene la cohesión?",
           apoyo: "Beethoven compuso su 9ª Sinfonía siendo sordo. El ____, a pesar de su discapacidad, creó una de las obras más grandes de la historia.",
           apoyoPie: "elige la palabra que falta",
@@ -389,6 +389,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 3 / 5 — Sinonimia Contextual",
+          preguntaDentro: true,
           enunciado: "¿Qué sinónimo contextual mantiene la cohesión con «el león»?",
           apoyo: "El león descansaba a la sombra. El ____ vigilaba a su manada con un solo ojo abierto.",
           apoyoPie: "elige la palabra que falta",
@@ -407,6 +408,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 4 / 5 — Sinonimia Contextual",
+          preguntaDentro: true,
           enunciado: "¿Qué sinónimo contextual de «sombrío» mantiene la cohesión?",
           apoyo: "El cuadro tenía colores apagados y figuras sombrías. El ____ de la obra entristecía al espectador.",
           apoyoPie: "elige la palabra que falta",
@@ -426,7 +428,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 5 / 5 — Sinonimia Contextual",
           enunciado: "¿Cuándo es válido usar «el Premio Nobel» como sinónimo contextual de «el escritor»?",
-          apoyo: "el Premio Nobel",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Solo si el texto establece que ese escritor recibió el Premio Nobel",
@@ -498,8 +500,6 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1 / 5 — Antonimia",
           enunciado: "¿Qué tipo de antonimia expresan «verdadero» y «falso»?",
-          apoyo: "verdadero",
-          apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Gradual — hay grados de verdad",
             "Complementaria — la negación de uno implica el otro",
@@ -520,7 +520,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 2 / 5 — Antonimia",
           enunciado: "«La profesora enseña matemáticas a sus alumnos.» ¿Qué tipo de antonimia tiene «enseñar / aprender» y qué se puede inferir?",
-          apoyo: "La profesora enseña matemáticas a sus alumnos.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Son graduales; los alumnos aprenden más o menos según su esfuerzo",
@@ -542,7 +542,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 3 / 5 — Antonimia",
           enunciado: "Los antónimos «vivo / muerto» son de tipo…",
-          apoyo: "vivo / muerto",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Complementarios: no hay término intermedio; negar uno implica el otro",
@@ -564,7 +564,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 4 / 5 — Antonimia",
           enunciado: "«El agua estaba tibia, ni fría ni caliente.» El que exista «tibio» entre «frío» y «caliente» demuestra que son antónimos…",
-          apoyo: "El agua estaba tibia, ni fría ni caliente.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Graduales: admiten términos intermedios en una escala",
@@ -586,7 +586,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 5 / 5 — Antonimia",
           enunciado: "«El abuelo regaló un reloj a su nieto.» Por la relación recíproca «regalar / recibir», ¿qué se infiere?",
-          apoyo: "El abuelo regaló un reloj a su nieto.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "El nieto recibió un reloj de su abuelo",
@@ -654,7 +654,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1 / 5 — Antonimia Contextual",
           enunciado: "«Para un velocista olímpico, 12 segundos en los 100 metros es un tiempo lento.» ¿Qué marco de referencia determina el valor de «lento»?",
-          apoyo: "Para un velocista olímpico, 12 segundos en los 100 metros es un tiempo lento.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "El tiempo estándar de cualquier persona que corre",
@@ -676,7 +676,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 2 / 5 — Antonimia Contextual",
           enunciado: "«Era un salario bajo para un médico especialista.» ¿Qué inferencia es correcta?",
-          apoyo: "Era un salario bajo para un médico especialista.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "El salario era menor al salario mínimo del país",
@@ -698,7 +698,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 3 / 5 — Antonimia Contextual",
           enunciado: "«Es un edificio bajo para los estándares de Nueva York.» ¿Qué marco de referencia determina el valor de «bajo»?",
-          apoyo: "Es un edificio bajo para los estándares de Nueva York.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "La altura típica de los rascacielos de esa ciudad",
@@ -740,7 +740,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 5 / 5 — Antonimia Contextual",
           enunciado: "«Es una novela corta, de apenas 80 páginas.» ¿Respecto a qué marco se interpreta «corta»?",
-          apoyo: "Es una novela corta, de apenas 80 páginas.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "La extensión típica de las novelas",
@@ -811,6 +811,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 1 / 5 — Campo semántico",
+          preguntaDentro: true,
           enunciado: "¿Qué sustituto léxico crea la cohesión por campo semántico?",
           apoyo: "El águila planeó sobre el valle. El ____ dominó el horizonte durante horas.",
           apoyoPie: "elige la palabra que falta",
@@ -829,6 +830,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 2 / 5 — Campo semántico",
+          preguntaDentro: true,
           enunciado: "¿Qué sustituto mantiene el MISMO referente?",
           apoyo: "Vi pasar un cocker por el parque. El ____ movía la cola con alegría.",
           apoyoPie: "elige la palabra que falta",
@@ -848,8 +850,6 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 3 / 5 — Campo semántico",
           enunciado: "Respecto a la palabra «flor», ¿qué relación tienen entre sí «rosa», «clavel» y «tulipán»?",
-          apoyo: "flor",
-          apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Son cohipónimos: hipónimos del mismo hiperónimo («flor»)",
             "Son hiperónimos de «flor»",
@@ -870,8 +870,6 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 4 / 5 — Campo semántico",
           enunciado: "Respecto a «silla», «mesa» y «sofá», la palabra «mueble» es un…",
-          apoyo: "silla",
-          apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Hiperónimo (categoría general que los incluye)",
             "Hipónimo (término más específico)",
@@ -891,6 +889,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 5 / 5 — Campo semántico",
+          preguntaDentro: true,
           enunciado: "¿Qué sustituto mantiene la cohesión por hiperonimia?",
           apoyo: "Una trucha nadaba contra la corriente. El ____ buscaba un remanso para descansar.",
           apoyoPie: "elige la palabra que falta",
@@ -968,6 +967,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 1 / 5 — Falsos sinónimos y registro",
+          preguntaDentro: true,
           enunciado: "¿Qué sustituto léxico mantiene la cohesión sin crear un falso sinónimo?",
           apoyo: "El texto científico afirmaba que la Tierra gira alrededor del Sol. La ____ fue aceptada por la comunidad académica.",
           apoyoPie: "elige la palabra que falta",
@@ -987,7 +987,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 2 / 5 — Falsos sinónimos y registro",
           enunciado: "¿Cuál de las siguientes opciones corrige el problema de cohesión en: «El presidente disertó durante una hora. El mero discurseó hasta el cansancio.»?",
-          apoyo: "El presidente disertó durante una hora. El mero discurseó hasta el cansancio.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "El presidente discurseó hasta el cansancio.",
@@ -1008,6 +1008,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 3 / 5 — Falsos sinónimos y registro",
+          preguntaDentro: true,
           enunciado: "¿Qué sustituto mantiene la cohesión sin crear un falso sinónimo?",
           apoyo: "El documento histórico relataba la fundación de la ciudad. La ____ fue confirmada por los arqueólogos.",
           apoyoPie: "elige la palabra que falta",
@@ -1046,6 +1047,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 5 / 5 — Falsos sinónimos y registro",
+          preguntaDentro: true,
           enunciado: "¿Qué opción mantiene el registro formal del texto?",
           apoyo: "El científico expuso su teoría, pero ante las críticas se ____.",
           apoyoPie: "elige la palabra que falta",
@@ -1133,6 +1135,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 2 / 4 — Numerales",
+          preguntaDentro: true,
           enunciado: "¿Qué numeral es apropiado para indicar posición?",
           apoyo: "El despacho se encuentra en el ____ piso.",
           apoyoPie: "elige la palabra que falta",

@@ -115,7 +115,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 2 — Método científico",
           enunciado: "Un estudiante afirma, antes de hacer cualquier prueba: «creo que las plantas regadas con agua de lluvia crecerán más que las regadas con agua de la llave». ¿A qué paso corresponde?",
-          apoyo: "creo que las plantas regadas con agua de lluvia crecerán más que las regadas con agua de la llave",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Hipótesis", "Conclusión", "Observación"],
           correcta: 0,
@@ -133,7 +133,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 3 — Método científico",
           enunciado: "Después de medir y comparar el crecimiento de los dos grupos de plantas durante un mes, el investigador escribe: «el agua de lluvia favoreció un mayor crecimiento». ¿A qué paso corresponde?",
-          apoyo: "el agua de lluvia favoreció un mayor crecimiento",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Conclusión", "Hipótesis", "Experimentación"],
           correcta: 0,

@@ -75,6 +75,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 1 / 3 — Introducción",
+          preguntaDentro: true,
           enunciado: "¿Qué elemento establece la correferencia con «su artículo»?",
           apoyo: "El investigador publicó su artículo. __ fue muy elogiado por la comunidad académica.",
           apoyoPie: "elige la palabra que falta",
@@ -98,7 +99,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 2 / 3 — Introducción",
           enunciado: "«Los bomberos apagaron el incendio y [∅] rescataron a dos personas.» ¿Qué representa el símbolo [∅]?",
-          apoyo: "Los bomberos apagaron el incendio y [∅] rescataron a dos personas.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Una sustitución léxica por sinónimo",
@@ -190,6 +191,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 1 / 6 — Pronombres personales",
+          preguntaDentro: true,
           enunciado: "¿Qué pronombre átono establece la correferencia correcta con «las propuestas»?",
           apoyo: "La coordinadora revisó las propuestas y __ aprobó sin modificaciones.",
           apoyoPie: "elige la palabra que falta",
@@ -208,6 +210,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 2 / 6 — Pronombres personales",
+          preguntaDentro: true,
           enunciado: "¿Qué pronombre tónico establece la correferencia correcta?",
           apoyo: "Los estudiantes entregaron sus trabajos. __ pasaron con notas sobresalientes.",
           apoyoPie: "elige la palabra que falta",
@@ -226,6 +229,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 3 / 6 — Pronombres personales",
+          preguntaDentro: true,
           enunciado: "¿Qué pronombre átono establece la correferencia correcta con «los ensayos finalistas»?",
           apoyo: "El jurado leyó los ensayos finalistas y __ calificó con rigor.",
           apoyoPie: "elige la palabra que falta",
@@ -244,6 +248,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 4 / 6 — Pronombres personales",
+          preguntaDentro: true,
           enunciado: "Según la norma de la RAE, ¿cuál es la forma correcta del pronombre de objeto directo?",
           apoyo: "Encontré a tu hermano en la fiesta y __ saludé con afecto.",
           apoyoPie: "elige la palabra que falta",
@@ -262,6 +267,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 5 / 6 — Pronombres personales",
+          preguntaDentro: true,
           enunciado: "¿Qué pronombre átono establece la correferencia correcta con «las atletas»?",
           apoyo: "Premiaron a las atletas y __ entregaron las medallas en el podio.",
           apoyoPie: "elige la palabra que falta",
@@ -280,6 +286,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 6 / 6 — Pronombres personales",
+          preguntaDentro: true,
           enunciado: "¿Qué pronombre completa la correferencia con valor recíproco?",
           apoyo: "Los dos rivales __ saludaron con respeto antes del combate.",
           apoyoPie: "elige la palabra que falta",
@@ -356,6 +363,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 1 / 6 — Demostrativos y relativos",
+          preguntaDentro: true,
           enunciado: "¿Qué demostrativo refiere correctamente al último tema mencionado?",
           apoyo: "La conferencia abordó dos temas: la contaminación del aire y el cambio climático. __ es el más urgente para las ciudades.",
           apoyoPie: "elige la palabra que falta",
@@ -374,6 +382,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 2 / 6 — Demostrativos y relativos",
+          preguntaDentro: true,
           enunciado: "¿Qué pronombre relativo completa la correferencia con «el libro»?",
           apoyo: "El libro __ escribió García Márquez ha sido traducido a 46 idiomas.",
           apoyoPie: "elige la palabra que falta",
@@ -392,6 +401,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 3 / 6 — Demostrativos y relativos",
+          preguntaDentro: true,
           enunciado: "¿Qué demostrativo refiere correctamente a la última colección mencionada?",
           apoyo: "El museo exhibe una colección de arte virreinal y una de arte contemporáneo. __ atrae sobre todo al público joven.",
           apoyoPie: "elige la palabra que falta",
@@ -410,6 +420,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 4 / 6 — Demostrativos y relativos",
+          preguntaDentro: true,
           enunciado: "¿Qué pronombre relativo completa la correferencia?",
           apoyo: "El autor __ novelas se traducen en todo el mundo visitará la feria del libro.",
           apoyoPie: "elige la palabra que falta",
@@ -428,6 +439,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 5 / 6 — Demostrativos y relativos",
+          preguntaDentro: true,
           enunciado: "¿Qué demostrativo refiere al primer siglo mencionado?",
           apoyo: "El siglo XIX y el siglo XXI trajeron grandes transformaciones. __ vio nacer la electricidad y el ferrocarril.",
           apoyoPie: "elige la palabra que falta",
@@ -446,6 +458,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 6 / 6 — Demostrativos y relativos",
+          preguntaDentro: true,
           enunciado: "¿Qué pronombre relativo completa la correferencia con «la doctora»?",
           apoyo: "La doctora a __ consultaste es especialista en cardiología.",
           apoyoPie: "elige la palabra que falta",
@@ -510,6 +523,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 1 / 6 — Sustitución léxica",
+          preguntaDentro: true,
           enunciado: "¿Qué sustituto léxico establece la correferencia correcta?",
           apoyo: "Los colibríes migran miles de kilómetros cada año. __ pueden volar hacia atrás, algo único entre las aves.",
           apoyoPie: "elige la palabra que falta",
@@ -528,6 +542,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 2 / 6 — Sustitución léxica",
+          preguntaDentro: true,
           enunciado: "¿Qué sustituto cohesiona correctamente con lo mencionado?",
           apoyo: "En 1953 se descifró la estructura del ADN. __ fue uno de los hitos más importantes de la biología del siglo XX.",
           apoyoPie: "elige la palabra que falta",
@@ -546,6 +561,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 3 / 6 — Sustitución léxica",
+          preguntaDentro: true,
           enunciado: "¿Qué sustituto léxico cohesiona correctamente?",
           apoyo: "El roble del jardín tiene más de cien años. __ ha resistido tormentas y sequías.",
           apoyoPie: "elige la palabra que falta",
@@ -564,6 +580,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 4 / 6 — Sustitución léxica",
+          preguntaDentro: true,
           enunciado: "¿Qué sustituto mantiene la cohesión con el contexto?",
           apoyo: "Sor Juana Inés de la Cruz escribió versos admirables. __ es una de las grandes voces del Siglo de Oro.",
           apoyoPie: "elige la palabra que falta",
@@ -582,6 +599,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 5 / 6 — Sustitución léxica",
+          preguntaDentro: true,
           enunciado: "¿Qué sustituto léxico cohesiona correctamente con «el can»?",
           apoyo: "El can guardián vigilaba la entrada del rancho. El __ no dejaba pasar a ningún extraño.",
           apoyoPie: "elige la palabra que falta",
@@ -600,6 +618,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 6 / 6 — Sustitución léxica",
+          preguntaDentro: true,
           enunciado: "¿Qué descripción mantiene la cohesión con el referente?",
           apoyo: "Miguel Hidalgo proclamó la independencia en 1810. El __ es recordado cada 16 de septiembre.",
           apoyoPie: "elige la palabra que falta",
@@ -670,7 +689,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1 / 6 — Elipsis nominal",
           enunciado: "«Los resultados de este semestre son mejores que los del semestre anterior.» ¿Qué elemento está elidido tras «los del»?",
-          apoyo: "Los resultados de este semestre son mejores que los del semestre anterior.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["del (preposición artículo)", "resultados (sustantivo)", "semestre (sustantivo)"],
           correcta: 1,
@@ -688,7 +707,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 2 / 6 — Elipsis nominal",
           enunciado: "«Prefiero el café americano al [∅].» ¿Cuál es el elemento elidido y de qué tipo de elipsis se trata?",
-          apoyo: "Prefiero el café americano al [∅].",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "«al» es el elemento elidido; elipsis preposicional",
@@ -709,6 +728,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 3 / 6 — Elipsis nominal",
+          preguntaDentro: true,
           enunciado: "¿Qué sustantivo está elidido tras «la»?",
           apoyo: "La temperatura de hoy es más alta que la __ ayer.",
           apoyoPie: "elige la palabra que falta",
@@ -728,7 +748,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 4 / 6 — Elipsis nominal",
           enunciado: "«De los dos abrigos, compré el negro y regalé el [∅] gris.» ¿Qué elemento se recupera en la elipsis y de qué tipo es?",
-          apoyo: "De los dos abrigos, compré el negro y regalé el [∅] gris.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "«abrigo» — elipsis nominal (det. + Ø + adj.)",
@@ -749,6 +769,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 5 / 6 — Elipsis nominal",
+          preguntaDentro: true,
           enunciado: "¿Qué sustantivo está elidido tras «la»?",
           apoyo: "La población de Monterrey es menor que la __ de Guadalajara.",
           apoyoPie: "elige la palabra que falta",
@@ -768,7 +789,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 6 / 6 — Elipsis nominal",
           enunciado: "«Probé dos postres: el de chocolate me gustó más que el [∅] de vainilla.» ¿Qué elemento se recupera por elipsis?",
-          apoyo: "Probé dos postres: el de chocolate me gustó más que el [∅] de vainilla.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["«postre» — elipsis nominal", "«gustó» — elipsis verbal", "«chocolate» — elipsis adjetival"],
           correcta: 0,
@@ -828,7 +849,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1 / 6 — Elipsis verbal",
           enunciado: "«El equipo A obtuvo tres medallas de oro; el equipo B, [∅] dos de plata.» ¿Qué verbo está elidido y qué señal gráfica lo indica?",
-          apoyo: "El equipo A obtuvo tres medallas de oro; el equipo B, [∅] dos de plata.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "El verbo «obtuvo» está elidido; la coma tras «B» señala su lugar",
@@ -850,7 +871,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 2 / 6 — Elipsis verbal",
           enunciado: "«¿Estudiaste para el examen? — Sí, [∅] toda la noche.» ¿Qué verbo se recupera por elipsis en la respuesta?",
-          apoyo: "¿Estudiaste para el examen? — Sí, [∅] toda la noche.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "estudié — recuperado de la pregunta anterior",
@@ -871,6 +892,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 3 / 6 — Elipsis verbal",
+          preguntaDentro: true,
           enunciado: "¿Qué verbo se recupera por elipsis y qué señal lo indica?",
           apoyo: "Mi hermana estudia medicina; yo, __ derecho.",
           apoyoPie: "elige la palabra que falta",
@@ -893,6 +915,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 4 / 6 — Elipsis verbal",
+          preguntaDentro: true,
           enunciado: "¿Por qué NO es posible elidir el verbo en la segunda cláusula?",
           apoyo: "Ana terminó la tarea ayer; Luis __ mañana.",
           apoyoPie: "elige la palabra que falta",
@@ -915,6 +938,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 5 / 6 — Elipsis verbal",
+          preguntaDentro: true,
           enunciado: "¿Qué verbo se recupera por elipsis?",
           apoyo: "Tú pediste ensalada; tu amigo, __ una sopa.",
           apoyoPie: "elige la palabra que falta",
@@ -938,7 +962,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 6 / 6 — Elipsis verbal",
           enunciado: "«Ella corre más rápido que yo [∅].» ¿Qué verbo se recupera en la comparativa?",
-          apoyo: "Ella corre más rápido que yo [∅].",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "«corro» — recuperado del verbo «corre»",
@@ -1002,7 +1026,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1 / 6 — Elipsis oracional",
           enunciado: "«Ana aprobó matemáticas y Luis también [∅].» ¿Qué tipo de elipsis opera y qué cláusula se recupera?",
-          apoyo: "Ana aprobó matemáticas y Luis también [∅].",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Elipsis verbal: solo se omite el verbo «aprobó»",
@@ -1024,7 +1048,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 2 / 6 — Elipsis oracional",
           enunciado: "«Pensé que no llegarías a tiempo, pero sí [∅].» ¿Qué cláusula está elidida?",
-          apoyo: "Pensé que no llegarías a tiempo, pero sí [∅].",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "«llegaste a tiempo» — recuperada de la cláusula previa",
@@ -1045,6 +1069,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 3 / 6 — Elipsis oracional",
+          preguntaDentro: true,
           enunciado: "¿Qué adverbio completa la elipsis oracional manteniendo la negación?",
           apoyo: "No me gustó el final de la película, y a mis amigos __.",
           apoyoPie: "elige la palabra que falta",
@@ -1063,6 +1088,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 4 / 6 — Elipsis oracional",
+          preguntaDentro: true,
           enunciado: "¿Qué cláusula se recupera por elipsis?",
           apoyo: "Pensábamos que el plan fracasaría, pero no __.",
           apoyoPie: "elige la palabra que falta",
@@ -1085,6 +1111,7 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 5 / 6 — Elipsis oracional",
+          preguntaDentro: true,
           enunciado: "¿Qué adverbio completa la elipsis oracional manteniendo la afirmación?",
           apoyo: "A mí me encantó la exposición y a mi hermano __.",
           apoyoPie: "elige la palabra que falta",
@@ -1104,7 +1131,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 6 / 6 — Elipsis oracional",
           enunciado: "«—¿Aprobaste el examen de admisión? —Sí.» ¿Qué tipo de elipsis hay en la respuesta «Sí»?",
-          apoyo: "—¿Aprobaste el examen de admisión? —Sí.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Elipsis oracional: se omite toda la cláusula «aprobé el examen de admisión»",
@@ -1184,7 +1211,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1 / 6 — Ambigüedad referencial",
           enunciado: "«El director habló con el supervisor. Él tomó la decisión final.» ¿Cuál es el problema de cohesión en este fragmento?",
-          apoyo: "El director habló con el supervisor. Él tomó la decisión final.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "No hay problema; «él» refiere claramente al director por ser el sujeto principal.",
@@ -1206,7 +1233,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 2 / 6 — Ambigüedad referencial",
           enunciado: "¿Cuál de las siguientes opciones corrige la ambigüedad de «El proyecto y el presupuesto fueron aprobados. Este fue el más disputado.»?",
-          apoyo: "El proyecto y el presupuesto fueron aprobados. Este fue el más disputado.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "El proyecto y el presupuesto fueron aprobados. El presupuesto fue el más disputado.",
@@ -1228,7 +1255,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 3 / 6 — Ambigüedad referencial",
           enunciado: "«Pedro le dijo a su padre que su coche estaba averiado.» ¿Por qué hay un problema de cohesión?",
-          apoyo: "Pedro le dijo a su padre que su coche estaba averiado.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "«su coche» es ambiguo: puede ser el de Pedro o el de su padre",
@@ -1250,7 +1277,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 4 / 6 — Ambigüedad referencial",
           enunciado: "¿Cuál opción elimina la ambigüedad de «La maestra felicitó a la alumna porque ella había mejorado»?",
-          apoyo: "La maestra felicitó a la alumna porque ella había mejorado",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "La maestra felicitó a la alumna porque esta había mejorado.",
@@ -1272,7 +1299,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 5 / 6 — Ambigüedad referencial",
           enunciado: "«Luis visitó a su tío cuando estaba enfermo.» ¿Por qué hay ambigüedad?",
-          apoyo: "Luis visitó a su tío cuando estaba enfermo.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "No se sabe quién estaba enfermo: Luis o su tío",
@@ -1294,7 +1321,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 6 / 6 — Ambigüedad referencial",
           enunciado: "¿Cuál opción corrige mejor la ambigüedad de «Sara llamó a su madre porque estaba preocupada»?",
-          apoyo: "Sara llamó a su madre porque estaba preocupada",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Sara, preocupada, llamó a su madre.",
@@ -1316,7 +1343,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Integrador 1 / 4",
           enunciado: "«El gerente revisó los contratos y los firmó.» ¿Qué mecanismo de cohesión emplea «los»?",
-          apoyo: "El gerente revisó los contratos y los firmó.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Correferencia por pronombre personal átono (OD)",
@@ -1338,7 +1365,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Integrador 2 / 4",
           enunciado: "«Marta prepara postres y su hermana, platillos salados.» ¿Qué mecanismo de cohesión opera en la segunda cláusula?",
-          apoyo: "Marta prepara postres y su hermana, platillos salados.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Elipsis verbal: se omite «prepara», marcado por la coma",
@@ -1360,7 +1387,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Integrador 3 / 4",
           enunciado: "«Preparé un café para el invitado y se lo serví caliente.» ¿Qué mecanismo de cohesión aparece en «se lo»?",
-          apoyo: "Preparé un café para el invitado y se lo serví caliente.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Dos pronombres átonos: «se» (OI = al invitado) y «lo» (OD = el café)",
@@ -1382,7 +1409,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Integrador 4 / 4",
           enunciado: "«El director y el productor discutieron por horas. Aquel defendió el guion original.» ¿A quién refiere «aquel»?",
-          apoyo: "El director y el productor discutieron por horas. Aquel defendió el guion original.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Al director (mencionado primero, el más lejano en el texto)",

@@ -447,7 +447,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Evolución · Teorías · Reactivo 2 / 16",
           enunciado: "La idea de que «un órgano se desarrolla por el uso y ese cambio se hereda» corresponde a la teoría de:",
-          apoyo: "un órgano se desarrolla por el uso y ese cambio se hereda",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Lamarck", "Darwin", "Mendel", "Pasteur"],
           correcta: 0,
@@ -538,7 +538,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Evolución · Teorías · Reactivo 7 / 16",
           enunciado: "La frase «supervivencia del más apto» resume la idea de que sobreviven los organismos:",
-          apoyo: "supervivencia del más apto",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Mejor adaptados a su ambiente", "Más grandes siempre", "Más antiguos", "Que no se reproducen"],
           correcta: 0,
@@ -1310,8 +1310,6 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Evolución · Clasificación · Reactivo 13 / 16",
           enunciado: "En el nombre científico Homo sapiens, la palabra «Homo» indica el:",
-          apoyo: "Homo",
-          apoyoPie: "obsérvala antes de responder",
           opciones: ["Género", "Reino", "Filo", "Color"],
           correcta: 0,
           explicacion: "En la nomenclatura binomial, la primera palabra (Homo) es el género y la segunda (sapiens) es el epíteto específico.",

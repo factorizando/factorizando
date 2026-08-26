@@ -187,7 +187,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Tema 1 · Ejercicio 1 / 6",
           enunciado: "La variable «marca de teléfono» de un grupo de personas es de tipo:",
-          apoyo: "marca de teléfono",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["cualitativa nominal", "cualitativa ordinal", "cuantitativa discreta"],
           correcta: 0,
@@ -205,7 +205,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Tema 1 · Ejercicio 2 / 6",
           enunciado: "El «grado de satisfacción» (bajo, medio, alto) de unos clientes es una variable:",
-          apoyo: "grado de satisfacción",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["cualitativa ordinal", "cualitativa nominal", "cuantitativa continua"],
           correcta: 0,
@@ -559,7 +559,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Tema 2 · Ejercicio 8 / 8",
           enunciado: "En el conjunto {4, 5, 6, 7, 48} la media es 14 y la mediana es 6. ¿Qué medida describe mejor «el centro» de los datos?",
-          apoyo: "el centro",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "la mediana, porque la media la jala el valor 48",

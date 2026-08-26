@@ -150,7 +150,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 2 — Formal vs. informal",
           enunciado: "«El evento estuvo súper padre y la neta nadie se quería ir.» ¿Qué rasgo identifica el registro de esta oración?",
-          apoyo: "El evento estuvo súper padre y la neta nadie se quería ir.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Registro formal por usar oraciones completas",
@@ -221,7 +221,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1 — Niveles de lengua",
           enunciado: "«Dijistes que ibas a venir, pero no vinistes.» ¿Qué nivel de lengua refleja y por qué?",
-          apoyo: "Dijistes que ibas a venir, pero no vinistes.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Nivel culto, por el uso de tiempos pasados",
@@ -296,7 +296,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1 — Canal y especialización",
           enunciado: "Un divulgador escribe para un público infantil: «Las plantas hacen la fotosíntesis para fabricar su alimento con la luz del sol.» ¿Por qué es adecuado el registro?",
-          apoyo: "Las plantas hacen la fotosíntesis para fabricar su alimento con la luz del sol.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Porque usa tecnicismos avanzados que demuestran rigor",
@@ -458,7 +458,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1 — Mezcla de registros",
           enunciado: "«La investigación, basada en datos de diez años, arrojó resultados padrísimos.» ¿Qué elemento rompe el registro y cómo se corrige?",
-          apoyo: "La investigación, basada en datos de diez años, arrojó resultados padrísimos.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "«investigación»; debería decir «chamba»",

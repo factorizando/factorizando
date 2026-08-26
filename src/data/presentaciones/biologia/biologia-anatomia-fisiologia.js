@@ -472,7 +472,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Plantas · Reactivo 12 / 12",
           enunciado: "La «savia bruta» (agua y sales minerales) que sube por el xilema proviene de la absorción que realiza la:",
-          apoyo: "savia bruta",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Raíz", "Flor", "Hoja", "Semilla"],
           correcta: 0,
@@ -679,7 +679,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Excreción · Reactivo 9 / 10",
           enunciado: "Las «glándulas verdes» son otro nombre de la estructura excretora de los:",
-          apoyo: "glándulas verdes",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Crustáceos", "Insectos", "Anélidos", "Mamíferos"],
           correcta: 0,

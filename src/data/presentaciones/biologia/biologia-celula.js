@@ -169,8 +169,6 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "La célula · Historia · Reactivo 4 / 16",
           enunciado: "¿Quién fue el primero en observar microorganismos vivos (a los que llamó «animálculos») al perfeccionar el microscopio?",
-          apoyo: "animálculos",
-          apoyoPie: "obsérvala antes de responder",
           opciones: ["Anton van Leeuwenhoek", "Robert Hooke", "Matthias Schleiden", "Louis Pasteur"],
           correcta: 0,
           explicacion: "Leeuwenhoek, con microscopios de gran aumento que él mismo construyó, observó por primera vez bacterias, protozoarios y espermatozoides: los «animálculos».",
@@ -251,7 +249,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "La célula · Historia · Reactivo 9 / 16",
           enunciado: "La frase «omnis cellula e cellula» (toda célula proviene de otra célula) fue propuesta por:",
-          apoyo: "omnis cellula e cellula",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Rudolf Virchow", "Robert Hooke", "Matthias Schleiden", "Gregor Mendel"],
           correcta: 0,
@@ -301,8 +299,6 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "La célula · Historia · Reactivo 12 / 16",
           enunciado: "La palabra «célula» proviene del latín cellula, que significa:",
-          apoyo: "célula",
-          apoyoPie: "obsérvala antes de responder",
           opciones: ["Celdilla o cuartito pequeño", "Núcleo", "Vida", "Agua"],
           correcta: 0,
           explicacion: "Hooke usó «célula» (cellula = celdilla) porque las cavidades del corcho le recordaban las pequeñas celdas o cuartos de un monasterio.",
@@ -501,7 +497,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "La célula · Teoría celular · Reactivo 3 / 16",
           enunciado: "El postulado que afirma que «todos los seres vivos están formados por una o más células» es el:",
-          apoyo: "todos los seres vivos están formados por una o más células",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Estructural", "Funcional", "De origen", "Bioquímico"],
           correcta: 0,
@@ -726,7 +722,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "La célula · Teoría celular · Reactivo 16 / 16",
           enunciado: "La afirmación «la célula es la unidad de origen de todos los seres vivos» significa que:",
-          apoyo: "la célula es la unidad de origen de todos los seres vivos",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Todo organismo comienza a partir de células",
@@ -934,8 +930,6 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "La célula · Procariota / Eucariota · Reactivo 9 / 16",
           enunciado: "El término «procariota» significa:",
-          apoyo: "procariota",
-          apoyoPie: "obsérvala antes de responder",
           opciones: ["Antes del núcleo", "Con dos núcleos", "Núcleo verdadero", "Sin pared"],
           correcta: 0,
           explicacion: "Procariota viene de «pro» (antes) y «cariote» (núcleo): célula sin núcleo verdadero, anterior a la aparición del núcleo en la evolución.",
@@ -1383,7 +1377,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "La célula · Organelos · Reactivo 14 / 16",
           enunciado: "A la mitocondria se le conoce como «la central energética» de la célula porque:",
-          apoyo: "la central energética",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Produce ATP mediante la respiración celular",
@@ -1689,7 +1683,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "La célula · Membrana y transporte · Reactivo 10 / 16",
           enunciado: "Cuando un glóbulo blanco engloba y «se come» una bacteria, realiza:",
-          apoyo: "se come",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Fagocitosis", "Ósmosis", "Difusión simple", "Exocitosis"],
           correcta: 0,

@@ -76,8 +76,6 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1 — Rotación",
           enunciado: "Una figura con una marca «A» en la parte superior se rota 90° en sentido horario (manecillas del reloj) sobre su centro. ¿Dónde queda la marca «A»?",
-          apoyo: "A",
-          apoyoPie: "obsérvala antes de responder",
           opciones: ["A la izquierda", "A la derecha", "Abajo"],
           correcta: 1,
           explicacion: "En un giro de 90° en sentido horario, lo que estaba arriba pasa a la derecha (arriba → derecha → abajo → izquierda). Si el giro fuera antihorario, lo de arriba pasaría a la izquierda. Tres giros de 90° equivalen a un giro de 270° (o uno de 90° en sentido contrario).",

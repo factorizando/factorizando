@@ -67,7 +67,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1/5 — La Geografía",
           enunciado: "«¿Cuál de las siguientes afirmaciones describe correctamente a la Geografía como ciencia?»",
-          apoyo: "¿Cuál de las siguientes afirmaciones describe correctamente a la Geografía como ciencia?",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Es una ciencia exclusivamente natural que estudia solo el relieve y el clima del planeta.",
@@ -89,7 +89,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 2/5 — La Geografía",
           enunciado: "«¿Cuál de los siguientes temas pertenece a la Geografía Física y no a la Geografía Humana?»",
-          apoyo: "¿Cuál de los siguientes temas pertenece a la Geografía Física y no a la Geografía Humana?",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "La distribución de idiomas y grupos étnicos en el continente americano.",
@@ -111,7 +111,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 3/5 — La Geografía",
           enunciado: "«La Geografía Humana se diferencia de la Geografía Física porque su objeto de estudio es:»",
-          apoyo: "La Geografía Humana se diferencia de la Geografía Física porque su objeto de estudio es:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "El relieve, los tipos de suelo y la distribución de los biomas en la superficie terrestre.",
@@ -133,7 +133,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 4/5 — La Geografía",
           enunciado: "«Analizar por qué las ciudades más grandes del mundo surgieron cerca de ríos navegables y llanuras fértiles es un ejemplo de investigación propia de la:»",
-          apoyo: "Analizar por qué las ciudades más grandes del mundo surgieron cerca de ríos navegables y llanuras fértiles es un ejemplo de investigación propia de la:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Geografía Física, porque estudia la topografía y las formas del terreno donde se ubican las ciudades.",
@@ -155,7 +155,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 5/5 — La Geografía",
           enunciado: "«El término 'paisaje cultural' se refiere a:»",
-          apoyo: "El término 'paisaje cultural' se refiere a:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "La imagen visual de la naturaleza inalterada que se observa en zonas protegidas o reservas naturales.",
@@ -234,7 +234,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1/5 — Coordenadas",
           enunciado: "«Un punto se localiza a 45° al sur del Ecuador y a 90° al este del Meridiano de Greenwich. Sus coordenadas correctas son:»",
-          apoyo: "Un punto se localiza a 45° al sur del Ecuador y a 90° al este del Meridiano de Greenwich. Sus coordenadas correctas son:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Latitud 90°E, Longitud 45°S", "Latitud 45°S, Longitud 90°E", "Latitud 45°N, Longitud 90°O"],
           correcta: 1,
@@ -252,7 +252,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 2/5 — Coordenadas",
           enunciado: "«El Trópico de Cáncer se ubica a 23.5° de latitud norte. ¿Cuál es su principal importancia climática?»",
-          apoyo: "El Trópico de Cáncer se ubica a 23.5° de latitud norte. ¿Cuál es su principal importancia climática?",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Marca el límite a partir del cual el clima se vuelve polar y se presentan noches árticas de larga duración.",
@@ -274,7 +274,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 3/5 — Coordenadas",
           enunciado: "«Un buque navega hacia el oeste y cruza la Línea Internacional de Cambio de Fecha (longitud 180°). ¿Qué cambio experimenta en su calendario?»",
-          apoyo: "Un buque navega hacia el oeste y cruza la Línea Internacional de Cambio de Fecha (longitud 180°). ¿Qué cambio experimenta en su calendario?",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Avanza un día: si era lunes antes de cruzarla, al cruzarla pasa a martes.",
@@ -296,7 +296,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 4/5 — Coordenadas",
           enunciado: "«¿Cuál es el valor máximo de longitud que puede tener un punto en la superficie terrestre?»",
-          apoyo: "¿Cuál es el valor máximo de longitud que puede tener un punto en la superficie terrestre?",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "90°, tanto hacia el Este como hacia el Oeste, desde el Meridiano de Greenwich.",
@@ -318,7 +318,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 5/5 — Coordenadas",
           enunciado: "«Si un punto tiene coordenadas de latitud 0° y longitud 0°, ¿dónde se ubica exactamente?»",
-          apoyo: "Si un punto tiene coordenadas de latitud 0° y longitud 0°, ¿dónde se ubica exactamente?",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "En el Polo Norte, que es el punto donde convergen todos los meridianos del planeta.",
@@ -379,7 +379,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1/5 — Husos horarios",
           enunciado: "«Si en la Ciudad de México (UTC−6) son las 09:00 h, ¿qué hora es simultáneamente en Madrid, España (UTC+1)?»",
-          apoyo: "Si en la Ciudad de México (UTC−6) son las 09:00 h, ¿qué hora es simultáneamente en Madrid, España (UTC+1)?",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["02:00 h del día siguiente.", "16:00 h del mismo día.", "03:00 h del día anterior."],
           correcta: 1,
@@ -397,7 +397,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 2/5 — Husos horarios",
           enunciado: "«La Tierra gira 360° en 24 horas. ¿Cuántos grados de longitud corresponden a cada huso horario?»",
-          apoyo: "La Tierra gira 360° en 24 horas. ¿Cuántos grados de longitud corresponden a cada huso horario?",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "24° de longitud, uno por cada hora del día.",
@@ -419,7 +419,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 3/5 — Husos horarios",
           enunciado: "«Si en Tokio, Japón (UTC+9) son las 18:00 h del lunes, ¿qué hora y día es simultáneamente en Los Ángeles (UTC−8)?»",
-          apoyo: "Si en Tokio, Japón (UTC+9) son las 18:00 h del lunes, ¿qué hora y día es simultáneamente en Los Ángeles (UTC−8)?",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Las 01:00 h del mismo lunes.", "Las 11:00 h del mismo lunes.", "Las 03:00 h del martes."],
           correcta: 0,
@@ -437,7 +437,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 4/5 — Husos horarios",
           enunciado: "«Quintana Roo es el único estado de México que no aplica cambio de horario de verano. Su zona horaria permanente es:»",
-          apoyo: "Quintana Roo es el único estado de México que no aplica cambio de horario de verano. Su zona horaria permanente es:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "UTC−5, lo que equivale al horario de verano que aplica el resto de la zona centro durante parte del año.",
@@ -459,7 +459,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 5/5 — Husos horarios",
           enunciado: "«El Meridiano de Greenwich (longitud 0°), referencia mundial para el tiempo UTC/GMT, pasa por:»",
-          apoyo: "El Meridiano de Greenwich (longitud 0°), referencia mundial para el tiempo UTC/GMT, pasa por:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "París, Francia, donde se celebró el Congreso Internacional de Meridianos en 1884 que lo estableció como referencia.",
@@ -531,7 +531,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1/5 — Tectónica global",
           enunciado: "«El volcán Popocatépetl en México debe su actividad principalmente a:»",
-          apoyo: "El volcán Popocatépetl en México debe su actividad principalmente a:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "La presencia de un punto caliente (hot spot) bajo la placa Norteamericana.",
@@ -553,7 +553,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 2/5 — Tectónica global",
           enunciado: "«La Falla de San Andrés en California, EUA, es el ejemplo más conocido de:»",
-          apoyo: "La Falla de San Andrés en California, EUA, es el ejemplo más conocido de:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Borde convergente, donde la placa del Pacífico se subduce lentamente bajo la placa Norteamericana generando volcanes.",
@@ -575,7 +575,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 3/5 — Tectónica global",
           enunciado: "«El 'Cinturón de Fuego del Pacífico' concentra la mayor actividad sísmica y volcánica del mundo porque:»",
-          apoyo: "El 'Cinturón de Fuego del Pacífico' concentra la mayor actividad sísmica y volcánica del mundo porque:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Es la región donde se ubican los puntos calientes (hot spots) más activos del planeta, como los de Hawái e Islandia.",
@@ -597,7 +597,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 4/5 — Tectónica global",
           enunciado: "«En un borde convergente oceánico-continental, ¿qué proceso genera la formación de volcanes en la costa del continente?»",
-          apoyo: "En un borde convergente oceánico-continental, ¿qué proceso genera la formación de volcanes en la costa del continente?",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "La placa continental empuja a la oceánica hacia las profundidades, y el magma sube a lo largo de grietas verticales en la corteza continental.",
@@ -619,7 +619,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 5/5 — Tectónica global",
           enunciado: "«Las dorsales oceánicas, como la Dorsal del Atlántico Medio, se forman como resultado de:»",
-          apoyo: "Las dorsales oceánicas, como la Dorsal del Atlántico Medio, se forman como resultado de:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "La subducción de placas oceánicas que acumulan material y crean relieves submarinos en forma de cordillera.",
@@ -674,7 +674,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1/5 — Formas del relieve",
           enunciado: "«¿Cuál es la principal razón por la que las llanuras costeras e interiores concentran la mayor actividad agrícola del mundo?»",
-          apoyo: "¿Cuál es la principal razón por la que las llanuras costeras e interiores concentran la mayor actividad agrícola del mundo?",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Porque las llanuras contienen la mayor concentración de minerales preciosos del planeta.",
@@ -696,7 +696,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 2/5 — Formas del relieve",
           enunciado: "«Las mesetas son superficies elevadas y relativamente planas. ¿Qué actividades económicas predominan típicamente en ellas?»",
-          apoyo: "Las mesetas son superficies elevadas y relativamente planas. ¿Qué actividades económicas predominan típicamente en ellas?",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "La agricultura de irrigación intensiva y los cultivos de hortalizas, por la disponibilidad de agua subterránea.",
@@ -718,7 +718,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 3/5 — Formas del relieve",
           enunciado: "«Las montañas funcionan como barreras climáticas principalmente porque:»",
-          apoyo: "Las montañas funcionan como barreras climáticas principalmente porque:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Absorben la radiación solar y la retransmiten como calor hacia las llanuras adyacentes, generando microclimas locales.",
@@ -740,7 +740,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 4/5 — Formas del relieve",
           enunciado: "«El Altiplano Central de México, donde se ubica la Ciudad de México, tiene una altitud aproximada de:»",
-          apoyo: "El Altiplano Central de México, donde se ubica la Ciudad de México, tiene una altitud aproximada de:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "200 a 400 metros sobre el nivel del mar, similar a las llanuras costeras del Golfo de México.",
@@ -762,7 +762,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 5/5 — Formas del relieve",
           enunciado: "«¿Cuál de las siguientes descripciones corresponde correctamente a una llanura?»",
-          apoyo: "¿Cuál de las siguientes descripciones corresponde correctamente a una llanura?",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Superficie de relieve abrupto y altitudes superiores a 1,500 metros, con pendientes pronunciadas y valles profundos.",
@@ -829,7 +829,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 1/5 — Ciclo hidrológico",
           enunciado: "«El ciclo hidrológico relaciona cuatro esferas terrestres. ¿Cuál de las siguientes opciones las menciona correctamente?»",
-          apoyo: "El ciclo hidrológico relaciona cuatro esferas terrestres. ¿Cuál de las siguientes opciones las menciona correctamente?",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "Hidrósfera, atmósfera, magnetósfera y litósfera.",
@@ -851,7 +851,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 2/5 — Ciclo hidrológico",
           enunciado: "«La transpiración de las plantas es parte del ciclo hidrológico. ¿Qué par de esferas terrestres relaciona este proceso?»",
-          apoyo: "La transpiración de las plantas es parte del ciclo hidrológico. ¿Qué par de esferas terrestres relaciona este proceso?",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "De la litósfera hacia la hidrósfera: el agua del suelo pasa a los ríos a través de las raíces de los árboles.",
@@ -873,7 +873,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 3/5 — Ciclo hidrológico",
           enunciado: "«¿Qué proceso del ciclo hidrológico abastece los acuíferos (mantos freáticos) subterráneos?»",
-          apoyo: "¿Qué proceso del ciclo hidrológico abastece los acuíferos (mantos freáticos) subterráneos?",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "La evaporación, que transfiere agua líquida desde la superficie oceánica hacia la atmósfera en forma de vapor.",
@@ -895,7 +895,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 4/5 — Ciclo hidrológico",
           enunciado: "«El principal motor energético que impulsa el ciclo hidrológico es:»",
-          apoyo: "El principal motor energético que impulsa el ciclo hidrológico es:",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "La rotación y traslación de la Tierra, que generan los vientos y las corrientes oceánicas que transportan el vapor de agua.",
@@ -917,7 +917,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reactivo 5/5 — Ciclo hidrológico",
           enunciado: "«¿Cuál proceso del ciclo hidrológico convierte el vapor de agua en gotas líquidas que forman las nubes?»",
-          apoyo: "¿Cuál proceso del ciclo hidrológico convierte el vapor de agua en gotas líquidas que forman las nubes?",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: [
             "La precipitación, cuando el agua líquida cae desde las nubes hacia la superficie terrestre en forma de lluvia o nieve.",

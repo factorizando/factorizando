@@ -4445,7 +4445,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Funciones de la lengua · 1 / 20",
           enunciado: "¿Qué función de la lengua predomina en el siguiente fragmento?  «El agua hierve a 100 °C al nivel del mar.»",
-          apoyo: "El agua hierve a 100 °C al nivel del mar.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Referencial", "Emotiva", "Metalingüística", "Apelativa"],
           correcta: 0,
@@ -4463,7 +4463,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Funciones de la lengua · 2 / 20",
           enunciado: "¿Qué función de la lengua predomina en el siguiente fragmento?  «¡Ay, qué felicidad tan grande siento al verte de nuevo!»",
-          apoyo: "¡Ay, qué felicidad tan grande siento al verte de nuevo!",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Emotiva", "Apelativa", "Poética", "Referencial"],
           correcta: 0,
@@ -4481,7 +4481,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Funciones de la lengua · 3 / 20",
           enunciado: "¿Qué función de la lengua predomina en el siguiente fragmento?  «Cierra la puerta y siéntate, por favor.»",
-          apoyo: "Cierra la puerta y siéntate, por favor.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Apelativa", "Emotiva", "Fática", "Referencial"],
           correcta: 0,
@@ -4499,7 +4499,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Funciones de la lengua · 4 / 20",
           enunciado: "¿Qué función de la lengua predomina en el siguiente fragmento?  «¿Bueno? ¿Me escuchas? ¿Sigues ahí?»",
-          apoyo: "¿Bueno? ¿Me escuchas? ¿Sigues ahí?",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Fática", "Apelativa", "Emotiva", "Metalingüística"],
           correcta: 0,
@@ -4517,7 +4517,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Funciones de la lengua · 5 / 20",
           enunciado: "¿Qué función de la lengua predomina en el siguiente fragmento?  «La palabra “casa” es un sustantivo común y femenino.»",
-          apoyo: "La palabra “casa” es un sustantivo común y femenino.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Metalingüística", "Referencial", "Poética", "Apelativa"],
           correcta: 0,
@@ -4535,7 +4535,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Funciones de la lengua · 6 / 20",
           enunciado: "¿Qué función de la lengua predomina en el siguiente fragmento?  «Tus ojos son dos luceros que iluminan mi camino.»",
-          apoyo: "Tus ojos son dos luceros que iluminan mi camino.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Poética", "Emotiva", "Referencial", "Apelativa"],
           correcta: 0,
@@ -4553,7 +4553,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Funciones de la lengua · 7 / 20",
           enunciado: "¿Qué función de la lengua predomina en el siguiente fragmento?  «La Revolución Mexicana inició en 1910.»",
-          apoyo: "La Revolución Mexicana inició en 1910.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Referencial", "Poética", "Emotiva", "Metalingüística"],
           correcta: 0,
@@ -4571,7 +4571,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Funciones de la lengua · 8 / 20",
           enunciado: "¿Qué función de la lengua predomina en el siguiente fragmento?  «¡Compra ahora y llévate un 50% de descuento!»",
-          apoyo: "¡Compra ahora y llévate un 50% de descuento!",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Apelativa", "Emotiva", "Referencial", "Fática"],
           correcta: 0,
@@ -4589,7 +4589,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Funciones de la lengua · 9 / 20",
           enunciado: "¿Qué función de la lengua predomina en el siguiente fragmento?  «Me siento devastado; no sé cómo seguir adelante.»",
-          apoyo: "Me siento devastado; no sé cómo seguir adelante.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Emotiva", "Referencial", "Apelativa", "Poética"],
           correcta: 0,
@@ -4607,7 +4607,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Funciones de la lengua · 10 / 20",
           enunciado: "¿Qué función de la lengua predomina en el siguiente fragmento?  «Ajá… sí… claro… te escucho, sigue.»",
-          apoyo: "Ajá… sí… claro… te escucho, sigue.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Fática", "Emotiva", "Apelativa", "Referencial"],
           correcta: 0,
@@ -4625,7 +4625,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Funciones de la lengua · 11 / 20",
           enunciado: "¿Qué función de la lengua predomina en el siguiente fragmento?  «El verbo “haber” se escribe con hache y con be.»",
-          apoyo: "El verbo “haber” se escribe con hache y con be.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Metalingüística", "Referencial", "Apelativa", "Poética"],
           correcta: 0,
@@ -4643,7 +4643,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Funciones de la lengua · 12 / 20",
           enunciado: "¿Qué función de la lengua predomina en el siguiente fragmento?  «En el silencio de la noche, la luna llora estrellas de plata.»",
-          apoyo: "En el silencio de la noche, la luna llora estrellas de plata.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Poética", "Emotiva", "Referencial", "Fática"],
           correcta: 0,
@@ -4661,7 +4661,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Funciones de la lengua · 13 / 20",
           enunciado: "¿Qué función de la lengua predomina en el siguiente fragmento?  «El estadio tiene capacidad para ochenta mil espectadores.»",
-          apoyo: "El estadio tiene capacidad para ochenta mil espectadores.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Referencial", "Emotiva", "Apelativa", "Poética"],
           correcta: 0,
@@ -4679,7 +4679,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Funciones de la lengua · 14 / 20",
           enunciado: "¿Qué función de la lengua predomina en el siguiente fragmento?  «No olvides lavarte las manos antes de comer.»",
-          apoyo: "No olvides lavarte las manos antes de comer.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Apelativa", "Referencial", "Emotiva", "Metalingüística"],
           correcta: 0,
@@ -4697,7 +4697,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Funciones de la lengua · 15 / 20",
           enunciado: "¿Qué función de la lengua predomina en el siguiente fragmento?  «¡Qué miedo siento cuando truena tan fuerte!»",
-          apoyo: "¡Qué miedo siento cuando truena tan fuerte!",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Emotiva", "Apelativa", "Referencial", "Poética"],
           correcta: 0,
@@ -4715,7 +4715,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Funciones de la lengua · 16 / 20",
           enunciado: "¿Qué función de la lengua predomina en el siguiente fragmento?  «¿Aló? ¿Hola? Creo que se cortó la llamada.»",
-          apoyo: "¿Aló? ¿Hola? Creo que se cortó la llamada.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Fática", "Apelativa", "Emotiva", "Metalingüística"],
           correcta: 0,
@@ -4733,7 +4733,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Funciones de la lengua · 17 / 20",
           enunciado: "¿Qué función de la lengua predomina en el siguiente fragmento?  «“Sinónimo” significa palabra de significado parecido.»",
-          apoyo: "“Sinónimo” significa palabra de significado parecido.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Metalingüística", "Referencial", "Apelativa", "Poética"],
           correcta: 0,
@@ -4751,7 +4751,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Funciones de la lengua · 18 / 20",
           enunciado: "¿Qué función de la lengua predomina en el siguiente fragmento?  «Caminante, no hay camino, se hace camino al andar.»",
-          apoyo: "Caminante, no hay camino, se hace camino al andar.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Poética", "Apelativa", "Emotiva", "Referencial"],
           correcta: 0,
@@ -4769,7 +4769,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Funciones de la lengua · 19 / 20",
           enunciado: "¿Qué función de la lengua predomina en el siguiente fragmento?  «México colinda al norte con Estados Unidos.»",
-          apoyo: "México colinda al norte con Estados Unidos.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Referencial", "Poética", "Emotiva", "Apelativa"],
           correcta: 0,
@@ -4787,7 +4787,7 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Funciones de la lengua · 20 / 20",
           enunciado: "¿Qué función de la lengua predomina en el siguiente fragmento?  «Vota por el cambio este domingo.»",
-          apoyo: "Vota por el cambio este domingo.",
+          
           apoyoPie: "obsérvala antes de responder",
           opciones: ["Apelativa", "Referencial", "Emotiva", "Fática"],
           correcta: 0,

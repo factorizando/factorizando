@@ -16,8 +16,13 @@ export function Pregunta({ bloque, tema, respuestaDada, onResponder, reflujo }) 
   const resuelto = respuestaDada != null;
   const correcta = bloque.correcta;
   const aLado = bloque.disposicion === "lado" && !reflujo;
-  // Una oración con hueco, no una palabra: cambia cómo se compone la tarjeta.
-  const esOracion = /_{2,}/.test(bloque.apoyo || "") && (bloque.apoyo || "").trim().split(/\s+/).length >= 4;
+  // Una oración, no una palabra: cambia cómo se compone la tarjeta. Lo decide la
+  // LONGITUD, no si hay un hueco. Antes exigía «__», así que una frase de once
+  // palabras sin hueco caía en el tratamiento de espécimen —monoespaciada a 25px,
+  // centrada y con las letras separadas—, que está pensado para mirar una palabra
+  // letra por letra y vuelve ilegible una oración.
+  const palabrasApoyo = (bloque.apoyo || "").trim().split(/\s+/).filter(Boolean).length;
+  const esOracion = palabrasApoyo >= 4;
 
   // El rótulo va FUERA de las dos columnas, no dentro de la primera. Cuando
   // estaba dentro, las opciones se alineaban con él y no con la pregunta: 49 px

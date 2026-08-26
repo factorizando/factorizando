@@ -258,8 +258,6 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Ecología · Niveles y factores · Reactivo 11 / 16",
           enunciado: "La función o «papel» que desempeña una especie dentro del ecosistema (qué come, con qué interactúa) se denomina:",
-          apoyo: "papel",
-          apoyoPie: "obsérvala antes de responder",
           opciones: ["Nicho ecológico", "Hábitat", "Bioma", "Comunidad"],
           correcta: 0,
           explicacion: "El nicho ecológico es el rol o modo de vida de la especie en su ecosistema (su alimentación, sus relaciones); responde a «¿a qué se dedica?».",

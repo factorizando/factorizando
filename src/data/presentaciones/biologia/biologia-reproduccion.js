@@ -945,8 +945,6 @@ export const PRESENTACION = {
           ancho: 12,
           etiqueta: "Reproducción · Plantas · Reactivo 10 / 16",
           enunciado: "La papa, que origina nuevas plantas a partir de sus «ojos», se reproduce asexualmente por:",
-          apoyo: "ojos",
-          apoyoPie: "obsérvala antes de responder",
           opciones: ["Tubérculos", "Semillas", "Polinización", "Esporas"],
           correcta: 0,
           explicacion: "La papa es un tubérculo (tallo subterráneo) que puede generar nuevas plantas clónicas a partir de sus yemas u «ojos»: reproducción asexual vegetativa.",

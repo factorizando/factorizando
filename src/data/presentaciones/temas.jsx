@@ -252,6 +252,36 @@ function haciaOscuro(hex, t = 0.42) {
   return `#${[16, 8, 0].map((x) => mez(x).toString(16).padStart(2, "0")).join("")}`;
 }
 
+// ── Canales de dibujo ─────────────────────────────────────────────────────────
+// Un diagrama que necesita distinguir varias cosas —cuatro categorías de una
+// gráfica, dos fuerzas opuestas, radio contra cuerda— lo hace con esta escala y
+// no con matices sueltos. Cuatro pasos del MISMO tono del acento, separados por
+// luminosidad, más un neutro: se distinguen con cualquier daltonismo y no meten
+// un color que compita con el de la materia (docs/DISENO.md §2.1).
+//
+// Deliberadamente son solo cuatro. Un dibujo que necesite un quinto canal está
+// diciendo que lleva demasiada información para una diapositiva.
+function mezcla(hex, hacia, t) {
+  const n = parseInt(hex.slice(1), 16), d = parseInt(hacia.slice(1), 16);
+  const c = (desp) => Math.round(((n >> desp) & 255) * (1 - t) + ((d >> desp) & 255) * t);
+  return `#${[16, 8, 0].map((x) => c(x).toString(16).padStart(2, "0")).join("")}`;
+}
+
+function crearCanales(acento, claro) {
+  const luz = claro ? "#0a2540" : "#ffffff";   // hacia dónde se aclara
+  const sombra = claro ? "#ffffff" : "#0a2540"; // hacia dónde se apaga
+  // Medido sobre el acento de matemáticas, el par de pasos más parecido queda en
+  // ~1.6 de contraste. Sirve para dos o tres cosas que además se distinguen por
+  // forma o posición; NO sirve para cuatro categorías que se tocan, como los
+  // sectores de una gráfica circular. Ver la nota de docs/DISENO.md §2.1.
+  return [
+    acento,                          // 0 · el principal
+    mezcla(acento, luz, 0.55),       // 1 · claro
+    mezcla(acento, sombra, 0.45),    // 2 · apagado
+    mezcla(acento, sombra, 0.72),    // 3 · hundido
+  ];
+}
+
 // Las cinco opacidades del acento se calculan; antes se tecleaban una por una
 // en cada paleta, que es como acababan discrepando entre materias.
 function conAlfa(hex, alfa) {
@@ -279,6 +309,9 @@ function crearTema(id, DecoSVG, canales, esquema = "oscuro") {
     acentoFuerte: conAlfa(acento, 0.4),
     acentoOpaco:  conAlfa(acento, 0.28),
     ...canalesDelEsquema,
+    // `canales[0..3]`: la escala de arriba. `canal(i)` para no indexar fuera.
+    canales: crearCanales(acento, claro),
+    canal(i) { return this.canales[Math.min(3, Math.max(0, i | 0))]; },
     ...(claro ? BASE_CLARO : BASE),
     ...TIPOGRAFIA,
     DecoSVG,

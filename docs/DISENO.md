@@ -55,10 +55,16 @@ un bloque de presentación → `fx.css` para el token exacto → código.
 - **El fondo oscuro no es negro puro.** Parte de `--fx-primary-900` y sube dos
   escalones. En videollamada el texto claro sobre casi negro se rompe en bloques al
   comprimirse, y en OLED produce halo alrededor de la letra.
-- **Dentro de un dibujo los elementos se separan por valor y trazo, no por matiz.**
-  Con siete materias no queda ningún hue libre. Los cuatro canales disponibles son:
-  acento relleno · trazo fuerte en `--fx-text-heading` · trazo medio en
-  `--fx-text-muted` · punteado del mismo acento.
+- **Dentro de un dibujo los elementos se separan por valor y trazo, no por matiz** —
+  hasta tres elementos. `tema.canal(0..3)` da cuatro pasos del mismo tono del acento.
+  **Medido: el par más parecido de esa escala queda en ~1.6 de contraste.** Alcanza cuando
+  además hay forma o posición que distinga (dos fuerzas opuestas, radio contra cuerda),
+  y no alcanza para cuatro categorías que se tocan.
+- **Las gráficas categóricas son la excepción y conservan matices.** Cuatro sectores de una
+  circular no se distinguen con una rampa de un solo tono: se midió sobre `graficas-circular`
+  y el peor par quedaba en 1.04 —misma luminosidad, solo cambia la saturación—. Ahí el matiz
+  hace trabajo que el valor no puede hacer. La regla es elegir matices seguros para el
+  daltonismo (azul, ámbar, teal, ciruela; **nunca verde contra rojo**), no renunciar a ellos.
 - **Nada se distingue solo por color.** Siempre hay además forma, posición o rótulo.
 
 ### 2.2. Tipografía

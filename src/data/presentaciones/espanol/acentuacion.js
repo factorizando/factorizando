@@ -1586,8 +1586,8 @@ export const PRESENTACION = {
         },
       ],
     },
-    // ── TEMPORAL · comparativa para decidir el criterio de los reactivos de una
-    // sola palabra. Estas dos diapositivas se borran en cuanto se elija. ──
+    // ── TEMPORAL · comparativa para decidir el criterio de los reactivos.
+    // Se borran las tres en cuanto se elija. ──
     {
       id: 900,
       tipo: "lienzo",
@@ -1595,13 +1595,13 @@ export const PRESENTACION = {
         {
           tipo: "pregunta",
           disposicion: "lado",
-          etiqueta: "Comparativa A — la palabra sigue aislada",
-          enunciado: "¿Cuántas sílabas tiene esta palabra?",
+          etiqueta: "A · como está hoy en las otras 70",
+          enunciado: "¿Cuántas sílabas tiene la palabra «establecimiento»?",
           apoyo: "establecimiento",
           apoyoPie: "separa antes de contar",
           opciones: ["5 sílabas", "6 sílabas", "7 sílabas"],
           correcta: 1,
-          explicacion: "Se quita «establecimiento» del enunciado, no del recuadro. La palabra sigue sola, en monoespaciada y con las letras separadas, que es lo que permite contarla sílaba por sílaba.",
+          explicacion: "Tres objetos apilados —pregunta, recuadro, pie— y la palabra dicha dos veces. Las dos columnas acaban a distinta altura.",
         },
       ],
     },
@@ -1612,12 +1612,30 @@ export const PRESENTACION = {
         {
           tipo: "pregunta",
           disposicion: "lado",
-          etiqueta: "Comparativa B — la pregunta entera en el recuadro",
+          etiqueta: "B · la pregunta entera dentro del recuadro",
           apoyo: "¿Cuántas sílabas tiene la palabra «establecimiento»?",
           apoyoPie: "separa antes de contar",
           opciones: ["5 sílabas", "6 sílabas", "7 sílabas"],
           correcta: 1,
-          explicacion: "Un solo elemento: la pregunta completa dentro del recuadro y nada encima. La palabra deja de estar aislada y la pregunta se compone en monoespaciada con las letras separadas, que es el tratamiento pensado para mirar una palabra.",
+          explicacion: "Un solo objeto, pero la pregunta hereda el tratamiento de espécimen —monoespaciada, acentuada, con las letras separadas— que estaba pensado para mirar una palabra, no para leer una frase.",
+        },
+      ],
+    },
+    {
+      id: 902,
+      tipo: "lienzo",
+      bloques: [
+        {
+          tipo: "pregunta",
+          disposicion: "lado",
+          preguntaDentro: true,
+          etiqueta: "C · pregunta dentro, palabra debajo, alturas iguales",
+          enunciado: "¿Cuántas sílabas tiene la siguiente palabra?",
+          apoyo: "establecimiento",
+          apoyoPie: "separa antes de contar",
+          opciones: ["5 sílabas", "6 sílabas", "7 sílabas"],
+          correcta: 1,
+          explicacion: "Un solo objeto y dos niveles dentro: la pregunta en el color del texto y la palabra en el acento, que sigue siendo lo que hay que mirar. El recuadro crece hasta igualar la pila de opciones, así que las dos columnas terminan a la misma altura.",
         },
       ],
     },

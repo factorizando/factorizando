@@ -29,8 +29,15 @@ export function Pregunta({ bloque, tema, respuestaDada, onResponder, reflujo }) 
   // reactivos de Acentuación: el texto más largo de una opción ocupa 74 px de
   // mediana dentro de un botón de 680 — un 11 %. Esos recuadros casi vacíos
   // pesaban más que la pregunta y se llevaban la vista antes que ella.
+  // Con `preguntaDentro` la pregunta se compone DENTRO del recuadro, encima del
+  // espécimen, y no queda nada suelto encima. Así el reactivo es un solo objeto
+  // —recuadro contra opciones— en vez de tres apilados.
+  const dentro = !!bloque.preguntaDentro && !!bloque.apoyo;
+  // `stretch` en vez de `start`: las dos columnas acaban a la misma altura y el
+  // recuadro crece hasta igualar la pila de opciones. Con `start` cada columna
+  // medía lo suyo y el desnivel se leía como un escalón.
   const columnas = aLado
-    ? { display: "grid", gridTemplateColumns: "7fr 5fr", gap: 26, alignItems: "start" }
+    ? { display: "grid", gridTemplateColumns: "7fr 5fr", gap: 26, alignItems: dentro ? "stretch" : "start" }
     : undefined;
 
   return (
@@ -42,8 +49,8 @@ export function Pregunta({ bloque, tema, respuestaDada, onResponder, reflujo }) 
       )}
 
       <div style={columnas}>
-        <div>
-          {bloque.enunciado && (
+        <div style={dentro ? { display: "flex", flexDirection: "column" } : undefined}>
+          {bloque.enunciado && !dentro && (
             <p style={{ fontFamily: tema.titulo, fontWeight: 500, fontSize: aLado ? 27 : 24, lineHeight: 1.28, letterSpacing: "-0.015em", color: tema.texto, margin: aLado ? 0 : "0 0 18px", textWrap: "pretty" }}>
               {bloque.enunciado}
             </p>
@@ -58,7 +65,24 @@ export function Pregunta({ bloque, tema, respuestaDada, onResponder, reflujo }) 
             // se agranda y se separa —es lo que hay que mirar letra por letra—;
             // una oración a ese tamaño y con esa separación se vuelve ilegible,
             // así que baja de cuerpo y se alinea a la izquierda, como se lee.
-            <div style={{ marginTop: bloque.enunciado ? 22 : 0, background: tema.card, border: `1px solid ${tema.border}`, borderRadius: 10, padding: "18px 20px", textAlign: esOracion ? "left" : "center" }}>
+            <div style={{
+              marginTop: bloque.enunciado && !dentro ? 22 : 0,
+              background: tema.card, border: `1px solid ${tema.border}`, borderRadius: 10,
+              padding: dentro ? "26px 24px" : "18px 20px",
+              textAlign: esOracion ? "left" : "center",
+              // Igualar altura sin centrar deja la pregunta pegada arriba y un
+              // hueco muerto debajo; centrando, el recuadro se lee como una
+              // pieza y no como una caja a medio llenar.
+              ...(dentro ? { flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", gap: 18 } : null),
+            }}>
+              {dentro && bloque.enunciado && (
+                // La pregunta va en el color del texto, no en el del acento: el
+                // acento queda reservado para el espécimen, que es lo que hay
+                // que mirar. Dos niveles dentro de la misma caja.
+                <p style={{ fontFamily: tema.titulo, fontWeight: 500, fontSize: 24, lineHeight: 1.3, letterSpacing: "-0.015em", color: tema.texto, margin: 0, textWrap: "pretty", textAlign: esOracion ? "left" : "center" }}>
+                  {bloque.enunciado}
+                </p>
+              )}
               {bloque.apoyoRotulo && (
                 <div style={{ fontFamily: tema.mono, fontSize: 10, letterSpacing: "0.16em", textTransform: "uppercase", color: tema.sub, marginBottom: 11, textAlign: esOracion ? "left" : "center" }}>
                   {bloque.apoyoRotulo}
@@ -66,7 +90,7 @@ export function Pregunta({ bloque, tema, respuestaDada, onResponder, reflujo }) 
               )}
               <div style={{
                 fontFamily: tema.mono,
-                fontSize: esOracion ? 17 : 25,
+                fontSize: esOracion ? 17 : dentro ? 28 : 25,
                 lineHeight: esOracion ? 1.6 : 1.2,
                 letterSpacing: esOracion ? "0.02em" : "0.16em",
                 color: tema.acento,

@@ -9,7 +9,7 @@ export default function AnaPortadaSVG({ tema }) {
   return (
     <svg viewBox="0 0 230 140" width="100%" style={{ display: "block", maxHeight: 140, maxWidth: 280 }}>
       {/* hoja con estoma */}
-      <path d="M 30 86 q 18 -44 44 -2 q -18 30 -44 2 Z" fill="rgba(74,222,128,0.16)" stroke={gr} strokeWidth="1.6" />
+      <path d="M 30 86 q 18 -44 44 -2 q -18 30 -44 2 Z" fill={`${gr}29`} stroke={gr} strokeWidth="1.6" />
       <line x1={36} y1={78} x2={66} y2={50} stroke={gr} strokeWidth="1.2" />
       <ellipse cx={52} cy={70} rx={5} ry={3} fill="none" stroke={a} strokeWidth="1.3" />
       <text x={52} y={100} textAnchor="middle" fill={mu} fontSize="7" fontFamily="'Figtree', system-ui, sans-serif">estoma</text>

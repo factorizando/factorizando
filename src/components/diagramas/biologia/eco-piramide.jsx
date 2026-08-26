@@ -4,18 +4,24 @@
 
 export default function EcoPiramideSVG({ tema }) {
   const a = tema.acento, mu = tema.muted, T = tema.texto;
+  // TINTE ARBITRARIO convertido: los cuatro niveles no son categorías sueltas,
+  // son una magnitud ordenada (100 % → 0.1 %), que es justo lo que la rampa del
+  // acento sabe expresar (docs/DISENO.md §2.4, escala secuencial de un matiz).
+  // Los cuatro hexes de antes —verde, teal, oro, rosa— no decían nada que el
+  // ancho y el porcentaje no dijeran ya.
   const niveles = [
-    { label: "Productores", pct: "100%", w: 200, c: "#4ade80" },
-    { label: "Cons. 1.°", pct: "10%", w: 150, c: "#34d399" },
-    { label: "Cons. 2.°", pct: "1%", w: 100, c: "#f5c842" },
-    { label: "Cons. 3.°", pct: "0.1%", w: 56, c: "#fb7185" },
+    { label: "Productores", pct: "100%", w: 200 },
+    { label: "Cons. 1.°", pct: "10%", w: 150 },
+    { label: "Cons. 2.°", pct: "1%", w: 100 },
+    { label: "Cons. 3.°", pct: "0.1%", w: 56 },
   ];
   const H = 22, ox = 140, oy = 26;
   return (
     <svg viewBox="0 0 280 130" width="100%" style={{ display: "block", maxHeight: 140 }}>
       <text x={140} y={14} textAnchor="middle" fill={a} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif">pirámide trófica — regla del 10 %</text>
-      {niveles.map(({ label, pct, w, c }, i) => {
+      {niveles.map(({ label, pct, w }, i) => {
         const y = oy + (niveles.length - 1 - i) * H;
+        const c = tema.canal(i);
         return (
           <g key={i}>
             <rect x={ox - w / 2} y={y} width={w} height={H - 3} rx={2} fill={`${c}28`} stroke={c} strokeWidth="1.5" />

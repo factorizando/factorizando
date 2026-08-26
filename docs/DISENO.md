@@ -310,3 +310,35 @@ impedía usar tokens. Es el primer uso de `color-mix()` en el proyecto.
 legadas, así que en tema claro la marca se pierde contra la barra. No se toca desde aquí:
 cambiarlo arreglaría el cuestionario y rompería las otras siete. El reloj sigue usando ⏰
 como ícono, que es la misma infracción de forma más leve.
+
+### 2026-08-25 · Los 23 que quedaban: cuándo un matiz sí significa algo
+
+*Qué:* barrido de los verdes, rojos y rosas que la fase 4D no alcanzó porque estaban
+cocidos como hex o `rgba()` y no como token. De los 23 más los rosas de Química, **18
+eran relleno huérfano**: la 4D ya había pasado el `stroke` a `tema.canal(N)` y había
+dejado el `fill` con el hex viejo, así que la caja tenía contorno de la rampa y relleno
+de otro tono. Pasan a `${tema.canal(N)}aa` y `${tema.azul}aa`.
+
+**Cuatro se quedan, y llevan comentario diciendo por qué**: el degradado de
+`mod-espectro` (es el espectro visible), los diez tramos de `qaa-ph` (son los colores
+reales del indicador universal), los biomas de `eco-biomas` y los cinco reinos de
+`evo-reinos`. En los cuatro el matiz **es** el dato que enseña la diapositiva.
+
+*La regla que salió de clasificarlos:* la pregunta no es «¿es verde?» sino **«¿el alumno
+tiene que leer el color para entender el dibujo?»**. Si la respuesta es sí, el matiz se
+queda y se documenta; si es no, sale a la rampa. Y un caso mixto lo separa: en `qaa-ph`
+la escala se queda, pero los rótulos ÁCIDO / NEUTRO / BÁSICO no eran indicador sino
+tipografía —el verde quedaba en ~1.5 de contraste sobre papel— y pasan a `tema.texto`.
+Los distingue el tramo que tienen encima, que es posición y no matiz.
+
+*Lo que enseñó la medición, otra vez:* la pirámide trófica pasó de cuatro matices a
+cuatro pasos de la rampa, y en **tema claro los dos últimos quedan a 1.27** —en Biología
+la rampa no tiene recorrido para cuatro—. Se queda así porque ahí el color es redundante:
+cada nivel tiene su ancho, su porcentaje y su rótulo. Es el mismo criterio que la urna de
+probabilidad, al revés: cuando el color carga toda la distinción hay que darle forma;
+cuando la forma ya la carga, la rampa puede permitirse ser estrecha.
+
+*Nota de alcance:* `derivada-secante` vive en un **documento**, no en una diapositiva, y
+`DocumentoRenderer` no pasa `tema`. Va con los tokens de `theme.css` como sus dos
+hermanas, y por `style` y no por atributo, porque `var()` no se sustituye en un atributo
+de presentación de SVG.

@@ -11,7 +11,7 @@ export default function EcoPortadaSVG({ tema }) {
       {/* sol */}
       <circle cx={40} cy={32} r={12} fill="rgba(245,200,66,0.3)" stroke={gold} strokeWidth="1.6" />
       {/* suelo */}
-      <path d="M 0 110 q 110 -22 220 0 v 30 H 0 Z" fill="rgba(74,222,128,0.10)" stroke={tema.canal(1)} strokeWidth="1.6" />
+      <path d="M 0 110 q 110 -22 220 0 v 30 H 0 Z" fill={`${tema.canal(1)}1a`} stroke={tema.canal(1)} strokeWidth="1.6" />
       {/* árbol */}
       <line x1={90} y1={110} x2={90} y2={78} stroke={a} strokeWidth="3" />
       <circle cx={90} cy={70} r={16} fill="rgba(52,211,153,0.2)" stroke={a} strokeWidth="1.6" />

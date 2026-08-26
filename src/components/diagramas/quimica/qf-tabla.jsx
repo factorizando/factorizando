@@ -12,7 +12,7 @@ export default function QfTablaSVG({ tema }) {
       <text x={72} y={14} textAnchor="middle" fill={a} fontSize="8.5" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700">ENLACE IÓNICO</text>
       <circle cx={42} cy={46} r={15} fill="rgba(192,132,252,0.12)" stroke={a} strokeWidth="1.6" />
       <text x={42} y={49} textAnchor="middle" fill={a} fontSize="9" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">Na⁺</text>
-      <circle cx={104} cy={46} r={15} fill="rgba(244,114,182,0.12)" stroke={bl} strokeWidth="1.6" />
+      <circle cx={104} cy={46} r={15} fill={`${bl}1f`} stroke={bl} strokeWidth="1.6" />
       <text x={104} y={49} textAnchor="middle" fill={bl} fontSize="9" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">Cl⁻</text>
       <line x1={60} y1={40} x2={86} y2={40} stroke={mu} strokeWidth="1.5" />
       <polygon points={arrowHead(60, 40, 86, 40, 6)} fill={mu} />

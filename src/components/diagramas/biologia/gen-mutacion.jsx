@@ -20,7 +20,7 @@ export default function GenMutacionSVG({ tema }) {
         const changed = b !== seqA[i];
         return (
           <g key={i}>
-            <rect x={28 + i * 42} y={64} width={28} height={20} rx={4} fill={changed ? "rgba(248,113,113,0.2)" : "rgba(134,239,172,0.10)"} stroke={changed ? tema.canal(2) : bl} strokeWidth={changed ? 2 : 1.4} />
+            <rect x={28 + i * 42} y={64} width={28} height={20} rx={4} fill={changed ? `${tema.canal(2)}33` : `${bl}1a`} stroke={changed ? tema.canal(2) : bl} strokeWidth={changed ? 2 : 1.4} />
             <text x={42 + i * 42} y={78} textAnchor="middle" fill={changed ? tema.canal(2) : bl} fontSize="9" fontFamily="'Figtree', system-ui, sans-serif">{b}</text>
           </g>
         );

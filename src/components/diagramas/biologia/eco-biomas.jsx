@@ -4,6 +4,9 @@
 
 export default function EcoBiomasSVG({ tema }) {
   const mu = tema.muted, T = tema.texto;
+  // DESCRIPTIVO — no tocar: cada bioma lleva el color de su vegetación real
+  // (selva verde, desierto árido, manglar costero). El matiz dice qué es el
+  // bioma (docs/DISENO.md §2.1, excepción de matiz con significado).
   const biomas = [
     { label: "Selva", sub: "cálido-húmedo", c: "#4ade80" },
     { label: "Bosque", sub: "templado", c: "#34d399" },

@@ -16,7 +16,7 @@ export default function QaaContaminacionSVG({ tema }) {
       <text x={72} y={83} textAnchor="middle" fill={mu} fontSize="6.3" fontFamily="'Figtree', system-ui, sans-serif">bosques y edificios</text>
       {/* inversión térmica */}
       <text x={216} y={14} textAnchor="middle" fill={a} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700">INVERSIÓN TÉRMICA</text>
-      <rect x={160} y={20} width={112} height={14} rx={3} fill="rgba(244,114,182,0.18)" stroke={bl} strokeWidth="1" />
+      <rect x={160} y={20} width={112} height={14} rx={3} fill={`${bl}2e`} stroke={bl} strokeWidth="1" />
       <text x={216} y={30} textAnchor="middle" fill={bl} fontSize="6" fontFamily="'Figtree', system-ui, sans-serif">aire caliente (tapa)</text>
       <rect x={160} y={36} width={112} height={26} rx={3} fill="rgba(120,120,140,0.3)" stroke={mu} strokeWidth="1" />
       <text x={216} y={47} textAnchor="middle" fill={T} fontSize="6.3" fontFamily="'Figtree', system-ui, sans-serif">aire frío + contaminantes</text>

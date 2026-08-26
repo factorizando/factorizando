@@ -4,6 +4,11 @@
 
 export default function EvoReinosSVG({ tema }) {
   const a = tema.acento, mu = tema.muted, T = tema.texto;
+  // DESCRIPTIVO — no tocar: cinco categorías sin orden, que es la excepción
+  // categórica de docs/DISENO.md §2.1 (la rampa del acento solo da cuatro
+  // pasos, y aquí no hay magnitud que ordenar). Plantae va en verde porque
+  // las plantas lo son. Cada reino lleva además su rótulo, así que nada se
+  // distingue solo por color.
   const reinos = [
     { label: "Monera", sub: "bacterias", c: "#f5c842" },
     { label: "Protista", sub: "algas", c: "#22d3ee" },

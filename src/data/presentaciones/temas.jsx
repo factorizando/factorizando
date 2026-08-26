@@ -324,16 +324,38 @@ function conAlfa(hex, alfa) {
   return `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}, ${alfa})`;
 }
 
-// `canales` son los colores con los que los diagramas separan elementos dentro
-// de un dibujo. No son marca, y por eso se conservan tal cual estaban: los usan
-// 215 archivos. Pasarlos al criterio de «valor y trazo, no matiz» de
-// docs/DISENO.md §2.1 es la fase 4D del plan de migración.
-function crearTema(id, DecoSVG, canales, esquema = "oscuro") {
+// `azul` es el canal AJENO: el único matiz que no sale del acento, y que hace
+// falta cuando algo tiene que contrastar con él (en Química es rosa, en Historia
+// ámbar; el nombre se quedó del tiempo en que todos eran azules). Un hex por
+// materia, escrito una sola vez: las tres opacidades salen de `conAlfa()` y el
+// tono de texto de aclararlo. Antes se tecleaban las cuatro variantes a mano en
+// cada paleta, y otra vez en la de tema claro —ocho copias del mismo hex, con
+// alfas que ya habían derivado entre materias (0.06 aquí, 0.07 allá).
+const CANAL_AJENO = {
+  matematicas: "#3b9eff",
+  espanol:     "#8aaaf7",
+  fisica:      "#818cf8",
+  biologia:    "#86efac",
+  quimica:     "#f472b6",
+  geografia:   "#a3e635",
+  historia:    "#fbbf24",
+};
+
+function crearCanalAjeno(id, claro) {
+  const base = claro ? haciaOscuro(CANAL_AJENO[id]) : CANAL_AJENO[id];
+  return {
+    azul:       base,
+    azulSuave:  conAlfa(base, 0.06),
+    azulMed:    conAlfa(base, 0.10),
+    azulBorde:  conAlfa(base, 0.21),
+    azulTexto:  mezcla(base, claro ? "#0a2540" : "#ffffff", 0.45),
+  };
+}
+
+function crearTema(id, DecoSVG, esquema = "oscuro") {
   const claro = esquema === "claro";
   const acento = (claro ? ACENTOS_CLARO : ACENTOS)[id];
-  const canalesDelEsquema = claro
-    ? Object.fromEntries(Object.entries(canales).map(([k, v]) => [k, v.startsWith("#") ? haciaOscuro(v) : v]))
-    : canales;
+  const canalesDelEsquema = crearCanalAjeno(id, claro);
   return {
     id,
     esquema,
@@ -354,53 +376,25 @@ function crearTema(id, DecoSVG, canales, esquema = "oscuro") {
 }
 
 export const TEMAS = {
-  matematicas: crearTema("matematicas", TriangulosSVG, {
-    azul: "#3b9eff", azulSuave: "rgba(59,158,255,0.07)", azulMed: "rgba(59,158,255,0.10)", azulBorde: "rgba(59,158,255,0.20)", azulTexto: "#b0c8f0",
-  }),
-  espanol: crearTema("espanol", LibroSVG, {
-    azul: "#8aaaf7", azulSuave: "rgba(138,170,247,0.07)", azulMed: "rgba(138,170,247,0.10)", azulBorde: "rgba(138,170,247,0.22)", azulTexto: "#c0d0f8",
-  }),
-  fisica: crearTema("fisica", OndaSVG, {
-    azul: "#818cf8", azulSuave: "rgba(129,140,248,0.07)", azulMed: "rgba(129,140,248,0.10)", azulBorde: "rgba(129,140,248,0.22)", azulTexto: "#c7d2fe",
-  }),
-  biologia: crearTema("biologia", HeliceSVG, {
-    azul: "#86efac", azulSuave: "rgba(134,239,172,0.06)", azulMed: "rgba(134,239,172,0.10)", azulBorde: "rgba(134,239,172,0.20)", azulTexto: "#bbf7d0",
-  }),
-  quimica: crearTema("quimica", MoleculaSVG, {
-    azul: "#f472b6", azulSuave: "rgba(244,114,182,0.06)", azulMed: "rgba(244,114,182,0.10)", azulBorde: "rgba(244,114,182,0.22)", azulTexto: "#f9c0df",
-  }),
-  geografia: crearTema("geografia", BrujulaSVG, {
-    azul: "#a3e635", azulSuave: "rgba(163,230,53,0.06)", azulMed: "rgba(163,230,53,0.10)", azulBorde: "rgba(163,230,53,0.20)", azulTexto: "#d9f99d",
-  }),
-  historia: crearTema("historia", ColumnasSVG, {
-    azul: "#fbbf24", azulSuave: "rgba(251,191,36,0.06)", azulMed: "rgba(251,191,36,0.10)", azulBorde: "rgba(251,191,36,0.22)", azulTexto: "#fde68a",
-  }),
+  matematicas: crearTema("matematicas", TriangulosSVG),
+  espanol: crearTema("espanol", LibroSVG),
+  fisica: crearTema("fisica", OndaSVG),
+  biologia: crearTema("biologia", HeliceSVG),
+  quimica: crearTema("quimica", MoleculaSVG),
+  geografia: crearTema("geografia", BrujulaSVG),
+  historia: crearTema("historia", ColumnasSVG),
 };
 
 // El mismo catálogo en claro. Se usa cuando el visor lo pide: en un salón con luz
 // o en un teléfono a pleno sol, el oscuro pierde.
 export const TEMAS_CLARO = {
-  matematicas: crearTema("matematicas", TriangulosSVG, {
-    azul: "#3b9eff", azulSuave: "rgba(59,158,255,0.07)", azulMed: "rgba(59,158,255,0.10)", azulBorde: "rgba(59,158,255,0.20)", azulTexto: "#b0c8f0",
-  }, "claro"),
-  espanol: crearTema("espanol", LibroSVG, {
-    azul: "#8aaaf7", azulSuave: "rgba(138,170,247,0.07)", azulMed: "rgba(138,170,247,0.10)", azulBorde: "rgba(138,170,247,0.22)", azulTexto: "#c0d0f8",
-  }, "claro"),
-  fisica: crearTema("fisica", OndaSVG, {
-    azul: "#818cf8", azulSuave: "rgba(129,140,248,0.07)", azulMed: "rgba(129,140,248,0.10)", azulBorde: "rgba(129,140,248,0.22)", azulTexto: "#c7d2fe",
-  }, "claro"),
-  biologia: crearTema("biologia", HeliceSVG, {
-    azul: "#86efac", azulSuave: "rgba(134,239,172,0.06)", azulMed: "rgba(134,239,172,0.10)", azulBorde: "rgba(134,239,172,0.20)", azulTexto: "#bbf7d0",
-  }, "claro"),
-  quimica: crearTema("quimica", MoleculaSVG, {
-    azul: "#f472b6", azulSuave: "rgba(244,114,182,0.06)", azulMed: "rgba(244,114,182,0.10)", azulBorde: "rgba(244,114,182,0.22)", azulTexto: "#f9c0df",
-  }, "claro"),
-  geografia: crearTema("geografia", BrujulaSVG, {
-    azul: "#a3e635", azulSuave: "rgba(163,230,53,0.06)", azulMed: "rgba(163,230,53,0.10)", azulBorde: "rgba(163,230,53,0.20)", azulTexto: "#d9f99d",
-  }, "claro"),
-  historia: crearTema("historia", ColumnasSVG, {
-    azul: "#fbbf24", azulSuave: "rgba(251,191,36,0.06)", azulMed: "rgba(251,191,36,0.10)", azulBorde: "rgba(251,191,36,0.22)", azulTexto: "#fde68a",
-  }, "claro"),
+  matematicas: crearTema("matematicas", TriangulosSVG, "claro"),
+  espanol: crearTema("espanol", LibroSVG, "claro"),
+  fisica: crearTema("fisica", OndaSVG, "claro"),
+  biologia: crearTema("biologia", HeliceSVG, "claro"),
+  quimica: crearTema("quimica", MoleculaSVG, "claro"),
+  geografia: crearTema("geografia", BrujulaSVG, "claro"),
+  historia: crearTema("historia", ColumnasSVG, "claro"),
 };
 
 // ── Mapa materia → tema (1:1, sin subtemas) ───────────────────────────────────

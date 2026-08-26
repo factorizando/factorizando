@@ -8,6 +8,10 @@ export default function ModEspectroSVG({ tema }) {
   const mu = tema.muted, T = tema.texto;
   return (
     <svg viewBox="0 0 250 108" width="100%" style={{ display: "block", maxHeight: 116 }}>
+      {/* DESCRIPTIVO — no tocar: los seis paradas son el espectro visible,
+          rojo → violeta por longitud de onda. Aquí el matiz ES el dato que
+          enseña la diapositiva; pasarlo a la rampa del acento haría falso el
+          dibujo (docs/DISENO.md §2.1, excepción de matiz con significado). */}
       <defs>
         <linearGradient id="mod-spec" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0%" stopColor="#7f1d1d" />

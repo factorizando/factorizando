@@ -11,9 +11,9 @@ export default function AnaVegetalSVG({ tema }) {
   return (
     <svg viewBox="0 0 260 140" width="100%" style={{ display: "block", maxHeight: 150 }}>
       {/* tallo */}
-      <rect x={120} y={40} width={10} height={74} fill="rgba(74,222,128,0.12)" stroke={gr} strokeWidth="1.4" />
+      <rect x={120} y={40} width={10} height={74} fill={`${gr}1f`} stroke={gr} strokeWidth="1.4" />
       {/* hoja con estoma */}
-      <path d="M 130 56 q 44 -22 64 4 q -44 22 -64 -4 Z" fill="rgba(74,222,128,0.16)" stroke={gr} strokeWidth="1.5" />
+      <path d="M 130 56 q 44 -22 64 4 q -44 22 -64 -4 Z" fill={`${gr}29`} stroke={gr} strokeWidth="1.5" />
       <ellipse cx={170} cy={58} rx={6} ry={3.4} fill="none" stroke={a} strokeWidth="1.4" />
       <text x={196} y={50} fill={a} fontSize="7" fontFamily="'Figtree', system-ui, sans-serif">estoma</text>
       <text x={196} y={60} fill={mu} fontSize="6" fontFamily="'Figtree', system-ui, sans-serif">(CO₂ / O₂)</text>

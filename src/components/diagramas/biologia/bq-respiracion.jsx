@@ -9,7 +9,7 @@ export default function BqRespiracionSVG({ tema }) {
   return (
     <svg viewBox="0 0 290 130" width="100%" style={{ display: "block", maxHeight: 140 }}>
       {/* mitocondria */}
-      <ellipse cx={145} cy={66} rx={120} ry={46} fill="rgba(248,113,113,0.06)" stroke={tema.canal(2)} strokeWidth="2" />
+      <ellipse cx={145} cy={66} rx={120} ry={46} fill={`${tema.canal(2)}0f`} stroke={tema.canal(2)} strokeWidth="2" />
       <path d="M 50 50 q 18 16 0 32 M 95 46 q 18 20 0 40 M 145 44 q 18 22 0 44 M 195 46 q 18 20 0 40 M 240 50 q 18 16 0 32" fill="none" stroke={tema.canal(2)} strokeWidth="1.2" opacity="0.5" />
       {/* entradas */}
       <text x={28} y={40} textAnchor="middle" fill={a} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif">glucosa</text>

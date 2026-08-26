@@ -10,9 +10,9 @@ export default function QaaAguaSVG({ tema }) {
       <circle cx={90} cy={50} r={18} fill="rgba(192,132,252,0.22)" stroke={a} strokeWidth="2" />
       <text x={90} y={55} textAnchor="middle" fill={a} fontSize="12" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700">O</text>
       <text x={108} y={42} fill={tema.canal(2)} fontSize="8" fontFamily="'Figtree', system-ui, sans-serif">δ⁻</text>
-      <circle cx={58} cy={78} r={10} fill="rgba(244,114,182,0.18)" stroke={bl} strokeWidth="1.6" />
+      <circle cx={58} cy={78} r={10} fill={`${bl}2e`} stroke={bl} strokeWidth="1.6" />
       <text x={58} y={82} textAnchor="middle" fill={bl} fontSize="9" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">H</text>
-      <circle cx={122} cy={78} r={10} fill="rgba(244,114,182,0.18)" stroke={bl} strokeWidth="1.6" />
+      <circle cx={122} cy={78} r={10} fill={`${bl}2e`} stroke={bl} strokeWidth="1.6" />
       <text x={122} y={82} textAnchor="middle" fill={bl} fontSize="9" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="600">H</text>
       <line x1={78} y1={62} x2={66} y2={71} stroke={a} strokeWidth="2.5" />
       <line x1={102} y1={62} x2={114} y2={71} stroke={a} strokeWidth="2.5" />
@@ -24,8 +24,8 @@ export default function QaaAguaSVG({ tema }) {
       <text x={150} y={56} fill={mu} fontSize="6" fontFamily="'Figtree', system-ui, sans-serif">puente de H</text>
       <circle cx={206} cy={56} r={14} fill="rgba(192,132,252,0.15)" stroke={a} strokeWidth="1.6" />
       <text x={206} y={60} textAnchor="middle" fill={a} fontSize="9" fontFamily="'Figtree', system-ui, sans-serif" fontWeight="700">O</text>
-      <circle cx={234} cy={42} r={7} fill="rgba(244,114,182,0.15)" stroke={bl} strokeWidth="1.3" />
-      <circle cx={234} cy={72} r={7} fill="rgba(244,114,182,0.15)" stroke={bl} strokeWidth="1.3" />
+      <circle cx={234} cy={42} r={7} fill={`${bl}26`} stroke={bl} strokeWidth="1.3" />
+      <circle cx={234} cy={72} r={7} fill={`${bl}26`} stroke={bl} strokeWidth="1.3" />
       <line x1={218} y1={50} x2={228} y2={45} stroke={a} strokeWidth="1.8" />
       <line x1={218} y1={63} x2={228} y2={68} stroke={a} strokeWidth="1.8" />
       <text x={210} y={114} textAnchor="middle" fill={mu} fontSize="7" fontFamily="'Figtree', system-ui, sans-serif">puentes de H entre moléculas</text>

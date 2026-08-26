@@ -5,6 +5,7 @@ export const PRESENTACION = {
   id: "perimetros-areas-volumenes",
   titulo: "Perímetros, Áreas y Volúmenes",
   materia: "Pensamiento Matemático",
+  examenes: ["EXANI-I"],
   subtema: "Geometría",
   slides: [
     {

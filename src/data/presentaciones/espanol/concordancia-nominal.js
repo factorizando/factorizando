@@ -5,6 +5,7 @@ export const PRESENTACION = {
   id: "concordancia-nominal",
   titulo: "Concordancia Nominal",
   materia: "Español",
+  examenes: ["EXANI-I"],
   subtema: "Redacción Indirecta",
   slides: [
     {

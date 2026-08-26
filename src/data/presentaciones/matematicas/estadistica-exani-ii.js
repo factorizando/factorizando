@@ -9,6 +9,7 @@ export const PRESENTACION = {
   id: "estadistica-exani-ii",
   titulo: "Estadística Descriptiva",
   materia: "Pensamiento Matemático",
+  examenes: ["EXANI-II"],
   subtema: "Matematización",
   slides: [
     {

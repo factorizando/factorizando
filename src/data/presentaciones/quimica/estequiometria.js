@@ -5,6 +5,7 @@ export const PRESENTACION = {
   id: "estequiometria",
   titulo: "Estequiometría",
   materia: "Química",
+  examenes: ["EXANI-II"],
   subtema: "Ciencias Experimentales",
   slides: [
     {

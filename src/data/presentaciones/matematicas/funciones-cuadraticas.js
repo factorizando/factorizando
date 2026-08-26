@@ -5,6 +5,7 @@ export const PRESENTACION = {
   id: "funciones-cuadraticas",
   titulo: "Funciones Cuadráticas",
   materia: "Pensamiento Matemático",
+  examenes: ["EXANI-I", "EXANI-II"],
   subtema: "Matematización",
   slides: [
     {

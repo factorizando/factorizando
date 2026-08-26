@@ -5,6 +5,7 @@ export const PRESENTACION = {
   id: "registro-linguistico",
   titulo: "Registro Lingüístico",
   materia: "Español",
+  examenes: ["EXANI-II"],
   subtema: "Redacción Indirecta",
   slides: [
     {

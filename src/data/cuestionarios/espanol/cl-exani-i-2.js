@@ -32,6 +32,7 @@ export default {
     titulo: "Comprensión Lectora · Textos narrativos y literarios",
     nivel: "preparatoria",
     materia: "Comprensión Lectora",
+    examenes: ["EXANI-I"],
     tema: "Textos narrativos y literarios",
   },
   config: {

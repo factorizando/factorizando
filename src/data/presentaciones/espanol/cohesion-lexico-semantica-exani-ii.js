@@ -6,6 +6,7 @@ export const PRESENTACION = {
   id: "cohesion-lexico-semantica-exani-ii",
   titulo: "Cohesión Léxico-Semántica",
   materia: "Español",
+  examenes: ["EXANI-II"],
   subtema: "Redacción Indirecta · EXANI-II",
   slides: [
     {

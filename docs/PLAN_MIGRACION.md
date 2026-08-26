@@ -29,12 +29,12 @@ anterior y no lo contemplaba.
 | 1 | Limpieza de bajo riesgo | 🟢 | ✅ |
 | 2 | Diagramas → registro único | 🟡 | ✅ |
 | 3 | Cuestionarios → organización por materia | 🟡 | ✅ |
-| **4A** | **Capa de tema desde `fx.css`** | 🟢 | ← siguiente |
-| 4B | Renderizador de bloques (absorbe la antigua fase 5) | 🟡 | |
-| 4C | Migrar las 65 presentaciones al esquema de bloques | 🟠 | |
-| 4D | Diagramas al criterio de canales por valor | ✅ | 390 usos en 151 archivos; tokens `verde`/`rojo` borrados |
-| 5 | `metadata.examenes` en todo el contenido | 🟢 | |
-| 6 | Calidad de contenido (`explanation` vacías) | 🟢 | |
+| 4A | Capa de tema desde `fx.css` | 🟢 | ✅ |
+| 4B | Renderizador de bloques (absorbe la antigua fase 5) | 🟡 | ✅ |
+| 4C | Migrar las 65 presentaciones al esquema de bloques | 🟠 | ✅ |
+| 4D | Diagramas al criterio de canales por valor | 🟡 | ✅ 390 usos en 151 archivos |
+| 5 | `metadata.examenes` en todo el contenido | 🟢 | ✅ 92 contenidos; el filtro queda opcional |
+| **6** | **Calidad de contenido (`explanation` vacías)** | 🟢 | ← siguiente |
 | 7 | Sincronizar documentación | 🟢 | |
 
 ### Por qué 4A antes que 4B
@@ -467,9 +467,33 @@ esos de los que son tinte arbitrario, uno por uno.
 
 ## Fase 5 — `metadata.examenes` en todo el contenido
 
-- [ ] Añadir `examenes: [...]` a cada cuestionario y presentación (`EXANI-I`, `EXANI-II`, `UNAM`).
+- [x] `examenes: [...]` en las **65 presentaciones** y los **27 cuestionarios**.
 - [x] `nivel` donde faltaba o estaba mal: hecho en las fases 1 y 3.
+- [x] `scripts/verificar-integridad.mjs` lo vigila: sin `examenes` avisa, y con un examen
+      inventado da error. Probado rompiendo uno a propósito — un chequeo que nunca dispara
+      no vale nada.
+- [x] `materias-contenido.js` lo expone, así que `/materia/:slug` ya puede leerlo.
 - [ ] (Opcional) Filtrar por examen en la navegación en vez de por carpeta.
+
+**De dónde salió el valor.** No se tecleó a ojo: 61 de las 65 presentaciones ya nombraban su
+examen en el comentario de cabecera (`// Datos de la presentación: Cinemática (Física · UNAM)`),
+y el árbol de `preparatoriaData.js` es prueba de EXANI-I porque toda esa ruta es el EXANI-I. Se
+sembró una vez cruzando las dos fuentes; desde ahora la fuente es el campo, no el comentario.
+
+**Dónde se contradecían.** Cuatro presentaciones (`razones-proporciones`, `ecuaciones-lineales`,
+`polinomios-sistemas`, `funciones-cuadraticas`) están en el árbol de prepa y su cabecera dice
+EXANI-II. No es un error: se publican en la ruta de EXANI-I *y* están escritas para EXANI-II.
+Llevan los dos.
+
+**Una trampa que costó verla.** Escanear el archivo entero en busca de «UNAM» parece mejor que
+mirar sólo la cabecera, y es peor: `estructura-oracion-prepa` nombra la UNAM diez veces… dentro
+del enunciado de una pregunta sobre astrónomos. Sólo cuenta la cabecera.
+
+**Lo que no es evidencia sino criterio.** El árbol de universidad mezcla EXANI-II y UNAM, así que
+seis cuestionarios de ese lado no tienen de dónde derivarse. Llevan los dos exámenes, y el criterio
+está escrito: en un filtro, sobrar es más barato que faltar —el alumno ve un reactivo de más en vez
+de quedarse sin practicar—. `la-celula` es la excepción: va sólo a UNAM, como su hermano
+`celula-organelos` y la presentación `biologia-celula`. Conviene que un humano los revise.
 
 ---
 

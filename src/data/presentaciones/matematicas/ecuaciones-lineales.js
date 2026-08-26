@@ -5,6 +5,7 @@ export const PRESENTACION = {
   id: "ecuaciones-lineales",
   titulo: "Ecuaciones e Inecuaciones Lineales",
   materia: "Pensamiento Matemático",
+  examenes: ["EXANI-I", "EXANI-II"],
   subtema: "Matematización",
   slides: [
     {

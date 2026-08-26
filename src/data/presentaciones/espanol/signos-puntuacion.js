@@ -6,6 +6,7 @@ export const PRESENTACION = {
   id: "signos-puntuacion",
   titulo: "Signos de Puntuación",
   materia: "Español",
+  examenes: ["EXANI-I"],
   subtema: "Ortografía",
   slides: [
     {

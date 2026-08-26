@@ -5,6 +5,7 @@ export const PRESENTACION = {
   id: "transformaciones-congruencia",
   titulo: "Transformaciones Geométricas y Congruencia",
   materia: "Pensamiento Matemático",
+  examenes: ["EXANI-I"],
   subtema: "Geometría",
   slides: [
     {

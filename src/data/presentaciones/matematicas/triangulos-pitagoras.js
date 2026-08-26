@@ -5,6 +5,7 @@ export const PRESENTACION = {
   id: "triangulos-pitagoras",
   titulo: "Triángulos: Ángulos y Teorema de Pitágoras",
   materia: "Pensamiento Matemático",
+  examenes: ["EXANI-I"],
   subtema: "Geometría",
   slides: [
     {

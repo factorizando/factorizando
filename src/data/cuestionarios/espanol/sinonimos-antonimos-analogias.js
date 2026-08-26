@@ -5,6 +5,7 @@ export default {
     titulo: "Sinónimos, Antónimos y Analogías",
     nivel: "universidad",
     materia: "Español",
+    examenes: ["EXANI-II", "UNAM"],
     tema: "Vocabulario",
   },
   config: { timePerQuestion: 60 },

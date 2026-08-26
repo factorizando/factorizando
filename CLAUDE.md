@@ -232,7 +232,7 @@ The following libraries are installed for math and science content:
 ## Adding a new quiz
 
 1. Create `src/data/cuestionarios/<materia>/<id>.js` — **the filename is the id**, so the URL `/cuestionario/<id>` tells you the file. Whole-exam simulators go in `simuladores/`. Export the quiz object as default.
-2. Add it to `CUESTIONARIOS_INDEX` in `cuestionariosIndex.js`, keyed by that same id, with `{ titulo, descripcion, materia, nivel, data }`. The index is **flat** (like `presentacionesIndex.js`); `materia: null` means it belongs to no single subject and is excluded from per-subject counts.
+2. Add it to `CUESTIONARIOS_INDEX` in `cuestionariosIndex.js`, keyed by that same id, with `{ titulo, descripcion, materia, nivel, data }`. The bank's `metadata` must declare `examenes: [...]` — one or more of `EXANI-I`, `EXANI-II`, `UNAM`; `npm run integridad` errors on an unknown one and warns when it's missing. The index is **flat** (like `presentacionesIndex.js`); `materia: null` means it belongs to no single subject and is excluded from per-subject counts.
 3. Reference it from the navigation tree in `preparatoriaData.js` or `universidadData.js` with `quiz: "/cuestionario/<id>"`.
 
 The id is frozen: it is the URL *and* what `resultados.cuestionario_id` stores, so moving a file must never change it. `questions[].id` is assigned at load — don't write it in the bank. Verify with `npm run integridad`, and preview without logging in at `/preview-cuestionario/<id>` (dev only).
@@ -245,7 +245,7 @@ The id is frozen: it is the URL *and* what `resultados.cuestionario_id` stores, 
 
 ## Adding a new presentation
 
-1. Create `src/data/presentaciones/<materia>/<slug>.js` (subject folder: `matematicas`, `fisica`, `quimica`, `biologia`, `espanol`, `geografia`) exporting a `PRESENTACION` object.
+1. Create `src/data/presentaciones/<materia>/<slug>.js` (subject folder: `matematicas`, `fisica`, `quimica`, `biologia`, `espanol`, `geografia`) exporting a `PRESENTACION` object. It must declare `examenes: [...]` alongside `materia` — same three values, same check.
 2. Import it in `src/data/presentaciones/presentacionesIndex.js` and add it to the index.
 3. Add SVG or JSXGraph diagram components to `src/components/SlideRenderer.jsx` for any `svgDiagram` keys used in the slides.
 

@@ -6,6 +6,7 @@ export const PRESENTACION = {
   id: "cinematica",
   titulo: "Cinemática",
   materia: "Física",
+  examenes: ["UNAM"],
   subtema: "Mecánica",
   slides: [
     {

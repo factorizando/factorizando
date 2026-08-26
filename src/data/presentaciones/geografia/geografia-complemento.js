@@ -7,6 +7,7 @@ export const PRESENTACION = {
   id: "geografia-complemento",
   titulo: "Geografía: Recursos, Mar y Política",
   materia: "Geografía",
+  examenes: ["UNAM"],
   subtema: "Complemento Temas 1 y 2 · UNAM",
   slides: [
     {

@@ -5,6 +5,7 @@ export const PRESENTACION = {
   id: "trigonometria-analitica",
   titulo: "Trigonometría Analítica",
   materia: "Matemáticas avanzadas",
+  examenes: ["EXANI-II"],
   subtema: "Ingenierías y Ciencias Exactas",
   slides: [
     {

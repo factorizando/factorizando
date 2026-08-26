@@ -62,6 +62,7 @@ function recolectarCuestionarios() {
       descripcion: c.descripcion || "",
       nivel: c.nivel,
       materia: c.materia,
+      examenes: c.data.metadata?.examenes || [],
       preguntas: c.data.questions?.length || 0,
     }));
 }
@@ -82,6 +83,7 @@ function recolectarPresentaciones() {
       subtema: p.subtema || null,
       slides: p.slides?.length || 0,
       materia: CARPETA_A_MATERIA[carpeta] || porTexto(p.materia),
+      examenes: p.examenes || [],
     });
   }
   return salida.sort((a, b) => a.titulo.localeCompare(b.titulo, "es"));

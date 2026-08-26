@@ -6,6 +6,7 @@ export const PRESENTACION = {
   id: "comprension-lectora",
   titulo: "Comprensión Lectora",
   materia: "Comprensión Lectora",
+  examenes: ["EXANI-I"],
   subtema: "Estrategias de lectura",
   slides: [
     {

@@ -4,6 +4,7 @@ export const PRESENTACION = {
   id: "circulo",
   titulo: "El Círculo",
   materia: "Matemáticas",
+  examenes: ["EXANI-I"],
   subtema: "Geometría",
   slides: [
     {

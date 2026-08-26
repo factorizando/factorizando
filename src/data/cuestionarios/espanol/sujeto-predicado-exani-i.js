@@ -6,6 +6,7 @@ export default {
     titulo: "Sujeto y Predicado",
     nivel: "preparatoria",
     materia: "Español",
+    examenes: ["EXANI-I"],
     tema: "Estructura de la oración",
   },
   config: { timePerQuestion: 60 },

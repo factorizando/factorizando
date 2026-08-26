@@ -5,6 +5,7 @@ export const PRESENTACION = {
   id: "algebra-superior",
   titulo: "Álgebra Superior",
   materia: "Matemáticas avanzadas",
+  examenes: ["EXANI-II"],
   subtema: "Ingenierías y Ciencias Exactas",
   slides: [
     {

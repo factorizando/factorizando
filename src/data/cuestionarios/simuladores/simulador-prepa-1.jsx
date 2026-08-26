@@ -22,6 +22,7 @@ export default {
     titulo: "Simulador Preparatoria 1",
     nivel: "preparatoria",
     materia: "Entrenamiento Simulado",
+    examenes: ["EXANI-I"],
     tema: "Simulador",
   },
   config: { timePerQuestion: 90 },

@@ -7,6 +7,7 @@ export const PRESENTACION = {
   id: "biologia-anatomia-fisiologia",
   titulo: "Anatomía, Fisiología y Diversidad",
   materia: "Biología",
+  examenes: ["EXANI-II"],
   subtema: "Tejidos, plantas, animales y hongos",
   slides: [
     {

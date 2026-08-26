@@ -9,6 +9,7 @@ export const PRESENTACION = {
   id: "quimica-agua-aire-alimentos",
   titulo: "Agua, aire, alimentos y energía",
   materia: "Química",
+  examenes: ["UNAM"],
   subtema: "Química de la vida cotidiana",
   slides: [
     {

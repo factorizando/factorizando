@@ -5,6 +5,7 @@ export const PRESENTACION = {
   id: "marcadores-textuales",
   titulo: "Marcadores Textuales",
   materia: "Español",
+  examenes: ["EXANI-I"],
   subtema: "Redacción Indirecta",
   slides: [
     {

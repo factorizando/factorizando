@@ -5,6 +5,7 @@ export const PRESENTACION = {
   id: "acentuacion",
   titulo: "Acentuación",
   materia: "Español",
+  examenes: ["EXANI-I"],
   subtema: "Ortografía",
   slides: [
     {

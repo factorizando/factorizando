@@ -6,6 +6,7 @@ export const PRESENTACION = {
   id: "dinamica",
   titulo: "Leyes de Newton",
   materia: "Física",
+  examenes: ["UNAM"],
   subtema: "Mecánica",
   slides: [
     {

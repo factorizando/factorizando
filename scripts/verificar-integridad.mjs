@@ -16,6 +16,7 @@
 //   · no hay `id` repetidos en cuestionarios ni en presentaciones;
 //   · `metadata.id` coincide con la clave del índice;
 //   · toda pregunta tiene `id`.
+//   · `examenes` existe y sólo nombra exámenes reales (fase 5).
 //
 // Los desajustes se clasifican en ERRORES (rompen una ruta: salida ≠ 0) y
 // AVISOS (higiene: no rompen nada hoy). Usa el cargador de Vite, como
@@ -26,6 +27,18 @@ import { createServer } from "vite";
 const errores = [];
 const avisos = [];
 const err = (m) => errores.push(m);
+// `examenes` dice a qué examen sirve un contenido; es lo que permitirá filtrar
+// la navegación por examen en vez de por carpeta. Se sembró una vez leyendo el
+// encabezado de cada archivo, así que a partir de aquí el campo es la fuente y
+// el comentario ya no: sin este chequeo, el contenido nuevo nace sin él y nadie
+// se entera hasta que el filtro aparece medio vacío.
+const EXAMENES = ["EXANI-I", "EXANI-II", "UNAM"];
+const revisarExamenes = (quien, valor) => {
+  if (valor === undefined) return avi(`${quien} sin \`examenes\``);
+  if (!Array.isArray(valor) || valor.length === 0) return err(`${quien}: \`examenes\` debe ser un arreglo con al menos un examen`);
+  const malos = valor.filter((e) => !EXAMENES.includes(e));
+  if (malos.length) err(`${quien}: examen desconocido ${malos.map((m) => `"${m}"`).join(", ")} (los válidos son ${EXAMENES.join(", ")})`);
+};
 const avi = (m) => avisos.push(m);
 
 const servidor = await createServer({
@@ -214,12 +227,15 @@ try {
     if (tipos.length > 1) avi(`cuestionario "${c.id}": ids de tipos mezclados (${tipos.join(", ")})`);
     const vacias = preguntas.filter((q) => !q.explanation).length;
     if (vacias) avi(`cuestionario "${c.id}": ${vacias} de ${preguntas.length} preguntas sin \`explanation\``);
+
+    revisarExamenes(`cuestionario "${c.id}"`, c.data.metadata?.examenes);
   }
 
   for (const [id, p] of Object.entries(pres.PRESENTACIONES_INDEX)) {
     if (p.id && p.id !== id) err(`presentación "${id}": su PRESENTACION.id es "${p.id}"`);
     if (!p.materia) avi(`presentación "${id}" sin \`materia\``);
     if (!p.subtema) avi(`presentación "${id}" sin \`subtema\``);
+    revisarExamenes(`presentación "${id}"`, p.examenes);
   }
 
   // ── Inventario de nombres repetidos entre carpetas ────────────────────────

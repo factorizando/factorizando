@@ -5,6 +5,7 @@ export const PRESENTACION = {
   id: "polinomios-sistemas",
   titulo: "Polinomios y Sistemas de Ecuaciones",
   materia: "Pensamiento Matemático",
+  examenes: ["EXANI-I", "EXANI-II"],
   subtema: "Matematización",
   slides: [
     {

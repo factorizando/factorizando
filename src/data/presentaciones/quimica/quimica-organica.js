@@ -5,6 +5,7 @@ export const PRESENTACION = {
   id: "quimica-organica",
   titulo: "Compuestos del Carbono y Macromoléculas",
   materia: "Química",
+  examenes: ["EXANI-II"],
   subtema: "Ciencias Experimentales",
   slides: [
     {

@@ -5,6 +5,7 @@ export const PRESENTACION = {
   id: "nomenclatura-reacciones",
   titulo: "Nomenclatura Inorgánica y Reacciones",
   materia: "Química",
+  examenes: ["EXANI-II"],
   subtema: "Ciencias Experimentales",
   slides: [
     {

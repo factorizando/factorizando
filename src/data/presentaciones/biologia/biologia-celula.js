@@ -6,6 +6,7 @@ export const PRESENTACION = {
   id: "biologia-celula",
   titulo: "La Célula",
   materia: "Biología",
+  examenes: ["UNAM"],
   subtema: "Biología celular",
   slides: [
     {

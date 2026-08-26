@@ -5,6 +5,7 @@ export default {
     titulo: "Álgebra",
     nivel: "preparatoria",
     materia: "Matemáticas",
+    examenes: ["EXANI-I"],
     tema: "Álgebra",
   },
   config: {

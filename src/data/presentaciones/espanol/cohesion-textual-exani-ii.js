@@ -7,6 +7,7 @@ export const PRESENTACION = {
   id: "cohesion-textual-exani-ii",
   titulo: "Cohesión Textual",
   materia: "Español",
+  examenes: ["EXANI-II"],
   subtema: "Redacción Indirecta · EXANI-II",
   slides: [
     {

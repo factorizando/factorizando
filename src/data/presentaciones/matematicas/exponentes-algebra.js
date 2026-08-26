@@ -5,6 +5,7 @@ export const PRESENTACION = {
   id: "exponentes-algebra",
   titulo: "Exponentes y Expresiones Algebraicas",
   materia: "Pensamiento Matemático",
+  examenes: ["EXANI-II"],
   subtema: "Comprensión de lo matemático",
   slides: [
     {

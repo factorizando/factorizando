@@ -6,6 +6,7 @@ export const PRESENTACION = {
   id: "fisica-moderna",
   titulo: "Física Moderna",
   materia: "Física",
+  examenes: ["UNAM"],
   subtema: "Estructura de la materia",
   slides: [
     {

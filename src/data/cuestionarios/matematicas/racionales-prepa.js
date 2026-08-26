@@ -5,6 +5,7 @@ export default {
     titulo: "Números Racionales",
     nivel: "preparatoria",
     materia: "Matemáticas",
+    examenes: ["EXANI-I"],
     tema: "Números Racionales",
   },
   config: { timePerQuestion: 60 },

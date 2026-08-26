@@ -12,6 +12,7 @@ export default {
     titulo: "Simulador EXANI-I",
     nivel: "preparatoria",
     materia: "Simulador",
+    examenes: ["EXANI-I"],
     tema: "EXANI-I",
   },
   // 4.5 h para 160 reactivos ≈ 101 s/reactivo; usamos 100 s

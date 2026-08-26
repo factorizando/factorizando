@@ -6,6 +6,7 @@ export const PRESENTACION = {
   id: "probabilidad-exani-ii",
   titulo: "Probabilidad",
   materia: "Pensamiento Matemático",
+  examenes: ["EXANI-II"],
   subtema: "Comprensión de lo matemático",
   slides: [
     {

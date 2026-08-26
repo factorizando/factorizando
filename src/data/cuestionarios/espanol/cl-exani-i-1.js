@@ -30,6 +30,7 @@ export default {
     titulo: "Comprensión Lectora · Textos informativos y cotidianos",
     nivel: "preparatoria",
     materia: "Comprensión Lectora",
+    examenes: ["EXANI-I"],
     tema: "Textos informativos y cotidianos",
   },
   config: {

@@ -5,6 +5,7 @@ export const PRESENTACION = {
   id: "calculo-diferencial",
   titulo: "Cálculo Diferencial y Optimización",
   materia: "Matemáticas avanzadas",
+  examenes: ["EXANI-II"],
   subtema: "Ingenierías y Ciencias Exactas",
   slides: [
     {

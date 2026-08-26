@@ -8,6 +8,7 @@ export const PRESENTACION = {
   id: "quimica-fundamentos",
   titulo: "Materia, átomo y enlace",
   materia: "Química",
+  examenes: ["UNAM"],
   subtema: "Temas básicos",
   slides: [
     {

@@ -5,6 +5,7 @@ export default {
     titulo: "Organelos y Funciones (Simulador UNAM)",
     nivel: "universidad",
     materia: "Biología",
+    examenes: ["UNAM"],
     tema: "La Célula",
   },
   config: { timePerQuestion: 60 },

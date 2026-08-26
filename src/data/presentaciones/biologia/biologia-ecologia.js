@@ -6,6 +6,7 @@ export const PRESENTACION = {
   id: "biologia-ecologia",
   titulo: "Ecología",
   materia: "Biología",
+  examenes: ["UNAM"],
   subtema: "Los seres vivos y su ambiente",
   slides: [
     {

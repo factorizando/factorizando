@@ -320,6 +320,7 @@ export const PRESENTACION = {
   id: "vocabulario-unam",
   titulo: "Vocabulario y Funciones de la Lengua",
   materia: "Español",
+  examenes: ["UNAM"],
   subtema: "Vocabulario y funciones de la lengua",
   slides: [
     {

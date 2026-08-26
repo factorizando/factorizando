@@ -6,6 +6,7 @@ export const PRESENTACION = {
   id: "fluidos",
   titulo: "Fluidos",
   materia: "Física",
+  examenes: ["UNAM"],
   subtema: "Hidrostática e hidrodinámica",
   slides: [
     {

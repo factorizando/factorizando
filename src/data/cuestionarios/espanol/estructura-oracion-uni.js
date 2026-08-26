@@ -5,6 +5,7 @@ export default {
     titulo: "Estructura de la oración",
     nivel: "universidad",
     materia: "Español",
+    examenes: ["EXANI-II", "UNAM"],
     tema: "La oración",
   },
   config: {

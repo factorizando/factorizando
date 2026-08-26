@@ -4,6 +4,7 @@ export const PRESENTACION = {
   id: "cuadrilateros-poligonos",
   titulo: "Cuadriláteros y Polígonos",
   materia: "Matemáticas",
+  examenes: ["EXANI-I"],
   subtema: "Geometría",
   slides: [
     {

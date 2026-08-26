@@ -5,6 +5,7 @@ export const PRESENTACION = {
   id: "trigonometria",
   titulo: "Razones y Relaciones Trigonométricas",
   materia: "Pensamiento Matemático",
+  examenes: ["EXANI-II"],
   subtema: "Matematización",
   slides: [
     {

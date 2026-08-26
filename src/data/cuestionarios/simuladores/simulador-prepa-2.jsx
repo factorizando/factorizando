@@ -133,6 +133,7 @@ export default {
     titulo: "Simulador Prepa 2 (EGA II)",
     nivel: "preparatoria",
     materia: "Entrenamiento General",
+    examenes: ["EXANI-I"],
     tema: "Simulador",
   },
   config: { timePerQuestion: 90 },

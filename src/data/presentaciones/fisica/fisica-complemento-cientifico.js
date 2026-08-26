@@ -6,6 +6,7 @@ export const PRESENTACION = {
   id: "fisica-complemento-cientifico",
   titulo: "Física: Electricidad Estática, Ondas y Calor",
   materia: "Física",
+  examenes: ["EXANI-I"],
   subtema: "Física",
   slides: [
     {

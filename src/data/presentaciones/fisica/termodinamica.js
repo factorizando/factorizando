@@ -6,6 +6,7 @@ export const PRESENTACION = {
   id: "termodinamica",
   titulo: "Termodinámica",
   materia: "Física",
+  examenes: ["UNAM"],
   subtema: "Calor y temperatura",
   slides: [
     {

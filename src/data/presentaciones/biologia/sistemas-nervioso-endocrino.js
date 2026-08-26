@@ -5,6 +5,7 @@ export const PRESENTACION = {
   id: "sistemas-nervioso-endocrino",
   titulo: "Sistemas Nervioso y Endócrino",
   materia: "Biología",
+  examenes: ["EXANI-II"],
   subtema: "Ciencias Experimentales",
   slides: [
     {

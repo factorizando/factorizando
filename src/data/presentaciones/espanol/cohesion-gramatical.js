@@ -5,6 +5,7 @@ export const PRESENTACION = {
   id: "cohesion-gramatical",
   titulo: "Cohesión Gramatical",
   materia: "Español",
+  examenes: ["EXANI-I"],
   subtema: "Redacción Indirecta",
   slides: [
     {

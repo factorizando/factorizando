@@ -6,6 +6,7 @@ const SUMA_ENTEROS = {
     id: "suma-enteros",
     titulo: "Suma de Enteros",
     materia: "Matemáticas",
+    examenes: ["EXANI-I"],
     tema: "Números Reales",
     subtema: "Números Enteros",
     subnivel: "Suma y Producto",

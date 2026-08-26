@@ -4,6 +4,7 @@ export const PRESENTACION = {
   id: "estadistica",
   titulo: "Estadística",
   materia: "Matemáticas",
+  examenes: ["EXANI-I"],
   subtema: "Probabilidad y Estadística",
   slides: [
     {

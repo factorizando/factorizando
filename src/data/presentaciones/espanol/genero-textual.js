@@ -5,6 +5,7 @@ export const PRESENTACION = {
   id: "genero-textual",
   titulo: "Género Textual",
   materia: "Español",
+  examenes: ["EXANI-II"],
   subtema: "Redacción Indirecta",
   slides: [
     {

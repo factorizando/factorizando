@@ -5,6 +5,7 @@ export default {
     titulo: "Sintaxis: Análisis Oracional",
     nivel: "universidad",
     materia: "Español",
+    examenes: ["EXANI-II", "UNAM"],
     tema: "Sintaxis",
   },
   config: { timePerQuestion: 90 },

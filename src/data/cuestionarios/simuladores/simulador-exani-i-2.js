@@ -12,6 +12,7 @@ export default {
     titulo: "Simulador EXANI-I #2",
     nivel: "preparatoria",
     materia: "Simulador",
+    examenes: ["EXANI-I"],
     tema: "EXANI-I",
   },
   config: { timePerQuestion: 100 },

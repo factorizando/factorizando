@@ -6,6 +6,7 @@ export const PRESENTACION = {
   id: "grafofonetica",
   titulo: "Grafofonética",
   materia: "Español",
+  examenes: ["EXANI-I", "EXANI-II"],
   subtema: "Ortografía",
   slides: [
     {

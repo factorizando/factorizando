@@ -5,6 +5,7 @@ export default {
     titulo: "Divisibilidad, M.C.D. y M.C.M.",
     nivel: "preparatoria",
     materia: "Matemáticas",
+    examenes: ["EXANI-I"],
     tema: "Números Enteros",
   },
   config: { timePerQuestion: 60 },

@@ -6,6 +6,7 @@ export const PRESENTACION = {
   id: "biologia-genetica",
   titulo: "Genética y Biotecnología",
   materia: "Biología",
+  examenes: ["UNAM"],
   subtema: "Herencia e información genética",
   slides: [
     {

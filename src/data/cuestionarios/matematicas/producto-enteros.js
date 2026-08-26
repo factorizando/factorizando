@@ -5,6 +5,7 @@ export default {
     titulo: "Producto de Números Enteros",
     nivel: "preparatoria",
     materia: "Matemáticas",
+    examenes: ["EXANI-I"],
     tema: "Números Enteros",
   },
   config: { timePerQuestion: 60 },

@@ -6,6 +6,7 @@ export const PRESENTACION = {
   id: "energia",
   titulo: "Trabajo y Energía",
   materia: "Física",
+  examenes: ["UNAM"],
   subtema: "Mecánica",
   slides: [
     {

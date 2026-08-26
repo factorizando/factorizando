@@ -6,6 +6,7 @@ export const PRESENTACION = {
   id: "geografia-tierra",
   titulo: "La Tierra: Geografía Física",
   materia: "Geografía",
+  examenes: ["UNAM"],
   subtema: "Tema 1 · UNAM Licenciatura",
   slides: [
     {

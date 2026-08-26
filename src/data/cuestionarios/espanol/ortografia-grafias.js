@@ -5,6 +5,7 @@ export default {
     titulo: "Acentuación y Grafías",
     nivel: "universidad",
     materia: "Español",
+    examenes: ["EXANI-II", "UNAM"],
     tema: "Ortografía",
   },
   config: { timePerQuestion: 60 },

@@ -5,6 +5,7 @@ export const PRESENTACION = {
   id: "razones-proporciones",
   titulo: "Razones, Proporciones y Porcentaje",
   materia: "Pensamiento Matemático",
+  examenes: ["EXANI-I", "EXANI-II"],
   subtema: "Comprensión de lo matemático",
   slides: [
     {

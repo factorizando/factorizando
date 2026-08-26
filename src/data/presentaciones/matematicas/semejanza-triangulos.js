@@ -4,6 +4,7 @@ export const PRESENTACION = {
   id: "semejanza-triangulos",
   titulo: "Congruencia y Semejanza de Triángulos",
   materia: "Matemáticas",
+  examenes: ["EXANI-I"],
   subtema: "Geometría",
   slides: [
     {

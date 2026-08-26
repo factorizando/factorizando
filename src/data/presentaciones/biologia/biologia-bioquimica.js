@@ -6,6 +6,7 @@ export const PRESENTACION = {
   id: "biologia-bioquimica",
   titulo: "Bioquímica y Metabolismo",
   materia: "Biología",
+  examenes: ["UNAM"],
   subtema: "Composición y energía de la vida",
   slides: [
     {

@@ -6,6 +6,7 @@ export default {
     titulo: "Números racionales",
     nivel: "universidad",
     materia: "",
+    examenes: ["EXANI-II", "UNAM"],
     tema: "",
   },
   config: {

@@ -6,6 +6,7 @@ export const PRESENTACION = {
   id: "geografia-humana",
   titulo: "Geografía Humana",
   materia: "Geografía",
+  examenes: ["UNAM"],
   subtema: "Tema 2 · UNAM Licenciatura",
   slides: [
     {

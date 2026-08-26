@@ -6,6 +6,7 @@ export const PRESENTACION = {
   id: "electricidad",
   titulo: "Electricidad y Magnetismo",
   materia: "Física",
+  examenes: ["UNAM"],
   subtema: "Electromagnetismo",
   slides: [
     {

@@ -6,6 +6,7 @@ export const PRESENTACION = {
   id: "ondas",
   titulo: "Ondas, Sonido y Óptica",
   materia: "Física",
+  examenes: ["UNAM"],
   subtema: "Ondas y luz",
   slides: [
     {

@@ -20,6 +20,7 @@ export default {
     titulo: "Comprensión lectora · Ámbito literario",
     nivel: "universidad",
     materia: "Comprensión lectora",
+    examenes: ["EXANI-II"],
     tema: "Ámbito literario",
   },
   config: {

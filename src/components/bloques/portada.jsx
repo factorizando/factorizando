@@ -1,10 +1,17 @@
 // La carátula del tema.
 //
+import { DIAGRAMS } from "../diagramas/index.js";
+
 // Es un bloque y no un modo del lienzo porque así se coloca como cualquier otro:
 // ocupa las doce columnas, se centra, y una portada con una figura al lado se
 // arma cambiando su `ancho` sin tocar código.
 export function Portada({ bloque, tema, reflujo }) {
-  const Deco = bloque.deco === false ? null : tema.DecoSVG;
+  // Una portada puede traer su propio dibujo —«El Círculo» tiene el suyo— o no
+  // traer ninguno y usar el de la materia. Si se ignora el propio, se pierde:
+  // pasó con 19 portadas al migrar, y el build no dice nada porque un diagrama
+  // que falta no rompe, solo deja el hueco.
+  const Propio = bloque.figura ? DIAGRAMS[bloque.figura] : null;
+  const Deco = bloque.deco === false ? null : (Propio || tema.DecoSVG);
   return (
     <div style={{
       display: "flex", flexDirection: "column", alignItems: "center",

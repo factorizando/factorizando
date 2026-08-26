@@ -60,22 +60,43 @@ export function Formula({ bloque, tema }) {
   );
 }
 
+// Un item puede ser una cadena o `{ math, titulo, texto }`. Esa segunda forma es
+// la que traían los tipos de diapositiva antiguos —`concepto`, `resumen`— donde
+// cada punto es una fórmula o un término seguido de su explicación, y es lo que
+// permite migrarlos sin perder las fórmulas.
 export function Lista({ bloque, tema }) {
   const numerada = bloque.estilo === "numerada";
   return (
-    <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 9 }}>
-      {(bloque.items || []).map((it, i) => (
-        <li key={i} style={{ display: "flex", gap: 12, fontSize: 16, lineHeight: 1.55, color: tema.cuerpo }}>
-          {numerada ? (
-            <span style={{ fontFamily: tema.mono, fontSize: 12.5, color: tema.acento, flexShrink: 0, marginTop: 3 }}>
-              {String(i + 1).padStart(2, "0")}
-            </span>
-          ) : (
-            <span style={{ width: 6, height: 6, borderRadius: 2, background: tema.acento, flexShrink: 0, marginTop: 9 }} />
-          )}
-          <span>{it}</span>
-        </li>
-      ))}
+    <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 11 }}>
+      {(bloque.items || []).map((it, i) => {
+        const obj = it && typeof it === "object";
+        return (
+          <li key={i} style={{ display: "flex", gap: 12, fontSize: 16, lineHeight: 1.55, color: tema.cuerpo }}>
+            {numerada ? (
+              <span style={{ fontFamily: tema.mono, fontSize: 12.5, color: tema.acento, flexShrink: 0, marginTop: 3 }}>
+                {String(i + 1).padStart(2, "0")}
+              </span>
+            ) : (
+              <span style={{ width: 6, height: 6, borderRadius: 2, background: tema.acento, flexShrink: 0, marginTop: 9 }} />
+            )}
+            {obj ? (
+              <span style={{ display: "flex", gap: 12, alignItems: "baseline", flexWrap: "wrap" }}>
+                {it.math && (
+                  <span style={{ fontFamily: tema.formula, fontSize: 18, color: tema.texto, flexShrink: 0 }}>
+                    <M>{it.math}</M>
+                  </span>
+                )}
+                {it.titulo && (
+                  <span style={{ fontWeight: 600, color: tema.texto, flexShrink: 0 }}>{it.titulo}</span>
+                )}
+                {it.texto && <span>{it.texto}</span>}
+              </span>
+            ) : (
+              <span>{it}</span>
+            )}
+          </li>
+        );
+      })}
     </ul>
   );
 }

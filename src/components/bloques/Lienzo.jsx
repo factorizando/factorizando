@@ -44,7 +44,11 @@ function Bloque({ bloque, tema, reflujo, contexto, orden, revelados }) {
   // debe descolocar la cuenta.
   const escondido = bloque.revelar && orden > revelados;
   return (
-    <div style={{ ...columnas(bloque.ancho, bloque.alto, reflujo), ...(escondido ? oculto : null), transition: "opacity 0.25s ease" }}>
+    // `display: grid` en el envoltorio hace que el bloque de dentro llene la
+    // celda, sea cual sea. Antes cada bloque tenía que acordarse de pedir
+    // `height: 100%`, y los que se dibujan su propia tarjeta —`formula`,
+    // `destacado`— se quedaban cortos al lado de uno más alto.
+    <div style={{ display: "grid", ...columnas(bloque.ancho, bloque.alto, reflujo), ...(escondido ? oculto : null), transition: "opacity 0.25s ease" }}>
       <Componente bloque={bloque} tema={tema} reflujo={reflujo} {...contexto} />
     </div>
   );

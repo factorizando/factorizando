@@ -153,8 +153,9 @@ try {
         // `diagrama` es el bloque del esquema antiguo (clave en `id`); `figura`
         // el del sistema de bloques (clave en `clave`). Mientras dure la fase 4C
         // conviven, y olvidar el segundo dejaría sin vigilar justo lo migrado.
-        if (b.tipo === "diagrama") anota(b.id);
-        if (b.tipo === "figura") anota(b.clave);
+        if (b.tipo === "diagrama") anota(b.id);   // esquema antiguo: clave en `id`
+        if (b.tipo === "figura") anota(b.clave);  // bloque de dibujo
+        if (b.figura) anota(b.figura);            // portada con dibujo propio
       }
     }
   }

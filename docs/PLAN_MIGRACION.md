@@ -381,81 +381,53 @@ componente de verdad, así que si algo se ve bien ahí, se ve bien en clase.
 
 ---
 
-## Fase 4C — Migrar las 65 presentaciones 🟡 *(24 ago 2026 — Acentuación completa, 1 de 65)*
+## Fase 4C — Migrar las 65 presentaciones ✅ *(24 ago 2026)*
 
-- [x] **Acentuación: 70 de 70 diapositivas** en `tipo: "lienzo"`. El árbol de decisión
-      pasó al registro de **interactivos** (`arbol-tilde`): es manipulable, así que su
-      sitio es ese y no un `slide.tipo` propio que solo una presentación usaba. Con eso
-      desaparece el último tipo antiguo de esta presentación y **aparece el selector de
-      tema claro**, que estaba condicionado a que todas las diapositivas fueran lienzo.
-- [ ] Las otras 64 presentaciones.
+**Las 65 presentaciones y sus 3 162 diapositivas están en `tipo: "lienzo"`.** No queda ni
+un tipo antiguo, así que el selector de tema claro aparece en todas.
 
-### Lo que costó sacar el árbol
+`scripts/migrar-presentacion.mjs <materia>/<slug>` es la herramienta, con `--ver` para
+ensayar sin escribir. Las reglas de reacomodo viven ahí, no en la cabeza de nadie: salieron
+de migrar Acentuación entera y revisarla diapositiva por diapositiva con el usuario.
 
-Cuatro fallos que ni el build ni el lint ven, todos por el mismo motivo —al salir de
-`SlideRenderer` el componente pierde el contexto que le llegaba gratis—:
+### Los ocho tipos y a qué bloques se traducen
 
-1. **ReactFlow colapsó a cero de alto.** Traía `height: 100%`, que dentro de una celda de
-   rejilla se resuelve contra un padre de altura automática. Los 16 nodos estaban en el
-   DOM y no se veía nada. Ahora lleva altura propia.
-2. **Las aristas eran invisibles en tema claro**: iban en blanco translúcido. Tokenizadas.
-3. **El memo de las aristas dependía solo de `activeResult`**, así que al cambiar de tema
-   se quedaban con el color del anterior. El de los nodos ya traía `tema`; este no.
-4. Nodos que ReactFlow pinta y no ven el tema (`FNResult`, `FNStart`) recibían colores
-   cocidos; ahora les llegan por `data`.
+| Tipo antiguo | Cuántos | Se convierte en |
+|---|---|---|
+| `ejercicio` | 2 301 | `pregunta` a dos columnas; con figura, pregunta 7 + figura 5 |
+| `regla_rica` | 266 | destacado + tabla + contrastes (7/5 o 6/6/12 según cuántos) |
+| `criterio_detalle` | 201 | destacado + figura/fórmula + el «por qué» con `revelar` |
+| `concepto` | 126 | fórmula + figura y lista a la par + nota |
+| `portada` | 64 | bloque `portada`, conservando su dibujo propio |
+| `resumen` | 61 | `lista` con fórmulas |
+| `ejemplo` | 55 | destacado + figura 5 + `pasos` 7 |
+| `definicion` / `lista_criterios` | 18 | `definicion` / `lista` numerada |
 
-De paso, el camino iluminado deja de ser verde `#4ade80` y va en el acento: iluminar es
-señalar una selección, no marcar un acierto.
+### Tres fallos de la migración, los tres de la misma familia
 
-### La regla de reacomodo
+Los tres tiraban contenido en silencio, y el build pasaba en los tres casos:
 
-Las trece `regla_rica` seguían casi todas la misma forma
-(`texto + tabla + par + par + trampa`), así que el reacomodo se pudo hacer con una regla
-y no diapositiva por diapositiva:
+1. **Los reactivos perdían su figura.** `migrarEjercicio` ignoraba `svgDiagram`. No se vio
+   en Acentuación porque ninguno de sus 42 reactivos tenía; apareció en geometría.
+2. **Las portadas perdían el suyo.** El bloque usaba el dibujo de la materia y descartaba
+   el propio de la diapositiva: 19 portadas.
+3. **El script de integridad no contaba `figura` en un bloque de portada**, así que las
+   daba por huérfanas aunque estuvieran bien. Punto ciego del vigilante, no del contenido.
 
-- el primer `texto` es el enunciado que define la diapositiva → `destacado` a ancho completo;
-- con **uno o dos** contrastes tras la tabla, se apilan a su derecha (tabla 7 / contraste 5,
-  y la tabla crece en filas para dejarles sitio);
-- con **tres**, la tabla ocupa el ancho completo y los contrastes van en fila debajo — que
-  además es lo que son entre sí, paralelos;
-- los contrastes a la derecha entran con `revelar`.
+Los tres los cazó **el contador de diagramas usados**, que bajó de 302 a 288 y luego a 283.
+Ningún otro control los habría visto: un diagrama que falta no rompe la página, deja el
+hueco vacío.
 
-Los 39 reactivos van todos con `disposicion: "lado"`, y en los 24 cuyo enunciado ya trae
-una palabra entre comillas angulares, esa palabra pasa a ser el apoyo visual.
+### Un arreglo estructural que salió de aquí
 
-**No se inventaron `notas`.** Solo las cinco del piloto, escritas a mano. Rellenar 52
-guiones de profesor plausibles sería relleno, y el guion es de quien da la clase.
+El envoltorio de cada bloque pasa a `display: grid`, de modo que el bloque llene su celda
+sea cual sea. Antes cada bloque tenía que acordarse de pedir `height: 100%`, y los que se
+dibujan su propia tarjeta —`formula`, `destacado`— quedaban cortos al lado de uno más alto.
 
-### Lo que la migración destapó, y cómo se resolvió
+### Lo que NO hizo la migración
 
-Al medir las 58 en el navegador, **doce necesitaban entre 734 y 1139 px sobre un lienzo de
-720**. No era un problema de reacomodo —probar la tabla a ancho completo mejoró unas y
-empeoró otras— sino contenido de más: la peor tenía **seis bloques** cuando §2.3 pide cinco.
-
-Tampoco era una regresión: el tipo `regla_rica` al que sustituyen ya llevaba
-`overflowY: "auto"`, así que esas doce llevaban desbordándose desde siempre y proyectadas
-su final no se veía salvo que alguien arrastrara. Lo nuevo fue saber cuáles.
-
-**Se partieron en dos: 58 → 70 diapositivas.** El corte no es mecánico, sale del contenido:
-
-- **Regla / uso** en once: la primera mitad lleva el enunciado y la tabla —*qué dice la
-  regla*—; la segunda, las frases de ejemplo y la trampa —*cómo se ve y dónde falla*—. La
-  segunda se titula «… — en la frase». Solo la trampa conserva `revelar`: es el remate de
-  la explicación, no la explicación.
-- **Por tema** en Diptongo: llevaba dos ideas. El destacado terminaba en «si la cerrada es
-  tónica, no hay diptongo sino hiato», la figura se titula «Diptongo vs. Hiato» y la trampa
-  dice lo mismo — **tres bloques sobre la segunda idea**. Así que la figura viaja con la
-  trampa a «Diptongo — cuándo se rompe», que además hace de puente a la Regla 6.
-
-Dos siguieron sin caber tras el corte, y las dos se arreglaron por contenido:
-
-- **Clasificación del acento**: la figura muestra dónde cae la tónica en cada tipo y la
-  tabla da ejemplos de esos mismos cuatro tipos. Juntas pesaban 784 px; la figura pasó a
-  encabezar la mitad de los ejemplos, que es donde se mira mientras se leen las frases.
-- **Tilde diacrítica**: se pasaba 8 px. Su destacado terminaba explicando el cambio de la
-  RAE 2010 y **la trampa de la otra mitad dice exactamente eso**. Recortada la duplicación.
-
-**Resultado medido: 0 de 70 desbordan.** La más alta mide justo 720.
+No inventó `notas`: el guion del profesor lo escribe quien da la clase. Solo Acentuación
+tiene las cinco escritas a mano.
 
 ---
 

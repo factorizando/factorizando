@@ -34,8 +34,8 @@ anterior y no lo contemplaba.
 | 4C | Migrar las 65 presentaciones al esquema de bloques | 🟠 | ✅ |
 | 4D | Diagramas al criterio de canales por valor | 🟡 | ✅ 390 usos en 151 archivos |
 | 5 | `metadata.examenes` en todo el contenido | 🟢 | ✅ 92 contenidos; el filtro queda opcional |
-| **6** | **Calidad de contenido (`explanation` vacías)** | 🟢 | ← siguiente |
-| 7 | Sincronizar documentación | 🟢 | |
+| 6 | Calidad de contenido (`explanation` vacías) | 🟢 | ✅ 350 explicaciones; el sesgo de posición corregido |
+| **7** | **Sincronizar documentación** | 🟢 | ← siguiente |
 
 ### Por qué 4A antes que 4B
 
@@ -499,9 +499,47 @@ de quedarse sin practicar—. `la-celula` es la excepción: va sólo a UNAM, com
 
 ## Fase 6 — Calidad de contenido (diferido)
 
-- [ ] Las `explanation` vacías: quedan **2 bancos**, `producto-enteros` (250) y `la-celula`
-      (100). El resto se cerró por el camino.
-- [ ] Revisión de `correctAnswer` y consistencia de opciones.
+- [x] Las 350 `explanation` que faltaban: `producto-enteros` (250) y `la-celula` (100).
+      Ya no queda ningún banco con explicaciones vacías.
+- [x] Revisión de `correctAnswer` y consistencia de opciones.
+
+**Las 250 de `producto-enteros` no se escribieron a mano.** 196 son la misma pregunta con
+otros números, así que las genera `scripts/fase6/explicar-producto-enteros.mjs`, que calcula
+el resultado y **lo compara con `correctAnswer` antes de escribir nada**. Esa comprobación
+encontró que la 248 tenía la clave equivocada: `(−1)¹ × (−1)² × (−1)³` da 1, no −1 —los
+exponentes suman 6, que es par— y la clave apuntaba a −1. Las otras 54 (contexto, sustitución
+de variables, precedencia) van a mano en `explicaciones-a-mano.mjs`.
+
+**No se copió el estilo del banco hermano.** `suma-enteros` explica «5 + 3 = 8. Sumamos
+directamente.»: repetir la operación no enseña nada. En el producto de enteros lo que se falla
+es el signo, así que cada explicación nombra cuántos factores negativos hay y si son par o
+impar, y despliega las potencias —(−1)⁶ no se «ve» hasta que están los seis factores escritos.
+
+**Y de paso, tres enunciados mal redactados:** el 176 regalaba la respuesta en un paréntesis,
+el 246 decía «¿Cuánto factores…?», y el 219 no tenía ninguna lectura que diera su propia clave;
+se reescribió como doble negación, que es justo lo que el banco enseña.
+
+### El sesgo de posición
+
+Medido al abrir los bancos: en `la-celula`, **79 de 100** respuestas correctas estaban en la
+segunda opción; en `producto-enteros`, 162 de 250. Pero el arreglo evidente —rebarajar el
+archivo— no era el arreglo: `Cuestionario.jsx` ya barajaba las opciones al renderizar. El
+problema real estaba ahí, en que lo hacía con `sort(() => Math.random() - 0.5)`, que **no
+produce permutaciones uniformes**. Medido con 400 000 corridas y cuatro opciones: la correcta
+acababa en las dos casillas centrales el **77%** de las veces, cuando debería ser el 50%. Es
+decir, el sesgo del banco sí llegaba al alumno, sólo repartido entre dos casillas.
+
+- [x] Barajado uniforme (Fisher-Yates) en `Cuestionario.jsx`, para preguntas y para opciones.
+- [x] Reparto de la posición almacenada en los tres bancos sesgados. Con el barajado ya
+      uniforme esto es redundante para la ruta de cuestionario, pero protege a cualquier
+      consumidor futuro que lea el banco sin barajar.
+- [x] `la-celula` tenía los incisos «a) », «b) »… escritos dentro del texto de cada opción, y
+      como la pantalla las reordena, el alumno las veía como «d) c) b) a)». Se quitaron los 400:
+      el banco no debe numerar lo que la pantalla reordena.
+
+**Pendiente aparte:** el componente de cuestionario todavía marca acierto y error con los
+glifos `✓`/`✗` y un emoji 💡, y con verde/ámbar cocidos. Es legado sin migrar y contradice
+`docs/DISENO.md` §2.4.
 
 ---
 

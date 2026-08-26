@@ -237,9 +237,8 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 1/5 — Ríos y lagos",
-          enunciado: "Completa la oración",
+          apoyoRotulo: "Completa la oración",
           apoyo: "El río __ forma la frontera natural entre México y Estados Unidos, y su aprovechamiento hídrico ha generado acuerdos y conflictos entre ambos países.",
-          apoyoPie: "elige la palabra que falta",
           opciones: [
             "Lerma-Santiago, que nace en el Estado de México y desemboca en el Pacífico.",
             "Bravo (o Grande del Norte), que corre de El Paso/Ciudad Juárez hasta el Golfo de México.",

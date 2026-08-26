@@ -475,9 +475,8 @@ export const PRESENTACION = {
           disposicion: "lado",
           ancho: 12,
           etiqueta: "Reactivo 5 — B y V",
-          enunciado: "Completa:",
+          apoyoRotulo: "Completa:",
           apoyo: "El abogado va a __ la sentencia ante el juez.",
-          apoyoPie: "elige la palabra que falta",
           opciones: [
             "recurrir — pero «el deber de probar» se escribe con b",
             "El verbo «haber» se escribe con b por ser auxiliar",

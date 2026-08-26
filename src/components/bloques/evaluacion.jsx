@@ -43,9 +43,11 @@ export function Pregunta({ bloque, tema, respuestaDada, onResponder, reflujo }) 
 
       <div style={columnas}>
         <div>
-          <p style={{ fontFamily: tema.titulo, fontWeight: 500, fontSize: aLado ? 27 : 24, lineHeight: 1.28, letterSpacing: "-0.015em", color: tema.texto, margin: aLado ? 0 : "0 0 18px", textWrap: "pretty" }}>
-            {bloque.enunciado}
-          </p>
+          {bloque.enunciado && (
+            <p style={{ fontFamily: tema.titulo, fontWeight: 500, fontSize: aLado ? 27 : 24, lineHeight: 1.28, letterSpacing: "-0.015em", color: tema.texto, margin: aLado ? 0 : "0 0 18px", textWrap: "pretty" }}>
+              {bloque.enunciado}
+            </p>
+          )}
 
           {/* El apoyo se dibuja SIEMPRE que exista, no solo en dos columnas.
               Estaba condicionado a `aLado`, así que en un teléfono la oración a
@@ -56,7 +58,12 @@ export function Pregunta({ bloque, tema, respuestaDada, onResponder, reflujo }) 
             // se agranda y se separa —es lo que hay que mirar letra por letra—;
             // una oración a ese tamaño y con esa separación se vuelve ilegible,
             // así que baja de cuerpo y se alinea a la izquierda, como se lee.
-            <div style={{ marginTop: 22, background: tema.card, border: `1px solid ${tema.border}`, borderRadius: 10, padding: "18px 20px", textAlign: esOracion ? "left" : "center" }}>
+            <div style={{ marginTop: bloque.enunciado ? 22 : 0, background: tema.card, border: `1px solid ${tema.border}`, borderRadius: 10, padding: "18px 20px", textAlign: esOracion ? "left" : "center" }}>
+              {bloque.apoyoRotulo && (
+                <div style={{ fontFamily: tema.mono, fontSize: 10, letterSpacing: "0.16em", textTransform: "uppercase", color: tema.sub, marginBottom: 11, textAlign: esOracion ? "left" : "center" }}>
+                  {bloque.apoyoRotulo}
+                </div>
+              )}
               <div style={{
                 fontFamily: tema.mono,
                 fontSize: esOracion ? 17 : 25,

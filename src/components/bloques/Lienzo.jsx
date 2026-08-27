@@ -6,13 +6,27 @@
 // la laptop. Por debajo deja de escalar y los bloques reflujan a una columna,
 // porque un teléfono acostado deja unos 263 px de alto útil y ahí un lienzo
 // escalado daría cuerpo de 7 px.
+//
+// Ese «teléfono acostado» del párrafo anterior es justo el caso que el umbral
+// de ancho NO sabía distinguir: mide 844 px de ancho —más que un iPad en
+// vertical— y el código lo tomaba por un portátil. Medido: a 844 × 390 el
+// lienzo se escalaba a 0.386 y el cuerpo quedaba en 4.6 px de pantalla; en
+// pantalla completa, 5.3. Eso es lo que se veía como «la presentación
+// desapareció». Un teléfono no es ancho: es CORTO, así que el umbral mira
+// también el alto.
 import { useEffect, useRef, useState } from "react";
 import { BLOQUES } from "./index.js";
 import { columnas, oculto, titulo as estiloTitulo } from "./ui.js";
 
 const ANCHO = 1280;
 const ALTO = 720;
-const UMBRAL = 768;
+const UMBRAL_ANCHO = 768;
+// Un teléfono acostado da 390-430 px de alto; un iPad acostado, 768; el
+// portátil más apretado, 600. El corte separa lo uno de lo otro con holgura por
+// los dos lados. Y la ventana de escritorio encogida a menos de 560 px de alto
+// cae en reflujo por la misma razón por la que cae el teléfono: el lienzo
+// escalado ahí ya no se lee.
+const UMBRAL_ALTO = 560;
 
 function useEscala(ref, activo) {
   const [escala, setEscala] = useState(1);
@@ -56,15 +70,25 @@ function Bloque({ bloque, tema, reflujo, contexto, orden, revelados }) {
 
 export default function Lienzo({ slide, tema, modo, respuestaDada, onResponder, votos, totalVotos, revelados = Infinity }) {
   const cajaRef = useRef(null);
-  const [ancho, setAncho] = useState(() => (typeof window === "undefined" ? 1280 : window.innerWidth));
+  const [ventana, setVentana] = useState(() => (typeof window === "undefined"
+    ? { ancho: 1280, alto: 720 }
+    : { ancho: window.innerWidth, alto: window.innerHeight }));
 
   useEffect(() => {
-    const alCambiar = () => setAncho(window.innerWidth);
+    const alCambiar = () => setVentana({ ancho: window.innerWidth, alto: window.innerHeight });
+    // `orientationchange` además de `resize`: al rotar un teléfono hay
+    // navegadores que lo disparan antes de que las medidas estén actualizadas,
+    // y alguno no dispara `resize` en absoluto. El retardo es para leer después.
+    const alRotar = () => setTimeout(alCambiar, 100);
     window.addEventListener("resize", alCambiar);
-    return () => window.removeEventListener("resize", alCambiar);
+    window.addEventListener("orientationchange", alRotar);
+    return () => {
+      window.removeEventListener("resize", alCambiar);
+      window.removeEventListener("orientationchange", alRotar);
+    };
   }, []);
 
-  const reflujo = ancho < UMBRAL;
+  const reflujo = ventana.ancho < UMBRAL_ANCHO || ventana.alto < UMBRAL_ALTO;
   const escala = useEscala(cajaRef, !reflujo);
   const contenidoRef = useRef(null);
 
@@ -146,8 +170,23 @@ export default function Lienzo({ slide, tema, modo, respuestaDada, onResponder, 
     );
   }
 
+  // El lienzo se centra en ABSOLUTO, no con `place-items: center`.
+  //
+  // Con la rejilla, un elemento MÁS ANCHO que su contenedor no se centra: el
+  // navegador lo pega al inicio para no dejar fuera de alcance el borde
+  // izquierdo. Como la caja mide 1280 px de ancho ANTES de escalar, eso pasaba
+  // en toda pantalla de menos de 1280 —iPad, portátil chico, ventana sin
+  // maximizar—: la caja quedaba en left 0 en vez de left −128, y al escalar
+  // sobre su propio centro el resultado aparecía corrido a la derecha con el
+  // trozo sobrante recortado. Medido a 1024 px: 128 px de diapositiva perdidos,
+  // justo por donde pasa la segunda columna de bloques.
+  //
+  // Fuera de flujo el problema no existe: `left/top: 50%` pone el centro de la
+  // caja sin escalar en el centro del contenedor y `translate(-50%, -50%)` —que
+  // se resuelve contra la caja sin transformar— lo deja ahí, escale lo que
+  // escale.
   return (
-    <div ref={cajaRef} style={{ height: "100%", width: "100%", display: "grid", placeItems: "center", overflow: "hidden" }}>
+    <div ref={cajaRef} style={{ height: "100%", width: "100%", position: "relative", overflow: "hidden" }}>
       {/* El contenido que no cabe en 720 px se desplaza DENTRO del lienzo, en vez
           de recortarse o de encoger la diapositiva entera. Encogerla sería
           traicionar lo único que promete el lienzo fijo —que el cuerpo mida lo
@@ -161,10 +200,10 @@ export default function Lienzo({ slide, tema, modo, respuestaDada, onResponder, 
           siempre; proyectadas, su final no se veía salvo que alguien arrastrara.
           Lo que cambia es que ahora se sabe cuáles son. */}
       <div ref={contenidoRef} style={{
+        position: "absolute", left: "50%", top: "50%",
         width: ANCHO, height: ALTO, overflowY: "auto",
-        transform: `scale(${escala})`,
+        transform: `translate(-50%, -50%) scale(${escala})`,
         transformOrigin: "center",
-        flexShrink: 0,
         boxSizing: "border-box",
         padding: "26px 44px 22px",
         ...rejilla,

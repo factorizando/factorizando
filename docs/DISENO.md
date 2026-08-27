@@ -157,11 +157,21 @@ Cada token tiene `-tint` y `-text`, y una contraparte de luminosidad elevada baj
 
 Híbrido, no una cosa ni la otra:
 
-- **≥ 768 px** — la diapositiva es un lienzo fijo de 1280 × 720 que se escala completo.
-  Lo que se diseña es lo que se proyecta. Rejilla de 12 columnas, margen 56, canal 20.
-- **< 768 px** — los bloques dejan de escalar y reflujan a una columna. Las tablas se
-  vuelven fichas apiladas y el cuerpo no baja de 15 px reales. Un teléfono acostado
-  deja unos 263 px de alto útil una vez descontadas las dos barras.
+- **Lienzo escalado** — la diapositiva es un lienzo fijo de 1280 × 720 que se escala
+  completo. Lo que se diseña es lo que se proyecta. Rejilla de 12 columnas, margen 56,
+  canal 20. Pide **≥ 768 px de ancho *y* ≥ 560 px de alto**.
+- **Reflujo** — por debajo de cualquiera de los dos, los bloques dejan de escalar y
+  reflujan a una columna. Las tablas se vuelven fichas apiladas y el cuerpo no baja de
+  15 px reales. Un teléfono acostado deja unos 263 px de alto útil una vez descontadas
+  las dos barras.
+
+**El alto cuenta tanto como el ancho, y durante meses no contó.** Un teléfono acostado
+mide 844 px de ancho —más que un iPad en vertical— pero sólo 390 de alto. Con el umbral
+puesto sólo en el ancho, el código lo tomaba por un portátil y escalaba el lienzo a
+0.386: cuerpo de **4.6 px** en pantalla. El propio párrafo de arriba describía ese caso
+—«un teléfono acostado deja unos 263 px de alto útil»— mientras la regla escrita al lado
+lo mandaba al lienzo. Un teléfono no se reconoce por ser estrecho: se reconoce por ser
+**corto**.
 
 ---
 
@@ -444,3 +454,74 @@ con tracking, donde 13px rinde más de lo que dice el número. §2.6 acota el pi
 cuerpo», así que no está claro que sean el mismo caso; se deja escrito en vez de resuelto
 a medias. Y `MateriaVer.jsx` no tiene una sola media query: no desborda, pero hereda el
 escalón de cuerpo por casualidad, no por diseño.
+
+### 2026-08-26 · Un teléfono acostado no es un portátil estrecho
+
+*Qué:* el umbral de §2.6 pasa a mirar las dos medidas: lienzo escalado sólo con ≥ 768 px de
+ancho **y** ≥ 560 px de alto. Y el botón de pantalla completa deja de bloquear la
+orientación horizontal.
+
+*Los dos síntomas eran el mismo fallo.* Se reportaron por separado —«al girar el teléfono
+no cambia a horizontal» y «al elegir pantalla completa se rompe, ya no aparece la
+presentación»— y los dos terminaban en el mismo sitio: un viewport ancho y corto que
+`Lienzo.jsx` confundía con un portátil. Medido, sobre la misma diapositiva:
+
+| Pantalla | Modo | Escala | Cuerpo en pantalla |
+|---|---|---|---|
+| Teléfono vertical 390 × 844 | reflujo | — | legible |
+| Teléfono acostado 844 × 390 | lienzo | 0.386 | **4.6 px** |
+| Acostado en pantalla completa 844 × 430 | lienzo | 0.442 | **5.3 px** |
+| iPad acostado 1024 × 768 | lienzo | 0.800 | 9.6 px |
+| Portátil 1440 × 900 | lienzo | 1.094 | 13.1 px |
+
+A 4.6 px sobre fondo oscuro no se lee «pequeño»: se lee «no hay nada». De ahí que el
+reporte dijera que la presentación desaparecía.
+
+*Y por eso el bloqueo de orientación se va.* Forzar horizontal al entrar en pantalla
+completa era llevar al usuario justo a esa columna de la tabla. Corregido el umbral, un
+teléfono reflujo en las dos orientaciones — y ahí **el vertical es el bueno**: 732 px de
+alto útil contra 278 acostado. El botón vuelve a hacer una sola cosa, quitar la barra del
+navegador, que es de lo que sí sobra motivo en un teléfono.
+
+*De paso, un enredo que sólo se veía en el dispositivo:* el bloqueo se pedía dos veces —en
+`fullscreenchange` y otra vez tras `requestFullscreen`—, y una petición de bloqueo aborta
+la anterior, cuyo `catch` pedía otra, que abortaba la segunda. Cuatro rotaciones
+encadenadas antes de asentarse, y la última en `landscape-primary`: si el teléfono se
+sostenía girado del otro lado, boca abajo.
+
+*Y se retira el panel «Gira tu teléfono».* Decía «esta presentación se ve mejor en
+horizontal» y desde este cambio es falso: con reflujo en las dos orientaciones, el vertical
+de un teléfono da 732 px de alto útil contra 278 acostado. Era además un panel opaco a
+pantalla completa en cada visita desde el móvil, para pedir algo que empeora la vista.
+
+*Y una tercera que apareció al barrer todos los tamaños, sin relación con el teléfono:* en
+**toda pantalla de menos de 1280 px** el lienzo salía corrido a la derecha y recortado
+—medido a 1024: **128 px de diapositiva perdidos**, justo por donde pasa la segunda columna
+de bloques—. Le pasaba a cualquier iPad, portátil chico o ventana sin maximizar. La causa
+es que un elemento más ancho que su contenedor **no se centra** con `place-items: center`:
+el navegador lo pega al inicio para no dejar fuera de alcance el borde izquierdo, y como la
+caja mide 1280 antes de escalar, escalar después sobre su propio centro lo dejaba
+descolocado. El lienzo pasa a centrarse fuera de flujo (`left/top: 50%` +
+`translate(-50%, -50%) scale()`), que da el mismo centro sea cual sea el tamaño.
+
+*Lo que enseñó hacerlo:* la regla escrita y el ejemplo escrito a su lado se contradecían
+desde el primer día, y nadie lo vio porque los dos suenan bien por separado. El ejemplo
+—«un teléfono acostado deja unos 263 px de alto útil»— era el que tenía razón. Cuando una
+regla trae su propio contraejemplo en el párrafo siguiente, el contraejemplo es el que hay
+que creer.
+
+### Anotado, sin resolver · `[object Object]` en 46 diapositivas
+
+Apareció al verificar lo anterior, y no tiene que ver con ello. Cuatro presentaciones
+—`semejanza-triangulos` y las tres de pensamiento científico— imprimen literalmente
+`DATOS: [object Object],[object Object]` en el rótulo del bloque `pasos`. Son **46 casos**,
+todos de la forma `metodo: "Datos: [object Object]"`.
+
+Es un residuo de la migración 4C (`fd4d53b`): el tipo `ejemplo` antiguo llevaba
+`datos: [{ label, math }]` —los valores dados del problema, que se pintaban como fichas con
+su fórmula— y la conversión los concatenó a un string. Los originales se recuperan enteros
+de `fd4d53b^`, así que la reparación es mecánica; lo que falta decidir es dónde viven los
+datos dados en el sistema de bloques, porque `metodo` es un rótulo en versalitas y no es
+sitio para KaTeX. Lo más fiel sería un campo propio en el bloque `pasos`.
+
+Se deja escrito y no hecho por decisión explícita: es otra tarea, no ésta.

@@ -1,50 +1,35 @@
 // Botón de pantalla completa (patrón YouTube) para las vistas de presentación.
-// Al entrar a pantalla completa se quita la barra del navegador (que en celular
-// come espacio) y, donde el dispositivo lo permite (Android), se bloquea la
-// orientación horizontal. Se detecta el soporte: en navegadores sin Fullscreen
-// API para contenido web (p. ej. Safari de iPhone) el botón no se muestra.
+// Hace UNA cosa: quitar la barra del navegador, que en un teléfono se come una
+// franja de alto. Se detecta el soporte: en navegadores sin Fullscreen API para
+// contenido web (p. ej. Safari de iPhone) el botón no se muestra.
+//
+// NO bloquea la orientación, y antes sí. El bloqueo a horizontal era la causa
+// directa de que pulsar «pantalla completa» en un teléfono dejara la
+// presentación en nada: rotaba a un viewport ancho y corto (844 × 430), que el
+// lienzo tomaba por un portátil y escalaba a 0.44 —cuerpo de 5.3 px en
+// pantalla—. Corregido el umbral de `Lienzo.jsx`, un teléfono reflujo en las dos
+// orientaciones, y ahí el VERTICAL es el bueno: 732 px de alto contra 278
+// acostado. Forzar horizontal era empeorar la vista a propósito.
+//
+// De paso desaparece un enredo que sólo se veía en el dispositivo: se llamaba al
+// bloqueo dos veces —en `fullscreenchange` y otra vez tras `requestFullscreen`—
+// y la segunda petición aborta la primera, cuyo `catch` pedía otra, que abortaba
+// la segunda… cuatro rotaciones encadenadas antes de asentarse.
 import { useState, useEffect } from "react";
 
 const soportaFullscreen = () =>
   typeof document !== "undefined" &&
   (document.fullscreenEnabled || document.webkitFullscreenEnabled);
 
-function bloquearHorizontal() {
-  const o = typeof window !== "undefined" && window.screen && window.screen.orientation;
-  if (o && o.lock) {
-    // Algunos dispositivos aceptan "landscape"; otros requieren "landscape-primary".
-    o.lock("landscape").catch(() => {
-      o.lock("landscape-primary").catch(() => {
-        /* el dispositivo no permite bloquear la orientación (p. ej. iOS) */
-      });
-    });
-  }
-}
-
-function liberarOrientacion() {
-  const o = typeof window !== "undefined" && window.screen && window.screen.orientation;
-  if (o && o.unlock) {
-    try {
-      o.unlock();
-    } catch {
-      /* sin bloqueo previo */
-    }
-  }
-}
-
 export default function BotonPantallaCompleta({ targetRef, tema, size = 18 }) {
   const [activo, setActivo] = useState(false);
 
-  // El bloqueo de orientación se hace AQUÍ, al confirmarse la pantalla completa.
-  // Hacerlo encadenado tras `await requestFullscreen()` suele fallar en Android
-  // porque se pierde la activación de usuario; el evento fullscreenchange es el
-  // momento fiable.
+  // El estado se lee del evento y no de lo que pidió el botón: se sale de
+  // pantalla completa también con Escape o con el gesto del sistema, y el icono
+  // tiene que enterarse igual.
   useEffect(() => {
     const onChange = () => {
-      const fs = !!(document.fullscreenElement || document.webkitFullscreenElement);
-      setActivo(fs);
-      if (fs) bloquearHorizontal();
-      else liberarOrientacion();
+      setActivo(!!(document.fullscreenElement || document.webkitFullscreenElement));
     };
     document.addEventListener("fullscreenchange", onChange);
     document.addEventListener("webkitfullscreenchange", onChange);
@@ -65,12 +50,9 @@ export default function BotonPantallaCompleta({ targetRef, tema, size = 18 }) {
     } catch {
       /* el usuario canceló o el navegador no lo permitió */
     }
-    // Refuerzo: algunos navegadores también aceptan el bloqueo aquí.
-    bloquearHorizontal();
   };
 
   const salir = async () => {
-    liberarOrientacion();
     try {
       if (document.exitFullscreen) await document.exitFullscreen();
       else if (document.webkitExitFullscreen) document.webkitExitFullscreen();

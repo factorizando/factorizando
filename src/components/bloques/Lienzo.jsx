@@ -20,13 +20,22 @@ import { columnas, oculto, titulo as estiloTitulo } from "./ui.js";
 
 const ANCHO = 1280;
 const ALTO = 720;
-const UMBRAL_ANCHO = 768;
-// Un teléfono acostado da 390-430 px de alto; un iPad acostado, 768; el
-// portátil más apretado, 600. El corte separa lo uno de lo otro con holgura por
-// los dos lados. Y la ventana de escritorio encogida a menos de 560 px de alto
-// cae en reflujo por la misma razón por la que cae el teléfono: el lienzo
-// escalado ahí ya no se lee.
-const UMBRAL_ALTO = 560;
+// El umbral ES el lienzo. Se usa el lienzo cuando la ventana mide al menos lo
+// que mide él; por debajo, reflujo. No hay número mágico que ajustar: si algún
+// día el lienzo deja de ser 1280 × 720, el corte se mueve solo.
+//
+// Antes eran 768 × 560, y con eso un iPad seguía escalando: 0.6 en vertical y
+// 0.8 acostado, que deja las etiquetas más chicas en 6.3 y 8.4 px. El lienzo
+// está calibrado para verse a escala 1 o más —quien puso una etiqueta en 10.5 px
+// la aceptó a ese tamaño, no a la mitad—, así que encogerlo es siempre perder.
+// Con el corte en 1280 × 720 quedan dentro el portátil (1366 × 768 escala a
+// 0.91), el proyector y el iPad Pro de 12.9" acostado (1366 × 1024, escala
+// 1.07); y fuera todos los demás iPads y todos los teléfonos.
+const UMBRAL_ANCHO = ANCHO;
+const UMBRAL_ALTO = ALTO;
+// Ancho máximo de la columna en reflujo. A 15.5 px de cuerpo son unos 75
+// caracteres por renglón, que es donde se deja de leer de corrido.
+const MEDIDA = 820;
 
 function useEscala(ref, activo) {
   const [escala, setEscala] = useState(1);
@@ -164,7 +173,18 @@ export default function Lienzo({ slide, tema, modo, respuestaDada, onResponder, 
       // trampa: si el contenido pasa del alto disponible, el sobrante se sale
       // por ARRIBA y queda fuera del alcance del scroll. Anclado al inicio, lo
       // que sobra se va por abajo, que es hacia donde se desplaza.
-      <div style={{ ...rejilla, alignContent: "start", padding: "14px 16px", height: "100%", overflowY: "auto", boxSizing: "border-box" }}>
+      //
+      // El ancho se topa y se centra desde que el reflujo alcanza a las
+      // tabletas. En un teléfono no cambia nada —nunca llega al tope—, pero un
+      // iPad acostado da 1194 px y una sola columna de ese ancho son renglones
+      // de más de cien caracteres con media pantalla vacía al lado. MEDIDA es un
+      // ancho de lectura, no una fracción de la pantalla: por eso es un número
+      // fijo y no un porcentaje.
+      <div style={{
+        ...rejilla, alignContent: "start", padding: "14px 16px",
+        height: "100%", overflowY: "auto", boxSizing: "border-box",
+        maxWidth: MEDIDA, marginInline: "auto", width: "100%",
+      }}>
         {contenido}
       </div>
     );

@@ -159,19 +159,27 @@ Híbrido, no una cosa ni la otra:
 
 - **Lienzo escalado** — la diapositiva es un lienzo fijo de 1280 × 720 que se escala
   completo. Lo que se diseña es lo que se proyecta. Rejilla de 12 columnas, margen 56,
-  canal 20. Pide **≥ 768 px de ancho *y* ≥ 560 px de alto**.
-- **Reflujo** — por debajo de cualquiera de los dos, los bloques dejan de escalar y
-  reflujan a una columna. Las tablas se vuelven fichas apiladas y el cuerpo no baja de
-  15 px reales. Un teléfono acostado deja unos 263 px de alto útil una vez descontadas
-  las dos barras.
+  canal 20. Pide una ventana de **al menos 1280 × 720**, es decir: al menos lo que mide el
+  lienzo.
+- **Reflujo** — por debajo de cualquiera de las dos medidas, los bloques dejan de escalar y
+  reflujan a **una columna de 820 px como máximo, centrada**. Las tablas se vuelven fichas
+  apiladas y el cuerpo no baja de 15 px reales. Un teléfono acostado deja unos 263 px de
+  alto útil una vez descontadas las dos barras.
+
+**El umbral ES el lienzo, y no hay número que ajustar.** Si el lienzo deja de ser
+1280 × 720, el corte se mueve solo. La razón es que el lienzo está calibrado para verse a
+escala 1 o más: quien puso una etiqueta en 10.5 px la aceptó a ese tamaño, no a la mitad.
+Encogerlo por debajo de 1 es siempre perder, así que se encoge sólo hacia arriba.
 
 **El alto cuenta tanto como el ancho, y durante meses no contó.** Un teléfono acostado
 mide 844 px de ancho —más que un iPad en vertical— pero sólo 390 de alto. Con el umbral
-puesto sólo en el ancho, el código lo tomaba por un portátil y escalaba el lienzo a
-0.386: cuerpo de **4.6 px** en pantalla. El propio párrafo de arriba describía ese caso
-—«un teléfono acostado deja unos 263 px de alto útil»— mientras la regla escrita al lado
-lo mandaba al lienzo. Un teléfono no se reconoce por ser estrecho: se reconoce por ser
-**corto**.
+puesto sólo en el ancho, el código lo tomaba por un portátil. Un teléfono no se reconoce
+por ser estrecho: se reconoce por ser **corto**.
+
+**Y el tope de 820 px del reflujo es un ancho de lectura, no una fracción de pantalla.**
+Por eso es un número fijo. En un teléfono no llega a aplicarse; existe desde que el
+reflujo alcanza a las tabletas, donde una sola columna de 1194 px serían renglones de más
+de cien caracteres con media pantalla vacía al lado.
 
 ---
 
@@ -488,6 +496,15 @@ navegador, que es de lo que sí sobra motivo en un teléfono.
 la anterior, cuyo `catch` pedía otra, que abortaba la segunda. Cuatro rotaciones
 encadenadas antes de asentarse, y la última en `landscape-primary`: si el teléfono se
 sostenía girado del otro lado, boca abajo.
+
+*Y las tabletas se van con los teléfonos.* En la primera pasada el corte quedó en
+768 × 560, que arreglaba el teléfono pero dejaba al iPad escalando a 0.6 en vertical y 0.8
+acostado —etiquetas de 6.3 y 8.4 px—. El corte definitivo es **el propio lienzo**,
+1280 × 720: dentro quedan el portátil (1366 × 768 escala a 0.91), el proyector y el iPad
+Pro de 12.9" acostado (1366 × 1024, escala 1.07, mejor que el diseño); fuera, todos los
+demás iPads y todos los teléfonos. Y como el reflujo pasa a servir pantallas de hasta
+1194 px, su columna se topa en 820 y se centra: antes era el ancho entero, que en un
+teléfono es correcto y en una tableta son renglones de cien caracteres.
 
 *Y se retira el panel «Gira tu teléfono».* Decía «esta presentación se ve mejor en
 horizontal» y desde este cambio es falso: con reflujo en las dos orientaciones, el vertical

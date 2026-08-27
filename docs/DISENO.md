@@ -556,3 +556,30 @@ llevaban ahí exactamente el mismo tiempo. Un campo que el componente lee y los 
 escriben no falla: se calla. Cuando aparezca el siguiente residuo de una migración, la
 pregunta no es sólo «¿qué se ve mal?» sino «¿qué campos lee este componente que nadie
 escribe?».
+
+### 2026-08-27 · La marca era el primero de nueve elementos iguales
+
+*Qué:* el wordmark de la barra pública sube de **19px a 22px** y gana 14px de margen a su
+derecha. Reportado como una sensación —«se pierde un poco con los elementos del menú
+superior»— y confirmado midiendo el DOM a 1440px.
+
+**Los números.** La marca ocupaba 127px; el bloque de navegación, 779px: seis veces más
+masa tipográfica al lado. Y la separaban del menú **3px de tamaño y un paso de grosor**
+(19px/600 Sora contra 16px/500 Figtree), una razón de 1,19. Eso no es una jerarquía, es
+una variación. A 22px la razón sube a 1,375 y la marca vuelve a leerse como marca; 22px es
+además `--fx-h4-size`, así que no se inventa un escalón fuera de la escala de §2.2.
+
+**El tamaño solo no bastaba: faltaba el borde del grupo.** El hueco entre la marca y el
+menú era de 31px y el hueco *entre enlaces* del menú es de ~20px (10+10 de relleno). Dos
+valores del mismo orden no dicen dónde acaba un grupo y empieza otro, así que el ojo leía
+nueve elementos en fila. Los 14px de `margin-right` en `.fx-marca` son lo que separa los
+dos grupos; por debajo de 900px se anulan, porque sin menú al lado no hay nada que
+separar. En teléfono la marca sube de 18px a 20px por la misma escala, y a 320px sigue
+entrando con 97px de holgura antes de la hamburguesa (`npm run responsive`: nada se
+desborda).
+
+*Lo que enseñó:* «se pierde» casi nunca significa «es pequeña» en absoluto — significa que
+la razón contra lo que tiene al lado es demasiado baja. La medida útil no es el tamaño de
+la marca, son **los dos cocientes**: tamaño contra el vecino, y hueco entre grupos contra
+hueco dentro del grupo. Ninguno de los dos lo ve el build, y el verificador responsive
+tampoco: sólo mide desbordes, toque y piso de texto. Esto se mide leyendo el DOM.

@@ -10,10 +10,16 @@ import { MATERIAS } from "../data/materias.js";
 // (KaTeX). La R va en negrita sólida (\mathbf) en vez de la pizarra doble
 // (\mathbb): a 19px el hueco de la doble línea se cerraba y no resaltaba.
 //
+// 22px, no 19: a 19px la marca medía 127px contra los 779px del bloque de
+// navegación, y sólo 3px y un paso de grosor la separaban de un enlace del
+// menú — se leía como el primero de nueve elementos iguales, no como la marca.
+// 22px es --fx-h4-size (no se sale de la escala) y deja una razón de 1,375
+// contra los 16px del menú. La separación la termina el margen de .fx-marca.
+//
 // El tamaño viaja como variable CSS, no como `style={{fontSize}}`: un estilo
 // en línea gana a cualquier media query, y era la razón de que en móvil no
 // hubiera más salida que esconder la marca entera.
-export function FxWordmark({ size = 19 }) {
+export function FxWordmark({ size = 22 }) {
   const ready = useKaTeX();
   const ref = useRef(null);
   useEffect(() => {
@@ -34,7 +40,7 @@ export function FxWordmark({ size = 19 }) {
 }
 
 // Marca. `to` permite apagar el enlace donde no haga falta.
-export function FxMarca({ wordmark = 19, to = "/" }) {
+export function FxMarca({ wordmark = 22, to = "/" }) {
   return to ? (
     <Link to={to} className="fx-marca" title="Inicio"><FxWordmark size={wordmark} /></Link>
   ) : (
@@ -183,10 +189,14 @@ const CSS = `
 .fx-nav-fila { max-width: var(--fx-container); margin: 0 auto; padding: 16px var(--fx-gutter);
   display: flex; align-items: center; gap: clamp(16px, 2.4vw, 32px); }
 /* MARCA */
-.fx-marca { display: flex; align-items: center; gap: 10px; text-decoration: none; flex: 0 0 auto; }
+/* El hueco de la fila (~32px) es del mismo orden que el que hay entre enlaces
+   del menú (10+10 de relleno), así que por sí solo no dice dónde acaba la marca
+   y empieza la navegación. Estos 14px extra son los que separan los dos grupos. */
+.fx-marca { display: flex; align-items: center; gap: 10px; text-decoration: none; flex: 0 0 auto;
+  margin-right: 14px; }
 .fx-marca:hover { text-decoration: none; }
 .fx-wordmark { font-family: var(--fx-font-heading); font-weight: 600; letter-spacing: -0.02em;
-  font-size: var(--fx-wordmark-size, 19px);
+  font-size: var(--fx-wordmark-size, 22px);
   color: var(--fx-text-heading); white-space: nowrap; }
 .fx-wordmark-math { color: var(--fx-primary-500); font-family: var(--fx-font-math); font-weight: 700; }
 .fx-wordmark-math .katex { color: var(--fx-primary-500); font-size: .95em; }
@@ -249,6 +259,8 @@ const CSS = `
    botones el wordmark cabe entero hasta en 320px, y aun así baja un punto para
    no pegarse a la hamburguesa. */
 @media (max-width: 899px) {
+  /* Sin menú a la derecha no hay dos grupos que separar. */
+  .fx-marca { margin-right: 0; }
   .fx-nav-links { display: none; }
   .fx-nav-entrar { display: none; }
   .fx-nav-cta { display: none; }
@@ -262,6 +274,6 @@ const CSS = `
 }
 @media (max-width: 420px) {
   .fx-nav-fila { padding-top: 12px; padding-bottom: 12px; }
-  .fx-wordmark { font-size: 18px; }
+  .fx-wordmark { font-size: 20px; }
 }
 `;

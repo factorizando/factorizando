@@ -71,7 +71,10 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object],[object Object]",
+          datos: [
+            { label: "Observación 1", math: "\\text{La mayoría de partículas } \\alpha \\text{ pasaron sin desviarse}" },
+            { label: "Observación 2", math: "\\text{Algunas se desviaron en ángulos grandes (>90°)}" },
+          ],
           pasos: [
             {
               pre: "Obs. 1 → El átomo es casi todo espacio vacío; las partículas α pasan sin encontrar obstáculo.",
@@ -102,7 +105,10 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object],[object Object]",
+          datos: [
+            { label: "NaCl — iónico", math: "\\text{Na (1 e}^- \\text{ de valencia)} \\to \\text{cede a Cl (7 e}^-\\text{)} \\to \\text{Na}^+ \\text{Cl}^-" },
+            { label: "H₂O — covalente", math: "\\text{H comparte 1 e}^- \\text{ con O (6 e}^-\\text{)} \\to \\text{H}\\!-\\!\\text{O}\\!-\\!\\text{H}" },
+          ],
           pasos: [
             {
               pre: "NaCl: el Na (metal) cede su electrón de valencia al Cl (no metal). Se forman iones Na⁺ y Cl⁻ que se atraen electrostáticamente.",
@@ -269,7 +275,9 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object]",
+          datos: [
+            { label: "Factores", math: "\\text{Carbs: 4 kcal/g} \\quad \\text{Proteínas: 4 kcal/g} \\quad \\text{Lípidos: 9 kcal/g}" },
+          ],
           pasos: [
             {
               pre: "Calorías de carbohidratos: ",
@@ -307,7 +315,9 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object]",
+          datos: [
+            { label: "Ecuación global", math: "\\text{C}_6\\text{H}_{12}\\text{O}_6 + 6\\text{O}_2 \\longrightarrow 6\\text{CO}_2 + 6\\text{H}_2\\text{O} + \\approx 38\\,\\text{ATP}" },
+          ],
           pasos: [
             {
               pre: "La glucosa (C₆H₁₂O₆) es un carbohidrato: su estructura almacena energía química en sus enlaces C-H.",
@@ -478,7 +488,9 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object]",
+          datos: [
+            { label: "Casos a clasificar", math: "\\text{Aire · Granito · Suero fisiológico · Vinagreta · Oro puro}" },
+          ],
           pasos: [
             {
               pre: "Aire: mezcla homogénea de gases (N₂ 78%, O₂ 21%, Ar y otros). Composición uniforme pero variable según altitud.",
@@ -512,7 +524,9 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object]",
+          datos: [
+            { label: "Datos", math: "\\text{soluto: 9 g NaCl} \\quad \\text{solvente: 1 L (1000 mL) de agua}" },
+          ],
           pasos: [
             {
               pre: "Concentración porcentual (m/v): ",
@@ -685,7 +699,9 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object]",
+          datos: [
+            { label: "Principio", math: "\\text{Mezcla calentada} \\to \\text{vapores suben por la torre} \\to \\text{cada fracción condensa a distinta altura}" },
+          ],
           pasos: [
             {
               pre: "Gases (GLP): < 40 °C. Se condensan en la parte alta de la torre. Uso: gas doméstico.",
@@ -722,7 +738,9 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object]",
+          datos: [
+            { label: "Componentes", math: "\\text{Fase estacionaria: papel (polar)} \\quad \\text{Fase móvil: solvente que sube por capilaridad}" },
+          ],
           pasos: [
             {
               pre: "Se pone una mancha de tinta en la base de una tira de papel y se introduce el extremo en el solvente.",
@@ -896,7 +914,9 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object]",
+          datos: [
+            { label: "Ecuación sin balancear", math: "\\text{H}_2 + \\text{O}_2 \\longrightarrow \\text{H}_2\\text{O}" },
+          ],
           pasos: [
             {
               pre: "Cuenta átomos en reactivos: ",
@@ -934,7 +954,9 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object]",
+          datos: [
+            { label: "Ecuación sin balancear", math: "\\text{C}_3\\text{H}_8 + \\text{O}_2 \\longrightarrow \\text{CO}_2 + \\text{H}_2\\text{O}" },
+          ],
           pasos: [
             {
               pre: "Primero balancea el C: hay 3 C en C₃H₈ → necesitas 3 CO₂: ",
@@ -1110,7 +1132,9 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object]",
+          datos: [
+            { label: "Factores", math: "\\text{Carbs: 4 kcal/g} \\quad \\text{Proteínas: 4 kcal/g} \\quad \\text{Lípidos: 9 kcal/g}" },
+          ],
           pasos: [
             {
               pre: "Calorías de carbohidratos: ",
@@ -1148,7 +1172,10 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object],[object Object]",
+          datos: [
+            { label: "Fotosíntesis", math: "6\\,\\text{CO}_2 + 6\\,\\text{H}_2\\text{O} + \\text{luz} \\longrightarrow \\text{C}_6\\text{H}_{12}\\text{O}_6 + 6\\,\\text{O}_2" },
+            { label: "Respiración", math: "\\text{C}_6\\text{H}_{12}\\text{O}_6 + 6\\,\\text{O}_2 \\longrightarrow 6\\,\\text{CO}_2 + 6\\,\\text{H}_2\\text{O} + \\text{ATP}" },
+          ],
           pasos: [
             {
               pre: "Fotosíntesis: absorbe energía luminosa para construir glucosa (molécula de alta energía potencial). Es ENDOTÉRMICA (ΔH > 0).",
@@ -1318,7 +1345,10 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object],[object Object]",
+          datos: [
+            { label: "Reacciones principales", math: "\\text{SO}_2 + \\text{H}_2\\text{O} \\to \\text{H}_2\\text{SO}_3 \\quad \\text{(ácido sulfuroso)}" },
+            { label: "", math: "\\text{NO}_2 + \\text{H}_2\\text{O} \\to \\text{HNO}_3 \\quad \\text{(ácido nítrico)}" },
+          ],
           pasos: [
             {
               pre: "Origen: combustión de carbón y petróleo en plantas termoeléctricas y motores libera SO₂ y NOₓ.",
@@ -1349,7 +1379,9 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object]",
+          datos: [
+            { label: "Tiempo de degradación", math: "\\text{Bolsa plástica: } \\sim 20\\text{ años} \\quad \\text{Botella PET: }\\sim 450\\text{ años} \\quad \\text{Hilo nylon: } \\sim 600\\text{ años}" },
+          ],
           pasos: [
             {
               pre: "Fragmentación: la luz UV y la acción mecánica del mar rompen los plásticos en trozos cada vez más pequeños sin que cambien su composición química.",

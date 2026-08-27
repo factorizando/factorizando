@@ -143,7 +143,10 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 7,
-          metodo: "Datos: [object Object],[object Object]",
+          datos: [
+            { label: "△ ABC", math: "AB = 5,\\; BC = 6,\\; CA = 7" },
+            { label: "△ DEF", math: "DE = 5,\\; EF = 6,\\; FD = 7" },
+          ],
           pasos: [
             {
               pre: "Primer par de lados: ",
@@ -212,7 +215,10 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 7,
-          metodo: "Datos: [object Object],[object Object]",
+          datos: [
+            { label: "△ ABC", math: "AB = 4,\\; \\angle A = 60^\\circ,\\; AC = 6" },
+            { label: "△ DEF", math: "DE = 4,\\; \\angle D = 60^\\circ,\\; DF = 6" },
+          ],
           pasos: [
             {
               pre: "Primer lado: ",
@@ -285,7 +291,10 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 7,
-          metodo: "Datos: [object Object],[object Object]",
+          datos: [
+            { label: "△ ABC", math: "\\angle A = 45^\\circ,\\; AB = 8,\\; \\angle B = 75^\\circ" },
+            { label: "△ DEF", math: "\\angle D = 45^\\circ,\\; DE = 8,\\; \\angle E = 75^\\circ" },
+          ],
           pasos: [
             {
               pre: "Primer ángulo: ",
@@ -362,7 +371,10 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 7,
-          metodo: "Datos: [object Object],[object Object]",
+          datos: [
+            { label: "△ ABC", math: "\\angle A = 50^\\circ,\\; \\angle B = 70^\\circ,\\; BC = 5" },
+            { label: "△ DEF", math: "\\angle D = 50^\\circ,\\; \\angle E = 70^\\circ,\\; EF = 5" },
+          ],
           pasos: [
             {
               pre: "Primer ángulo: ",
@@ -1106,7 +1118,10 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 7,
-          metodo: "Datos: [object Object],[object Object]",
+          datos: [
+            { label: "△ ABC", math: "AB = 6,\\; BC = 8,\\; CA = 10" },
+            { label: "△ DEF", math: "DE = 3,\\; EF = 4,\\; FD = 5" },
+          ],
           pasos: [
             {
               pre: "Dividimos lados correspondientes: ",

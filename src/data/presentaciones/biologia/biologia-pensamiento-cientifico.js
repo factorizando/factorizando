@@ -73,7 +73,10 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object],[object Object]",
+          datos: [
+            { label: "E. coli", math: "\\sim 2\\,\\mu\\text{m} \\cdot \\text{sin núcleo} \\cdot \\text{ADN circular} \\cdot \\text{solo ribosomas}" },
+            { label: "Neurona", math: "\\sim 100\\,\\mu\\text{m (cuerpo)} \\cdot \\text{núcleo con membrana} \\cdot \\text{ADN lineal} \\cdot \\text{mitocondrias, RE, Golgi}" },
+          ],
           pasos: [
             {
               pre: "Lo que comparten: ambas tienen membrana plasmática, citoplasma, ribosomas y ADN como material genético.",
@@ -104,7 +107,9 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object]",
+          datos: [
+            { label: "Ecuación global", math: "\\text{C}_6\\text{H}_{12}\\text{O}_6 + 6\\text{O}_2 \\longrightarrow 6\\text{CO}_2 + 6\\text{H}_2\\text{O} + \\approx 38\\,\\text{ATP}" },
+          ],
           pasos: [
             {
               pre: "Etapa 1 — Glucólisis (citoplasma): la glucosa se divide en 2 moléculas de piruvato, produciendo 2 ATP y 2 NADH.",
@@ -275,7 +280,9 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object]",
+          datos: [
+            { label: "Gametos de cada padre", math: "\\text{Padre Aa} \\to \\{A, a\\} \\quad \\text{Madre Aa} \\to \\{A, a\\}" },
+          ],
           pasos: [
             {
               pre: "Construye el cuadro de Punnett combinando todos los gametos:",
@@ -311,7 +318,10 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object],[object Object]",
+          datos: [
+            { label: "Gametos padre AB", math: "\\{I^A, I^B\\}" },
+            { label: "Gametos madre O", math: "\\{i, i\\}" },
+          ],
           pasos: [
             {
               pre: "Cuadro de Punnett:",
@@ -496,7 +506,10 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object],[object Object]",
+          datos: [
+            { label: "Antes (pre-1850)", math: "\\text{Troncos claros} \\to \\text{mariposas claras se camuflan} \\to \\text{mariposas oscuras son comidas}" },
+            { label: "Después (post-1850)", math: "\\text{Troncos oscuros} \\to \\text{mariposas oscuras se camuflan} \\to \\text{mariposas claras son comidas}" },
+          ],
           pasos: [
             {
               pre: "Variación: la población ya contenía tanto mariposas claras como oscuras (variación genética preexistente).",
@@ -530,7 +543,9 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object]",
+          datos: [
+            { label: "Ancestro común", math: "\\text{Una población de pinzones llega a Galápagos desde América del Sur}" },
+          ],
           pasos: [
             {
               pre: "Colonización: una sola especie llega a las Galápagos y se dispersa entre islas con diferentes recursos.",
@@ -714,7 +729,9 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object]",
+          datos: [
+            { label: "Gen", math: "\\text{Gen humano de la insulina (cromosoma 11, cadenas A y B)}" },
+          ],
           pasos: [
             {
               pre: "1. Se aísla el gen humano que codifica la insulina.",
@@ -751,7 +768,9 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object]",
+          datos: [
+            { label: "Componentes", math: "\\text{ARN guía (gRNA)} + \\text{proteína Cas9 (endonucleasa)} \\to \\text{corte preciso del ADN}" },
+          ],
           pasos: [
             {
               pre: "El ARN guía (gRNA) es una secuencia de ~20 nucleótidos diseñada en el laboratorio para complementarse con el gen que se quiere editar.",
@@ -925,7 +944,9 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object]",
+          datos: [
+            { label: "Superficie", math: "\\sim 1.96\\text{ millones km}^2 \\;(\\text{puesto 13° en extensión mundial})" },
+          ],
           pasos: [
             {
               pre: "Factor 1 — Posición geográfica: México está en la convergencia de dos regiones biogeográficas (Neártica y Neotropical), combinando faunas de América del Norte y Sudamérica.",
@@ -956,7 +977,9 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object]",
+          datos: [
+            { label: "Población", math: "\\text{~600 en 1997} \\to \\text{~30 en 2016} \\to <10\\text{ en 2023}" },
+          ],
           pasos: [
             {
               pre: "Causa principal: captura incidental (bycatch) en redes agalleras usadas para pescar la totoaba (Totoaba macdonaldi), pez también en peligro de extinción.",
@@ -1132,7 +1155,9 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object]",
+          datos: [
+            { label: "Ambiente", math: "\\text{Temperatura > 40°C} \\cdot \\text{Escasez de agua y alimento} \\cdot \\text{Suelo arenoso}" },
+          ],
           pasos: [
             {
               pre: "Adaptación fisiológica — Joroba: NO contiene agua (mito). Contiene grasa que se metaboliza cuando no hay alimento; al oxidarse produce agua metabólica.",
@@ -1166,7 +1191,9 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object]",
+          datos: [
+            { label: "Ecuación global", math: "6\\,\\text{CO}_2 + 6\\,\\text{H}_2\\text{O} \\xrightarrow{\\text{luz}} \\text{C}_6\\text{H}_{12}\\text{O}_6 + 6\\,\\text{O}_2" },
+          ],
           pasos: [
             {
               pre: "Reactivos: dióxido de carbono del aire + agua del suelo + energía luminosa (clorofila absorbe principalmente luz roja y azul).",
@@ -1340,7 +1367,10 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object],[object Object]",
+          datos: [
+            { label: "Energía productores", math: "10{,}000\\,\\text{kcal}" },
+            { label: "Transferencia", math: "10\\%\\text{ por nivel}" },
+          ],
           pasos: [
             {
               pre: "Productores (pastos): ",
@@ -1382,7 +1412,9 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object]",
+          datos: [
+            { label: "Cadena", math: "\\text{Hoja} \\to \\text{Saltamontes} \\to \\text{Tucán} \\to \\text{Jaguar}" },
+          ],
           pasos: [
             {
               pre: "Hoja (árbol de ramón o chico zapote): Productor — realiza fotosíntesis, captura energía solar.",

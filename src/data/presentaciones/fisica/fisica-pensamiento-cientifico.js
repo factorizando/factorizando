@@ -121,7 +121,10 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object],[object Object]",
+          datos: [
+            { label: "Natural (alta T)", math: "\\text{Sol, estrellas, relámpagos, auroras boreales}" },
+            { label: "Artificial", math: "\\text{Lámparas de neón, pantallas de plasma, arco de soldadura}" },
+          ],
           pasos: [
             {
               pre: "Temperatura: el plasma necesita miles o millones de grados kelvin — mucho más que el punto de ebullición del agua.",
@@ -282,7 +285,10 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object],[object Object]",
+          datos: [
+            { label: "Datos", math: "V = 0.0002\\,\\text{m}^3,\\quad \\rho_{agua} = 1000\\,\\text{kg/m}^3,\\quad g = 10\\,\\text{m/s}^2" },
+            { label: "Masa del bloque", math: "m = 150\\,\\text{g} = 0.150\\,\\text{kg}" },
+          ],
           pasos: [
             {
               pre: "Empuje (Principio de Arquímedes): ",
@@ -317,7 +323,10 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object],[object Object]",
+          datos: [
+            { label: "Datos", math: "m = 10\\,\\text{kg},\\quad \\mu_e = 0.4,\\quad g = 10\\,\\text{m/s}^2" },
+            { label: "Normal en piso plano", math: "N = m\\cdot g = 10 \\times 10 = 100\\,\\text{N}" },
+          ],
           pasos: [
             {
               pre: "Fuerza normal: ",
@@ -491,7 +500,10 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object],[object Object]",
+          datos: [
+            { label: "Bolt", math: "d = 100\\,\\text{m},\\quad t = 9.58\\,\\text{s}" },
+            { label: "Aficionado", math: "d = 100\\,\\text{m},\\quad t = 15\\,\\text{s}" },
+          ],
           pasos: [
             {
               pre: "Velocidad de Bolt: ",
@@ -566,7 +578,9 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object]",
+          datos: [
+            { label: "Datos", math: "v_0 = 0,\\quad a = 3\\,\\text{m/s}^2,\\quad t = 8\\,\\text{s}" },
+          ],
           pasos: [
             {
               pre: "Velocidad final: ",
@@ -726,7 +740,10 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object],[object Object]",
+          datos: [
+            { label: "Gravedad (m/s²)", math: "g_{\\text{Tierra}}=9.8,\\; g_{\\text{Luna}}=1.6,\\; g_{\\text{Marte}}=3.7,\\; g_{\\text{Júpiter}}=24.8" },
+            { label: "Masa (constante)", math: "m = 70\\,\\text{kg} \\quad (\\text{la masa no cambia de planeta a planeta})" },
+          ],
           pasos: [
             {
               pre: "Peso en la Tierra: ",
@@ -765,7 +782,10 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object],[object Object]",
+          datos: [
+            { label: "Ley de Newton", math: "F = G\\,\\frac{m_1 m_2}{r^2}" },
+            { label: "Variable clave", math: "F \\propto \\frac{1}{r^2} \\quad (\\text{relación inversa con el cuadrado de la distancia})" },
+          ],
           pasos: [
             {
               pre: "Si r se duplica (r → 2r), el denominador se cuadruplica: ",
@@ -929,7 +949,9 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object]",
+          datos: [
+            { label: "Datos", math: "m = 60\\,\\text{kg},\\quad v = 4\\,\\text{m/s}" },
+          ],
           pasos: [
             {
               pre: "Energía cinética inicial: ",
@@ -964,7 +986,9 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object]",
+          datos: [
+            { label: "Datos", math: "m = 30\\,\\text{kg},\\quad h = 5\\,\\text{m},\\quad v_0 = 0,\\quad g = 10\\,\\text{m/s}^2" },
+          ],
           pasos: [
             {
               pre: "Energía potencial en lo alto: ",
@@ -1133,7 +1157,10 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object],[object Object]",
+          datos: [
+            { label: "Caso 1: foco doméstico", math: "V = 120\\,\\text{V},\\quad R = 240\\,\\Omega" },
+            { label: "Caso 2: circuito de 12 V", math: "V = 12\\,\\text{V},\\quad I = 0.5\\,\\text{A}" },
+          ],
           pasos: [
             {
               pre: "Ley de Ohm: ",
@@ -1168,7 +1195,9 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object]",
+          datos: [
+            { label: "Dato", math: "R_1 = R_2 = R_3 = 60\\,\\Omega" },
+          ],
           pasos: [
             {
               pre: "En serie — se suman directamente: ",
@@ -1338,7 +1367,10 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object],[object Object]",
+          datos: [
+            { label: "Incandescente", math: "P_{\\text{total}} = 60\\,\\text{W},\\quad \\eta = 5\\%" },
+            { label: "LED", math: "P_{\\text{total}} = 9\\,\\text{W},\\quad \\eta = 80\\%" },
+          ],
           pasos: [
             {
               pre: "Potencia luminosa incandescente: ",
@@ -1376,7 +1408,9 @@ export const PRESENTACION = {
         {
           tipo: "pasos",
           ancho: 12,
-          metodo: "Datos: [object Object]",
+          datos: [
+            { label: "Cadena completa", math: "\\text{Luminosa} \\xrightarrow{\\text{panel}} \\text{Eléctrica} \\xrightarrow{\\text{batería}} \\text{Química} \\xrightarrow{\\text{motor}} \\text{Cinética}" },
+          ],
           pasos: [
             {
               pre: "Panel solar (luminosa → eléctrica): eficiencia ~20%; el 80% restante se convierte en calor que calienta el panel.",

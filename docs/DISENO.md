@@ -527,18 +527,32 @@ desde el primer día, y nadie lo vio porque los dos suenan bien por separado. El
 regla trae su propio contraejemplo en el párrafo siguiente, el contraejemplo es el que hay
 que creer.
 
-### Anotado, sin resolver · `[object Object]` en 46 diapositivas
+### 2026-08-26 · Los 46 `[object Object]`, y los 249 pasos mudos que había detrás
 
-Apareció al verificar lo anterior, y no tiene que ver con ello. Cuatro presentaciones
-—`semejanza-triangulos` y las tres de pensamiento científico— imprimen literalmente
-`DATOS: [object Object],[object Object]` en el rótulo del bloque `pasos`. Son **46 casos**,
-todos de la forma `metodo: "Datos: [object Object]"`.
+*Qué:* cuatro presentaciones —`semejanza-triangulos` y las tres de pensamiento científico—
+imprimían literalmente `DATOS: [object Object],[object Object]` en el rótulo del bloque
+`pasos`. Residuo de la migración 4C (`fd4d53b`): el tipo `ejemplo` antiguo llevaba
+`datos: [{ label, math }]` —los valores dados del problema— y la conversión los concatenó a
+un string.
 
-Es un residuo de la migración 4C (`fd4d53b`): el tipo `ejemplo` antiguo llevaba
-`datos: [{ label, math }]` —los valores dados del problema, que se pintaban como fichas con
-su fórmula— y la conversión los concatenó a un string. Los originales se recuperan enteros
-de `fd4d53b^`, así que la reparación es mecánica; lo que falta decidir es dónde viven los
-datos dados en el sistema de bloques, porque `metodo` es un rótulo en versalitas y no es
-sitio para KaTeX. Lo más fiel sería un campo propio en el bloque `pasos`.
+*Cómo se reparó:* los originales estaban íntegros en `fd4d53b^`, así que se recuperaron
+emparejando por `id` de diapositiva, no por posición. Los 46 casos correlacionaron sin una
+sola laguna. El campo `datos` pasa a ser propio del bloque `pasos`, con su rótulo y su
+KaTeX, encima de los pasos y separado por una línea: **no son un paso**, son el punto de
+partida, y mezclarlos hacía que el primer paso pareciera deducir algo que en realidad venía
+en el enunciado. Dos datos van en paralelo cuando son dos cosas comparables —los dos
+triángulos, los dos casos del circuito—, que es como venían; más de dos, o en reflujo, se
+apilan.
 
-Se deja escrito y no hecho por decisión explícita: es otra tarea, no ésta.
+*Y lo que apareció al mirar el resultado:* los pasos declaran su prosa en un campo `pre`
+—«Primer par de lados: »— y el bloque leía `p.texto`. **Ningún paso del corpus usa
+`texto`**, así que ese campo no había pintado nada nunca: **249 pasos en 55 diapositivas**
+se veían como una columna de fórmulas sin decir qué hacía cada una. El bloque pasa a
+aceptar los dos nombres, que es una línea, en vez de renombrar 249 entradas de datos.
+
+*Lo que enseñó hacerlo:* el `[object Object]` se veía y por eso se reportó; los 249 pasos
+mudos no se veían —una fórmula sin su frase sigue pareciendo una diapositiva correcta— y
+llevaban ahí exactamente el mismo tiempo. Un campo que el componente lee y los datos no
+escriben no falla: se calla. Cuando aparezca el siguiente residuo de una migración, la
+pregunta no es sólo «¿qué se ve mal?» sino «¿qué campos lee este componente que nadie
+escribe?».

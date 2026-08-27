@@ -36,7 +36,14 @@ export default defineConfig({
         display: 'standalone',
         scope: '/factorizando/',
         start_url: '/factorizando/',
-        orientation: 'portrait-primary',
+        // 'any' y no 'portrait-primary': con el bloqueo puesto, un PWA instalado
+        // no rota NUNCA —lo impide el sistema, no la página—, así que girar el
+        // teléfono dentro de una presentación no hacía nada y el diseño no tenía
+        // a qué reaccionar. Era además lo que hacía que el horizontal sólo se
+        // pudiera alcanzar con el `orientation.lock` del botón de pantalla
+        // completa. Las presentaciones se adaptan a las dos orientaciones; el
+        // sitio no tiene por qué decidir cómo se sostiene el teléfono.
+        orientation: 'any',
         icons: [
           {
             src: 'assets/icon-192.png',

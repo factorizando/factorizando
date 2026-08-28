@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Factorizando · V ⊂ V[G] — doce exploraciones</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#13161A; --ink-2:#1A1E24; --line:#2A3038;
+  --warm:#F0EAE1; --dim:#98A0A9; --blue:#4A9EE8;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ink);color:var(--warm);
+  font-family:'Source Serif 4',Georgia,serif;line-height:1.55}
+.wrap{max-width:1060px;margin:0 auto;padding:56px 24px 96px}
+
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--blue);margin:0 0 14px}
+h1{font-size:clamp(28px,5vw,42px);font-weight:600;line-height:1.15;margin:0 0 16px;letter-spacing:-.01em}
+.lede{font-size:17px;color:var(--dim);max-width:62ch;margin:0 0 8px}
+header{border-bottom:1px solid var(--line);padding-bottom:32px}
+
+.axiom{font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.8;
+  color:var(--dim);border-left:2px solid var(--blue);padding:4px 0 4px 16px;
+  margin:34px 0 40px;max-width:66ch}
+.axiom b{color:var(--warm);font-weight:500}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px}
+.tile{background:var(--ink-2);border:1px solid var(--line);border-radius:18px;
+  padding:22px 18px 18px;position:relative}
+.tile.pick{border-color:var(--blue)}
+.chip{position:absolute;top:14px;right:14px;width:26px;height:26px;opacity:.5;color:var(--warm)}
+.chip svg{width:100%;height:100%;display:block}
+.art{width:100%;max-width:128px;margin:4px auto 18px;color:var(--warm)}
+.art svg{width:100%;height:auto;display:block}
+.name{font-size:15px;font-weight:600;margin:0 0 4px;letter-spacing:-.005em}
+.ref{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--dim);margin:0;line-height:1.55}
+
+footer{margin-top:56px;padding-top:26px;border-top:1px solid var(--line);
+  font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--dim);line-height:1.9}
+
+@media (max-width:520px){
+  .wrap{padding:40px 16px 72px}
+  .grid{grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:12px}
+  .tile{padding:18px 13px 14px;border-radius:14px}
+  .chip{width:20px;height:20px;top:10px;right:10px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="eyebrow">Factorizando · exploración de marca</p>
+  <h1>V ⊂ V[G] — doce exploraciones</h1>
+  <p class="lede">El universo se agranda y se refleja sobre sí mismo. Doce maneras de dibujar esa doble operación, todas con trazo cálido.</p>
+</header>
+
+<p class="axiom">
+<b>La regla que gobierna todas:</b> la extensión genérica no es más alta, es más ancha.<br>
+Ord<sup>V</sup> = Ord<sup>V[G]</sup> — los dos conos comparten vértice y altura.<br>
+Cualquier dibujo donde el cono exterior sea <em>más alto</em> es matemáticamente falso.
+</p>
+
+<div class="grid">
+
+  <div class="tile pick">
+    <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><path d="M12 18Q30 58 50 86Q70 58 88 18" opacity=".45"/><path d="M31 18Q40 56 50 86Q60 56 69 18"/></svg></div>
+    <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><path d="M12 18Q30 58 50 86Q70 58 88 18" opacity=".45"/><path d="M31 18Q40 56 50 86Q60 56 69 18"/><g fill="currentColor" stroke="none"><circle cx="50" cy="86" r="6"/></g></svg></div>
+    <p class="name">Mismo alto, más ancho</p><p class="ref">La forma canónica. Ambos conos<br>llegan al mismo nivel.</p>
+  </div>
+
+  <div class="tile">
+    <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round"><path d="M12 18Q30 58 50 86Q70 58 88 18" opacity=".35"/><path d="M26 18Q38 57 50 86Q62 57 74 18" opacity=".6"/><path d="M39 18Q45 56 50 86Q55 56 61 18"/></svg></div>
+    <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round"><path d="M12 18Q30 58 50 86Q70 58 88 18" opacity=".35"/><path d="M26 18Q38 57 50 86Q62 57 74 18" opacity=".6"/><path d="M39 18Q45 56 50 86Q55 56 61 18"/><g fill="currentColor" stroke="none"><circle cx="50" cy="86" r="6"/></g></svg></div>
+    <p class="name">Iteración</p><p class="ref">V ⊂ V[G₀] ⊂ V[G₀][G₁]<br>El forcing se itera.</p>
+  </div>
+
+  <div class="tile pick">
+    <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><path d="M12 18Q30 58 50 86Q70 58 88 18" opacity=".45"/><path d="M31 18Q40 56 50 86Q60 56 69 18"/><path d="M50 14V86" stroke-width="2.4"/></svg></div>
+    <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><path d="M12 18Q30 58 50 86Q70 58 88 18" opacity=".45"/><path d="M31 18Q40 56 50 86Q60 56 69 18"/><path d="M50 12V86" stroke-width="2.4" opacity=".8"/><g fill="currentColor" stroke="none"><circle cx="50" cy="86" r="6"/></g></svg></div>
+    <p class="name">El eje de los ordinales</p><p class="ref">Ord como columna vertebral<br>compartida por ambos.</p>
+  </div>
+
+  <div class="tile">
+    <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round"><path d="M12 18Q30 58 50 86Q70 58 88 18" opacity=".45"/><path d="M31 18Q40 56 50 86Q60 56 69 18"/><path d="M22 40H78M28 58H72M36 72H64" stroke-width="2" opacity=".5"/></svg></div>
+    <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.8" stroke-linecap="round"><path d="M12 18Q30 58 50 86Q70 58 88 18" opacity=".45"/><path d="M31 18Q40 56 50 86Q60 56 69 18"/><path d="M20 38H80M27 57H73M36 72H64" stroke-width="2.2" opacity=".5"/><g fill="currentColor" stroke="none"><circle cx="50" cy="86" r="6"/></g></svg></div>
+    <p class="name">Los niveles Vα</p><p class="ref">La jerarquía acumulativa,<br>piso por piso.</p>
+  </div>
+
+  <div class="tile pick">
+    <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round"><path d="M12 18Q30 58 50 86Q70 58 88 18"/><path d="M32 30Q40 60 50 86Q60 60 68 30" opacity=".6"/><path d="M42 46Q46 66 50 86Q54 66 58 46" opacity=".4"/></svg></div>
+    <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round"><path d="M12 18Q30 58 50 86Q70 58 88 18"/><path d="M32 30Q40 60 50 86Q60 60 68 30" opacity=".6"/><path d="M42 46Q46 66 50 86Q54 66 58 46" opacity=".4"/><g fill="currentColor" stroke="none"><circle cx="50" cy="86" r="6"/></g></svg></div>
+    <p class="name">Autosimilitud</p><p class="ref">Reflexión de Lévy: copias a<br>escala, densamente.</p>
+  </div>
+
+  <div class="tile">
+    <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round"><path d="M14 10Q30 36 50 50Q70 36 86 10" opacity=".45"/><path d="M32 10Q41 35 50 50Q59 35 68 10"/><path d="M14 90Q30 64 50 50Q70 64 86 90" opacity=".3"/></svg></div>
+    <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round"><path d="M14 10Q30 36 50 50Q70 36 86 10" opacity=".45"/><path d="M32 10Q41 35 50 50Q59 35 68 10"/><path d="M14 90Q30 64 50 50Q70 64 86 90" opacity=".3"/><g fill="currentColor" stroke="none"><circle cx="50" cy="50" r="6"/></g></svg></div>
+    <p class="name">Reloj de arena</p><p class="ref">Extender hacia arriba,<br>excavar hacia el manto.</p>
+  </div>
+
+  <div class="tile">
+    <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><path d="M12 18Q30 58 50 86Q70 58 88 18" opacity=".45"/><path d="M31 18Q40 56 50 86Q60 56 69 18"/><g fill="currentColor" stroke="none"><circle cx="50" cy="70" r="3.6"/><circle cx="50" cy="54" r="3.2"/><circle cx="50" cy="40" r="2.8"/><circle cx="50" cy="28" r="2.4"/></g></svg></div>
+    <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><path d="M12 18Q30 58 50 86Q70 58 88 18" opacity=".45"/><path d="M31 18Q40 56 50 86Q60 56 69 18"/><g fill="currentColor" stroke="none"><circle cx="50" cy="86" r="6"/><circle cx="50" cy="70" r="4"/><circle cx="50" cy="55" r="3.4"/><circle cx="50" cy="41" r="2.8"/><circle cx="50" cy="28" r="2.2"/><circle cx="50" cy="17" r="1.7"/></g></svg></div>
+    <p class="name">El filtro genérico</p><p class="ref">G ascendiendo por el eje,<br>puntos que convergen.</p>
+  </div>
+
+  <div class="tile">
+    <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><path d="M12 18Q30 58 50 86Q70 58 88 18" stroke-dasharray="7 6" opacity=".55"/><path d="M31 18Q40 56 50 86Q60 56 69 18"/></svg></div>
+    <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><path d="M12 18Q30 58 50 86Q70 58 88 18" stroke-dasharray="7 6" opacity=".55"/><path d="M31 18Q40 56 50 86Q60 56 69 18"/><g fill="currentColor" stroke="none"><circle cx="50" cy="86" r="6"/></g></svg></div>
+    <p class="name">Lo nuevo es punteado</p><p class="ref">V sólido, V[G] por construir.<br>Lo genérico aún no existe.</p>
+  </div>
+
+  <div class="tile pick">
+    <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><path d="M12 18Q30 58 50 86Q70 58 88 18" opacity=".45"/><path d="M31 18Q40 56 50 86Q60 56 72 24"/></svg></div>
+    <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><path d="M12 18Q30 58 50 86Q70 58 88 18" opacity=".45"/><path d="M31 18Q40 56 50 86Q62 58 74 26"/><g fill="currentColor" stroke="none"><circle cx="50" cy="86" r="6"/></g></svg></div>
+    <p class="name">El hueco de Kunen</p><p class="ref">La copia interna nunca cierra.<br>Asimetría con demostración.</p>
+  </div>
+
+  <div class="tile">
+    <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><path d="M12 18Q30 58 50 86Q70 58 88 18" opacity=".45"/><path d="M31 18Q40 56 50 86Q60 56 69 18"/><path d="M36 18H64" stroke-width="3"/></svg></div>
+    <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><path d="M12 18Q30 58 50 86Q70 58 88 18" opacity=".45"/><path d="M31 18Q40 56 50 86Q60 56 69 18"/><path d="M34 18H66" stroke-width="3.2"/><path d="M14 18H24M76 18H86" stroke-width="3.2" opacity=".45"/><g fill="currentColor" stroke="none"><circle cx="50" cy="86" r="6"/></g></svg></div>
+    <p class="name">Cortado a la misma altura</p><p class="ref">La tapa hace explícito que<br>comparten los ordinales.</p>
+  </div>
+
+  <div class="tile">
+    <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"><path d="M12 18Q30 58 50 86Q70 58 88 18" opacity=".4"/><g fill="currentColor" stroke="none"><circle cx="34" cy="26" r="4"/><circle cx="41" cy="47" r="3.6"/><circle cx="47" cy="70" r="3.2"/><circle cx="66" cy="26" r="4"/><circle cx="59" cy="47" r="3.6"/><circle cx="53" cy="70" r="3.2"/></g></svg></div>
+    <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"><path d="M12 18Q30 58 50 86Q70 58 88 18" opacity=".4"/><g fill="currentColor" stroke="none"><circle cx="32" cy="22" r="4.4"/><circle cx="38" cy="42" r="4"/><circle cx="44" cy="62" r="3.5"/><circle cx="48" cy="78" r="3"/><circle cx="68" cy="22" r="4.4"/><circle cx="62" cy="42" r="4"/><circle cx="56" cy="62" r="3.5"/><circle cx="52" cy="78" r="3"/></g></svg></div>
+    <p class="name">V de puntos convergentes</p><p class="ref">El gradiente de la ronda<br>anterior, aplicado a la V.</p>
+  </div>
+
+  <div class="tile">
+    <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><circle cx="50" cy="50" r="40" opacity=".3"/><path d="M22 26Q34 58 50 80Q66 58 78 26"/></svg></div>
+    <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><circle cx="50" cy="50" r="40" opacity=".3"/><path d="M18 22Q32 58 50 82Q68 58 82 22" opacity=".45"/><path d="M33 22Q41 57 50 82Q59 57 67 22"/><g fill="currentColor" stroke="none"><circle cx="50" cy="82" r="5"/></g></svg></div>
+    <p class="name">Dentro del medallón</p><p class="ref">Cómo se ve en el formato<br>circular que ya usas.</p>
+  </div>
+
+</div>
+
+<footer>
+  Marcadas: mismo alto · eje de los ordinales · autosimilitud · hueco de Kunen.<br>
+  La miniatura de cada esquina muestra la figura a 26 px.
+</footer>
+
+</div>
+</body>
+</html>

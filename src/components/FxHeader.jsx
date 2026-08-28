@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useKaTeX } from "../data/teoria/shared.jsx";
 import { MATERIAS } from "../data/materias.js";
+import MarcaCubriente from "./MarcaCubriente.jsx";
 
 // Wordmark: "Facto" + "zando" en Sora y la R[i] compuesta en modo matemático
 // (KaTeX). La R va en negrita sólida (\mathbf) en vez de la pizarra doble
@@ -39,12 +40,26 @@ export function FxWordmark({ size = 22 }) {
   );
 }
 
-// Marca. `to` permite apagar el enlace donde no haga falta.
+// Marca: el mark del cubriente + el wordmark. `.fx-marca` ya venía con
+// `gap: 10px` esperando este icono.
+//
+// El mark va a 28px, por encima de los 22 del wordmark: a la misma altura se
+// leía como una viñeta del texto en vez de como marca. A 28 cae en el corte
+// chico de MarcaCubriente (≤32), que es justo lo que se quiere aquí — el trazo
+// de 3.8 del principal se apaga a ese tamaño.
+//
+// `to` permite apagar el enlace donde no haga falta.
 export function FxMarca({ wordmark = 22, to = "/" }) {
+  const contenido = (
+    <>
+      <MarcaCubriente tam={28} style={{ color: "var(--fx-primary-500)" }} />
+      <FxWordmark size={wordmark} />
+    </>
+  );
   return to ? (
-    <Link to={to} className="fx-marca" title="Inicio"><FxWordmark size={wordmark} /></Link>
+    <Link to={to} className="fx-marca" title="Inicio">{contenido}</Link>
   ) : (
-    <span className="fx-marca"><FxWordmark size={wordmark} /></span>
+    <span className="fx-marca">{contenido}</span>
   );
 }
 
@@ -275,5 +290,9 @@ const CSS = `
 @media (max-width: 420px) {
   .fx-nav-fila { padding-top: 12px; padding-bottom: 12px; }
   .fx-wordmark { font-size: 20px; }
+  /* El wordmark baja a 20; el mark le sigue para no quedar desproporcionado.
+     Sigue por encima del cuerpo del wordmark, que es lo que lo hace marca. */
+  .fx-marca svg { width: 25px; height: 25px; }
+  .fx-marca { gap: 8px; }
 }
 `;

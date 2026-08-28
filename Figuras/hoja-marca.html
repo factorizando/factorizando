@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Marca Factorizando</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400;1,8..60,600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#F2EEE7;--surface:#FBF9F5;--line:#DCD4C6;--line-soft:#E7E0D3;
+  --ink:#1C2026;--ink-dim:#6B7079;--blue:#1C6AB8;--blue-soft:rgba(28,106,184,.10);
+  --fig:#1C2026;--paso:clamp(16px,3vw,28px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#13161A;--surface:#1A1E24;--line:#2A3038;--line-soft:#23282F;
+  --ink:#F0EAE1;--ink-dim:#9AA0A8;--blue:#4A9EE8;--blue-soft:rgba(74,158,232,.13);
+  --fig:#F0EAE1;
+}}
+:root[data-theme="dark"]{
+  --ground:#13161A;--surface:#1A1E24;--line:#2A3038;--line-soft:#23282F;
+  --ink:#F0EAE1;--ink-dim:#9AA0A8;--blue:#4A9EE8;--blue-soft:rgba(74,158,232,.13);
+  --fig:#F0EAE1;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){*{transition-duration:.01ms!important}}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font-family:'Source Serif 4',Georgia,serif;font-size:17px;line-height:1.62;
+  -webkit-font-smoothing:antialiased}
+.mono{font-family:'IBM Plex Mono',ui-monospace,monospace}
+:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:4px}
+
+.barra{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--ground) 88%,transparent);
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.barra-in{max-width:1020px;margin:0 auto;padding:10px var(--paso);display:flex;align-items:center;gap:10px}
+.barra-in .sello{width:26px;height:26px;color:var(--fig);flex:none}
+.barra-in .sello svg{width:100%;height:100%;display:block}
+.barra-in b{font-size:14px;font-weight:600;letter-spacing:-.005em}
+.barra-in span{color:var(--ink-dim);font-weight:400;font-size:14px}
+
+.wrap{max-width:1020px;margin:0 auto;padding:0 var(--paso) 110px}
+header.hero{padding:60px 0 6px}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.17em;
+  text-transform:uppercase;color:var(--blue);margin:0 0 16px}
+h1{font-size:clamp(31px,5.2vw,48px);font-weight:600;line-height:1.1;letter-spacing:-.018em;
+  margin:0 0 20px;text-wrap:balance}
+.lede{font-size:19px;color:var(--ink-dim);margin:0;max-width:62ch}
+.lede em{color:var(--ink);font-style:italic}
+
+.retrato{display:grid;place-items:center;background:var(--surface);border:1px solid var(--line);
+  border-radius:20px;padding:46px;margin:34px 0 0}
+.retrato .f{width:100%;max-width:230px;color:var(--fig)}
+.retrato .f svg{width:100%;height:auto;display:block}
+
+section{margin-top:62px}
+.cab{display:flex;align-items:baseline;gap:13px;border-bottom:1px solid var(--line);
+  padding-bottom:11px;margin-bottom:8px;flex-wrap:wrap}
+.cab .n{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--blue);letter-spacing:.12em}
+.cab h2{font-size:22px;font-weight:600;margin:0;letter-spacing:-.008em}
+.sub{color:var(--ink-dim);font-size:16px;margin:13px 0 24px;max-width:60ch}
+p{margin:0 0 15px;max-width:64ch}
+p:last-child{margin-bottom:0}
+
+.piezas{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(230px,100%),1fr));gap:16px}
+.pieza{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;
+  display:flex;flex-direction:column}
+.pieza .caja{display:grid;place-items:center;border-radius:12px;padding:20px;margin-bottom:16px}
+.pieza .caja .f{width:100%;max-width:118px}
+.pieza .caja .f svg{width:100%;height:auto;display:block}
+.caja.tema{color:var(--fig);background:transparent;border:1px dashed var(--line-soft)}
+.caja.claro{background:#F0EAE1;color:#13161A}
+.pieza h3{font-size:16px;font-weight:600;margin:0 0 4px;letter-spacing:-.005em}
+.pieza .arch{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--blue);margin:0 0 9px;word-break:break-all}
+.pieza p{font-size:14.5px;color:var(--ink-dim);margin:0;line-height:1.55}
+
+.tabla-caja{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:4px 16px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:11px 10px;border-bottom:1px solid var(--line-soft);vertical-align:middle}
+th{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-dim);font-weight:500}
+tr:last-child td{border-bottom:0}
+td.k{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ink);white-space:nowrap}
+td.v{color:var(--ink-dim)}
+
+.escalera{display:flex;gap:26px;flex-wrap:wrap;align-items:flex-end;background:var(--surface);
+  border:1px solid var(--line);border-radius:16px;padding:22px 24px;margin-bottom:14px}
+.escalera .col{display:flex;flex-direction:column;align-items:center;gap:9px}
+.escalera .m{color:var(--fig);display:block}
+.escalera .m svg{width:100%;height:100%;display:block}
+.escalera .et{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--ink-dim)}
+.fila-et{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--blue);margin:0 0 12px}
+.veredicto{border-left:3px solid var(--blue);background:var(--surface);border-radius:0 12px 12px 0;
+  padding:17px 20px;margin:18px 0 0;font-size:15.5px}
+.veredicto b{font-weight:600}
+
+.lockup{display:flex;align-items:center;gap:18px;background:var(--surface);border:1px solid var(--line);
+  border-radius:16px;padding:26px 28px;flex-wrap:wrap}
+.lockup .m{width:64px;height:64px;color:var(--fig);flex:none}
+.lockup .m svg{width:100%;height:100%;display:block}
+.wm{font-size:34px;font-weight:600;letter-spacing:-.015em;line-height:1;white-space:nowrap}
+.wm .r{color:var(--blue)}
+.wm .bk{color:var(--ink-dim);font-weight:400}
+.wm .iv{color:var(--blue);font-style:italic}
+@media (max-width:520px){.wm{font-size:25px}.lockup .m{width:50px;height:50px}}
+
+ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:13px}
+ul li{position:relative;padding-left:21px;max-width:64ch}
+ul li::before{content:"";position:absolute;left:2px;top:.62em;width:6px;height:6px;border-radius:50%;
+  background:var(--blue);opacity:.55}
+ul.no li::before{border-radius:1px;background:var(--ink-dim);opacity:.6}
+li b{font-weight:600}
+
+footer{margin-top:76px;padding-top:24px;border-top:1px solid var(--line);
+  font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-dim);line-height:1.85}
+</style>
+</head>
+<body>
+
+
+<div class="barra"><div class="barra-in">
+  <span class="sello"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><ellipse cx="50" cy="80" rx="28" ry="9" stroke-width="5.5" opacity="1"/><path d="M22 62C22 53 78 53 78 44S22 35 22 26C22 19 44 16 62 20" stroke-width="7.5"/></svg></span><b>Factorizando</b><span>&middot; marca</span>
+</div></div>
+
+<div class="wrap">
+<header class="hero">
+  <p class="eyebrow">El cubriente universal</p>
+  <h1>La marca, congelada y en uso</h1>
+  <p class="lede">Una hélice sobre una circunferencia: <em>&#8477; &rarr; S&sup1;</em>, el cubriente universal. La circunferencia es el espacio; la hélice, su desenrollado. Cada vuelta cae sobre el mismo lazo, y por eso el grupo fundamental de S&sup1; es &#8484;. Es la única figura de la biblioteca con movimiento real: asimétrica, con crecimiento implícito, y no se parece a nada del mercado.</p>
+  <div class="retrato"><span class="f"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><ellipse cx="50" cy="80" rx="28" ry="9" stroke-width="3.8" opacity=".45"/><path d="M22 62C22 53 78 53 78 44S22 35 22 26C22 19 44 16 62 20" stroke-width="3.8"/><g fill="currentColor" stroke="none"><circle cx="50" cy="80" r="5.5"/></g></svg></span></div>
+</header>
+
+<section>
+  <div class="cab"><span class="n">1</span><h2>La geometría, congelada</h2></div>
+  <p class="sub">Es trazo dibujado a mano — una bézier cúbica, no una curva calculada. La ruta se copia literal desde el pliego original y no se re-deriva; cualquier intento de &ldquo;recalcularla&rdquo; daría otra figura.</p>
+  <div class="tabla-caja"><table><tbody><tr><td class="k">Hélice</td><td class="v"><span class="mono" style="font-size:11.5px">M22 62C22 53 78 53 78 44S22 35 22 26C22 19 44 16 62 20</span></td></tr><tr><td class="k">Trazo</td><td class="v">3.8 uniforme, remate redondo</td></tr><tr><td class="k">Elipse base</td><td class="v">cx 50 · cy 80 · rx 28 · ry 9 · trazo 3.8 · opacidad 0.45</td></tr><tr><td class="k">Punto base</td><td class="v">cx 50 · cy 80 · r 5.5, relleno</td></tr><tr><td class="k">Caja</td><td class="v">viewBox 0 0 100 100 · la figura ocupa y 16 – 89</td></tr><tr><td class="k">Color</td><td class="v"><span class='mono'>currentColor</span> — hereda el del texto</td></tr></tbody></table></div>
+  <p style="margin-top:16px;color:var(--ink-dim);font-size:15px">El generador es <span class="mono">Figuras/marca/generar.py</span>: emite las cinco piezas de una vez desde esa única ruta, para que no convivan dos versiones.</p>
+</section>
+
+<section>
+  <div class="cab"><span class="n">2</span><h2>Las cinco piezas</h2></div>
+  <p class="sub">Cada archivo está en <span class="mono">Figuras/marca/</span>. Todas salen de la misma bézier; lo que cambia entre ellas es el grosor, la opacidad y si llevan punto base.</p>
+  <div class="piezas"><div class="pieza"><div class="caja tema"><span class="f"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><ellipse cx="50" cy="80" rx="28" ry="9" stroke-width="3.8" opacity=".45"/><path d="M22 62C22 53 78 53 78 44S22 35 22 26C22 19 44 16 62 20" stroke-width="3.8"/><g fill="currentColor" stroke="none"><circle cx="50" cy="80" r="5.5"/></g></svg></span></div><h3>Marca principal</h3><p class="arch">cubriente-principal.svg</p><p>La figura original del pliego de las dieciocho, sin tocar un solo valor. Trazo que hereda el color del texto, así que sirve en claro y en oscuro sin duplicarse. Membrete, portada, encabezado. Desde 32 px.</p></div><div class="pieza"><div class="caja tema"><span class="f"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><ellipse cx="50" cy="80" rx="28" ry="9" stroke-width="5.5" opacity="1"/><path d="M22 62C22 53 78 53 78 44S22 35 22 26C22 19 44 16 62 20" stroke-width="7.5"/></svg></span></div><h3>Corte de favicon</h3><p class="arch">cubriente-favicon.svg</p><p>La misma curva con trazo de 7.5 en vez de 3.8, la elipse a opacidad plena y sin punto base. Redibujo, no reducción. De 16 a 32 px.</p></div><div class="pieza"><div class="caja claro"><span class="f"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#4A9EE8"/><g fill="none" stroke="#fff" stroke-linecap="round" transform="translate(50 50) scale(0.74) translate(-50 -50)"><ellipse cx="50" cy="80" rx="28" ry="9" stroke-width="5.5" opacity="1"/><path d="M22 62C22 53 78 53 78 44S22 35 22 26C22 19 44 16 62 20" stroke-width="7.5"/></g></svg></span></div><h3>Avatar</h3><p class="arch">cubriente-avatar.svg</p><p>Disco azul lleno con el corte calado en blanco. Lleva el corte y no el principal a propósito: en un feed un avatar vive a 40–48 px, y ahí el trazo de 3.8 ya casi no existe.</p></div><div class="pieza"><div class="caja tema"><span class="f"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><circle cx="50" cy="50" r="47" stroke-width="3" opacity=".4"/><g transform="translate(50 50) scale(.76) translate(-50 -50)"><ellipse cx="50" cy="80" rx="28" ry="9" stroke-width="3.8" opacity=".45"/><path d="M22 62C22 53 78 53 78 44S22 35 22 26C22 19 44 16 62 20" stroke-width="3.8"/><g fill="currentColor" stroke="none"><circle cx="50" cy="80" r="5.5"/></g></g></svg></span></div><h3>Medallón</h3><p class="arch">cubriente-medallon.svg</p><p>La marca dentro del aro, al 76 %. El formato circular que ya venías usando, para firmas y sellos. Desde 64 px: por debajo, el aro se desvanece antes que nada.</p></div><div class="pieza"><div class="caja claro"><span class="f"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><ellipse cx="50" cy="80" rx="28" ry="9" stroke-width="2.6" opacity="1"/><path d="M22 62C22 53 78 53 78 44S22 35 22 26C22 19 44 16 62 20" stroke-width="3.8"/><g fill="currentColor" stroke="none"><circle cx="50" cy="80" r="5.5"/></g></svg></span></div><h3>Una tinta</h3><p class="arch">cubriente-una-tinta.svg</p><p>La elipse a opacidad plena y más delgada, porque en bordado y serigrafía no hay alfa: un 45 % de opacidad no existe, o se imprime o no se imprime.</p></div></div>
+</section>
+
+<section>
+  <div class="cab"><span class="n">3</span><h2>Dónde se cambia de pieza</h2></div>
+  <p class="sub">El trazo de 3.8 y la elipse al 45 % son lo primero que se pierde al reducir. Esta es la comparación que decide el umbral.</p>
+  <div><p class="fila-et">Marca principal</p><div class="escalera"><div class="col"><span class="m" style="width:96px;height:96px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><ellipse cx="50" cy="80" rx="28" ry="9" stroke-width="3.8" opacity=".45"/><path d="M22 62C22 53 78 53 78 44S22 35 22 26C22 19 44 16 62 20" stroke-width="3.8"/><g fill="currentColor" stroke="none"><circle cx="50" cy="80" r="5.5"/></g></svg></span><span class="et">96 px</span></div><div class="col"><span class="m" style="width:48px;height:48px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><ellipse cx="50" cy="80" rx="28" ry="9" stroke-width="3.8" opacity=".45"/><path d="M22 62C22 53 78 53 78 44S22 35 22 26C22 19 44 16 62 20" stroke-width="3.8"/><g fill="currentColor" stroke="none"><circle cx="50" cy="80" r="5.5"/></g></svg></span><span class="et">48 px</span></div><div class="col"><span class="m" style="width:32px;height:32px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><ellipse cx="50" cy="80" rx="28" ry="9" stroke-width="3.8" opacity=".45"/><path d="M22 62C22 53 78 53 78 44S22 35 22 26C22 19 44 16 62 20" stroke-width="3.8"/><g fill="currentColor" stroke="none"><circle cx="50" cy="80" r="5.5"/></g></svg></span><span class="et">32 px</span></div><div class="col"><span class="m" style="width:26px;height:26px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><ellipse cx="50" cy="80" rx="28" ry="9" stroke-width="3.8" opacity=".45"/><path d="M22 62C22 53 78 53 78 44S22 35 22 26C22 19 44 16 62 20" stroke-width="3.8"/><g fill="currentColor" stroke="none"><circle cx="50" cy="80" r="5.5"/></g></svg></span><span class="et">26 px</span></div><div class="col"><span class="m" style="width:16px;height:16px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><ellipse cx="50" cy="80" rx="28" ry="9" stroke-width="3.8" opacity=".45"/><path d="M22 62C22 53 78 53 78 44S22 35 22 26C22 19 44 16 62 20" stroke-width="3.8"/><g fill="currentColor" stroke="none"><circle cx="50" cy="80" r="5.5"/></g></svg></span><span class="et">16 px</span></div></div></div>
+  <div><p class="fila-et">Corte de favicon</p><div class="escalera"><div class="col"><span class="m" style="width:96px;height:96px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><ellipse cx="50" cy="80" rx="28" ry="9" stroke-width="5.5" opacity="1"/><path d="M22 62C22 53 78 53 78 44S22 35 22 26C22 19 44 16 62 20" stroke-width="7.5"/></svg></span><span class="et">96 px</span></div><div class="col"><span class="m" style="width:48px;height:48px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><ellipse cx="50" cy="80" rx="28" ry="9" stroke-width="5.5" opacity="1"/><path d="M22 62C22 53 78 53 78 44S22 35 22 26C22 19 44 16 62 20" stroke-width="7.5"/></svg></span><span class="et">48 px</span></div><div class="col"><span class="m" style="width:32px;height:32px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><ellipse cx="50" cy="80" rx="28" ry="9" stroke-width="5.5" opacity="1"/><path d="M22 62C22 53 78 53 78 44S22 35 22 26C22 19 44 16 62 20" stroke-width="7.5"/></svg></span><span class="et">32 px</span></div><div class="col"><span class="m" style="width:26px;height:26px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><ellipse cx="50" cy="80" rx="28" ry="9" stroke-width="5.5" opacity="1"/><path d="M22 62C22 53 78 53 78 44S22 35 22 26C22 19 44 16 62 20" stroke-width="7.5"/></svg></span><span class="et">26 px</span></div><div class="col"><span class="m" style="width:16px;height:16px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><ellipse cx="50" cy="80" rx="28" ry="9" stroke-width="5.5" opacity="1"/><path d="M22 62C22 53 78 53 78 44S22 35 22 26C22 19 44 16 62 20" stroke-width="7.5"/></svg></span><span class="et">16 px</span></div></div></div>
+  <div class="veredicto"><b>El corte está en 32 px.</b> Comprobado exportando los SVG a PNG y mirando el píxel, no a ojo sobre pantalla. Hasta 32 px el principal conserva las tres partes separadas. A 16 px la elipse al 45 % se vuelve una niebla gris, el punto base se funde con ella y queda una mancha; el corte a 16 px todavía separa hélice de elipse.</div>
+
+  <h3 style="font-size:17px;font-weight:600;margin:34px 0 12px">Dos cosas que solo aparecieron en el ráster</h3>
+  <ul>
+    <li><b>La elipse con el punto dentro se lee como un ojo.</b> En cuanto la elipse se engrosa, un punto centrado deja de ser el punto base y pasa a ser una pupila. Se probaron cuatro construcciones para el corte; la que gana es elipse gruesa <em>sin</em> punto. El favicon y el avatar no llevan punto base por esa razón, y en la versión de una tinta la lectura sigue ahí — ver la sección 7.</li>
+    <li><b>El avatar no puede llevar el principal dentro.</b> Al meterlo al 74 % dentro del disco, el trazo efectivo baja de 3.8 y la marca se apaga a 32&ndash;48 px, justo el tamaño al que un feed muestra un avatar. El avatar lleva el corte a todos los tamaños.</li>
+  </ul>
+</section>
+
+<section>
+  <div class="cab"><span class="n">4</span><h2>Lockup con el wordmark</h2></div>
+  <p class="sub">El mark aporta una capa que la palabra no dice. El wordmark ya cuenta el chiste del corchete &mdash; &#8477;[i] &cong; &#8477;[x]/(x&sup2;+1) &mdash; y el mark cuenta el otro cociente, S&sup1; = &#8477;/&#8484;. No se repiten.</p>
+  <div class="lockup"><span class="m"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><ellipse cx="50" cy="80" rx="28" ry="9" stroke-width="3.8" opacity=".45"/><path d="M22 62C22 53 78 53 78 44S22 35 22 26C22 19 44 16 62 20" stroke-width="3.8"/><g fill="currentColor" stroke="none"><circle cx="50" cy="80" r="5.5"/></g></svg></span><div class="wm">Facto<span class="r">R</span><span class="bk">[</span><span class="iv">i</span><span class="bk">]</span>zando</div></div>
+  <p style="margin-top:18px">La tipografía del wordmark sigue abierta; aquí va en Source Serif 4, que fue la recomendación por tener itálica de verdad &mdash; la <span class="mono">i</span> tiene que leerse como variable, no como letra de imprenta.</p>
+</section>
+
+<section>
+  <div class="cab"><span class="n">5</span><h2>Aire y mínimos</h2></div>
+  <ul>
+    <li><b>Aire:</b> 11 unidades de las 100 de la caja por los cuatro lados &mdash; el diámetro del punto base. Nada entra ahí, ni el wordmark.</li>
+    <li><b>Mínimos:</b> principal desde 32 px &middot; corte de 16 a 32 px &middot; avatar desde 16 px &middot; medallón desde 64 px. Por debajo de 16 px no hay versión: usa el disco azul liso.</li>
+    <li><b>Una tinta:</b> desde 20 mm de ancho en bordado. Por debajo, el trazo de 3.8 relativo deja de sostenerse y hay que engordarlo, que es lo que ya hace el corte.</li>
+  </ul>
+</section>
+
+<section>
+  <div class="cab"><span class="n">6</span><h2>Lo que no</h2></div>
+  <ul class="no">
+    <li><b>No reducir el principal por debajo de 32 px.</b> Existe el corte justamente para eso; una reducción no es lo mismo.</li>
+    <li><b>No redibujar la hélice.</b> Es una bézier trazada a mano, no una curva paramétrica: si alguien la &ldquo;regenera&rdquo; con una fórmula, sale otra figura. La ruta de la sección 1 es la fuente.</li>
+    <li><b>No estirar en un solo eje.</b> La elipse es una circunferencia en perspectiva; deformarla rompe la lectura y la hélice deja de caer sobre ella.</li>
+    <li><b>No rotar.</b> La hélice sube. Girada, deja de ser una hélice sobre un plano y se vuelve un garabato.</li>
+    <li><b>No devolverle el punto base al corte ni al avatar.</b> Con la elipse engrosada, un punto centrado convierte la marca en un ojo. Está comprobado a 32 y 16 px.</li>
+    <li><b>No teñirla de verde ni de rojo.</b> Regla del sistema: el acento es uno, y el verde y el rojo no significan nada aquí.</li>
+  </ul>
+</section>
+
+<section>
+  <div class="cab"><span class="n">7</span><h2>Una decisión que dejo abierta</h2></div>
+  <p>El punto base va en el <em>centro</em> de la elipse. Estrictamente, el punto base <span class="mono">x&#8320;</span> es un punto <b>de</b> S&sup1;, así que debería ir sobre el borde: el centro no pertenece a la circunferencia. Y es justo donde la lectura de ojo aparece con más fuerza, en la versión de una tinta.</p>
+  <p>No lo cambié porque cambiaría la figura que elegiste, y esa decisión es tuya. Aquí están las cuatro &mdash; principal y una tinta, cada una con el punto en el centro y en el borde:</p>
+  <div class="escalera" style="gap:40px">
+    <div class="col"><span class="m" style="width:140px;height:140px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><ellipse cx="50" cy="80" rx="28" ry="9" stroke-width="3.8" opacity=".45"/><path d="M22 62C22 53 78 53 78 44S22 35 22 26C22 19 44 16 62 20" stroke-width="3.8"/><g fill="currentColor" stroke="none"><circle cx="50" cy="80" r="5.5"/></g></svg></span><span class="et">centro &mdash; la elegida</span></div>
+    <div class="col"><span class="m" style="width:140px;height:140px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.8" stroke-linecap="round"><ellipse cx="50" cy="80" rx="28" ry="9" opacity=".45"/><path d="M22 62C22 53 78 53 78 44S22 35 22 26C22 19 44 16 62 20"/><g fill="currentColor" stroke="none"><circle cx="50" cy="71" r="5.5"/></g></svg></span><span class="et">borde &mdash; x&#8320; &isin; S&sup1;</span></div>
+    <div class="col"><span class="m" style="width:140px;height:140px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><ellipse cx="50" cy="80" rx="28" ry="9" stroke-width="2.6" opacity="1"/><path d="M22 62C22 53 78 53 78 44S22 35 22 26C22 19 44 16 62 20" stroke-width="3.8"/><g fill="currentColor" stroke="none"><circle cx="50" cy="80" r="5.5"/></g></svg></span><span class="et">una tinta, centro</span></div>
+    <div class="col"><span class="m" style="width:140px;height:140px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.8" stroke-linecap="round"><ellipse cx="50" cy="80" rx="28" ry="9" stroke-width="2.6" opacity="1"/><path d="M22 62C22 53 78 53 78 44S22 35 22 26C22 19 44 16 62 20"/><g fill="currentColor" stroke="none"><circle cx="50" cy="71" r="5.5"/></g></svg></span><span class="et">una tinta, borde</span></div>
+  </div>
+  <p style="margin-top:16px">En el borde el punto cae en el alto de la elipse, debajo del arranque de la hélice. Está en <span class="mono">cubriente-punto-en-borde.svg</span> por si quieres verlo en uso.</p>
+</section>
+
+<footer>
+  <span class="mono">Figuras/marca/</span> &middot; cinco SVG, el script que los emite y la variante de borde.<br>
+  La teoría completa de la figura está en el Atlas de factorizaciones, ficha <span class="mono">Cubriente universal</span>.<br>
+  La versión de hélice afinada sigue ahí como <span class="mono">Hélice abierta</span>, por si alguna vez hace falta.
+</footer>
+</div>
+
+</body>
+</html>

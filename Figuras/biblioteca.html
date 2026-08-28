@@ -1,0 +1,1152 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Atlas de factorizaciones</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400;1,8..60,600&family=IBM+Plex+Mono:wght@400;500&family=STIX+Two+Text:ital,wght@0,400;0,500;1,400&display=swap">
+
+<style>
+:root{
+  --ground:#F2EEE7;
+  --surface:#FBF9F5;
+  --surface-2:#E9E3D7;
+  --line:#DCD4C6;
+  --line-soft:#E7E0D3;
+  --ink:#1C2026;
+  --ink-dim:#6B7079;
+  --blue:#1C6AB8;
+  --blue-soft:rgba(28,106,184,.10);
+  --fig:#1C2026;
+  --fig-hueco:#FBF9F5;
+  --scrim:rgba(28,32,38,.34);
+  --sombra:0 18px 48px -20px rgba(28,32,38,.34);
+
+  --paso:clamp(16px,3vw,28px);
+  --medida:64ch;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#13161A;
+    --surface:#1A1E24;
+    --surface-2:#22272F;
+    --line:#2A3038;
+    --line-soft:#23282F;
+    --ink:#F0EAE1;
+    --ink-dim:#9AA0A8;
+    --blue:#4A9EE8;
+    --blue-soft:rgba(74,158,232,.13);
+    --fig:#F0EAE1;
+    --fig-hueco:#1A1E24;
+    --scrim:rgba(8,9,11,.62);
+    --sombra:0 20px 56px -18px rgba(0,0,0,.72);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#13161A;
+  --surface:#1A1E24;
+  --surface-2:#22272F;
+  --line:#2A3038;
+  --line-soft:#23282F;
+  --ink:#F0EAE1;
+  --ink-dim:#9AA0A8;
+  --blue:#4A9EE8;
+  --blue-soft:rgba(74,158,232,.13);
+  --fig:#F0EAE1;
+  --fig-hueco:#1A1E24;
+  --scrim:rgba(8,9,11,.62);
+  --sombra:0 20px 56px -18px rgba(0,0,0,.72);
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation-duration:.01ms !important;transition-duration:.01ms !important}}
+
+body{
+  margin:0;
+  background:var(--ground);
+  color:var(--ink);
+  font-family:'Source Serif 4',Georgia,'Times New Roman',serif;
+  font-size:17px;
+  line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+
+.mono{font-family:'IBM Plex Mono','SF Mono',ui-monospace,monospace}
+.m{font-family:'STIX Two Text','Source Serif 4',Georgia,serif;font-style:italic}
+.mr{font-family:'STIX Two Text','Source Serif 4',Georgia,serif;font-style:normal}
+
+:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:4px}
+
+/* ---------- barra ---------- */
+.barra{
+  position:sticky;top:0;z-index:40;
+  background:color-mix(in srgb,var(--ground) 88%,transparent);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.barra-in{
+  max-width:1180px;margin:0 auto;padding:11px var(--paso);
+  display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+}
+.sello{display:flex;align-items:center;gap:9px;flex:0 0 auto}
+.sello .cf{display:flex;align-items:center;line-height:1;color:var(--ink)}
+.sello-txt{font-size:14px;font-weight:600;letter-spacing:-.005em}
+.sello-txt span{color:var(--ink-dim);font-weight:400}
+
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
+.chip{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.05em;
+  text-transform:uppercase;
+  background:none;border:1px solid var(--line);color:var(--ink-dim);
+  padding:6px 11px;border-radius:999px;cursor:pointer;
+  transition:border-color .18s,color .18s,background .18s;
+}
+.chip:hover{color:var(--ink);border-color:var(--ink-dim)}
+.chip[aria-pressed="true"]{color:var(--blue);border-color:var(--blue);background:var(--blue-soft)}
+
+/* ---------- cabecera ---------- */
+.wrap{max-width:1180px;margin:0 auto;padding:0 var(--paso) 120px}
+
+header.hero{padding:64px 0 8px;max-width:var(--medida)}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.17em;
+  text-transform:uppercase;color:var(--blue);margin:0 0 16px;
+}
+h1{
+  font-size:clamp(32px,5.4vw,50px);font-weight:600;line-height:1.1;
+  letter-spacing:-.018em;margin:0 0 20px;text-wrap:balance;
+}
+.lede{font-size:19px;color:var(--ink-dim);margin:0 0 18px}
+.lede em{color:var(--ink);font-style:italic}
+.nota{
+  font-family:'IBM Plex Mono',monospace;font-size:12.5px;line-height:1.75;
+  color:var(--ink-dim);border-left:2px solid var(--blue);
+  padding:3px 0 3px 16px;margin:30px 0 0;
+}
+
+/* ---------- secciones ---------- */
+section.fam{margin-top:64px;scroll-margin-top:70px}
+.fam-cab{
+  display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+  border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:8px;
+}
+.fam-num{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--blue);letter-spacing:.12em}
+.fam-cab h2{font-size:23px;font-weight:600;margin:0;letter-spacing:-.008em}
+.fam-cab .cuenta{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-dim)}
+.fam-sub{color:var(--ink-dim);font-size:16px;margin:14px 0 26px;max-width:60ch}
+.fam-sub .m{font-size:1.04em}
+
+.rejilla{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(min(210px,100%),1fr));
+  gap:16px;
+}
+
+.pieza{
+  position:relative;display:flex;flex-direction:column;text-align:left;
+  background:var(--surface);border:1px solid var(--line);border-radius:16px;
+  padding:20px 18px 16px;cursor:pointer;color:inherit;font:inherit;
+  transition:border-color .2s,transform .2s,box-shadow .2s;
+}
+.pieza:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:var(--sombra)}
+.pieza .arte{display:block;width:100%;max-width:118px;margin:4px auto 20px;color:var(--fig)}
+.pieza .arte svg{width:100%;height:auto;display:block}
+.pieza .nom{display:block;font-size:15.5px;font-weight:600;margin:0 0 3px;letter-spacing:-.006em}
+.pieza .ref{display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-dim);margin:0;line-height:1.5}
+.pieza .fav{
+  position:absolute;top:14px;right:14px;
+  font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--blue);
+}
+.pieza[hidden]{display:none}
+
+/* ---------- cajón ---------- */
+.scrim{
+  position:fixed;inset:0;z-index:60;background:var(--scrim);
+  opacity:0;pointer-events:none;transition:opacity .26s ease;
+}
+.scrim.abierto{opacity:1;pointer-events:auto}
+
+.cajon{
+  position:fixed;top:0;right:0;bottom:0;z-index:70;
+  width:min(620px,100vw);
+  background:var(--ground);border-left:1px solid var(--line);
+  transform:translateX(102%);transition:transform .3s cubic-bezier(.32,.72,0,1);
+  display:flex;flex-direction:column;
+  box-shadow:var(--sombra);
+}
+.cajon.abierto{transform:none}
+.cajon-barra{
+  flex:0 0 auto;display:flex;align-items:center;gap:8px;
+  padding:12px 16px;border-bottom:1px solid var(--line);
+  background:var(--surface);
+}
+.icb{
+  background:none;border:1px solid var(--line);color:var(--ink-dim);
+  width:34px;height:34px;border-radius:9px;cursor:pointer;
+  display:grid;place-items:center;transition:color .18s,border-color .18s;
+}
+.icb:hover:not(:disabled){color:var(--ink);border-color:var(--ink-dim)}
+.icb:disabled{opacity:.34;cursor:default}
+.icb svg{width:16px;height:16px}
+.cajon-pos{
+  font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-dim);
+  margin-left:auto;letter-spacing:.06em;font-variant-numeric:tabular-nums;
+}
+.cajon-cuerpo{flex:1 1 auto;overflow-y:auto;overscroll-behavior:contain;padding:30px 30px 90px}
+@media (max-width:560px){.cajon-cuerpo{padding:24px 20px 80px}}
+
+.d-eyebrow{
+  font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--blue);margin:0 0 12px;
+}
+.cajon h3{font-size:29px;font-weight:600;line-height:1.15;letter-spacing:-.016em;margin:0 0 6px;text-wrap:balance}
+.d-ref{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--ink-dim);margin:0 0 26px}
+
+.lienzo{
+  background:var(--surface);border:1px solid var(--line);border-radius:16px;
+  padding:30px;display:grid;place-items:center;margin-bottom:14px;
+}
+.lienzo .arte{display:block;width:100%;max-width:190px;color:var(--fig)}
+.lienzo .arte svg{width:100%;height:auto;display:block}
+
+.pruebas{
+  display:flex;align-items:flex-end;gap:20px;flex-wrap:wrap;
+  background:var(--surface);border:1px solid var(--line);border-radius:16px;
+  padding:18px 20px;margin-bottom:14px;
+}
+.pr{display:flex;flex-direction:column;align-items:center;gap:9px}
+.pr .caja{color:var(--fig);display:block}
+.pr .caja svg{width:100%;height:100%;display:block}
+.pr .et{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--ink-dim);letter-spacing:.05em}
+.pr.azul .caja{
+  background:var(--blue);border-radius:22%;padding:11%;color:#fff;
+}
+.pruebas-nota{
+  flex:1 1 130px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;
+  line-height:1.65;color:var(--ink-dim);align-self:center;
+}
+
+.ficha{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));
+  gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;
+  overflow:hidden;margin-bottom:34px;
+}
+.ficha div{background:var(--surface);padding:12px 14px}
+.ficha dt{
+  font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-dim);margin:0 0 4px;
+}
+.ficha dd{margin:0;font-size:14px;line-height:1.45}
+
+.cajon h4{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-dim);font-weight:500;
+  margin:34px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--line-soft);
+}
+.cajon p{margin:0 0 15px}
+.cajon p:last-child{margin-bottom:0}
+
+.teorema{
+  border-left:3px solid var(--blue);
+  background:var(--surface);
+  border-radius:0 12px 12px 0;
+  padding:20px 22px;margin:0 0 8px;
+}
+.teorema .tt{
+  font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--blue);margin:0 0 10px;
+}
+.teorema .cu{font-style:italic;margin:0}
+.teorema .cu .mr{font-style:normal}
+
+.fm{
+  font-family:'STIX Two Text','Source Serif 4',Georgia,serif;
+  font-style:normal;font-size:19px;text-align:center;
+  margin:18px 0;line-height:1.5;
+  overflow-x:auto;padding-bottom:2px;
+}
+.fm .m{font-size:1em}
+
+ul.notas{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:13px}
+ul.notas li{position:relative;padding-left:20px}
+ul.notas li::before{
+  content:"";position:absolute;left:2px;top:.62em;
+  width:6px;height:6px;border-radius:50%;background:var(--blue);opacity:.55;
+}
+ul.notas li b{font-weight:600}
+
+.rel{display:flex;flex-wrap:wrap;gap:7px}
+.rel button{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;
+  background:none;border:1px solid var(--line);color:var(--ink-dim);
+  padding:6px 11px;border-radius:999px;cursor:pointer;
+  transition:color .18s,border-color .18s;
+}
+.rel button:hover{color:var(--blue);border-color:var(--blue)}
+
+footer{
+  margin-top:80px;padding-top:26px;border-top:1px solid var(--line);
+  font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-dim);line-height:1.85;
+}
+
+@media (max-width:900px){
+  .chip,.rel button{
+    min-height:44px;padding:0 15px;
+    display:inline-flex;align-items:center;justify-content:center;
+  }
+  .icb{width:44px;height:44px}
+}
+
+/* corchete-efe */
+.cf-br{display:inline-block;box-sizing:border-box;border-style:solid;border-color:currentColor;border-right:0}
+.cf-br.r{transform:scaleX(-1)}
+.cf-f{font-style:italic;font-weight:600;line-height:1;display:inline-block;font-family:'Source Serif 4',Georgia,serif}
+
+.pr.azul .caja{--fig-hueco:var(--blue)}
+
+/* fondos previstos de las variantes: varias traen color fijo y
+   se perderian sobre el fondo equivocado, asi que lo declaran */
+[data-fondo]{border-radius:12px}
+[data-fondo="oscuro"]{background:#1A1E24;--fig-hueco:#1A1E24;color:#F0EAE1}
+[data-fondo="azul"]  {background:#4A9EE8;--fig-hueco:#4A9EE8;color:#FFFFFF}
+[data-fondo="claro"] {background:#F0EAE1;--fig-hueco:#F0EAE1;color:#13161A}
+.pieza .arte[data-fondo]{padding:10px;max-width:132px}
+.lienzo[data-fondo]{background:none;border:0;padding:0}
+.lienzo[data-fondo] > .arte{padding:26px;max-width:100%;width:100%}
+.pruebas[data-fondo]{border-color:transparent}
+.pieza .grupo{
+  display:block;font-family:'IBM Plex Mono',monospace;font-size:9.5px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink-dim);margin-top:7px;
+}
+.tabla-obs{width:100%;border-collapse:collapse;font-size:13.5px;margin:4px 0 0}
+.tabla-obs th,.tabla-obs td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+.tabla-obs th{
+  font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--ink-dim);font-weight:500;
+}
+.tabla-obs td:first-child{font-weight:600}
+.tabla-obs tr:last-child td{border-bottom:0}
+.envoltorio-tabla{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:6px 14px}
+</style>
+</head>
+<body>
+
+
+<div class="barra">
+  <div class="barra-in">
+    <div class="sello">
+      <span class="cf" id="sello-marca"></span>
+      <span class="sello-txt">Factorizando <span>· biblioteca</span></span>
+    </div>
+    <div class="chips" id="filtros"></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<header class="hero">
+  <p class="eyebrow">Cuarenta y ocho candidatas a marca</p>
+  <h1>Cada figura de esta biblioteca es un teorema</h1>
+  <p class="lede">Factorizar no es un truco de secundaria: es el gesto más repetido de las matemáticas, y cae siempre en uno de <em>tres moldes</em>. Estas figuras son los intentos de dibujarlo. Da clic en cualquiera para leer qué está diciendo.</p>
+  <p class="nota">Veintiuna figuras con teoría, más las veintisiete variantes del tribar.<br>Cada ficha trae la figura a 96, 48, 26 y 16 px — la tira que decide si algo puede ser favicon.</p>
+</header>
+
+<div id="secciones"></div>
+
+<footer>
+  Trazo cálido: remates redondeados, curvas cuadráticas, nodos generosos, sin puntas de flecha.<br>
+  Las variantes del tribar salen de los cuatro pliegos en <span class="mono">Figuras/</span>, con sus colores resueltos a atributos<br>
+  para que cada una funcione fuera de su hoja original. Su fondo previsto va declarado en cada ficha.
+</footer>
+
+</div>
+
+<div class="scrim" id="scrim"></div>
+
+<aside class="cajon" id="cajon" role="dialog" aria-modal="true" aria-labelledby="cajon-titulo" tabindex="-1">
+  <div class="cajon-barra">
+    <button class="icb" id="btn-cerrar" aria-label="Cerrar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <button class="icb" id="btn-prev" aria-label="Figura anterior">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <button class="icb" id="btn-next" aria-label="Figura siguiente">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+    <span class="cajon-pos" id="cajon-pos"></span>
+  </div>
+  <div class="cajon-cuerpo" id="cajon-cuerpo"></div>
+</aside>
+
+<script>
+const FAMILIAS = [
+  { id:"I",   titulo:"Descomposición en irreducibles", sub:"El objeto es un producto de átomos, único salvo orden." },
+  { id:"II",  titulo:"Factorización de morfismos",     sub:"Todo mapa se escribe <span class='m'>f</span> = <span class='m'>m</span> ∘ <span class='m'>e</span>: pasa por un objeto intermedio." },
+  { id:"III", titulo:"Cociente por una simetría",      sub:"Se factoriza quitando estructura: <span class='m'>G</span>/<span class='m'>N</span>, ∏<span class='m'>M<sub>i</sub></span>/<span class='m'>U</span>, <span class='m'>V</span><sup class='mr'>𝔹</sup>/<span class='m'>G</span>." },
+  { id:"IV",  titulo:"La marca misma",                 sub:"Las dos piezas que ya son Factorizando: el circuito que no cierra, y el corchete que lo escribe." },
+  { id:"V",   titulo:"El tribar, todas las variantes",  sub:"Los cuatro pliegos de exploración, completos. Cada una sobre el fondo para el que fue dibujada, y con su tira de escala." },
+];
+
+const FIGURAS = [
+
+/* ---------------- I. Descomposición en irreducibles ---------------- */
+{
+  id:"arbol-factores", fam:"I", nombre:"Árbol de factores", ref:"TF de la aritmética",
+  area:"Aritmética", quien:"Euclides · Gauss, 1801",
+  arte:`<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"><path d="M50 20Q38 32 29 45M50 20Q62 32 71 45M29 45Q22 60 17 75M29 45Q36 60 41 75"/><g fill="currentColor" stroke="none"><circle cx="50" cy="20" r="7"/><circle cx="29" cy="45" r="6"/><circle cx="71" cy="45" r="7"/><circle cx="17" cy="79" r="7"/><circle cx="41" cy="79" r="7"/></g></svg>`,
+  dibuja:`<p>Un nodo se abre en dos, y uno de los hijos vuelve a abrirse. Los nodos rellenos son las hojas — los primos, que ya no se parten; el hueco es el compuesto que todavía puede hacerlo. El árbol termina siempre, y ese es medio teorema: cada paso produce factores estrictamente menores, así que no hay descenso infinito.</p>`,
+  teorema:{ titulo:"Teorema fundamental de la aritmética", cuerpo:`Todo entero <span class="m">n</span> &gt; 1 se escribe <span class="mr">n = p<sub>1</sub><sup>a<sub>1</sub></sup> ⋯ p<sub>k</sub><sup>a<sub>k</sub></sup></span> con los <span class="m">p<sub>i</sub></span> primos distintos, y esa escritura es única salvo el orden de los factores.` },
+  porque:`<p>Es el caso base de toda la biblioteca. Cada una de las otras diecinueve figuras es un intento de repetir esta frase en otra categoría: cambiar "entero" por grupo, por variedad, por espacio, y ver qué sobrevive.</p>
+  <p>La demostración tiene dos mitades muy desiguales. La existencia sale por inducción fuerte en tres líneas. La unicidad necesita el lema de Euclides — si <span class="m">p</span> divide a <span class="m">ab</span> entonces divide a <span class="m">a</span> o a <span class="m">b</span> — que a su vez sale del algoritmo de Euclides. <b>La unicidad es el teorema</b>; la existencia es contabilidad.</p>`,
+  notas:[
+    `<b>Irreducible no es lo mismo que primo.</b> "No se parte" y "divide a un producto ⟹ divide a un factor" coinciden en <span class="mr">ℤ</span>, y por eso el enunciado se siente obvio. En <span class="mr">ℤ[√−5]</span> ya no: <span class="mr">6 = 2·3 = (1+√−5)(1−√−5)</span>, cuatro irreducibles y dos factorizaciones distintas.`,
+    `Ese fracaso es exactamente lo que arreglan los ideales — la figura <i>Primo que se parte</i>. Y el grupo de clases mide cuánto falló.`,
+    `<b>La versión analítica</b> es el producto de Euler, <span class="mr">ζ(s) = ∏<sub>p</sub> (1 − p<sup>−s</sup>)<sup>−1</sup></span>: la factorización única escrita como identidad entre una suma y un producto.`,
+  ],
+  rel:["primo-parte","raices-disco","serie-composicion"],
+},
+{
+  id:"raices-disco", fam:"I", nombre:"Raíces en el disco", ref:"TF del álgebra",
+  area:"Álgebra · Análisis complejo", quien:"Gauss, 1799 · Argand, 1806",
+  arte:`<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.4"><circle cx="50" cy="50" r="35"/><g fill="currentColor" stroke="none"><circle cx="27" cy="50" r="6.5"/><circle cx="48" cy="29" r="6.5"/><circle cx="48" cy="71" r="6.5"/><circle cx="71" cy="37" r="6.5"/><circle cx="71" cy="63" r="6.5"/></g></svg>`,
+  dibuja:`<p>Cinco puntos dentro de un disco: los ceros de un polinomio de grado cinco. El círculo no es decoración ni marco — es una cota real. Todas las raíces caben dentro de un radio que solo depende de los coeficientes, <span class="mr">|z| ≤ 1 + máx|a<sub>i</sub>|/|a<sub>n</sub>|</span>. Aquí el contenedor redondo deja de ser arbitrario: el círculo es parte del enunciado.</p>`,
+  teorema:{ titulo:"Teorema fundamental del álgebra", cuerpo:`Todo polinomio no constante <span class="m">p</span> ∈ <span class="mr">ℂ[z]</span> tiene al menos una raíz en <span class="mr">ℂ</span>. Por inducción, <span class="mr">p(z) = a ∏<sub>i=1</sub><sup>n</sup> (z − z<sub>i</sub>)</span>: grado <span class="m">n</span>, exactamente <span class="m">n</span> raíces contadas con multiplicidad.` },
+  porque:`<p>El nombre miente dos veces. No es de álgebra — toda demostración conocida usa algo analítico o topológico — y no es un teorema sobre factorizar, sino sobre que <span class="mr">ℂ</span> es algebraicamente cerrado. La factorización es el corolario, y es el corolario el que se volvió famoso.</p>
+  <p>La prueba más corta cabe en un renglón: si <span class="m">p</span> no tuviera raíces, <span class="mr">1/p</span> sería entera y acotada (porque <span class="mr">|p| → ∞</span> al alejarse), luego constante por Liouville.</p>`,
+  notas:[
+    `<b>Los irreducibles dependen del cuerpo.</b> En <span class="mr">ℂ[z]</span> son los lineales; en <span class="mr">ℝ[x]</span> son los lineales <i>y</i> los cuadráticos sin raíz real. De ahí sale la descomposición en fracciones parciales, que es este teorema disfrazado de técnica de integración.`,
+    `<b>La versión infinita</b> es Weierstrass–Hadamard: una función entera es un producto sobre sus ceros. El ejemplo que hay que ver una vez en la vida es <span class="mr">sen(πz) = πz ∏ (1 − z²/n²)</span>.`,
+    `A 26 px los cinco puntos se empastan contra el aro y la figura empieza a leerse como un logo de "red" o de blockchain. Se salva quitando masa: menos puntos, más grandes.`,
+  ],
+  rel:["arbol-factores","primo-parte","fourier"],
+},
+{
+  id:"primo-parte", fam:"I", nombre:"Primo que se parte", ref:"Dedekind, Frobenius", fav:true,
+  area:"Teoría algebraica de números", quien:"Dedekind, 1871 · Chebotarev, 1922",
+  arte:`<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4.4" stroke-linecap="round"><path d="M50 76Q46 52 31 33M50 76Q54 52 69 33"/><path d="M14 55H30M46 55H54M70 55H86" stroke-width="2.6" opacity=".5"/><g fill="currentColor" stroke="none"><circle cx="50" cy="82" r="7.5"/><circle cx="28" cy="27" r="7.5"/><circle cx="72" cy="27" r="7.5"/></g></svg>`,
+  dibuja:`<p>Un punto abajo que sube y se abre en dos. Abajo, el primo <span class="m">p</span> de <span class="mr">ℤ</span>; arriba, los primos del anillo mayor en los que se rompe. La línea punteada horizontal es la frontera entre los dos anillos: cruzarla es lo que permite que algo que era indivisible deje de serlo.</p>`,
+  teorema:{ titulo:"Factorización única de ideales", cuerpo:`En un dominio de Dedekind — noetheriano, íntegramente cerrado, de dimensión 1 — todo ideal no nulo se escribe de forma única como producto de ideales primos. Para <span class="m">p</span> primo en <span class="mr">ℤ</span>: <span class="mr">p𝒪<sub>K</sub> = 𝔭<sub>1</sub><sup>e<sub>1</sub></sup> ⋯ 𝔭<sub>g</sub><sup>e<sub>g</sub></sup></span>, con la relación fundamental <span class="mr">∑ e<sub>i</sub> f<sub>i</sub> = n = [K : ℚ]</span>.` },
+  porque:`<p>Es la figura que mejor cuenta la historia completa: la factorización única de <i>elementos</i> falla en <span class="mr">𝒪<sub>K</sub></span>, y se recupera subiendo de elementos a ideales. Perder el teorema y recuperarlo en otro nivel es una idea más interesante que el teorema mismo.</p>
+  <p>Tres comportamientos posibles. <b>Se parte</b> (<span class="mr">g = n</span>, todos los <span class="mr">e<sub>i</sub> = f<sub>i</sub> = 1</span>), <b>es inerte</b> (<span class="mr">g = 1, f = n</span>: sigue siendo primo arriba), <b>se ramifica</b> (algún <span class="mr">e<sub>i</sub> &gt; 1</span>). La ramificación es rara: pasa exactamente cuando <span class="mr">p | disc(K)</span>, o sea para un número finito de primos.</p>`,
+  notas:[
+    `<b>Dedekind–Kummer lo vuelve computable.</b> Si <span class="mr">𝒪<sub>K</sub> = ℤ[α]</span> con polinomio mínimo <span class="m">f</span>, la factorización de <span class="mr">f̄</span> en <span class="mr">𝔽<sub>p</sub>[x]</span> refleja exactamente la de <span class="m">p</span>. <i>Factorizar un primo es factorizar un polinomio módulo p.</i> Las dos factorizaciones son la misma información.`,
+    `<b>El ejemplo que hay que saber.</b> En <span class="mr">ℤ[i]</span>: <span class="mr">5 = (2+i)(2−i)</span> se parte, <span class="mr">3</span> es inerte, <span class="mr">2 = −i(1+i)²</span> ramifica. La dicotomía <span class="mr">p ≡ 1</span> contra <span class="mr">p ≡ 3 (mód 4)</span> <i>es</i> el teorema de los dos cuadrados de Fermat, leído como comportamiento de factorización.`,
+    `<b>Frobenius y Chebotarev.</b> Cómo se parte <span class="m">p</span> lo dicta una clase de conjugación en <span class="mr">Gal(K/ℚ)</span>, y cada clase aparece con densidad <span class="mr">|C|/|G|</span>. En <span class="mr">ℚ(i)</span>: la mitad de los primos se parte, la mitad es inerte. La factorización local está gobernada por una simetría global — por eso esta figura pertenece a la vez a esta sección y a la III.`,
+    `<b>Y el fracaso se mide.</b> El grupo de clases <span class="mr">Cl(K)</span> es trivial exactamente cuando <span class="mr">𝒪<sub>K</sub></span> es DFU. Hay un invariante que cuantifica cuánto falla la factorización — la misma forma que la obstrucción del tribar.`,
+    `<b>El diccionario geométrico.</b> <span class="mr">Spec 𝒪<sub>K</sub> → Spec ℤ</span> es un cubriente ramificado: <span class="m">g</span> es el número de puntos en la fibra, <span class="m">e</span> el orden de ramificación, y el grupo de descomposición es el estabilizador.`,
+  ],
+  rel:["arbol-factores","cubriente-universal","tribar","galois"],
+},
+{
+  id:"serie-composicion", fam:"I", nombre:"Serie de composición", ref:"Jordan–Hölder",
+  area:"Teoría de grupos", quien:"Jordan, 1870 · Hölder, 1889",
+  arte:`<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"><path d="M30 20Q26 50 30 82"/><g fill="currentColor" stroke="none"><circle cx="30" cy="20" r="6.5"/><circle cx="27" cy="41" r="6.5"/><circle cx="27" cy="61" r="6.5"/><circle cx="30" cy="82" r="6.5"/><circle cx="63" cy="30" r="9"/><circle cx="61" cy="53" r="6.5"/><circle cx="64" cy="74" r="11"/></g></svg>`,
+  dibuja:`<p>A la izquierda, una columna de nodos unidos por una curva: la cadena de subgrupos, que sí está ordenada. A la derecha, sueltos y de tamaños distintos, los cocientes simples que salen de cada escalón. Que floten sin línea que los una es el dibujo del "salvo orden": la lista de factores no tiene orden propio.</p>`,
+  teorema:{ titulo:"Teorema de Jordan–Hölder", cuerpo:`Si <span class="m">G</span> es finito, existe una cadena <span class="mr">1 = G<sub>0</sub> ◁ G<sub>1</sub> ◁ ⋯ ◁ G<sub>n</sub> = G</span> con cada cociente <span class="mr">G<sub>i+1</sub>/G<sub>i</sub></span> simple. Dos series cualesquiera tienen la misma longitud y los mismos factores, salvo orden e isomorfismo.` },
+  porque:`<p>Es el teorema fundamental de la aritmética de la teoría de grupos, y los grupos simples son sus primos. La diferencia es de escala: la lista de primos se describe en una línea; la clasificación de grupos simples finitos son 18 familias infinitas más 26 esporádicos y unas diez mil páginas de demostración.</p>
+  <p>El mismo enunciado vale para módulos de longitud finita, y en esa forma es el que usa el resto del álgebra.</p>`,
+  notas:[
+    `<b>Y aquí está la diferencia crucial con <span class="mr">ℤ</span>:</b> los factores <i>no</i> determinan el objeto. <span class="mr">C<sub>4</sub></span> y <span class="mr">C<sub>2</sub> × C<sub>2</sub></span> tienen exactamente los mismos factores de composición y no son isomorfos. Lo que falta es el problema de extensión, y ahí vive <span class="mr">H²</span>.`,
+    `Esa grieta es la misma que la de la torre de Postnikov: conocer las piezas no basta, hay que saber cómo están pegadas.`,
+    `<b>La aplicación célebre:</b> una ecuación es resoluble por radicales si y solo si su grupo admite una serie de composición con factores abelianos. Como <span class="mr">S<sub>n</sub></span> no es soluble para <span class="mr">n ≥ 5</span>, no hay fórmula general de grado cinco. Un enunciado sobre fórmulas, decidido por uno sobre factorización.`,
+  ],
+  rel:["bloques-diagonales","postnikov","galois"],
+},
+{
+  id:"bloques-diagonales", fam:"I", nombre:"Bloques diagonales", ref:"Jordan, Wedderburn",
+  area:"Álgebra lineal · Anillos", quien:"Jordan, 1870 · Wedderburn, 1908",
+  arte:`<svg viewBox="0 0 100 100" fill="none" stroke="currentColor"><rect x="15" y="15" width="70" height="70" rx="16" stroke-width="3" opacity=".45"/><g fill="currentColor" stroke="none"><rect x="20" y="20" width="27" height="27" rx="10"/><rect x="41" y="41" width="18" height="18" rx="7"/><rect x="53" y="53" width="27" height="27" rx="10"/></g></svg>`,
+  dibuja:`<p>Un cuadrado tenue — el objeto entero — y dentro, bloques macizos de tamaños distintos sobre la diagonal, que no se tocan. Fuera de los bloques no hay nada. Ese vacío es el contenido del dibujo: la descomposición es una suma directa, y las piezas dejaron de hablar entre sí.</p>`,
+  teorema:{ titulo:"Forma canónica de Jordan · Krull–Schmidt", cuerpo:`Sobre <span class="mr">ℂ</span>, todo endomorfismo de un espacio de dimensión finita es suma directa de bloques de Jordan <span class="mr">J(λ, k)</span>, única salvo el orden. En general (Krull–Schmidt): la descomposición en indescomponibles es única salvo orden e isomorfismo.` },
+  porque:`<p>Descomponer es exactamente encontrar la base donde las partes dejan de interactuar. La diagonal no es una convención de escritura: es la afirmación de que no hay acoplamiento.</p>
+  <p>Jordan es un caso del teorema de estructura sobre un DIP. <span class="mr">ℂ[x]</span> es DIP, un espacio con endomorfismo es un <span class="mr">ℂ[x]</span>-módulo, y el teorema da <span class="mr">V ≅ ⊕ ℂ[x]/(x−λ)<sup>k</sup></span>. Del mismo teorema, aplicado a <span class="mr">ℤ</span>, sale la clasificación de grupos abelianos finitos. Los "factores invariantes" se llaman así por algo.</p>`,
+  notas:[
+    `<b>Wedderburn–Artin</b> lleva la idea a los anillos: todo anillo semisimple es <span class="mr">∏ M<sub>n<sub>i</sub></sub>(D<sub>i</sub>)</span>, un producto de anillos de matrices sobre anillos con división.`,
+    `Junto con Maschke, eso <i>es</i> toda la teoría de representaciones de grupos finitos en característica cero: los bloques son las representaciones irreducibles. Y es el mecanismo detrás de <span class="mr">ℝ[C<sub>4</sub>] ≅ ℝ × ℝ × ℂ</span>, porque <span class="mr">x⁴ − 1 = (x−1)(x+1)(x²+1)</span>.`,
+    `Como figura tiene una ventaja práctica sobre casi todas las demás: son tres masas sólidas, sin trazo fino que perder. Aguanta a 16 px sin cambiar de dibujo.`,
+  ],
+  rel:["serie-composicion","fourier","producto-proyecciones"],
+},
+{
+  id:"suma-conexa", fam:"I", nombre:"Suma conexa", ref:"Kneser–Milnor",
+  area:"Topología de 3-variedades", quien:"Kneser, 1929 · Milnor, 1962",
+  arte:`<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4.2"><circle cx="32" cy="50" r="20"/><circle cx="68" cy="50" r="20"/><g fill="currentColor" stroke="none"><circle cx="50" cy="50" r="6"/></g></svg>`,
+  dibuja:`<p>Dos piezas y, en medio, el punto donde se cosen. Quitar una bola abierta a cada variedad y pegar a lo largo de las esferas frontera: eso es <span class="mr">#</span>, el producto con el que se factoriza. El punto central es la costura, y es el único elemento del dibujo que no estaba en ninguna de las dos piezas.</p>`,
+  teorema:{ titulo:"Descomposición prima de Kneser–Milnor", cuerpo:`Toda 3-variedad cerrada, conexa y orientable se escribe <span class="mr">M = P<sub>1</sub> # ⋯ # P<sub>n</sub></span> con cada <span class="m">P<sub>i</sub></span> prima, y la lista es única salvo orden (con <span class="mr">S³</span> como neutro).` },
+  porque:`<p>Es el teorema fundamental de la aritmética en dimensión tres, con la suma conexa haciendo de multiplicación. "Prima" quiere decir que solo se descompone trivialmente; equivale a ser irreducible — toda <span class="mr">S²</span> encajada acota una bola — salvo el único caso excepcional <span class="mr">S¹ × S²</span>.</p>
+  <p>Vía van Kampen, <span class="mr">π<sub>1</sub>(M # N) ≅ π<sub>1</sub>(M) ∗ π<sub>1</sub>(N)</span>: la suma conexa se traduce en producto libre. El teorema de Grushko — todo grupo finitamente generado se descompone únicamente en producto libre de indescomponibles — es la sombra algebraica de Kneser–Milnor.</p>`,
+  notas:[
+    `<b>La dimensión tres es excepcional.</b> En dimensión dos el teorema es cierto pero ciego: la suma conexa solo suma géneros y no hay átomos. En dimensión cuatro y superiores la unicidad falla: hay <span class="mr">M<sub>1</sub> # M<sub>2</sub> ≅ N<sub>1</sub> # N<sub>2</sub></span> con factores no homeomorfos.`,
+    `<b>Es el primer piso de la geometrización.</b> Primero se corta por esferas (Kneser–Milnor), luego por toros (JSJ), y solo entonces cada trozo admite una de las ocho geometrías de Thurston. Tres niveles de factorización anidados — y el resultado final expresa cada pieza como <span class="mr">X̃ / Γ</span>, otra vez el cubriente universal.`,
+    `<b>Para la marca:</b> el símbolo de la descomposición prima de 3-variedades es el hashtag. <span class="mono">#Factorizando</span> significa literalmente "factorización prima", y el chiste es invisible salvo para topólogos. El costo es que <span class="mr">#</span> no es tuyo, es de todo internet.`,
+  ],
+  rel:["cubriente-universal","primo-parte","arbol-factores"],
+},
+
+/* ---------------- II. Factorización de morfismos ---------------- */
+{
+  id:"f-m-e", fam:"II", nombre:"f = m ∘ e", ref:"Sistema de factorización",
+  area:"Teoría de categorías", quien:"Noether, 1927 · Freyd–Kelly, 1972",
+  arte:`<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><path d="M28 18Q50 11 72 18" opacity=".45"/><path d="M23 30Q32 56 44 74"/><path d="M58 74Q70 52 78 30"/><g fill="currentColor" stroke="none"><circle cx="20" cy="24" r="8"/><circle cx="80" cy="24" r="8"/><circle cx="51" cy="80" r="8"/></g></svg>`,
+  dibuja:`<p>Dos objetos arriba, unidos por un arco tenue: el mapa original, el que parece directo. El camino que de verdad se recorre baja hasta un tercer objeto y vuelve a subir. Ese objeto de abajo es la imagen. No hay puntas de flecha porque no hacen falta: el arco atenuado se lee como resultado y los dos sólidos como proceso.</p>`,
+  teorema:{ titulo:"Sistema de factorización ortogonal", cuerpo:`Un par de clases de morfismos <span class="mr">(ℰ, ℳ)</span> en una categoría <span class="mr">𝒞</span> tal que todo <span class="m">f</span> se escribe <span class="m">f</span> = <span class="m">m</span> ∘ <span class="m">e</span> con <span class="m">e</span> ∈ <span class="mr">ℰ</span>, <span class="m">m</span> ∈ <span class="mr">ℳ</span>, y todo cuadrado conmutativo con <span class="mr">ℰ</span> a la izquierda y <span class="mr">ℳ</span> a la derecha admite un relleno diagonal único. La unicidad de la factorización sale gratis de esa propiedad de relleno.` },
+  porque:`<p>Si Factorizando necesitara un solo diagrama que dijera "factorizar", es este. El verbo <i>factors through</i> es literalmente vocabulario nativo de la teoría de categorías.</p>
+  <p>En Conjuntos: toda <span class="m">f</span>: <span class="m">X</span> → <span class="m">Y</span> se parte en <span class="m">X</span> ↠ im(<span class="m">f</span>) ↪ <span class="m">Y</span>, primero suprayectiva y luego inyectiva. En grupos es el primer teorema de isomorfía, <span class="mr">G/ker φ ≅ im φ</span>, que es este arquetipo en su forma más pura.</p>`,
+  notas:[
+    `Separar un mapa en <i>cuánto identifica</i> y <i>cuánto omite</i> es el gesto que se repite en toda el álgebra. El núcleo mide lo primero, el conúcleo lo segundo.`,
+    `<b>Pedagógicamente dice justo lo que vendes:</b> no vas directo al resultado, pasas por la comprensión.`,
+    `<b>El riesgo de la figura</b> es que a tamaño chico un triángulo de tres nodos se lee como logo genérico de startup, o como el botón de reproducir. Se salva con arcos en vez de rectas, y con nodos gordos que carguen la estructura sin depender del detalle.`,
+  ],
+  rel:["ult-vu","cubriente-universal","producto-proyecciones"],
+},
+{
+  id:"ult-vu", fam:"II", nombre:"Ult(V,U)", ref:"Toda inmersión se factoriza",
+  area:"Teoría de conjuntos", quien:"Scott, 1961 · Kunen, 1971",
+  arte:`<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><path d="M24 72Q32 46 44 28"/><path d="M28 82Q50 89 72 82" opacity=".45"/><path d="M60 28Q72 50 78 70"/><g fill="currentColor" stroke="none"><circle cx="18" cy="78" r="8"/><circle cx="52" cy="20" r="8"/><circle cx="82" cy="78" r="8"/></g></svg>`,
+  dibuja:`<p>El mismo triángulo de la figura anterior, girado. El vértice de arriba es la ultrapotencia. La arista tenue de la derecha es el factor <span class="m">k</span>: el mapa que siempre existe y casi nunca es la identidad. Lo que el dibujo afirma es que el camino largo por arriba es el único camino.</p>`,
+  teorema:{ titulo:"Factorización por el ultrapoder", cuerpo:`Si <span class="m">j</span>: <span class="mr">V</span> → <span class="m">M</span> es elemental con punto crítico <span class="m">κ</span>, y <span class="m">U</span> es el ultrafiltro derivado (<span class="m">X</span> ∈ <span class="m">U</span> ⟺ <span class="m">κ</span> ∈ <span class="m">j</span>(<span class="m">X</span>)), entonces <span class="m">j</span> = <span class="m">k</span> ∘ <span class="m">j<sub>U</sub></span> para un único <span class="m">k</span>: Ult(<span class="mr">V</span>,<span class="m">U</span>) → <span class="m">M</span> elemental.` },
+  porque:`<p>Un cardinal <span class="m">κ</span> es medible cuando admite un ultrafiltro <span class="m">κ</span>-completo no principal. Entonces la ultrapotencia <span class="mr">V<sup>κ</sup>/U</span> está bien fundada, se colapsa a una clase transitiva, y <span class="m">j<sub>U</sub></span> es elemental con punto crítico <span class="m">κ</span>.</p>
+  <p>El teorema dice que esa construcción es <b>la factorización mínima</b>: no hay inmersión más pequeña con ese punto crítico. Es una propiedad universal, exactamente igual que la imagen en la figura anterior — el objeto intermedio es inicial entre todos los que sirven.</p>`,
+  notas:[
+    `<b>Y hay un techo.</b> La inconsistencia de Kunen: no existe <span class="m">j</span>: <span class="mr">V</span> → <span class="mr">V</span> elemental no trivial. El universo puede reflejarse en sí mismo tan bien como se quiera, pero nunca perfectamente. Esa imposibilidad es la misma que dibuja el tribar.`,
+    `<b>El ultrafiltro es la simetría.</b> <span class="mr">Ult(V,U)</span> es un ultraproducto, así que esta figura pertenece también a la sección III — y esa doble pertenencia es el argumento de toda la biblioteca: los tres moldes son el mismo teorema visto desde tres ángulos.`,
+    `La notación <span class="mr">[f]<sub>U</sub></span> — la clase de <span class="m">f</span> en la ultrapotencia — es una de las lecturas del corchete del wordmark.`,
+  ],
+  rel:["ultraproducto","f-m-e","vg","tribar"],
+},
+{
+  id:"cubriente-universal", fam:"II", nombre:"Cubriente universal", ref:"X = X̃ / π₁",
+  area:"Topología algebraica", quien:"Poincaré, 1883 · Schreier, 1927",
+  arte:`<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.8" stroke-linecap="round"><ellipse cx="50" cy="80" rx="28" ry="9" opacity=".45"/><path d="M22 62C22 53 78 53 78 44S22 35 22 26C22 19 44 16 62 20"/><g fill="currentColor" stroke="none"><circle cx="50" cy="80" r="5.5"/></g></svg>`,
+  dibuja:`<p>Una hélice que sube y, debajo, el círculo sobre el que se proyecta. La hélice es <span class="mr">ℝ</span>; el círculo, <span class="mr">S¹</span>; la fibra es <span class="mr">ℤ</span>. Cada vuelta del círculo es un piso de la hélice. Es la única figura de la biblioteca con movimiento real: comunica infinitud y desenrollado a la vez, sin simetría y sin quedarse quieta.</p>`,
+  teorema:{ titulo:"Criterio de levantamiento", cuerpo:`Dado <span class="m">f</span>: (<span class="m">Y</span>,<span class="m">y</span><sub>0</sub>) → (<span class="m">X</span>,<span class="m">x</span><sub>0</sub>) con <span class="m">Y</span> conexo y localmente conexo por trayectorias, existe un levantamiento <span class="m">f̃</span>: <span class="m">Y</span> → <span class="m">E</span> si y solo si <span class="mr">f<sub>∗</sub>π<sub>1</sub>(Y,y<sub>0</sub>) ⊆ p<sub>∗</sub>π<sub>1</sub>(E,e<sub>0</sub>)</span>. Como <span class="mr">π<sub>1</sub>(X̃) = 1</span>, el cubriente universal cubre a todos los demás.` },
+  porque:`<p>Todo cubriente conexo se factoriza a través de <span class="mr">X̃</span>: es el objeto inicial en la categoría de cubrientes punteados. El triángulo conmutativo de la figura <span class="m">f</span> = <span class="m">m</span> ∘ <span class="m">e</span> es literalmente este diagrama.</p>
+  <p>Y del otro lado está el cociente: <span class="mr">Deck(X̃/X) ≅ π<sub>1</sub>(X)</span> actúa libre y propiamente discontinuamente, con <span class="mr">X ≅ X̃ / π<sub>1</sub>(X)</span>. Hay recíproco, y por eso es la forma más eficiente de calcular grupos fundamentales.</p>`,
+  notas:[
+    `<b>Existe casi siempre, pero no siempre.</b> Hace falta que <span class="m">X</span> sea conexo, localmente conexo por trayectorias y semilocalmente simplemente conexo. El contraejemplo canónico es el pendiente hawaiano — círculos de radio <span class="mr">1/n</span> tangentes en un punto — donde ningún entorno del origen tiene lazos contraíbles.`,
+    `<b>Construcción explícita:</b> <span class="mr">X̃ = {[γ] : γ trayectoria desde x<sub>0</sub>}</span> módulo homotopía con extremos fijos, y <span class="mr">p([γ]) = γ(1)</span>. Otro corchete de clase de equivalencia.`,
+    `<b>Es teoría de Galois otra vez:</b> subgrupos de <span class="mr">π<sub>1</sub></span> ↔ cubrientes, normales ↔ cubrientes normales, índice ↔ número de hojas. Grothendieck lo cerró: su <span class="mr">π<sub>1</sub><sup>ét</sup></span> aplicado a <span class="mr">Spec(k)</span> da <span class="mr">Gal(k̄/k)</span>. La teoría de Galois clásica es el caso de un punto.`,
+    `<b>Y el tribar es este dibujo.</b> La figura "posible" existe en <span class="mr">ℝ</span> — una hélice infinita de vigas que sube; al proyectar sobre <span class="mr">S¹</span> se vuelve el triángulo imposible. Dar la vuelta y quedar desplazado es precisamente lo que hace <span class="mr">ℝ → S¹</span>.`,
+  ],
+  rel:["tribar","galois","primo-parte","f-m-e"],
+},
+{
+  id:"helice-abierta", fam:"II", nombre:"Hélice abierta", ref:"ℝ no tiene extremos",
+  area:"Topología algebraica", quien:"Variante de trazo del cubriente",
+  arte:`<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="50" cy="82" rx="27" ry="7" stroke-width="3" opacity=".38"/><g><path d="M50.0 70.0L49.9 70.0L49.8 70.0L49.6 69.9" stroke-width="0.30"/><path d="M49.6 69.9L49.3 69.9L48.9 69.8L48.5 69.8" stroke-width="0.30"/><path d="M48.5 69.8L47.9 69.7L47.3 69.6L46.7 69.5" stroke-width="0.40"/><path d="M46.7 69.5L45.9 69.3L45.1 69.2L44.3 69.0" stroke-width="0.60"/><path d="M44.3 69.0L43.2 68.8L42.2 68.6L41.2 68.3" stroke-width="0.82"/><path d="M41.2 68.3L39.9 68.0L38.7 67.7L37.6 67.4" stroke-width="1.04"/><path d="M37.6 67.4L36.2 67.0L34.9 66.6L33.7 66.1" stroke-width="1.27"/><path d="M33.7 66.1L32.3 65.6L31.1 65.0L29.9 64.4" stroke-width="1.51"/><path d="M29.9 64.4L28.6 63.8L27.5 63.1L26.5 62.4" stroke-width="1.75"/><path d="M26.5 62.4L25.5 61.6L24.7 60.8L24.0 59.9" stroke-width="2.00"/><path d="M24.0 59.9L23.5 59.0L23.1 58.1L23.0 57.1" stroke-width="2.24"/><path d="M23.0 57.1L23.1 56.1L23.4 55.1L24.0 54.1" stroke-width="2.48"/><path d="M24.0 54.1L24.8 53.1L25.9 52.0L27.3 51.0" stroke-width="2.72"/><path d="M27.3 51.0L28.9 50.0L30.8 49.1L33.0 48.2" stroke-width="2.95"/><path d="M33.0 48.2L35.4 47.3L38.0 46.5L40.8 45.8" stroke-width="3.17"/><path d="M40.8 45.8L43.8 45.1L46.9 44.5L50.0 44.0" stroke-width="3.37"/><path d="M50.0 44.0L53.3 43.6L56.5 43.3L59.6 43.1" stroke-width="3.56"/><path d="M59.6 43.1L62.6 43.0L65.5 42.9L68.1 43.0" stroke-width="3.74"/><path d="M68.1 43.0L70.6 43.2L72.6 43.4L74.3 43.7" stroke-width="3.89"/><path d="M74.3 43.7L75.6 44.0L76.5 44.4L77.0 44.8" stroke-width="4.02"/><path d="M77.0 44.8L76.9 45.2L76.4 45.7L75.4 46.0" stroke-width="4.13"/><path d="M75.4 46.0L73.9 46.4L72.0 46.7L69.7 46.9" stroke-width="4.21"/><path d="M69.7 46.9L67.1 47.0L64.1 47.1L60.8 47.0" stroke-width="4.27"/><path d="M60.8 47.0L57.3 46.8L53.7 46.5L50.0 46.0" stroke-width="4.30"/><path d="M50.0 46.0L46.3 45.4L42.7 44.7L39.2 43.8" stroke-width="4.30"/><path d="M39.2 43.8L35.9 42.9L32.9 41.8L30.3 40.6" stroke-width="4.27"/><path d="M30.3 40.6L28.0 39.4L26.1 38.1L24.6 36.7" stroke-width="4.21"/><path d="M24.6 36.7L23.6 35.3L23.1 33.8L23.0 32.4" stroke-width="4.13"/><path d="M23.0 32.4L23.5 31.0L24.4 29.6L25.7 28.2" stroke-width="4.02"/><path d="M25.7 28.2L27.4 27.0L29.4 25.8L31.9 24.6" stroke-width="3.89"/><path d="M31.9 24.6L34.5 23.6L37.4 22.7L40.4 21.8" stroke-width="3.74"/><path d="M40.4 21.8L43.5 21.1L46.7 20.5L50.0 20.0" stroke-width="3.56"/><path d="M50.0 20.0L53.1 19.6L56.2 19.3L59.2 19.1" stroke-width="3.37"/><path d="M59.2 19.1L62.0 19.0L64.6 18.9L67.0 19.0" stroke-width="3.17"/><path d="M67.0 19.0L69.2 19.1L71.1 19.2L72.7 19.4" stroke-width="2.95"/><path d="M72.7 19.4L74.1 19.6L75.2 19.9L76.0 20.2" stroke-width="2.72"/><path d="M76.0 20.2L76.6 20.4L76.9 20.7L77.0 21.0" stroke-width="2.48"/><path d="M77.0 21.0L76.9 21.3L76.5 21.6L76.0 21.8" stroke-width="2.24"/><path d="M76.0 21.8L75.3 22.1L74.5 22.3L73.5 22.5" stroke-width="2.00"/><path d="M73.5 22.5L72.5 22.6L71.4 22.8L70.1 22.9" stroke-width="1.75"/><path d="M70.1 22.9L68.9 23.0L67.7 23.0L66.3 23.1" stroke-width="1.51"/><path d="M66.3 23.1L65.1 23.1L63.8 23.1L62.4 23.0" stroke-width="1.27"/><path d="M62.4 23.0L61.3 23.0L60.1 23.0L58.8 22.9" stroke-width="1.04"/><path d="M58.8 22.9L57.8 22.8L56.8 22.7L55.7 22.7" stroke-width="0.82"/><path d="M55.7 22.7L54.9 22.6L54.1 22.5L53.3 22.4" stroke-width="0.60"/><path d="M53.3 22.4L52.7 22.3L52.1 22.3L51.5 22.2" stroke-width="0.40"/><path d="M51.5 22.2L51.1 22.1L50.7 22.1L50.4 22.1" stroke-width="0.30"/><path d="M50.4 22.1L50.2 22.0L50.1 22.0L50.0 22.0" stroke-width="0.30"/></g><g fill="currentColor" stroke="none"><circle cx="50" cy="82" r="5"/></g></svg>`,
+  dibuja:`<p>La misma hélice sobre <span class="mr">S¹</span>, con una sola diferencia: el trazo adelgaza hasta desaparecer en las dos puntas.</p>
+  <p>El dibujo original empezaba y terminaba con el mismo grosor, y un trazo que arranca y se corta dibuja <b>un segmento</b> — algo con principio y fin. Aquí la hélice entra y sale del cuadro sin cerrarse, y el afinado es lo único que hace falta para decir "esto sigue". Las dos puntas terminan en lados opuestos, para que ninguna de las dos parezca el final.</p>`,
+  teorema:{ titulo:"El cubriente exponencial", cuerpo:`El cubriente universal de <span class="mr">S¹</span> es <span class="mr">ℝ</span>, con <span class="mr">p(t) = e<sup>2πit</sup></span>. La fibra sobre cada punto es <span class="mr">p<sup>−1</sup>(x) ≅ ℤ</span> — infinita — y <span class="mr">π<sub>1</sub>(S¹) ≅ ℤ</span> actúa por traslación entera, de modo que <span class="mr">S¹ = ℝ/ℤ</span>.` },
+  porque:`<p>Aquí el afinado no es un adorno: <b>corrige un error del dibujo anterior</b>. La fibra de este cubriente es <span class="mr">ℤ</span>, infinita en las dos direcciones. Una hélice que empieza y termina dibuja una fibra finita — es decir, dibuja un cubriente de dos o tres hojas, que es otro objeto y ni siquiera es el universal.</p>
+  <p>Solo una hélice sin extremos representa <span class="mr">ℝ</span>. El resto de la teoría — la propiedad universal, el criterio de levantamiento, la correspondencia con los subgrupos de <span class="mr">π<sub>1</sub></span> — está completa en <b>Cubriente universal</b>.</p>`,
+  notas:[
+    `<b>La geometría está calculada, no dibujada a ojo.</b> Dos vueltas exactas, subida de 24 unidades por vuelta contra 14 de alto de elipse: esa holgura de 10 es lo que evita que los bucles se fundan y la figura se lea como un resorte. Con 3 vueltas la subida baja a 19 contra 17 y se empasta.`,
+    `<b>SVG no sabe variar el grosor a lo largo de un trazo</b>, así que hay dos caminos. Rellenar el contorno desfasado da un afinado perfecto, pero aquí falla: el radio de curvatura mínimo de la proyección es <b>0.37</b> y el medio ancho es <b>2.15</b>, así que la curva desfasada se pliega sobre sí misma y el relleno abre huecos. El camino bueno es partir el trazo en tramos.`,
+    `<b>Los tramos se agolpan hacia las puntas.</b> El perfil de ancho cambia más rápido ahí, y con reparto uniforme el salto entre tramos vecinos se veía como bandas. Repartiéndolos por coseno, el salto máximo baja de 0.50 a 0.24 unidades y las juntas desaparecen.`,
+    `<b>Lo que cuesta, y hay que decirlo:</b> por debajo de unos 26 px las puntas ya no existen y la figura vuelve a ser una espiral corriente. El afinado es un premio para quien la ve en grande — membrete, portada, camiseta —, igual que el gradiente del triángulo de puntos convergentes. La estructura la cargan los dos bucles centrales.`,
+    `<b>Y para una tinta:</b> bordado e impresión a un color no reproducen un trazo que baja de ~0.3 unidades. Si llega a usarse ahí, hace falta una versión con piso de grosor, no una reducción de esta.`,
+  ],
+  rel:["cubriente-universal","f-m-e","postnikov","tribar"],
+},
+{
+  id:"svd", fam:"II", nombre:"Rotar, estirar, rotar", ref:"A = UΣV*",
+  area:"Álgebra lineal · Numérica", quien:"Beltrami, 1873 · Eckart–Young, 1936",
+  arte:`<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><circle cx="50" cy="50" r="31" stroke-width="2.6" opacity=".4"/><ellipse cx="50" cy="50" rx="37" ry="16" transform="rotate(-28 50 50)" stroke-width="4"/><g fill="currentColor" stroke="none"><circle cx="17" cy="67" r="5.5"/><circle cx="83" cy="33" r="5.5"/></g></svg>`,
+  dibuja:`<p>Un círculo tenue — la esfera unidad — y la elipse en que se convierte al aplicarle el mapa. Los dos puntos marcan los extremos del eje mayor: la dirección donde más estira, y cuánto. Toda la información del teorema está en esas dos formas superpuestas.</p>`,
+  teorema:{ titulo:"Descomposición en valores singulares", cuerpo:`Toda matriz <span class="m">A</span> ∈ <span class="mr">ℂ<sup>m×n</sup></span> se escribe <span class="mr">A = UΣV*</span> con <span class="m">U</span>, <span class="m">V</span> unitarias y <span class="m">Σ</span> diagonal con entradas <span class="mr">σ<sub>1</sub> ≥ ⋯ ≥ σ<sub>r</sub> &gt; 0</span>. Existe siempre: sin hipótesis, sin necesidad de ser cuadrada ni diagonalizable.` },
+  porque:`<p>Toda aplicación lineal es una rotación, un estiramiento por ejes, y otra rotación. Nada más. Es la más visual de todas las factorizaciones porque el enunciado <i>es</i> el dibujo: los <span class="mr">σ<sub>i</sub></span> son los semiejes del elipsoide imagen y <span class="mr">σ<sub>1</sub> = ‖A‖<sub>2</sub></span>.</p>
+  <p>Y a diferencia del teorema espectral <span class="mr">A = UΛU*</span>, que exige normalidad, este no pide nada. Esa incondicionalidad es lo que lo volvió la herramienta central del álgebra lineal numérica.</p>`,
+  notas:[
+    `<b>Eckart–Young:</b> truncar a los <span class="m">k</span> primeros valores singulares da la mejor aproximación de rango <span class="m">k</span>, en norma 2 y en Frobenius. Es el teorema detrás de la compresión de imágenes, del PCA y de los <i>embeddings</i>.`,
+    `<b>Pariente cercano:</b> la descomposición polar <span class="mr">A = QP</span>, "rotación por deformación", que en mecánica de medios continuos separa el giro rígido de la deformación real. Y en la misma familia práctica: <span class="mr">LU</span>, <span class="mr">QR</span>, Cholesky.`,
+    `Como marca tiene la ventaja de ser dos trazos y dos puntos — sobrevive a cualquier tamaño — y la desventaja de que un círculo con una elipse inclinada se parece a demasiados logos de órbitas.`,
+  ],
+  rel:["bloques-diagonales","fourier","f-m-e"],
+},
+{
+  id:"producto-proyecciones", fam:"II", nombre:"Producto y proyecciones", ref:"Künneth",
+  area:"Categorías · Topología algebraica", quien:"Künneth, 1923",
+  arte:`<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round"><rect x="20" y="20" width="38" height="38" rx="12"/><path d="M39 68V80" opacity=".5"/><path d="M68 39H80" opacity=".5"/><path d="M28 84H50" stroke-width="5"/><path d="M84 28V50" stroke-width="5"/></svg>`,
+  dibuja:`<p>Un cuadrado — el producto — y dos proyecciones tenues saliendo hacia los ejes. Los segmentos gruesos de abajo y de la derecha son los factores. El objeto grande está dibujado con trazo fino y los factores con trazo grueso, que es la jerarquía correcta: el producto se define por ellos, no al revés.</p>`,
+  teorema:{ titulo:"Propiedad universal del producto · Fórmula de Künneth", cuerpo:`Dado cualquier <span class="m">T</span> con mapas <span class="m">f</span>: <span class="m">T</span> → <span class="m">A</span> y <span class="m">g</span>: <span class="m">T</span> → <span class="m">B</span>, existe un único ⟨<span class="m">f</span>,<span class="m">g</span>⟩: <span class="m">T</span> → <span class="m">A</span> × <span class="m">B</span> que los devuelve al componer con las proyecciones. Sobre un cuerpo, <span class="mr">H<sub>n</sub>(X × Y) ≅ ⊕<sub>i+j=n</sub> H<sub>i</sub>(X) ⊗ H<sub>j</sub>(Y)</span>.` },
+  porque:`<p>El producto no se define por lo que <i>es</i> sino por cómo se factoriza a través de él. Es el ejemplo más limpio de que en esta sección el enunciado no es "el objeto se parte" sino "los mapas hacia él se parten" — la misma idea, vista desde los morfismos.</p>
+  <p>Künneth es la versión con contenido: la homología del producto es el producto tensorial de las homologías.</p>`,
+  notas:[
+    `<b>Sobre <span class="mr">ℤ</span> deja de partirse limpiamente:</b> aparece un término Tor y la sucesión solo se escinde de forma no natural. Es el ejemplo estándar del precio de no trabajar sobre un cuerpo.`,
+    `<b>Los fibrados son la versión torcida:</b> "localmente un producto", globalmente no. El espacio total es una factorización con obstrucción — la banda de Möbius es un fibrado de rectas sobre <span class="mr">S¹</span> que no es <span class="mr">S¹ × ℝ</span>.`,
+    `<b>El eco probabilístico</b> de esta figura es la independencia: la medida conjunta que se parte en producto de marginales.`,
+  ],
+  rel:["independencia","bloques-diagonales","f-m-e"],
+},
+{
+  id:"postnikov", fam:"II", nombre:"Torre de Postnikov", ref:"Pisos homotópicos",
+  area:"Topología algebraica", quien:"Postnikov, 1951",
+  arte:`<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><path d="M68 28V38M68 52V62M68 76V82" opacity=".5"/><path d="M24 78Q44 56 60 26M24 78Q46 66 62 50M24 78Q46 78 62 74" stroke-width="2.4" opacity=".55"/><g fill="currentColor" stroke="none"><circle cx="68" cy="20" r="6.5"/><circle cx="68" cy="45" r="6.5"/><circle cx="68" cy="69" r="6.5"/><circle cx="17" cy="81" r="7.5"/></g></svg>`,
+  dibuja:`<p>Una columna de pisos a la derecha, y desde el espacio de abajo a la izquierda un haz de mapas tenues, uno a cada piso. El espacio no se parte: se aproxima. Los tramos verticales entre pisos están atenuados porque son justamente lo que no se sabe — lo que pega un piso con el siguiente.</p>`,
+  teorema:{ titulo:"Torre de Postnikov", cuerpo:`Para <span class="m">X</span> conexo y simple existe una torre <span class="mr">⋯ → X<sub>2</sub> → X<sub>1</sub></span> con mapas <span class="m">X</span> → <span class="m">X<sub>n</sub></span> tales que <span class="mr">π<sub>i</sub>(X<sub>n</sub>) = π<sub>i</sub>(X)</span> para <span class="mr">i ≤ n</span> y <span class="mr">0</span> por encima. La fibra de <span class="mr">X<sub>n</sub> → X<sub>n−1</sub></span> es un <span class="mr">K(π<sub>n</sub>(X), n)</span>, y <span class="mr">X → lim X<sub>n</sub></span> es equivalencia débil.` },
+  porque:`<p>Los <span class="mr">K(π, n)</span> — espacios con un solo grupo de homotopía — son los átomos. Pero la torre <b>no</b> es un producto de ellos: cada piso se pega al anterior por un <i>k</i>-invariante, una clase en <span class="mr">H<sup>n+1</sup>(X<sub>n−1</sub>; π<sub>n</sub>)</span>. Si todos se anulan, el espacio sí es el producto de sus piezas; casi nunca ocurre.</p>
+  <p>Es la figura más honesta de la sección porque admite el límite del proyecto: <b>descomponer no siempre significa separar</b>. A veces solo se consigue una filtración, y lo interesante es lo que la mantiene pegada.</p>`,
+  notas:[
+    `Es la misma grieta que en Jordan–Hölder: conocer los factores simples no determina el grupo, y lo que falta vive en <span class="mr">H²</span>. Aquí lo que falta vive en <span class="mr">H<sup>n+1</sup></span>. La obstrucción siempre es cohomológica.`,
+    `<b>La lectura para la marca:</b> una plataforma educativa que dibuje esto está diciendo que el conocimiento se construye por pisos y que ninguno se entiende sin el de abajo. Es el diagrama más didáctico de la biblioteca aunque sea el más técnico.`,
+  ],
+  rel:["serie-composicion","tribar","cubriente-universal"],
+},
+
+/* ---------------- III. Cociente por una simetría ---------------- */
+{
+  id:"vg", fam:"III", nombre:"V ⊂ V[G]", ref:"Extensión genérica", fav:true,
+  area:"Teoría de conjuntos · Forcing", quien:"Cohen, 1963 · Solovay, Scott",
+  arte:`<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 18Q30 58 50 86Q70 58 87 18" opacity=".45"/><path d="M30 30Q40 60 50 86Q60 60 70 30"/><g fill="currentColor" stroke="none"><circle cx="50" cy="86" r="6.5"/></g></svg>`,
+  dibuja:`<p>Dos <span class="m">V</span>. La interior es el universo de partida; la exterior, más ancha, es la extensión. <b>Mismo vértice, misma altura, distinto ancho</b> — y esa es la firma exacta de la extensión genérica, que ningún otro par de formas anidadas tiene: <span class="mr">Ord<sup>V</sup> = Ord<sup>V[G]</sup></span>. La extensión no es más alta, es más ancha. Un engordamiento lateral a lo largo de la misma columna vertebral.</p>`,
+  teorema:{ titulo:"Extensión genérica", cuerpo:`Sea <span class="mr">ℙ ∈ V</span> un orden parcial y <span class="mr">G ⊆ ℙ</span> un filtro genérico sobre <span class="mr">V</span> — que corta todo denso <span class="mr">D ∈ V</span>. Entonces <span class="mr">V[G] = {τ<sub>G</sub> : τ ∈ V<sup>ℙ</sup>}</span> satisface ZFC, contiene a <span class="mr">V</span> y a <span class="m">G</span>, tiene los mismos ordinales, y es el menor con esas propiedades.` },
+  porque:`<p>La minimalidad es una propiedad universal, así que esta figura también pertenece a la sección II. Pero pertenece aquí por una razón más fuerte: en la versión de valores booleanos, <span class="mr">V[G] ≅ V<sup>𝔹</sup>/G</span>.</p>
+  <p><b>Adjuntar es cocientar.</b> <span class="mr">V[G]</span> es a <span class="mr">V</span> lo que <span class="mr">ℝ[i]</span> es a <span class="mr">ℝ</span>, y el paralelismo notacional del wordmark no es accidente: <span class="mr">ℝ[i] ≅ ℝ[x]/(x²+1)</span>. Las dos marcas de Factorizando son cocientes disfrazados de adjunciones.</p>`,
+  notas:[
+    `<b>La maquinaria completa vive dentro de <span class="mr">V</span>.</b> Los nombres <span class="mr">τ ∈ V<sup>ℙ</sup></span>, la relación de forcing <span class="mr">p ⊩ φ</span> definida en <span class="mr">V</span>, y el teorema de la verdad: <span class="mr">V[G] ⊨ φ</span> si y solo si algún <span class="mr">p ∈ G</span> fuerza <span class="m">φ</span>. Todo lo que pasa afuera ya era decidible adentro.`,
+    `<b>Para qué se inventó.</b> Con <span class="mr">ℙ = Fn(ℵ<sub>2</sub>×ω, 2)</span> se añaden <span class="mr">ℵ<sub>2</sub></span> reales y <span class="mr">V[G] ⊨ ¬CH</span>. Con <span class="mr">L</span> de Gödel del otro lado, la hipótesis del continuo es independiente de ZFC — el primer problema de Hilbert, cerrado por ser indecidible.`,
+    `<b>Y la extensión misma se factoriza.</b> Teorema de modelos intermedios (Solovay): si <span class="mr">V ⊆ M ⊆ V[G]</span> con <span class="mr">M ⊨ ZFC</span>, entonces <span class="mr">M = V[G<sub>0</sub>]</span> para una subálgebra completa <span class="mr">𝔹<sub>0</sub> ⊆ 𝔹</span>; equivalentemente <span class="mr">𝔹 ≅ 𝔹<sub>0</sub> ∗ 𝔹̇<sub>1</sub></span>. El retículo de modelos intermedios es isomorfo al de subálgebras completas: <b>es la correspondencia de Galois otra vez</b>, con <span class="mr">𝔹</span> en el papel del grupo.`,
+    `<b>La extensión recuerda de dónde vino.</b> Definibilidad del modelo base (Laver, Woodin): <span class="mr">V</span> es definible en <span class="mr">V[G]</span> con un parámetro. De ahí la geología de conjuntos — los <i>grounds</i>, el manto, y el teorema de Usuba. Se puede excavar hacia el pasado.`,
+    `<b>Y <span class="mr">V</span> ya es una extensión genérica.</b> Teorema de Vopěnka: todo conjunto de ordinales está en una extensión genérica de <span class="mr">HOD</span>. La relación <span class="mr">V ⊆ V[G]</span> no describe algo que le hacemos al universo desde fuera: describe su estructura interna. Mirar hacia arriba y mirar hacia adentro son la misma operación.`,
+  ],
+  rel:["ult-vu","galois","ultraproducto","tribar"],
+},
+{
+  id:"galois", fam:"III", nombre:"Correspondencia de Galois", ref:"Retículas espejo", fav:true,
+  area:"Álgebra", quien:"Galois, 1832 · Artin, 1942",
+  arte:`<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M27 17Q13 30 13 44Q13 58 27 71Q41 58 41 44Q41 30 27 17Z"/><path d="M73 83Q87 70 87 56Q87 42 73 29Q59 42 59 56Q59 70 73 83Z" opacity=".55"/><g fill="currentColor" stroke="none"><circle cx="27" cy="17" r="5.5"/><circle cx="27" cy="71" r="5.5"/><circle cx="73" cy="29" r="5.5"/><circle cx="73" cy="83" r="5.5"/></g></svg>`,
+  dibuja:`<p>Dos retículas idénticas, una girada respecto de la otra. Arriba a la izquierda, los cuerpos intermedios; abajo a la derecha, los subgrupos. Están <b>reflejadas</b>, no copiadas, porque la correspondencia invierte el orden: cuanto más grande el grupo, más pequeño el cuerpo fijo. La atenuación de la segunda dice cuál es la imagen de cuál.</p>`,
+  teorema:{ titulo:"Teorema fundamental de la teoría de Galois", cuerpo:`Si <span class="m">L</span>/<span class="m">K</span> es finita y de Galois con <span class="mr">G = Gal(L/K)</span>, las aplicaciones <span class="m">H</span> ↦ <span class="m">L<sup>H</sup></span> y <span class="m">F</span> ↦ <span class="mr">Gal(L/F)</span> son biyecciones mutuamente inversas entre subgrupos de <span class="m">G</span> y cuerpos intermedios, y <b>invierten el orden</b>. Además <span class="m">F</span>/<span class="m">K</span> es de Galois si y solo si <span class="mr">Gal(L/F) ◁ G</span>, y entonces <span class="mr">Gal(F/K) ≅ G/Gal(L/F)</span>.` },
+  porque:`<p><span class="mr">K = L<sup>G</sup></span>. El cuerpo base es lo que queda de <span class="m">L</span> tras olvidar la simetría: es el cociente, aunque se escriba como conjunto de puntos fijos. Adjuntar y cocientar, otra vez, la misma operación por los dos lados.</p>
+  <p>Y los grados se multiplican en torres, <span class="mr">[M:F] = [M:L][L:F]</span>, igual que los índices de subgrupos y que <span class="mr">|G| = [G:H]·|H|</span> en Lagrange. Toda torre es una factorización del grado.</p>`,
+  notas:[
+    `<b>La consecuencia célebre:</b> la ecuación general de grado ≥ 5 no se resuelve por radicales, porque <span class="mr">S<sub>n</sub></span> deja de ser soluble. Un enunciado sobre fórmulas, decidido por uno sobre grupos.`,
+    `<b>El patrón se repite en todas partes:</b> cubrientes (subgrupos de <span class="mr">π<sub>1</sub></span> ↔ cubrientes), la geología del forcing (subálgebras de <span class="mr">𝔹</span> ↔ modelos intermedios), la teoría de Galois diferencial, y en general cualquier conexión de Galois entre dos retículas.`,
+    `<b>Grothendieck cerró el círculo:</b> su <span class="mr">π<sub>1</sub><sup>ét</sup></span> aplicado a <span class="mr">Spec(k)</span> devuelve <span class="mr">Gal(k̄/k)</span>. La teoría de Galois clásica es la teoría de cubrientes de un punto.`,
+  ],
+  rel:["cubriente-universal","vg","serie-composicion","stone"],
+},
+{
+  id:"stone", fam:"III", nombre:"Espacio de Stone", ref:"Clopens ↔ ultrafiltros",
+  area:"Lógica · Topología", quien:"Stone, 1936",
+  arte:`<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"><circle cx="50" cy="50" r="35"/><path d="M50 15Q56 50 50 85" stroke-width="2.6" opacity=".45"/><path d="M15 50Q50 44 85 50" stroke-width="2.6" opacity=".45"/><g fill="currentColor" stroke="none"><circle cx="33" cy="31" r="6"/><circle cx="69" cy="33" r="6"/><circle cx="31" cy="69" r="6"/><circle cx="67" cy="67" r="6"/></g></svg>`,
+  dibuja:`<p>Un círculo partido por dos cortes en cuatro regiones, con un punto en cada una. Las regiones son los abiertos-cerrados del espacio; los puntos, los ultrafiltros. Cada punto es la elección coherente de un lado en cada corte — y con dos cortes hay exactamente cuatro maneras de elegir, que es por lo que hay cuatro puntos y no cinco.</p>`,
+  teorema:{ titulo:"Teorema de representación de Stone", cuerpo:`La categoría de álgebras booleanas es <b>antiequivalente</b> a la de espacios compactos, Hausdorff y totalmente disconexos. A un álgebra <span class="m">B</span> se le asocia <span class="mr">S(B)</span>, el conjunto de sus ultrafiltros con la topología generada por los <span class="mr">â = {U : a ∈ U}</span>; los abiertos-cerrados de <span class="mr">S(B)</span> son exactamente esos, y <span class="mr">B ≅ Clop(S(B))</span>.` },
+  porque:`<p>Un ultrafiltro es una manera consistente de decidir, para cada elemento, si vale o no. El punto del espacio <i>es</i> el cociente del álgebra por esa decisión — y por eso esta figura vive en esta sección y no entre los productos.</p>
+  <p>La palabra que carga el teorema es <b>anti</b>equivalente: un morfismo de álgebras da un mapa continuo <i>al revés</i>. Álgebra y geometría son la misma información leída en direcciones opuestas. El mismo gesto que Gelfand (<span class="mr">C*</span>-álgebras conmutativas ↔ compactos) y que <span class="mr">Spec</span> en geometría algebraica.</p>`,
+  notas:[
+    `<b>Tiene un precio lógico exacto.</b> El teorema del ultrafiltro — todo filtro se extiende a uno ultra — es estrictamente más débil que el axioma de elección. La geometría de esta figura cuesta menos que AC, y se sabe cuánto menos.`,
+    `<b>El álgebra booleana <span class="mr">2³</span></b> es a la vez el retículo de divisores de <span class="mr">pqr</span>, el retículo de subgrupos de <span class="mr">(ℤ/2)³</span>, y un espacio de Stone de tres puntos: cuatro áreas en una sola figura. Como ilustración es magnífica; como avatar se convierte en una mancha a 32 px.`,
+    `<b>Y es el puente al forcing:</b> <span class="mr">𝔹 = ro(ℙ)</span> es un álgebra booleana completa, y el filtro genérico <span class="m">G</span> es el ultrafiltro que elige un valor de verdad para cada enunciado. <span class="mr">V[G] = V<sup>𝔹</sup>/G</span> es esta figura aplicada al universo entero.`,
+  ],
+  rel:["ultraproducto","vg","galois"],
+},
+{
+  id:"ultraproducto", fam:"III", nombre:"Ultraproducto", ref:"∏Mᵢ / U",
+  area:"Teoría de modelos", quien:"Łoś, 1955 · Robinson, 1961",
+  arte:`<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><path d="M21 18Q18 40 21 58M40 18Q37 40 40 58M60 18Q57 40 60 58M79 18Q76 40 79 58" opacity=".45"/><path d="M14 38Q50 32 86 38" stroke-width="3.6"/><g fill="currentColor" stroke="none"><circle cx="20" cy="36" r="6"/><circle cx="39" cy="34" r="6"/><circle cx="59" cy="34" r="6"/><circle cx="78" cy="36" r="6"/><circle cx="50" cy="82" r="9"/></g></svg>`,
+  dibuja:`<p>Cuatro columnas tenues — las estructuras <span class="m">M<sub>i</sub></span> — atravesadas por una línea gruesa que las corta a todas: el ultrafiltro, que decide qué índices cuentan. Abajo, un solo nodo grande y solitario: la estructura cociente. Las columnas están atenuadas y la línea no, porque el teorema es sobre la línea.</p>`,
+  teorema:{ titulo:"Teorema de Łoś", cuerpo:`<span class="mr">∏M<sub>i</sub>/U ⊨ φ([f<sub>1</sub>],…,[f<sub>n</sub>])</span> si y solo si <span class="mr">{i : M<sub>i</sub> ⊨ φ(f<sub>1</sub>(i),…,f<sub>n</sub>(i))} ∈ U</span>. La verdad se calcula coordenada a coordenada y se decide por mayoría según <span class="m">U</span>.` },
+  porque:`<p>En <span class="mr">∏<sub>i∈I</sub> M<sub>i</sub></span> se identifican <span class="m">f</span> ∼ <span class="m">g</span> cuando coinciden en un conjunto de <span class="m">U</span>. <b><span class="m">U</span> es la simetría por la que se cocienta:</b> dice qué diferencias son invisibles.</p>
+  <p>Łoś es lo que hace que la construcción sirva para algo: preserva toda la lógica de primer orden, no solo la estructura algebraica. De ahí sale el teorema de compacidad sin más trabajo.</p>`,
+  notas:[
+    `<b>Los hiperreales.</b> <span class="mr">ℝ<sup>ℕ</sup>/U</span> es un cuerpo ordenado no arquimediano donde la sucesión <span class="mr">(1, ½, ⅓, …)</span> se vuelve un infinitesimal genuino. El análisis no estándar de Robinson le da sentido literal a la palabra que Leibniz usaba sin poder definir.`,
+    `<b>Y la ultrapotencia de <span class="mr">V</span></b> por un ultrafiltro <span class="m">κ</span>-completo es la figura <i>Ult(V,U)</i>. La misma construcción, aplicada al universo, se vuelve la teoría de cardinales grandes.`,
+    `La notación de esta figura, <span class="mr">[f]<sub>U</sub></span>, es la que más literalmente conecta con el wordmark: el corchete de clase de equivalencia con el subíndice del ultrafiltro.`,
+  ],
+  rel:["stone","ult-vu","corchete-f"],
+},
+{
+  id:"independencia", fam:"III", nombre:"Independencia", ref:"P(A∩B) = P(A)P(B)",
+  area:"Probabilidad", quien:"Kolmogórov, 1933",
+  arte:`<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><rect x="15" y="22" width="70" height="58" rx="14" stroke-width="3.2" opacity=".45"/><path d="M45 22V80M15 51H85" stroke-width="3.2" opacity=".45"/><path d="M15 36Q15 22 29 22H45V51H15Z" fill="currentColor" stroke="none"/></svg>`,
+  dibuja:`<p>Un rectángulo partido por una vertical y una horizontal. El bloque macizo es <span class="mr">A ∩ B</span>, y su área es el producto del ancho de la franja por el alto de la banda. Eso es todo: la independencia es literalmente el dibujo de un rectángulo, y el teorema es que el área de un rectángulo es base por altura.</p>`,
+  teorema:{ titulo:"Independencia", cuerpo:`<span class="m">A</span> y <span class="m">B</span> son independientes si <span class="mr">P(A ∩ B) = P(A)·P(B)</span>. Cuando <span class="mr">P(B) &gt; 0</span> equivale a <span class="mr">P(A|B) = P(A)</span>: saber <span class="m">B</span> no cambia nada sobre <span class="m">A</span>.` },
+  porque:`<p>El concepto central de toda la disciplina es una condición de producto. La medida conjunta se parte en producto de marginales, <span class="mr">(Ω, ℱ, P) ≅ (Ω<sub>1</sub>×Ω<sub>2</sub>, ℱ<sub>1</sub>⊗ℱ<sub>2</sub>, P<sub>1</sub>⊗P<sub>2</sub>)</span>, y Fubini es lo que lo vuelve calculable.</p>
+  <p>Es el único diagrama de la biblioteca que un alumno de bachillerato puede leer entero — y dice lo mismo que los otros diecinueve.</p>`,
+  notas:[
+    `<b>La trampa que hay que enseñar:</b> independencia dos a dos no implica independencia conjunta. Dos monedas justas y su XOR: cualquier par es independiente, las tres juntas no. Es un contraejemplo de tres líneas y desarma la intuición de golpe.`,
+    `<b>La independencia condicional</b> <span class="mr">P(A∩B|C) = P(A|C)P(B|C)</span> ni implica ni se sigue de la incondicional. Es la que sostiene los modelos gráficos, y Hammersley–Clifford dice que la conjunta se factoriza sobre los cliques del grafo — factorización otra vez, ahora como algoritmo.`,
+    `<b>La gaussiana se comporta como un primo:</b> teorema de Cramér, si <span class="mr">X + Y</span> es normal con <span class="m">X</span>, <span class="m">Y</span> independientes, entonces ambas lo son.`,
+  ],
+  rel:["producto-proyecciones","fourier"],
+},
+{
+  id:"fourier", fam:"III", nombre:"Fourier", ref:"Descomposición en modos",
+  area:"Análisis · Representaciones", quien:"Fourier, 1822 · Peter–Weyl, 1927",
+  arte:`<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M13 26C25 6 33 44 45 26S65 6 77 26 87 22 87 22" stroke-width="4.2"/><path d="M13 56C25 42 33 70 45 56S65 42 77 56 87 52 87 52" stroke-width="3.2" opacity=".7"/><path d="M13 82C21 74 29 90 37 82S53 74 61 82 77 74 87 82" stroke-width="2.6" opacity=".45"/></svg>`,
+  dibuja:`<p>Tres ondas apiladas, cada una más tenue y más delgada que la anterior. La de arriba es la señal; las de abajo, los modos en que se descompone. La atenuación descendente no es solo jerarquía visual: es la caída de los coeficientes, que es la razón por la que truncar la serie funciona.</p>`,
+  teorema:{ titulo:"Serie de Fourier · Parseval", cuerpo:`<span class="mr">{e<sup>2πinx</sup>}<sub>n∈ℤ</sub></span> es base ortonormal de <span class="mr">L²(S¹)</span>. Por tanto toda <span class="m">f</span> ∈ <span class="mr">L²</span> es <span class="mr">f = ∑<sub>n</sub> f̂(n) e<sup>2πinx</sup></span> con convergencia en norma, y <span class="mr">‖f‖² = ∑ |f̂(n)|²</span>.` },
+  porque:`<p>Esta figura pertenece a la sección I y a la III al mismo tiempo, y es la mejor demostración de que los tres moldes son uno. Los <span class="mr">e<sup>2πinx</sup></span> son los <b>caracteres del grupo <span class="mr">S¹</span></b>, y el teorema es la descomposición de la representación regular en irreducibles.</p>
+  <p>Fourier es simultáneamente descomponer en átomos y diagonalizar la simetría de traslación. Y por eso la transformada convierte convolución en producto: está diagonalizando el operador que conmuta con las traslaciones.</p>`,
+  notas:[
+    `<b>La generalización correcta</b> es Pontryagin para grupos abelianos localmente compactos — <span class="mr">ℝ</span>, <span class="mr">ℤ</span>, <span class="mr">S¹</span> y <span class="mr">ℤ/n</span> son duales entre sí y la transformada es la misma en los cuatro casos — y Peter–Weyl para grupos compactos no abelianos.`,
+    `<b>Y en análisis funcional</b> la misma idea da Beurling (los subespacios invariantes del shift son <span class="mr">θH²</span>, con factorización interior–exterior) y la descomposición de Lebesgue <span class="mr">μ = μ<sub>ac</sub> + μ<sub>s</sub></span>.`,
+    `Como marca es la más cálida de las veinte — puras curvas, sin nodos ni aristas — y la que peor identifica a Factorizando: tres ondas apiladas son el logotipo de cualquier app de audio.`,
+  ],
+  rel:["bloques-diagonales","svd","independencia"],
+},
+
+/* ---------------- IV. La marca misma ---------------- */
+{
+  id:"tribar", fam:"IV", nombre:"El tribar", ref:"El circuito que no cierra", fav:true,
+  area:"Cohomología · Figuras imposibles", quien:"Reutersvärd, 1934 · Penrose, 1958",
+  arte:`<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linejoin="round" stroke-linecap="round"><path d="M 17.96 20.12 L 30.28 13 L 42.61 20.12 L 42.61 79.88 L 30.28 87 L 17.96 79.88 Z" fill="var(--fig-hueco)"/><path d="M 17.96 20.12 L 30.28 13 L 82.04 42.88 L 82.04 57.12 L 69.72 64.23 L 17.96 34.35 Z" fill="var(--fig-hueco)"/><path d="M 17.96 65.65 L 69.72 35.77 L 82.04 42.88 L 82.04 57.12 L 30.28 87 L 17.96 79.88 Z" fill="var(--fig-hueco)"/><g fill="currentColor" stroke="none"><circle cx="30.28" cy="27.23" r="6.5"/><circle cx="69.72" cy="50" r="6.5"/><circle cx="30.28" cy="72.77" r="6.5"/></g></svg>`,
+  dibuja:`<p>Tres vigas en un circuito, y tres nodos marcados: los vértices del diagrama. La geometría no está dibujada a ojo. Son tres prismas recorriendo <span class="mr">(0,0,0) → (L,0,0) → (L,L,0) → (L,L,L)</span>, proyectados isométricamente. El punto final <span class="mr">(L,L,L)</span> cae exactamente sobre el origen porque <span class="mr">(1,1,1)</span> es la dirección de vista.</p>
+  <p><b>Ahí está la imposibilidad, en una sola coordenada.</b> El cuarto vértice —el que cerraría el circuito— no aparece en el dibujo porque cae encima del primero. Es tribar y diagrama conmutativo en la misma figura, sin que ninguno de los dos parezca añadido.</p>`,
+  teorema:{ titulo:"La obstrucción vive en H¹", cuerpo:`Cúbrase la figura por abiertos <span class="m">U<sub>i</sub></span> sobre los que sí existe una interpretación tridimensional coherente. En cada solapamiento las dos interpretaciones difieren por un factor de profundidad <span class="mr">λ<sub>ij</sub> &gt; 0</span>. Los <span class="mr">λ<sub>ij</sub></span> forman un cociclo, y la figura es realizable si y solo si ese cociclo es un coborde. La clase vive en <span class="mr">H¹(X; ℝ⁺) ≅ H¹(S¹; ℝ) ≅ ℝ</span>, porque el tribar es homotópicamente equivalente a un círculo.` },
+  porque:`<p>Es un diagrama que <b>no</b> conmuta. Recorrer el circuito y volver no da la identidad: da un factor. La imposibilidad no es un truco de dibujo, es un número real — y es el mismo número que el "no conmuta" de un triángulo.</p>
+  <p>Cada viga es localmente consistente. La obstrucción es global. Eso es exactamente lo que dice <span class="mr">H¹</span>, y es la estructura de casi todo lo que hay en esta biblioteca:</p>`,
+  tabla:{
+    cab:["Objeto","Local","Global falla","Obstrucción"],
+    filas:[
+      ["Tribar de Penrose","cada viga es real","no cierra en 3D",`<span class="mr">H¹(S¹; ℝ)</span>`],
+      ["Factorización en <span class='mr'>𝒪<sub>K</sub></span>",`en cada <span class="m">p</span> es DIP`,"no hay DFU","grupo de clases"],
+      ["Cubriente universal",`<span class="mr">U × F</span> trivial`,`<span class="mr">X̃ ≇ X × F</span>`,`monodromía <span class="mr">π<sub>1</sub></span>`],
+      ["Inmersiones elementales",`<span class="m">j</span>: <span class="mr">V → M</span> existe`,`<span class="m">j</span>: <span class="mr">V → V</span> no`,"inconsistencia de Kunen"],
+      ["Principio de Hasse",`soluble en cada <span class="mr">ℚ<sub>p</sub></span>`,`no en <span class="mr">ℚ</span>`,"Ш de Tate–Šafarevič"],
+    ],
+  },
+  notas:[
+    `<b>El tribar es el cubriente universal.</b> La figura posible existe en <span class="mr">ℝ</span> — una hélice infinita de vigas que sube; al proyectar sobre <span class="mr">S¹</span> se vuelve el triángulo imposible. Dar la vuelta y quedar desplazado es precisamente lo que hace <span class="mr">ℝ → S¹</span>. Esta figura y la del cubriente son el mismo dibujo.`,
+    `<b>Y es Kunen palabra por palabra:</b> localmente <span class="mr">V</span> se refleja en sí mismo tan bien como se quiera; globalmente, nunca. Hay un techo estructural a la autosemejanza.`,
+    `<b>Advertencia uno: el tribar no es tuyo.</b> Es un símbolo cultural muy reconocible — Reutersvärd, Escher, incontables marcas. Heredas reconocimiento a cambio de originalidad. La versión con nodos lo personaliza; la clásica no.`,
+    `<b>Advertencia dos:</b> arrastra una connotación de truco visual que puede chocar con una marca educativa. "Lo imposible" es buen concepto para arte; para enseñar a quien va a presentar el EXANI quizá comunique lo contrario de lo que quieres.`,
+    `<b>Advertencia tres: es denso.</b> Tres prismas con caras y aristas es mucha información comparado con dos <span class="m">V</span> anidadas. Quitar las líneas internas parece una pérdida y no lo es: el tribar se reconoce por su contorno, y solo la silueta aguanta a 26 px.`,
+    `<b>A cambio, tiene lo que ninguna otra opción tiene:</b> se explica en un párrafo que un estudiante entiende — "cada parte funciona, el todo no" — y en otro que un matemático celebra. Ese doble registro es el objetivo desde el principio.`,
+  ],
+  rel:["cubriente-universal","ult-vu","primo-parte","postnikov"],
+},
+{
+  id:"corchete-f", fam:"IV", nombre:"El corchete y la efe", ref:"[f] — la clase de f",
+  area:"Notación", quien:"El wordmark",
+  arte:`<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round"><path d="M37 20H25V80H37"/><path d="M63 20H75V80H63"/><text x="50.5" y="50" text-anchor="middle" dominant-baseline="central" font-family="'Source Serif 4',Georgia,serif" font-style="italic" font-weight="600" font-size="52" fill="currentColor" stroke="none">f</text></svg>`,
+  dibuja:`<p>Dos corchetes dibujados a medida y una efe itálica en medio. Los corchetes no son los de ninguna tipografía: los delimitadores de una fuente están diseñados para acompañar texto corrido, no para ser el cuarenta por ciento de un logotipo. Dibujarlos da control exacto de altura, grosor y largo de brazo — y sobre todo permite que el grosor del corchete iguale al asta de la efe, que es lo que unifica la pieza.</p>
+  <p>La letra va en itálica y los delimitadores rectos. Eso no es capricho: es la convención matemática real — las variables se inclinan, los operadores no — y genera una tensión entre trazos rectos e inclinados que ningún logotipo tipográfico normal tiene.</p>`,
+  teorema:{ titulo:"Las cinco gramáticas del corchete", cuerpo:`<b class="mr">(A) Adjunción:</b> <span class="mr">R[α]</span>, el subanillo más chico que contiene a <span class="m">R</span> y a <span class="m">α</span> — la imagen de la evaluación <span class="mr">R[x] → S</span>. &nbsp;<b class="mr">(B) Clase de equivalencia:</b> <span class="mr">[x]</span>, el cociente; incluye <span class="mr">[f]<sub>U</sub></span> y <span class="mr">[γ] ∈ π<sub>1</sub></span>. &nbsp;<b class="mr">(C) Índice:</b> <span class="mr">[L:F]</span>, <span class="mr">[G:H]</span>. &nbsp;<b class="mr">(D) Operación binaria:</b> conmutador, corchete de Lie, de Poisson. &nbsp;<b class="mr">(E) Hom:</b> <span class="mr">[X,Y]</span> clases de homotopía, <span class="mr">[𝒞,𝒟]</span> categoría de functores.` },
+  porque:`<p>En cuanto se cocienta por una simetría, los objetos se escriben entre corchetes. <span class="mr">[x]</span> en <span class="mr">ℤ/n</span>, <span class="mr">[γ]</span> en <span class="mr">π<sub>1</sub></span>, <span class="mr">[f]<sub>U</sub></span> en la ultrapotencia, <span class="mr">[f]</span> en <span class="mr">L²</span> por igualdad casi doquiera. <b>El corchete es el operador que la notación esconde</b>, y es el verbo de la marca.</p>
+  <p>La efe es de función y de Factorizando a la vez. El logotipo dice el sujeto y el verbo en dos caracteres, y funciona en tres niveles: quien no sabe matemáticas lee "F de Factorizando"; quien sabe lee "una función"; y quien sabe más lee "la clase de <span class="m">f</span>". Además <span class="m">f</span> es precisamente el objeto que se factoriza, <span class="m">f</span> = <span class="m">m</span> ∘ <span class="m">e</span>.</p>`,
+  notas:[
+    `<b>Y el chiste del wordmark es mejor de lo que parece.</b> <span class="mr">ℝ[i] ≅ ℝ[x]/(x²+1) ≅ ℂ</span> — pero <span class="mr">(ℤ/5)[i] ≅ ℤ/5 × ℤ/5</span>, porque sobre <span class="mr">𝔽<sub>5</sub></span> se tiene <span class="mr">x²+1 = (x+2)(x+3)</span>. La misma notación, el mismo polinomio, y el resultado ya no es un campo sino un producto con divisores de cero. <b><span class="mr">R[i]</span> es un campo si y solo si <span class="mr">x²+1</span> es irreducible sobre <span class="mr">R</span>:</b> el significado del corchete queda determinado por si algo factoriza o no.`,
+    `<b>Segunda lectura legítima:</b> si la <span class="m">i</span> es el generador de <span class="mr">C<sub>4</sub></span> en lugar de la unidad imaginaria, entonces <span class="mr">ℝ[i] = ℝ[C<sub>4</sub>] ≅ ℝ[x]/(x⁴−1) ≅ ℝ × ℝ × ℂ</span>, porque <span class="mr">x⁴−1 = (x−1)(x+1)(x²+1)</span>. Los mismos cinco caracteres, dos lecturas correctas, y una contiene a la otra.`,
+    `<b>La prueba de escala.</b> Se probaron tres cortes: Source Serif 4 (corchete 4.2, alto 80, con descendente), IBM Plex Sans (4.8, alto 64, sin descendente — la que mejor escala, con diferencia) y Spectral (3.8, la itálica más bonita y la más frágil en chico). A 20 px solo IBM Plex conserva los tres elementos separados.`,
+    `<b>El favicon debe ser un dibujo distinto, no una reducción.</b> Brazo más corto, grosor relativo mayor, holgura más apretada. Todo sistema de identidad serio dibuja glifos separados para 16 px; no es un parche.`,
+    `<b>Y sobre fondo oscuro, el corchete va un pelo más fino</b> — unas dos décimas de píxel. La irradiación engorda ópticamente los trazos claros sobre fondo oscuro. Es microscópico y es de los ajustes que separan un sistema de identidad de un logotipo suelto.`,
+    `<b>La objeción honesta:</b> <span class="mr">[f]</span> es limpia, escala bien y es la opción más segura de todas. Es un corchete con una letra — elegante, correcta, y replicable por cualquiera en veinte minutos. El tribar con nodos es el único mark de esta biblioteca que nadie más tiene.`,
+  ],
+  rel:["ultraproducto","vg","f-m-e","tribar"],
+},
+
+
+/* ---------------- V. Variantes del tribar ---------------- */
+{
+  id:"var-penrose-tribar-calido", fam:"V", grupo:"Silueta gruesa",
+  nombre:"Tribar cálido", ref:"Trazo grueso, uniones redondas. La base de todo lo demás.", fondo:"tema",
+  geometria:"Vigas gruesas con contorno. El circuito (0,0,0) → (L,0,0) → (L,L,0) → (L,L,L) proyectado isométricamente.",
+  arte:`<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"><path d="M 17.96 20.12 L 30.28 13 L 42.61 20.12 L 42.61 79.88 L 30.28 87 L 17.96 79.88 Z" fill="var(--fig-hueco)"/><path d="M17.96 79.88L30.28 72.77M42.61 79.88L30.28 72.77M30.28 13L30.28 72.77"/><path d="M 17.96 20.12 L 30.28 13 L 82.04 42.88 L 82.04 57.12 L 69.72 64.23 L 17.96 34.35 Z" fill="var(--fig-hueco)"/><path d="M17.96 34.35L30.28 27.23M82.04 57.12L30.28 27.23M30.28 13L30.28 27.23"/><path d="M 17.96 65.65 L 69.72 35.77 L 82.04 42.88 L 82.04 57.12 L 30.28 87 L 17.96 79.88 Z" fill="var(--fig-hueco)"/><path d="M17.96 79.88L69.72 50M82.04 57.12L69.72 50M69.72 35.77L69.72 50"/></svg>`,
+},
+{
+  id:"var-penrose-solo-silueta", fam:"V", grupo:"Silueta gruesa",
+  nombre:"Solo silueta", ref:"Sin líneas internas. Aguanta mucho mejor en chico.", fondo:"tema",
+  geometria:"Vigas gruesas con contorno. El circuito (0,0,0) → (L,0,0) → (L,L,0) → (L,L,L) proyectado isométricamente.",
+  arte:`<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"><path d="M 17.96 20.12 L 30.28 13 L 42.61 20.12 L 42.61 79.88 L 30.28 87 L 17.96 79.88 Z" fill="var(--fig-hueco)"/><path d="M 17.96 20.12 L 30.28 13 L 82.04 42.88 L 82.04 57.12 L 69.72 64.23 L 17.96 34.35 Z" fill="var(--fig-hueco)"/><path d="M 17.96 65.65 L 69.72 35.77 L 82.04 42.88 L 82.04 57.12 L 30.28 87 L 17.96 79.88 Z" fill="var(--fig-hueco)"/></svg>`,
+},
+{
+  id:"var-penrose-con-los-tres-objetos", fam:"V", grupo:"Silueta gruesa",
+  nombre:"Con los tres objetos", ref:"Los vértices del circuito, marcados. Tribar + diagrama conmutativo.", fondo:"tema",
+  geometria:"Vigas gruesas con contorno. El circuito (0,0,0) → (L,0,0) → (L,L,0) → (L,L,L) proyectado isométricamente.",
+  arte:`<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linejoin="round" stroke-linecap="round"><path d="M 17.96 20.12 L 30.28 13 L 42.61 20.12 L 42.61 79.88 L 30.28 87 L 17.96 79.88 Z" fill="var(--fig-hueco)"/><path d="M 17.96 20.12 L 30.28 13 L 82.04 42.88 L 82.04 57.12 L 69.72 64.23 L 17.96 34.35 Z" fill="var(--fig-hueco)"/><path d="M 17.96 65.65 L 69.72 35.77 L 82.04 42.88 L 82.04 57.12 L 30.28 87 L 17.96 79.88 Z" fill="var(--fig-hueco)"/><g fill="currentColor" stroke="none"><circle cx="30.28" cy="27.23" r="6.5"/><circle cx="69.72" cy="50" r="6.5"/><circle cx="30.28" cy="72.77" r="6.5"/></g></svg>`,
+},
+{
+  id:"var-penrose-en-el-medallon", fam:"V", grupo:"Silueta gruesa",
+  nombre:"En el medallón", ref:"El formato circular que ya venías usando.", fondo:"tema",
+  geometria:"Vigas gruesas con contorno. El circuito (0,0,0) → (L,0,0) → (L,L,0) → (L,L,L) proyectado isométricamente.",
+  arte:`<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"><circle cx="50" cy="50" r="45" opacity=".35"/><g transform="translate(50 50) scale(.76) translate(-50 -50)"><path d="M 17.96 20.12 L 30.28 13 L 42.61 20.12 L 42.61 79.88 L 30.28 87 L 17.96 79.88 Z" fill="var(--fig-hueco)" stroke-width="4.5"/><path d="M 17.96 20.12 L 30.28 13 L 82.04 42.88 L 82.04 57.12 L 69.72 64.23 L 17.96 34.35 Z" fill="var(--fig-hueco)" stroke-width="4.5"/><path d="M 17.96 65.65 L 69.72 35.77 L 82.04 42.88 L 82.04 57.12 L 30.28 87 L 17.96 79.88 Z" fill="var(--fig-hueco)" stroke-width="4.5"/></g></svg>`,
+},
+{
+  id:"var-penrose-sobre-azul", fam:"V", grupo:"Silueta gruesa",
+  nombre:"Sobre azul", ref:"Disco lleno, tribar calado. Máximo contraste en feed.", fondo:"tema",
+  geometria:"Vigas gruesas con contorno. El circuito (0,0,0) → (L,0,0) → (L,L,0) → (L,L,L) proyectado isométricamente.",
+  arte:`<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#4A9EE8"/><g fill="none" stroke="#13161A" stroke-width="4" stroke-linejoin="round" stroke-linecap="round" transform="translate(50 50) scale(.72) translate(-50 -50)"><path d="M 17.96 20.12 L 30.28 13 L 42.61 20.12 L 42.61 79.88 L 30.28 87 L 17.96 79.88 Z" fill="#4A9EE8"/><path d="M 17.96 20.12 L 30.28 13 L 82.04 42.88 L 82.04 57.12 L 69.72 64.23 L 17.96 34.35 Z" fill="#4A9EE8"/><path d="M 17.96 65.65 L 69.72 35.77 L 82.04 42.88 L 82.04 57.12 L 30.28 87 L 17.96 79.88 Z" fill="#4A9EE8"/></g></svg>`,
+},
+{
+  id:"var-penrose-la-junta-abierta", fam:"V", grupo:"Silueta gruesa",
+  nombre:"La junta abierta", ref:"La obstrucción, visible. El circuito no cierra — y se ve.", fondo:"tema",
+  geometria:"Vigas gruesas con contorno. El circuito (0,0,0) → (L,0,0) → (L,L,0) → (L,L,L) proyectado isométricamente.",
+  arte:`<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"><path d="M 17.96 20.12 L 30.28 13 L 42.61 20.12 L 42.61 79.88 L 30.28 87 L 17.96 79.88 Z" fill="var(--fig-hueco)"/><path d="M 17.96 20.12 L 30.28 13 L 82.04 42.88 L 82.04 57.12 L 69.72 64.23 L 17.96 34.35 Z" fill="var(--fig-hueco)"/><path d="M 27.5 61 L 69.72 36.6 L 82.04 43.7 L 82.04 57.12 L 36.5 83.2"/></svg>`,
+},
+{
+  id:"var-penrose-puntos-convergentes", fam:"V", grupo:"Silueta gruesa",
+  nombre:"Puntos convergentes", ref:"El gradiente de rondas anteriores, recorriendo el circuito.", fondo:"tema",
+  geometria:"Vigas gruesas con contorno. El circuito (0,0,0) → (L,0,0) → (L,L,0) → (L,L,L) proyectado isométricamente.",
+  arte:`<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M 17.96 20.12 L 30.28 13 L 42.61 20.12 L 42.61 79.88 L 30.28 87 L 17.96 79.88 Z" fill="var(--fig-hueco)" opacity=".55"/><path d="M 17.96 20.12 L 30.28 13 L 82.04 42.88 L 82.04 57.12 L 69.72 64.23 L 17.96 34.35 Z" fill="var(--fig-hueco)" opacity=".55"/><path d="M 17.96 65.65 L 69.72 35.77 L 82.04 42.88 L 82.04 57.12 L 30.28 87 L 17.96 79.88 Z" fill="var(--fig-hueco)" opacity=".55"/><g fill="currentColor" stroke="none"><circle cx="34.6" cy="34.4" r="2.5"/><circle cx="43.8" cy="39.7" r="2.2"/><circle cx="52" cy="44.4" r="1.9"/><circle cx="59" cy="48.5" r="1.6"/><circle cx="64.6" cy="51.7" r="1.3"/><circle cx="63.5" cy="56.2" r="2.5"/><circle cx="53.8" cy="61.8" r="2.2"/><circle cx="45.2" cy="66.8" r="1.9"/><circle cx="38" cy="70.9" r="1.6"/><circle cx="32.4" cy="74.2" r="1.3"/><circle cx="30.28" cy="68" r="2.5"/><circle cx="30.28" cy="58" r="2.2"/><circle cx="30.28" cy="49" r="1.9"/><circle cx="30.28" cy="41.5" r="1.6"/><circle cx="30.28" cy="35.5" r="1.3"/><circle cx="30.28" cy="27.23" r="5.5"/><circle cx="69.72" cy="50" r="5.5"/><circle cx="30.28" cy="72.77" r="5.5"/></g></svg>`,
+},
+{
+  id:"var-penrose-el-circuito-por-dentro", fam:"V", grupo:"Silueta gruesa",
+  nombre:"El circuito por dentro", ref:"El diagrama conmutativo escondido en el tribar.", fondo:"tema",
+  geometria:"Vigas gruesas con contorno. El circuito (0,0,0) → (L,0,0) → (L,L,0) → (L,L,L) proyectado isométricamente.",
+  arte:`<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"><path d="M 17.96 20.12 L 30.28 13 L 42.61 20.12 L 42.61 79.88 L 30.28 87 L 17.96 79.88 Z" fill="none" opacity=".28"/><path d="M 17.96 20.12 L 30.28 13 L 82.04 42.88 L 82.04 57.12 L 69.72 64.23 L 17.96 34.35 Z" fill="none" opacity=".28"/><path d="M 17.96 65.65 L 69.72 35.77 L 82.04 42.88 L 82.04 57.12 L 30.28 87 L 17.96 79.88 Z" fill="none" opacity=".28"/><path d="M30.28 27.23L69.72 50L30.28 72.77L30.28 27.23" stroke-width="3"/><g fill="currentColor" stroke="none"><circle cx="30.28" cy="27.23" r="5.5"/><circle cx="69.72" cy="50" r="5.5"/><circle cx="30.28" cy="72.77" r="5.5"/></g></svg>`,
+},
+{
+  id:"var-ult3d-tribar-sombreado", fam:"V", grupo:"Prismas 3D",
+  nombre:"Tribar sombreado", ref:"Tres tonos, uno por orientación. Rotado a la posición del diagrama.", fondo:"oscuro",
+  geometria:"Tres tonos, uno por orientación de cara. Rotado 90° para caer en la disposición del diagrama Ult(V,U).",
+  arte:`<svg viewBox="0 0 100 100"><g stroke="#1A1E24" stroke-width="1.1" fill="none"><path d="M 80.69 42.41 L 88 29.75 L 26.62 29.75 L 19.31 42.41 Z" fill="#B4ADA3"/><path d="M 80.69 17.09 L 88 29.75 L 26.62 29.75 L 19.31 17.09 Z" fill="#726D66"/><path d="M 12 29.75 L 19.31 42.41 L 26.62 29.75 L 19.31 17.09 Z" fill="#F0EAE1"/><path d="M 57.31 82.91 L 88 29.75 L 73.38 29.75 L 42.69 82.91 Z" fill="#B4ADA3"/><path d="M 80.69 17.09 L 88 29.75 L 73.38 29.75 L 66.08 17.09 Z" fill="#726D66"/><path d="M 35.38 70.25 L 42.69 82.91 L 73.38 29.75 L 66.08 17.09 Z" fill="#F0EAE1"/><path d="M 57.31 82.91 L 64.62 70.25 L 50 70.25 L 42.69 82.91 Z" fill="#B4ADA3"/><path d="M 33.92 17.09 L 64.62 70.25 L 50 70.25 L 19.31 17.09 Z" fill="#726D66"/><path d="M 12 29.75 L 42.69 82.91 L 50 70.25 L 19.31 17.09 Z" fill="#F0EAE1"/></g></svg>`,
+},
+{
+  id:"var-ult3d-la-v-solida", fam:"V", grupo:"Prismas 3D",
+  nombre:"La V, sólida", ref:"Las dos vigas bajas forman una V. La tercera la cierra.", fondo:"oscuro",
+  geometria:"Tres tonos, uno por orientación de cara. Rotado 90° para caer en la disposición del diagrama Ult(V,U).",
+  arte:`<svg viewBox="0 0 100 100"><g stroke="#1A1E24" stroke-width="1.1" fill="none"><path d="M 80.69 42.41 L 88 29.75 L 26.62 29.75 L 19.31 42.41 Z" stroke="none" fill="#B4ADA3" opacity=".16"/><path d="M 80.69 17.09 L 88 29.75 L 26.62 29.75 L 19.31 17.09 Z" stroke="none" fill="#726D66" opacity=".16"/><path d="M 12 29.75 L 19.31 42.41 L 26.62 29.75 L 19.31 17.09 Z" stroke="none" fill="#F0EAE1" opacity=".16"/><path d="M 57.31 82.91 L 88 29.75 L 73.38 29.75 L 42.69 82.91 Z" fill="#B4ADA3"/><path d="M 80.69 17.09 L 88 29.75 L 73.38 29.75 L 66.08 17.09 Z" fill="#726D66"/><path d="M 35.38 70.25 L 42.69 82.91 L 73.38 29.75 L 66.08 17.09 Z" fill="#F0EAE1"/><path d="M 57.31 82.91 L 64.62 70.25 L 50 70.25 L 42.69 82.91 Z" fill="#B4ADA3"/><path d="M 33.92 17.09 L 64.62 70.25 L 50 70.25 L 19.31 17.09 Z" fill="#726D66"/><path d="M 12 29.75 L 42.69 82.91 L 50 70.25 L 19.31 17.09 Z" fill="#F0EAE1"/></g></svg>`,
+},
+{
+  id:"var-ult3d-radio-profundidad", fam:"V", grupo:"Prismas 3D",
+  nombre:"Radio = profundidad", ref:"El círculo azul: dónde debería cerrar. λ ≈ 4.07 de diferencia.", fondo:"oscuro",
+  geometria:"Tres tonos, uno por orientación de cara. Rotado 90° para caer en la disposición del diagrama Ult(V,U).",
+  arte:`<svg viewBox="0 0 100 100"><g opacity=".13"><path d="M 80.69 42.41 L 88 29.75 L 26.62 29.75 L 19.31 42.41 Z" fill="#B4ADA3"/><path d="M 80.69 17.09 L 88 29.75 L 26.62 29.75 L 19.31 17.09 Z" fill="#726D66"/><path d="M 12 29.75 L 19.31 42.41 L 26.62 29.75 L 19.31 17.09 Z" fill="#F0EAE1"/><path d="M 57.31 82.91 L 88 29.75 L 73.38 29.75 L 42.69 82.91 Z" fill="#B4ADA3"/><path d="M 80.69 17.09 L 88 29.75 L 73.38 29.75 L 66.08 17.09 Z" fill="#726D66"/><path d="M 35.38 70.25 L 42.69 82.91 L 73.38 29.75 L 66.08 17.09 Z" fill="#F0EAE1"/><path d="M 57.31 82.91 L 64.62 70.25 L 50 70.25 L 42.69 82.91 Z" fill="#B4ADA3"/><path d="M 33.92 17.09 L 64.62 70.25 L 50 70.25 L 19.31 17.09 Z" fill="#726D66"/><path d="M 12 29.75 L 42.69 82.91 L 50 70.25 L 19.31 17.09 Z" fill="#F0EAE1"/></g><g fill="#F0EAE1"><circle cx="26.62" cy="29.75" r="1.5"/><circle cx="29.96" cy="35.53" r="1.72"/><circle cx="33.3" cy="41.32" r="1.94"/><circle cx="36.64" cy="47.11" r="2.16"/><circle cx="39.98" cy="52.89" r="2.38"/><circle cx="43.32" cy="58.68" r="2.6"/><circle cx="46.66" cy="64.47" r="2.81"/><circle cx="50" cy="70.25" r="3.03"/><circle cx="53.34" cy="64.47" r="3.25"/><circle cx="56.68" cy="58.68" r="3.47"/><circle cx="60.02" cy="52.89" r="3.69"/><circle cx="63.36" cy="47.11" r="3.91"/><circle cx="66.7" cy="41.32" r="4.13"/><circle cx="70.04" cy="35.53" r="4.35"/><circle cx="73.38" cy="29.75" r="4.57"/><circle cx="66.7" cy="29.75" r="4.79"/><circle cx="60.02" cy="29.75" r="5"/><circle cx="53.34" cy="29.75" r="5.22"/><circle cx="46.66" cy="29.75" r="5.44"/><circle cx="39.98" cy="29.75" r="5.66"/><circle cx="33.3" cy="29.75" r="5.88"/></g><circle cx="26.62" cy="29.75" r="6.1" fill="none" stroke="#4A9EE8" stroke-width="1.6"/></svg>`,
+},
+{
+  id:"var-ult3d-el-circuito-por-dentro", fam:"V", grupo:"Prismas 3D",
+  nombre:"El circuito por dentro", ref:"Ult(V,U) dibujado sobre el tribar en fantasma.", fondo:"oscuro",
+  geometria:"Tres tonos, uno por orientación de cara. Rotado 90° para caer en la disposición del diagrama Ult(V,U).",
+  arte:`<svg viewBox="0 0 100 100"><g opacity=".2"><path d="M 80.69 42.41 L 88 29.75 L 26.62 29.75 L 19.31 42.41 Z" fill="#B4ADA3"/><path d="M 80.69 17.09 L 88 29.75 L 26.62 29.75 L 19.31 17.09 Z" fill="#726D66"/><path d="M 12 29.75 L 19.31 42.41 L 26.62 29.75 L 19.31 17.09 Z" fill="#F0EAE1"/><path d="M 57.31 82.91 L 88 29.75 L 73.38 29.75 L 42.69 82.91 Z" fill="#B4ADA3"/><path d="M 80.69 17.09 L 88 29.75 L 73.38 29.75 L 66.08 17.09 Z" fill="#726D66"/><path d="M 35.38 70.25 L 42.69 82.91 L 73.38 29.75 L 66.08 17.09 Z" fill="#F0EAE1"/><path d="M 57.31 82.91 L 64.62 70.25 L 50 70.25 L 42.69 82.91 Z" fill="#B4ADA3"/><path d="M 33.92 17.09 L 64.62 70.25 L 50 70.25 L 19.31 17.09 Z" fill="#726D66"/><path d="M 12 29.75 L 42.69 82.91 L 50 70.25 L 19.31 17.09 Z" fill="#F0EAE1"/></g><path d="M26.62 29.75L50 70.25L73.38 29.75" fill="none" stroke="#F0EAE1" stroke-width="3.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M26.62 29.75L73.38 29.75" fill="none" stroke="#F0EAE1" stroke-width="3.6" stroke-linecap="round" opacity=".4"/><g fill="#F0EAE1"><circle cx="26.62" cy="29.75" r="6.5"/><circle cx="73.38" cy="29.75" r="6.5"/><circle cx="50" cy="70.25" r="6.5"/></g></svg>`,
+},
+{
+  id:"var-ult3d-con-etiquetas", fam:"V", grupo:"Prismas 3D",
+  nombre:"Con etiquetas", ref:"Para material didáctico, no para el mark.", fondo:"oscuro",
+  geometria:"Tres tonos, uno por orientación de cara. Rotado 90° para caer en la disposición del diagrama Ult(V,U).",
+  arte:`<svg viewBox="0 0 100 100"><g opacity=".18"><path d="M 80.69 42.41 L 88 29.75 L 26.62 29.75 L 19.31 42.41 Z" fill="#B4ADA3"/><path d="M 80.69 17.09 L 88 29.75 L 26.62 29.75 L 19.31 17.09 Z" fill="#726D66"/><path d="M 12 29.75 L 19.31 42.41 L 26.62 29.75 L 19.31 17.09 Z" fill="#F0EAE1"/><path d="M 57.31 82.91 L 88 29.75 L 73.38 29.75 L 42.69 82.91 Z" fill="#B4ADA3"/><path d="M 35.38 70.25 L 42.69 82.91 L 73.38 29.75 L 66.08 17.09 Z" fill="#F0EAE1"/><path d="M 33.92 17.09 L 64.62 70.25 L 50 70.25 L 19.31 17.09 Z" fill="#726D66"/><path d="M 12 29.75 L 42.69 82.91 L 50 70.25 L 19.31 17.09 Z" fill="#F0EAE1"/></g><path d="M26.62 29.75L50 70.25L73.38 29.75M26.62 29.75L73.38 29.75" fill="none" stroke="#F0EAE1" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><g fill="#F0EAE1"><circle cx="26.62" cy="29.75" r="5"/><circle cx="73.38" cy="29.75" r="5"/><circle cx="50" cy="70.25" r="5"/></g><g fill="#4A9EE8" font-family="'Source Serif 4',serif" font-style="italic" font-size="11"><text x="15" y="24">V</text><text x="66" y="22">Ult</text><text x="45" y="88">M</text></g></svg>`,
+},
+{
+  id:"var-ult3d-en-el-medallon", fam:"V", grupo:"Prismas 3D",
+  nombre:"En el medallón", ref:"El formato circular que ya venías usando.", fondo:"oscuro",
+  geometria:"Tres tonos, uno por orientación de cara. Rotado 90° para caer en la disposición del diagrama Ult(V,U).",
+  arte:`<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="47" fill="none" stroke="#F0EAE1" stroke-width="2.6" opacity=".4"/><g transform="translate(50 50) scale(.7) translate(-50 -50)" stroke="#1A1E24" stroke-width="1.1" fill="none"><path d="M 80.69 42.41 L 88 29.75 L 26.62 29.75 L 19.31 42.41 Z" fill="#B4ADA3"/><path d="M 80.69 17.09 L 88 29.75 L 26.62 29.75 L 19.31 17.09 Z" fill="#726D66"/><path d="M 12 29.75 L 19.31 42.41 L 26.62 29.75 L 19.31 17.09 Z" fill="#F0EAE1"/><path d="M 57.31 82.91 L 88 29.75 L 73.38 29.75 L 42.69 82.91 Z" fill="#B4ADA3"/><path d="M 80.69 17.09 L 88 29.75 L 73.38 29.75 L 66.08 17.09 Z" fill="#726D66"/><path d="M 35.38 70.25 L 42.69 82.91 L 73.38 29.75 L 66.08 17.09 Z" fill="#F0EAE1"/><path d="M 57.31 82.91 L 64.62 70.25 L 50 70.25 L 42.69 82.91 Z" fill="#B4ADA3"/><path d="M 33.92 17.09 L 64.62 70.25 L 50 70.25 L 19.31 17.09 Z" fill="#726D66"/><path d="M 12 29.75 L 42.69 82.91 L 50 70.25 L 19.31 17.09 Z" fill="#F0EAE1"/></g></svg>`,
+},
+{
+  id:"var-ult3d-sobre-azul", fam:"V", grupo:"Prismas 3D",
+  nombre:"Sobre azul", ref:"Blanco a tres opacidades. Para avatares.", fondo:"tema",
+  geometria:"Tres tonos, uno por orientación de cara. Rotado 90° para caer en la disposición del diagrama Ult(V,U).",
+  arte:`<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#4A9EE8"/><g transform="translate(50 50) scale(.66) translate(-50 -50)" fill="#fff" stroke="#4A9EE8" stroke-width="1.2"><path d="M 80.69 42.41 L 88 29.75 L 26.62 29.75 L 19.31 42.41 Z" opacity=".55"/><path d="M 80.69 17.09 L 88 29.75 L 26.62 29.75 L 19.31 17.09 Z" opacity=".3"/><path d="M 12 29.75 L 19.31 42.41 L 26.62 29.75 L 19.31 17.09 Z"/><path d="M 57.31 82.91 L 88 29.75 L 73.38 29.75 L 42.69 82.91 Z" opacity=".55"/><path d="M 80.69 17.09 L 88 29.75 L 73.38 29.75 L 66.08 17.09 Z" opacity=".3"/><path d="M 35.38 70.25 L 42.69 82.91 L 73.38 29.75 L 66.08 17.09 Z"/><path d="M 57.31 82.91 L 64.62 70.25 L 50 70.25 L 42.69 82.91 Z" opacity=".55"/><path d="M 33.92 17.09 L 64.62 70.25 L 50 70.25 L 19.31 17.09 Z" opacity=".3"/><path d="M 12 29.75 L 42.69 82.91 L 50 70.25 L 19.31 17.09 Z"/></g></svg>`,
+},
+{
+  id:"var-ult3d-una-tinta", fam:"V", grupo:"Prismas 3D",
+  nombre:"Una tinta", ref:"Sin sombreado, para bordado e impresión a un color.", fondo:"oscuro",
+  geometria:"Tres tonos, uno por orientación de cara. Rotado 90° para caer en la disposición del diagrama Ult(V,U).",
+  arte:`<svg viewBox="0 0 100 100" fill="none" stroke="#F0EAE1" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"><path d="M 80.69 42.41 L 88 29.75 L 26.62 29.75 L 19.31 42.41 Z" fill="#1A1E24"/><path d="M 12 29.75 L 19.31 42.41 L 26.62 29.75 L 19.31 17.09 Z" fill="#1A1E24"/><path d="M 57.31 82.91 L 88 29.75 L 73.38 29.75 L 42.69 82.91 Z" fill="#1A1E24"/><path d="M 35.38 70.25 L 42.69 82.91 L 73.38 29.75 L 66.08 17.09 Z" fill="#1A1E24"/><path d="M 57.31 82.91 L 64.62 70.25 L 50 70.25 L 42.69 82.91 Z" fill="#1A1E24"/><path d="M 12 29.75 L 42.69 82.91 L 50 70.25 L 19.31 17.09 Z" fill="#1A1E24"/></svg>`,
+},
+{
+  id:"var-delgado-opacidades-sobre-azul", fam:"V", grupo:"Delgado, sin fondo",
+  nombre:"Opacidades sobre azul", ref:"Delgado, sin fondo", fondo:"azul",
+  geometria:"La geometría de vigas de 1.25, sin disco, ocupando 92 de 100 unidades en vez de 66.",
+  arte:`<svg viewBox="0 0 100 100" fill="#fff"><path d="M 87.15 40.81 L 96 25.48 L 21.69 25.48 L 12.85 40.81 Z" opacity=".55"/><path d="M 87.15 10.16 L 96 25.48 L 21.69 25.48 L 12.85 10.16 Z" opacity=".3"/><path d="M 4 25.48 L 12.85 40.81 L 21.69 25.48 L 12.85 10.16 Z" opacity="1"/><path d="M 58.85 89.84 L 96 25.48 L 78.31 25.48 L 41.15 89.84 Z" opacity=".55"/><path d="M 87.15 10.16 L 96 25.48 L 78.31 25.48 L 69.46 10.16 Z" opacity=".3"/><path d="M 32.31 74.52 L 41.15 89.84 L 78.31 25.48 L 69.46 10.16 Z" opacity="1"/><path d="M 58.85 89.84 L 67.69 74.52 L 50 74.52 L 41.15 89.84 Z" opacity=".55"/><path d="M 30.54 10.16 L 67.69 74.52 L 50 74.52 L 12.85 10.16 Z" opacity=".3"/><path d="M 4 25.48 L 41.15 89.84 L 50 74.52 L 12.85 10.16 Z" opacity="1"/></svg>`,
+},
+{
+  id:"var-delgado-plano-sobre-azul", fam:"V", grupo:"Delgado, sin fondo",
+  nombre:"Plano sobre azul", ref:"Delgado, sin fondo", fondo:"azul",
+  geometria:"La geometría de vigas de 1.25, sin disco, ocupando 92 de 100 unidades en vez de 66.",
+  arte:`<svg viewBox="0 0 100 100" style="color:#fff"><path d="M 87.15 40.81 L 96 25.48 L 21.69 25.48 L 12.85 40.81 Z" fill="currentColor" opacity="1"/><path d="M 87.15 10.16 L 96 25.48 L 21.69 25.48 L 12.85 10.16 Z" fill="currentColor" opacity="1"/><path d="M 4 25.48 L 12.85 40.81 L 21.69 25.48 L 12.85 10.16 Z" fill="currentColor" opacity="1"/><path d="M 58.85 89.84 L 96 25.48 L 78.31 25.48 L 41.15 89.84 Z" fill="currentColor" opacity="1"/><path d="M 87.15 10.16 L 96 25.48 L 78.31 25.48 L 69.46 10.16 Z" fill="currentColor" opacity="1"/><path d="M 32.31 74.52 L 41.15 89.84 L 78.31 25.48 L 69.46 10.16 Z" fill="currentColor" opacity="1"/><path d="M 58.85 89.84 L 67.69 74.52 L 50 74.52 L 41.15 89.84 Z" fill="currentColor" opacity="1"/><path d="M 30.54 10.16 L 67.69 74.52 L 50 74.52 L 12.85 10.16 Z" fill="currentColor" opacity="1"/><path d="M 4 25.48 L 41.15 89.84 L 50 74.52 L 12.85 10.16 Z" fill="currentColor" opacity="1"/></svg>`,
+},
+{
+  id:"var-delgado-opacidades-sobre-oscuro", fam:"V", grupo:"Delgado, sin fondo",
+  nombre:"Opacidades sobre oscuro", ref:"Delgado, sin fondo", fondo:"oscuro",
+  geometria:"La geometría de vigas de 1.25, sin disco, ocupando 92 de 100 unidades en vez de 66.",
+  arte:`<svg viewBox="0 0 100 100" fill="#F0EAE1"><path d="M 87.15 40.81 L 96 25.48 L 21.69 25.48 L 12.85 40.81 Z" opacity=".55"/><path d="M 87.15 10.16 L 96 25.48 L 21.69 25.48 L 12.85 10.16 Z" opacity=".3"/><path d="M 4 25.48 L 12.85 40.81 L 21.69 25.48 L 12.85 10.16 Z" opacity="1"/><path d="M 58.85 89.84 L 96 25.48 L 78.31 25.48 L 41.15 89.84 Z" opacity=".55"/><path d="M 87.15 10.16 L 96 25.48 L 78.31 25.48 L 69.46 10.16 Z" opacity=".3"/><path d="M 32.31 74.52 L 41.15 89.84 L 78.31 25.48 L 69.46 10.16 Z" opacity="1"/><path d="M 58.85 89.84 L 67.69 74.52 L 50 74.52 L 41.15 89.84 Z" opacity=".55"/><path d="M 30.54 10.16 L 67.69 74.52 L 50 74.52 L 12.85 10.16 Z" opacity=".3"/><path d="M 4 25.48 L 41.15 89.84 L 50 74.52 L 12.85 10.16 Z" opacity="1"/></svg>`,
+},
+{
+  id:"var-delgado-tonos-solidos-sobre-oscuro", fam:"V", grupo:"Delgado, sin fondo",
+  nombre:"Tonos sólidos sobre oscuro", ref:"Delgado, sin fondo", fondo:"oscuro",
+  geometria:"La geometría de vigas de 1.25, sin disco, ocupando 92 de 100 unidades en vez de 66.",
+  arte:`<svg viewBox="0 0 100 100"><path d="M 87.15 40.81 L 96 25.48 L 21.69 25.48 L 12.85 40.81 Z" fill="#A9A199"/><path d="M 87.15 10.16 L 96 25.48 L 21.69 25.48 L 12.85 10.16 Z" fill="#6E6962"/><path d="M 4 25.48 L 12.85 40.81 L 21.69 25.48 L 12.85 10.16 Z" fill="#F0EAE1"/><path d="M 58.85 89.84 L 96 25.48 L 78.31 25.48 L 41.15 89.84 Z" fill="#A9A199"/><path d="M 87.15 10.16 L 96 25.48 L 78.31 25.48 L 69.46 10.16 Z" fill="#6E6962"/><path d="M 32.31 74.52 L 41.15 89.84 L 78.31 25.48 L 69.46 10.16 Z" fill="#F0EAE1"/><path d="M 58.85 89.84 L 67.69 74.52 L 50 74.52 L 41.15 89.84 Z" fill="#A9A199"/><path d="M 30.54 10.16 L 67.69 74.52 L 50 74.52 L 12.85 10.16 Z" fill="#6E6962"/><path d="M 4 25.48 L 41.15 89.84 L 50 74.52 L 12.85 10.16 Z" fill="#F0EAE1"/></svg>`,
+},
+{
+  id:"var-delgado-tonos-sobre-claro", fam:"V", grupo:"Delgado, sin fondo",
+  nombre:"Tonos sobre claro", ref:"Delgado, sin fondo", fondo:"claro",
+  geometria:"La geometría de vigas de 1.25, sin disco, ocupando 92 de 100 unidades en vez de 66.",
+  arte:`<svg viewBox="0 0 100 100"><path d="M 87.15 40.81 L 96 25.48 L 21.69 25.48 L 12.85 40.81 Z" fill="#5A554E"/><path d="M 87.15 10.16 L 96 25.48 L 21.69 25.48 L 12.85 10.16 Z" fill="#928B81"/><path d="M 4 25.48 L 12.85 40.81 L 21.69 25.48 L 12.85 10.16 Z" fill="#13161A"/><path d="M 58.85 89.84 L 96 25.48 L 78.31 25.48 L 41.15 89.84 Z" fill="#5A554E"/><path d="M 87.15 10.16 L 96 25.48 L 78.31 25.48 L 69.46 10.16 Z" fill="#928B81"/><path d="M 32.31 74.52 L 41.15 89.84 L 78.31 25.48 L 69.46 10.16 Z" fill="#13161A"/><path d="M 58.85 89.84 L 67.69 74.52 L 50 74.52 L 41.15 89.84 Z" fill="#5A554E"/><path d="M 30.54 10.16 L 67.69 74.52 L 50 74.52 L 12.85 10.16 Z" fill="#928B81"/><path d="M 4 25.48 L 41.15 89.84 L 50 74.52 L 12.85 10.16 Z" fill="#13161A"/></svg>`,
+},
+{
+  id:"var-delgado-plano-una-tinta", fam:"V", grupo:"Delgado, sin fondo",
+  nombre:"Plano, una tinta", ref:"Delgado, sin fondo", fondo:"claro",
+  geometria:"La geometría de vigas de 1.25, sin disco, ocupando 92 de 100 unidades en vez de 66.",
+  arte:`<svg viewBox="0 0 100 100" style="color:#13161A"><path d="M 87.15 40.81 L 96 25.48 L 21.69 25.48 L 12.85 40.81 Z" fill="currentColor" opacity="1"/><path d="M 87.15 10.16 L 96 25.48 L 21.69 25.48 L 12.85 10.16 Z" fill="currentColor" opacity="1"/><path d="M 4 25.48 L 12.85 40.81 L 21.69 25.48 L 12.85 10.16 Z" fill="currentColor" opacity="1"/><path d="M 58.85 89.84 L 96 25.48 L 78.31 25.48 L 41.15 89.84 Z" fill="currentColor" opacity="1"/><path d="M 87.15 10.16 L 96 25.48 L 78.31 25.48 L 69.46 10.16 Z" fill="currentColor" opacity="1"/><path d="M 32.31 74.52 L 41.15 89.84 L 78.31 25.48 L 69.46 10.16 Z" fill="currentColor" opacity="1"/><path d="M 58.85 89.84 L 67.69 74.52 L 50 74.52 L 41.15 89.84 Z" fill="currentColor" opacity="1"/><path d="M 30.54 10.16 L 67.69 74.52 L 50 74.52 L 12.85 10.16 Z" fill="currentColor" opacity="1"/><path d="M 4 25.48 L 41.15 89.84 L 50 74.52 L 12.85 10.16 Z" fill="currentColor" opacity="1"/></svg>`,
+},
+{
+  id:"var-vigas-oscuro-sin-etiquetas", fam:"V", grupo:"Vigas oscuras",
+  nombre:"Oscuro, sin etiquetas", ref:"Vigas oscuras", fondo:"claro",
+  geometria:"Vigas macizas oscuras con las etiquetas V → V[G] → V al frente. Flechas al mínimo.",
+  arte:`<svg viewBox="0 0 100 100"><path d="M 58.99 86.35 L 73.98 95 L 73.98 22.31 L 58.99 13.65 Z" fill="#262B33"/><path d="M 88.97 86.35 L 73.98 95 L 73.98 22.31 L 88.97 13.65 Z" fill="#14171C"/><path d="M 73.98 5 L 58.99 13.65 L 73.98 22.31 L 88.97 13.65 Z" fill="#3E444D"/><path d="M 11.03 58.65 L 73.98 95 L 73.98 77.69 L 11.03 41.35 Z" fill="#262B33"/><path d="M 88.97 86.35 L 73.98 95 L 73.98 77.69 L 88.97 69.04 Z" fill="#14171C"/><path d="M 26.02 32.69 L 11.03 41.35 L 73.98 77.69 L 88.97 69.04 Z" fill="#3E444D"/><path d="M 11.03 58.65 L 26.02 67.31 L 26.02 50 L 11.03 41.35 Z" fill="#262B33"/><path d="M 88.97 30.96 L 26.02 67.31 L 26.02 50 L 88.97 13.65 Z" fill="#14171C"/><path d="M 73.98 5 L 11.03 41.35 L 26.02 50 L 88.97 13.65 Z" fill="#3E444D"/></svg>`,
+},
+{
+  id:"var-vigas-cara-superior-azul", fam:"V", grupo:"Vigas oscuras",
+  nombre:"Cara superior azul", ref:"Vigas oscuras", fondo:"claro",
+  geometria:"Vigas macizas oscuras con las etiquetas V → V[G] → V al frente. Flechas al mínimo.",
+  arte:`<svg viewBox="0 0 100 100"><path d="M 58.99 86.35 L 73.98 95 L 73.98 22.31 L 58.99 13.65 Z" fill="#262B33"/><path d="M 88.97 86.35 L 73.98 95 L 73.98 22.31 L 88.97 13.65 Z" fill="#14171C"/><path d="M 73.98 5 L 58.99 13.65 L 73.98 22.31 L 88.97 13.65 Z" fill="#4A9EE8"/><path d="M 11.03 58.65 L 73.98 95 L 73.98 77.69 L 11.03 41.35 Z" fill="#262B33"/><path d="M 88.97 86.35 L 73.98 95 L 73.98 77.69 L 88.97 69.04 Z" fill="#14171C"/><path d="M 26.02 32.69 L 11.03 41.35 L 73.98 77.69 L 88.97 69.04 Z" fill="#4A9EE8"/><path d="M 11.03 58.65 L 26.02 67.31 L 26.02 50 L 11.03 41.35 Z" fill="#262B33"/><path d="M 88.97 30.96 L 26.02 67.31 L 26.02 50 L 88.97 13.65 Z" fill="#14171C"/><path d="M 73.98 5 L 11.03 41.35 L 26.02 50 L 88.97 13.65 Z" fill="#4A9EE8"/></svg>`,
+},
+{
+  id:"var-vigas-plano-una-tinta", fam:"V", grupo:"Vigas oscuras",
+  nombre:"Plano, una tinta", ref:"Vigas oscuras", fondo:"claro",
+  geometria:"Vigas macizas oscuras con las etiquetas V → V[G] → V al frente. Flechas al mínimo.",
+  arte:`<svg viewBox="0 0 100 100" style="color:#14171C"><path d="M 58.99 86.35 L 73.98 95 L 73.98 22.31 L 58.99 13.65 Z" fill="currentColor"/><path d="M 88.97 86.35 L 73.98 95 L 73.98 22.31 L 88.97 13.65 Z" fill="currentColor"/><path d="M 73.98 5 L 58.99 13.65 L 73.98 22.31 L 88.97 13.65 Z" fill="currentColor"/><path d="M 11.03 58.65 L 73.98 95 L 73.98 77.69 L 11.03 41.35 Z" fill="currentColor"/><path d="M 88.97 86.35 L 73.98 95 L 73.98 77.69 L 88.97 69.04 Z" fill="currentColor"/><path d="M 26.02 32.69 L 11.03 41.35 L 73.98 77.69 L 88.97 69.04 Z" fill="currentColor"/><path d="M 11.03 58.65 L 26.02 67.31 L 26.02 50 L 11.03 41.35 Z" fill="currentColor"/><path d="M 88.97 30.96 L 26.02 67.31 L 26.02 50 L 88.97 13.65 Z" fill="currentColor"/><path d="M 73.98 5 L 11.03 41.35 L 26.02 50 L 88.97 13.65 Z" fill="currentColor"/></svg>`,
+},
+{
+  id:"var-vigas-clara-con-etiquetas", fam:"V", grupo:"Vigas oscuras",
+  nombre:"Clara, con etiquetas", ref:"Vigas oscuras", fondo:"oscuro",
+  geometria:"Vigas macizas oscuras con las etiquetas V → V[G] → V al frente. Flechas al mínimo.",
+  arte:`<svg viewBox="0 0 100 100"><path d="M 58.99 86.35 L 73.98 95 L 73.98 22.31 L 58.99 13.65 Z" fill="#C4BCB1"/><path d="M 88.97 86.35 L 73.98 95 L 73.98 22.31 L 88.97 13.65 Z" fill="#8E8880"/><path d="M 73.98 5 L 58.99 13.65 L 73.98 22.31 L 88.97 13.65 Z" fill="#F0EAE1"/><path d="M 11.03 58.65 L 73.98 95 L 73.98 77.69 L 11.03 41.35 Z" fill="#C4BCB1"/><path d="M 88.97 86.35 L 73.98 95 L 73.98 77.69 L 88.97 69.04 Z" fill="#8E8880"/><path d="M 26.02 32.69 L 11.03 41.35 L 73.98 77.69 L 88.97 69.04 Z" fill="#F0EAE1"/><path d="M 11.03 58.65 L 26.02 67.31 L 26.02 50 L 11.03 41.35 Z" fill="#C4BCB1"/><path d="M 88.97 30.96 L 26.02 67.31 L 26.02 50 L 88.97 13.65 Z" fill="#8E8880"/><path d="M 73.98 5 L 11.03 41.35 L 26.02 50 L 88.97 13.65 Z" fill="#F0EAE1"/><path style="stroke:#14171C;opacity:.55" d="M62.47 62.39 L35.61 46.89" marker-end="url(#ah)" stroke="#F0EAE1" stroke-width=".9" fill="none" opacity=".5" stroke-linecap="round"/><path style="stroke:#14171C;opacity:.55" d="M40.41 33.04 L64.39 19.20" marker-end="url(#ah)" stroke="#F0EAE1" stroke-width=".9" fill="none" opacity=".5" stroke-linecap="round"/><path d="M73.98 61.08 L73.98 36.71" stroke="#4A9EE8" stroke-width="1.3" fill="none" stroke-dasharray="1.6 3.2" stroke-linecap="round"/><g text-anchor="middle" dominant-baseline="central" font-family="'Source Serif 4',serif" font-style="italic" font-weight="600" fill="#13161A"><text transform="matrix(0.866 -0.5 0.866 0.5 31.30 38.30)" font-size="7">V[G]</text><text transform="matrix(0.866 -0.5 0.866 0.5 70.14 15.88)" font-size="8.5">V</text><text transform="matrix(0.866 0.5 -0.866 0.5 69.18 66.27)" font-size="8.5">V</text></g></svg>`,
+},
+{
+  id:"var-vigas-azul-de-acento-solido", fam:"V", grupo:"Vigas oscuras",
+  nombre:"Azul de acento, sólido", ref:"Vigas oscuras", fondo:"claro",
+  geometria:"Vigas macizas oscuras con las etiquetas V → V[G] → V al frente. Flechas al mínimo.",
+  arte:`<svg viewBox="0 0 100 100"><path d="M 58.99 86.35 L 73.98 95 L 73.98 22.31 L 58.99 13.65 Z" fill="#2E71B2"/><path d="M 88.97 86.35 L 73.98 95 L 73.98 22.31 L 88.97 13.65 Z" fill="#1B4A7A"/><path d="M 73.98 5 L 58.99 13.65 L 73.98 22.31 L 88.97 13.65 Z" fill="#4A9EE8"/><path d="M 11.03 58.65 L 73.98 95 L 73.98 77.69 L 11.03 41.35 Z" fill="#2E71B2"/><path d="M 88.97 86.35 L 73.98 95 L 73.98 77.69 L 88.97 69.04 Z" fill="#1B4A7A"/><path d="M 26.02 32.69 L 11.03 41.35 L 73.98 77.69 L 88.97 69.04 Z" fill="#4A9EE8"/><path d="M 11.03 58.65 L 26.02 67.31 L 26.02 50 L 11.03 41.35 Z" fill="#2E71B2"/><path d="M 88.97 30.96 L 26.02 67.31 L 26.02 50 L 88.97 13.65 Z" fill="#1B4A7A"/><path d="M 73.98 5 L 11.03 41.35 L 26.02 50 L 88.97 13.65 Z" fill="#4A9EE8"/></svg>`,
+},
+
+];
+
+/* ================= render ================= */
+const $ = (s) => document.querySelector(s);
+const porId = (id) => FIGURAS.find(f => f.id === id);
+
+const MARCA = `<svg viewBox="0 0 100 100" width="21" height="21" fill="none" stroke="currentColor" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"><path d="M37 20H25V80H37"/><path d="M63 20H75V80H63"/><text x="50.5" y="50" text-anchor="middle" dominant-baseline="central" font-family="'Source Serif 4',Georgia,serif" font-style="italic" font-weight="600" font-size="52" fill="currentColor" stroke="none">f</text></svg>`;
+$("#sello-marca").innerHTML = MARCA;
+
+const FILTROS = [
+  { k:"todas", et:"Todas" },
+  { k:"I",     et:"Irreducibles" },
+  { k:"II",    et:"Morfismos" },
+  { k:"III",   et:"Cociente" },
+  { k:"IV",    et:"La marca" },
+  { k:"V",     et:"Variantes" },
+  { k:"fav",   et:"Favoritas" },
+];
+let filtro = "todas";
+
+$("#filtros").innerHTML = FILTROS.map(f =>
+  `<button class="chip" data-k="${f.k}" aria-pressed="${f.k === "todas"}">${f.et}</button>`
+).join("");
+
+$("#secciones").innerHTML = FAMILIAS.map(fam => {
+  const lista = FIGURAS.filter(f => f.fam === fam.id);
+  return `<section class="fam" data-fam="${fam.id}">
+    <div class="fam-cab">
+      <span class="fam-num">${fam.id}</span>
+      <h2>${fam.titulo}</h2>
+      <span class="cuenta">${lista.length} figuras</span>
+    </div>
+    <p class="fam-sub">${fam.sub}</p>
+    <div class="rejilla">${lista.map(tarjeta).join("")}</div>
+  </section>`;
+}).join("");
+
+function tarjeta(f){
+  const fondo = f.fondo && f.fondo !== "tema" ? ` data-fondo="${f.fondo}"` : "";
+  return `<button class="pieza" data-id="${f.id}" data-fav="${!!f.fav}">
+    ${f.fav ? `<span class="fav">favorita</span>` : ""}
+    <span class="arte"${fondo}>${f.arte}</span>
+    <span class="nom">${f.nombre}</span>
+    <span class="ref">${f.ref}</span>
+    ${f.grupo && f.grupo !== f.ref ? `<span class="grupo">${f.grupo}</span>` : ""}
+  </button>`;
+}
+
+/* ---- filtrado ---- */
+function aplicarFiltro(k){
+  filtro = k;
+  document.querySelectorAll("#filtros .chip").forEach(c =>
+    c.setAttribute("aria-pressed", String(c.dataset.k === k)));
+  document.querySelectorAll(".pieza").forEach(p => {
+    const f = porId(p.dataset.id);
+    const ok = k === "todas" || (k === "fav" ? !!f.fav : f.fam === k);
+    p.hidden = !ok;
+  });
+  document.querySelectorAll("section.fam").forEach(s => {
+    const vivos = [...s.querySelectorAll(".pieza")].filter(p => !p.hidden).length;
+    s.hidden = vivos === 0;
+    const c = s.querySelector(".cuenta");
+    if (c) c.textContent = vivos + (vivos === 1 ? " figura" : " figuras");
+  });
+}
+$("#filtros").addEventListener("click", e => {
+  const b = e.target.closest(".chip");
+  if (b) aplicarFiltro(b.dataset.k);
+});
+
+/* ---- cajón ---- */
+const cajon = $("#cajon"), scrim = $("#scrim"), cuerpo = $("#cajon-cuerpo");
+let actual = null, disparador = null;
+
+function visibles(){
+  return [...document.querySelectorAll(".pieza")].filter(p => !p.hidden).map(p => p.dataset.id);
+}
+
+function pruebaEscala(f){
+  const fijo = f.fondo && f.fondo !== "tema";
+  const fondo = fijo ? ` data-fondo="${f.fondo}"` : "";
+  const cajas = [96, 48, 26, 16].map(s =>
+    `<div class="pr"><span class="caja" style="width:${s}px;height:${s}px">${f.arte}</span><span class="et">${s} px</span></div>`
+  ).join("");
+  // sobre fondo fijo la prueba en azul sobra: la variante ya declara el suyo
+  const azul = fijo ? "" :
+    `<div class="pr azul"><span class="caja" style="width:48px;height:48px">${f.arte}</span><span class="et">sobre azul</span></div>`;
+  return `<div class="pruebas"${fondo}>
+    ${cajas}${azul}
+    <p class="pruebas-nota">La tira que decide.<br>Si a 26 px se vuelve una mancha, no es favicon.</p>
+  </div>`;
+}
+
+function tablaObs(t){
+  return `<div class="envoltorio-tabla"><table class="tabla-obs">
+    <thead><tr>${t.cab.map(c => `<th>${c}</th>`).join("")}</tr></thead>
+    <tbody>${t.filas.map(r => `<tr>${r.map(c => `<td>${c}</td>`).join("")}</tr>`).join("")}</tbody>
+  </table></div>`;
+}
+
+const FONDO_ET = { oscuro:"Oscuro", azul:"Azul de marca", claro:"Papel claro", tema:"Sigue el tema" };
+
+function pintarVariante(f, fam){
+  const fondo = f.fondo && f.fondo !== "tema" ? ` data-fondo="${f.fondo}"` : "";
+  const hermanas = FIGURAS.filter(g => g.fam === "V" && g.grupo === f.grupo && g.id !== f.id);
+  return `
+    <p class="d-eyebrow">${fam.id} · ${f.grupo}</p>
+    <h3 id="cajon-titulo">${f.nombre}</h3>
+    ${f.ref !== f.grupo ? `<p class="d-ref">${f.ref}</p>` : `<p class="d-ref">Sin nota en el pliego original.</p>`}
+
+    <div class="lienzo"${fondo}><span class="arte"${fondo}>${f.arte}</span></div>
+    ${pruebaEscala(f)}
+
+    <dl class="ficha">
+      <div><dt>Pliego</dt><dd>${f.grupo}</dd></div>
+      <div><dt>Fondo previsto</dt><dd>${FONDO_ET[f.fondo] || "Sigue el tema"}</dd></div>
+      <div><dt>Molde</dt><dd>La marca misma</dd></div>
+    </dl>
+
+    <h4>La geometría</h4>
+    <p>${f.geometria}</p>
+    <p>La teoría de esta figura — por qué el circuito no cierra y dónde vive la obstrucción — está completa en <b>El tribar</b>.</p>
+
+    <h4>Del mismo pliego</h4>
+    <div class="rel">
+      <button data-ir="tribar">El tribar · la teoría</button>
+      ${hermanas.map(g => `<button data-ir="${g.id}">${g.nombre}</button>`).join("")}
+    </div>
+  `;
+}
+
+function pintar(f){
+  const fam = FAMILIAS.find(x => x.id === f.fam);
+  cuerpo.innerHTML = f.fam === "V" ? pintarVariante(f, fam) : `
+    <p class="d-eyebrow">${fam.id} · ${fam.titulo}</p>
+    <h3 id="cajon-titulo">${f.nombre}</h3>
+    <p class="d-ref">${f.ref}</p>
+
+    <div class="lienzo"><span class="arte">${f.arte}</span></div>
+    ${pruebaEscala(f)}
+
+    <dl class="ficha">
+      <div><dt>Área</dt><dd>${f.area}</dd></div>
+      <div><dt>De quién</dt><dd>${f.quien}</dd></div>
+      <div><dt>Molde</dt><dd>${fam.titulo}</dd></div>
+    </dl>
+
+    <h4>Qué dibuja</h4>
+    ${f.dibuja}
+
+    <h4>El enunciado</h4>
+    <div class="teorema">
+      <p class="tt">${f.teorema.titulo}</p>
+      <p class="cu">${f.teorema.cuerpo}</p>
+    </div>
+
+    <h4>${f.fam === "IV" ? "Qué dice de la marca" : "Por qué es una factorización"}</h4>
+    ${f.porque}
+    ${f.tabla ? tablaObs(f.tabla) : ""}
+
+    <h4>Notas</h4>
+    <ul class="notas">${f.notas.map(n => `<li>${n}</li>`).join("")}</ul>
+
+    <h4>Figuras vecinas</h4>
+    <div class="rel">${f.rel.map(id => {
+      const g = porId(id);
+      return g ? `<button data-ir="${id}">${g.nombre}</button>` : "";
+    }).join("")}</div>
+  `;
+  cuerpo.scrollTop = 0;
+
+  const orden = visibles();
+  const i = orden.indexOf(f.id);
+  $("#cajon-pos").textContent = i >= 0 ? `${i + 1} / ${orden.length}` : "";
+  $("#btn-prev").disabled = i <= 0;
+  $("#btn-next").disabled = i < 0 || i >= orden.length - 1;
+}
+
+function abrir(id, dispar){
+  const f = porId(id);
+  if (!f) return;
+  if (!actual){
+    disparador = dispar || null;
+    document.body.style.overflow = "hidden";
+  }
+  actual = id;
+  pintar(f);
+  cajon.classList.add("abierto");
+  scrim.classList.add("abierto");
+  cajon.focus();
+  history.replaceState(null, "", "#fig-" + id);
+}
+
+function cerrar(){
+  if (!actual) return;
+  actual = null;
+  cajon.classList.remove("abierto");
+  scrim.classList.remove("abierto");
+  document.body.style.overflow = "";
+  history.replaceState(null, "", location.pathname + location.search);
+  if (disparador) { disparador.focus(); disparador = null; }
+}
+
+function mover(d){
+  const orden = visibles();
+  const i = orden.indexOf(actual);
+  const j = i + d;
+  if (i < 0 || j < 0 || j >= orden.length) return;
+  abrir(orden[j]);
+}
+
+document.addEventListener("click", e => {
+  const p = e.target.closest(".pieza");
+  if (p) { abrir(p.dataset.id, p); return; }
+  const r = e.target.closest("[data-ir]");
+  if (r) {
+    const destino = r.dataset.ir;
+    if (!visibles().includes(destino)) aplicarFiltro("todas");
+    abrir(destino);
+  }
+});
+$("#btn-cerrar").addEventListener("click", cerrar);
+$("#scrim").addEventListener("click", cerrar);
+$("#btn-prev").addEventListener("click", () => mover(-1));
+$("#btn-next").addEventListener("click", () => mover(1));
+
+document.addEventListener("keydown", e => {
+  if (!actual) return;
+  if (e.key === "Escape") { cerrar(); return; }
+  if (e.target.closest("input, textarea")) return;
+  if (e.key === "ArrowLeft")  { e.preventDefault(); mover(-1); }
+  if (e.key === "ArrowRight") { e.preventDefault(); mover(1); }
+});
+
+aplicarFiltro("todas");
+if (location.hash.startsWith("#fig-")) {
+  const id = location.hash.slice(5);
+  if (porId(id)) abrir(id);
+}
+</script>
+
+</body>
+</html>

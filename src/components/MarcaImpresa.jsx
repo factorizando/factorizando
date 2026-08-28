@@ -43,8 +43,17 @@ export default function MarcaImpresa({ paraCaptura = false, altoLogo = 40 }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
       <style>{CSS}</style>
+      {/* La marca va como <img> a un PNG, no como SVG en línea: waitForImages
+          del generador ya sabe esperar a un <img>, y html2canvas lo rasteriza
+          sin sorpresas. El comprobante es documento de cobro; no es donde se
+          experimenta con el pipeline.
+
+          Es el corte grueso de la marca, no el principal, aunque a 40px de alto
+          la hoja de marca pediría el principal: en el papel esos 40px de una
+          caja de 800 caen en ~10mm, y ahí el trazo de 3.8 se imprime a 0.37mm.
+          El corte lo sube a 0.73mm. Se genera desde la misma bézier. */}
       <img
-        src={`${import.meta.env.BASE_URL}assets/logoX.png`}
+        src={`${import.meta.env.BASE_URL}assets/marca/cubriente-impresa.png`}
         alt="Factorizando"
         style={{ height: altoLogo, display: "block" }}
       />

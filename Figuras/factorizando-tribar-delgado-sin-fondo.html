@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Factorizando · Tribar delgado sin fondo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#13161A;--ink-2:#1A1E24;--line:#2A3038;--warm:#F0EAE1;--dim:#98A0A9;--blue:#4A9EE8}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ink);color:var(--warm);font-family:'Source Serif 4',Georgia,serif;line-height:1.55}
+.wrap{max-width:960px;margin:0 auto;padding:52px 24px 88px}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin:0 0 12px}
+h1{font-size:clamp(26px,5vw,38px);font-weight:600;margin:0 0 14px;letter-spacing:-.01em}
+.lede{font-size:16.5px;color:var(--dim);max-width:60ch;margin:0}
+header{border-bottom:1px solid var(--line);padding-bottom:28px;margin-bottom:34px}
+h2{font-size:18px;font-weight:600;margin:44px 0 6px}
+.sub{color:var(--dim);font-size:14.5px;margin:0 0 18px;max-width:58ch}
+
+.hero{background:var(--ink-2);border:1px solid var(--line);border-radius:20px;padding:38px 20px;display:flex;justify-content:center}
+.hero svg{width:min(320px,72vw);height:auto;display:block}
+
+.row{display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:center;background:var(--ink-2);border:1px solid var(--line);border-radius:20px;padding:28px 18px 22px}
+.row.light{background:#F0EAE1;border-color:#DDD5C9}
+.row.blue{background:#4A9EE8;border-color:#3A88CC}
+.unit{text-align:center}
+.unit svg{display:block;margin:0 auto}
+.ulab{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--dim);margin-top:10px}
+.row.light .ulab{color:#6B655D}.row.blue .ulab{color:#0E3C66}
+
+.op .fz{opacity:1}.op .fx{opacity:.55}.op .fy{opacity:.3}
+.tn .fz{fill:#F0EAE1}.tn .fx{fill:#A9A199}.tn .fy{fill:#6E6962}
+.tl .fz{fill:#13161A}.tl .fx{fill:#5A554E}.tl .fy{fill:#928B81}
+.fl .fz,.fl .fx,.fl .fy{fill:currentColor;opacity:1}
+
+.note{font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.85;color:var(--dim);border-left:2px solid var(--blue);padding:4px 0 4px 16px;margin:30px 0 0;max-width:64ch}
+.note b{color:var(--warm);font-weight:500}
+@media (max-width:520px){.wrap{padding:36px 16px 64px}.hero{padding:24px 12px;border-radius:16px}.row{gap:16px;padding:22px 12px 18px;border-radius:16px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="eyebrow">Factorizando · marca</p>
+  <h1>Tribar delgado, sin fondo</h1>
+  <p class="lede">La geometría del que compartiste — vigas de 1.25 — ahora sin disco azul y ocupando 92 de 100 unidades en vez de 66.</p>
+</header>
+
+<div class="hero">
+  <svg class="op" viewBox="0 0 100 100" role="img" aria-label="Tribar de Penrose en blanco a tres opacidades" fill="#F0EAE1">
+    <path class="fx" d="M 87.15 40.81 L 96 25.48 L 21.69 25.48 L 12.85 40.81 Z"/>
+    <path class="fy" d="M 87.15 10.16 L 96 25.48 L 21.69 25.48 L 12.85 10.16 Z"/>
+    <path class="fz" d="M 4 25.48 L 12.85 40.81 L 21.69 25.48 L 12.85 10.16 Z"/>
+    <path class="fx" d="M 58.85 89.84 L 96 25.48 L 78.31 25.48 L 41.15 89.84 Z"/>
+    <path class="fy" d="M 87.15 10.16 L 96 25.48 L 78.31 25.48 L 69.46 10.16 Z"/>
+    <path class="fz" d="M 32.31 74.52 L 41.15 89.84 L 78.31 25.48 L 69.46 10.16 Z"/>
+    <path class="fx" d="M 58.85 89.84 L 67.69 74.52 L 50 74.52 L 41.15 89.84 Z"/>
+    <path class="fy" d="M 30.54 10.16 L 67.69 74.52 L 50 74.52 L 12.85 10.16 Z"/>
+    <path class="fz" d="M 4 25.48 L 41.15 89.84 L 50 74.52 L 12.85 10.16 Z"/>
+  </svg>
+</div>
+
+<h2>Tres opacidades vs. tres tonos</h2>
+<p class="sub">La opacidad depende del fondo: sobre azul funciona, sobre oscuro las caras tenues casi desaparecen. Los tonos sólidos son independientes del fondo.</p>
+
+<div class="row blue">
+  <div class="unit">
+    <svg class="op" width="164" height="164" viewBox="0 0 100 100" fill="#fff"><path class="fx" d="M 87.15 40.81 L 96 25.48 L 21.69 25.48 L 12.85 40.81 Z"/><path class="fy" d="M 87.15 10.16 L 96 25.48 L 21.69 25.48 L 12.85 10.16 Z"/><path class="fz" d="M 4 25.48 L 12.85 40.81 L 21.69 25.48 L 12.85 10.16 Z"/><path class="fx" d="M 58.85 89.84 L 96 25.48 L 78.31 25.48 L 41.15 89.84 Z"/><path class="fy" d="M 87.15 10.16 L 96 25.48 L 78.31 25.48 L 69.46 10.16 Z"/><path class="fz" d="M 32.31 74.52 L 41.15 89.84 L 78.31 25.48 L 69.46 10.16 Z"/><path class="fx" d="M 58.85 89.84 L 67.69 74.52 L 50 74.52 L 41.15 89.84 Z"/><path class="fy" d="M 30.54 10.16 L 67.69 74.52 L 50 74.52 L 12.85 10.16 Z"/><path class="fz" d="M 4 25.48 L 41.15 89.84 L 50 74.52 L 12.85 10.16 Z"/></svg>
+    <div class="ulab">Opacidades sobre azul</div>
+  </div>
+  <div class="unit">
+    <svg class="fl" width="164" height="164" viewBox="0 0 100 100" style="color:#fff"><path class="fx" d="M 87.15 40.81 L 96 25.48 L 21.69 25.48 L 12.85 40.81 Z"/><path class="fy" d="M 87.15 10.16 L 96 25.48 L 21.69 25.48 L 12.85 10.16 Z"/><path class="fz" d="M 4 25.48 L 12.85 40.81 L 21.69 25.48 L 12.85 10.16 Z"/><path class="fx" d="M 58.85 89.84 L 96 25.48 L 78.31 25.48 L 41.15 89.84 Z"/><path class="fy" d="M 87.15 10.16 L 96 25.48 L 78.31 25.48 L 69.46 10.16 Z"/><path class="fz" d="M 32.31 74.52 L 41.15 89.84 L 78.31 25.48 L 69.46 10.16 Z"/><path class="fx" d="M 58.85 89.84 L 67.69 74.52 L 50 74.52 L 41.15 89.84 Z"/><path class="fy" d="M 30.54 10.16 L 67.69 74.52 L 50 74.52 L 12.85 10.16 Z"/><path class="fz" d="M 4 25.48 L 41.15 89.84 L 50 74.52 L 12.85 10.16 Z"/></svg>
+    <div class="ulab">Plano sobre azul</div>
+  </div>
+</div>
+
+<div class="row" style="margin-top:16px">
+  <div class="unit">
+    <svg class="op" width="164" height="164" viewBox="0 0 100 100" fill="#F0EAE1"><path class="fx" d="M 87.15 40.81 L 96 25.48 L 21.69 25.48 L 12.85 40.81 Z"/><path class="fy" d="M 87.15 10.16 L 96 25.48 L 21.69 25.48 L 12.85 10.16 Z"/><path class="fz" d="M 4 25.48 L 12.85 40.81 L 21.69 25.48 L 12.85 10.16 Z"/><path class="fx" d="M 58.85 89.84 L 96 25.48 L 78.31 25.48 L 41.15 89.84 Z"/><path class="fy" d="M 87.15 10.16 L 96 25.48 L 78.31 25.48 L 69.46 10.16 Z"/><path class="fz" d="M 32.31 74.52 L 41.15 89.84 L 78.31 25.48 L 69.46 10.16 Z"/><path class="fx" d="M 58.85 89.84 L 67.69 74.52 L 50 74.52 L 41.15 89.84 Z"/><path class="fy" d="M 30.54 10.16 L 67.69 74.52 L 50 74.52 L 12.85 10.16 Z"/><path class="fz" d="M 4 25.48 L 41.15 89.84 L 50 74.52 L 12.85 10.16 Z"/></svg>
+    <div class="ulab">Opacidades sobre oscuro</div>
+  </div>
+  <div class="unit">
+    <svg class="tn" width="164" height="164" viewBox="0 0 100 100"><path class="fx" d="M 87.15 40.81 L 96 25.48 L 21.69 25.48 L 12.85 40.81 Z"/><path class="fy" d="M 87.15 10.16 L 96 25.48 L 21.69 25.48 L 12.85 10.16 Z"/><path class="fz" d="M 4 25.48 L 12.85 40.81 L 21.69 25.48 L 12.85 10.16 Z"/><path class="fx" d="M 58.85 89.84 L 96 25.48 L 78.31 25.48 L 41.15 89.84 Z"/><path class="fy" d="M 87.15 10.16 L 96 25.48 L 78.31 25.48 L 69.46 10.16 Z"/><path class="fz" d="M 32.31 74.52 L 41.15 89.84 L 78.31 25.48 L 69.46 10.16 Z"/><path class="fx" d="M 58.85 89.84 L 67.69 74.52 L 50 74.52 L 41.15 89.84 Z"/><path class="fy" d="M 30.54 10.16 L 67.69 74.52 L 50 74.52 L 12.85 10.16 Z"/><path class="fz" d="M 4 25.48 L 41.15 89.84 L 50 74.52 L 12.85 10.16 Z"/></svg>
+    <div class="ulab">Tonos sólidos sobre oscuro</div>
+  </div>
+</div>
+
+<div class="row light" style="margin-top:16px">
+  <div class="unit">
+    <svg class="tl" width="164" height="164" viewBox="0 0 100 100"><path class="fx" d="M 87.15 40.81 L 96 25.48 L 21.69 25.48 L 12.85 40.81 Z"/><path class="fy" d="M 87.15 10.16 L 96 25.48 L 21.69 25.48 L 12.85 10.16 Z"/><path class="fz" d="M 4 25.48 L 12.85 40.81 L 21.69 25.48 L 12.85 10.16 Z"/><path class="fx" d="M 58.85 89.84 L 96 25.48 L 78.31 25.48 L 41.15 89.84 Z"/><path class="fy" d="M 87.15 10.16 L 96 25.48 L 78.31 25.48 L 69.46 10.16 Z"/><path class="fz" d="M 32.31 74.52 L 41.15 89.84 L 78.31 25.48 L 69.46 10.16 Z"/><path class="fx" d="M 58.85 89.84 L 67.69 74.52 L 50 74.52 L 41.15 89.84 Z"/><path class="fy" d="M 30.54 10.16 L 67.69 74.52 L 50 74.52 L 12.85 10.16 Z"/><path class="fz" d="M 4 25.48 L 41.15 89.84 L 50 74.52 L 12.85 10.16 Z"/></svg>
+    <div class="ulab">Tonos sobre claro</div>
+  </div>
+  <div class="unit">
+    <svg class="fl" width="164" height="164" viewBox="0 0 100 100" style="color:#13161A"><path class="fx" d="M 87.15 40.81 L 96 25.48 L 21.69 25.48 L 12.85 40.81 Z"/><path class="fy" d="M 87.15 10.16 L 96 25.48 L 21.69 25.48 L 12.85 10.16 Z"/><path class="fz" d="M 4 25.48 L 12.85 40.81 L 21.69 25.48 L 12.85 10.16 Z"/><path class="fx" d="M 58.85 89.84 L 96 25.48 L 78.31 25.48 L 41.15 89.84 Z"/><path class="fy" d="M 87.15 10.16 L 96 25.48 L 78.31 25.48 L 69.46 10.16 Z"/><path class="fz" d="M 32.31 74.52 L 41.15 89.84 L 78.31 25.48 L 69.46 10.16 Z"/><path class="fx" d="M 58.85 89.84 L 67.69 74.52 L 50 74.52 L 41.15 89.84 Z"/><path class="fy" d="M 30.54 10.16 L 67.69 74.52 L 50 74.52 L 12.85 10.16 Z"/><path class="fz" d="M 4 25.48 L 41.15 89.84 L 50 74.52 L 12.85 10.16 Z"/></svg>
+    <div class="ulab">Plano, una tinta</div>
+  </div>
+</div>
+
+<h2>Escala</h2>
+<div class="row">
+  <div class="unit"><svg class="tn" width="120" height="120" viewBox="0 0 100 100"><path class="fx" d="M 87.15 40.81 L 96 25.48 L 21.69 25.48 L 12.85 40.81 Z"/><path class="fy" d="M 87.15 10.16 L 96 25.48 L 21.69 25.48 L 12.85 10.16 Z"/><path class="fz" d="M 4 25.48 L 12.85 40.81 L 21.69 25.48 L 12.85 10.16 Z"/><path class="fx" d="M 58.85 89.84 L 96 25.48 L 78.31 25.48 L 41.15 89.84 Z"/><path class="fy" d="M 87.15 10.16 L 96 25.48 L 78.31 25.48 L 69.46 10.16 Z"/><path class="fz" d="M 32.31 74.52 L 41.15 89.84 L 78.31 25.48 L 69.46 10.16 Z"/><path class="fx" d="M 58.85 89.84 L 67.69 74.52 L 50 74.52 L 41.15 89.84 Z"/><path class="fy" d="M 30.54 10.16 L 67.69 74.52 L 50 74.52 L 12.85 10.16 Z"/><path class="fz" d="M 4 25.48 L 41.15 89.84 L 50 74.52 L 12.85 10.16 Z"/></svg><div class="ulab">120</div></div>
+  <div class="unit"><svg class="tn" width="72" height="72" viewBox="0 0 100 100"><path class="fx" d="M 87.15 40.81 L 96 25.48 L 21.69 25.48 L 12.85 40.81 Z"/><path class="fy" d="M 87.15 10.16 L 96 25.48 L 21.69 25.48 L 12.85 10.16 Z"/><path class="fz" d="M 4 25.48 L 12.85 40.81 L 21.69 25.48 L 12.85 10.16 Z"/><path class="fx" d="M 58.85 89.84 L 96 25.48 L 78.31 25.48 L 41.15 89.84 Z"/><path class="fy" d="M 87.15 10.16 L 96 25.48 L 78.31 25.48 L 69.46 10.16 Z"/><path class="fz" d="M 32.31 74.52 L 41.15 89.84 L 78.31 25.48 L 69.46 10.16 Z"/><path class="fx" d="M 58.85 89.84 L 67.69 74.52 L 50 74.52 L 41.15 89.84 Z"/><path class="fy" d="M 30.54 10.16 L 67.69 74.52 L 50 74.52 L 12.85 10.16 Z"/><path class="fz" d="M 4 25.48 L 41.15 89.84 L 50 74.52 L 12.85 10.16 Z"/></svg><div class="ulab">72</div></div>
+  <div class="unit"><svg class="tn" width="44" height="44" viewBox="0 0 100 100"><path class="fx" d="M 87.15 40.81 L 96 25.48 L 21.69 25.48 L 12.85 40.81 Z"/><path class="fy" d="M 87.15 10.16 L 96 25.48 L 21.69 25.48 L 12.85 10.16 Z"/><path class="fz" d="M 4 25.48 L 12.85 40.81 L 21.69 25.48 L 12.85 10.16 Z"/><path class="fx" d="M 58.85 89.84 L 96 25.48 L 78.31 25.48 L 41.15 89.84 Z"/><path class="fy" d="M 87.15 10.16 L 96 25.48 L 78.31 25.48 L 69.46 10.16 Z"/><path class="fz" d="M 32.31 74.52 L 41.15 89.84 L 78.31 25.48 L 69.46 10.16 Z"/><path class="fx" d="M 58.85 89.84 L 67.69 74.52 L 50 74.52 L 41.15 89.84 Z"/><path class="fy" d="M 30.54 10.16 L 67.69 74.52 L 50 74.52 L 12.85 10.16 Z"/><path class="fz" d="M 4 25.48 L 41.15 89.84 L 50 74.52 L 12.85 10.16 Z"/></svg><div class="ulab">44</div></div>
+  <div class="unit"><svg class="tn" width="28" height="28" viewBox="0 0 100 100"><path class="fx" d="M 87.15 40.81 L 96 25.48 L 21.69 25.48 L 12.85 40.81 Z"/><path class="fy" d="M 87.15 10.16 L 96 25.48 L 21.69 25.48 L 12.85 10.16 Z"/><path class="fz" d="M 4 25.48 L 12.85 40.81 L 21.69 25.48 L 12.85 10.16 Z"/><path class="fx" d="M 58.85 89.84 L 96 25.48 L 78.31 25.48 L 41.15 89.84 Z"/><path class="fy" d="M 87.15 10.16 L 96 25.48 L 78.31 25.48 L 69.46 10.16 Z"/><path class="fz" d="M 32.31 74.52 L 41.15 89.84 L 78.31 25.48 L 69.46 10.16 Z"/><path class="fx" d="M 58.85 89.84 L 67.69 74.52 L 50 74.52 L 41.15 89.84 Z"/><path class="fy" d="M 30.54 10.16 L 67.69 74.52 L 50 74.52 L 12.85 10.16 Z"/><path class="fz" d="M 4 25.48 L 41.15 89.84 L 50 74.52 L 12.85 10.16 Z"/></svg><div class="ulab">28</div></div>
+  <div class="unit"><svg class="fl" width="28" height="28" viewBox="0 0 100 100" style="color:#F0EAE1"><path class="fx" d="M 87.15 40.81 L 96 25.48 L 21.69 25.48 L 12.85 40.81 Z"/><path class="fy" d="M 87.15 10.16 L 96 25.48 L 21.69 25.48 L 12.85 10.16 Z"/><path class="fz" d="M 4 25.48 L 12.85 40.81 L 21.69 25.48 L 12.85 10.16 Z"/><path class="fx" d="M 58.85 89.84 L 96 25.48 L 78.31 25.48 L 41.15 89.84 Z"/><path class="fy" d="M 87.15 10.16 L 96 25.48 L 78.31 25.48 L 69.46 10.16 Z"/><path class="fz" d="M 32.31 74.52 L 41.15 89.84 L 78.31 25.48 L 69.46 10.16 Z"/><path class="fx" d="M 58.85 89.84 L 67.69 74.52 L 50 74.52 L 41.15 89.84 Z"/><path class="fy" d="M 30.54 10.16 L 67.69 74.52 L 50 74.52 L 12.85 10.16 Z"/><path class="fz" d="M 4 25.48 L 41.15 89.84 L 50 74.52 L 12.85 10.16 Z"/></svg><div class="ulab">28 plano</div></div>
+</div>
+
+<p class="note">
+<b>Geometría.</b> L = 4, W = 1.25, ajuste 92 sobre lienzo de 100.<br>
+Vértices: (21.69, 25.48) · (78.31, 25.48) · (50, 74.52).<br>
+La V que forman las dos vigas bajas queda más abierta que con vigas gruesas.
+</p>
+
+</div>
+</body>
+</html>

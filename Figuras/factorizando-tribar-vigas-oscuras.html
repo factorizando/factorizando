@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Factorizando · Tribar de vigas oscuras</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,500;1,8..60,600&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#13161A;--ink-2:#1A1E24;--line:#2A3038;
+  --warm:#F0EAE1;--dim:#98A0A9;--blue:#4A9EE8;
+  --dz:#3E444D;--dx:#262B33;--dy:#14171C;      /* vigas oscuras */
+  --lz:#F0EAE1;--lx:#C4BCB1;--ly:#8E8880;      /* vigas claras  */
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ink);color:var(--warm);font-family:'Source Serif 4',Georgia,serif;line-height:1.55}
+.wrap{max-width:980px;margin:0 auto;padding:52px 24px 88px}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin:0 0 12px}
+h1{font-size:clamp(26px,5vw,38px);font-weight:600;margin:0 0 14px;letter-spacing:-.01em}
+.lede{font-size:16.5px;color:var(--dim);max-width:60ch;margin:0}
+header{border-bottom:1px solid var(--line);padding-bottom:28px;margin-bottom:34px}
+h2{font-size:18px;font-weight:600;margin:46px 0 6px}
+.sub{color:var(--dim);font-size:14.5px;margin:0 0 18px;max-width:58ch}
+
+.hero{background:#F0EAE1;border-radius:20px;padding:34px 20px;display:flex;justify-content:center}
+.hero svg{width:min(340px,74vw);height:auto;display:block}
+.row{display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:center;border-radius:20px;padding:28px 18px 22px}
+.row.paper{background:#F0EAE1}
+.row.dark{background:var(--ink-2);border:1px solid var(--line)}
+.unit{text-align:center}
+.unit svg{display:block;margin:0 auto}
+.ulab{font-family:'IBM Plex Mono',monospace;font-size:10.5px;margin-top:11px;color:var(--dim)}
+.row.paper .ulab{color:#6B655D}
+
+.dk .fz{fill:var(--dz)}.dk .fx{fill:var(--dx)}.dk .fy{fill:var(--dy)}
+.lt .fz{fill:var(--lz)}.lt .fx{fill:var(--lx)}.lt .fy{fill:var(--ly)}
+.bl .fz{fill:#4A9EE8}.bl .fx{fill:#2E71B2}.bl .fy{fill:#1B4A7A}
+.fl .fz,.fl .fx,.fl .fy{fill:currentColor}
+.acc .fz{fill:var(--blue)}.acc .fx{fill:var(--dx)}.acc .fy{fill:var(--dy)}
+
+.lbl{font-family:'Source Serif 4',serif;font-style:italic;font-weight:600;fill:var(--warm)}
+.lbl-d{fill:var(--ink)}
+.arw{stroke:var(--warm);stroke-width:.9;fill:none;opacity:.5;stroke-linecap:round}
+.dsh{stroke:var(--blue);stroke-width:1.3;fill:none;stroke-dasharray:1.6 3.2;stroke-linecap:round}
+
+.note{font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.85;color:var(--dim);border-left:2px solid var(--blue);padding:4px 0 4px 16px;margin:30px 0 0;max-width:64ch}
+.note b{color:var(--warm);font-weight:500}
+@media (max-width:520px){.wrap{padding:36px 16px 64px}.hero{padding:22px 12px;border-radius:16px}.row{gap:16px;padding:22px 12px 18px;border-radius:16px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<svg width="0" height="0" style="position:absolute"><defs>
+<marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto-start-reverse">
+<path d="M1 1.6L9 5L1 8.4Z" fill="context-stroke"/></marker>
+</defs></svg>
+
+<header>
+  <p class="eyebrow">Factorizando · marca</p>
+  <h1>Vigas oscuras, etiquetas al frente</h1>
+  <p class="lede">Tu versión dibujada a mano, trazada: V → V[G] → V, la tercera arista punteada en azul. Flechas al mínimo; el peso está en las etiquetas.</p>
+</header>
+
+<div class="hero">
+  <svg class="dk" viewBox="0 0 100 100" role="img" aria-label="Tribar de Penrose con vértices etiquetados V, V corchete G, V">
+    <path class="fx" d="M 58.99 86.35 L 73.98 95 L 73.98 22.31 L 58.99 13.65 Z"/>
+    <path class="fy" d="M 88.97 86.35 L 73.98 95 L 73.98 22.31 L 88.97 13.65 Z"/>
+    <path class="fz" d="M 73.98 5 L 58.99 13.65 L 73.98 22.31 L 88.97 13.65 Z"/>
+    <path class="fx" d="M 11.03 58.65 L 73.98 95 L 73.98 77.69 L 11.03 41.35 Z"/>
+    <path class="fy" d="M 88.97 86.35 L 73.98 95 L 73.98 77.69 L 88.97 69.04 Z"/>
+    <path class="fz" d="M 26.02 32.69 L 11.03 41.35 L 73.98 77.69 L 88.97 69.04 Z"/>
+    <path class="fx" d="M 11.03 58.65 L 26.02 67.31 L 26.02 50 L 11.03 41.35 Z"/>
+    <path class="fy" d="M 88.97 30.96 L 26.02 67.31 L 26.02 50 L 88.97 13.65 Z"/>
+    <path class="fz" d="M 73.98 5 L 11.03 41.35 L 26.02 50 L 88.97 13.65 Z"/>
+    <path class="arw" d="M62.47 62.39 L35.61 46.89" marker-end="url(#ah)"/>
+    <path class="arw" d="M40.41 33.04 L64.39 19.20" marker-end="url(#ah)"/>
+    <path class="dsh" d="M73.98 61.08 L73.98 36.71"/>
+    <g class="lbl" text-anchor="middle" dominant-baseline="central">
+      <text transform="matrix(0.866 -0.5 0.866 0.5 31.30 38.30)" font-size="7">V[G]</text>
+      <text transform="matrix(0.866 -0.5 0.866 0.5 70.14 15.88)" font-size="8.5">V</text>
+      <text transform="matrix(0.866 0.5 -0.866 0.5 69.18 66.27)" font-size="8.5">V</text>
+    </g>
+  </svg>
+</div>
+
+<h2>Variantes</h2>
+<p class="sub">La misma pieza en tono oscuro, tono claro, y con la cara superior en azul de acento.</p>
+
+<div class="row paper">
+  <div class="unit">
+    <svg class="dk" width="168" height="168" viewBox="0 0 100 100"><path class="fx" d="M 58.99 86.35 L 73.98 95 L 73.98 22.31 L 58.99 13.65 Z"/><path class="fy" d="M 88.97 86.35 L 73.98 95 L 73.98 22.31 L 88.97 13.65 Z"/><path class="fz" d="M 73.98 5 L 58.99 13.65 L 73.98 22.31 L 88.97 13.65 Z"/><path class="fx" d="M 11.03 58.65 L 73.98 95 L 73.98 77.69 L 11.03 41.35 Z"/><path class="fy" d="M 88.97 86.35 L 73.98 95 L 73.98 77.69 L 88.97 69.04 Z"/><path class="fz" d="M 26.02 32.69 L 11.03 41.35 L 73.98 77.69 L 88.97 69.04 Z"/><path class="fx" d="M 11.03 58.65 L 26.02 67.31 L 26.02 50 L 11.03 41.35 Z"/><path class="fy" d="M 88.97 30.96 L 26.02 67.31 L 26.02 50 L 88.97 13.65 Z"/><path class="fz" d="M 73.98 5 L 11.03 41.35 L 26.02 50 L 88.97 13.65 Z"/></svg>
+    <div class="ulab">Oscuro, sin etiquetas</div>
+  </div>
+  <div class="unit">
+    <svg class="acc" width="168" height="168" viewBox="0 0 100 100"><path class="fx" d="M 58.99 86.35 L 73.98 95 L 73.98 22.31 L 58.99 13.65 Z"/><path class="fy" d="M 88.97 86.35 L 73.98 95 L 73.98 22.31 L 88.97 13.65 Z"/><path class="fz" d="M 73.98 5 L 58.99 13.65 L 73.98 22.31 L 88.97 13.65 Z"/><path class="fx" d="M 11.03 58.65 L 73.98 95 L 73.98 77.69 L 11.03 41.35 Z"/><path class="fy" d="M 88.97 86.35 L 73.98 95 L 73.98 77.69 L 88.97 69.04 Z"/><path class="fz" d="M 26.02 32.69 L 11.03 41.35 L 73.98 77.69 L 88.97 69.04 Z"/><path class="fx" d="M 11.03 58.65 L 26.02 67.31 L 26.02 50 L 11.03 41.35 Z"/><path class="fy" d="M 88.97 30.96 L 26.02 67.31 L 26.02 50 L 88.97 13.65 Z"/><path class="fz" d="M 73.98 5 L 11.03 41.35 L 26.02 50 L 88.97 13.65 Z"/></svg>
+    <div class="ulab">Cara superior azul</div>
+  </div>
+  <div class="unit">
+    <svg class="fl" width="168" height="168" viewBox="0 0 100 100" style="color:#14171C"><path class="fx" d="M 58.99 86.35 L 73.98 95 L 73.98 22.31 L 58.99 13.65 Z"/><path class="fy" d="M 88.97 86.35 L 73.98 95 L 73.98 22.31 L 88.97 13.65 Z"/><path class="fz" d="M 73.98 5 L 58.99 13.65 L 73.98 22.31 L 88.97 13.65 Z"/><path class="fx" d="M 11.03 58.65 L 73.98 95 L 73.98 77.69 L 11.03 41.35 Z"/><path class="fy" d="M 88.97 86.35 L 73.98 95 L 73.98 77.69 L 88.97 69.04 Z"/><path class="fz" d="M 26.02 32.69 L 11.03 41.35 L 73.98 77.69 L 88.97 69.04 Z"/><path class="fx" d="M 11.03 58.65 L 26.02 67.31 L 26.02 50 L 11.03 41.35 Z"/><path class="fy" d="M 88.97 30.96 L 26.02 67.31 L 26.02 50 L 88.97 13.65 Z"/><path class="fz" d="M 73.98 5 L 11.03 41.35 L 26.02 50 L 88.97 13.65 Z"/></svg>
+    <div class="ulab">Plano, una tinta</div>
+  </div>
+</div>
+
+<h2>Sobre fondo oscuro</h2>
+<p class="sub">Las vigas oscuras necesitan fondo claro. Sobre oscuro se pierden, así que ahí va la versión clara.</p>
+
+<div class="row dark">
+  <div class="unit">
+    <svg class="lt" width="168" height="168" viewBox="0 0 100 100"><path class="fx" d="M 58.99 86.35 L 73.98 95 L 73.98 22.31 L 58.99 13.65 Z"/><path class="fy" d="M 88.97 86.35 L 73.98 95 L 73.98 22.31 L 88.97 13.65 Z"/><path class="fz" d="M 73.98 5 L 58.99 13.65 L 73.98 22.31 L 88.97 13.65 Z"/><path class="fx" d="M 11.03 58.65 L 73.98 95 L 73.98 77.69 L 11.03 41.35 Z"/><path class="fy" d="M 88.97 86.35 L 73.98 95 L 73.98 77.69 L 88.97 69.04 Z"/><path class="fz" d="M 26.02 32.69 L 11.03 41.35 L 73.98 77.69 L 88.97 69.04 Z"/><path class="fx" d="M 11.03 58.65 L 26.02 67.31 L 26.02 50 L 11.03 41.35 Z"/><path class="fy" d="M 88.97 30.96 L 26.02 67.31 L 26.02 50 L 88.97 13.65 Z"/><path class="fz" d="M 73.98 5 L 11.03 41.35 L 26.02 50 L 88.97 13.65 Z"/><path class="arw" style="stroke:#14171C;opacity:.55" d="M62.47 62.39 L35.61 46.89" marker-end="url(#ah)"/><path class="arw" style="stroke:#14171C;opacity:.55" d="M40.41 33.04 L64.39 19.20" marker-end="url(#ah)"/><path class="dsh" d="M73.98 61.08 L73.98 36.71"/><g class="lbl lbl-d" text-anchor="middle" dominant-baseline="central"><text transform="matrix(0.866 -0.5 0.866 0.5 31.30 38.30)" font-size="7">V[G]</text><text transform="matrix(0.866 -0.5 0.866 0.5 70.14 15.88)" font-size="8.5">V</text><text transform="matrix(0.866 0.5 -0.866 0.5 69.18 66.27)" font-size="8.5">V</text></g></svg>
+    <div class="ulab">Clara, con etiquetas</div>
+  </div>
+  <div class="unit">
+    <svg class="bl" width="168" height="168" viewBox="0 0 100 100"><path class="fx" d="M 58.99 86.35 L 73.98 95 L 73.98 22.31 L 58.99 13.65 Z"/><path class="fy" d="M 88.97 86.35 L 73.98 95 L 73.98 22.31 L 88.97 13.65 Z"/><path class="fz" d="M 73.98 5 L 58.99 13.65 L 73.98 22.31 L 88.97 13.65 Z"/><path class="fx" d="M 11.03 58.65 L 73.98 95 L 73.98 77.69 L 11.03 41.35 Z"/><path class="fy" d="M 88.97 86.35 L 73.98 95 L 73.98 77.69 L 88.97 69.04 Z"/><path class="fz" d="M 26.02 32.69 L 11.03 41.35 L 73.98 77.69 L 88.97 69.04 Z"/><path class="fx" d="M 11.03 58.65 L 26.02 67.31 L 26.02 50 L 11.03 41.35 Z"/><path class="fy" d="M 88.97 30.96 L 26.02 67.31 L 26.02 50 L 88.97 13.65 Z"/><path class="fz" d="M 73.98 5 L 11.03 41.35 L 26.02 50 L 88.97 13.65 Z"/></svg>
+    <div class="ulab">Azul de acento, sólido</div>
+  </div>
+</div>
+
+<h2>Escala</h2>
+<div class="row paper">
+  <div class="unit"><svg class="dk" width="112" height="112" viewBox="0 0 100 100"><path class="fx" d="M 58.99 86.35 L 73.98 95 L 73.98 22.31 L 58.99 13.65 Z"/><path class="fy" d="M 88.97 86.35 L 73.98 95 L 73.98 22.31 L 88.97 13.65 Z"/><path class="fz" d="M 73.98 5 L 58.99 13.65 L 73.98 22.31 L 88.97 13.65 Z"/><path class="fx" d="M 11.03 58.65 L 73.98 95 L 73.98 77.69 L 11.03 41.35 Z"/><path class="fy" d="M 88.97 86.35 L 73.98 95 L 73.98 77.69 L 88.97 69.04 Z"/><path class="fz" d="M 26.02 32.69 L 11.03 41.35 L 73.98 77.69 L 88.97 69.04 Z"/><path class="fx" d="M 11.03 58.65 L 26.02 67.31 L 26.02 50 L 11.03 41.35 Z"/><path class="fy" d="M 88.97 30.96 L 26.02 67.31 L 26.02 50 L 88.97 13.65 Z"/><path class="fz" d="M 73.98 5 L 11.03 41.35 L 26.02 50 L 88.97 13.65 Z"/></svg><div class="ulab">112</div></div>
+  <div class="unit"><svg class="dk" width="64" height="64" viewBox="0 0 100 100"><path class="fx" d="M 58.99 86.35 L 73.98 95 L 73.98 22.31 L 58.99 13.65 Z"/><path class="fy" d="M 88.97 86.35 L 73.98 95 L 73.98 22.31 L 88.97 13.65 Z"/><path class="fz" d="M 73.98 5 L 58.99 13.65 L 73.98 22.31 L 88.97 13.65 Z"/><path class="fx" d="M 11.03 58.65 L 73.98 95 L 73.98 77.69 L 11.03 41.35 Z"/><path class="fy" d="M 88.97 86.35 L 73.98 95 L 73.98 77.69 L 88.97 69.04 Z"/><path class="fz" d="M 26.02 32.69 L 11.03 41.35 L 73.98 77.69 L 88.97 69.04 Z"/><path class="fx" d="M 11.03 58.65 L 26.02 67.31 L 26.02 50 L 11.03 41.35 Z"/><path class="fy" d="M 88.97 30.96 L 26.02 67.31 L 26.02 50 L 88.97 13.65 Z"/><path class="fz" d="M 73.98 5 L 11.03 41.35 L 26.02 50 L 88.97 13.65 Z"/></svg><div class="ulab">64</div></div>
+  <div class="unit"><svg class="dk" width="36" height="36" viewBox="0 0 100 100"><path class="fx" d="M 58.99 86.35 L 73.98 95 L 73.98 22.31 L 58.99 13.65 Z"/><path class="fy" d="M 88.97 86.35 L 73.98 95 L 73.98 22.31 L 88.97 13.65 Z"/><path class="fz" d="M 73.98 5 L 58.99 13.65 L 73.98 22.31 L 88.97 13.65 Z"/><path class="fx" d="M 11.03 58.65 L 73.98 95 L 73.98 77.69 L 11.03 41.35 Z"/><path class="fy" d="M 88.97 86.35 L 73.98 95 L 73.98 77.69 L 88.97 69.04 Z"/><path class="fz" d="M 26.02 32.69 L 11.03 41.35 L 73.98 77.69 L 88.97 69.04 Z"/><path class="fx" d="M 11.03 58.65 L 26.02 67.31 L 26.02 50 L 11.03 41.35 Z"/><path class="fy" d="M 88.97 30.96 L 26.02 67.31 L 26.02 50 L 88.97 13.65 Z"/><path class="fz" d="M 73.98 5 L 11.03 41.35 L 26.02 50 L 88.97 13.65 Z"/></svg><div class="ulab">36</div></div>
+  <div class="unit"><svg class="fl" width="28" height="28" viewBox="0 0 100 100" style="color:#14171C"><path class="fx" d="M 58.99 86.35 L 73.98 95 L 73.98 22.31 L 58.99 13.65 Z"/><path class="fy" d="M 88.97 86.35 L 73.98 95 L 73.98 22.31 L 88.97 13.65 Z"/><path class="fz" d="M 73.98 5 L 58.99 13.65 L 73.98 22.31 L 88.97 13.65 Z"/><path class="fx" d="M 11.03 58.65 L 73.98 95 L 73.98 77.69 L 11.03 41.35 Z"/><path class="fy" d="M 88.97 86.35 L 73.98 95 L 73.98 77.69 L 88.97 69.04 Z"/><path class="fz" d="M 26.02 32.69 L 11.03 41.35 L 73.98 77.69 L 88.97 69.04 Z"/><path class="fx" d="M 11.03 58.65 L 26.02 67.31 L 26.02 50 L 11.03 41.35 Z"/><path class="fy" d="M 88.97 30.96 L 26.02 67.31 L 26.02 50 L 88.97 13.65 Z"/><path class="fz" d="M 73.98 5 L 11.03 41.35 L 26.02 50 L 88.97 13.65 Z"/></svg><div class="ulab">28 plano</div></div>
+</div>
+
+<p class="note">
+<b>Cambios respecto a lo anterior.</b> Isométrica estándar con z hacia arriba y espejo<br>
+horizontal — la V abre a la izquierda, como en tu dibujo.<br>
+Vértices: V (73.98, 22.31) · V[G] (26.02, 50) · V (73.98, 77.69).<br>
+Etiquetas sobre las caras superiores, matriz(0.866 ∓0.5 ±0.866 0.5).
+</p>
+
+</div>
+</body>
+</html>

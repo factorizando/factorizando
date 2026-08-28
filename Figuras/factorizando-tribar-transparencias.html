@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Factorizando · Transparencias junto al wordmark</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,500;0,700;1,600&family=Source+Serif+4:ital,opsz,wght@1,8..60,600&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F5F7FA; --navy:#12263F; --blue:#0B5FD6; --gray:#8A97A8;
+  --dz:#3E444D; --dx:#252A32; --dy:#12151A;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--navy);font-family:'Work Sans',system-ui,sans-serif;line-height:1.55}
+.wrap{max-width:1000px;margin:0 auto;padding:52px 24px 88px}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin:0 0 12px}
+h1{font-size:clamp(26px,5vw,36px);font-weight:700;margin:0 0 14px;letter-spacing:-.015em}
+.lede{font-size:16.5px;color:#5A6A7D;max-width:60ch;margin:0;font-weight:500}
+header{border-bottom:1px solid #E1E7EE;padding-bottom:26px;margin-bottom:32px}
+h2{font-size:17px;font-weight:700;margin:44px 0 6px}
+.sub{color:#5A6A7D;font-size:14.5px;margin:0 0 20px;max-width:58ch;font-weight:500}
+
+.fz{fill:var(--dz)}.fx{fill:var(--dx)}.fy{fill:var(--dy)}
+.arw{stroke:#F5F7FA;stroke-width:1;fill:none;opacity:.55;stroke-linecap:round}
+.dsh{stroke:#F5F7FA;stroke-width:1.2;fill:none;stroke-dasharray:1.6 3;stroke-linecap:round;opacity:.6}
+.lbl{font-family:'Source Serif 4',serif;font-style:italic;font-weight:600;fill:#F5F7FA}
+
+.hero{display:flex;justify-content:center;padding:26px 0 8px}
+.hero svg{width:min(300px,70vw);height:auto}
+
+.lock{display:flex;align-items:center;gap:16px;padding:16px 20px;border-radius:14px;background:#fff;border:1px solid #E1E7EE;margin-bottom:10px}
+.lock svg.mark{width:52px;height:52px;flex:none}
+.wm{font-weight:700;font-size:30px;letter-spacing:-.015em;line-height:1;white-space:nowrap}
+.wm .r{color:var(--blue)}
+.wm .bk{color:var(--gray);font-weight:500}
+.wm .iv{color:var(--blue);font-style:italic;font-weight:600;padding:0 1px}
+.pct{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--gray);flex:none}
+
+.row{display:flex;flex-wrap:wrap;gap:20px;justify-content:center;background:#fff;border:1px solid #E1E7EE;border-radius:16px;padding:24px 16px 18px}
+.unit{text-align:center}
+.unit svg{display:block;margin:0 auto}
+.ulab{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--gray);margin-top:9px}
+
+.note{font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.85;color:#5A6A7D;border-left:2px solid var(--blue);padding:4px 0 4px 16px;margin:28px 0 0;max-width:66ch}
+.note b{color:var(--navy);font-weight:500}
+@media (max-width:560px){.wrap{padding:36px 16px 64px}.wm{font-size:22px}.lock svg.mark{width:40px;height:40px}.lock{gap:12px;padding:13px 14px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<svg width="0" height="0" style="position:absolute"><defs>
+<marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.2" markerHeight="4.2" orient="auto-start-reverse"><path d="M1 1.8L9 5L1 8.2Z" fill="context-stroke"/></marker>
+
+<g id="tri">
+  <path class="fx" d="M 11.03 58.65 L 73.98 95 L 73.98 77.69 L 11.03 41.35 Z"/>
+  <path class="fy" d="M 88.97 86.35 L 73.98 95 L 73.98 77.69 L 88.97 69.04 Z"/>
+  <path class="fz" d="M 26.02 32.69 L 11.03 41.35 L 73.98 77.69 L 88.97 69.04 Z"/>
+  <path class="fx" d="M 58.99 86.35 L 73.98 95 L 73.98 22.31 L 58.99 13.65 Z"/>
+  <path class="fy" d="M 88.97 86.35 L 73.98 95 L 73.98 22.31 L 88.97 13.65 Z"/>
+  <path class="fz" d="M 73.98 5 L 58.99 13.65 L 73.98 22.31 L 88.97 13.65 Z"/>
+  <path class="fx" d="M 11.03 58.65 L 26.02 67.31 L 26.02 50 L 11.03 41.35 Z"/>
+  <path class="fy" d="M 88.97 30.96 L 26.02 67.31 L 26.02 50 L 88.97 13.65 Z"/>
+  <path class="fz" d="M 73.98 5 L 11.03 41.35 L 26.02 50 L 88.97 13.65 Z"/>
+</g>
+
+<g id="triL">
+  <use href="#tri"/>
+  <path class="arw" d="M62.47 62.39 L35.61 46.88" marker-end="url(#ah)"/>
+  <path class="arw" d="M35.61 35.81 L62.47 20.30" marker-end="url(#ah)"/>
+  <path class="dsh" d="M73.98 62.18 L73.98 35.60"/>
+  <g class="lbl" text-anchor="middle" dominant-baseline="central">
+    <text transform="matrix(0.866 -0.5 0.866 0.5 30.81 38.58)" font-size="6.8">V[G]</text>
+    <text transform="matrix(0.866 -0.5 0.866 0.5 70.15 15.87)" font-size="8.4">V</text>
+    <text transform="matrix(0.866 0.5 -0.866 0.5 69.67 66.55) rotate(90)" font-size="8.4">V</text>
+  </g>
+</g>
+</defs></svg>
+
+<header>
+  <p class="eyebrow">Factorizando · marca</p>
+  <h1>Orden corregido y grados de transparencia</h1>
+  <p class="lede">La viga vertical vuelve a pasar por delante de la horizontal inferior, sin líneas azules, y la V de abajo girada 90° en sentido horario.</p>
+</header>
+
+<div class="hero"><svg viewBox="0 0 100 100" role="img" aria-label="Tribar con vértices V, V corchete G, V"><use href="#triL"/></svg></div>
+
+<h2>Junto al wordmark</h2>
+<p class="sub">Siete niveles. El wordmark es una aproximación con Work Sans; ajusta cuando fijes la tipografía definitiva.</p>
+
+<div class="lock"><svg class="mark" viewBox="0 0 100 100" style="opacity:1"><use href="#tri"/></svg><div class="wm">Facto<span class="r">R</span><span class="bk">[</span><span class="iv">i</span><span class="bk">]</span>zando</div><div class="pct">100%</div></div>
+<div class="lock"><svg class="mark" viewBox="0 0 100 100" style="opacity:.85"><use href="#tri"/></svg><div class="wm">Facto<span class="r">R</span><span class="bk">[</span><span class="iv">i</span><span class="bk">]</span>zando</div><div class="pct">85%</div></div>
+<div class="lock"><svg class="mark" viewBox="0 0 100 100" style="opacity:.7"><use href="#tri"/></svg><div class="wm">Facto<span class="r">R</span><span class="bk">[</span><span class="iv">i</span><span class="bk">]</span>zando</div><div class="pct">70%</div></div>
+<div class="lock"><svg class="mark" viewBox="0 0 100 100" style="opacity:.55"><use href="#tri"/></svg><div class="wm">Facto<span class="r">R</span><span class="bk">[</span><span class="iv">i</span><span class="bk">]</span>zando</div><div class="pct">55%</div></div>
+<div class="lock"><svg class="mark" viewBox="0 0 100 100" style="opacity:.42"><use href="#tri"/></svg><div class="wm">Facto<span class="r">R</span><span class="bk">[</span><span class="iv">i</span><span class="bk">]</span>zando</div><div class="pct">42%</div></div>
+<div class="lock"><svg class="mark" viewBox="0 0 100 100" style="opacity:.3"><use href="#tri"/></svg><div class="wm">Facto<span class="r">R</span><span class="bk">[</span><span class="iv">i</span><span class="bk">]</span>zando</div><div class="pct">30%</div></div>
+<div class="lock"><svg class="mark" viewBox="0 0 100 100" style="opacity:.2"><use href="#tri"/></svg><div class="wm">Facto<span class="r">R</span><span class="bk">[</span><span class="iv">i</span><span class="bk">]</span>zando</div><div class="pct">20%</div></div>
+
+<h2>El mark solo, en escala de transparencia</h2>
+<div class="row">
+  <div class="unit"><svg width="96" height="96" viewBox="0 0 100 100" style="opacity:1"><use href="#tri"/></svg><div class="ulab">100%</div></div>
+  <div class="unit"><svg width="96" height="96" viewBox="0 0 100 100" style="opacity:.8"><use href="#tri"/></svg><div class="ulab">80%</div></div>
+  <div class="unit"><svg width="96" height="96" viewBox="0 0 100 100" style="opacity:.6"><use href="#tri"/></svg><div class="ulab">60%</div></div>
+  <div class="unit"><svg width="96" height="96" viewBox="0 0 100 100" style="opacity:.45"><use href="#tri"/></svg><div class="ulab">45%</div></div>
+  <div class="unit"><svg width="96" height="96" viewBox="0 0 100 100" style="opacity:.32"><use href="#tri"/></svg><div class="ulab">32%</div></div>
+  <div class="unit"><svg width="96" height="96" viewBox="0 0 100 100" style="opacity:.22"><use href="#tri"/></svg><div class="ulab">22%</div></div>
+  <div class="unit"><svg width="96" height="96" viewBox="0 0 100 100" style="opacity:.14"><use href="#tri"/></svg><div class="ulab">14%</div></div>
+</div>
+
+<h2>Con etiquetas, en transparencia</h2>
+<p class="sub">Las etiquetas van en el color del fondo, así que se aclaran junto con las vigas.</p>
+<div class="row">
+  <div class="unit"><svg width="118" height="118" viewBox="0 0 100 100" style="opacity:1"><use href="#triL"/></svg><div class="ulab">100%</div></div>
+  <div class="unit"><svg width="118" height="118" viewBox="0 0 100 100" style="opacity:.7"><use href="#triL"/></svg><div class="ulab">70%</div></div>
+  <div class="unit"><svg width="118" height="118" viewBox="0 0 100 100" style="opacity:.5"><use href="#triL"/></svg><div class="ulab">50%</div></div>
+  <div class="unit"><svg width="118" height="118" viewBox="0 0 100 100" style="opacity:.35"><use href="#triL"/></svg><div class="ulab">35%</div></div>
+</div>
+
+<p class="note">
+<b>Orden de dibujo:</b> viga B (inferior) → viga C (vertical) → viga A (superior).<br>
+La vertical pasa por delante de la inferior; la superior por delante de todo.<br>
+Vértices: V (73.98, 22.31) · V[G] (26.02, 50) · V (73.98, 77.69).<br>
+La V de abajo lleva rotate(90) sobre su matriz de cara.
+</p>
+
+</div>
+</body>
+</html>

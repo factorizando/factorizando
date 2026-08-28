@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Factorizando · El tribar como diagrama que no conmuta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#13161A; --ink-2:#1A1E24; --line:#2A3038;
+  --warm:#F0EAE1; --dim:#98A0A9; --blue:#4A9EE8;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ink);color:var(--warm);
+  font-family:'Source Serif 4',Georgia,serif;line-height:1.55}
+.wrap{max-width:1060px;margin:0 auto;padding:56px 24px 96px}
+
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--blue);margin:0 0 14px}
+h1{font-size:clamp(27px,5vw,42px);font-weight:600;line-height:1.15;margin:0 0 16px;letter-spacing:-.01em}
+.lede{font-size:17px;color:var(--dim);max-width:62ch;margin:0}
+.lede em{color:var(--warm);font-style:italic}
+header{border-bottom:1px solid var(--line);padding-bottom:32px}
+
+.axiom{font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.85;
+  color:var(--dim);border-left:2px solid var(--blue);padding:4px 0 4px 16px;
+  margin:34px 0 40px;max-width:66ch}
+.axiom b{color:var(--warm);font-weight:500}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(212px,1fr));gap:18px}
+.tile{background:var(--ink-2);border:1px solid var(--line);border-radius:18px;
+  padding:22px 18px 18px;position:relative}
+.tile.pick{border-color:var(--blue)}
+.chip{position:absolute;top:14px;right:14px;width:26px;height:26px;opacity:.5;color:var(--warm)}
+.chip svg{width:100%;height:100%;display:block}
+.art{width:100%;max-width:130px;margin:4px auto 18px;color:var(--warm)}
+.art svg{width:100%;height:auto;display:block}
+.name{font-size:15px;font-weight:600;margin:0 0 4px;letter-spacing:-.005em}
+.ref{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--dim);margin:0;line-height:1.55}
+
+footer{margin-top:56px;padding-top:26px;border-top:1px solid var(--line);
+  font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--dim);line-height:1.9}
+
+@media (max-width:520px){
+  .wrap{padding:40px 16px 72px}
+  .grid{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+  .tile{padding:18px 13px 14px;border-radius:14px}
+  .chip{width:20px;height:20px;top:10px;right:10px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="eyebrow">Factorizando · exploración de marca</p>
+  <h1>El tribar como diagrama que no conmuta</h1>
+  <p class="lede">Cada viga es localmente consistente. El circuito completo no cierra. La obstrucción vive en <em>H¹</em> — la misma forma que el grupo de clases, la monodromía y la inconsistencia de Kunen.</p>
+</header>
+
+<p class="axiom">
+<b>Geometría exacta.</b> Tres prismas en 3D recorriendo el circuito<br>
+(0,0,0) → (L,0,0) → (L,L,0) → (L,L,L), proyectados isométricamente.<br>
+El punto final (L,L,L) cae sobre el origen porque (1,1,1) es la dirección de vista.<br>
+Ahí está la imposibilidad: en una sola coordenada.
+</p>
+
+<div class="grid">
+
+  <!-- 1 clásico -->
+  <div class="tile pick">
+    <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"><path d="M 17.96 20.12 L 30.28 13 L 42.61 20.12 L 42.61 79.88 L 30.28 87 L 17.96 79.88 Z" fill="#1A1E24"/><path d="M17.96 79.88L30.28 72.77M42.61 79.88L30.28 72.77M30.28 13L30.28 72.77"/><path d="M 17.96 20.12 L 30.28 13 L 82.04 42.88 L 82.04 57.12 L 69.72 64.23 L 17.96 34.35 Z" fill="#1A1E24"/><path d="M17.96 34.35L30.28 27.23M82.04 57.12L30.28 27.23M30.28 13L30.28 27.23"/><path d="M 17.96 65.65 L 69.72 35.77 L 82.04 42.88 L 82.04 57.12 L 30.28 87 L 17.96 79.88 Z" fill="#1A1E24"/><path d="M17.96 79.88L69.72 50M82.04 57.12L69.72 50M69.72 35.77L69.72 50"/></svg></div>
+    <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"><path d="M 17.96 20.12 L 30.28 13 L 42.61 20.12 L 42.61 79.88 L 30.28 87 L 17.96 79.88 Z" fill="#1A1E24"/><path d="M17.96 79.88L30.28 72.77M42.61 79.88L30.28 72.77M30.28 13L30.28 72.77"/><path d="M 17.96 20.12 L 30.28 13 L 82.04 42.88 L 82.04 57.12 L 69.72 64.23 L 17.96 34.35 Z" fill="#1A1E24"/><path d="M17.96 34.35L30.28 27.23M82.04 57.12L30.28 27.23M30.28 13L30.28 27.23"/><path d="M 17.96 65.65 L 69.72 35.77 L 82.04 42.88 L 82.04 57.12 L 30.28 87 L 17.96 79.88 Z" fill="#1A1E24"/><path d="M17.96 79.88L69.72 50M82.04 57.12L69.72 50M69.72 35.77L69.72 50"/></svg></div>
+    <p class="name">Tribar cálido</p><p class="ref">Trazo grueso, uniones redondas.<br>La base de todo lo demás.</p>
+  </div>
+
+  <!-- 2 sin lineas internas -->
+  <div class="tile pick">
+    <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4.4" stroke-linejoin="round"><path d="M 17.96 20.12 L 30.28 13 L 42.61 20.12 L 42.61 79.88 L 30.28 87 L 17.96 79.88 Z" fill="#1A1E24"/><path d="M 17.96 20.12 L 30.28 13 L 82.04 42.88 L 82.04 57.12 L 69.72 64.23 L 17.96 34.35 Z" fill="#1A1E24"/><path d="M 17.96 65.65 L 69.72 35.77 L 82.04 42.88 L 82.04 57.12 L 30.28 87 L 17.96 79.88 Z" fill="#1A1E24"/></svg></div>
+    <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"><path d="M 17.96 20.12 L 30.28 13 L 42.61 20.12 L 42.61 79.88 L 30.28 87 L 17.96 79.88 Z" fill="#1A1E24"/><path d="M 17.96 20.12 L 30.28 13 L 82.04 42.88 L 82.04 57.12 L 69.72 64.23 L 17.96 34.35 Z" fill="#1A1E24"/><path d="M 17.96 65.65 L 69.72 35.77 L 82.04 42.88 L 82.04 57.12 L 30.28 87 L 17.96 79.88 Z" fill="#1A1E24"/></svg></div>
+    <p class="name">Solo silueta</p><p class="ref">Sin líneas internas.<br>Aguanta mucho mejor en chico.</p>
+  </div>
+
+  <!-- 3 con nodos -->
+  <div class="tile pick">
+    <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"><path d="M 17.96 20.12 L 30.28 13 L 42.61 20.12 L 42.61 79.88 L 30.28 87 L 17.96 79.88 Z" fill="#1A1E24"/><path d="M 17.96 20.12 L 30.28 13 L 82.04 42.88 L 82.04 57.12 L 69.72 64.23 L 17.96 34.35 Z" fill="#1A1E24"/><path d="M 17.96 65.65 L 69.72 35.77 L 82.04 42.88 L 82.04 57.12 L 30.28 87 L 17.96 79.88 Z" fill="#1A1E24"/><g fill="currentColor" stroke="none"><circle cx="30.28" cy="27.23" r="6"/><circle cx="69.72" cy="50" r="6"/><circle cx="30.28" cy="72.77" r="6"/></g></svg></div>
+    <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linejoin="round" stroke-linecap="round"><path d="M 17.96 20.12 L 30.28 13 L 42.61 20.12 L 42.61 79.88 L 30.28 87 L 17.96 79.88 Z" fill="#1A1E24"/><path d="M 17.96 20.12 L 30.28 13 L 82.04 42.88 L 82.04 57.12 L 69.72 64.23 L 17.96 34.35 Z" fill="#1A1E24"/><path d="M 17.96 65.65 L 69.72 35.77 L 82.04 42.88 L 82.04 57.12 L 30.28 87 L 17.96 79.88 Z" fill="#1A1E24"/><g fill="currentColor" stroke="none"><circle cx="30.28" cy="27.23" r="6.5"/><circle cx="69.72" cy="50" r="6.5"/><circle cx="30.28" cy="72.77" r="6.5"/></g></svg></div>
+    <p class="name">Con los tres objetos</p><p class="ref">Los vértices del circuito, marcados.<br>Tribar + diagrama conmutativo.</p>
+  </div>
+
+  <!-- 4 medallón -->
+  <div class="tile">
+    <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"><circle cx="50" cy="50" r="45" opacity=".3"/><g transform="translate(50 50) scale(.78) translate(-50 -50)"><path d="M 17.96 20.12 L 30.28 13 L 42.61 20.12 L 42.61 79.88 L 30.28 87 L 17.96 79.88 Z" fill="#1A1E24"/><path d="M 17.96 20.12 L 30.28 13 L 82.04 42.88 L 82.04 57.12 L 69.72 64.23 L 17.96 34.35 Z" fill="#1A1E24"/><path d="M 17.96 65.65 L 69.72 35.77 L 82.04 42.88 L 82.04 57.12 L 30.28 87 L 17.96 79.88 Z" fill="#1A1E24"/></g></svg></div>
+    <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"><circle cx="50" cy="50" r="45" opacity=".35"/><g transform="translate(50 50) scale(.76) translate(-50 -50)"><path d="M 17.96 20.12 L 30.28 13 L 42.61 20.12 L 42.61 79.88 L 30.28 87 L 17.96 79.88 Z" fill="#1A1E24" stroke-width="4.5"/><path d="M 17.96 20.12 L 30.28 13 L 82.04 42.88 L 82.04 57.12 L 69.72 64.23 L 17.96 34.35 Z" fill="#1A1E24" stroke-width="4.5"/><path d="M 17.96 65.65 L 69.72 35.77 L 82.04 42.88 L 82.04 57.12 L 30.28 87 L 17.96 79.88 Z" fill="#1A1E24" stroke-width="4.5"/></g></svg></div>
+    <p class="name">En el medallón</p><p class="ref">El formato circular<br>que ya venías usando.</p>
+  </div>
+
+  <!-- 5 negativo azul -->
+  <div class="tile">
+    <div class="chip"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#4A9EE8"/><g fill="none" stroke="#13161A" stroke-width="4.4" stroke-linejoin="round" transform="translate(50 50) scale(.74) translate(-50 -50)"><path d="M 17.96 20.12 L 30.28 13 L 42.61 20.12 L 42.61 79.88 L 30.28 87 L 17.96 79.88 Z" fill="#4A9EE8"/><path d="M 17.96 20.12 L 30.28 13 L 82.04 42.88 L 82.04 57.12 L 69.72 64.23 L 17.96 34.35 Z" fill="#4A9EE8"/><path d="M 17.96 65.65 L 69.72 35.77 L 82.04 42.88 L 82.04 57.12 L 30.28 87 L 17.96 79.88 Z" fill="#4A9EE8"/></g></svg></div>
+    <div class="art"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#4A9EE8"/><g fill="none" stroke="#13161A" stroke-width="4" stroke-linejoin="round" stroke-linecap="round" transform="translate(50 50) scale(.72) translate(-50 -50)"><path d="M 17.96 20.12 L 30.28 13 L 42.61 20.12 L 42.61 79.88 L 30.28 87 L 17.96 79.88 Z" fill="#4A9EE8"/><path d="M 17.96 20.12 L 30.28 13 L 82.04 42.88 L 82.04 57.12 L 69.72 64.23 L 17.96 34.35 Z" fill="#4A9EE8"/><path d="M 17.96 65.65 L 69.72 35.77 L 82.04 42.88 L 82.04 57.12 L 30.28 87 L 17.96 79.88 Z" fill="#4A9EE8"/></g></svg></div>
+    <p class="name">Sobre azul</p><p class="ref">Disco lleno, tribar calado.<br>Máximo contraste en feed.</p>
+  </div>
+
+  <!-- 6 junta abierta -->
+  <div class="tile pick">
+    <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4.4" stroke-linejoin="round" stroke-linecap="round"><path d="M 17.96 20.12 L 30.28 13 L 42.61 20.12 L 42.61 79.88 L 30.28 87 L 17.96 79.88 Z" fill="#1A1E24"/><path d="M 17.96 20.12 L 30.28 13 L 82.04 42.88 L 82.04 57.12 L 69.72 64.23 L 17.96 34.35 Z" fill="#1A1E24"/><path d="M 26 62.5 L 69.72 37.5 L 82.04 44.5 L 82.04 57.12 L 34 84 " fill="none"/></svg></div>
+    <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"><path d="M 17.96 20.12 L 30.28 13 L 42.61 20.12 L 42.61 79.88 L 30.28 87 L 17.96 79.88 Z" fill="#1A1E24"/><path d="M 17.96 20.12 L 30.28 13 L 82.04 42.88 L 82.04 57.12 L 69.72 64.23 L 17.96 34.35 Z" fill="#1A1E24"/><path d="M 27.5 61 L 69.72 36.6 L 82.04 43.7 L 82.04 57.12 L 36.5 83.2"/></svg></div>
+    <p class="name">La junta abierta</p><p class="ref">La obstrucción, visible.<br>El circuito no cierra — y se ve.</p>
+  </div>
+
+  <!-- 7 puntos convergentes -->
+  <div class="tile">
+    <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" opacity=".95"><path d="M 17.96 20.12 L 30.28 13 L 42.61 20.12 L 42.61 79.88 L 30.28 87 L 17.96 79.88 Z" fill="#1A1E24"/><path d="M 17.96 20.12 L 30.28 13 L 82.04 42.88 L 82.04 57.12 L 69.72 64.23 L 17.96 34.35 Z" fill="#1A1E24"/><path d="M 17.96 65.65 L 69.72 35.77 L 82.04 42.88 L 82.04 57.12 L 30.28 87 L 17.96 79.88 Z" fill="#1A1E24"/></svg></div>
+    <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M 17.96 20.12 L 30.28 13 L 42.61 20.12 L 42.61 79.88 L 30.28 87 L 17.96 79.88 Z" fill="#1A1E24" opacity=".55"/><path d="M 17.96 20.12 L 30.28 13 L 82.04 42.88 L 82.04 57.12 L 69.72 64.23 L 17.96 34.35 Z" fill="#1A1E24" opacity=".55"/><path d="M 17.96 65.65 L 69.72 35.77 L 82.04 42.88 L 82.04 57.12 L 30.28 87 L 17.96 79.88 Z" fill="#1A1E24" opacity=".55"/><g fill="currentColor" stroke="none"><circle cx="34.6" cy="34.4" r="2.5"/><circle cx="43.8" cy="39.7" r="2.2"/><circle cx="52" cy="44.4" r="1.9"/><circle cx="59" cy="48.5" r="1.6"/><circle cx="64.6" cy="51.7" r="1.3"/><circle cx="63.5" cy="56.2" r="2.5"/><circle cx="53.8" cy="61.8" r="2.2"/><circle cx="45.2" cy="66.8" r="1.9"/><circle cx="38" cy="70.9" r="1.6"/><circle cx="32.4" cy="74.2" r="1.3"/><circle cx="30.28" cy="68" r="2.5"/><circle cx="30.28" cy="58" r="2.2"/><circle cx="30.28" cy="49" r="1.9"/><circle cx="30.28" cy="41.5" r="1.6"/><circle cx="30.28" cy="35.5" r="1.3"/><circle cx="30.28" cy="27.23" r="5.5"/><circle cx="69.72" cy="50" r="5.5"/><circle cx="30.28" cy="72.77" r="5.5"/></g></svg></div>
+    <p class="name">Puntos convergentes</p><p class="ref">El gradiente de rondas anteriores,<br>recorriendo el circuito.</p>
+  </div>
+
+  <!-- 8 esqueleto -->
+  <div class="tile">
+    <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"><path d="M30.28 27.23L69.72 50L30.28 72.77Z" /><path d="M30.28 20L30.28 80" opacity=".4"/></svg></div>
+    <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"><path d="M 17.96 20.12 L 30.28 13 L 42.61 20.12 L 42.61 79.88 L 30.28 87 L 17.96 79.88 Z" fill="none" opacity=".28"/><path d="M 17.96 20.12 L 30.28 13 L 82.04 42.88 L 82.04 57.12 L 69.72 64.23 L 17.96 34.35 Z" fill="none" opacity=".28"/><path d="M 17.96 65.65 L 69.72 35.77 L 82.04 42.88 L 82.04 57.12 L 30.28 87 L 17.96 79.88 Z" fill="none" opacity=".28"/><path d="M30.28 27.23L69.72 50L30.28 72.77L30.28 27.23" stroke-width="3"/><g fill="currentColor" stroke="none"><circle cx="30.28" cy="27.23" r="5.5"/><circle cx="69.72" cy="50" r="5.5"/><circle cx="30.28" cy="72.77" r="5.5"/></g></svg></div>
+    <p class="name">El circuito por dentro</p><p class="ref">El diagrama conmutativo<br>escondido en el tribar.</p>
+  </div>
+
+</div>
+
+<footer>
+  Marcadas: silueta sola · con los tres objetos · junta abierta · tribar cálido.<br>
+  La miniatura de cada esquina muestra la figura a 26 px.
+</footer>
+
+</div>
+</body>
+</html>

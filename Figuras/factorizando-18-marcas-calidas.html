@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Factorizando · 18 marcas en versión cálida</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#13161A;
+  --ink-2:#1A1E24;
+  --line:#2A3038;
+  --warm:#F0EAE1;
+  --warm-dim:#9AA0A8;
+  --blue:#4A9EE8;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--ink);color:var(--warm);
+  font-family:'Source Serif 4',Georgia,serif;
+  line-height:1.55;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:56px 24px 96px}
+
+header{border-bottom:1px solid var(--line);padding-bottom:34px;margin-bottom:12px}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--blue);margin:0 0 14px
+}
+h1{font-size:clamp(28px,5vw,44px);font-weight:600;line-height:1.15;margin:0 0 16px;letter-spacing:-.01em}
+.lede{font-size:17px;color:var(--warm-dim);max-width:60ch;margin:0}
+.lede em{color:var(--warm);font-style:italic}
+
+.note{
+  font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.7;
+  color:var(--warm-dim);border-left:2px solid var(--blue);
+  padding:2px 0 2px 16px;margin:34px 0 8px;max-width:64ch
+}
+
+section{margin-top:52px}
+.sec-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:6px}
+.sec-num{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--blue);letter-spacing:.1em}
+h2{font-size:21px;font-weight:600;margin:0;letter-spacing:-.005em}
+.sec-sub{color:var(--warm-dim);font-size:15px;margin:0 0 26px;max-width:58ch}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px}
+
+.tile{
+  background:var(--ink-2);border:1px solid var(--line);border-radius:18px;
+  padding:22px 18px 18px;position:relative;
+}
+.tile .chip{
+  position:absolute;top:14px;right:14px;width:26px;height:26px;
+  opacity:.5;color:var(--warm)
+}
+.tile .chip svg{width:100%;height:100%;display:block}
+.art{width:100%;max-width:124px;margin:6px auto 18px;color:var(--warm)}
+.art svg{width:100%;height:auto;display:block}
+.name{font-size:15px;font-weight:600;margin:0 0 3px;letter-spacing:-.005em}
+.ref{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--warm-dim);margin:0;line-height:1.5}
+
+.tile.pick{border-color:var(--blue)}
+.tile.pick .badge{
+  position:absolute;bottom:16px;right:16px;
+  font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;
+  color:var(--blue);text-transform:uppercase
+}
+
+footer{margin-top:64px;padding-top:28px;border-top:1px solid var(--line);
+  font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--warm-dim);line-height:1.8}
+
+@media (max-width:520px){
+  .wrap{padding:40px 16px 72px}
+  .grid{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+  .tile{padding:18px 14px 14px;border-radius:14px}
+  .tile .chip{width:20px;height:20px;top:10px;right:10px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="eyebrow">Factorizando · exploración de marca</p>
+  <h1>Dieciocho figuras, versión cálida</h1>
+  <p class="lede">Las mismas ideas de la ronda anterior, redibujadas para corregir lo que faltaba: <em>calidez</em>. Cero puntas de flecha, remates redondeados, trazo grueso, curvas en lugar de rectas, y nodos generosos.</p>
+</header>
+
+<p class="note">La miniatura de cada esquina superior derecha muestra la misma figura a 26&nbsp;px.<br>Es la prueba que decide si algo puede ser favicon.</p>
+
+<section>
+  <div class="sec-head"><span class="sec-num">I</span><h2>Descomposición en irreducibles</h2></div>
+  <p class="sec-sub">El objeto es un producto de átomos, único salvo orden.</p>
+  <div class="grid">
+
+    <div class="tile">
+      <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"><path d="M50 20Q38 32 29 45M50 20Q62 32 71 45M29 45Q22 60 17 75M29 45Q36 60 41 75"/><g fill="currentColor" stroke="none"><circle cx="50" cy="20" r="7"/><circle cx="29" cy="45" r="6"/><circle cx="71" cy="45" r="7"/><circle cx="17" cy="79" r="7"/><circle cx="41" cy="79" r="7"/></g></svg></div>
+      <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"><path d="M50 20Q38 32 29 45M50 20Q62 32 71 45M29 45Q22 60 17 75M29 45Q36 60 41 75"/><g fill="currentColor" stroke="none"><circle cx="50" cy="20" r="7"/><circle cx="29" cy="45" r="6"/><circle cx="71" cy="45" r="7"/><circle cx="17" cy="79" r="7"/><circle cx="41" cy="79" r="7"/></g></svg></div>
+      <p class="name">Árbol de factores</p><p class="ref">TF de la aritmética</p>
+    </div>
+
+    <div class="tile">
+      <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.4"><circle cx="50" cy="50" r="35"/><g fill="currentColor" stroke="none"><circle cx="27" cy="50" r="6.5"/><circle cx="48" cy="29" r="6.5"/><circle cx="48" cy="71" r="6.5"/><circle cx="71" cy="37" r="6.5"/><circle cx="71" cy="63" r="6.5"/></g></svg></div>
+      <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.4"><circle cx="50" cy="50" r="35"/><g fill="currentColor" stroke="none"><circle cx="27" cy="50" r="6.5"/><circle cx="48" cy="29" r="6.5"/><circle cx="48" cy="71" r="6.5"/><circle cx="71" cy="37" r="6.5"/><circle cx="71" cy="63" r="6.5"/></g></svg></div>
+      <p class="name">Raíces en el disco</p><p class="ref">TF del álgebra</p>
+    </div>
+
+    <div class="tile pick">
+      <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4.4" stroke-linecap="round"><path d="M50 76Q46 52 31 33M50 76Q54 52 69 33"/><g fill="currentColor" stroke="none"><circle cx="50" cy="82" r="7.5"/><circle cx="28" cy="27" r="7.5"/><circle cx="72" cy="27" r="7.5"/></g></svg></div>
+      <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4.4" stroke-linecap="round"><path d="M50 76Q46 52 31 33M50 76Q54 52 69 33"/><path d="M14 55H30M46 55H54M70 55H86" stroke-width="2.6" opacity=".5"/><g fill="currentColor" stroke="none"><circle cx="50" cy="82" r="7.5"/><circle cx="28" cy="27" r="7.5"/><circle cx="72" cy="27" r="7.5"/></g></svg></div>
+      <p class="name">Primo que se parte</p><p class="ref">Dedekind, Frobenius</p><span class="badge">favorita</span>
+    </div>
+
+    <div class="tile">
+      <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"><path d="M30 20Q26 50 30 82"/><g fill="currentColor" stroke="none"><circle cx="30" cy="20" r="6.5"/><circle cx="27" cy="41" r="6.5"/><circle cx="27" cy="61" r="6.5"/><circle cx="30" cy="82" r="6.5"/><circle cx="63" cy="30" r="9"/><circle cx="61" cy="53" r="6.5"/><circle cx="64" cy="74" r="11"/></g></svg></div>
+      <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"><path d="M30 20Q26 50 30 82"/><g fill="currentColor" stroke="none"><circle cx="30" cy="20" r="6.5"/><circle cx="27" cy="41" r="6.5"/><circle cx="27" cy="61" r="6.5"/><circle cx="30" cy="82" r="6.5"/><circle cx="63" cy="30" r="9"/><circle cx="61" cy="53" r="6.5"/><circle cx="64" cy="74" r="11"/></g></svg></div>
+      <p class="name">Serie de composición</p><p class="ref">Jordan–Hölder</p>
+    </div>
+
+    <div class="tile">
+      <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor"><rect x="15" y="15" width="70" height="70" rx="16" stroke-width="3" opacity=".45"/><g fill="currentColor" stroke="none"><rect x="20" y="20" width="27" height="27" rx="10"/><rect x="41" y="41" width="18" height="18" rx="7"/><rect x="53" y="53" width="27" height="27" rx="10"/></g></svg></div>
+      <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor"><rect x="15" y="15" width="70" height="70" rx="16" stroke-width="3" opacity=".45"/><g fill="currentColor" stroke="none"><rect x="20" y="20" width="27" height="27" rx="10"/><rect x="41" y="41" width="18" height="18" rx="7"/><rect x="53" y="53" width="27" height="27" rx="10"/></g></svg></div>
+      <p class="name">Bloques diagonales</p><p class="ref">Jordan, Wedderburn</p>
+    </div>
+
+    <div class="tile">
+      <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4.2"><circle cx="32" cy="50" r="20"/><circle cx="68" cy="50" r="20"/><g fill="currentColor" stroke="none"><circle cx="50" cy="50" r="6"/></g></svg></div>
+      <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4.2"><circle cx="32" cy="50" r="20"/><circle cx="68" cy="50" r="20"/><g fill="currentColor" stroke="none"><circle cx="50" cy="50" r="6"/></g></svg></div>
+      <p class="name">Suma conexa</p><p class="ref">Kneser–Milnor</p>
+    </div>
+
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="sec-num">II</span><h2>Factorización de morfismos</h2></div>
+  <p class="sec-sub">Todo mapa se escribe f = m ∘ e: pasa por un objeto intermedio.</p>
+  <div class="grid">
+
+    <div class="tile">
+      <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><path d="M28 18Q50 11 72 18" opacity=".45"/><path d="M23 30Q32 56 44 74"/><path d="M58 74Q70 52 78 30"/><g fill="currentColor" stroke="none"><circle cx="20" cy="24" r="8"/><circle cx="80" cy="24" r="8"/><circle cx="51" cy="80" r="8"/></g></svg></div>
+      <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><path d="M28 18Q50 11 72 18" opacity=".45"/><path d="M23 30Q32 56 44 74"/><path d="M58 74Q70 52 78 30"/><g fill="currentColor" stroke="none"><circle cx="20" cy="24" r="8"/><circle cx="80" cy="24" r="8"/><circle cx="51" cy="80" r="8"/></g></svg></div>
+      <p class="name">f = m ∘ e</p><p class="ref">Sistema de factorización</p>
+    </div>
+
+    <div class="tile">
+      <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><path d="M24 72Q32 46 44 28"/><path d="M28 82Q50 89 72 82" opacity=".45"/><path d="M60 28Q72 50 78 70"/><g fill="currentColor" stroke="none"><circle cx="18" cy="78" r="8"/><circle cx="52" cy="20" r="8"/><circle cx="82" cy="78" r="8"/></g></svg></div>
+      <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><path d="M24 72Q32 46 44 28"/><path d="M28 82Q50 89 72 82" opacity=".45"/><path d="M60 28Q72 50 78 70"/><g fill="currentColor" stroke="none"><circle cx="18" cy="78" r="8"/><circle cx="52" cy="20" r="8"/><circle cx="82" cy="78" r="8"/></g></svg></div>
+      <p class="name">Ult(V,U)</p><p class="ref">Toda inmersión se factoriza</p>
+    </div>
+
+    <div class="tile">
+      <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.8" stroke-linecap="round"><ellipse cx="50" cy="80" rx="28" ry="9" opacity=".45"/><path d="M22 62C22 53 78 53 78 44S22 35 22 26C22 19 44 16 62 20"/></svg></div>
+      <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.8" stroke-linecap="round"><ellipse cx="50" cy="80" rx="28" ry="9" opacity=".45"/><path d="M22 62C22 53 78 53 78 44S22 35 22 26C22 19 44 16 62 20"/><g fill="currentColor" stroke="none"><circle cx="50" cy="80" r="5.5"/></g></svg></div>
+      <p class="name">Cubriente universal</p><p class="ref">X = X̃ / π₁</p>
+    </div>
+
+    <div class="tile">
+      <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><circle cx="50" cy="50" r="31" stroke-width="2.6" opacity=".4"/><ellipse cx="50" cy="50" rx="37" ry="16" transform="rotate(-28 50 50)" stroke-width="4"/></svg></div>
+      <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><circle cx="50" cy="50" r="31" stroke-width="2.6" opacity=".4"/><ellipse cx="50" cy="50" rx="37" ry="16" transform="rotate(-28 50 50)" stroke-width="4"/><g fill="currentColor" stroke="none"><circle cx="17" cy="67" r="5.5"/><circle cx="83" cy="33" r="5.5"/></g></svg></div>
+      <p class="name">Rotar, estirar, rotar</p><p class="ref">A = UΣV*</p>
+    </div>
+
+    <div class="tile">
+      <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round"><rect x="20" y="20" width="38" height="38" rx="12"/><path d="M28 84H50" stroke-width="5"/><path d="M84 28V50" stroke-width="5"/></svg></div>
+      <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round"><rect x="20" y="20" width="38" height="38" rx="12"/><path d="M39 68V80" opacity=".5"/><path d="M68 39H80" opacity=".5"/><path d="M28 84H50" stroke-width="5"/><path d="M84 28V50" stroke-width="5"/></svg></div>
+      <p class="name">Producto y proyecciones</p><p class="ref">Künneth</p>
+    </div>
+
+    <div class="tile">
+      <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><g fill="currentColor" stroke="none"><circle cx="68" cy="20" r="6.5"/><circle cx="68" cy="45" r="6.5"/><circle cx="68" cy="69" r="6.5"/><circle cx="17" cy="81" r="7.5"/></g></svg></div>
+      <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><path d="M68 28V38M68 52V62M68 76V82" opacity=".5"/><path d="M24 78Q44 56 60 26M24 78Q46 66 62 50M24 78Q46 78 62 74" stroke-width="2.4" opacity=".55"/><g fill="currentColor" stroke="none"><circle cx="68" cy="20" r="6.5"/><circle cx="68" cy="45" r="6.5"/><circle cx="68" cy="69" r="6.5"/><circle cx="17" cy="81" r="7.5"/></g></svg></div>
+      <p class="name">Torre de Postnikov</p><p class="ref">Pisos homotópicos</p>
+    </div>
+
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="sec-num">III</span><h2>Cociente por una simetría</h2></div>
+  <p class="sec-sub">Se factoriza quitando estructura: G/N, ∏Mᵢ/U, V<sup>𝔹</sup>/U.</p>
+  <div class="grid">
+
+    <div class="tile pick">
+      <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 18Q30 58 50 86Q70 58 87 18" opacity=".45"/><path d="M30 30Q40 60 50 86Q60 60 70 30"/></svg></div>
+      <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 18Q30 58 50 86Q70 58 87 18" opacity=".45"/><path d="M30 30Q40 60 50 86Q60 60 70 30"/><g fill="currentColor" stroke="none"><circle cx="50" cy="86" r="6.5"/></g></svg></div>
+      <p class="name">V ⊂ V[G]</p><p class="ref">Extensión genérica</p><span class="badge">favorita</span>
+    </div>
+
+    <div class="tile pick">
+      <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M27 17Q13 30 13 44Q13 58 27 71Q41 58 41 44Q41 30 27 17Z"/><path d="M73 83Q87 70 87 56Q87 42 73 29Q59 42 59 56Q59 70 73 83Z" opacity=".55"/></svg></div>
+      <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M27 17Q13 30 13 44Q13 58 27 71Q41 58 41 44Q41 30 27 17Z"/><path d="M73 83Q87 70 87 56Q87 42 73 29Q59 42 59 56Q59 70 73 83Z" opacity=".55"/><g fill="currentColor" stroke="none"><circle cx="27" cy="17" r="5.5"/><circle cx="27" cy="71" r="5.5"/><circle cx="73" cy="29" r="5.5"/><circle cx="73" cy="83" r="5.5"/></g></svg></div>
+      <p class="name">Correspondencia de Galois</p><p class="ref">Retículas espejo</p><span class="badge">favorita</span>
+    </div>
+
+    <div class="tile">
+      <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.4"><circle cx="50" cy="50" r="35"/><g fill="currentColor" stroke="none"><circle cx="33" cy="31" r="6"/><circle cx="69" cy="33" r="6"/><circle cx="31" cy="69" r="6"/><circle cx="67" cy="67" r="6"/></g></svg></div>
+      <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"><circle cx="50" cy="50" r="35"/><path d="M50 15Q56 50 50 85" stroke-width="2.6" opacity=".45"/><path d="M15 50Q50 44 85 50" stroke-width="2.6" opacity=".45"/><g fill="currentColor" stroke="none"><circle cx="33" cy="31" r="6"/><circle cx="69" cy="33" r="6"/><circle cx="31" cy="69" r="6"/><circle cx="67" cy="67" r="6"/></g></svg></div>
+      <p class="name">Espacio de Stone</p><p class="ref">Clopens ↔ ultrafiltros</p>
+    </div>
+
+    <div class="tile">
+      <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><path d="M14 38Q50 32 86 38" stroke-width="3.6"/><g fill="currentColor" stroke="none"><circle cx="20" cy="36" r="6"/><circle cx="39" cy="34" r="6"/><circle cx="59" cy="34" r="6"/><circle cx="78" cy="36" r="6"/><circle cx="50" cy="82" r="9"/></g></svg></div>
+      <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><path d="M21 18Q18 40 21 58M40 18Q37 40 40 58M60 18Q57 40 60 58M79 18Q76 40 79 58" opacity=".45"/><path d="M14 38Q50 32 86 38" stroke-width="3.6"/><g fill="currentColor" stroke="none"><circle cx="20" cy="36" r="6"/><circle cx="39" cy="34" r="6"/><circle cx="59" cy="34" r="6"/><circle cx="78" cy="36" r="6"/><circle cx="50" cy="82" r="9"/></g></svg></div>
+      <p class="name">Ultraproducto</p><p class="ref">∏Mᵢ / U</p>
+    </div>
+
+    <div class="tile">
+      <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor"><rect x="15" y="22" width="70" height="58" rx="14" stroke-width="3.2" opacity=".45"/><path d="M15 36Q15 22 29 22H45V51H15Z" fill="currentColor" stroke="none"/></svg></div>
+      <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><rect x="15" y="22" width="70" height="58" rx="14" stroke-width="3.2" opacity=".45"/><path d="M45 22V80M15 51H85" stroke-width="3.2" opacity=".45"/><path d="M15 36Q15 22 29 22H45V51H15Z" fill="currentColor" stroke="none"/></svg></div>
+      <p class="name">Independencia</p><p class="ref">P(A∩B) = P(A)P(B)</p>
+    </div>
+
+    <div class="tile">
+      <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M13 30C25 10 33 48 45 30S65 10 77 30 87 26 87 26" stroke-width="4.2"/><path d="M13 70C21 62 29 78 37 70S53 62 61 70 77 62 87 70" stroke-width="3" opacity=".5"/></svg></div>
+      <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M13 26C25 6 33 44 45 26S65 6 77 26 87 22 87 22" stroke-width="4.2"/><path d="M13 56C25 42 33 70 45 56S65 42 77 56 87 52 87 52" stroke-width="3.2" opacity=".7"/><path d="M13 82C21 74 29 90 37 82S53 74 61 82 77 74 87 82" stroke-width="2.6" opacity=".45"/></svg></div>
+      <p class="name">Fourier</p><p class="ref">Descomposición en modos</p>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  Tres marcadas como favoritas: primo que se parte · V ⊂ V[G] · retículas de Galois.<br>
+  Trazo cálido: remates redondeados, curvas cuadráticas, nodos de radio generoso, sin puntas de flecha.
+</footer>
+
+</div>
+</body>
+</html>

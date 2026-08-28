@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Factorizando · Tribar en 3D, orientación Ult(V,U)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#13161A; --ink-2:#1A1E24; --line:#2A3038;
+  --warm:#F0EAE1; --dim:#98A0A9; --blue:#4A9EE8;
+  --fz:#F0EAE1;   /* cara superior  */
+  --fx:#B4ADA3;   /* cara frontal   */
+  --fy:#726D66;   /* cara lateral   */
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ink);color:var(--warm);
+  font-family:'Source Serif 4',Georgia,serif;line-height:1.55}
+.wrap{max-width:1060px;margin:0 auto;padding:56px 24px 96px}
+
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--blue);margin:0 0 14px}
+h1{font-size:clamp(27px,5vw,42px);font-weight:600;line-height:1.15;margin:0 0 16px;letter-spacing:-.01em}
+.lede{font-size:17px;color:var(--dim);max-width:62ch;margin:0}
+.lede em{color:var(--warm);font-style:italic}
+header{border-bottom:1px solid var(--line);padding-bottom:32px}
+
+.axiom{font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.9;
+  color:var(--dim);border-left:2px solid var(--blue);padding:4px 0 4px 16px;
+  margin:34px 0 40px;max-width:66ch}
+.axiom b{color:var(--warm);font-weight:500}
+.axiom .hi{color:var(--blue)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(216px,1fr));gap:18px}
+.tile{background:var(--ink-2);border:1px solid var(--line);border-radius:18px;
+  padding:22px 18px 18px;position:relative}
+.tile.pick{border-color:var(--blue)}
+.chip{position:absolute;top:14px;right:14px;width:26px;height:26px;opacity:.55}
+.chip svg{width:100%;height:100%;display:block}
+.art{width:100%;max-width:136px;margin:4px auto 18px}
+.art svg{width:100%;height:auto;display:block}
+.name{font-size:15px;font-weight:600;margin:0 0 4px;letter-spacing:-.005em}
+.ref{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--dim);margin:0;line-height:1.55}
+
+.fz{fill:var(--fz)} .fx{fill:var(--fx)} .fy{fill:var(--fy)}
+.ghz{fill:var(--fz);opacity:.16} .ghx{fill:var(--fx);opacity:.16} .ghy{fill:var(--fy);opacity:.16}
+.seam{stroke:var(--ink-2);stroke-width:1.1;fill:none}
+
+footer{margin-top:56px;padding-top:26px;border-top:1px solid var(--line);
+  font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--dim);line-height:1.9}
+
+@media (max-width:520px){
+  .wrap{padding:40px 16px 72px}
+  .grid{grid-template-columns:repeat(auto-fit,minmax(152px,1fr));gap:12px}
+  .tile{padding:18px 13px 14px;border-radius:14px}
+  .chip{width:20px;height:20px;top:10px;right:10px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="eyebrow">Factorizando · exploración de marca</p>
+  <h1>Tribar en 3D, orientación Ult(V,U)</h1>
+  <p class="lede">Rotado 90° para caer exactamente en la disposición del diagrama: <em>V</em> arriba-izquierda, <em>Ult<sub>U</sub>(V)</em> arriba-derecha, <em>M</em> abajo. Sombreado de tres tonos, uno por orientación de cara.</p>
+</header>
+
+<p class="axiom">
+<b>El hallazgo.</b> Recorriendo el circuito con radio ∝ profundidad:<br>
+P₀ = (26.62, 29.75) &nbsp;r = <span class="hi">1.50</span><br>
+P₃ = (26.62, 29.75) &nbsp;r = <span class="hi">6.10</span><br>
+Misma posición, radio 4× mayor. Ese cociente λ ≈ 4.07 <b>es</b> la clase en H¹.
+</p>
+
+<div class="grid">
+
+  <!-- 1 · tribar 3D -->
+  <div class="tile pick">
+    <div class="chip"><svg viewBox="0 0 100 100"><path class="fx" d="M 80.69 42.41 L 88 29.75 L 26.62 29.75 L 19.31 42.41 Z"/><path class="fy" d="M 80.69 17.09 L 88 29.75 L 26.62 29.75 L 19.31 17.09 Z"/><path class="fz" d="M 12 29.75 L 19.31 42.41 L 26.62 29.75 L 19.31 17.09 Z"/><path class="fx" d="M 57.31 82.91 L 88 29.75 L 73.38 29.75 L 42.69 82.91 Z"/><path class="fy" d="M 80.69 17.09 L 88 29.75 L 73.38 29.75 L 66.08 17.09 Z"/><path class="fz" d="M 35.38 70.25 L 42.69 82.91 L 73.38 29.75 L 66.08 17.09 Z"/><path class="fx" d="M 57.31 82.91 L 64.62 70.25 L 50 70.25 L 42.69 82.91 Z"/><path class="fy" d="M 33.92 17.09 L 64.62 70.25 L 50 70.25 L 19.31 17.09 Z"/><path class="fz" d="M 12 29.75 L 42.69 82.91 L 50 70.25 L 19.31 17.09 Z"/></svg></div>
+    <div class="art"><svg viewBox="0 0 100 100"><g class="seam"><path class="fx" d="M 80.69 42.41 L 88 29.75 L 26.62 29.75 L 19.31 42.41 Z"/><path class="fy" d="M 80.69 17.09 L 88 29.75 L 26.62 29.75 L 19.31 17.09 Z"/><path class="fz" d="M 12 29.75 L 19.31 42.41 L 26.62 29.75 L 19.31 17.09 Z"/><path class="fx" d="M 57.31 82.91 L 88 29.75 L 73.38 29.75 L 42.69 82.91 Z"/><path class="fy" d="M 80.69 17.09 L 88 29.75 L 73.38 29.75 L 66.08 17.09 Z"/><path class="fz" d="M 35.38 70.25 L 42.69 82.91 L 73.38 29.75 L 66.08 17.09 Z"/><path class="fx" d="M 57.31 82.91 L 64.62 70.25 L 50 70.25 L 42.69 82.91 Z"/><path class="fy" d="M 33.92 17.09 L 64.62 70.25 L 50 70.25 L 19.31 17.09 Z"/><path class="fz" d="M 12 29.75 L 42.69 82.91 L 50 70.25 L 19.31 17.09 Z"/></g></svg></div>
+    <p class="name">Tribar sombreado</p><p class="ref">Tres tonos, uno por orientación.<br>Rotado a la posición del diagrama.</p>
+  </div>
+
+  <!-- 2 · V anidadas -->
+  <div class="tile pick">
+    <div class="chip"><svg viewBox="0 0 100 100"><path class="ghx" d="M 80.69 42.41 L 88 29.75 L 26.62 29.75 L 19.31 42.41 Z"/><path class="ghy" d="M 80.69 17.09 L 88 29.75 L 26.62 29.75 L 19.31 17.09 Z"/><path class="ghz" d="M 12 29.75 L 19.31 42.41 L 26.62 29.75 L 19.31 17.09 Z"/><path class="fx" d="M 57.31 82.91 L 88 29.75 L 73.38 29.75 L 42.69 82.91 Z"/><path class="fy" d="M 80.69 17.09 L 88 29.75 L 73.38 29.75 L 66.08 17.09 Z"/><path class="fz" d="M 35.38 70.25 L 42.69 82.91 L 73.38 29.75 L 66.08 17.09 Z"/><path class="fx" d="M 57.31 82.91 L 64.62 70.25 L 50 70.25 L 42.69 82.91 Z"/><path class="fy" d="M 33.92 17.09 L 64.62 70.25 L 50 70.25 L 19.31 17.09 Z"/><path class="fz" d="M 12 29.75 L 42.69 82.91 L 50 70.25 L 19.31 17.09 Z"/></svg></div>
+    <div class="art"><svg viewBox="0 0 100 100"><g class="seam"><path class="ghx" d="M 80.69 42.41 L 88 29.75 L 26.62 29.75 L 19.31 42.41 Z" stroke="none"/><path class="ghy" d="M 80.69 17.09 L 88 29.75 L 26.62 29.75 L 19.31 17.09 Z" stroke="none"/><path class="ghz" d="M 12 29.75 L 19.31 42.41 L 26.62 29.75 L 19.31 17.09 Z" stroke="none"/><path class="fx" d="M 57.31 82.91 L 88 29.75 L 73.38 29.75 L 42.69 82.91 Z"/><path class="fy" d="M 80.69 17.09 L 88 29.75 L 73.38 29.75 L 66.08 17.09 Z"/><path class="fz" d="M 35.38 70.25 L 42.69 82.91 L 73.38 29.75 L 66.08 17.09 Z"/><path class="fx" d="M 57.31 82.91 L 64.62 70.25 L 50 70.25 L 42.69 82.91 Z"/><path class="fy" d="M 33.92 17.09 L 64.62 70.25 L 50 70.25 L 19.31 17.09 Z"/><path class="fz" d="M 12 29.75 L 42.69 82.91 L 50 70.25 L 19.31 17.09 Z"/></g></svg></div>
+    <p class="name">La V, sólida</p><p class="ref">Las dos vigas bajas forman<br>una V. La tercera la cierra.</p>
+  </div>
+
+  <!-- 3 · puntos con profundidad -->
+  <div class="tile pick">
+    <div class="chip"><svg viewBox="0 0 100 100"><g fill="var(--warm)"><circle cx="26.62" cy="29.75" r="1.5"/><circle cx="33.3" cy="41.32" r="1.94"/><circle cx="39.98" cy="52.89" r="2.38"/><circle cx="46.66" cy="64.47" r="2.81"/><circle cx="53.34" cy="64.47" r="3.25"/><circle cx="60.02" cy="52.89" r="3.69"/><circle cx="66.7" cy="41.32" r="4.13"/><circle cx="73.38" cy="29.75" r="4.57"/><circle cx="60.02" cy="29.75" r="5"/><circle cx="46.66" cy="29.75" r="5.44"/><circle cx="33.3" cy="29.75" r="5.88"/><circle cx="26.62" cy="29.75" r="6.1" opacity=".5"/></g></svg></div>
+    <div class="art"><svg viewBox="0 0 100 100"><g opacity=".13"><path class="fx" d="M 80.69 42.41 L 88 29.75 L 26.62 29.75 L 19.31 42.41 Z"/><path class="fy" d="M 80.69 17.09 L 88 29.75 L 26.62 29.75 L 19.31 17.09 Z"/><path class="fz" d="M 12 29.75 L 19.31 42.41 L 26.62 29.75 L 19.31 17.09 Z"/><path class="fx" d="M 57.31 82.91 L 88 29.75 L 73.38 29.75 L 42.69 82.91 Z"/><path class="fy" d="M 80.69 17.09 L 88 29.75 L 73.38 29.75 L 66.08 17.09 Z"/><path class="fz" d="M 35.38 70.25 L 42.69 82.91 L 73.38 29.75 L 66.08 17.09 Z"/><path class="fx" d="M 57.31 82.91 L 64.62 70.25 L 50 70.25 L 42.69 82.91 Z"/><path class="fy" d="M 33.92 17.09 L 64.62 70.25 L 50 70.25 L 19.31 17.09 Z"/><path class="fz" d="M 12 29.75 L 42.69 82.91 L 50 70.25 L 19.31 17.09 Z"/></g><g fill="var(--warm)"><circle cx="26.62" cy="29.75" r="1.5"/><circle cx="29.96" cy="35.53" r="1.72"/><circle cx="33.3" cy="41.32" r="1.94"/><circle cx="36.64" cy="47.11" r="2.16"/><circle cx="39.98" cy="52.89" r="2.38"/><circle cx="43.32" cy="58.68" r="2.6"/><circle cx="46.66" cy="64.47" r="2.81"/><circle cx="50" cy="70.25" r="3.03"/><circle cx="53.34" cy="64.47" r="3.25"/><circle cx="56.68" cy="58.68" r="3.47"/><circle cx="60.02" cy="52.89" r="3.69"/><circle cx="63.36" cy="47.11" r="3.91"/><circle cx="66.7" cy="41.32" r="4.13"/><circle cx="70.04" cy="35.53" r="4.35"/><circle cx="73.38" cy="29.75" r="4.57"/><circle cx="66.7" cy="29.75" r="4.79"/><circle cx="60.02" cy="29.75" r="5"/><circle cx="53.34" cy="29.75" r="5.22"/><circle cx="46.66" cy="29.75" r="5.44"/><circle cx="39.98" cy="29.75" r="5.66"/><circle cx="33.3" cy="29.75" r="5.88"/></g><circle cx="26.62" cy="29.75" r="6.1" fill="none" stroke="var(--blue)" stroke-width="1.6"/></svg></div>
+    <p class="name">Radio = profundidad</p><p class="ref">El círculo azul: dónde debería<br>cerrar. λ ≈ 4.07 de diferencia.</p>
+  </div>
+
+  <!-- 4 · circuito por dentro en 3D -->
+  <div class="tile pick">
+    <div class="chip"><svg viewBox="0 0 100 100"><g opacity=".2"><path class="fx" d="M 80.69 42.41 L 88 29.75 L 26.62 29.75 L 19.31 42.41 Z"/><path class="fy" d="M 80.69 17.09 L 88 29.75 L 26.62 29.75 L 19.31 17.09 Z"/><path class="fx" d="M 57.31 82.91 L 88 29.75 L 73.38 29.75 L 42.69 82.91 Z"/><path class="fz" d="M 35.38 70.25 L 42.69 82.91 L 73.38 29.75 L 66.08 17.09 Z"/><path class="fy" d="M 33.92 17.09 L 64.62 70.25 L 50 70.25 L 19.31 17.09 Z"/><path class="fz" d="M 12 29.75 L 42.69 82.91 L 50 70.25 L 19.31 17.09 Z"/></g><path d="M26.62 29.75L50 70.25L73.38 29.75" fill="none" stroke="var(--warm)" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/><g fill="var(--warm)"><circle cx="26.62" cy="29.75" r="6"/><circle cx="73.38" cy="29.75" r="6"/><circle cx="50" cy="70.25" r="6"/></g></svg></div>
+    <div class="art"><svg viewBox="0 0 100 100"><g opacity=".2"><path class="fx" d="M 80.69 42.41 L 88 29.75 L 26.62 29.75 L 19.31 42.41 Z"/><path class="fy" d="M 80.69 17.09 L 88 29.75 L 26.62 29.75 L 19.31 17.09 Z"/><path class="fz" d="M 12 29.75 L 19.31 42.41 L 26.62 29.75 L 19.31 17.09 Z"/><path class="fx" d="M 57.31 82.91 L 88 29.75 L 73.38 29.75 L 42.69 82.91 Z"/><path class="fy" d="M 80.69 17.09 L 88 29.75 L 73.38 29.75 L 66.08 17.09 Z"/><path class="fz" d="M 35.38 70.25 L 42.69 82.91 L 73.38 29.75 L 66.08 17.09 Z"/><path class="fx" d="M 57.31 82.91 L 64.62 70.25 L 50 70.25 L 42.69 82.91 Z"/><path class="fy" d="M 33.92 17.09 L 64.62 70.25 L 50 70.25 L 19.31 17.09 Z"/><path class="fz" d="M 12 29.75 L 42.69 82.91 L 50 70.25 L 19.31 17.09 Z"/></g><path d="M26.62 29.75L50 70.25L73.38 29.75" fill="none" stroke="var(--warm)" stroke-width="3.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M26.62 29.75L73.38 29.75" fill="none" stroke="var(--warm)" stroke-width="3.6" stroke-linecap="round" opacity=".4"/><g fill="var(--warm)"><circle cx="26.62" cy="29.75" r="6.5"/><circle cx="73.38" cy="29.75" r="6.5"/><circle cx="50" cy="70.25" r="6.5"/></g></svg></div>
+    <p class="name">El circuito por dentro</p><p class="ref">Ult(V,U) dibujado sobre el<br>tribar en fantasma.</p>
+  </div>
+
+  <!-- 5 · con etiquetas -->
+  <div class="tile">
+    <div class="chip"><svg viewBox="0 0 100 100"><path d="M26.62 29.75L50 70.25L73.38 29.75M26.62 29.75L73.38 29.75" fill="none" stroke="var(--warm)" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/><g fill="var(--warm)"><circle cx="26.62" cy="29.75" r="6"/><circle cx="73.38" cy="29.75" r="6"/><circle cx="50" cy="70.25" r="6"/></g></svg></div>
+    <div class="art"><svg viewBox="0 0 100 100"><g opacity=".18"><path class="fx" d="M 80.69 42.41 L 88 29.75 L 26.62 29.75 L 19.31 42.41 Z"/><path class="fy" d="M 80.69 17.09 L 88 29.75 L 26.62 29.75 L 19.31 17.09 Z"/><path class="fz" d="M 12 29.75 L 19.31 42.41 L 26.62 29.75 L 19.31 17.09 Z"/><path class="fx" d="M 57.31 82.91 L 88 29.75 L 73.38 29.75 L 42.69 82.91 Z"/><path class="fz" d="M 35.38 70.25 L 42.69 82.91 L 73.38 29.75 L 66.08 17.09 Z"/><path class="fy" d="M 33.92 17.09 L 64.62 70.25 L 50 70.25 L 19.31 17.09 Z"/><path class="fz" d="M 12 29.75 L 42.69 82.91 L 50 70.25 L 19.31 17.09 Z"/></g><path d="M26.62 29.75L50 70.25L73.38 29.75M26.62 29.75L73.38 29.75" fill="none" stroke="var(--warm)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><g fill="var(--warm)"><circle cx="26.62" cy="29.75" r="5"/><circle cx="73.38" cy="29.75" r="5"/><circle cx="50" cy="70.25" r="5"/></g><g fill="var(--blue)" font-family="'Source Serif 4',serif" font-style="italic" font-size="11"><text x="15" y="24">V</text><text x="66" y="22">Ult</text><text x="45" y="88">M</text></g></svg></div>
+    <p class="name">Con etiquetas</p><p class="ref">Para material didáctico,<br>no para el mark.</p>
+  </div>
+
+  <!-- 6 · medallón -->
+  <div class="tile">
+    <div class="chip"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="none" stroke="var(--warm)" stroke-width="3" opacity=".35"/><g transform="translate(50 50) scale(.72) translate(-50 -50)"><path class="fx" d="M 80.69 42.41 L 88 29.75 L 26.62 29.75 L 19.31 42.41 Z"/><path class="fy" d="M 80.69 17.09 L 88 29.75 L 26.62 29.75 L 19.31 17.09 Z"/><path class="fz" d="M 12 29.75 L 19.31 42.41 L 26.62 29.75 L 19.31 17.09 Z"/><path class="fx" d="M 57.31 82.91 L 88 29.75 L 73.38 29.75 L 42.69 82.91 Z"/><path class="fy" d="M 80.69 17.09 L 88 29.75 L 73.38 29.75 L 66.08 17.09 Z"/><path class="fz" d="M 35.38 70.25 L 42.69 82.91 L 73.38 29.75 L 66.08 17.09 Z"/><path class="fx" d="M 57.31 82.91 L 64.62 70.25 L 50 70.25 L 42.69 82.91 Z"/><path class="fy" d="M 33.92 17.09 L 64.62 70.25 L 50 70.25 L 19.31 17.09 Z"/><path class="fz" d="M 12 29.75 L 42.69 82.91 L 50 70.25 L 19.31 17.09 Z"/></g></svg></div>
+    <div class="art"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="47" fill="none" stroke="var(--warm)" stroke-width="2.6" opacity=".4"/><g class="seam" transform="translate(50 50) scale(.7) translate(-50 -50)"><path class="fx" d="M 80.69 42.41 L 88 29.75 L 26.62 29.75 L 19.31 42.41 Z"/><path class="fy" d="M 80.69 17.09 L 88 29.75 L 26.62 29.75 L 19.31 17.09 Z"/><path class="fz" d="M 12 29.75 L 19.31 42.41 L 26.62 29.75 L 19.31 17.09 Z"/><path class="fx" d="M 57.31 82.91 L 88 29.75 L 73.38 29.75 L 42.69 82.91 Z"/><path class="fy" d="M 80.69 17.09 L 88 29.75 L 73.38 29.75 L 66.08 17.09 Z"/><path class="fz" d="M 35.38 70.25 L 42.69 82.91 L 73.38 29.75 L 66.08 17.09 Z"/><path class="fx" d="M 57.31 82.91 L 64.62 70.25 L 50 70.25 L 42.69 82.91 Z"/><path class="fy" d="M 33.92 17.09 L 64.62 70.25 L 50 70.25 L 19.31 17.09 Z"/><path class="fz" d="M 12 29.75 L 42.69 82.91 L 50 70.25 L 19.31 17.09 Z"/></g></svg></div>
+    <p class="name">En el medallón</p><p class="ref">El formato circular<br>que ya venías usando.</p>
+  </div>
+
+  <!-- 7 · azul -->
+  <div class="tile">
+    <div class="chip"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="var(--blue)"/><g transform="translate(50 50) scale(.68) translate(-50 -50)" fill="#fff"><path d="M 80.69 42.41 L 88 29.75 L 26.62 29.75 L 19.31 42.41 Z" opacity=".55"/><path d="M 80.69 17.09 L 88 29.75 L 26.62 29.75 L 19.31 17.09 Z" opacity=".3"/><path d="M 12 29.75 L 19.31 42.41 L 26.62 29.75 L 19.31 17.09 Z"/><path d="M 57.31 82.91 L 88 29.75 L 73.38 29.75 L 42.69 82.91 Z" opacity=".55"/><path d="M 80.69 17.09 L 88 29.75 L 73.38 29.75 L 66.08 17.09 Z" opacity=".3"/><path d="M 35.38 70.25 L 42.69 82.91 L 73.38 29.75 L 66.08 17.09 Z"/><path d="M 57.31 82.91 L 64.62 70.25 L 50 70.25 L 42.69 82.91 Z" opacity=".55"/><path d="M 33.92 17.09 L 64.62 70.25 L 50 70.25 L 19.31 17.09 Z" opacity=".3"/><path d="M 12 29.75 L 42.69 82.91 L 50 70.25 L 19.31 17.09 Z"/></g></svg></div>
+    <div class="art"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="var(--blue)"/><g transform="translate(50 50) scale(.66) translate(-50 -50)" fill="#fff" stroke="var(--blue)" stroke-width="1.2"><path d="M 80.69 42.41 L 88 29.75 L 26.62 29.75 L 19.31 42.41 Z" opacity=".55"/><path d="M 80.69 17.09 L 88 29.75 L 26.62 29.75 L 19.31 17.09 Z" opacity=".3"/><path d="M 12 29.75 L 19.31 42.41 L 26.62 29.75 L 19.31 17.09 Z"/><path d="M 57.31 82.91 L 88 29.75 L 73.38 29.75 L 42.69 82.91 Z" opacity=".55"/><path d="M 80.69 17.09 L 88 29.75 L 73.38 29.75 L 66.08 17.09 Z" opacity=".3"/><path d="M 35.38 70.25 L 42.69 82.91 L 73.38 29.75 L 66.08 17.09 Z"/><path d="M 57.31 82.91 L 64.62 70.25 L 50 70.25 L 42.69 82.91 Z" opacity=".55"/><path d="M 33.92 17.09 L 64.62 70.25 L 50 70.25 L 19.31 17.09 Z" opacity=".3"/><path d="M 12 29.75 L 42.69 82.91 L 50 70.25 L 19.31 17.09 Z"/></g></svg></div>
+    <p class="name">Sobre azul</p><p class="ref">Blanco a tres opacidades.<br>Para avatares.</p>
+  </div>
+
+  <!-- 8 · plano, una tinta -->
+  <div class="tile">
+    <div class="chip"><svg viewBox="0 0 100 100" fill="none" stroke="var(--warm)" stroke-width="4.4" stroke-linejoin="round"><path d="M 80.69 42.41 L 88 29.75 L 26.62 29.75 L 19.31 42.41 M 12 29.75 L 19.31 42.41 L 26.62 29.75 L 19.31 17.09 L 88 29.75"/><path d="M 57.31 82.91 L 88 29.75 L 73.38 29.75 L 42.69 82.91 M 35.38 70.25 L 42.69 82.91 L 73.38 29.75"/><path d="M 12 29.75 L 42.69 82.91 L 50 70.25 L 19.31 17.09 M 57.31 82.91 L 64.62 70.25 L 50 70.25 L 42.69 82.91"/></svg></div>
+    <div class="art"><svg viewBox="0 0 100 100" fill="none" stroke="var(--warm)" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"><path d="M 80.69 42.41 L 88 29.75 L 26.62 29.75 L 19.31 42.41 Z" fill="var(--ink-2)"/><path d="M 12 29.75 L 19.31 42.41 L 26.62 29.75 L 19.31 17.09 Z" fill="var(--ink-2)"/><path d="M 57.31 82.91 L 88 29.75 L 73.38 29.75 L 42.69 82.91 Z" fill="var(--ink-2)"/><path d="M 35.38 70.25 L 42.69 82.91 L 73.38 29.75 L 66.08 17.09 Z" fill="var(--ink-2)"/><path d="M 57.31 82.91 L 64.62 70.25 L 50 70.25 L 42.69 82.91 Z" fill="var(--ink-2)"/><path d="M 12 29.75 L 42.69 82.91 L 50 70.25 L 19.31 17.09 Z" fill="var(--ink-2)"/></svg></div>
+    <p class="name">Una tinta</p><p class="ref">Sin sombreado, para bordado<br>e impresión a un color.</p>
+  </div>
+
+</div>
+
+<footer>
+  Rotación de 90°: P₀ arriba-izq · P₂ arriba-der · P₁ abajo-centro — la disposición de Ult(V,U).<br>
+  Sombreado: cara +z clara, +x media, +y oscura. La miniatura de cada esquina va a 26 px.
+</footer>
+
+</div>
+</body>
+</html>

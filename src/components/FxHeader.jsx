@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useKaTeX } from "../data/teoria/shared.jsx";
 import { MATERIAS } from "../data/materias.js";
-import MarcaCubriente from "./MarcaCubriente.jsx";
+import MarcaTribar from "./MarcaTribar.jsx";
 
 // Wordmark: "Facto" + "zando" en Sora y la R[i] compuesta en modo matemático
 // (KaTeX). La R va en negrita sólida (\mathbf) en vez de la pizarra doble
@@ -40,19 +40,19 @@ export function FxWordmark({ size = 22 }) {
   );
 }
 
-// Marca: el mark del cubriente + el wordmark. `.fx-marca` ya venía con
+// Marca: el mark del tribar + el wordmark. `.fx-marca` ya venía con
 // `gap: 10px` esperando este icono.
 //
 // El mark va a 28px, por encima de los 22 del wordmark: a la misma altura se
-// leía como una viñeta del texto en vez de como marca. A 28 cae en el corte
-// chico de MarcaCubriente (≤32), que es justo lo que se quiere aquí — el trazo
-// de 3.8 del principal se apaga a ese tamaño.
+// leía como una viñeta del texto en vez de como marca. A 28 px el tribar
+// conserva las tres caras y la V se lee — no hace falta un corte chico, cosa
+// que sí necesita el disco del favicon.
 //
 // `to` permite apagar el enlace donde no haga falta.
 export function FxMarca({ wordmark = 22, to = "/" }) {
   const contenido = (
     <>
-      <MarcaCubriente tam={28} style={{ color: "var(--fx-primary-500)" }} />
+      <MarcaTribar tam={28} style={{ color: "var(--fx-primary-500)" }} />
       <FxWordmark size={wordmark} />
     </>
   );

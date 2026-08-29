@@ -583,3 +583,29 @@ la razón contra lo que tiene al lado es demasiado baja. La medida útil no es e
 la marca, son **los dos cocientes**: tamaño contra el vecino, y hueco entre grupos contra
 hueco dentro del grupo. Ninguno de los dos lo ve el build, y el verificador responsive
 tampoco: sólo mide desbordes, toque y piso de texto. Esto se mide leyendo el DOM.
+
+### 2026-08-29 · El mark pasa al tribar: el sombreado es la figura, no el adorno
+
+*Qué:* el icono de la marca deja de ser el cubriente ℝ → S¹ y pasa a ser el **tribar de
+prismas 3D en la orientación Ult(V,U)** — el pliego «Prismas 3D» de `Figuras/biblioteca.html`,
+variante *Sobre azul*. Cambian las tres piezas que lo usan: la barra (`FxHeader`), el favicon
+(`index.html`) y el logo del comprobante (`MarcaImpresa`). La geometría se copia literal:
+son nueve caras de una proyección isométrica, y recalcularlas con una fórmula da otra figura.
+
+**Las tres opacidades no son estilo, son la letra.** Las caras van a 1 / .55 / .3 según su
+orientación, y las dos caras opacas *son* los dos trazos de la V. Aplanar el sombreado a un
+tono —que es lo que uno intenta primero «para que aguante en chico»— no simplifica la figura:
+la convierte en un trapecio macizo, sin V y sin tribar. Rasterizado a 96/48/28/26/16 px, la
+versión sombreada se lee a los cinco tamaños y la silueta plana no se lee a ninguno.
+
+**El disco azul sí necesita un corte propio.** Sobre azul, el blanco al 30 % se lava por
+debajo de 32 px y el favicon se vuelve una mancha clara. El corte del disco sube el contraste
+a 1 / .38 / .12 y agranda la figura de .66 a .80 del lienzo; con eso la V aguanta a 16 px. En
+tinta, en cambio, **no hace falta corte chico**: a 28 px las opacidades del pliego se leen
+igual que a 96. Es lo contrario del cubriente, que necesitaba dos grosores de trazo — porque
+un trazo se apaga al encoger y una cara rellena no.
+
+*Lo que enseñó:* el umbral de un mark no se hereda de la marca anterior. El cubriente se
+rompía por el **grosor de línea**; el tribar se rompe por el **contraste entre caras**, y solo
+donde hay un fondo de color debajo. La prueba que decide sigue siendo la misma —rasterizar a
+los tamaños reales y mirar el píxel—, pero lo que hay que mirar cambia con la figura.

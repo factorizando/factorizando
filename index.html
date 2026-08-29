@@ -33,11 +33,13 @@
     </script>
     <meta charset="UTF-8" />
     <!-- El favicon es la variante de avatar de la marca: disco azul con el
-         cubriente calado. Lleva su propio fondo, así que se lee igual en una
+         tribar calado. Lleva su propio fondo, así que se lee igual en una
          pestaña clara que en una oscura, cosa que un trazo suelto no logra.
-         La ruta iba a /public/assets/…, que no existe en el sitio construido:
-         el contenido de public/ se copia a la raíz de dist/, no bajo /public. -->
-    <link rel="icon" type="image/svg+xml" href="./assets/marca/cubriente-avatar.svg" />
+         Es el corte de contraste (caras al 1/.38/.12, no al 1/.55/.3 del
+         pliego): sobre azul, el blanco al 30 % se lava por debajo de 32 px.
+         La ruta va a ./assets/…, no a /public/assets/…: el contenido de
+         public/ se copia a la raíz de dist/, no bajo /public. -->
+    <link rel="icon" type="image/svg+xml" href="./assets/marca/v-avatar.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
       rel="stylesheet"

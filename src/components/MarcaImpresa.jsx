@@ -48,12 +48,12 @@ export default function MarcaImpresa({ paraCaptura = false, altoLogo = 40 }) {
           sin sorpresas. El comprobante es documento de cobro; no es donde se
           experimenta con el pipeline.
 
-          Es el corte grueso de la marca, no el principal, aunque a 40px de alto
-          la hoja de marca pediría el principal: en el papel esos 40px de una
-          caja de 800 caen en ~10mm, y ahí el trazo de 3.8 se imprime a 0.37mm.
-          El corte lo sube a 0.73mm. Se genera desde la misma bézier. */}
+          Va en la tinta del wordmark, no en azul, y con el sombreado del
+          pliego: son tres grises que a 40px —los ~10mm que ocupa en el papel—
+          siguen separando las tres orientaciones de cara. Se genera desde la
+          misma lista de caras que MarcaTribar. */}
       <img
-        src={`${import.meta.env.BASE_URL}assets/marca/cubriente-impresa.png`}
+        src={`${import.meta.env.BASE_URL}assets/marca/v-impresa.png`}
         alt="Factorizando"
         style={{ height: altoLogo, display: "block" }}
       />

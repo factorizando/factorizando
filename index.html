@@ -40,6 +40,12 @@
          La ruta va a ./assets/…, no a /public/assets/…: el contenido de
          public/ se copia a la raíz de dist/, no bajo /public. -->
     <link rel="icon" type="image/svg+xml" href="./assets/marca/v-avatar.svg" />
+    <!-- iOS no usa el favicon SVG ni respeta transparencias al poner el
+         icono en la pantalla de inicio: compone lo transparente sobre negro.
+         Por eso apunta a la variante CUADRADA, que llega a las esquinas.
+         El archivo existía desde antes con la marca vieja y no lo enlazaba
+         nadie, así que iOS mostraba una captura de la página. -->
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/icon-180.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
       rel="stylesheet"
@@ -47,7 +53,7 @@
     />
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
     <title>Factorizando</title>
-    <script type="module" crossorigin src="/factorizando/assets/index-DtmIg-ZC.js"></script>
+    <script type="module" crossorigin src="/factorizando/assets/index-BS8XKvXA.js"></script>
     <link rel="stylesheet" crossorigin href="/factorizando/assets/index-C5YuE8Ti.css">
   <link rel="manifest" href="/factorizando/manifest.webmanifest"></head>
   <body>

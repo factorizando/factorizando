@@ -86,7 +86,7 @@ export default function CursoVer() {
         <div className="cv-brand">
           <Link to="/" className="cv-logo-link" title="Inicio">
             <span className="cv-logo-ring">
-              <img src={`${import.meta.env.BASE_URL}assets/logoX.png`} alt="Factorizando" />
+              <img src={`${import.meta.env.BASE_URL}assets/marca/v-avatar.svg`} alt="Factorizando" />
             </span>
           </Link>
           <BrandName />

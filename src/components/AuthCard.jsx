@@ -318,7 +318,7 @@ export default function AuthCard({ mode = "login", onSwitchMode, onClose, dest }
         <>
           <div className="ac-brandrow">
             <span className="ac-logo">
-              <img src={`${import.meta.env.BASE_URL}assets/logoX.png`} alt="Factorizando" />
+              <img src={`${import.meta.env.BASE_URL}assets/marca/v-avatar.svg`} alt="Factorizando" />
             </span>
           </div>
           <h1 className="ac-h1">Restablecer contraseña</h1>
@@ -349,7 +349,7 @@ export default function AuthCard({ mode = "login", onSwitchMode, onClose, dest }
         <>
           <div className="ac-brandrow">
             <span className="ac-logo">
-              <img src={`${import.meta.env.BASE_URL}assets/logoX.png`} alt="Factorizando" />
+              <img src={`${import.meta.env.BASE_URL}assets/marca/v-avatar.svg`} alt="Factorizando" />
             </span>
           </div>
           <h1 className="ac-h1">{esRegistro ? "Crea tu cuenta" : "Bienvenido de vuelta"}</h1>

@@ -609,3 +609,18 @@ un trazo se apaga al encoger y una cara rellena no.
 rompía por el **grosor de línea**; el tribar se rompe por el **contraste entre caras**, y solo
 donde hay un fondo de color debajo. La prueba que decide sigue siendo la misma —rasterizar a
 los tamaños reales y mirar el píxel—, pero lo que hay que mirar cambia con la figura.
+
+**Ampliación del mismo día.** La prueba se dio por buena y el tribar sustituye también al
+disco `V[G]` de las **doce pantallas del sistema viejo** (AppHeader, AdminHeader, AuthCard,
+SubjectPage, CursoVer, los dos simuladores, el cuestionario genérico…), que lo usaban como
+avatar circular de 34-46px: ahí entra la variante de disco tal cual, porque lleva su propio
+fondo y esas pantallas son oscuras. Se borran `MarcaCubriente.jsx`, `logoX.png` y `logo.svg`.
+
+**Un icono `any` y uno `maskable` son dos dibujos, no dos etiquetas del mismo.** El manifiesto
+declaraba un solo PNG como `'any maskable'`, y eso estaba mal desde antes de este cambio: al
+icono maskable el sistema le aplica **su propia** forma de recorte, así que tiene que llegar a
+las esquinas y dejar la figura dentro del círculo seguro (radio 40 de 100). Un disco deja las
+esquinas transparentes y Android muerde ese vacío. De ahí la variante cuadrada, que va en el
+`maskable` de Android y en el `apple-touch-icon` de iOS —que tampoco respeta transparencias:
+las compone sobre negro—. La figura cabe sin encogerla: su vértice más lejano queda a 34,5
+del centro.

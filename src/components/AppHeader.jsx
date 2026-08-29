@@ -34,7 +34,7 @@ export default function AppHeader({ chip, query = "", onQuery, onSubmit, onLogin
       <div className="ah-brand">
         <Link to="/" className="ah-logo-link" title="Inicio">
           <span className="ah-logo-ring">
-            <img src={`${import.meta.env.BASE_URL}assets/logoX.png`} alt="Factorizando" />
+            <img src={`${import.meta.env.BASE_URL}assets/marca/v-avatar.svg`} alt="Factorizando" />
           </span>
         </Link>
         <BrandName />

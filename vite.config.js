@@ -44,17 +44,30 @@ export default defineConfig({
         // completa. Las presentaciones se adaptan a las dos orientaciones; el
         // sitio no tiene por qué decidir cómo se sostiene el teléfono.
         orientation: 'any',
+        // 'any' y 'maskable' son DOS dibujos, no dos etiquetas del mismo: el
+        // icono maskable lo recorta el sistema con su propia forma, así que
+        // tiene que llegar a las esquinas y dejar la figura dentro del círculo
+        // seguro (radio 40 de 100). El disco de la marca deja las esquinas
+        // transparentes; declararlo 'any maskable' —como estaba— hacía que
+        // Android mordiera ese vacío. El cuadrado es la variante para eso.
         icons: [
           {
             src: 'assets/icon-192.png',
             sizes: '192x192',
             type: 'image/png',
+            purpose: 'any',
           },
           {
             src: 'assets/icon-512.png',
             sizes: '512x512',
             type: 'image/png',
-            purpose: 'any maskable',
+            purpose: 'any',
+          },
+          {
+            src: 'assets/icon-512-maskable.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable',
           },
         ],
       },

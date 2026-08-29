@@ -64,9 +64,21 @@ def disco(fill_disco):
                 + figura(DISCO, "#fff", .80))
 
 
+# Los iconos maskable de Android y los apple-touch de iOS se recortan con una
+# mascara del sistema, asi que el fondo tiene que llegar a las ESQUINAS: un
+# disco deja transparencia que iOS compone en negro y Android muerde. De ahi
+# esta variante cuadrada. La figura cabe en la zona segura sin encogerla: a
+# escala .80 su vertice mas lejano queda a 34.5 del centro y el radio seguro
+# de un maskable es 40.
+def cuadro(fill_fondo):
+    return hoja('<rect width="100" height="100" fill="%s"/>' % fill_fondo
+                + figura(DISCO, "#fff", .80))
+
+
 PIEZAS = {
     "principal": hoja(figura(PLIEGO, "currentColor", SUELTA)),
     "avatar":    disco(AZUL),
+    "cuadro":    cuadro(AZUL),
     "impresa":   hoja(figura(PLIEGO, TINTA, SUELTA)),
 }
 
@@ -74,13 +86,27 @@ os.makedirs(PUBLICO, exist_ok=True)
 for k, v in PIEZAS.items():
     open(os.path.join(D, "v-%s.svg" % k), "w").write(v)
 
-# Al sitio solo van las tres que consume: la de la barra, el favicon/avatar y
-# el PNG del comprobante (que va como <img>, no en linea — ver MarcaImpresa).
+# Al sitio van la de la barra y la de disco (favicon, y el avatar circular de
+# las doce pantallas del sistema viejo).
 for k in ("principal", "avatar"):
     open(os.path.join(PUBLICO, "v-%s.svg" % k), "w").write(PIEZAS[k])
-subprocess.run(["inkscape", os.path.join(D, "v-impresa.svg"),
-                "-w", "320", "-h", "320",
-                "-o", os.path.join(PUBLICO, "v-impresa.png")],
-               check=True, capture_output=True)
+
+
+def png(pieza, destino, lado):
+    origen = os.path.join(D, "v-%s.svg" % pieza)
+    subprocess.run(["inkscape", origen, "-w", str(lado), "-h", str(lado),
+                    "-o", os.path.join(PUBLICO, "..", destino)],
+                   check=True, capture_output=True)
+
+
+# El del comprobante va como <img> a un PNG, no en linea — ver MarcaImpresa.
+png("impresa", "marca/v-impresa.png", 320)
+
+# Iconos del PWA. El de 'any' puede ser el disco; los que pasan por una mascara
+# del sistema (maskable de Android, apple-touch de iOS) van cuadrados.
+png("avatar", "icon-192.png", 192)
+png("avatar", "icon-512.png", 512)
+png("cuadro", "icon-512-maskable.png", 512)
+png("cuadro", "icon-180.png", 180)
 
 print("piezas:", " ".join(sorted(PIEZAS)))

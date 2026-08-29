@@ -30,7 +30,7 @@ export default function Proximamente({ cargando = false }) {
       <style>{CSS}</style>
       <div style={S.card}>
         <span style={S.ring}>
-          <img src={`${import.meta.env.BASE_URL}assets/logoX.png`} alt="Factorizando" style={S.logo} />
+          <img src={`${import.meta.env.BASE_URL}assets/marca/v-avatar.svg`} alt="Factorizando" style={S.logo} />
         </span>
         <BrandName />
 

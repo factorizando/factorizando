@@ -603,7 +603,7 @@ const Navbar = () => {
         }}
       >
         <img
-          src={`${import.meta.env.BASE_URL}assets/logoX.png`}
+          src={`${import.meta.env.BASE_URL}assets/marca/v-avatar.svg`}
           alt="Logo Factorizando"
           style={{
             width: 34,

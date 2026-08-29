@@ -66,7 +66,7 @@ export default function SelectorBloque() {
       }}>
         <Link to="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: "inherit" }}>
           <img
-            src={`${import.meta.env.BASE_URL}assets/logoX.png`}
+            src={`${import.meta.env.BASE_URL}assets/marca/v-avatar.svg`}
             alt="Logo"
             style={{ width: 34, height: 34, borderRadius: "50%", objectFit: "cover", border: "1px solid #3b9eff44" }}
           />

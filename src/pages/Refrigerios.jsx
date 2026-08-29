@@ -144,7 +144,7 @@ export default function Refrigerios() {
         <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
           <Link to="/" style={{ display: "inline-flex", alignItems: "center" }}>
             <span style={S.logoRing}>
-              <img src={`${import.meta.env.BASE_URL}assets/logoX.png`} alt="Factorizando" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+              <img src={`${import.meta.env.BASE_URL}assets/marca/v-avatar.svg`} alt="Factorizando" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
             </span>
           </Link>
           <BrandName />

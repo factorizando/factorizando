@@ -295,7 +295,7 @@ export default function SubjectPage({ level, subjects, tabs }) {
       }}>
         <Link to="/" style={{ display: "flex", alignItems: "center", gap: ".9rem" }}>
           <div style={{ width: 36, height: 36, borderRadius: "50%", border: "1px dashed rgba(59,158,255,.4)", overflow: "hidden" }}>
-            <img src={`${import.meta.env.BASE_URL}assets/logoX.png`} alt="Logo" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            <img src={`${import.meta.env.BASE_URL}assets/marca/v-avatar.svg`} alt="Logo" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
           </div>
           <span className="nav-brand-text"><BrandName size="1.1rem" /></span>
         </Link>

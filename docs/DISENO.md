@@ -624,3 +624,10 @@ esquinas transparentes y Android muerde ese vacío. De ahí la variante cuadrada
 `maskable` de Android y en el `apple-touch-icon` de iOS —que tampoco respeta transparencias:
 las compone sobre negro—. La figura cabe sin encogerla: su vértice más lejano queda a 34,5
 del centro.
+
+**El azul del disco es un hex a mano, y es una excepción con motivo.** §2.1 dice que ningún
+color se escribe a mano, pero el disco se emite también como **asset estático** —el favicon y
+los tres PNG del PWA—, y un archivo suelto no puede leer un token de `fx.css`. Vale `#3b9eff`,
+el azul de la ℝ[i] del wordmark y de las doce pantallas del sistema viejo, que es donde el
+disco vive; no el `#4A9EE8` del pliego de exploración, que era el de la hoja de marca. Está
+escrito en dos sitios —`MarcaTribar.jsx` y `Figuras/marca-v/generar.py`— y los dos lo dicen.

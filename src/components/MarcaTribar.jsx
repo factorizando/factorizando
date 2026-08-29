@@ -39,7 +39,12 @@ const SOBRE_DISCO = { z: 1, x: 0.38, y: 0.12 };
 // El pliego dibuja la figura ocupando 76 de 100 (x de 12 a 88). Suelta, sin
 // disco, se agranda a 92; dentro del disco baja a .80 del lienzo.
 const SUELTA = 92 / 76;
-const AZUL_DISCO = "#4A9EE8";
+// El azul del sitio, el mismo de la ℝ[i] del wordmark y de las pantallas del
+// sistema viejo donde vive el disco. Es un hex a mano y aquí no hay alternativa:
+// el disco también se emite como SVG suelto (favicon, iconos del PWA), y un
+// asset estático no puede leer un token de fx.css. Si cambia, cambia en los dos
+// sitios: aquí y en Figuras/marca-v/generar.py.
+const AZUL_DISCO = "#3b9eff";
 
 /**
  * @param {number} tam        lado en px.

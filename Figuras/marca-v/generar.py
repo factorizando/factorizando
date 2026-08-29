@@ -22,7 +22,9 @@ import os, subprocess
 
 D = os.path.dirname(os.path.abspath(__file__))
 PUBLICO = os.path.join(D, "..", "..", "public", "assets", "marca")
-AZUL = "#4A9EE8"      # el azul del pliego de exploracion, el del disco
+AZUL = "#3b9eff"      # el azul del sitio: el de la R[i] del wordmark y el de las
+                      # doce pantallas del sistema viejo, donde vive el disco. NO el
+                      # #4A9EE8 del pliego de exploracion, que era el de la hoja.
 TINTA = "#1a1c1f"     # la tinta del comprobante, la misma del wordmark impreso
 
 # (d, orientacion de la cara)

@@ -1,1 +1,0 @@
-import{j as r}from"./index-F1HijV3c.js";import{S as t}from"./SubjectPage-CBbH4dRi.js";import{S as a}from"./preparatoriaData-BWFIp7Ab.js";import"./BrandName-CoQAVmhw.js";function i(){return r.jsx(t,{level:"preparatoria",subjects:a})}export{i as default};

@@ -33,7 +33,7 @@ export function Figura({ bloque, tema }) {
   );
 }
 
-// Manipulable: mafs para matemáticas, matter-js para física.
+// Manipulable: mafs para matemáticas.
 export function Interactivo({ bloque, tema }) {
   const C = INTERACTIVOS[bloque.clave];
   if (!C) {

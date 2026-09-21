@@ -582,5 +582,7 @@ bien los índices. Queda anotado: si alguien lo ve a velocidad humana, el rastro
 - Prioridad **estructura/mantenibilidad**; calidad de contenido diferida (Fase 6).
 - Teoría JSX/HTML: **por decidir** (no bloquea ninguna fase).
 - Interactivos: **mafs** (mate) + **matter-js** (física); jsxgraph en reserva.
+  *(→ 2026-09: ni matter-js ni jsxgraph se usaron jamás; los tres por instalar
+  en aquel momento —jsxgraph, mathjs, matter-js— se desinstalaron. Solo mafs quedó.)*
 - Esquema de presentaciones ampliado con **video**, **interactivo**, **registro de
   diagramas** y **documentación de las 2 capas** (slide.tipo / bloque.tipo).

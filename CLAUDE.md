@@ -73,7 +73,7 @@ Presentation modules live in `src/data/presentaciones/<materia>/<slug>.js`, orga
 
 Each slide can include a `svgDiagram` key referencing an inline SVG component or a JSXGraph component defined in `SlideRenderer.jsx`. All diagrams (SVGs and JSXGraph) are in that file.
 
-**JSXGraph is installed and unused, and its import is gone.** `SlideRenderer.jsx` carried `import JXG from 'jsxgraph'` with **zero references to `JXG`** — a dead import that dragged the whole library into that chunk: removing it took `SlideRenderer` from **979 KB to 54 KB**. Do not re-add the import "for later": add it in the same commit that uses it. The reason it was never used still stands — JSXGraph injects `background-color: white` into its container at runtime and blanks the slide; whoever integrates it must override that **after** `initBoard` returns, with `!important` or a direct `style` property. Until that pattern is validated, prefer inline SVG for static diagrams.
+**JSXGraph, mathjs and matter-js are uninstalled — do not re-add the import.** `SlideRenderer.jsx` once carried `import JXG from 'jsxgraph'` with **zero references to `JXG`** — a dead import that dragged the whole library into that chunk: removing it took `SlideRenderer` from **979 KB to 54 KB**. All three libraries were added on a plan and never used; they are now uninstalled (see the visualization libraries table). Reinstall one only in the same commit that uses it. The reason JSXGraph was never used still stands — it injects `background-color: white` into its container at runtime and blanks the slide; whoever integrates it must override that **after** `initBoard` returns, with `!important` or a direct `style` property. Until that pattern is validated, prefer inline SVG for static diagrams.
 
 **SVG square proportions:** When drawing a square in SVG, always verify width === height in the polygon points. The viewBox is often wider than tall (e.g., `190×88`), so the polygon coordinates must be explicitly constrained to equal width/height.
 
@@ -166,7 +166,6 @@ Talleres live in `src/data/talleres/<materia>/`, plus `juegos/` for shared game 
 Single-map registries that decouple visual components from consumers (see the §4.2/§4.4 standard in `docs/CONVENCIONES.md`):
 - `diagramas/index.js` exports `DIAGRAMS` (`{ "clave": Component }`), static SVGs organized by subject; each receives `{ tema }`.
 - `interactivos/index.js` exports `INTERACTIVOS`, manipulable components; each receives `{ tema, ...props }`. It currently holds **three**: `derivada-tangente` (mafs), `sim-frecuentista` (recharts) and `arbol-tilde` (@xyflow/react). The physics half was planned with matter-js and **never built** — see the library table below before assuming it exists.
-
 Documents reference these by key via `figura:`/`interactivo:`; presentations via `svgDiagram:` on a slide or the `id` of a `tipo: "diagrama"` block. **All 311 diagrams now live in `DIAGRAMS`** — `SlideRenderer.jsx` resolves them through a single `<Diagrama clave={…} tema={tema} />`, never an `if` chain. Pieces shared by diagrams of several subjects (`arrowHead`, `EjesXY`, `Bloque`, `Vector`, `qRegPoly`, `_svgH`, the probability and statistics data constants…) live in `diagramas/comun.jsx`.
 
 Adding a diagram: a file in `diagramas/<materia>/<clave>.jsx` exporting a default `({ tema })` component, plus one line in `index.js`. It never touches `SlideRenderer.jsx`.
@@ -238,7 +237,7 @@ Visual catalog of the 22 slide blocks, both themes, phone landscape: the *Bloque
 
 The following libraries are installed for math and science content:
 
-The **In use?** column is the point of this table: four of these were installed on a plan and three of those were never used. An unused dependency is not free — `jsxgraph` alone was costing 925 KB in the presentation chunk through a dead import. Before reaching for one, check the column; before adding a new one, remember this row.
+The table lists every installed content library. Three (`jsxgraph`, `mathjs`, `matter-js`) were added on a plan, never used in the end, and have now been **uninstalled** — an unused dependency is not free (`jsxgraph` alone was costing 925 KB in the presentation chunk through a dead import). They are recorded below as **excluded** so nobody reinstalls them on speculation: add one back only in the same commit that uses it. Before reaching for a library, check the table; before adding a new one, remember this history.
 
 | Library | Version | In use? | Use case |
 |---|---|---|---|
@@ -246,9 +245,8 @@ The **In use?** column is the point of this table: four of these were installed 
 | `recharts` | 3.8.1 | **yes** — 8 files | Bar charts, histograms, line charts. Statistics slides and the taller panels. |
 | `three` | 0.184.0 | **yes** — 2 files | 3D. `reino-plegado`'s `Vista3D` and `solidos-platonicos`; they share the chunk. |
 | `mafs` | 0.21.0 | **yes** — 1 file | Coordinate planes and draggable points. Only `derivada-tangente` so far. |
-| `jsxgraph` | 1.12.2 | **no** | Interactive geometry. Installed, never used; see the JSXGraph note above before importing it. |
-| `mathjs` | 15.2.0 | **no** | Was meant for answer validation and step-by-step algebra. Nothing imports it. |
-| `matter-js` | 0.20.0 | **no** | Was meant for kinematics and mechanics. Nothing imports it; the physics interactives were never built. |
+
+**Uninstalled (2026-09):** `jsxgraph` (interactive geometry — `mafs` covers coordinates/points, `@xyflow/react` covers trees), `mathjs` (symbolic algebra / answer validation — quizzes are multiple-choice), `matter-js` (2D physics — the physics interactive half was never built, and the plan's `el-terreno` covers perimeter/area with its own engine). Reinstall only in the commit that uses them.
 
 **Not installed (and why):** Rapier (3D physics; three.js covers what the talleres need), Desmos API (external dependency), Plotly.js (Recharts covers the use cases more lightly), D3 (Recharts and React Flow are built on it; direct D3 not needed).
 

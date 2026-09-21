@@ -132,7 +132,7 @@ atómicas con compuestas. Lo que sigue es el **menú** de piezas disponibles.
 | `arbol_decision` | Flujo de decisión (usa `@xyflow/react`). |
 | `resumen` | Cierre / síntesis. |
 | `video` 🆕 | Video de YouTube embebido (§4.3). |
-| `interactivo` 🆕 | Componente manipulable: mate (mafs) o física (matter-js) (§4.4). |
+| `interactivo` 🆕 | Componente manipulable (mate con `mafs`) (§4.4). |
 
 **Tipos de bloque** (`bloque.tipo`, dentro de una slide compuesta con `bloques[]`):
 
@@ -219,11 +219,10 @@ Shape en la slide/bloque:
 
 Motores adoptados:
 - **Matemáticas → `mafs`** (React nativo; `useMovablePoint` para arrastrar puntos,
-  vértices y vectores; plano cartesiano y funciones). Motor principal. *Pendiente instalar.*
-- **Física → `matter-js`** (ya instalado; objetos con gravedad/colisiones arrastrables
-  para cinemática y dinámica).
-- `jsxgraph` queda en reserva solo para construcciones geométricas que mafs no cubra;
-  antes de usarlo hay que resolver el bug de fondo blanco (ver CLAUDE.md).
+  vértices y vectores; plano cartesiano y funciones). Motor principal.
+- `jsxgraph` y `matter-js` fueron desinstalados (2026-09): no se usaron. Reinstalar
+  solo en el commit que los use (ver la tabla de librerías en CLAUDE.md). Si alguien
+  integra jsxgraph, primero debe resolver el bug de fondo blanco (ver CLAUDE.md).
 
 Reglas:
 - Cada interactivo recibe `{ tema, ...props }` y es autónomo (limpia su board/engine al desmontar).
@@ -314,7 +313,7 @@ esa es la razón de verificar en vez de dar por cerrado.
 | 11 | `SlideRenderer.jsx` de ~12 700 líneas | 2 431 líneas; los 311 diagramas viven en `DIAGRAMS` |
 | 12 | Sin soporte de video | Bloque `video` en el registro (youtube-nocookie, carga diferida) |
 | 13 | Sin capa interactiva | Registro `INTERACTIVOS` con tres componentes |
-| 14 | `jsxgraph` importada sin usar | Import retirado; el chunk de `SlideRenderer` pasó de 979 KB a 54 KB |
+| 14 | `jsxgraph` importada sin usar | Import retirado; el chunk de `SlideRenderer` pasó de 979 KB a 54 KB. + 2026-09: `jsxgraph`, `mathjs` y `matter-js` desinstalados (ninguna se usó) |
 
 ### Lo que apareció al comprobar
 

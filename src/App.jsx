@@ -12,7 +12,7 @@ import ActualizacionDisponible from "./components/ActualizacionDisponible";
 // ── Rutas diferidas ───────────────────────────────────────────────────────
 // Todo lo que no es la portada ni el login se carga cuando se visita, no al
 // abrir el sitio. Antes el bundle iba en un solo archivo de 8.4 MB —con
-// three, jsxgraph, mathjs, recharts y todos los bancos de contenido dentro—
+// three, recharts y todos los bancos de contenido dentro—
 // y hasta quien solo entraba a la portada se lo bajaba completo.
 //
 // Cada `lazy` corta un pedazo del bundle: la librería pesada que use una

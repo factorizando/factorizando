@@ -156,6 +156,7 @@ export default function AuthCard({ mode = "login", onSwitchMode, onClose, dest }
     if (data && !data.perfil_completo) { navigate("/completar-perfil"); return; }
     if (data?.rol === "admin") { navigate("/admin"); return; }
     if (data?.estado_acceso !== "aprobado") { navigate("/cuenta-pendiente"); return; }
+    if (data?.rol === "tutor") { navigate("/tutor"); return; }
     if (dest) { navigate(`/${dest}`); return; }
     if (data?.bloque === "preparatoria" || data?.bloque === "universidad" || data?.bloque === "regularizacion") {
       navigate(`/${data.bloque}`);

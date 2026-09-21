@@ -51,7 +51,7 @@ export default function CuentaPendiente() {
       if (data && !data.perfil_completo) { navigate("/completar-perfil", { replace: true }); return; }
       if (data?.rol === "admin") { navigate("/admin", { replace: true }); return; }
       if (data?.estado_acceso === "aprobado") {
-        navigate(`/${data.bloque || ""}`, { replace: true });
+        navigate(data.rol === "tutor" ? "/tutor" : `/${data.bloque || ""}`, { replace: true });
         return;
       }
 

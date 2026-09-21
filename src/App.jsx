@@ -56,6 +56,8 @@ const Regularizacion       = lazy(() => import("./pages/Regularizacion.jsx"));
 const TallerVer            = lazy(() => import("./pages/TallerVer.jsx"));
 const MisInscripciones     = lazy(() => import("./pages/alumno/MisInscripciones.jsx"));
 const MiSuscripcion        = lazy(() => import("./pages/alumno/MiSuscripcion.jsx"));
+const Tutor                = lazy(() => import("./pages/tutor/Tutor.jsx"));
+const TutorAlumno          = lazy(() => import("./pages/tutor/TutorAlumno.jsx"));
 const Refrigerios          = lazy(() => import("./pages/Refrigerios.jsx"));
 const PreviewComprobante   = lazy(() => import("./pages/PreviewComprobante.jsx"));
 const PreviewBloques      = lazy(() => import("./pages/PreviewBloques.jsx"));
@@ -307,6 +309,23 @@ function AppRoutes() {
           element={
             <ProtectedRoute>
               <MiSuscripcion />
+            </ProtectedRoute>
+          }
+        />
+        {/* ── Portal del tutor ── */}
+        <Route
+          path="/tutor"
+          element={
+            <ProtectedRoute requiredNivel="tutor">
+              <Tutor />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/tutor/alumno/:id"
+          element={
+            <ProtectedRoute requiredNivel="tutor">
+              <TutorAlumno />
             </ProtectedRoute>
           }
         />

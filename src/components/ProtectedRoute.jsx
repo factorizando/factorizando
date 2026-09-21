@@ -18,8 +18,8 @@ const Spinner = () => (
   </div>
 );
 
-// requiredNivel: "preparatoria" | "universidad" | "regularizacion" | "admin" | null
-// (solo requiere auth).
+// requiredNivel: "preparatoria" | "universidad" | "regularizacion" | "tutor" | "admin"
+// | null (solo requiere auth).
 // Autorización explícita: la cuenta debe estar `estado_acceso = "aprobado"` y su
 // `bloque` debe ser el pedido. Admin/profesor ven todo el contenido. Si el perfil
 // está incompleto, se manda a /completar-perfil; si no está aprobado, a
@@ -61,6 +61,8 @@ export default function ProtectedRoute({ children, requiredNivel = null }) {
 
       if (requiredNivel === "admin") {
         setStatus(esAdmin ? "ok" : "unauthorized");
+      } else if (requiredNivel === "tutor") {
+        setStatus(esStaff || profile.rol === "tutor" ? "ok" : "unauthorized");
       } else if (esStaff || profile.bloque === requiredNivel) {
         setStatus("ok");
       } else {

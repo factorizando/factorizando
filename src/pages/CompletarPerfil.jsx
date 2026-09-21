@@ -12,9 +12,6 @@ const NIVELES = [
 // Estados con catálogo de escuelas cargado: en estos exigimos elegir del listado.
 const ESTADOS_CON_CATALOGO = ["Puebla", "Veracruz", "Estado de México", "Ciudad de México"];
 
-// nivel de contenido derivado (igual que el trigger en la base)
-const nivelContenido = (ne) => (ne === "basica" ? "preparatoria" : "universidad");
-
 // "TECAMACHALCO" → "Tecamachalco"; "SAN MARTÍN" → "San Martín"
 const titulo = (s) =>
   (s || "").toLowerCase().replace(/(^|\s|-)([a-záéíóúñ])/g, (m, p, c) => p + c.toUpperCase());
@@ -182,7 +179,7 @@ export default function CompletarPerfil() {
         })
         .eq("id", uid);
       if (upErr) throw upErr;
-      navigate(`/${nivelContenido(nivelEdu)}`);
+      navigate("/cuenta-pendiente");
     } catch (err) {
       setError("No se pudo guardar tu perfil. Intenta de nuevo.");
       setGuardando(false);

@@ -19,6 +19,7 @@ import ActualizacionDisponible from "./components/ActualizacionDisponible";
 // página se va al mismo pedazo y solo viaja con ella. Requisito: el módulo
 // tiene que exportar el componente por omisión (`export default`).
 const Registro             = lazy(() => import("./pages/Registro"));
+const CuentaPendiente      = lazy(() => import("./pages/CuentaPendiente"));
 const CompletarPerfil      = lazy(() => import("./pages/CompletarPerfil"));
 const NuevaContrasena      = lazy(() => import("./pages/NuevaContrasena"));
 const Preparatoria         = lazy(() => import("./pages/Preparatoria"));
@@ -44,6 +45,7 @@ const CursoVer             = lazy(() => import("./pages/CursoVer.jsx"));
 const MateriaVer           = lazy(() => import("./pages/MateriaVer.jsx"));
 const TemaPreview          = lazy(() => import("./pages/TemaPreview.jsx"));
 const AdminAlumnos         = lazy(() => import("./pages/admin/AdminAlumnos.jsx"));
+const AdminSolicitudes     = lazy(() => import("./pages/admin/AdminSolicitudes.jsx"));
 const AdminTutores         = lazy(() => import("./pages/admin/AdminTutores.jsx"));
 const AdminInscripciones   = lazy(() => import("./pages/admin/AdminInscripciones.jsx"));
 const AdminCargos          = lazy(() => import("./pages/admin/AdminCargos.jsx"));
@@ -99,6 +101,7 @@ function AppRoutes() {
         <Route path="/login" element={<Login />} />
         <Route path="/registro" element={<Registro />} />
         <Route path="/completar-perfil" element={<CompletarPerfil />} />
+        <Route path="/cuenta-pendiente" element={<CuentaPendiente />} />
         <Route path="/nueva-contrasena" element={<NuevaContrasena />} />
         <Route path="/exani-i" element={<ExaniI />} />
         <Route path="/exani-ii" element={<ExaniII />} />
@@ -219,6 +222,14 @@ function AppRoutes() {
           }
         />
         <Route
+          path="/admin/solicitudes"
+          element={
+            <ProtectedRoute requiredNivel="admin">
+              <AdminSolicitudes />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/admin/tutores"
           element={
             <ProtectedRoute requiredNivel="admin">
@@ -266,11 +277,11 @@ function AppRoutes() {
             </ProtectedRoute>
           }
         />
-        {/* ── Regularización (talleres, solo admin) ── */}
+        {/* ── Regularización (talleres: admin y alumnos con ese bloque) ── */}
         <Route
           path="/regularizacion"
           element={
-            <ProtectedRoute requiredNivel="admin">
+            <ProtectedRoute requiredNivel="regularizacion">
               <Regularizacion />
             </ProtectedRoute>
           }
@@ -278,7 +289,7 @@ function AppRoutes() {
         <Route
           path="/regularizacion/:id"
           element={
-            <ProtectedRoute requiredNivel="admin">
+            <ProtectedRoute requiredNivel="regularizacion">
               <TallerVer />
             </ProtectedRoute>
           }

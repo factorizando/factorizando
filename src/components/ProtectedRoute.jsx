@@ -18,9 +18,12 @@ const Spinner = () => (
   </div>
 );
 
-// requiredNivel: "preparatoria" | "universidad" | "admin" | null (solo requiere auth)
-// Autorización por `rol` (alumno|profesor|admin); admin/profesor ven todo el
-// contenido. Si el perfil está incompleto, se manda a /completar-perfil.
+// requiredNivel: "preparatoria" | "universidad" | "regularizacion" | "admin" | null
+// (solo requiere auth).
+// Autorización explícita: la cuenta debe estar `estado_acceso = "aprobado"` y su
+// `bloque` debe ser el pedido. Admin/profesor ven todo el contenido. Si el perfil
+// está incompleto, se manda a /completar-perfil; si no está aprobado, a
+// /cuenta-pendiente.
 export default function ProtectedRoute({ children, requiredNivel = null }) {
   const location = useLocation();
   const [status, setStatus] = useState("loading");
@@ -36,7 +39,7 @@ export default function ProtectedRoute({ children, requiredNivel = null }) {
 
       const { data: profile } = await supabase
         .from("profiles")
-        .select("rol, nivel, perfil_completo")
+        .select("rol, nivel, bloque, estado_acceso, perfil_completo")
         .eq("id", session.user.id)
         .single();
       if (cancelled) return;
@@ -44,13 +47,21 @@ export default function ProtectedRoute({ children, requiredNivel = null }) {
       if (!profile) { setStatus("unauthorized"); return; }
       if (!profile.perfil_completo) { setStatus("incompleto"); return; }
 
-      if (!requiredNivel) { setStatus("ok"); return; }
-
       const esAdmin = profile.rol === "admin";
       const esProfesor = profile.rol === "profesor";
+      const esStaff = esAdmin || esProfesor;
+
+      // Sin aprobación no se entra a nada, ni siquiera con auth (salvo staff).
+      if (!esStaff && profile.estado_acceso !== "aprobado") {
+        setStatus("pendiente");
+        return;
+      }
+
+      if (!requiredNivel) { setStatus("ok"); return; }
+
       if (requiredNivel === "admin") {
         setStatus(esAdmin ? "ok" : "unauthorized");
-      } else if (esAdmin || esProfesor || profile.nivel === requiredNivel) {
+      } else if (esStaff || profile.bloque === requiredNivel) {
         setStatus("ok");
       } else {
         setStatus("unauthorized");
@@ -73,6 +84,8 @@ export default function ProtectedRoute({ children, requiredNivel = null }) {
   }
 
   if (status === "incompleto") return <Navigate to="/completar-perfil" replace />;
+
+  if (status === "pendiente") return <Navigate to="/cuenta-pendiente" replace />;
 
   if (status === "unauthorized") return <Navigate to="/" replace />;
 

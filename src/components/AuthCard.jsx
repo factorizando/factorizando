@@ -111,17 +111,21 @@ export default function AuthCard({ mode = "login", onSwitchMode, onClose, dest }
     return () => clearTimeout(t);
   }, [cooldown]);
 
-  // A dónde llevar tras iniciar sesión: completar perfil si falta, o su nivel.
+  // A dónde llevar tras iniciar sesión: completar perfil si falta, la pantalla
+  // de revisión si la cuenta aún no está aprobada, o su bloque asignado.
   async function rutaPostAuth() {
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) return;
     const { data } = await supabase
-      .from("profiles").select("nivel, perfil_completo").eq("id", session.user.id).single();
+      .from("profiles").select("rol, bloque, estado_acceso, perfil_completo").eq("id", session.user.id).single();
     onClose?.();
     if (data && !data.perfil_completo) { navigate("/completar-perfil"); return; }
+    if (data?.rol === "admin") { navigate("/admin"); return; }
+    if (data?.estado_acceso !== "aprobado") { navigate("/cuenta-pendiente"); return; }
     if (dest) { navigate(`/${dest}`); return; }
-    if (data?.nivel === "preparatoria" || data?.nivel === "universidad") navigate(`/${data.nivel}`);
-    else navigate("/");
+    if (data?.bloque === "preparatoria" || data?.bloque === "universidad" || data?.bloque === "regularizacion") {
+      navigate(`/${data.bloque}`);
+    } else navigate("/");
   }
 
   const submit = async (e) => {

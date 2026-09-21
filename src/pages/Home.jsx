@@ -57,12 +57,17 @@ export default function Home() {
       if (!session) return;
       const { data } = await supabase
         .from("profiles")
-        .select("rol, perfil_completo")
+        .select("rol, estado_acceso, perfil_completo")
         .eq("id", session.user.id)
         .single();
       // Tras confirmar el correo se aterriza aquí: si falta el perfil, completarlo.
       if (data && !data.perfil_completo) {
         navigate("/completar-perfil");
+        return;
+      }
+      // Cuenta registrada pero todavía sin aprobar: no hay bloques que abrir.
+      if (data?.rol !== "admin" && data?.estado_acceso !== "aprobado") {
+        navigate("/cuenta-pendiente");
         return;
       }
       if (data?.rol === "admin") setIsAdmin(true);

@@ -8,6 +8,7 @@ import { SUBJECTS_PREP } from "../data/preparatoriaData.js";
 import { SUBJECTS_UNI } from "../data/universidadData.js";
 import { SUBJECTS_EXANI_II } from "../data/exaniIIData.js";
 import AdminAlumnos from "./admin/AdminAlumnos.jsx";
+import AdminSolicitudes from "./admin/AdminSolicitudes.jsx";
 import AdminTutores from "./admin/AdminTutores.jsx";
 import AdminInscripciones from "./admin/AdminInscripciones.jsx";
 import AdminCargos from "./admin/AdminCargos.jsx";
@@ -880,6 +881,9 @@ export default function Admin() {
 
         {/* ── Tab: Alumnos ──────────────────────────────────────────────── */}
         {tab === "alumnos" && <AdminAlumnos embedded />}
+
+        {/* ── Tab: Solicitudes ──────────────────────────────────────────── */}
+        {tab === "solicitudes" && <AdminSolicitudes embedded />}
 
         {/* ── Tab: Tutores ──────────────────────────────────────────────── */}
         {tab === "tutores" && <AdminTutores embedded />}

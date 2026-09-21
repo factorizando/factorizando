@@ -10,11 +10,12 @@ import { SUBJECTS_EXANI_II } from "../data/exaniIIData.js";
 import AdminAlumnos from "./admin/AdminAlumnos.jsx";
 import AdminSolicitudes from "./admin/AdminSolicitudes.jsx";
 import AdminTutores from "./admin/AdminTutores.jsx";
+import AdminInicio from "./admin/AdminInicio.jsx";
 import AdminInscripciones from "./admin/AdminInscripciones.jsx";
 import AdminCargos from "./admin/AdminCargos.jsx";
 import AdminSuscripciones from "./admin/AdminSuscripciones.jsx";
 import AdminCursos from "./admin/AdminCursos.jsx";
-import AdminHeader from "../components/admin/AdminHeader.jsx";
+import AdminLayout from "../components/admin/AdminLayout.jsx";
 
 const C = {
   bg:      "#0e0f11",
@@ -797,7 +798,7 @@ function ResumenAlumno({ nombre, nivel, resultados, onDelete, onUpdate }) {
 
 // ── Página principal ──────────────────────────────────────────────────────────
 export default function Admin() {
-  const [tab, setTab] = useState("alumnos");
+  const [tab, setTab] = useState("inicio");
   const [loading, setLoading] = useState(true);
   const [resultados, setResultados] = useState([]);
   const [profiles, setProfiles] = useState({});
@@ -874,10 +875,10 @@ export default function Admin() {
   }
 
   return (
-    <div style={{ minHeight: "100vh", background: C.bg, fontFamily: font }}>
-      <AdminHeader active={tab} onChange={setTab} />
+    <AdminLayout active={tab} onChange={setTab}>
 
-      <div style={{ maxWidth: 980, margin: "0 auto", padding: "32px 16px" }}>
+        {/* ── Tab: Inicio ───────────────────────────────────────────────── */}
+        {tab === "inicio" && <AdminInicio onNavigate={setTab} />}
 
         {/* ── Tab: Alumnos ──────────────────────────────────────────────── */}
         {tab === "alumnos" && <AdminAlumnos embedded />}
@@ -1126,7 +1127,6 @@ export default function Admin() {
             )}
           </>
         )}
-      </div>
-    </div>
+    </AdminLayout>
   );
 }

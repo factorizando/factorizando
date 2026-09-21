@@ -1,64 +1,43 @@
 // src/pages/admin/AdminSolicitudes.jsx
 // Bandeja de solicitudes de acceso: el registro nace en `pendiente` y desde
-// aquí el administrador aprueba (eligiendo bloque) o rechaza (con motivo).
+// aquí el administrador aprueba (como alumno, eligiendo bloque; o como tutor,
+// vinculando su ficha) o rechaza con un motivo.
 //
 // Aprobar `regularizacion` crea además la fila de `alumnos` que el taller
-// necesita para guardar el avance (alumno_id = profiles.id). El nivel
-// primaria/secundaria se deduce por edad y el admin puede corregirlo luego.
-
+// necesita (alumno_id = profiles.id). El nivel primaria/secundaria se deduce
+// por edad y el admin puede corregirlo luego en Alumnos.
 import { useState, useEffect } from "react";
+import {
+  Inbox, Clock, CircleCheck, CircleX, GraduationCap, Users,
+  Mail, Phone, MapPin, CalendarDays, Building2,
+} from "lucide-react";
 import { supabase } from "../../lib/supabase";
-import AdminHeader from "../../components/admin/AdminHeader.jsx";
-import { TEXTO_FLEXIBLE } from "../../components/admin/layout.js";
-
-const font = "'DM Sans', sans-serif";
-const C = {
-  bg:      "#0e0f11",
-  surface: "#13151a",
-  card:    "#16181f",
-  border:  "#252830",
-  blue:    "#3b9eff",
-  green:   "#34d399",
-  yellow:  "#fbbf24",
-  orange:  "#f97316",
-  red:     "#f43f5e",
-  purple:  "#a78bfa",
-  text:    "#e8eaf0",
-  muted:   "#5a6070",
-  dim:     "#8a9ab8",
-};
+import AdminLayout from "../../components/admin/AdminLayout.jsx";
+import {
+  Page, Card, Badge, Button, SearchField, Field, Input, Select, Textarea, Modal, EmptyState,
+} from "../../components/admin/ui.jsx";
 
 const BLOQUES = [
-  { value: "preparatoria",   label: "Admisión preparatoria" },
-  { value: "universidad",    label: "Admisión universidad" },
+  { value: "preparatoria", label: "Admisión preparatoria" },
+  { value: "universidad", label: "Admisión universidad" },
   { value: "regularizacion", label: "Regularización" },
 ];
-
 const BLOQUE_LABEL = Object.fromEntries(BLOQUES.map((b) => [b.value, b.label]));
 
-const NIVEL_EDU = {
-  basica: "Secundaria",
-  media_superior: "Preparatoria",
-  superior: "Universidad",
-};
+const NIVEL_EDU = { basica: "Secundaria", media_superior: "Preparatoria", superior: "Universidad" };
 
 const ESTADOS = [
-  { value: "pendiente", label: "Pendientes", color: C.yellow },
-  { value: "aprobado",  label: "Aprobadas",  color: C.green },
-  { value: "rechazado", label: "Rechazadas", color: C.red },
-  { value: "todos",     label: "Todas",      color: C.muted },
+  { value: "pendiente", label: "Pendientes" },
+  { value: "aprobado", label: "Aprobadas" },
+  { value: "rechazado", label: "Rechazadas" },
+  { value: "todos", label: "Todas" },
 ];
 
-const ESTADO_COLOR = { pendiente: C.yellow, aprobado: C.green, rechazado: C.red };
-
-function fmtDate(iso) {
+function fmtFecha(iso) {
   if (!iso) return "—";
   const [y, m, d] = iso.split("T")[0].split("-").map(Number);
-  return new Date(y, m - 1, d).toLocaleDateString("es-MX", {
-    day: "2-digit", month: "short", year: "numeric",
-  });
+  return new Date(y, m - 1, d).toLocaleDateString("es-MX", { day: "2-digit", month: "short", year: "numeric" });
 }
-
 function calcEdad(fecha) {
   if (!fecha) return null;
   const hoy = new Date();
@@ -68,14 +47,10 @@ function calcEdad(fecha) {
   if (m < 0 || (m === 0 && hoy.getDate() < n.getDate())) e--;
   return e >= 0 && e < 120 ? e : null;
 }
-
-// Mismo corte que se conversó: por debajo de 12, primaria; de ahí en adelante,
-// secundaria. El administrador puede corregirlo en Alumnos.
 function nivelRegularizacion(fechaNac) {
   const e = calcEdad(fechaNac);
   return e != null && e < 12 ? "primaria" : "secundaria";
 }
-
 function partirNombre(completo) {
   const partes = (completo || "").trim().split(/\s+/).filter(Boolean);
   if (partes.length === 0) return { nombre: "", apellidos: "" };
@@ -83,194 +58,145 @@ function partirNombre(completo) {
   return { nombre: partes[0], apellidos: partes.slice(1).join(" ") };
 }
 
-function Spinner() {
-  return (
-    <div style={{ display: "flex", justifyContent: "center", padding: 60 }}>
-      <div style={{
-        width: 28, height: 28, borderRadius: "50%",
-        border: `2px solid ${C.blue}22`, borderTopColor: C.blue,
-        animation: "spin .7s linear infinite",
-      }} />
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-    </div>
-  );
-}
-
-function Modal({ title, onClose, children }) {
-  return (
-    <div style={{
-      position: "fixed", inset: 0, zIndex: 100,
-      display: "flex", alignItems: "center", justifyContent: "center",
-      background: "rgba(0,0,0,.6)", backdropFilter: "blur(4px)",
-    }} onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
-      <div style={{
-        background: C.card, border: `1px solid ${C.border}`, borderRadius: 14,
-        width: "90%", maxWidth: 520, maxHeight: "85vh", overflow: "auto", padding: "24px 28px",
-      }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18 }}>
-          <h3 style={{ margin: 0, color: C.text, fontSize: 16, fontWeight: 700, fontFamily: font }}>{title}</h3>
-          <button onClick={onClose} style={{ background: "none", border: "none", color: C.muted, fontSize: 20, cursor: "pointer", padding: 4 }}>×</button>
-        </div>
-        {children}
-      </div>
-    </div>
-  );
-}
-
-const inputStyle = {
-  background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
-  padding: "9px 12px", color: C.text, fontSize: 13, fontFamily: font,
-  outline: "none", width: "100%", boxSizing: "border-box",
+const TONO_ESTADO = {
+  pendiente: { tone: "warning", Icon: Clock, label: "Pendiente" },
+  aprobado: { tone: "success", Icon: CircleCheck, label: "Aprobada" },
+  rechazado: { tone: "error", Icon: CircleX, label: "Rechazada" },
 };
 
-function Field({ label, children }) {
+function Dato({ icono: Icono, children }) {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-      <label style={{ color: C.dim, fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", fontFamily: font }}>
-        {label}
-      </label>
-      {children}
-    </div>
-  );
-}
-
-function Dato({ label, valor }) {
-  return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-      <span style={{ color: C.muted, fontSize: 10.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", fontFamily: font }}>{label}</span>
-      <span style={{ color: C.text, fontSize: 13, fontFamily: font, ...TEXTO_FLEXIBLE }}>{valor || "—"}</span>
-    </div>
-  );
-}
-
-function EstadoBadge({ estado }) {
-  const color = ESTADO_COLOR[estado] || C.muted;
-  const label = { pendiente: "Pendiente", aprobado: "Aprobada", rechazado: "Rechazada" }[estado] || estado;
-  return (
-    <span style={{ background: color + "22", color, borderRadius: 5, padding: "2px 9px", fontSize: 11, fontWeight: 700, fontFamily: font, whiteSpace: "nowrap" }}>
-      {label}
+    <span className="ax-sub" style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+      {Icono && <Icono size={14} aria-hidden="true" />} {children || "—"}
     </span>
   );
 }
 
-// ── Ficha de solicitud ────────────────────────────────────────────────────────
 function SolicitudCard({ perfil, onAprobar, onRechazar }) {
   const [abierta, setAbierta] = useState(false);
+  const est = TONO_ESTADO[perfil.estado_acceso] || TONO_ESTADO.pendiente;
+  const edad = calcEdad(perfil.fecha_nacimiento);
+
   return (
-    <div style={{
-      background: C.card, border: `1px solid ${C.border}`, borderRadius: 12,
-      padding: "16px 18px", display: "flex", flexDirection: "column", gap: 12,
-    }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
-        <span style={{
-          width: 42, height: 42, borderRadius: "50%", flexShrink: 0, overflow: "hidden",
-          background: C.surface, display: "grid", placeItems: "center", color: C.dim,
-          fontSize: 16, fontWeight: 700, fontFamily: font,
-        }}>
-          {perfil.avatar_url
-            ? <img src={perfil.avatar_url} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-            : (perfil.nombre || perfil.email || "?").slice(0, 1).toUpperCase()}
-        </span>
-        <div style={{ flex: 1, minWidth: 180 }}>
-          <div style={{ color: C.text, fontSize: 14.5, fontWeight: 700, fontFamily: font, ...TEXTO_FLEXIBLE }}>
-            {perfil.nombre || "(sin nombre)"}
-          </div>
-          <div style={{ color: C.muted, fontSize: 12.5, fontFamily: font, ...TEXTO_FLEXIBLE }}>
-            {perfil.email || "—"}
-          </div>
+    <Card>
+      <div className="ax-fila">
+        <span className="ax-avatar">{(perfil.nombre || perfil.email || "?").slice(0, 1).toUpperCase()}</span>
+        <div className="ax-aparecer">
+          <div className="ax-nombre">{perfil.nombre || "(sin nombre)"}</div>
+          <div className="ax-sub">{perfil.email || "—"}</div>
         </div>
-        <EstadoBadge estado={perfil.estado_acceso} />
+        <Badge tone={est.tone} icono={est.Icon}>{est.label}</Badge>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(150px, 100%), 1fr))", gap: 12 }}>
-        <Dato label="Teléfono" valor={perfil.telefono} />
-        <Dato label="Estado" valor={perfil.estado} />
-        <Dato label="Ciudad" valor={perfil.ciudad} />
-        <Dato label="Nacimiento" valor={fmtDate(perfil.fecha_nacimiento)} />
-        <Dato label="Nivel educativo" valor={NIVEL_EDU[perfil.nivel_educativo] || perfil.nivel_educativo} />
-        <Dato label="Institución" valor={perfil.institucion} />
+      <div className="ax-acciones" style={{ marginTop: 14, gap: 16 }}>
+        <Dato icono={Phone}>{perfil.telefono}</Dato>
+        <Dato icono={MapPin}>{perfil.estado}{perfil.ciudad ? `, ${perfil.ciudad}` : ""}</Dato>
+        <Dato icono={CalendarDays}>{fmtFecha(perfil.fecha_nacimiento)}{edad != null ? ` · ${edad} años` : ""}</Dato>
+        <Dato icono={GraduationCap}>{NIVEL_EDU[perfil.nivel_educativo] || perfil.nivel_educativo}</Dato>
+        <Dato icono={Building2}>{perfil.institucion}</Dato>
       </div>
 
       {perfil.estado_acceso === "aprobado" && perfil.bloque && (
-        <div style={{ color: C.green, fontSize: 12.5, fontFamily: font }}>
+        <p className="ax-sub" style={{ margin: "12px 0 0" }}>
           Acceso: <strong>{BLOQUE_LABEL[perfil.bloque] || perfil.bloque}</strong>
-        </div>
+        </p>
       )}
       {perfil.estado_acceso === "rechazado" && perfil.motivo_rechazo && (
-        <div style={{ color: C.dim, fontSize: 12.5, fontFamily: font }}>
-          Motivo: {perfil.motivo_rechazo}
-        </div>
+        <p className="ax-sub" style={{ margin: "12px 0 0" }}>Motivo: {perfil.motivo_rechazo}</p>
       )}
 
       {(perfil.estado_acceso === "pendiente" || perfil.estado_acceso === "rechazado") && (
         <>
-          <button type="button" onClick={() => setAbierta((v) => !v)} style={{
-            alignSelf: "flex-start", background: "none", border: "none", color: C.blue,
-            fontSize: 12.5, fontWeight: 600, cursor: "pointer", fontFamily: font, padding: 0,
-          }}>
-            {abierta ? "Ocultar acciones" : "Revisar solicitud"}
-          </button>
-          {abierta && (
-            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-              <button type="button" onClick={() => onAprobar(perfil)} style={{
-                background: C.green, border: "none", borderRadius: 8, padding: "8px 18px",
-                color: "#04221a", fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: font,
-              }}>Aprobar</button>
-              <button type="button" onClick={() => onRechazar(perfil)} style={{
-                background: "transparent", border: `1px solid ${C.red}66`, borderRadius: 8,
-                padding: "8px 18px", color: C.red, fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: font,
-              }}>Rechazar</button>
-            </div>
-          )}
+          <div className="ax-acciones" style={{ marginTop: 14 }}>
+            {abierta ? (
+              <>
+                <Button variante="primary" icono={GraduationCap} onClick={() => onAprobar(perfil)}>Aprobar</Button>
+                <Button variante="subtle" icono={CircleX} onClick={() => onRechazar(perfil)}>Rechazar</Button>
+                <Button variante="ghost" onClick={() => setAbierta(false)}>Cancelar</Button>
+              </>
+            ) : (
+              <Button variante="secondary" onClick={() => setAbierta(true)}>Revisar solicitud</Button>
+            )}
+          </div>
         </>
       )}
-    </div>
+    </Card>
   );
 }
 
-// ── Diálogos ──────────────────────────────────────────────────────────────────
-function AprobarModal({ perfil, onClose, onConfirm }) {
+function AprobarModal({ perfil, tutores, onClose, onConfirm }) {
+  const [tipo, setTipo] = useState("alumno");
   const [bloque, setBloque] = useState("preparatoria");
+  const [tutorId, setTutorId] = useState("nuevo");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
-  const esRegularizacion = bloque === "regularizacion";
+  const esRegularizacion = tipo === "alumno" && bloque === "regularizacion";
+  const tutoresLibres = (tutores || []).filter((t) => !t.profile_id);
 
   return (
-    <Modal title="Aprobar solicitud" onClose={onClose}>
-      <p style={{ color: C.dim, fontSize: 13, fontFamily: font, margin: "0 0 16px" }}>
-        {perfil.nombre || perfil.email}
-      </p>
-      <Field label="Bloque de acceso">
-        <select value={bloque} onChange={(e) => setBloque(e.target.value)} style={{ ...inputStyle, cursor: "pointer" }}>
-          {BLOQUES.map((b) => <option key={b.value} value={b.value}>{b.label}</option>)}
-        </select>
+    <Modal titulo="Aprobar solicitud" onClose={onClose}>
+      <p className="ax-sub" style={{ margin: "0 0 16px" }}>{perfil.nombre || perfil.email}</p>
+
+      <Field label="Tipo de cuenta">
+        <div className="ax-acciones">
+          <Button
+            variante={tipo === "alumno" ? "primary" : "subtle"}
+            icono={GraduationCap}
+            onClick={() => setTipo("alumno")}
+          >Alumno</Button>
+          <Button
+            variante={tipo === "tutor" ? "primary" : "subtle"}
+            icono={Users}
+            onClick={() => setTipo("tutor")}
+          >Tutor</Button>
+        </div>
       </Field>
-      {esRegularizacion && (
-        <p style={{ color: C.muted, fontSize: 12, fontFamily: font, lineHeight: 1.5, margin: "12px 0 0" }}>
-          Se creará su ficha de alumno con nivel{" "}
-          <strong style={{ color: C.text }}>{nivelRegularizacion(perfil.fecha_nacimiento)}</strong>{" "}
-          (por edad). Podrás corregirlo en Alumnos.
-        </p>
-      )}
-      {error && (
-        <div style={{ background: "#ff444422", border: "1px solid #ff444466", borderRadius: 8, padding: "10px 14px", color: "#ff6666", fontSize: 13, fontFamily: font, marginTop: 14 }}>
-          {error}
+
+      {tipo === "alumno" ? (
+        <div style={{ marginTop: 14, display: "flex", flexDirection: "column", gap: 10 }}>
+          <Field label="Bloque de acceso">
+            <Select value={bloque} onChange={(e) => setBloque(e.target.value)}>
+              {BLOQUES.map((b) => <option key={b.value} value={b.value}>{b.label}</option>)}
+            </Select>
+          </Field>
+          {esRegularizacion && (
+            <p className="ax-sub" style={{ margin: 0 }}>
+              Se creará su ficha de alumno con nivel <strong>{nivelRegularizacion(perfil.fecha_nacimiento)}</strong> (por edad).
+            </p>
+          )}
+        </div>
+      ) : (
+        <div style={{ marginTop: 14, display: "flex", flexDirection: "column", gap: 10 }}>
+          <Field label="Ficha de tutor">
+            <Select value={tutorId} onChange={(e) => setTutorId(e.target.value)}>
+              <option value="nuevo">— Crear ficha nueva con estos datos —</option>
+              {tutoresLibres.map((t) => (
+                <option key={t.id} value={t.id}>{t.nombre} {t.apellidos}</option>
+              ))}
+            </Select>
+          </Field>
+          <p className="ax-sub" style={{ margin: 0 }}>
+            {tutorId === "nuevo"
+              ? "Se creará una ficha de tutor con su nombre, teléfono y correo."
+              : "Se vinculará su cuenta a la ficha elegida."}
+            {" "}Luego podrás asociarle alumnos desde Tutores.
+          </p>
         </div>
       )}
-      <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", marginTop: 20 }}>
-        <button type="button" onClick={onClose} style={{
-          background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
-          padding: "8px 18px", color: C.muted, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: font,
-        }}>Cancelar</button>
-        <button type="button" disabled={saving} onClick={async () => {
-          setSaving(true); setError(null);
-          const res = await onConfirm(perfil, bloque);
-          if (res?.error) { setError(res.error); setSaving(false); }
-        }} style={{
-          background: C.green, border: "none", borderRadius: 8, padding: "8px 22px",
-          color: "#04221a", fontSize: 13, fontWeight: 700, cursor: saving ? "default" : "pointer",
-          opacity: saving ? 0.6 : 1, fontFamily: font,
-        }}>{saving ? "Aprobando…" : "Aprobar"}</button>
+
+      {error && <div className="ax-badge ax-badge-error" style={{ marginTop: 14, display: "block" }}>{error}</div>}
+
+      <div className="ax-acciones" style={{ marginTop: 20, justifyContent: "flex-end" }}>
+        <Button variante="ghost" onClick={onClose}>Cancelar</Button>
+        <Button
+          variante="primary"
+          disabled={saving}
+          onClick={async () => {
+            setSaving(true); setError(null);
+            const res = await onConfirm(perfil, { tipo, bloque, tutorId });
+            if (res?.error) { setError(res.error); setSaving(false); }
+          }}
+        >{saving ? "Aprobando…" : "Aprobar"}</Button>
       </div>
     </Modal>
   );
@@ -282,47 +208,36 @@ function RechazarModal({ perfil, onClose, onConfirm }) {
   const [error, setError] = useState(null);
 
   return (
-    <Modal title="Rechazar solicitud" onClose={onClose}>
-      <p style={{ color: C.dim, fontSize: 13, fontFamily: font, margin: "0 0 16px" }}>
-        {perfil.nombre || perfil.email}
-      </p>
+    <Modal titulo="Rechazar solicitud" onClose={onClose}>
+      <p className="ax-sub" style={{ margin: "0 0 16px" }}>{perfil.nombre || perfil.email}</p>
       <Field label="Motivo (lo verá el alumno)">
-        <textarea
+        <Textarea
           value={motivo}
           onChange={(e) => setMotivo(e.target.value)}
-          rows={3}
           placeholder="Ej. No pudimos verificar la institución."
-          style={{ ...inputStyle, resize: "vertical", minHeight: 84 }}
         />
       </Field>
-      {error && (
-        <div style={{ background: "#ff444422", border: "1px solid #ff444466", borderRadius: 8, padding: "10px 14px", color: "#ff6666", fontSize: 13, fontFamily: font, marginTop: 14 }}>
-          {error}
-        </div>
-      )}
-      <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", marginTop: 20 }}>
-        <button type="button" onClick={onClose} style={{
-          background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
-          padding: "8px 18px", color: C.muted, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: font,
-        }}>Cancelar</button>
-        <button type="button" disabled={saving} onClick={async () => {
-          setSaving(true); setError(null);
-          if (!motivo.trim()) { setError("Escribe un motivo."); setSaving(false); return; }
-          const res = await onConfirm(perfil, motivo.trim());
-          if (res?.error) { setError(res.error); setSaving(false); }
-        }} style={{
-          background: C.red, border: "none", borderRadius: 8, padding: "8px 22px",
-          color: "#fff", fontSize: 13, fontWeight: 700, cursor: saving ? "default" : "pointer",
-          opacity: saving ? 0.6 : 1, fontFamily: font,
-        }}>{saving ? "Rechazando…" : "Rechazar"}</button>
+      {error && <div className="ax-badge ax-badge-error" style={{ marginTop: 14, display: "block" }}>{error}</div>}
+      <div className="ax-acciones" style={{ marginTop: 20, justifyContent: "flex-end" }}>
+        <Button variante="ghost" onClick={onClose}>Cancelar</Button>
+        <Button
+          variante="primary"
+          disabled={saving}
+          onClick={async () => {
+            setSaving(true); setError(null);
+            if (!motivo.trim()) { setError("Escribe un motivo."); setSaving(false); return; }
+            const res = await onConfirm(perfil, motivo.trim());
+            if (res?.error) { setError(res.error); setSaving(false); }
+          }}
+        >{saving ? "Rechazando…" : "Rechazar"}</Button>
       </div>
     </Modal>
   );
 }
 
-// ── Página principal ──────────────────────────────────────────────────────────
 export default function AdminSolicitudes({ embedded }) {
   const [perfiles, setPerfiles] = useState([]);
+  const [tutores, setTutores] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filtro, setFiltro] = useState("pendiente");
   const [busqueda, setBusqueda] = useState("");
@@ -333,20 +248,19 @@ export default function AdminSolicitudes({ embedded }) {
 
   async function load() {
     setLoading(true);
-    // El admin tiene política de SELECT sobre profiles; se lee directo para no
-    // depender de que get_all_profiles devuelva los campos nuevos.
-    const { data, error } = await supabase
-      .from("profiles")
-      .select("*")
-      .order("nombre", { ascending: true });
+    const [{ data, error }, { data: tuts }] = await Promise.all([
+      supabase.from("profiles").select("*").order("nombre", { ascending: true }),
+      supabase.from("tutores").select("id, nombre, apellidos, profile_id").order("apellidos", { ascending: true }),
+    ]);
     if (error) console.error("Error cargando solicitudes:", error);
     setPerfiles(data || []);
+    setTutores(tuts || []);
     setLoading(false);
   }
 
   const conteos = {
     pendiente: perfiles.filter((p) => p.estado_acceso === "pendiente").length,
-    aprobado:  perfiles.filter((p) => p.estado_acceso === "aprobado").length,
+    aprobado: perfiles.filter((p) => p.estado_acceso === "aprobado").length,
     rechazado: perfiles.filter((p) => p.estado_acceso === "rechazado").length,
   };
 
@@ -359,7 +273,6 @@ export default function AdminSolicitudes({ embedded }) {
     return true;
   });
 
-  // Crea/actualiza la ficha de alumno que el taller de regularización necesita.
   async function asegurarAlumno(perfil) {
     if (!perfil.fecha_nacimiento) {
       return { error: "El perfil no tiene fecha de nacimiento; el alumno no podría registrarse en regularización." };
@@ -379,22 +292,49 @@ export default function AdminSolicitudes({ embedded }) {
     return {};
   }
 
-  async function handleAprobar(perfil, bloque) {
-    const { error } = await supabase
-      .from("profiles")
-      .update({
-        estado_acceso: "aprobado",
-        bloque,
-        motivo_rechazo: null,
-        revisado_en: new Date().toISOString(),
-      })
-      .eq("id", perfil.id);
-    if (error) return { error: error.message || "No se pudo aprobar." };
+  async function handleAprobar(perfil, payload) {
+    const base = {
+      estado_acceso: "aprobado",
+      motivo_rechazo: null,
+      revisado_en: new Date().toISOString(),
+    };
 
-    if (bloque === "regularizacion") {
-      const res = await asegurarAlumno(perfil);
-      if (res.error) return res;
+    if (payload.tipo === "tutor") {
+      const { error } = await supabase
+        .from("profiles")
+        .update({ ...base, rol: "tutor", bloque: null })
+        .eq("id", perfil.id);
+      if (error) return { error: error.message || "No se pudo aprobar." };
+
+      if (payload.tutorId === "nuevo") {
+        const { nombre, apellidos } = partirNombre(perfil.nombre);
+        const { error: terr } = await supabase.from("tutores").insert({
+          nombre: nombre || "(sin nombre)",
+          apellidos,
+          telefono: perfil.telefono || "",
+          email: perfil.email || null,
+          relacion: "tutor",
+          profile_id: perfil.id,
+        });
+        if (terr) return { error: `Se aprobó la cuenta pero no se pudo crear la ficha de tutor: ${terr.message}` };
+      } else {
+        const { error: terr } = await supabase
+          .from("tutores").update({ profile_id: perfil.id }).eq("id", payload.tutorId);
+        if (terr) return { error: `No se pudo vincular la ficha de tutor: ${terr.message}` };
+      }
+    } else {
+      const { error } = await supabase
+        .from("profiles")
+        .update({ ...base, bloque: payload.bloque })
+        .eq("id", perfil.id);
+      if (error) return { error: error.message || "No se pudo aprobar." };
+
+      if (payload.bloque === "regularizacion") {
+        const res = await asegurarAlumno(perfil);
+        if (res.error) return res;
+      }
     }
+
     setAprobar(null);
     await load();
     return {};
@@ -416,66 +356,57 @@ export default function AdminSolicitudes({ embedded }) {
     return {};
   }
 
-  return (
-    <div style={{ minHeight: "100vh", background: C.bg, fontFamily: font }}>
-      {!embedded && <AdminHeader active="solicitudes" />}
-      <div style={{ maxWidth: 980, margin: "0 auto", padding: "32px 16px" }}>
-        <div style={{ display: "flex", gap: 10, marginBottom: 20, flexWrap: "wrap", alignItems: "center" }}>
-          <div style={{ position: "relative", flex: "1 1 200px", maxWidth: 300 }}>
-            <span style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", color: C.muted, fontSize: 14, pointerEvents: "none" }}>⌕</span>
-            <input
-              value={busqueda}
-              onChange={(e) => setBusqueda(e.target.value)}
-              placeholder="Buscar por nombre o correo…"
-              style={{
-                width: "100%", background: C.surface, border: `1px solid ${C.border}`,
-                borderRadius: 9, padding: "9px 14px 9px 34px", color: C.text,
-                fontSize: 13, fontFamily: font, outline: "none", boxSizing: "border-box",
-              }}
-            />
-          </div>
-          <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-            {ESTADOS.map((e) => {
-              const activo = filtro === e.value;
-              const n = e.value === "todos" ? perfiles.length : conteos[e.value];
-              return (
-                <button
-                  key={e.value}
-                  onClick={() => setFiltro(e.value)}
-                  style={{
-                    border: activo ? "none" : `1px solid ${C.border}`,
-                    borderRadius: 99, padding: "8px 16px", fontSize: 12, fontWeight: 700,
-                    cursor: "pointer", background: activo ? e.color : C.surface,
-                    color: activo ? (e.value === "todos" ? "#fff" : "#0e0f11") : C.muted,
-                    fontFamily: font, transition: "background .15s, color .15s",
-                  }}
-                >
-                  {e.label} ({n})
-                </button>
-              );
-            })}
-          </div>
+  const contenido = (
+    <Page
+      eyebrow="Personas"
+      titulo="Solicitudes"
+      descripcion="Aprueba el acceso y asigna el bloque, o rechaza con un motivo."
+    >
+      <div className="ax-acciones" style={{ justifyContent: "space-between" }}>
+        <SearchField
+          value={busqueda}
+          onChange={(e) => setBusqueda(e.target.value)}
+          placeholder="Buscar por nombre o correo…"
+          style={{ flex: "1 1 260px", maxWidth: 340 }}
+        />
+        <div className="ax-acciones">
+          {ESTADOS.map((e) => {
+            const on = filtro === e.value;
+            const n = e.value === "todos" ? perfiles.length : conteos[e.value];
+            return (
+              <Button
+                key={e.value}
+                variante={on ? "primary" : "subtle"}
+                onClick={() => setFiltro(e.value)}
+              >{e.label} ({n})</Button>
+            );
+          })}
         </div>
-
-        {loading ? <Spinner /> : filtrados.length === 0 ? (
-          <div style={{ textAlign: "center", padding: "60px 20px", color: C.muted, fontSize: 14, fontFamily: font }}>
-            {perfiles.length === 0 ? "Todavía no hay cuentas registradas." : "Ninguna solicitud coincide con el filtro."}
-          </div>
-        ) : (
-          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            {filtrados.map((p) => (
-              <SolicitudCard key={p.id} perfil={p} onAprobar={setAprobar} onRechazar={setRechazar} />
-            ))}
-          </div>
-        )}
       </div>
 
+      {loading ? (
+        <p className="ax-sub">Cargando…</p>
+      ) : filtrados.length === 0 ? (
+        <EmptyState icono={Inbox} titulo="Nada por aquí">
+          {perfiles.length === 0 ? "Todavía no hay cuentas registradas." : "Ninguna solicitud coincide con el filtro."}
+        </EmptyState>
+      ) : (
+        <div className="ax-lista">
+          {filtrados.map((p) => (
+            <SolicitudCard key={p.id} perfil={p} onAprobar={setAprobar} onRechazar={setRechazar} />
+          ))}
+        </div>
+      )}
+
       {aprobar && (
-        <AprobarModal perfil={aprobar} onClose={() => setAprobar(null)} onConfirm={handleAprobar} />
+        <AprobarModal perfil={aprobar} tutores={tutores} onClose={() => setAprobar(null)} onConfirm={handleAprobar} />
       )}
       {rechazar && (
         <RechazarModal perfil={rechazar} onClose={() => setRechazar(null)} onConfirm={handleRechazar} />
       )}
-    </div>
+    </Page>
   );
+
+  if (embedded) return contenido;
+  return <AdminLayout active="solicitudes" chip="Solicitudes">{contenido}</AdminLayout>;
 }

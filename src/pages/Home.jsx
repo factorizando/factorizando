@@ -30,6 +30,7 @@ const cifra = (n) => n.toLocaleString("es-MX").replace(/,/g, " ");
 export default function Home() {
   const navigate = useNavigate();
   const [isAdmin, setIsAdmin] = useState(false);
+  const [cuenta, setCuenta] = useState(null);
   const [authOpen, setAuthOpen] = useState(false);
   const [authMode, setAuthMode] = useState("login");
   const cursos = listaCursos();
@@ -38,6 +39,12 @@ export default function Home() {
   const abrirAuth = (modo) => {
     setAuthMode(modo);
     setAuthOpen(true);
+  };
+
+  const cerrarSesion = async () => {
+    await supabase.auth.signOut();
+    setCuenta(null);
+    setIsAdmin(false);
   };
 
   // Activa el tema claro mientras la Home está montada; lo revierte al salir.
@@ -57,7 +64,7 @@ export default function Home() {
       if (!session) return;
       const { data } = await supabase
         .from("profiles")
-        .select("rol, estado_acceso, perfil_completo")
+        .select("rol, nombre, avatar_url, estado_acceso, bloque, perfil_completo")
         .eq("id", session.user.id)
         .single();
       // Tras confirmar el correo se aterriza aquí: si falta el perfil, completarlo.
@@ -71,6 +78,13 @@ export default function Home() {
         return;
       }
       if (data?.rol === "admin") setIsAdmin(true);
+      // Destino del avatar: el espacio de cada rol.
+      const destino =
+        data?.rol === "admin" ? "/admin"
+        : data?.rol === "tutor" ? "/tutor"
+        : data?.bloque ? `/${data.bloque}`
+        : "/";
+      setCuenta({ nombre: data?.nombre, email: session.user.email, avatarUrl: data?.avatar_url, destino });
     });
   }, [navigate]);
 
@@ -82,6 +96,8 @@ export default function Home() {
         onLogin={() => abrirAuth("login")}
         onRegistro={() => abrirAuth("registro")}
         ctaLabel="Crear cuenta"
+        usuario={cuenta}
+        onLogout={cerrarSesion}
       />
 
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
@@ -314,18 +330,6 @@ export default function Home() {
           <span className="fx-footer-copy">© 2026 FactoR[i]zando</span>
         </div>
       </footer>
-
-      {/* Admin (solo administrador) */}
-      {isAdmin && (
-        <div className="fx-admin-bar">
-          <Link to="/admin" className="fx-admin">
-            ⚙ Admin
-          </Link>
-          <Link to="/regularizacion" className="fx-admin">
-            ➗ Regularización
-          </Link>
-        </div>
-      )}
 
       <AuthModal open={authOpen} initialMode={authMode} onClose={() => setAuthOpen(false)} />
     </div>
@@ -623,16 +627,9 @@ const CSS = `
 .fx-footer-base { max-width: var(--fx-container); margin: 0 auto;
   padding: 20px var(--fx-gutter) 40px; border-top: 1px solid var(--fx-surface-sunken); }
 .fx-footer-copy { font-family: var(--fx-font-mono); font-size: 12px; color: var(--fx-text-muted); }
-/* FLOTANTES */
-.fx-admin-bar { position: fixed; bottom: 24px; left: 24px; z-index: 100; display: flex; gap: 8px; }
-.fx-admin { background: var(--fx-surface); border: 1px solid var(--fx-border);
-  border-radius: var(--fx-radius-md); padding: 8px 14px; text-decoration: none;
-  color: var(--fx-primary-600); font-size: var(--fx-small-size); font-weight: 600; box-shadow: var(--fx-shadow-card); }
-.fx-admin:hover { border-color: var(--fx-primary-200); text-decoration: none; }
 /* RESPONSIVO */
 @media (max-width: 720px) {
   .fx-hero-visual { min-width: 0; }
-  .fx-admin-bar { bottom: 16px; left: 16px; }
 }
 /* Los enlaces del pie son zonas táctiles reales y medían 26px de alto (§2.3 pide
    44). El corte es el mismo que el del header —debajo de 900px no se da por

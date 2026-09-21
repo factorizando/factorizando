@@ -631,3 +631,30 @@ los tres PNG del PWA—, y un archivo suelto no puede leer un token de `fx.css`.
 el azul de la ℝ[i] del wordmark y de las doce pantallas del sistema viejo, que es donde el
 disco vive; no el `#4A9EE8` del pliego de exploración, que era el de la hoja de marca. Está
 escrito en dos sitios —`MarcaTribar.jsx` y `Figuras/marca-v/generar.py`— y los dos lo dicen.
+
+### 2026-09-21 · El panel de administración entra al sistema claro
+
+*Qué:* el back-office deja la paleta oscura local (`C`, diez hex cocidos en diez archivos),
+`DM Sans`, los emojis (`📽 📋 ⌕ ✎ ✕`) y el semáforo verde/ámbar/rojo. Nace un shell claro
+(`AdminLayout.jsx`) con **barra lateral agrupada** —General · Personas · Contenido · Cobranza—
+que en móvil se vuelve una tira horizontal, y primitivas tokenizadas (`ui.jsx`: `Page`, `Card`,
+`Stat`, `Badge`, `Button`, `Modal`, `SearchField`, `Field`, `EmptyState`). Los íconos pasan a
+`lucide-react`, que estaba instalado sin un solo uso. En la barra pública, "Entrar"/"Crear
+cuenta" se sustituyen por un **avatar redondo** cuando hay sesión, y su destino es el espacio
+de cada rol.
+
+*Por qué:* el admin era el último holdout del sistema viejo. La regla de §2 no distingue
+superficies: si el contenido y las presentaciones viven en el sistema claro, el panel que los
+administra no puede ser la excepción, y menos con verde/rojo, que §2.4 prohíbe en toda la
+plataforma. Los estados del panel (solicitud pendiente/aprobada/rechazada, cargo
+pendiente/pagado/vencido) se reexpresan con los tokens de estado de `fx.css` —que ya eran azul
+y dos ámbares, nunca verde ni rojo— **más un ícono**, para que nada se distinga solo por color.
+El acento del panel es el primario; los acentos por materia quedan para lo que de verdad es de
+una materia.
+
+*El alcance va por fases.* El shell rige desde ahora para todo `/admin`, pero la migración de
+contenido empezó por **Inicio y Personas** (Solicitudes, Alumnos, Tutores); las pestañas de
+Contenido y Cobranza siguen con su aspecto oscuro anterior dentro del shell claro hasta su
+propia fase. El avatar de la barra es genérico, pero sólo se enruta por rol cuando exista la
+página de alumno/profesor.
+

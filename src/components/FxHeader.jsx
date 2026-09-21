@@ -63,10 +63,11 @@ export function FxMarca({ wordmark = 22, to = "/" }) {
   );
 }
 
-export default function FxHeader({ onLogin, onRegistro, ctaLabel = "Comenzar" }) {
+export default function FxHeader({ onLogin, onRegistro, ctaLabel = "Comenzar", usuario = null, onLogout }) {
   const [menuAbierto, setMenuAbierto] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const inicial = (usuario?.nombre || usuario?.email || "?").trim().slice(0, 1).toUpperCase();
 
   // "Exámenes" es un ancla dentro de la Home. Con HashRouter no se puede usar
   // href="#examenes" (el hash ES la ruta), así que se resuelve por scroll; y
@@ -137,10 +138,20 @@ export default function FxHeader({ onLogin, onRegistro, ctaLabel = "Comenzar" })
             los dos al panel. Antes el CTA competía en la barra con la marca en
             300 px de ancho y la marca era la que perdía. */}
         <div className="fx-nav-acciones">
-          <button type="button" className="fx-nav-entrar" onClick={onLogin}>Entrar</button>
-          <button type="button" className="fx-btn-primario fx-btn-sm fx-nav-cta" onClick={onRegistro}>
-            {ctaLabel}
-          </button>
+          {usuario ? (
+            <Link to={usuario.destino || "/"} className="fx-perfil" title={usuario.nombre || "Mi cuenta"}>
+              <span className="fx-perfil-avatar">
+                {usuario.avatarUrl ? <img src={usuario.avatarUrl} alt="" /> : inicial}
+              </span>
+            </Link>
+          ) : (
+            <>
+              <button type="button" className="fx-nav-entrar" onClick={onLogin}>Entrar</button>
+              <button type="button" className="fx-btn-primario fx-btn-sm fx-nav-cta" onClick={onRegistro}>
+                {ctaLabel}
+              </button>
+            </>
+          )}
           <button
             type="button"
             className="fx-nav-hamburguesa"
@@ -173,18 +184,38 @@ export default function FxHeader({ onLogin, onRegistro, ctaLabel = "Comenzar" })
               ))}
             </div>
             {/* Las dos acciones de cuenta, en el orden en que se ofrecen: la
-                principal como botón lleno, "Entrar" debajo para quien ya la tiene. */}
+                principal como botón lleno, "Entrar" debajo para quien ya la tiene.
+                Con sesión, el panel lleva a su espacio y permite cerrar sesión. */}
             <div className="fx-nav-movil-cuenta">
-              <button
-                type="button"
-                className="fx-btn-primario fx-nav-movil-cta"
-                onClick={() => { cerrar(); onRegistro?.(); }}
-              >
-                {ctaLabel}
-              </button>
-              <button type="button" className="fx-nav-movil-entrar" onClick={() => { cerrar(); onLogin?.(); }}>
-                Entrar
-              </button>
+              {usuario ? (
+                <>
+                  <Link to={usuario.destino || "/"} className="fx-btn-primario fx-nav-movil-cta" onClick={cerrar}>
+                    Mi panel
+                  </Link>
+                  {onLogout && (
+                    <button
+                      type="button"
+                      className="fx-nav-movil-entrar"
+                      onClick={() => { cerrar(); onLogout(); }}
+                    >
+                      Cerrar sesión
+                    </button>
+                  )}
+                </>
+              ) : (
+                <>
+                  <button
+                    type="button"
+                    className="fx-btn-primario fx-nav-movil-cta"
+                    onClick={() => { cerrar(); onRegistro?.(); }}
+                  >
+                    {ctaLabel}
+                  </button>
+                  <button type="button" className="fx-nav-movil-entrar" onClick={() => { cerrar(); onLogin?.(); }}>
+                    Entrar
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </>
@@ -236,6 +267,14 @@ const CSS = `
   color: var(--fx-primary-700); background: none; border: none; padding: 10px 14px;
   border-radius: 9px; cursor: pointer; transition: background var(--fx-transition); }
 .fx-nav-entrar:hover { background: var(--fx-primary-50); }
+/* Avatar de sesión: sustituye a "Entrar"/CTA cuando hay cuenta. */
+.fx-perfil { display: inline-flex; align-items: center; text-decoration: none; }
+.fx-perfil-avatar { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
+  background: var(--fx-primary-50); color: var(--fx-primary-700); overflow: hidden;
+  font-family: var(--fx-font-heading); font-weight: 700; font-size: 16px;
+  border: 1px solid var(--fx-primary-100); transition: border-color var(--fx-transition); }
+.fx-perfil-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.fx-perfil:hover .fx-perfil-avatar { border-color: var(--fx-primary-300); }
 .fx-nav-hamburguesa { display: none; width: 44px; height: 44px; flex: none;
   flex-direction: column; align-items: center; justify-content: center; gap: 5px;
   background: var(--fx-surface); border: 1px solid var(--fx-border);

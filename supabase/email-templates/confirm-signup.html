@@ -1,0 +1,44 @@
+<!--
+  Factoℝ[i]zando · Plantilla "Confirm signup" (Supabase → Authentication → Email Templates)
+
+  Variables de Go usadas:
+    {{ .ConfirmationURL }}  enlace que confirma la cuenta y regresa al sitio
+    {{ .Email }}            correo que se está confirmando
+    {{ .SiteURL }}          URL del sitio configurada en Supabase
+
+  Solo estilos en línea y tablas: los clientes de correo ignoran <style> y no
+  renderizan SVG. El logo es el PNG servido por GitHub Pages.
+  NO borres {{ .ConfirmationURL }}.
+-->
+<div style="display:none;max-height:0;overflow:hidden;opacity:0;">Confirma tu correo para activar tu cuenta de Factoℝ[i]zando.</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#eff3f9;padding:32px 12px;">
+  <tr><td align="center">
+    <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border:1px solid #e3e9f2;border-radius:16px;">
+      <tr><td style="padding:36px 40px 8px;text-align:center;">
+        <img src="https://factorizando.github.io/factorizando/assets/icon-192.png" width="56" height="56" alt="Factorizando" style="display:block;margin:0 auto 18px;border-radius:14px;">
+        <h1 style="margin:0;font-family:'Sora',-apple-system,'Segoe UI',Roboto,Arial,sans-serif;font-size:24px;line-height:1.25;font-weight:600;color:#0a2540;letter-spacing:-0.01em;">Confirma tu correo</h1>
+      </td></tr>
+      <tr><td style="padding:12px 40px 0;font-family:'Figtree',-apple-system,'Segoe UI',Roboto,Arial,sans-serif;font-size:16px;line-height:1.6;color:#33475b;">
+        <p style="margin:0 0 16px;">Hola,</p>
+        <p style="margin:0 0 16px;">Recibimos tu registro en <strong style="color:#0a2540;">Factoℝ[i]zando</strong>. Confirma tu correo (<strong style="color:#0a2540;">{{ .Email }}</strong>) para activar tu cuenta.</p>
+        <p style="margin:0 0 24px;">Después de confirmar completarás tu perfil y un administrador revisará tu solicitud para darte acceso.</p>
+      </td></tr>
+      <tr><td align="center" style="padding:0 40px 8px;">
+        <table role="presentation" cellpadding="0" cellspacing="0"><tr>
+          <td align="center" bgcolor="#0056d2" style="border-radius:10px;">
+            <a href="{{ .ConfirmationURL }}" target="_blank" style="display:inline-block;padding:15px 34px;font-family:'Figtree',-apple-system,'Segoe UI',Roboto,Arial,sans-serif;font-size:16px;font-weight:600;color:#ffffff;text-decoration:none;border-radius:10px;">Confirmar mi cuenta</a>
+          </td>
+        </tr></table>
+      </td></tr>
+      <tr><td style="padding:20px 40px 0;font-family:'Figtree',-apple-system,'Segoe UI',Roboto,Arial,sans-serif;font-size:13px;line-height:1.6;color:#5a6b7f;">
+        <p style="margin:0 0 6px;">Si el botón no funciona, copia y pega este enlace en tu navegador:</p>
+        <p style="margin:0;word-break:break-all;"><a href="{{ .ConfirmationURL }}" style="color:#0047af;text-decoration:underline;">{{ .ConfirmationURL }}</a></p>
+      </td></tr>
+      <tr><td style="padding:28px 40px 36px;">
+        <hr style="border:none;border-top:1px solid #e3e9f2;margin:0 0 18px;">
+        <p style="margin:0;font-family:'Figtree',-apple-system,'Segoe UI',Roboto,Arial,sans-serif;font-size:13px;line-height:1.6;color:#5a6b7f;">¿No creaste esta cuenta? Ignora este mensaje y no pasará nada.</p>
+        <p style="margin:10px 0 0;font-family:'Figtree',-apple-system,'Segoe UI',Roboto,Arial,sans-serif;font-size:13px;line-height:1.6;color:#5a6b7f;"><a href="{{ .SiteURL }}" style="color:#0047af;text-decoration:none;">Factoℝ[i]zando</a> · Preparación para tus exámenes de admisión o regularización</p>
+      </td></tr>
+    </table>
+  </td></tr>
+</table>

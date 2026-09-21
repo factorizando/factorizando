@@ -87,6 +87,40 @@ const SOCIALES = [
   { id: "github", label: "GitHub", Icon: IconGitHub },
 ];
 
+// Traduce el error de Supabase Auth a algo que el alumno pueda accionar. El
+// mensaje crudo ("Signups not allowed for this instance") no dice nada, y el
+// genérico de antes ocultaba incluso la causa. `err` se registra en consola para
+// diagnóstico, pero a la pantalla solo sale lo que ya está mapeado.
+function mensajeErrorAuth(err, esRegistro) {
+  const code = err?.code || "";
+  const msg = err?.message || "";
+  const status = err?.status;
+
+  if (code === "signup_disabled" || /signups? not allowed|signup.*disabled/i.test(msg)) {
+    return "El registro está deshabilitado por ahora. Escríbenos para crear tu cuenta.";
+  }
+  if (
+    code === "over_email_send_rate_limit" || code === "over_request_rate_limit" ||
+    status === 429 || /rate limit|too many/i.test(msg)
+  ) {
+    return "Demasiados intentos. Espera unos minutos e intenta de nuevo.";
+  }
+  if (code === "user_already_exists" || code === "email_exists" || /already registered|already exists/i.test(msg)) {
+    return "Ese correo ya está registrado. Inicia sesión.";
+  }
+  if (code === "weak_password" || /password should be/i.test(msg)) {
+    return "La contraseña no es suficientemente segura. Usa al menos 8 caracteres.";
+  }
+  if (code === "captcha_failed" || /captcha/i.test(msg)) {
+    return "No se pudo validar la verificación anti-robots. Recarga e intenta de nuevo.";
+  }
+  if (code === "email_address_invalid" || code === "validation_failed" || /invalid email/i.test(msg)) {
+    return "Revisa tu correo electrónico.";
+  }
+  if (!esRegistro) return "Correo o contraseña incorrectos.";
+  return "No se pudo crear la cuenta. Intenta de nuevo.";
+}
+
 export default function AuthCard({ mode = "login", onSwitchMode, onClose, dest }) {
   const navigate = useNavigate();
   const esRegistro = mode === "registro";
@@ -152,7 +186,8 @@ export default function AuthCard({ mode = "login", onSwitchMode, onClose, dest }
 
     const { data, error: err } = res;
     if (err) {
-      setError(esRegistro ? "No se pudo crear la cuenta. Intenta de nuevo." : "Correo o contraseña incorrectos.");
+      console.error("Supabase auth error:", err);
+      setError(mensajeErrorAuth(err, esRegistro));
       return;
     }
     if (esRegistro) {

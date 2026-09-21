@@ -193,56 +193,6 @@ const FUNCIONES = [
   { t: "Vota por el cambio este domingo.", fn: "Apelativa", d: ["Referencial", "Emotiva", "Fática"], e: "Es un mensaje persuasivo que busca mover al receptor a actuar: función apelativa." },
 ];
 
-// ── Constructores de slides ───────────────────────────────────────────────────
-
-function slidesSinonimos() {
-  return PALABRAS.map((w, i) => ({
-    id: `sin-${i + 1}`,
-    tipo: "ejercicio",
-    etiqueta: `Sinónimos · ${i + 1} / ${PALABRAS.length}`,
-    pregunta: `Elige el SINÓNIMO de: ${w.p.toUpperCase()}`,
-    opciones: [w.sin, w.ant, w.ds[0], w.ds[1]],
-    correcta: 0,
-    explicacion: `${w.p}: ${w.sig}. Su sinónimo es «${w.sin}».`,
-  }));
-}
-
-function slidesAntonimos() {
-  return PALABRAS.map((w, i) => ({
-    id: `ant-${i + 1}`,
-    tipo: "ejercicio",
-    etiqueta: `Antónimos · ${i + 1} / ${PALABRAS.length}`,
-    pregunta: `Elige el ANTÓNIMO de: ${w.p.toUpperCase()}`,
-    opciones: [w.ant, w.sin, w.da[0], w.da[1]],
-    correcta: 0,
-    explicacion: `${w.p}: ${w.sig}. Su antónimo es «${w.ant}».`,
-  }));
-}
-
-function slidesAnalogias() {
-  return ANALOGIAS.map((x, i) => ({
-    id: `ana-${i + 1}`,
-    tipo: "ejercicio",
-    etiqueta: `Analogías · ${i + 1} / ${ANALOGIAS.length}`,
-    pregunta: `${x.a} es a ${x.b} como ${x.c} es a ___`,
-    opciones: [x.d, x.opts[0], x.opts[1], x.opts[2]],
-    correcta: 0,
-    explicacion: `Relación de ${x.rel}: «${x.a.toLowerCase()}» es a «${x.b.toLowerCase()}» como «${x.c.toLowerCase()}» es a «${x.d}».`,
-  }));
-}
-
-function slidesFunciones() {
-  return FUNCIONES.map((x, i) => ({
-    id: `fun-${i + 1}`,
-    tipo: "ejercicio",
-    etiqueta: `Funciones de la lengua · ${i + 1} / ${FUNCIONES.length}`,
-    pregunta: `¿Qué función de la lengua predomina en el siguiente fragmento?  «${x.t}»`,
-    opciones: [x.fn, x.d[0], x.d[1], x.d[2]],
-    correcta: 0,
-    explicacion: `Función ${x.fn.toLowerCase()}. ${x.e}`,
-  }));
-}
-
 // ── Slides de apoyo ───────────────────────────────────────────────────────────
 
 const PORTADA = {

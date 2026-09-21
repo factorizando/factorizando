@@ -7,7 +7,9 @@ import { defineConfig, globalIgnores } from 'eslint/config'
 export default defineConfig([
   // 'Claude Design' es el bundle de handoff del diseño (prototipos HTML/JSX que
   // no se compilan ni se importan desde src/): no se revisa.
-  globalIgnores(['dist', 'Claude Design']),
+  // '.claude' aloja worktrees de git (copias completas del árbol): sin esto,
+  // `eslint .` revisa el trabajo por duplicado y el conteo de errores miente.
+  globalIgnores(['dist', 'Claude Design', '.claude']),
   {
     files: ['**/*.{js,jsx}'],
     extends: [

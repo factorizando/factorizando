@@ -408,5 +408,5 @@ export default function AdminSolicitudes({ embedded }) {
   );
 
   if (embedded) return contenido;
-  return <AdminLayout active="solicitudes" chip="Solicitudes">{contenido}</AdminLayout>;
+  return <AdminLayout active="solicitudes">{contenido}</AdminLayout>;
 }

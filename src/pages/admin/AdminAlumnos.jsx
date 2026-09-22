@@ -273,5 +273,5 @@ export default function AdminAlumnos({ embedded }) {
   );
 
   if (embedded) return contenido;
-  return <AdminLayout active="alumnos" chip="Alumnos">{contenido}</AdminLayout>;
+  return <AdminLayout active="alumnos">{contenido}</AdminLayout>;
 }

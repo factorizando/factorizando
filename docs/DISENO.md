@@ -658,3 +658,18 @@ Contenido y Cobranza siguen con su aspecto oscuro anterior dentro del shell clar
 propia fase. El avatar de la barra es genérico, pero sólo se enruta por rol cuando exista la
 página de alumno/profesor.
 
+**Inicio no es el Dashboard, y esa separación es de privacidad.** El panel se usa frente a un
+cliente al inscribirlo o cobrarle, así que su portada no puede mostrar totales: Inicio queda en
+bienvenida, buscador de alumno y atajos, **sin una sola cifra**. Las métricas internas
+—solicitudes pendientes, alumnos, tutores, por cobrar, suscripciones— viven en una pestaña
+propia, **Dashboard**. La regla no es «esconder el dinero» sino no exponer agregados en la
+primera pantalla que aparece al abrir el panel.
+
+**Y la marca se comparte, no se copia.** `.fx-marca` y `.fx-wordmark` vivían dentro del
+`<style>` de `FxHeader.jsx`, que sólo se monta en la Home; el panel renderizaba el wordmark a
+mano, sin ese CSS, y por eso se veía con la tipografía por defecto. Pasan a `fx.css` —una sola
+definición, como pide §0— y el panel usa el mismo componente `FxMarca` que la barra pública. El
+chip «Panel admin» desaparece, y la barra del panel toma el mismo `--fx-nav-bg`, el mismo
+`backdrop-filter` y los mismos 64 px de alto, para que las dos se lean como la misma barra.
+
+

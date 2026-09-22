@@ -10,16 +10,18 @@ import {
   LayoutDashboard, Inbox, GraduationCap, Users,
   BarChart3, Presentation, BookOpen,
   ClipboardList, Receipt, RefreshCw,
-  Blocks, LogOut, ArrowLeft, ChevronRight,
+  Blocks, LogOut, ChevronRight, Gauge,
 } from "lucide-react";
 import { supabase } from "../../lib/supabase";
-import MarcaTribar from "../MarcaTribar.jsx";
-import { FxWordmark } from "../FxHeader.jsx";
+import { FxMarca } from "../FxHeader.jsx";
 import { ADMIN_CSS } from "./ui.jsx";
 
 // Los grupos son la información de arquitectura: Personas, Contenido, Cobranza.
 const GRUPOS = [
-  { titulo: "General", items: [{ id: "inicio", label: "Inicio", Icon: LayoutDashboard }] },
+  { titulo: "General", items: [
+    { id: "inicio", label: "Inicio", Icon: LayoutDashboard },
+    { id: "dashboard", label: "Dashboard", Icon: Gauge },
+  ] },
   { titulo: "Personas", items: [
     { id: "solicitudes", label: "Solicitudes", Icon: Inbox },
     { id: "alumnos", label: "Alumnos", Icon: GraduationCap },
@@ -37,7 +39,7 @@ const GRUPOS = [
   ] },
 ];
 
-export default function AdminLayout({ active, onChange, tabs, chip = "Panel admin", children }) {
+export default function AdminLayout({ active, onChange, tabs, children }) {
   const navigate = useNavigate();
   const [perfil, setPerfil] = useState(null);
   const usaNav = tabs === undefined;
@@ -75,16 +77,9 @@ export default function AdminLayout({ active, onChange, tabs, chip = "Panel admi
       <style>{CSS}</style>
 
       <header className="ax-top">
-        <Link to="/" className="ax-marca" title="Inicio">
-          <MarcaTribar tam={26} style={{ color: "var(--fx-primary-500)" }} />
-          <FxWordmark size={20} />
-          <span className="ax-chip">{chip}</span>
-        </Link>
+        <FxMarca />
 
         <div className="ax-top-cuenta">
-          <Link to="/" className="ax-top-inicio">
-            <ArrowLeft size={16} aria-hidden="true" /> Inicio
-          </Link>
           <span className="ax-cuenta" title={etiquetaCuenta}>
             <span className="ax-avatar">
               {perfil?.avatar_url ? <img src={perfil.avatar_url} alt="" /> : inicial}
@@ -152,19 +147,9 @@ const CSS = `
 
 .ax-top { position: sticky; top: 0; z-index: 30; display: flex; align-items: center;
   justify-content: space-between; gap: 16px; min-height: 64px; padding: 10px var(--fx-gutter);
-  background: var(--fx-surface); border-bottom: 1px solid var(--fx-border); }
-.ax-marca { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; min-width: 0; }
-.ax-marca:hover { text-decoration: none; }
-.ax-marca svg { flex: none; }
-.ax-chip { font-family: var(--fx-font-mono); font-size: var(--fx-caption-size); letter-spacing: 0.1em;
-  text-transform: uppercase; color: var(--fx-text-muted); background: var(--fx-surface-sunken);
-  border: 1px solid var(--fx-border); border-radius: var(--fx-radius-pill); padding: 4px 11px;
-  white-space: nowrap; }
+  background: var(--fx-nav-bg); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--fx-border); }
 .ax-top-cuenta { display: flex; align-items: center; gap: 10px; flex: none; }
-.ax-top-inicio { display: inline-flex; align-items: center; gap: 6px; text-decoration: none;
-  color: var(--fx-text-body); font-size: var(--fx-small-size); font-weight: 600;
-  padding: 8px 12px; border-radius: var(--fx-radius-md); }
-.ax-top-inicio:hover { background: var(--fx-surface-sunken); color: var(--fx-text-heading); text-decoration: none; }
 .ax-cuenta { display: inline-flex; align-items: center; gap: 9px; min-width: 0; }
 .ax-cuenta-nombre { font-size: var(--fx-small-size); font-weight: 600; color: var(--fx-text-heading);
   max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -213,6 +198,6 @@ const CSS = `
   .ax-main { max-width: none; padding-top: 22px; }
 }
 @media (max-width: 560px) {
-  .ax-chip, .ax-cuenta-nombre, .ax-top-inicio { display: none; }
+  .ax-cuenta-nombre { display: none; }
 }
 `;

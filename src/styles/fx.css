@@ -53,6 +53,9 @@
 
   --fx-focus-ring: 0 0 0 3px rgba(0, 86, 210, 0.28);
 
+  /* Fondo de la barra superior (pública y panel): un solo valor para las dos. */
+  --fx-nav-bg: rgba(247, 249, 252, 0.92);
+
   /* ── Tipografía ── */
   --fx-font-heading: "Sora", system-ui, sans-serif;
   --fx-font-body: "Figtree", system-ui, sans-serif;
@@ -284,6 +287,7 @@ a.fx-card-fila:hover .fx-flecha { opacity: 1; transform: translateX(3px); }
   --fx-shadow-float: 0 1px 2px rgba(0, 0, 0, 0.40), 0 16px 40px rgba(0, 0, 0, 0.30);
   --fx-shadow-primary: none;
   --fx-focus-ring: 0 0 0 3px rgba(79, 146, 240, 0.40);
+  --fx-nav-bg: rgba(14, 25, 38, 0.92);
 }
 
 /* ── Acentos por materia ── */
@@ -315,3 +319,23 @@ a.fx-card-fila:hover .fx-flecha { opacity: 1; transform: translateX(3px); }
 .fx-ic-indigo { background: var(--fx-indigo-tint); color: var(--fx-indigo-text); }
 .fx-ic-teal { background: var(--fx-teal-tint); color: var(--fx-teal-text); }
 .fx-ic-ciruela { background: var(--fx-ciruela-tint); color: var(--fx-ciruela-text); }
+
+/* ── Marca (barra pública y panel) ── una sola definición para las dos.
+   Vivía en el <style> de FxHeader, así que el panel —que renderiza la marca sin
+   montar FxHeader— la mostraba sin tipografía ni tamaño. */
+.fx-marca { display: flex; align-items: center; gap: 10px; text-decoration: none; flex: 0 0 auto;
+  margin-right: 14px; }
+.fx-marca:hover { text-decoration: none; }
+.fx-wordmark { font-family: var(--fx-font-heading); font-weight: 600; letter-spacing: -0.02em;
+  font-size: var(--fx-wordmark-size, 22px);
+  color: var(--fx-text-heading); white-space: nowrap; }
+.fx-wordmark-math { color: var(--fx-primary-500); font-family: var(--fx-font-math); font-weight: 700; }
+.fx-wordmark-math .katex { color: var(--fx-primary-500); font-size: .95em; }
+@media (max-width: 899px) {
+  .fx-marca { margin-right: 0; }
+}
+@media (max-width: 420px) {
+  .fx-wordmark { font-size: 20px; }
+  .fx-marca svg { width: 25px; height: 25px; }
+  .fx-marca { gap: 8px; }
+}

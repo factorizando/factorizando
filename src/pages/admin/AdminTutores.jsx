@@ -246,5 +246,5 @@ export default function AdminTutores({ embedded }) {
   );
 
   if (embedded) return contenido;
-  return <AdminLayout active="tutores" chip="Tutores">{contenido}</AdminLayout>;
+  return <AdminLayout active="tutores">{contenido}</AdminLayout>;
 }

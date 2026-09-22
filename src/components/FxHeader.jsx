@@ -230,22 +230,11 @@ export default function FxHeader({ onLogin, onRegistro, ctaLabel = "Comenzar", u
 }
 
 const CSS = `
-.fx-nav { position: sticky; top: 0; z-index: 20; background: rgba(247,249,252,0.92);
+.fx-nav { position: sticky; top: 0; z-index: 20; background: var(--fx-nav-bg);
   backdrop-filter: blur(10px); border-bottom: 1px solid var(--fx-border); }
 .fx-nav-fila { max-width: var(--fx-container); margin: 0 auto; padding: 16px var(--fx-gutter);
-  display: flex; align-items: center; gap: clamp(16px, 2.4vw, 32px); }
-/* MARCA */
-/* El hueco de la fila (~32px) es del mismo orden que el que hay entre enlaces
-   del menú (10+10 de relleno), así que por sí solo no dice dónde acaba la marca
-   y empieza la navegación. Estos 14px extra son los que separan los dos grupos. */
-.fx-marca { display: flex; align-items: center; gap: 10px; text-decoration: none; flex: 0 0 auto;
-  margin-right: 14px; }
-.fx-marca:hover { text-decoration: none; }
-.fx-wordmark { font-family: var(--fx-font-heading); font-weight: 600; letter-spacing: -0.02em;
-  font-size: var(--fx-wordmark-size, 22px);
-  color: var(--fx-text-heading); white-space: nowrap; }
-.fx-wordmark-math { color: var(--fx-primary-500); font-family: var(--fx-font-math); font-weight: 700; }
-.fx-wordmark-math .katex { color: var(--fx-primary-500); font-size: .95em; }
+  min-height: 64px; display: flex; align-items: center; gap: clamp(16px, 2.4vw, 32px); }
+/* La marca vive en fx.css, compartida con el panel. */
 /* NAVEGACIÓN */
 .fx-nav-links { display: flex; align-items: center; gap: 2px; flex: 1 1 auto; min-width: 0;
   overflow-x: auto; white-space: nowrap; scrollbar-width: none; padding: 2px 0; }
@@ -313,8 +302,6 @@ const CSS = `
    botones el wordmark cabe entero hasta en 320px, y aun así baja un punto para
    no pegarse a la hamburguesa. */
 @media (max-width: 899px) {
-  /* Sin menú a la derecha no hay dos grupos que separar. */
-  .fx-marca { margin-right: 0; }
   .fx-nav-links { display: none; }
   .fx-nav-entrar { display: none; }
   .fx-nav-cta { display: none; }
@@ -328,10 +315,5 @@ const CSS = `
 }
 @media (max-width: 420px) {
   .fx-nav-fila { padding-top: 12px; padding-bottom: 12px; }
-  .fx-wordmark { font-size: 20px; }
-  /* El wordmark baja a 20; el mark le sigue para no quedar desproporcionado.
-     Sigue por encima del cuerpo del wordmark, que es lo que lo hace marca. */
-  .fx-marca svg { width: 25px; height: 25px; }
-  .fx-marca { gap: 8px; }
 }
 `;

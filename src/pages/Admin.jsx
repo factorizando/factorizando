@@ -11,6 +11,7 @@ import AdminAlumnos from "./admin/AdminAlumnos.jsx";
 import AdminSolicitudes from "./admin/AdminSolicitudes.jsx";
 import AdminTutores from "./admin/AdminTutores.jsx";
 import AdminInicio from "./admin/AdminInicio.jsx";
+import AdminDashboard from "./admin/AdminDashboard.jsx";
 import AdminInscripciones from "./admin/AdminInscripciones.jsx";
 import AdminCargos from "./admin/AdminCargos.jsx";
 import AdminSuscripciones from "./admin/AdminSuscripciones.jsx";
@@ -879,6 +880,9 @@ export default function Admin() {
 
         {/* ── Tab: Inicio ───────────────────────────────────────────────── */}
         {tab === "inicio" && <AdminInicio onNavigate={setTab} />}
+
+        {/* ── Tab: Dashboard (interno) ──────────────────────────────────── */}
+        {tab === "dashboard" && <AdminDashboard onNavigate={setTab} />}
 
         {/* ── Tab: Alumnos ──────────────────────────────────────────────── */}
         {tab === "alumnos" && <AdminAlumnos embedded />}

@@ -99,7 +99,7 @@ export default function AdminTutores({ embedded }) {
     const [{ data: tuts }, { data: profs }, { data: vinculos }] = await Promise.all([
       supabase.from("tutores").select("*").order("apellidos", { ascending: true }),
       supabase.rpc("get_all_profiles"),
-      supabase.from("alumno_tutor").select("tutor_id"),
+      supabase.from("alumno_tutor").select("tutor_id").eq("estado", "activo"),
     ]);
     setTutores(tuts || []);
     setProfiles(profs || []);

@@ -63,6 +63,12 @@ export default function ProtectedRoute({ children, requiredNivel = null }) {
         setStatus(esAdmin ? "ok" : "unauthorized");
       } else if (requiredNivel === "tutor") {
         setStatus(esStaff || profile.rol === "tutor" ? "ok" : "unauthorized");
+      } else if (requiredNivel === "alumno") {
+        // "alumno" no es un bloque: es tener expediente (alumnos.profile_id = uid).
+        // El staff no tiene expediente, así que no entra por aquí.
+        const { data: al } = await supabase
+          .from("alumnos").select("id").eq("profile_id", session.user.id).maybeSingle();
+        setStatus(al ? "ok" : "unauthorized");
       } else if (esStaff || profile.bloque === requiredNivel) {
         setStatus("ok");
       } else {

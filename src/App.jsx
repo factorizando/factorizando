@@ -56,8 +56,10 @@ const Regularizacion       = lazy(() => import("./pages/Regularizacion.jsx"));
 const TallerVer            = lazy(() => import("./pages/TallerVer.jsx"));
 const MisInscripciones     = lazy(() => import("./pages/alumno/MisInscripciones.jsx"));
 const MiSuscripcion        = lazy(() => import("./pages/alumno/MiSuscripcion.jsx"));
+const Alumno               = lazy(() => import("./pages/alumno/Alumno.jsx"));
 const Tutor                = lazy(() => import("./pages/tutor/Tutor.jsx"));
 const TutorAlumno          = lazy(() => import("./pages/tutor/TutorAlumno.jsx"));
+const TutorPracticar       = lazy(() => import("./pages/tutor/TutorPracticar.jsx"));
 const Refrigerios          = lazy(() => import("./pages/Refrigerios.jsx"));
 const PreviewComprobante   = lazy(() => import("./pages/PreviewComprobante.jsx"));
 const PreviewBloques      = lazy(() => import("./pages/PreviewBloques.jsx"));
@@ -297,6 +299,14 @@ function AppRoutes() {
           }
         />
         <Route
+          path="/alumno"
+          element={
+            <ProtectedRoute requiredNivel="alumno">
+              <Alumno />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/alumno/inscripciones"
           element={
             <ProtectedRoute>
@@ -326,6 +336,14 @@ function AppRoutes() {
           element={
             <ProtectedRoute requiredNivel="tutor">
               <TutorAlumno />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/tutor/alumno/:alumnoId/practicar/:id"
+          element={
+            <ProtectedRoute requiredNivel="tutor">
+              <TutorPracticar />
             </ProtectedRoute>
           }
         />

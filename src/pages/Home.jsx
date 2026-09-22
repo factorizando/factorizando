@@ -78,12 +78,16 @@ export default function Home() {
         return;
       }
       if (data?.rol === "admin") setIsAdmin(true);
-      // Destino del avatar: el espacio de cada rol.
-      const destino =
-        data?.rol === "admin" ? "/admin"
-        : data?.rol === "tutor" ? "/tutor"
-        : data?.bloque ? `/${data.bloque}`
-        : "/";
+      // Destino del avatar: el espacio de cada rol. El alumno con expediente va
+      // a su perfil (/alumno); sin expediente, directo a su bloque de contenido.
+      let destino;
+      if (data?.rol === "admin") destino = "/admin";
+      else if (data?.rol === "tutor") destino = "/tutor";
+      else if (data?.bloque) {
+        const { data: al } = await supabase
+          .from("alumnos").select("id").eq("profile_id", session.user.id).maybeSingle();
+        destino = al ? "/alumno" : `/${data.bloque}`;
+      } else destino = "/";
       setCuenta({ nombre: data?.nombre, email: session.user.email, avatarUrl: data?.avatar_url, destino });
     });
   }, [navigate]);

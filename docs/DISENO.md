@@ -722,4 +722,38 @@ como cáscara de `/regularizacion` —otra superficie, fuera de `/admin`— y el
 `EstadoBadge.jsx` solo para las páginas del alumno (`/alumno`), que no entran en esta fase.
 El panel completo queda ya en el sistema claro.
 
+### 2026-09-22 · Tutor, alumno sin cuenta y el reparto de temas
+
+*Qué:* se define **dónde vive cada tema**: el claro para las superficies de producto —Home,
+Admin, y los perfiles de **tutor** (`/tutor`) y **alumno** (`/alumno`) —; el oscuro para el
+**contenido** (teoría, presentaciones, cuestionarios), que no se migra a claro pero sí se
+homogeneiza contra los mismos tokens. Se estrena `/alumno` (semilla del perfil del alumno:
+por ahora confirma o rechaza las solicitudes de vínculo de un tutor).
+
+*Por qué:* el tema no distingue "admin" de "alumno", distingue **superficie de producto** de
+**contenido**. Un panel que se administra y un perfil que se consulta viven en claro; una
+diapositiva o un cuestionario se proyectan y viven en oscuro. Escribir páginas nuevas en claro
+desde el inicio evita repetir la migración que acaba de cerrar el panel.
+
+**Un alumno sin cuenta no entra: lo opera su tutor.** El modelo de personas son dos capas, no
+dos alternativas: `profiles` es la **cuenta** y `alumnos` el **expediente**, que puede o no
+apuntar a una cuenta. `alumnos.profile_id` (2026-09-22) hace explícito ese vínculo —simétrico
+con `tutores.profile_id`— y `alumno_tutor.estado` convierte el N:M en algo que se **solicita y
+se confirma**. Un alumno de primaria sin cuenta no puede confirmar, así que el admin lo vincula
+directo; y para que practique, el tutor lo hace **en su nombre**: el avance (`taller_sesiones`)
+se guarda en el expediente del alumno, no en el del tutor. La RLS solo lo permite para los
+alumnos propios y solo con vínculo **activo**.
+
+**Se depuraron dos tablas muertas.** `sesiones_asesoria` y `sesion_participantes` nunca las usó
+la app; su única huella era `cargos.sesion_participante_id`. Salen, y con ellas la parte de
+asesoría del check de `cargos`. Las asesorías se siguen cobrando con `tarifas_asesoria` y
+cargos, como hasta ahora.
+
+**Los cuestionarios también se operan, y no hizo falta columna nueva.** La inspección de
+`resultados` (creada desde el panel) confirmó que **no tiene claves foráneas**: su `user_id` es
+un UUID libre y el proyecto ya lo trataba como el id del alumno —la política del tutor lo
+compara con `alumnos_del_tutor()`, que devuelve ids de `alumnos`—. Así que un cuestionario
+abierto por el tutor para un alumno sin cuenta escribe `user_id = id del alumno` y cae en su
+expediente, sin añadir `alumno_id` ni tocar el RPC del admin. La convención queda documentada.
+
 

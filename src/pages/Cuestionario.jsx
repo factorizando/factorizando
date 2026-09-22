@@ -26,6 +26,7 @@ export default function Cuestionario() {
 
   const bloque = searchParams.get("bloque");
   const modo = searchParams.get("modo");
+  const alumnoId = searchParams.get("alumno");
 
   const cuestionarioObj = buscarCuestionario(id);
   const [shuffleKey, setShuffleKey] = useState(0);
@@ -86,6 +87,8 @@ export default function Cuestionario() {
   }
 
   const handleBack = () => {
+    // En modo operador del tutor, volver a la ficha del alumno, no al selector.
+    if (alumnoId) { navigate(`/tutor/alumno/${alumnoId}`); return; }
     navigate(`/selector/${id}`);
   };
 
@@ -94,6 +97,7 @@ export default function Cuestionario() {
       cuestionario={cuestionarioFiltrado}
       onBack={handleBack}
       onRetry={() => setShuffleKey((k) => k + 1)}
+      alumnoId={alumnoId}
     />
   );
 }

@@ -989,6 +989,10 @@ export default function QuestionarioGenerico({
   cuestionario,
   onBack,
   onRetry,
+  // Modo operador del tutor: el resultado se guarda a nombre de este alumno
+  // (su id de `alumnos`) en vez del usuario autenticado. Ver la migración
+  // 20260922030000.
+  alumnoId = null,
 }) {
   const timePerQuestion = cuestionario.config?.timePerQuestion || 60;
   const initialTiempo = cuestionario.questions.length * timePerQuestion;
@@ -1012,7 +1016,7 @@ export default function QuestionarioGenerico({
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
       await supabase.from("resultados").insert({
-        user_id: user.id,
+        user_id: alumnoId || user.id,
         cuestionario_id: cuestionario.metadata?.id ?? "desconocido",
         cuestionario_titulo: cuestionario.metadata?.titulo ?? "",
         puntaje,
@@ -1021,7 +1025,7 @@ export default function QuestionarioGenerico({
     } catch (_) {
       // fail silently para no interrumpir la experiencia
     }
-  }, [cuestionario.metadata]);
+  }, [cuestionario.metadata, alumnoId]);
 
   // Guardar al llegar a resultados (fin normal o botón Terminar)
   useEffect(() => {

@@ -482,6 +482,7 @@ export default function Admin() {
   const [tab, setTab] = useState("inicio");
   const [resultados, setResultados] = useState([]);
   const [profiles, setProfiles] = useState({});
+  const [alumnosMap, setAlumnosMap] = useState({});
   const [datosListos, setDatosListos] = useState(false);
   const [cargandoDatos, setCargandoDatos] = useState(false);
   const [filtroNivel, setFiltroNivel] = useState("todos");
@@ -498,14 +499,20 @@ export default function Admin() {
     if (!quiereDatos || datosListos || cargandoDatos) return;
     setCargandoDatos(true);
     (async () => {
-      const [{ data: results }, { data: profs }] = await Promise.all([
+      const [{ data: results }, { data: profs }, { data: als }] = await Promise.all([
         supabase.rpc("get_all_resultados"),
         supabase.rpc("get_all_profiles"),
+        supabase.from("alumnos").select("id, nombre, apellidos, nivel"),
       ]);
       setResultados(results || []);
       const map = {};
       (profs || []).forEach((p) => { map[p.id] = p; });
       setProfiles(map);
+      // Los alumnos sin cuenta no están en `profiles`; su `user_id` en resultados
+      // es su id de `alumnos`. Este mapa les da nombre y nivel para las cifras.
+      const amap = {};
+      (als || []).forEach((a) => { amap[a.id] = { nombre: `${a.nombre} ${a.apellidos}`, nivel: a.nivel }; });
+      setAlumnosMap(amap);
       setDatosListos(true);
       setCargandoDatos(false);
     })();
@@ -533,7 +540,7 @@ export default function Admin() {
   const alumnos = Object.entries(byUser)
     .map(([uid, res]) => ({
       uid,
-      profile: profiles[uid] || { nombre: "", nivel: "—" },
+      profile: profiles[uid] || alumnosMap[uid] || { nombre: "", nivel: "—" },
       resultados: res,
     }))
     .filter((a) => {

@@ -155,6 +155,7 @@ export default function AdminAlumnoDetalle() {
   const { id } = useParams();
   const [alumno, setAlumno] = useState(null);
   const [tutores, setTutores] = useState([]);
+  const [vinculosEstado, setVinculosEstado] = useState({});
   const [contactos, setContactos] = useState([]);
   const [inscripciones, setInscripciones] = useState([]);
   const [cargos, setCargos] = useState([]);
@@ -175,10 +176,17 @@ export default function AdminAlumnoDetalle() {
     setAlumno(al);
 
     if (al) {
+      const { data: vinculos } = await supabase
+        .from("alumno_tutor").select("tutor_id, estado").eq("alumno_id", id);
+      const ids = (vinculos || []).map((r) => r.tutor_id);
+      const estadoMap = {};
+      (vinculos || []).forEach((r) => { estadoMap[r.tutor_id] = r.estado; });
+      setVinculosEstado(estadoMap);
+
       const [t, a, c, i, cg] = await Promise.all([
-        supabase.from("tutores").select("*").in("id",
-          (await supabase.from("alumno_tutor").select("tutor_id").eq("alumno_id", id)).data?.map((r) => r.tutor_id) || []
-        ),
+        ids.length
+          ? supabase.from("tutores").select("*").in("id", ids)
+          : Promise.resolve({ data: [] }),
         supabase.from("tutores").select("*").order("apellidos", { ascending: true }),
         supabase.from("contactos_emergencia").select("*").eq("alumno_id", id).order("orden"),
         supabase.from("inscripciones").select("*").eq("alumno_id", id).order("fecha_inscripcion", { ascending: false }),
@@ -207,7 +215,11 @@ export default function AdminAlumnoDetalle() {
       await supabase.from("tutores").update(form).eq("id", editTutor.id);
     } else {
       const { data } = await supabase.from("tutores").insert(form).select("id").single();
-      if (data) await supabase.from("alumno_tutor").insert({ alumno_id: id, tutor_id: data.id });
+      if (data) {
+        await supabase.from("alumno_tutor").insert({
+          alumno_id: id, tutor_id: data.id, estado: "activo", solicitado_por: "admin",
+        });
+      }
     }
     setShowTutorForm(false);
     setEditTutor(null);
@@ -221,7 +233,12 @@ export default function AdminAlumnoDetalle() {
   }
 
   async function handleLinkTutor(tutorId) {
-    await supabase.from("alumno_tutor").insert({ alumno_id: id, tutor_id: tutorId });
+    // El admin vincula directo (activo): es el único camino para los alumnos sin
+    // cuenta, que no pueden confirmar una solicitud.
+    await supabase.from("alumno_tutor").upsert(
+      { alumno_id: id, tutor_id: tutorId, estado: "activo", solicitado_por: "admin", resuelto_en: new Date().toISOString() },
+      { onConflict: "alumno_id,tutor_id" }
+    );
     setShowTutorPicker(false);
     await loadAll();
   }
@@ -308,7 +325,14 @@ export default function AdminAlumnoDetalle() {
                 <Card key={t.id} style={{ padding: "12px 16px" }}>
                   <div className="ax-fila">
                     <div className="ax-aparecer">
-                      <div className="ax-nombre">{t.nombre} {t.apellidos} <Badge tone="neutral">{t.relacion}</Badge></div>
+                      <div className="ax-nombre">
+                        {t.nombre} {t.apellidos} <Badge tone="neutral">{t.relacion}</Badge>
+                        {vinculosEstado[t.id] && vinculosEstado[t.id] !== "activo" && (
+                          <Badge tone="warning">
+                            {vinculosEstado[t.id] === "pendiente" ? "Pendiente de confirmar" : "Rechazado"}
+                          </Badge>
+                        )}
+                      </div>
                       <div className="ax-sub" style={{ marginTop: 2 }}>{t.telefono} · {t.email || "—"}</div>
                     </div>
                     <div className="ax-acciones">

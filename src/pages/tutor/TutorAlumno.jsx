@@ -3,10 +3,12 @@
 // Reúne lo que el tutor puede ver de un alumno suyo. La RLS de la migración
 // 20260921010000 limita cada consulta a los alumnos del tutor; si el id no le
 // pertenece, las lecturas vuelven vacías y se muestra "sin acceso".
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
 import { useTemaClaro } from "../../lib/useTemaClaro";
+import { listaTalleres } from "../../data/talleres/talleresIndex.js";
+import { obtenerTodosCuestionarios } from "../../data/cuestionarios/cuestionariosIndex.js";
 
 const NIVEL_LABEL = {
   primaria: "Primaria",
@@ -47,6 +49,7 @@ export default function TutorAlumno() {
   const [sesiones, setSesiones] = useState([]);
   const [cargos, setCargos] = useState([]);
   const [suscripciones, setSuscripciones] = useState([]);
+  const [q, setQ] = useState("");
 
   useEffect(() => {
     let cancelado = false;
@@ -73,6 +76,20 @@ export default function TutorAlumno() {
   }, [id]);
 
   const edad = alumno ? calcEdad(alumno.fecha_nacimiento) : null;
+  const talleres = useMemo(
+    () => (alumno && (alumno.nivel === "primaria" || alumno.nivel === "secundaria")
+      ? listaTalleres().filter((t) => t.nivel === alumno.nivel)
+      : []),
+    [alumno]
+  );
+  const cuestionarios = useMemo(() => {
+    const todos = obtenerTodosCuestionarios();
+    const s = q.trim().toLowerCase();
+    const base = s
+      ? todos.filter((c) => `${c.titulo} ${c.materia || ""} ${c.nivel || ""}`.toLowerCase().includes(s))
+      : todos;
+    return base.slice(0, 12);
+  }, [q]);
   const promedio = resultados.length
     ? Math.round(resultados.reduce((s, r) => s + (r.total ? (r.puntaje / r.total) * 100 : 0), 0) / resultados.length)
     : null;
@@ -159,6 +176,66 @@ export default function TutorAlumno() {
                   ))}
                 </ul>
               )}
+            </section>
+
+            {/* Práctica de regularización operada por el tutor.
+                Es el camino para los alumnos sin cuenta: el tutor practica en su
+                nombre y el avance queda en el expediente del alumno. */}
+            {talleres.length > 0 && (
+              <section className="ta-sec">
+                <div className="ta-sec-cab">
+                  <h2>Práctica de regularización</h2>
+                </div>
+                <p className="ta-muted">
+                  Abre un taller con {alumno.nombre} ya seleccionado. Su avance se guarda en su expediente.
+                </p>
+                <div className="ta-talleres">
+                  {talleres.map((t) => (
+                    <Link
+                      key={t.id}
+                      to={`/tutor/alumno/${alumno.id}/practicar/${t.id}`}
+                      className="ta-taller"
+                    >
+                      <span className="ta-taller-icono" aria-hidden="true">{t.icono}</span>
+                      <span className="ta-taller-txt">
+                        <span className="ta-taller-tit">{t.titulo}</span>
+                        <span className="ta-item-sub">{t.materia}</span>
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {/* Cuestionarios: el tutor los abre a nombre del alumno; el resultado
+                se guarda en el expediente del alumno (user_id = su id). */}
+            <section className="ta-sec">
+              <div className="ta-sec-cab">
+                <h2>Cuestionarios</h2>
+              </div>
+              <p className="ta-muted">
+                Ábrelos con {alumno.nombre} ya seleccionado; su resultado queda en su expediente.
+              </p>
+              <input
+                className="ta-buscar"
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                placeholder="Buscar cuestionario por título o materia…"
+              />
+              <div className="ta-talleres">
+                {cuestionarios.map((c) => (
+                  <Link
+                    key={c.id}
+                    to={`/cuestionario/${c.id}?alumno=${alumno.id}`}
+                    className="ta-taller"
+                  >
+                    <span className="ta-taller-txt">
+                      <span className="ta-taller-tit">{c.titulo}</span>
+                      <span className="ta-item-sub">{c.materia || c.nivel || ""}</span>
+                    </span>
+                  </Link>
+                ))}
+              </div>
             </section>
 
             {/* Pagos */}
@@ -264,4 +341,18 @@ const CSS = `
   font-weight: 600; color: var(--fx-text-body); text-transform: capitalize; }
 .ta-vacio h1 { font-family: var(--fx-font-heading); color: var(--fx-text-heading); font-size: 24px; margin: 0 0 10px; }
 .ta-link { color: var(--fx-primary-700); }
+.ta-talleres { display: grid; gap: 10px; margin-top: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); }
+.ta-taller { display: flex; align-items: center; gap: 12px; background: var(--fx-surface-sunken);
+  border: 1px solid var(--fx-border); border-radius: var(--fx-radius-md); padding: 12px 14px;
+  text-decoration: none; transition: border-color var(--fx-transition); }
+.ta-taller:hover { border-color: var(--fx-primary-200); text-decoration: none; }
+.ta-taller-icono { font-size: 22px; flex: 0 0 auto; }
+.ta-taller-txt { display: flex; flex-direction: column; min-width: 0; }
+.ta-taller-tit { font-family: var(--fx-font-heading); font-weight: 600; font-size: var(--fx-small-size);
+  color: var(--fx-text-heading); }
+.ta-buscar { width: 100%; min-height: var(--fx-control-md); padding: 10px 13px; margin-top: 12px;
+  background: var(--fx-surface); border: 1px solid var(--fx-border); border-radius: var(--fx-radius-md);
+  color: var(--fx-text-heading); font-family: inherit; font-size: var(--fx-small-size); outline: none; }
+.ta-buscar:focus { border-color: var(--fx-primary-400); box-shadow: var(--fx-focus-ring); }
 `;

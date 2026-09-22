@@ -27,7 +27,7 @@ const C = {
 
 const font = "'DM Sans', sans-serif";
 
-export default function TallerVer() {
+export default function TallerVer({ alumnoId: alumnoForzado = null, alumnoNombre = null, volverA = "/regularizacion" }) {
   const { id } = useParams();
   const taller = useMemo(() => buscarTaller(id), [id]);
 
@@ -84,8 +84,13 @@ export default function TallerVer() {
   }
 
   const esStaff = perfil.rol === "admin" || perfil.rol === "profesor";
-  // El alumno escribe en su propio expediente; el staff no escribe nada.
-  const alumnoId = esStaff ? null : perfil.uid;
+  // Modo operador: el tutor practica EN NOMBRE de un alumno sin cuenta, así que
+  // su avance se guarda con el id del alumno, no con el del tutor. El alumno con
+  // cuenta escribe en su propio expediente; el staff no escribe nada.
+  const alumnoId = alumnoForzado || (esStaff ? null : perfil.uid);
+  const etiquetaRegistro = alumnoForzado
+    ? (alumnoNombre || "Alumno")
+    : alumnoId ? (perfil.nombre || "Mi avance") : "Sin registrar";
 
   return (
     <div ref={contenedorRef} style={{
@@ -98,7 +103,7 @@ export default function TallerVer() {
         borderBottom: `1px solid ${C.border}`, color: C.text,
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
-          <Link to="/regularizacion" style={{
+          <Link to={volverA} style={{
             color: C.muted, textDecoration: "none", fontSize: 13, fontWeight: 600,
             padding: "6px 8px",
           }}>
@@ -114,13 +119,13 @@ export default function TallerVer() {
 
         <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
           <span style={{
-            background: alumnoId ? C.green + "22" : C.surface,
-            color: alumnoId ? C.green : C.muted,
+            background: alumnoId ? C.blue + "22" : C.surface,
+            color: alumnoId ? C.blue : C.muted,
             borderRadius: 99, padding: "4px 12px", fontSize: 12, fontWeight: 700,
             whiteSpace: "nowrap", maxWidth: 260,
             overflow: "hidden", textOverflow: "ellipsis",
           }}>
-            {alumnoId ? (perfil.nombre || "Mi avance") : "Sin registrar"}
+            {etiquetaRegistro}
           </span>
           <button
             type="button"

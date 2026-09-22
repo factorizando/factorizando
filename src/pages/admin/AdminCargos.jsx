@@ -1,10 +1,20 @@
 // src/pages/admin/AdminCargos.jsx
 // Panel de administración de cargos y pagos: CRUD de cargos, registrar pagos, ver historial.
+//
+// En el design system (tema claro): tokens `--fx-*`, estados con `BadgeEstado`
+// y primitivas de `ui.jsx`. Los modales de comprobante y calendario conservan
+// sus componentes de impresión; solo cambia el chrome.
 
 import { useState, useEffect, useRef } from "react";
+import {
+  Plus, Pencil, Trash2, Calendar, Download, ChevronRight, ChevronDown,
+  Receipt, CircleX, Clock, Wallet,
+} from "lucide-react";
 import { supabase } from "../../lib/supabase";
-import EstadoBadge from "../../components/admin/EstadoBadge.jsx";
-import AdminHeader from "../../components/admin/AdminHeader.jsx";
+import AdminLayout from "../../components/admin/AdminLayout.jsx";
+import {
+  Page, Card, Badge, BadgeEstado, Button, Stat, Field, Input, Select, Modal, EmptyState,
+} from "../../components/admin/ui.jsx";
 import { generarComprobantePago } from "../../utils/comprobantePago.jsx";
 import ComprobantePDF from "../../components/ComprobantePDF.jsx";
 import CalendarioPagos from "../../components/CalendarioPagos.jsx";
@@ -13,23 +23,7 @@ import {
   textoPeriodo, conceptoDeCargo, desdeFechaISO, aFechaISO,
   lunesDeLaSemana, domingoDeLaSemana,
 } from "../../utils/fechas.js";
-import { GRID_FORM, TEXTO_FLEXIBLE } from "../../components/admin/layout.js";
-
-const font = "'DM Sans', sans-serif";
-const C = {
-  bg:      "#0e0f11",
-  surface: "#13151a",
-  card:    "#16181f",
-  border:  "#252830",
-  blue:    "#3b9eff",
-  green:   "#34d399",
-  yellow:  "#fbbf24",
-  orange:  "#f97316",
-  red:     "#f43f5e",
-  text:    "#e8eaf0",
-  muted:   "#5a6070",
-  dim:     "#8a9ab8",
-};
+import { GRID_FORM } from "../../components/admin/layout.js";
 
 function fmtDate(iso) {
   if (!iso) return "—";
@@ -41,66 +35,8 @@ function fmtMoney(n) {
   return `$${Number(n).toLocaleString("es-MX", { minimumFractionDigits: 2 })}`;
 }
 
-function Spinner() {
-  return (
-    <div style={{ display: "flex", justifyContent: "center", padding: 60 }}>
-      <div style={{
-        width: 28, height: 28, borderRadius: "50%",
-        border: `2px solid ${C.blue}22`, borderTopColor: C.blue,
-        animation: "spin .7s linear infinite",
-      }} />
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-    </div>
-  );
-}
-
-const inputStyle = {
-  background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
-  padding: "9px 12px", color: C.text, fontSize: 13, fontFamily: font,
-  outline: "none", width: "100%", boxSizing: "border-box",
-};
-
-function Field({ label, children }) {
-  return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-      <label style={{ color: C.dim, fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", fontFamily: font }}>
-        {label}
-      </label>
-      {children}
-    </div>
-  );
-}
-
 function ErrorMsg({ children }) {
-  return (
-    <div style={{
-      background: "#ff444422", border: "1px solid #ff444466", borderRadius: 8,
-      padding: "10px 14px", color: "#ff6666", fontSize: 13, fontFamily: font,
-    }}>
-      {children}
-    </div>
-  );
-}
-
-function Modal({ title, onClose, children, maxWidth = 480 }) {
-  return (
-    <div style={{
-      position: "fixed", inset: 0, zIndex: 100,
-      display: "flex", alignItems: "center", justifyContent: "center",
-      background: "rgba(0,0,0,.6)", backdropFilter: "blur(4px)",
-    }} onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
-      <div style={{
-        background: C.card, border: `1px solid ${C.border}`, borderRadius: 14,
-        width: "90%", maxWidth, maxHeight: "85vh", overflow: "auto", padding: "24px 28px",
-      }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
-          <h3 style={{ margin: 0, color: C.text, fontSize: 16, fontWeight: 700, fontFamily: font }}>{title}</h3>
-          <button onClick={onClose} style={{ background: "none", border: "none", color: C.muted, fontSize: 20, cursor: "pointer", padding: 4 }}>×</button>
-        </div>
-        {children}
-      </div>
-    </div>
-  );
+  return <div className="ax-badge ax-badge-error" style={{ display: "block" }}>{children}</div>;
 }
 
 // ── Formulario de cargo (crear o editar) ──────────────────────────────────────
@@ -225,22 +161,21 @@ function CargoForm({ alumnos, inscripciones, initial, onSave, onCancel }) {
   return (
     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       <Field label="Alumno">
-        <select value={form.alumno_id} onChange={setAlumno} style={{ ...inputStyle, cursor: "pointer" }} required>
+        <Select value={form.alumno_id} onChange={setAlumno} required>
           <option value="">Seleccionar alumno…</option>
           {alumnos.map((a) => (
             <option key={a.id} value={a.id}>{a.nombre} {a.apellidos}</option>
           ))}
-        </select>
+        </Select>
       </Field>
       {/* Opcional a propósito: un cargo suelto (material, una cuota, un ajuste)
           no cuelga de ninguna inscripción, y ése es justo el caso que este
           formulario cubre. */}
       <Field label="Curso (opcional)">
-        <select
+        <Select
           value={form.inscripcion_id}
           onChange={set("inscripcion_id")}
           disabled={!form.alumno_id}
-          style={{ ...inputStyle, cursor: form.alumno_id ? "pointer" : "default", opacity: form.alumno_id ? 1 : 0.6 }}
         >
           <option value="">
             {!form.alumno_id ? "Elige primero un alumno…"
@@ -252,19 +187,17 @@ function CargoForm({ alumnos, inscripciones, initial, onSave, onCancel }) {
               {i.cursos?.nombre || "Curso"}{i.estado !== "activa" ? ` (${i.estado})` : ""}
             </option>
           ))}
-        </select>
+        </Select>
       </Field>
       <Field label="Concepto">
-        <input value={form.concepto} onChange={set("concepto")} placeholder="Ej: Inscripción — mensual" style={inputStyle} required
-          onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }} onBlur={(e) => { e.target.style.borderColor = C.border; }} />
+        <Input value={form.concepto} onChange={set("concepto")} placeholder="Ej: Inscripción — mensual" required />
       </Field>
       <div style={{ display: "grid", gridTemplateColumns: GRID_FORM, gap: 12 }}>
         <Field label="Monto">
-          <input type="number" step="0.01" min="0" value={form.monto} onChange={set("monto")} style={inputStyle} required
-            onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }} onBlur={(e) => { e.target.style.borderColor = C.border; }} />
+          <Input type="number" step="0.01" min="0" value={form.monto} onChange={set("monto")} required />
         </Field>
         <Field label="Fecha de vencimiento">
-          <input type="date" value={form.fecha_vencimiento} onChange={set("fecha_vencimiento")} style={inputStyle} required />
+          <Input type="date" value={form.fecha_vencimiento} onChange={set("fecha_vencimiento")} required />
         </Field>
       </div>
       {/* El periodo es lo que se cobra; el vencimiento, cuándo se paga. Suelen
@@ -272,28 +205,22 @@ function CargoForm({ alumnos, inscripciones, initial, onSave, onCancel }) {
           editar por separado. */}
       <div style={{ display: "grid", gridTemplateColumns: GRID_FORM, gap: 12 }}>
         <Field label="Periodo — inicio">
-          <input type="date" value={form.periodo_inicio} onChange={set("periodo_inicio")} style={inputStyle} />
+          <Input type="date" value={form.periodo_inicio} onChange={set("periodo_inicio")} />
         </Field>
         <Field label="Periodo — fin">
-          <input type="date" value={form.periodo_fin} onChange={set("periodo_fin")} style={inputStyle} />
+          <Input type="date" value={form.periodo_fin} onChange={set("periodo_fin")} />
         </Field>
       </div>
       <Field label="Notas (opcional)">
-        <input value={form.notas} onChange={set("notas")} placeholder="Ej: semana 2, mes 1…" style={inputStyle}
-          onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }} onBlur={(e) => { e.target.style.borderColor = C.border; }} />
+        <Input value={form.notas} onChange={set("notas")} placeholder="Ej: semana 2, mes 1…" />
       </Field>
       {error && <ErrorMsg>{error}</ErrorMsg>}
-      <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", marginTop: 8 }}>
-        <button type="button" onClick={onCancel} style={{
-          background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
-          padding: "8px 18px", color: C.muted, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: font,
-        }}>Cancelar</button>
-        <button type="submit" disabled={saving || !form.alumno_id || !form.concepto || !form.monto || !form.fecha_vencimiento} style={{
-          background: C.blue, border: "none", borderRadius: 8,
-          padding: "8px 22px", color: "#fff", fontSize: 13, fontWeight: 700,
-          cursor: saving ? "default" : "pointer",
-          opacity: saving || !form.alumno_id || !form.concepto || !form.monto || !form.fecha_vencimiento ? 0.6 : 1, fontFamily: font,
-        }}>{saving ? "Guardando…" : initial ? "Guardar cambios" : "Crear cargo"}</button>
+      <div className="ax-acciones" style={{ justifyContent: "flex-end", marginTop: 8 }}>
+        <Button variante="ghost" onClick={onCancel}>Cancelar</Button>
+        <Button variante="primary" type="submit"
+          disabled={saving || !form.alumno_id || !form.concepto || !form.monto || !form.fecha_vencimiento}>
+          {saving ? "Guardando…" : initial ? "Guardar cambios" : "Crear cargo"}
+        </Button>
       </div>
     </form>
   );
@@ -319,56 +246,40 @@ function PagoForm({ cargo, onSave, onCancel }) {
   return (
     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       <div style={{
-        background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8, padding: "12px 14px", marginBottom: 4,
+        background: "var(--fx-surface-sunken)", border: "1px solid var(--fx-border)",
+        borderRadius: "var(--fx-radius-md)", padding: "12px 14px", marginBottom: 4,
       }}>
-        <div style={{ color: C.text, fontSize: 13, fontWeight: 600, fontFamily: font }}>{cargo.concepto}</div>
-        <div style={{ color: C.muted, fontSize: 12, marginTop: 2, fontFamily: font }}>
+        <div className="ax-nombre">{cargo.concepto}</div>
+        <div className="ax-sub" style={{ marginTop: 2 }}>
           Vence: {fmtDate(cargo.fecha_vencimiento)} · Total: {fmtMoney(cargo.monto)}
         </div>
       </div>
 
       <Field label="Monto a pagar">
-        <input
-          type="number" step="0.01" min="0" max={cargo.monto}
-          value={monto} onChange={(e) => setMonto(e.target.value)}
-          style={inputStyle}
-          onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }}
-          onBlur={(e) => { e.target.style.borderColor = C.border; }}
-          required
-        />
+        <Input type="number" step="0.01" min="0" max={cargo.monto}
+          value={monto} onChange={(e) => setMonto(e.target.value)} required />
       </Field>
 
       <Field label="Método de pago">
-        <select value={metodo} onChange={(e) => setMetodo(e.target.value)} style={{ ...inputStyle, cursor: "pointer" }}>
+        <Select value={metodo} onChange={(e) => setMetodo(e.target.value)}>
           <option value="efectivo">Efectivo</option>
           <option value="transferencia">Transferencia</option>
           <option value="tarjeta">Tarjeta</option>
           <option value="oxxo">OXXO</option>
-        </select>
+        </Select>
       </Field>
 
       <Field label="Notas (opcional)">
-        <input
-          value={notas} onChange={(e) => setNotas(e.target.value)}
-          placeholder="Referencia, folio, etc."
-          style={inputStyle}
-          onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }}
-          onBlur={(e) => { e.target.style.borderColor = C.border; }}
-        />
+        <Input value={notas} onChange={(e) => setNotas(e.target.value)} placeholder="Referencia, folio, etc." />
       </Field>
 
       {error && <ErrorMsg>{error}</ErrorMsg>}
 
-      <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", marginTop: 8 }}>
-        <button type="button" onClick={onCancel} style={{
-          background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
-          padding: "8px 18px", color: C.muted, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: font,
-        }}>Cancelar</button>
-        <button type="submit" disabled={saving || !monto} style={{
-          background: C.green, border: "none", borderRadius: 8,
-          padding: "8px 22px", color: "#000", fontSize: 13, fontWeight: 700,
-          cursor: saving ? "default" : "pointer", opacity: saving || !monto ? 0.6 : 1, fontFamily: font,
-        }}>{saving ? "Registrando…" : "Registrar pago"}</button>
+      <div className="ax-acciones" style={{ justifyContent: "flex-end", marginTop: 8 }}>
+        <Button variante="ghost" onClick={onCancel}>Cancelar</Button>
+        <Button variante="primary" type="submit" disabled={saving || !monto}>
+          {saving ? "Registrando…" : "Registrar pago"}
+        </Button>
       </div>
     </form>
   );
@@ -378,18 +289,14 @@ function PagoForm({ cargo, onSave, onCancel }) {
 function ConfirmModal({ title, message, onConfirm, onCancel }) {
   const [saving, setSaving] = useState(false);
   return (
-    <Modal title={title} onClose={onCancel}>
-      <p style={{ color: C.dim, fontSize: 13, fontFamily: font, margin: "0 0 18px" }}>{message}</p>
-      <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
-        <button onClick={onCancel} style={{
-          background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
-          padding: "8px 18px", color: C.muted, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: font,
-        }}>Cancelar</button>
-        <button onClick={async () => { setSaving(true); await onConfirm(); }} disabled={saving} style={{
-          background: C.red, border: "none", borderRadius: 8,
-          padding: "8px 22px", color: "#fff", fontSize: 13, fontWeight: 700,
-          cursor: saving ? "default" : "pointer", opacity: saving ? 0.6 : 1, fontFamily: font,
-        }}>{saving ? "Eliminando…" : "Eliminar"}</button>
+    <Modal titulo={title} onClose={onCancel}>
+      <p className="ax-sub" style={{ margin: "0 0 18px", whiteSpace: "normal" }}>{message}</p>
+      <div className="ax-acciones" style={{ justifyContent: "flex-end" }}>
+        <Button variante="ghost" onClick={onCancel}>Cancelar</Button>
+        <Button variante="primary" icono={Trash2} disabled={saving}
+          onClick={async () => { setSaving(true); await onConfirm(); }}>
+          {saving ? "Eliminando…" : "Eliminar"}
+        </Button>
       </div>
     </Modal>
   );
@@ -419,29 +326,28 @@ function ComprobantePreviewModal({ pago, cargo, alumno, onClose }) {
   }, []);
 
   return (
-    <Modal title="Vista previa del comprobante" onClose={onClose} maxWidth={860}>
-      <div ref={marcoRef} style={{ background: "#555", borderRadius: 10, padding: 20, marginBottom: 18 }}>
+    <Modal titulo="Vista previa del comprobante" onClose={onClose} ancho={860}>
+      <div ref={marcoRef} style={{
+        background: "var(--fx-surface-sunken)", border: "1px solid var(--fx-border)",
+        borderRadius: "var(--fx-radius-md)", padding: 20, marginBottom: 18,
+      }}>
         <div style={{ height: alto * escala, overflow: "hidden" }}>
           <div ref={docRef} style={{ width: 800, transform: `scale(${escala})`, transformOrigin: "top left" }}>
             <ComprobantePDF pago={pago} cargo={cargo} alumno={alumno} />
           </div>
         </div>
       </div>
-      <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
-        <button onClick={onClose} style={{
-          background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
-          padding: "8px 18px", color: C.muted, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: font,
-        }}>Cerrar</button>
-        <button onClick={async () => {
-          setDescargando(true);
-          await generarComprobantePago({ pago, cargo, alumno });
-          setDescargando(false);
-          onClose();
-        }} disabled={descargando} style={{
-          background: C.blue, border: "none", borderRadius: 8,
-          padding: "8px 22px", color: "#fff", fontSize: 13, fontWeight: 700,
-          cursor: descargando ? "default" : "pointer", opacity: descargando ? 0.6 : 1, fontFamily: font,
-        }}>{descargando ? "Generando…" : "↧ Descargar PDF"}</button>
+      <div className="ax-acciones" style={{ justifyContent: "flex-end" }}>
+        <Button variante="ghost" onClick={onClose}>Cerrar</Button>
+        <Button variante="primary" icono={Download} disabled={descargando}
+          onClick={async () => {
+            setDescargando(true);
+            await generarComprobantePago({ pago, cargo, alumno });
+            setDescargando(false);
+            onClose();
+          }}>
+          {descargando ? "Generando…" : "Descargar PDF"}
+        </Button>
       </div>
     </Modal>
   );
@@ -489,18 +395,20 @@ function CalendarioModal({ onClose }) {
   }
 
   return (
-    <Modal title="Calendario de pagos" onClose={onClose} maxWidth={720}>
+    <Modal titulo="Calendario de pagos" onClose={onClose} ancho={720}>
       <div style={{ display: "grid", gridTemplateColumns: GRID_FORM, gap: 12, marginBottom: 16 }}>
         <Field label="Desde la semana del">
-          <input type="date" value={desde} onChange={(e) => setDesde(e.target.value)} style={inputStyle} />
+          <Input type="date" value={desde} onChange={(e) => setDesde(e.target.value)} />
         </Field>
         <Field label="Cuántas semanas">
-          <input type="number" min="1" max="26" value={semanas}
-            onChange={(e) => setSemanas(e.target.value)} style={inputStyle} />
+          <Input type="number" min="1" max="26" value={semanas} onChange={(e) => setSemanas(e.target.value)} />
         </Field>
       </div>
 
-      <div ref={marcoRef} style={{ background: "#555", borderRadius: 10, padding: 16, marginBottom: 16 }}>
+      <div ref={marcoRef} style={{
+        background: "var(--fx-surface-sunken)", border: "1px solid var(--fx-border)",
+        borderRadius: "var(--fx-radius-md)", padding: 16, marginBottom: 16,
+      }}>
         <div style={{ height: alto * escala, overflow: "hidden" }}>
           <div ref={docRef} style={{ width: 620, transform: `scale(${escala})`, transformOrigin: "top left" }}>
             <CalendarioPagos desde={desdeFechaISO(desde)} semanas={Number(semanas) || 1} />
@@ -508,22 +416,13 @@ function CalendarioModal({ onClose }) {
         </div>
       </div>
 
-      {aviso && (
-        <div style={{ marginBottom: 12 }}>
-          <ErrorMsg>{aviso}</ErrorMsg>
-        </div>
-      )}
+      {aviso && <div style={{ marginBottom: 12 }}><ErrorMsg>{aviso}</ErrorMsg></div>}
 
-      <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
-        <button onClick={onClose} style={{
-          background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
-          padding: "8px 18px", color: C.muted, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: font,
-        }}>Cerrar</button>
-        <button onClick={compartir} disabled={enviando} style={{
-          background: C.blue, border: "none", borderRadius: 8,
-          padding: "8px 22px", color: "#fff", fontSize: 13, fontWeight: 700,
-          cursor: enviando ? "default" : "pointer", opacity: enviando ? 0.6 : 1, fontFamily: font,
-        }}>{enviando ? "Generando…" : "Compartir imagen"}</button>
+      <div className="ax-acciones" style={{ justifyContent: "flex-end" }}>
+        <Button variante="ghost" onClick={onClose}>Cerrar</Button>
+        <Button variante="primary" onClick={compartir} disabled={enviando}>
+          {enviando ? "Generando…" : "Compartir imagen"}
+        </Button>
       </div>
     </Modal>
   );
@@ -535,89 +434,53 @@ function CargoRow({ cargo, alumnos, onPay, onEdit, onDelete, onTogglePagos, show
   const vencido = cargo.estado === "pendiente" && new Date(cargo.fecha_vencimiento) < new Date();
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
-      <div style={{
-        background: C.card,
-        border: `1px solid ${vencido ? C.red + "44" : C.border}`,
-        borderRadius: 10,
-        padding: "12px 16px",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        flexWrap: "wrap",
-        gap: 8,
-      }}>
-        <div style={TEXTO_FLEXIBLE}>
-          <span style={{ color: C.text, fontWeight: 600, fontSize: 13, fontFamily: font }}>
-            {alumno ? `${alumno.nombre} ${alumno.apellidos}` : cargo.alumno_id.slice(0, 8)}
-          </span>
-          <span style={{ color: C.muted, fontSize: 13, fontFamily: font }}> · </span>
-          <span style={{ color: C.dim, fontSize: 13, fontFamily: font }}>{cargo.concepto}</span>
-          {cargo.periodo_inicio && (
-            <span style={{ color: C.muted, fontSize: 12, fontFamily: font }}>
-              {" · "}{textoPeriodo(cargo.periodo_inicio, cargo.periodo_fin)}
-            </span>
-          )}
-          {cargo.es_parcial && (
-            <span style={{
-              background: C.yellow + "22", color: C.yellow, borderRadius: 5,
-              padding: "1px 7px", fontSize: 10, fontWeight: 700, fontFamily: font, marginLeft: 6,
-            }}>PARCIAL</span>
-          )}
-          {cargo.notas && (
-            <div style={{ color: C.muted, fontSize: 12, fontFamily: font, marginTop: 2 }}>
-              {cargo.notas}
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      <Card style={vencido ? { borderColor: "var(--fx-error-border)" } : undefined}>
+        <div className="ax-fila">
+          <div className="ax-aparecer">
+            <div className="ax-nombre">
+              {alumno ? `${alumno.nombre} ${alumno.apellidos}` : cargo.alumno_id.slice(0, 8)}
+              <span className="ax-sub" style={{ fontWeight: 400 }}> · {cargo.concepto}</span>
             </div>
-          )}
+            <div className="ax-sub" style={{ marginTop: 2 }}>
+              {cargo.periodo_inicio ? `${textoPeriodo(cargo.periodo_inicio, cargo.periodo_fin)} · ` : ""}
+              Vence {fmtDate(cargo.fecha_vencimiento)}
+            </div>
+            {cargo.notas && <div className="ax-sub" style={{ whiteSpace: "normal" }}>{cargo.notas}</div>}
+          </div>
+          <div className="ax-acciones">
+            {cargo.es_parcial && <Badge tone="warning">Parcial</Badge>}
+            <span className="ax-pct-num" style={{ fontSize: "var(--fx-body-size)" }}>{fmtMoney(cargo.monto)}</span>
+            <BadgeEstado estado={vencido ? "vencido" : cargo.estado} />
+            {cargo.estado === "pendiente" && (
+              <Button variante="secondary" onClick={() => onPay(cargo)}>Pagar</Button>
+            )}
+            <Button variante="ghost" icono={Pencil} title="Editar" onClick={() => onEdit(cargo)} />
+            <Button variante="ghost" icono={Trash2} title="Eliminar" onClick={() => onDelete(cargo)} />
+            <Button variante="ghost" icono={showPagos ? ChevronDown : ChevronRight}
+              title="Ver pagos" onClick={() => onTogglePagos(cargo.id)} />
+          </div>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <span style={{ color: C.text, fontWeight: 700, fontSize: 14, fontFamily: font }}>
-            {fmtMoney(cargo.monto)}
-          </span>
-          <span style={{ color: vencido ? C.red : C.muted, fontSize: 12, fontFamily: font }}>
-            {fmtDate(cargo.fecha_vencimiento)}
-          </span>
-          <EstadoBadge estado={vencido ? "vencido" : cargo.estado} />
-          {cargo.estado === "pendiente" && (
-            <button onClick={() => onPay(cargo)} style={{
-              background: C.green + "22", border: `1px solid ${C.green}44`, borderRadius: 6,
-              padding: "4px 12px", color: C.green, fontSize: 11, fontWeight: 700,
-              cursor: "pointer", fontFamily: font,
-            }}>Pagar</button>
-          )}
-          <button onClick={() => onEdit(cargo)} title="Editar" style={{
-            background: "none", border: "none", color: C.blue, fontSize: 15, cursor: "pointer", padding: "2px 4px",
-          }}>✎</button>
-          <button onClick={() => onDelete(cargo)} title="Eliminar" style={{
-            background: "none", border: "none", color: C.red, fontSize: 15, cursor: "pointer", padding: "2px 4px",
-          }}>✕</button>
-          <button onClick={() => onTogglePagos(cargo.id)} title="Ver pagos" style={{
-            background: "none", border: "none", color: C.muted, fontSize: 13, cursor: "pointer", padding: "2px 6px",
-          }}>{showPagos ? "▾" : "▸"}</button>
-        </div>
-      </div>
+      </Card>
       {showPagos && (
         <div style={{
-          background: C.surface, border: `1px solid ${C.border}`, borderTop: "none",
-          borderRadius: "0 0 10px 10px", padding: "10px 16px", marginTop: -6,
+          background: "var(--fx-surface-sunken)", border: "1px solid var(--fx-border)",
+          borderTop: "none", borderRadius: "0 0 var(--fx-radius-lg) var(--fx-radius-lg)",
+          padding: "10px 16px",
         }}>
           {pagos.length === 0 ? (
-            <div style={{ color: C.muted, fontSize: 12, fontFamily: font, padding: "4px 0" }}>Sin pagos registrados.</div>
+            <div className="ax-sub" style={{ padding: "4px 0" }}>Sin pagos registrados.</div>
           ) : (
-            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            <div className="ax-lista" style={{ gap: 6 }}>
               {pagos.map((pg) => (
-                <div key={pg.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 12, fontFamily: font }}>
-                  <div>
-                    <span style={{ color: C.green, fontWeight: 600 }}>{fmtMoney(pg.monto)}</span>
-                    <span style={{ color: C.muted }}> · {pg.metodo_pago}</span>
-                    {pg.notas && <span style={{ color: C.dim }}> · {pg.notas}</span>}
+                <div key={pg.id} className="ax-fila" style={{ fontSize: "var(--fx-small-size)" }}>
+                  <div className="ax-aparecer">
+                    <strong style={{ color: "var(--fx-text-heading)" }}>{fmtMoney(pg.monto)}</strong>
+                    <span className="ax-sub"> · {pg.metodo_pago}{pg.notas ? ` · ${pg.notas}` : ""}</span>
                   </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                    <span style={{ color: C.muted }}>{fmtDate(pg.fecha_pago)}</span>
-                    <button onClick={() => onDownloadPago(pg, cargo)} title="Descargar comprobante" style={{
-                      background: "none", border: "none", color: C.blue, fontSize: 14, cursor: "pointer", padding: "2px 4px",
-                    }}>↧</button>
-                  </div>
+                  <span className="ax-sub">{fmtDate(pg.fecha_pago)}</span>
+                  <Button variante="ghost" icono={Download} title="Descargar comprobante"
+                    onClick={() => onDownloadPago(pg, cargo)} />
                 </div>
               ))}
             </div>
@@ -758,67 +621,47 @@ export default function AdminCargos({ embedded }) {
     }
   }
 
-  return (
-    <div style={{ minHeight: "100vh", background: C.bg, fontFamily: font }}>
-      {!embedded && <AdminHeader active="cargos" />}
-      <div style={{ maxWidth: 980, margin: "0 auto", padding: "32px 16px" }}>
-      {/* Stats */}
-      <div style={{
-        display: "flex", flexWrap: "wrap", gap: 12, marginBottom: 20,
-      }}>
-        {[
-          { label: "Pendiente", value: fmtMoney(totalPendiente), color: C.yellow },
-          { label: "Vencido", value: fmtMoney(totalVencido), color: C.red },
-          { label: "Total cargos", value: cargos.length, color: C.text },
-        ].map((s) => (
-          <div key={s.label} style={{
-            flex: "1 1 140px", background: C.surface, border: `1px solid ${C.border}`,
-            borderRadius: 10, padding: "12px 16px",
-          }}>
-            <div style={{ color: C.muted, fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", fontFamily: font }}>{s.label}</div>
-            <div style={{ color: s.color, fontSize: 20, fontWeight: 800, marginTop: 2, fontFamily: font }}>{s.value}</div>
-          </div>
-        ))}
+  const contenido = (
+    <Page
+      eyebrow="Cobranza"
+      titulo="Cargos"
+      descripcion="Cargos por cobrar, su periodo y el registro de pagos."
+      acciones={
+        <>
+          <Button variante="subtle" icono={Calendar} onClick={() => setShowCalendario(true)}>
+            Calendario
+          </Button>
+          <Button variante="primary" icono={Plus} onClick={() => { setEditCargo(null); setShowCargoForm(true); }}>
+            Nuevo cargo
+          </Button>
+        </>
+      }
+    >
+      <div className="ax-grid-stats">
+        <Stat label="Por cobrar" value={fmtMoney(totalPendiente)} tone="warning" icono={Clock} />
+        <Stat label="Vencido" value={fmtMoney(totalVencido)} tone="error" icono={CircleX} />
+        <Stat label="Total cargos" value={cargos.length} tone="accent" icono={Receipt} />
       </div>
 
-      {/* Filtros + acción */}
-      <div style={{ display: "flex", gap: 6, marginBottom: 20, flexWrap: "wrap", alignItems: "center" }}>
-        {["todos", "pendiente", "vencidos", "pagado", "cancelado"].map((e) => (
-          <button
-            key={e}
-            onClick={() => setFiltroEstado(e)}
-            style={{
-              border: filtroEstado === e ? "none" : `1px solid ${C.border}`,
-              borderRadius: 99, padding: "8px 16px", fontSize: 12, fontWeight: 700,
-              cursor: "pointer", background: filtroEstado === e ? C.blue : C.surface,
-              color: filtroEstado === e ? "#fff" : C.muted, fontFamily: font,
-              transition: "background .15s, color .15s",
-            }}
-          >
-            {e === "todos" ? "Todos" : e === "vencidos" ? "Vencidos" : e.charAt(0).toUpperCase() + e.slice(1)}
-          </button>
-        ))}
-        <span style={{ marginLeft: 8, color: C.muted, fontSize: 12, fontFamily: font }}>{filtrados.length} cargos</span>
-        <div style={{ flex: 1 }} />
-        <button onClick={() => setShowCalendario(true)} style={{
-          background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
-          padding: "8px 14px", color: C.dim, fontSize: 12, fontWeight: 700,
-          cursor: "pointer", fontFamily: font,
-        }}>🗓 Calendario</button>
-        <button onClick={() => { setEditCargo(null); setShowCargoForm(true); }} style={{
-          background: C.blue, border: "none", borderRadius: 8,
-          padding: "8px 18px", color: "#fff", fontSize: 12, fontWeight: 700,
-          cursor: "pointer", fontFamily: font,
-        }}>+ Nuevo cargo</button>
-      </div>
-
-      {/* Lista */}
-      {loading ? <Spinner /> : filtrados.length === 0 ? (
-        <div style={{ textAlign: "center", padding: "60px 20px", color: C.muted, fontSize: 14, fontFamily: font }}>
-          {cargos.length === 0 ? "Aún no hay cargos registrados." : "Ningún cargo coincide con el filtro."}
+      <div className="ax-acciones" style={{ justifyContent: "space-between" }}>
+        <div className="ax-acciones">
+          {["todos", "pendiente", "vencidos", "pagado", "cancelado"].map((e) => (
+            <Button key={e} variante={filtroEstado === e ? "primary" : "subtle"} onClick={() => setFiltroEstado(e)}>
+              {e === "todos" ? "Todos" : e === "vencidos" ? "Vencidos" : e.charAt(0).toUpperCase() + e.slice(1)}
+            </Button>
+          ))}
         </div>
+        <span className="ax-sub">{filtrados.length} cargos</span>
+      </div>
+
+      {loading ? (
+        <p className="ax-sub">Cargando…</p>
+      ) : filtrados.length === 0 ? (
+        <EmptyState icono={Wallet} titulo="Sin cargos">
+          {cargos.length === 0 ? "Aún no hay cargos registrados." : "Ningún cargo coincide con el filtro."}
+        </EmptyState>
       ) : (
-        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+        <div className="ax-lista" style={{ gap: 10 }}>
           {filtrados.map((c) => (
             <CargoRow
               key={c.id} cargo={c} alumnos={alumnos}
@@ -841,9 +684,9 @@ export default function AdminCargos({ embedded }) {
         </div>
       )}
 
-      {/* Modal crear/editar cargo */}
       {showCargoForm && (
-        <Modal title={editCargo ? "Editar cargo" : "Nuevo cargo"} onClose={() => { setShowCargoForm(false); setEditCargo(null); }}>
+        <Modal titulo={editCargo ? "Editar cargo" : "Nuevo cargo"} ancho={560}
+          onClose={() => { setShowCargoForm(false); setEditCargo(null); }}>
           <CargoForm
             alumnos={alumnos}
             inscripciones={inscripciones}
@@ -854,9 +697,8 @@ export default function AdminCargos({ embedded }) {
         </Modal>
       )}
 
-      {/* Modal pago */}
       {showPago && selectedCargo && (
-        <Modal title="Registrar pago" onClose={() => { setShowPago(false); setSelectedCargo(null); }}>
+        <Modal titulo="Registrar pago" onClose={() => { setShowPago(false); setSelectedCargo(null); }}>
           <PagoForm
             cargo={selectedCargo}
             onSave={handlePay}
@@ -865,35 +707,26 @@ export default function AdminCargos({ embedded }) {
         </Modal>
       )}
 
-      {/* Modal pago registrado */}
       {lastPago && lastPagoCargo && (
-        <Modal title="Pago registrado" onClose={() => { setLastPago(null); setLastPagoCargo(null); }}>
-          <p style={{ color: C.dim, fontSize: 13, fontFamily: font, margin: "0 0 6px" }}>
-            El pago de <span style={{ color: C.green, fontWeight: 700 }}>{fmtMoney(lastPago.monto)}</span> se registró correctamente.
+        <Modal titulo="Pago registrado" onClose={() => { setLastPago(null); setLastPagoCargo(null); }}>
+          <p className="ax-sub" style={{ margin: "0 0 6px", whiteSpace: "normal" }}>
+            El pago de <strong style={{ color: "var(--fx-text-heading)" }}>{fmtMoney(lastPago.monto)}</strong> se registró correctamente.
           </p>
-          <p style={{ color: C.muted, fontSize: 12, fontFamily: font, margin: "0 0 18px" }}>
+          <p className="ax-sub" style={{ margin: "0 0 18px" }}>
             Folio: {lastPago.id?.slice(0, 8).toUpperCase()}
           </p>
-          <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
-            <button onClick={() => { setLastPago(null); setLastPagoCargo(null); }} style={{
-              background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
-              padding: "8px 18px", color: C.muted, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: font,
-            }}>Cerrar</button>
-            <button onClick={() => {
+          <div className="ax-acciones" style={{ justifyContent: "flex-end" }}>
+            <Button variante="ghost" onClick={() => { setLastPago(null); setLastPagoCargo(null); }}>Cerrar</Button>
+            <Button variante="primary" onClick={() => {
               const alumno = alumnos.find((a) => a.id === lastPagoCargo.alumno_id);
               setPreview({ pago: lastPago, cargo: lastPagoCargo, alumno: alumno || { nombre: "", apellidos: "" } });
-            }} style={{
-              background: C.blue, border: "none", borderRadius: 8,
-              padding: "8px 22px", color: "#fff", fontSize: 13, fontWeight: 700,
-              cursor: "pointer", fontFamily: font,
-            }}>Ver comprobante</button>
+            }}>Ver comprobante</Button>
           </div>
         </Modal>
       )}
 
       {showCalendario && <CalendarioModal onClose={() => setShowCalendario(false)} />}
 
-      {/* Modal vista previa del comprobante */}
       {preview && (
         <ComprobantePreviewModal
           pago={preview.pago}
@@ -903,7 +736,6 @@ export default function AdminCargos({ embedded }) {
         />
       )}
 
-      {/* Modal eliminar */}
       {deleteTarget && (
         <ConfirmModal
           title="Eliminar cargo"
@@ -916,7 +748,9 @@ export default function AdminCargos({ embedded }) {
           onCancel={() => { setDeleteTarget(null); setDeletePagosCount(0); }}
         />
       )}
-      </div>
-    </div>
+    </Page>
   );
+
+  if (embedded) return contenido;
+  return <AdminLayout active="cargos">{contenido}</AdminLayout>;
 }

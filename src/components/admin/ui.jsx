@@ -5,7 +5,9 @@
 // ícono + texto), ni verde ni rojo para acierto/error, e íconos SVG (lucide),
 // nunca emoji ni glifos como ✓/✗. El CSS se emite una sola vez desde
 // `AdminLayout` (constante `ADMIN_CSS`).
-import { Search } from "lucide-react";
+import {
+  Search, CircleCheck, CircleX, Clock, Pause, Minus,
+} from "lucide-react";
 
 export const ADMIN_CSS = `
 .ax-page { display: flex; flex-direction: column; gap: 24px; }
@@ -170,6 +172,31 @@ export function Badge({ tone = "neutral", icono: Icono, children }) {
       {children}
     </span>
   );
+}
+
+// Estado de un registro (inscripción, cargo, suscripción). El ícono es
+// obligatorio: el color es un refuerzo, nunca la única señal (docs/DISENO.md §2).
+// Nada de verde ni rojo: los tonos salen de `fx.css` (azul y dos ámbares).
+const ESTADOS = {
+  activa:     { tone: "success", Icon: CircleCheck, label: "Activa" },
+  activo:     { tone: "success", Icon: CircleCheck, label: "Activo" },
+  pausada:    { tone: "warning", Icon: Pause,       label: "Pausada" },
+  pausado:    { tone: "warning", Icon: Pause,       label: "Pausado" },
+  finalizada: { tone: "neutral", Icon: CircleCheck, label: "Finalizada" },
+  finalizado: { tone: "neutral", Icon: CircleCheck, label: "Finalizado" },
+  cancelada:  { tone: "error",   Icon: CircleX,     label: "Cancelada" },
+  cancelado:  { tone: "error",   Icon: CircleX,     label: "Cancelado" },
+  pendiente:  { tone: "warning", Icon: Clock,       label: "Pendiente" },
+  pagado:     { tone: "success", Icon: CircleCheck, label: "Pagado" },
+  pagada:     { tone: "success", Icon: CircleCheck, label: "Pagada" },
+  vencido:    { tone: "error",   Icon: CircleX,     label: "Vencido" },
+  vencida:    { tone: "error",   Icon: CircleX,     label: "Vencida" },
+  fallido:    { tone: "error",   Icon: CircleX,     label: "Fallido" },
+};
+
+export function BadgeEstado({ estado }) {
+  const e = ESTADOS[estado] || { tone: "neutral", Icon: Minus, label: estado };
+  return <Badge tone={e.tone} icono={e.Icon}>{e.label}</Badge>;
 }
 
 const TONO_STAT = { info: "ax-tone-accent", warning: "ax-tone-warning", error: "ax-tone-error", success: "ax-tone-success", neutral: "ax-tone-neutral", accent: "ax-tone-accent" };

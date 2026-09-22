@@ -1,30 +1,21 @@
 // src/pages/admin/AdminInscripciones.jsx
 // Panel de administración de inscripciones: CRUD completo, gestionar estados.
+//
+// En el design system (tema claro): tokens `--fx-*`, estados con `BadgeEstado`
+// (color + ícono + texto) y primitivas de `ui.jsx`. Sin hex a mano.
 
 import { useState, useEffect } from "react";
+import { Plus, Pencil, Trash2, ClipboardList } from "lucide-react";
 import { supabase } from "../../lib/supabase";
-import EstadoBadge from "../../components/admin/EstadoBadge.jsx";
-import AdminHeader from "../../components/admin/AdminHeader.jsx";
+import AdminLayout from "../../components/admin/AdminLayout.jsx";
+import {
+  Page, Card, Badge, BadgeEstado, Button, Field, Input, Select, Modal, EmptyState,
+} from "../../components/admin/ui.jsx";
+import { GRID_FORM } from "../../components/admin/layout.js";
 import {
   aFechaISO, desdeFechaISO, sumarDias, sumarMeses,
   lunesDeLaSemana, domingoDeLaSemana, textoPeriodo, conceptoDeCargo,
 } from "../../utils/fechas.js";
-
-const font = "'DM Sans', sans-serif";
-const C = {
-  bg:      "#0e0f11",
-  surface: "#13151a",
-  card:    "#16181f",
-  border:  "#252830",
-  blue:    "#3b9eff",
-  green:   "#34d399",
-  yellow:  "#fbbf24",
-  red:     "#f43f5e",
-  purple:  "#a78bfa",
-  text:    "#e8eaf0",
-  muted:   "#5a6070",
-  dim:     "#8a9ab8",
-};
 
 function fmtDate(iso) {
   if (!iso) return "—";
@@ -34,72 +25,17 @@ function fmtDate(iso) {
   });
 }
 
-function Spinner() {
-  return (
-    <div style={{ display: "flex", justifyContent: "center", padding: 60 }}>
-      <div style={{
-        width: 28, height: 28, borderRadius: "50%",
-        border: `2px solid ${C.blue}22`, borderTopColor: C.blue,
-        animation: "spin .7s linear infinite",
-      }} />
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-    </div>
-  );
-}
-
-const inputStyle = {
-  background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
-  padding: "9px 12px", color: C.text, fontSize: 13, fontFamily: font,
-  outline: "none", width: "100%", boxSizing: "border-box",
-};
-
-function Field({ label, children }) {
-  return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-      <label style={{ color: C.dim, fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", fontFamily: font }}>
-        {label}
-      </label>
-      {children}
-    </div>
-  );
-}
-
-function Modal({ title, onClose, children }) {
-  return (
-    <div style={{
-      position: "fixed", inset: 0, zIndex: 100,
-      display: "flex", alignItems: "center", justifyContent: "center",
-      background: "rgba(0,0,0,.6)", backdropFilter: "blur(4px)",
-    }} onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
-      <div style={{
-        background: C.card, border: `1px solid ${C.border}`, borderRadius: 14,
-        width: "90%", maxWidth: 480, maxHeight: "85vh", overflow: "auto", padding: "24px 28px",
-      }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
-          <h3 style={{ margin: 0, color: C.text, fontSize: 16, fontWeight: 700, fontFamily: font }}>{title}</h3>
-          <button onClick={onClose} style={{ background: "none", border: "none", color: C.muted, fontSize: 20, cursor: "pointer", padding: 4 }}>×</button>
-        </div>
-        {children}
-      </div>
-    </div>
-  );
-}
-
 function ConfirmModal({ title, message, onConfirm, onCancel }) {
   const [saving, setSaving] = useState(false);
   return (
-    <Modal title={title} onClose={onCancel}>
-      <p style={{ color: C.dim, fontSize: 13, fontFamily: font, margin: "0 0 18px" }}>{message}</p>
-      <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
-        <button onClick={onCancel} style={{
-          background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
-          padding: "8px 18px", color: C.muted, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: font,
-        }}>Cancelar</button>
-        <button onClick={async () => { setSaving(true); await onConfirm(); }} disabled={saving} style={{
-          background: C.red, border: "none", borderRadius: 8,
-          padding: "8px 22px", color: "#fff", fontSize: 13, fontWeight: 700,
-          cursor: saving ? "default" : "pointer", opacity: saving ? 0.6 : 1, fontFamily: font,
-        }}>{saving ? "Eliminando…" : "Eliminar"}</button>
+    <Modal titulo={title} onClose={onCancel}>
+      <p className="ax-sub" style={{ margin: "0 0 18px", whiteSpace: "normal" }}>{message}</p>
+      <div className="ax-acciones" style={{ justifyContent: "flex-end" }}>
+        <Button variante="ghost" onClick={onCancel}>Cancelar</Button>
+        <Button variante="primary" icono={Trash2} disabled={saving}
+          onClick={async () => { setSaving(true); await onConfirm(); }}>
+          {saving ? "Eliminando…" : "Eliminar"}
+        </Button>
       </div>
     </Modal>
   );
@@ -133,7 +69,7 @@ function InscripcionForm({ alumnos, cursos, planes, initial, onSave, onCancel })
       if (!isEdit) setGrupoId("");
     }
     load();
-  }, [cursoId]);
+  }, [cursoId, isEdit]);
 
   const planesFiltrados = cursoId ? planes.filter((p) => p.curso_id === cursoId && p.activo) : [];
 
@@ -177,102 +113,79 @@ function InscripcionForm({ alumnos, cursos, planes, initial, onSave, onCancel })
   return (
     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       <Field label="Alumno">
-        <select value={alumnoId} onChange={(e) => setAlumnoId(e.target.value)} style={{ ...inputStyle, cursor: "pointer" }} required>
+        <Select value={alumnoId} onChange={(e) => setAlumnoId(e.target.value)} required>
           <option value="">Seleccionar alumno…</option>
           {alumnos.map((a) => (
             <option key={a.id} value={a.id}>{a.nombre} {a.apellidos}</option>
           ))}
-        </select>
+        </Select>
       </Field>
 
       <Field label="Curso">
-        <select value={cursoId} onChange={(e) => setCursoId(e.target.value)} style={{ ...inputStyle, cursor: "pointer" }} required>
+        <Select value={cursoId} onChange={(e) => setCursoId(e.target.value)} required>
           <option value="">Seleccionar curso…</option>
           {cursos.filter((c) => c.activo).map((c) => (
             <option key={c.id} value={c.id}>{c.nombre} ({c.tipo})</option>
           ))}
-        </select>
+        </Select>
       </Field>
 
       {grupos.length > 0 && (
         <Field label="Grupo (opcional)">
-          <select value={grupoId} onChange={(e) => setGrupoId(e.target.value)} style={{ ...inputStyle, cursor: "pointer" }}>
+          <Select value={grupoId} onChange={(e) => setGrupoId(e.target.value)}>
             <option value="">Sin grupo</option>
             {grupos.map((g) => (
               <option key={g.id} value={g.id}>{g.nombre}</option>
             ))}
-          </select>
+          </Select>
         </Field>
       )}
 
       <Field label="Plan de precio">
-        <select value={planId} onChange={(e) => setPlanId(e.target.value)} style={{ ...inputStyle, cursor: "pointer" }} required>
+        <Select value={planId} onChange={(e) => setPlanId(e.target.value)} required>
           <option value="">Seleccionar plan…</option>
           {planesFiltrados.map((p) => (
             <option key={p.id} value={p.id}>{p.tipo_cobro} — ${p.monto}</option>
           ))}
-        </select>
+        </Select>
       </Field>
 
       <Field label="Inicio de clases">
-        <input
-          type="date"
-          value={fechaInicio}
-          onChange={(e) => setFechaInicio(e.target.value)}
-          style={inputStyle}
-          required={!isEdit}
-        />
+        <Input type="date" value={fechaInicio} onChange={(e) => setFechaInicio(e.target.value)} required={!isEdit} />
       </Field>
 
       {/* Resumen del primer cobro: qué semana cubre y cuánto se cobra. */}
       {!isEdit && planSel && (
         <div style={{
-          background: C.surface, border: `1px solid ${esParcial ? C.yellow + "55" : C.border}`,
-          borderRadius: 10, padding: "12px 14px", display: "flex", flexDirection: "column", gap: 10,
+          background: "var(--fx-surface-sunken)",
+          border: `1px solid ${esParcial ? "var(--fx-warning-border)" : "var(--fx-border)"}`,
+          borderRadius: "var(--fx-radius-md)", padding: "12px 14px",
+          display: "flex", flexDirection: "column", gap: 10,
         }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-            <span style={{ color: C.muted, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: .5, fontFamily: font }}>
-              Primer cargo
-            </span>
+          <div className="ax-acciones" style={{ gap: 8 }}>
+            <span className="ax-eyebrow">Primer cargo</span>
             {esSemanal && (
-              <span style={{ color: C.dim, fontSize: 12.5, fontFamily: font }}>
-                Semana {textoPeriodo(periodoInicio, periodoFin)}
-              </span>
+              <span className="ax-sub">Semana {textoPeriodo(periodoInicio, periodoFin)}</span>
             )}
-            {esParcial && (
-              <span style={{
-                background: C.yellow + "22", color: C.yellow, borderRadius: 5,
-                padding: "1px 8px", fontSize: 10.5, fontWeight: 700, fontFamily: font,
-              }}>PARCIAL</span>
-            )}
+            {esParcial && <Badge tone="warning">Parcial</Badge>}
           </div>
 
           {esParcial && (
-            <p style={{ color: C.muted, fontSize: 12, lineHeight: 1.5, margin: 0, fontFamily: font }}>
+            <p className="ax-sub" style={{ margin: 0, whiteSpace: "normal" }}>
               Entra con la semana empezada. El precio del plan es{" "}
-              <span style={{ color: C.dim }}>${planSel.monto}</span>; ajusta el monto a lo acordado.
+              <strong style={{ color: "var(--fx-text-heading)" }}>${planSel.monto}</strong>; ajusta el monto a lo acordado.
             </p>
           )}
 
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <span style={{ color: C.muted, fontSize: 13, fontFamily: font }}>Monto</span>
-            <input
-              type="number" step="0.01" min="0"
+          <div className="ax-acciones" style={{ gap: 8 }}>
+            <span className="ax-sub">Monto</span>
+            <Input
+              type="number" step="0.01" min="0" style={{ maxWidth: 140 }}
               value={montoManual !== "" ? montoManual : planSel.monto}
               onChange={(e) => setMontoManual(e.target.value)}
-              style={{ ...inputStyle, maxWidth: 140 }}
             />
             {montoManual !== "" && Number(montoManual) !== Number(planSel.monto) && (
-              <button
-                type="button"
-                onClick={() => setMontoManual("")}
-                style={{
-                  background: "none", border: "none", color: C.blue,
-                  fontSize: 12, cursor: "pointer", fontFamily: font, padding: 0,
-                }}
-              >
-                usar precio del plan
-              </button>
+              <Button variante="ghost" onClick={() => setMontoManual("")}>usar precio del plan</Button>
             )}
           </div>
         </div>
@@ -280,27 +193,22 @@ function InscripcionForm({ alumnos, cursos, planes, initial, onSave, onCancel })
 
       {isEdit && (
         <Field label="Estado">
-          <select value={estado} onChange={(e) => setEstado(e.target.value)} style={{ ...inputStyle, cursor: "pointer" }}>
+          <Select value={estado} onChange={(e) => setEstado(e.target.value)}>
             <option value="activa">Activa</option>
             <option value="pausada">Pausada</option>
             <option value="finalizada">Finalizada</option>
             <option value="cancelada">Cancelada</option>
-          </select>
+          </Select>
         </Field>
       )}
 
-      <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", marginTop: 8 }}>
-        {error && <div style={{ flex: 1, color: C.red, fontSize: 12, fontFamily: font, alignSelf: "center" }}>{error}</div>}
-        <button type="button" onClick={onCancel} style={{
-          background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
-          padding: "8px 18px", color: C.muted, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: font,
-        }}>Cancelar</button>
-        <button type="submit" disabled={saving || !alumnoId || !cursoId || !planId} style={{
-          background: C.blue, border: "none", borderRadius: 8,
-          padding: "8px 22px", color: "#fff", fontSize: 13, fontWeight: 700,
-          cursor: saving ? "default" : "pointer",
-          opacity: saving || !alumnoId || !cursoId || !planId ? 0.6 : 1, fontFamily: font,
-        }}>{saving ? "Guardando…" : isEdit ? "Guardar cambios" : "Inscribir"}</button>
+      {error && <div className="ax-badge ax-badge-error" style={{ display: "block" }}>{error}</div>}
+
+      <div className="ax-acciones" style={{ justifyContent: "flex-end", marginTop: 8 }}>
+        <Button variante="ghost" onClick={onCancel}>Cancelar</Button>
+        <Button variante="primary" type="submit" disabled={saving || !alumnoId || !cursoId || !planId}>
+          {saving ? "Guardando…" : isEdit ? "Guardar cambios" : "Inscribir"}
+        </Button>
       </div>
     </form>
   );
@@ -313,36 +221,24 @@ function InscripcionRow({ insc, alumnos, cursos, planes, onEdit, onDelete }) {
   const plan = planes.find((p) => p.id === insc.plan_precio_id);
 
   return (
-    <div style={{
-      background: C.card, border: `1px solid ${C.border}`, borderRadius: 10,
-      padding: "14px 16px", display: "flex", justifyContent: "space-between", alignItems: "center",
-      flexWrap: "wrap", gap: 8,
-    }}>
-      <div>
-        <span style={{ color: C.text, fontWeight: 600, fontSize: 14, fontFamily: font }}>
-          {alumno ? `${alumno.nombre} ${alumno.apellidos}` : insc.alumno_id.slice(0, 8)}
-        </span>
-        <span style={{ color: C.muted, fontSize: 13, fontFamily: font }}> → </span>
-        <span style={{ color: C.text, fontSize: 13, fontFamily: font }}>
-          {curso?.nombre || "Curso eliminado"}
-        </span>
-        {plan && (
-          <span style={{ marginLeft: 8, color: C.dim, fontSize: 12, fontFamily: font }}>
-            ({plan.tipo_cobro} · ${plan.monto})
-          </span>
-        )}
+    <Card>
+      <div className="ax-fila">
+        <div className="ax-aparecer">
+          <div className="ax-nombre">
+            {alumno ? `${alumno.nombre} ${alumno.apellidos}` : insc.alumno_id.slice(0, 8)}
+            <span className="ax-sub" style={{ fontWeight: 400 }}> → {curso?.nombre || "Curso eliminado"}</span>
+          </div>
+          <div className="ax-sub" style={{ marginTop: 2 }}>
+            {plan ? `${plan.tipo_cobro} · $${plan.monto} · ` : ""}{fmtDate(insc.fecha_inscripcion)}
+          </div>
+        </div>
+        <BadgeEstado estado={insc.estado} />
+        <div className="ax-acciones">
+          <Button variante="ghost" icono={Pencil} title="Editar" onClick={() => onEdit(insc)} />
+          <Button variante="ghost" icono={Trash2} title="Eliminar" onClick={() => onDelete(insc)} />
+        </div>
       </div>
-      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-        <EstadoBadge estado={insc.estado} />
-        <span style={{ color: C.muted, fontSize: 12, fontFamily: font }}>{fmtDate(insc.fecha_inscripcion)}</span>
-        <button onClick={() => onEdit(insc)} title="Editar" style={{
-          background: "none", border: "none", color: C.blue, fontSize: 15, cursor: "pointer", padding: "2px 4px",
-        }}>✎</button>
-        <button onClick={() => onDelete(insc)} title="Eliminar" style={{
-          background: "none", border: "none", color: C.red, fontSize: 15, cursor: "pointer", padding: "2px 4px",
-        }}>✕</button>
-      </div>
-    </div>
+    </Card>
   );
 }
 
@@ -457,47 +353,36 @@ export default function AdminInscripciones({ embedded }) {
     await loadAll();
   }
 
-  return (
-    <div style={{ minHeight: "100vh", background: C.bg, fontFamily: font }}>
-      {!embedded && <AdminHeader active="inscripciones" />}
-      <div style={{ maxWidth: 980, margin: "0 auto", padding: "32px 16px" }}>
-      {/* Filtros y acción */}
-      <div style={{ display: "flex", gap: 10, marginBottom: 20, flexWrap: "wrap", alignItems: "center" }}>
-        {/* wrap: las cinco pastillas suman 426px y a 375px "Cancelada" se salía
-            67px de la pantalla. */}
-        <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+  const contenido = (
+    <Page
+      eyebrow="Cobranza"
+      titulo="Inscripciones"
+      descripcion="Altas, cambios de estado y el primer cargo de cada inscripción."
+      acciones={
+        <Button variante="primary" icono={Plus} onClick={() => { setEditInsc(null); setShowForm(true); }}>
+          Nueva inscripción
+        </Button>
+      }
+    >
+      <div className="ax-acciones" style={{ justifyContent: "space-between" }}>
+        <div className="ax-acciones">
           {["todos", "activa", "pausada", "finalizada", "cancelada"].map((e) => (
-            <button
-              key={e}
-              onClick={() => setFiltroEstado(e)}
-              style={{
-                border: filtroEstado === e ? "none" : `1px solid ${C.border}`,
-                borderRadius: 99, padding: "8px 16px", fontSize: 12, fontWeight: 700,
-                cursor: "pointer", background: filtroEstado === e ? C.blue : C.surface,
-                color: filtroEstado === e ? "#fff" : C.muted, fontFamily: font,
-                transition: "background .15s, color .15s",
-              }}
-            >
+            <Button key={e} variante={filtroEstado === e ? "primary" : "subtle"} onClick={() => setFiltroEstado(e)}>
               {e === "todos" ? "Todas" : e.charAt(0).toUpperCase() + e.slice(1)}
-            </button>
+            </Button>
           ))}
         </div>
-        <div style={{ flex: 1 }} />
-        <span style={{ color: C.muted, fontSize: 12, fontFamily: font }}>{filtradas.length} inscripciones</span>
-        <button onClick={() => { setEditInsc(null); setShowForm(true); }} style={{
-          background: C.blue, border: "none", borderRadius: 8,
-          padding: "8px 18px", color: "#fff", fontSize: 12, fontWeight: 700,
-          cursor: "pointer", fontFamily: font,
-        }}>+ Nueva inscripción</button>
+        <span className="ax-sub">{filtradas.length} inscripciones</span>
       </div>
 
-      {/* Lista */}
-      {loading ? <Spinner /> : filtradas.length === 0 ? (
-        <div style={{ textAlign: "center", padding: "60px 20px", color: C.muted, fontSize: 14, fontFamily: font }}>
+      {loading ? (
+        <p className="ax-sub">Cargando…</p>
+      ) : filtradas.length === 0 ? (
+        <EmptyState icono={ClipboardList} titulo="Sin inscripciones">
           {inscripciones.length === 0 ? "Aún no hay inscripciones registradas." : "Ninguna inscripción coincide con el filtro."}
-        </div>
+        </EmptyState>
       ) : (
-        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+        <div className="ax-lista">
           {filtradas.map((insc) => (
             <InscripcionRow
               key={insc.id} insc={insc} alumnos={alumnos} cursos={cursos} planes={planes}
@@ -508,9 +393,9 @@ export default function AdminInscripciones({ embedded }) {
         </div>
       )}
 
-      {/* Modal crear/editar */}
       {showForm && (
-        <Modal title={editInsc ? "Editar inscripción" : "Nueva inscripción"} onClose={() => { setShowForm(false); setEditInsc(null); }}>
+        <Modal titulo={editInsc ? "Editar inscripción" : "Nueva inscripción"} ancho={560}
+          onClose={() => { setShowForm(false); setEditInsc(null); }}>
           <InscripcionForm
             alumnos={alumnos}
             cursos={cursos}
@@ -522,7 +407,6 @@ export default function AdminInscripciones({ embedded }) {
         </Modal>
       )}
 
-      {/* Modal eliminar */}
       {deleteTarget && (
         <ConfirmModal
           title="Eliminar inscripción"
@@ -531,7 +415,9 @@ export default function AdminInscripciones({ embedded }) {
           onCancel={() => setDeleteTarget(null)}
         />
       )}
-      </div>
-    </div>
+    </Page>
   );
+
+  if (embedded) return contenido;
+  return <AdminLayout active="inscripciones">{contenido}</AdminLayout>;
 }

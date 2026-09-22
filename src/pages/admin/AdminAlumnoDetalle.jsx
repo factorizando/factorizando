@@ -1,28 +1,22 @@
 // src/pages/admin/AdminAlumnoDetalle.jsx
 // Página dedicada de un alumno: info, tutores, contactos de emergencia, inscripciones, cargos.
+//
+// En el design system (tema claro): tokens `--fx-*`, primitivas de `ui.jsx` y
+// estados con `BadgeEstado`.
 
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import { Plus, Pencil, Trash2, UserRound, Phone, TriangleAlert } from "lucide-react";
 import { supabase } from "../../lib/supabase";
-import EstadoBadge from "../../components/admin/EstadoBadge.jsx";
-import AdminHeader from "../../components/admin/AdminHeader.jsx";
-import { GRID_FORM, TEXTO_FLEXIBLE } from "../../components/admin/layout.js";
+import AdminLayout from "../../components/admin/AdminLayout.jsx";
+import {
+  Page, Card, Badge, BadgeEstado, Button, Field, Input, Select, Modal, EmptyState,
+} from "../../components/admin/ui.jsx";
+import { GRID_FORM } from "../../components/admin/layout.js";
 
-const font = "'DM Sans', sans-serif";
-const C = {
-  bg:      "#0e0f11",
-  surface: "#13151a",
-  card:    "#16181f",
-  border:  "#252830",
-  blue:    "#3b9eff",
-  green:   "#34d399",
-  yellow:  "#fbbf24",
-  orange:  "#f97316",
-  red:     "#f43f5e",
-  purple:  "#a78bfa",
-  text:    "#e8eaf0",
-  muted:   "#5a6070",
-  dim:     "#8a9ab8",
+const NIVEL_LABEL = {
+  primaria: "Primaria", secundaria: "Secundaria",
+  prepa: "Preparatoria", preparatoria: "Preparatoria", universidad: "Universidad",
 };
 
 function fmtDate(iso) {
@@ -31,55 +25,6 @@ function fmtDate(iso) {
   return new Date(y, m - 1, d).toLocaleDateString("es-MX", { day: "2-digit", month: "short", year: "numeric" });
 }
 function fmtMoney(n) { return `$${Number(n).toLocaleString("es-MX", { minimumFractionDigits: 2 })}`; }
-
-function Spinner() {
-  return (
-    <div style={{ display: "flex", justifyContent: "center", padding: 60 }}>
-      <div style={{
-        width: 28, height: 28, borderRadius: "50%",
-        border: `2px solid ${C.blue}22`, borderTopColor: C.blue,
-        animation: "spin .7s linear infinite",
-      }} />
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-    </div>
-  );
-}
-
-const inputStyle = {
-  background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
-  padding: "9px 12px", color: C.text, fontSize: 13, fontFamily: font,
-  outline: "none", width: "100%", boxSizing: "border-box",
-};
-
-function Field({ label, children }) {
-  return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-      <label style={{ color: C.dim, fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", fontFamily: font }}>{label}</label>
-      {children}
-    </div>
-  );
-}
-
-function Modal({ title, onClose, children }) {
-  return (
-    <div style={{
-      position: "fixed", inset: 0, zIndex: 100,
-      display: "flex", alignItems: "center", justifyContent: "center",
-      background: "rgba(0,0,0,.6)", backdropFilter: "blur(4px)",
-    }} onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
-      <div style={{
-        background: C.card, border: `1px solid ${C.border}`, borderRadius: 14,
-        width: "90%", maxWidth: 480, maxHeight: "85vh", overflow: "auto", padding: "24px 28px",
-      }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
-          <h3 style={{ margin: 0, color: C.text, fontSize: 16, fontWeight: 700, fontFamily: font }}>{title}</h3>
-          <button onClick={onClose} style={{ background: "none", border: "none", color: C.muted, fontSize: 20, cursor: "pointer", padding: 4 }}>×</button>
-        </div>
-        {children}
-      </div>
-    </div>
-  );
-}
 
 // ── Formularios ──────────────────────────────────────────────────────────────
 function TutorForm({ initial, onSave, onCancel }) {
@@ -97,34 +42,23 @@ function TutorForm({ initial, onSave, onCancel }) {
   return (
     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
       <div style={{ display: "grid", gridTemplateColumns: GRID_FORM, gap: 12 }}>
-        <Field label="Nombre"><input value={form.nombre} onChange={set("nombre")} style={inputStyle} required
-          onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }} onBlur={(e) => { e.target.style.borderColor = C.border; }} /></Field>
-        <Field label="Apellidos"><input value={form.apellidos} onChange={set("apellidos")} style={inputStyle} required
-          onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }} onBlur={(e) => { e.target.style.borderColor = C.border; }} /></Field>
+        <Field label="Nombre"><Input value={form.nombre} onChange={set("nombre")} required /></Field>
+        <Field label="Apellidos"><Input value={form.apellidos} onChange={set("apellidos")} required /></Field>
       </div>
       <div style={{ display: "grid", gridTemplateColumns: GRID_FORM, gap: 12 }}>
-        <Field label="Teléfono"><input value={form.telefono} onChange={set("telefono")} style={inputStyle} required
-          onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }} onBlur={(e) => { e.target.style.borderColor = C.border; }} /></Field>
-        <Field label="Email"><input type="email" value={form.email} onChange={set("email")} style={inputStyle}
-          onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }} onBlur={(e) => { e.target.style.borderColor = C.border; }} /></Field>
+        <Field label="Teléfono"><Input value={form.telefono} onChange={set("telefono")} required /></Field>
+        <Field label="Email"><Input type="email" value={form.email} onChange={set("email")} /></Field>
       </div>
       <Field label="Relación">
-        <select value={form.relacion} onChange={set("relacion")} style={{ ...inputStyle, cursor: "pointer" }}>
+        <Select value={form.relacion} onChange={set("relacion")}>
           <option value="padre">Padre</option>
           <option value="madre">Madre</option>
           <option value="tutor">Tutor</option>
-        </select>
+        </Select>
       </Field>
-      <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", marginTop: 8 }}>
-        <button type="button" onClick={onCancel} style={{
-          background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
-          padding: "8px 18px", color: C.muted, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: font,
-        }}>Cancelar</button>
-        <button type="submit" disabled={saving} style={{
-          background: C.blue, border: "none", borderRadius: 8,
-          padding: "8px 22px", color: "#fff", fontSize: 13, fontWeight: 700,
-          cursor: saving ? "default" : "pointer", opacity: saving ? 0.6 : 1, fontFamily: font,
-        }}>{saving ? "Guardando…" : "Guardar"}</button>
+      <div className="ax-acciones" style={{ justifyContent: "flex-end", marginTop: 8 }}>
+        <Button variante="ghost" onClick={onCancel}>Cancelar</Button>
+        <Button variante="primary" type="submit" disabled={saving}>{saving ? "Guardando…" : "Guardar"}</Button>
       </div>
     </form>
   );
@@ -144,30 +78,20 @@ function ContactoForm({ initial, onSave, onCancel }) {
 
   return (
     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-      <Field label="Nombre"><input value={form.nombre} onChange={set("nombre")} style={inputStyle} required
-        onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }} onBlur={(e) => { e.target.style.borderColor = C.border; }} /></Field>
+      <Field label="Nombre"><Input value={form.nombre} onChange={set("nombre")} required /></Field>
       <div style={{ display: "grid", gridTemplateColumns: GRID_FORM, gap: 12 }}>
-        <Field label="Teléfono"><input value={form.telefono} onChange={set("telefono")} style={inputStyle} required
-          onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }} onBlur={(e) => { e.target.style.borderColor = C.border; }} /></Field>
-        <Field label="Relación"><input value={form.relacion} onChange={set("relacion")} placeholder="abuelo, tío…" style={inputStyle} required
-          onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }} onBlur={(e) => { e.target.style.borderColor = C.border; }} /></Field>
+        <Field label="Teléfono"><Input value={form.telefono} onChange={set("telefono")} required /></Field>
+        <Field label="Relación"><Input value={form.relacion} onChange={set("relacion")} placeholder="abuelo, tío…" required /></Field>
       </div>
       <Field label="Prioridad">
-        <select value={form.orden} onChange={set("orden")} style={{ ...inputStyle, cursor: "pointer" }}>
+        <Select value={form.orden} onChange={set("orden")}>
           <option value={1}>1 — Primero en contactar</option>
           <option value={2}>2 — Segundo en contactar</option>
-        </select>
+        </Select>
       </Field>
-      <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", marginTop: 8 }}>
-        <button type="button" onClick={onCancel} style={{
-          background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
-          padding: "8px 18px", color: C.muted, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: font,
-        }}>Cancelar</button>
-        <button type="submit" disabled={saving} style={{
-          background: C.blue, border: "none", borderRadius: 8,
-          padding: "8px 22px", color: "#fff", fontSize: 13, fontWeight: 700,
-          cursor: saving ? "default" : "pointer", opacity: saving ? 0.6 : 1, fontFamily: font,
-        }}>{saving ? "Guardando…" : "Guardar"}</button>
+      <div className="ax-acciones" style={{ justifyContent: "flex-end", marginTop: 8 }}>
+        <Button variante="ghost" onClick={onCancel}>Cancelar</Button>
+        <Button variante="primary" type="submit" disabled={saving}>{saving ? "Guardando…" : "Guardar"}</Button>
       </div>
     </form>
   );
@@ -185,45 +109,44 @@ function TutorPicker({ tutores, assignedIds, onSelect, onCreateNew, onCancel }) 
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-      <input placeholder="Buscar tutor existente…" value={search} onChange={(e) => setSearch(e.target.value)}
-        style={inputStyle} autoFocus
-        onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }} onBlur={(e) => { e.target.style.borderColor = C.border; }} />
-      <div style={{ maxHeight: 240, overflow: "auto", display: "flex", flexDirection: "column", gap: 4 }}>
+      <Input placeholder="Buscar tutor existente…" value={search} onChange={(e) => setSearch(e.target.value)} autoFocus />
+      <div style={{ maxHeight: 240, overflow: "auto", display: "flex", flexDirection: "column", gap: 6 }}>
         {filtrados.length === 0 ? (
-          <div style={{ color: C.muted, fontSize: 13, padding: 12, textAlign: "center" }}>
+          <p className="ax-sub" style={{ padding: 12, textAlign: "center", whiteSpace: "normal" }}>
             {disponibles.length === 0 ? "No hay más tutores disponibles." : "Ningún tutor coincide."}
-          </div>
+          </p>
         ) : filtrados.map((t) => (
-          <div key={t.id} style={{
-            display: "flex", justifyContent: "space-between", alignItems: "center",
-            background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8, padding: "8px 12px",
-          }}>
-            <div>
-              <span style={{ color: C.text, fontSize: 13, fontWeight: 600 }}>{t.nombre} {t.apellidos}</span>
-              <span style={{ marginLeft: 6, color: C.muted, fontSize: 11 }}>{t.telefono}</span>
-              <span style={{ marginLeft: 6, color: C.dim, fontSize: 10, fontWeight: 600, textTransform: "uppercase" }}>{t.relacion}</span>
+          <Card key={t.id} style={{ padding: "8px 12px" }}>
+            <div className="ax-fila">
+              <div className="ax-aparecer">
+                <div className="ax-nombre">{t.nombre} {t.apellidos}</div>
+                <div className="ax-sub">{t.telefono} · {t.relacion}</div>
+              </div>
+              <Button variante="secondary" onClick={() => onSelect(t.id)}>Seleccionar</Button>
             </div>
-            <button onClick={() => onSelect(t.id)} style={{
-              background: C.blue, border: "none", borderRadius: 6,
-              padding: "4px 12px", color: "#fff", fontSize: 11, fontWeight: 700,
-              cursor: "pointer", fontFamily: font,
-            }}>Seleccionar</button>
-          </div>
+          </Card>
         ))}
       </div>
-      <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 12, textAlign: "center" }}>
-        <button onClick={onCreateNew} style={{
-          background: "none", border: "none", color: C.blue, fontSize: 13, fontWeight: 700,
-          cursor: "pointer", fontFamily: font, padding: 0,
-        }}>+ Crear nuevo tutor</button>
+      <div style={{ borderTop: "1px solid var(--fx-border)", paddingTop: 12, textAlign: "center" }}>
+        <Button variante="ghost" icono={Plus} onClick={onCreateNew}>Crear nuevo tutor</Button>
       </div>
-      <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <button onClick={onCancel} style={{
-          background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
-          padding: "8px 18px", color: C.muted, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: font,
-        }}>Cancelar</button>
+      <div className="ax-acciones" style={{ justifyContent: "flex-end" }}>
+        <Button variante="ghost" onClick={onCancel}>Cancelar</Button>
       </div>
     </div>
+  );
+}
+
+// ── Sección (tutores, contactos, inscripciones, cargos) ──────────────────────
+function Seccion({ titulo, count, onAdd, children }) {
+  return (
+    <section style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+      <div className="ax-fila" style={{ justifyContent: "space-between" }}>
+        <span className="ax-eyebrow">{titulo} · {count}</span>
+        {onAdd && <Button variante="subtle" icono={Plus} onClick={onAdd}>Agregar</Button>}
+      </div>
+      {children}
+    </section>
   );
 }
 
@@ -322,183 +245,155 @@ export default function AdminAlumnoDetalle() {
 
   if (loading) {
     return (
-      <div style={{ minHeight: "100vh", background: C.bg, display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <div style={{
-          width: 32, height: 32, borderRadius: "50%",
-          border: `2px solid ${C.blue}22`, borderTopColor: C.blue,
-          animation: "spin .7s linear infinite",
-        }} />
-        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-      </div>
+      <AdminLayout active="alumnos">
+        <Page eyebrow="Personas" titulo="Ficha del alumno">
+          <p className="ax-sub">Cargando…</p>
+        </Page>
+      </AdminLayout>
     );
   }
 
   if (!alumno) {
     return (
-      <div style={{ minHeight: "100vh", background: C.bg, fontFamily: font, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 12 }}>
-        <div style={{ color: C.muted, fontSize: 16 }}>Alumno no encontrado</div>
-        <Link to="/admin/alumnos" style={{ color: C.blue, fontSize: 13, textDecoration: "none", fontFamily: font }}>← Volver a alumnos</Link>
-      </div>
+      <AdminLayout active="alumnos">
+        <Page eyebrow="Personas" titulo="Ficha del alumno"
+          acciones={<Link to="/admin/alumnos" className="ax-btn ax-btn-subtle">Volver a alumnos</Link>}>
+          <EmptyState icono={UserRound} titulo="Alumno no encontrado">
+            Puede que se haya eliminado.
+          </EmptyState>
+        </Page>
+      </AdminLayout>
     );
   }
 
+  const medico = alumno.alergias || alumno.condiciones_medicas || alumno.notas_importantes;
+
   return (
-    <div style={{ minHeight: "100vh", background: C.bg, fontFamily: font }}>
-      <AdminHeader active="alumnos" />
-
-      <div style={{ maxWidth: 820, margin: "0 auto", padding: "32px 16px", display: "flex", flexDirection: "column", gap: 28 }}>
-
-        {/* Info básica */}
-        <div style={{
-          background: C.card, border: `1px solid ${C.border}`, borderRadius: 14, padding: "24px 28px",
-        }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
-            <div>
-              <h2 style={{ margin: 0, color: C.text, fontSize: 20, fontWeight: 700 }}>{alumno.nombre} {alumno.apellidos}</h2>
-              <div style={{ color: C.muted, fontSize: 13, marginTop: 4 }}>{alumno.email || "Sin email"} · {alumno.telefono || "Sin teléfono"}</div>
-            </div>
-            <span style={{
-              background: alumno.nivel === "prepa" ? C.blue + "22" : alumno.nivel === "universidad" ? C.purple + "22" : alumno.nivel === "secundaria" ? C.orange + "22" : C.green + "22",
-              color: alumno.nivel === "prepa" ? C.blue : alumno.nivel === "universidad" ? C.purple : alumno.nivel === "secundaria" ? C.orange : C.green,
-              borderRadius: 5, padding: "1px 7px", fontSize: 10, fontWeight: 700, fontFamily: font,
-            }}>{alumno.nivel === "primaria" ? "Primaria" : alumno.nivel === "secundaria" ? "Secundaria" : alumno.nivel === "prepa" ? "Preparatoria" : "Universidad"}</span>
+    <AdminLayout active="alumnos">
+      <Page
+        eyebrow="Personas"
+        titulo={`${alumno.nombre} ${alumno.apellidos}`}
+        descripcion={[alumno.email || "Sin email", alumno.telefono || "Sin teléfono"].join(" · ")}
+        acciones={<Link to="/admin/alumnos" className="ax-btn ax-btn-subtle">← Alumnos</Link>}
+      >
+        <Card>
+          <div className="ax-acciones" style={{ gap: 12 }}>
+            <Badge tone="accent">{NIVEL_LABEL[alumno.nivel] || alumno.nivel}</Badge>
+            <span className="ax-sub">Nacimiento: {fmtDate(alumno.fecha_nacimiento)}</span>
+            <span className="ax-sub">Registro: {fmtDate(alumno.created_at)}</span>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 12 }}>
-            {[
-              { label: "Nacimiento", value: fmtDate(alumno.fecha_nacimiento) },
-              { label: "Registro", value: fmtDate(alumno.created_at) },
-            ].map((item) => (
-              <div key={item.label} style={{
-                background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8, padding: "10px 14px",
-              }}>
-                <div style={{ color: C.muted, fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em" }}>{item.label}</div>
-                <div style={{ color: C.text, fontSize: 13, fontWeight: 600, marginTop: 2 }}>{item.value}</div>
-              </div>
-            ))}
-          </div>
-          {(alumno.alergias || alumno.condiciones_medicas || alumno.notas_importantes) && (
+          {medico && (
             <div style={{
-              background: C.yellow + "11", border: `1px solid ${C.yellow}33`, borderRadius: 8, padding: "12px 14px", marginTop: 12,
+              marginTop: 14, background: "var(--fx-warning-bg)", border: "1px solid var(--fx-warning-border)",
+              borderRadius: "var(--fx-radius-md)", padding: "12px 14px",
             }}>
-              <div style={{ color: C.yellow, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 6 }}>Información médica</div>
-              {alumno.alergias && <div style={{ color: C.text, fontSize: 13 }}><b>Alergias:</b> {alumno.alergias}</div>}
-              {alumno.condiciones_medicas && <div style={{ color: C.text, fontSize: 13 }}><b>Condiciones:</b> {alumno.condiciones_medicas}</div>}
-              {alumno.notas_importantes && <div style={{ color: C.text, fontSize: 13 }}><b>Notas:</b> {alumno.notas_importantes}</div>}
+              <div className="ax-acciones" style={{ gap: 8, marginBottom: 8 }}>
+                <TriangleAlert size={16} style={{ color: "var(--fx-warning-text)" }} aria-hidden="true" />
+                <span className="ax-eyebrow" style={{ color: "var(--fx-warning-text)" }}>Información médica</span>
+              </div>
+              {alumno.alergias && <div className="ax-sub" style={{ whiteSpace: "normal" }}><strong>Alergias:</strong> {alumno.alergias}</div>}
+              {alumno.condiciones_medicas && <div className="ax-sub" style={{ whiteSpace: "normal" }}><strong>Condiciones:</strong> {alumno.condiciones_medicas}</div>}
+              {alumno.notas_importantes && <div className="ax-sub" style={{ whiteSpace: "normal" }}><strong>Notas:</strong> {alumno.notas_importantes}</div>}
             </div>
           )}
-        </div>
+        </Card>
 
         {/* Tutores */}
-        <div>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
-            <span style={{ color: C.dim, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>Tutores · {tutores.length}</span>
-            <button onClick={() => { setShowTutorPicker(true); }} style={{
-              background: "none", border: `1px solid ${C.border}`, borderRadius: 6,
-              padding: "4px 12px", color: C.blue, fontSize: 11, fontWeight: 700, cursor: "pointer", fontFamily: font,
-            }}>+ Agregar</button>
-          </div>
+        <Seccion titulo="Tutores" count={tutores.length} onAdd={() => setShowTutorPicker(true)}>
           {tutores.length === 0 ? (
-            <div style={{ color: C.muted, fontSize: 13 }}>Sin tutores registrados</div>
-          ) : tutores.map((t) => (
-            <div key={t.id} style={{
-              background: C.card, border: `1px solid ${C.border}`, borderRadius: 8,
-              padding: "12px 16px", marginBottom: 6, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8,
-            }}>
-              <div style={TEXTO_FLEXIBLE}>
-                <span style={{ color: C.text, fontSize: 13, fontWeight: 600 }}>{t.nombre} {t.apellidos}</span>
-                <span style={{ marginLeft: 8, background: C.surface, color: C.dim, borderRadius: 5, padding: "1px 6px", fontSize: 10, fontWeight: 600 }}>{t.relacion}</span>
-                <div style={{ color: C.muted, fontSize: 12, marginTop: 2 }}>{t.telefono} · {t.email || "—"}</div>
-              </div>
-              <div style={{ display: "flex", gap: 6 }}>
-                <button onClick={() => { setEditTutor(t); setShowTutorForm(true); }} style={{
-                  background: "none", border: "none", color: C.dim, fontSize: 14, cursor: "pointer", padding: 4,
-                }} title="Editar">✎</button>
-                <button onClick={() => handleDeleteTutor(t.id)} style={{
-                  background: "none", border: "none", color: C.red, fontSize: 16, cursor: "pointer", padding: 4,
-                }} title="Eliminar">×</button>
-              </div>
+            <p className="ax-sub" style={{ margin: 0 }}>Sin tutores registrados.</p>
+          ) : (
+            <div className="ax-lista">
+              {tutores.map((t) => (
+                <Card key={t.id} style={{ padding: "12px 16px" }}>
+                  <div className="ax-fila">
+                    <div className="ax-aparecer">
+                      <div className="ax-nombre">{t.nombre} {t.apellidos} <Badge tone="neutral">{t.relacion}</Badge></div>
+                      <div className="ax-sub" style={{ marginTop: 2 }}>{t.telefono} · {t.email || "—"}</div>
+                    </div>
+                    <div className="ax-acciones">
+                      <Button variante="ghost" icono={Pencil} title="Editar" onClick={() => { setEditTutor(t); setShowTutorForm(true); }} />
+                      <Button variante="ghost" icono={Trash2} title="Eliminar" onClick={() => handleDeleteTutor(t.id)} />
+                    </div>
+                  </div>
+                </Card>
+              ))}
             </div>
-          ))}
-        </div>
+          )}
+        </Seccion>
 
         {/* Contactos de emergencia */}
-        <div>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
-            <span style={{ color: C.dim, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>Contactos de emergencia · {contactos.length}</span>
-            <button onClick={() => { setEditContacto(null); setShowContactoForm(true); }} style={{
-              background: "none", border: `1px solid ${C.border}`, borderRadius: 6,
-              padding: "4px 12px", color: C.blue, fontSize: 11, fontWeight: 700, cursor: "pointer", fontFamily: font,
-            }}>+ Agregar</button>
-          </div>
+        <Seccion titulo="Contactos de emergencia" count={contactos.length} onAdd={() => { setEditContacto(null); setShowContactoForm(true); }}>
           {contactos.length === 0 ? (
-            <div style={{ color: C.muted, fontSize: 13 }}>Sin contactos registrados</div>
-          ) : contactos.map((c) => (
-            <div key={c.id} style={{
-              background: C.card, border: `1px solid ${C.border}`, borderRadius: 8,
-              padding: "12px 16px", marginBottom: 6, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8,
-            }}>
-              <div style={TEXTO_FLEXIBLE}>
-                <span style={{ color: C.text, fontSize: 13, fontWeight: 600 }}>#{c.orden} {c.nombre}</span>
-                <span style={{ marginLeft: 8, color: C.dim, fontSize: 12 }}>{c.relacion}</span>
-                <div style={{ color: C.muted, fontSize: 12, marginTop: 2 }}>{c.telefono}</div>
-              </div>
-              <div style={{ display: "flex", gap: 6 }}>
-                <button onClick={() => { setEditContacto(c); setShowContactoForm(true); }} style={{
-                  background: "none", border: "none", color: C.dim, fontSize: 14, cursor: "pointer", padding: 4,
-                }} title="Editar">✎</button>
-                <button onClick={() => handleDeleteContacto(c.id)} style={{
-                  background: "none", border: "none", color: C.red, fontSize: 16, cursor: "pointer", padding: 4,
-                }} title="Eliminar">×</button>
-              </div>
+            <p className="ax-sub" style={{ margin: 0 }}>Sin contactos registrados.</p>
+          ) : (
+            <div className="ax-lista">
+              {contactos.map((c) => (
+                <Card key={c.id} style={{ padding: "12px 16px" }}>
+                  <div className="ax-fila">
+                    <div className="ax-aparecer">
+                      <div className="ax-nombre">#{c.orden} {c.nombre} <span className="ax-sub" style={{ fontWeight: 400 }}>{c.relacion}</span></div>
+                      <div className="ax-sub" style={{ marginTop: 2 }}>
+                        <Phone size={13} aria-hidden="true" /> {c.telefono}
+                      </div>
+                    </div>
+                    <div className="ax-acciones">
+                      <Button variante="ghost" icono={Pencil} title="Editar" onClick={() => { setEditContacto(c); setShowContactoForm(true); }} />
+                      <Button variante="ghost" icono={Trash2} title="Eliminar" onClick={() => handleDeleteContacto(c.id)} />
+                    </div>
+                  </div>
+                </Card>
+              ))}
             </div>
-          ))}
-        </div>
+          )}
+        </Seccion>
 
         {/* Inscripciones */}
-        <div>
-          <span style={{ color: C.dim, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: 10 }}>Inscripciones · {inscripciones.length}</span>
+        <Seccion titulo="Inscripciones" count={inscripciones.length}>
           {inscripciones.length === 0 ? (
-            <div style={{ color: C.muted, fontSize: 13 }}>Sin inscripciones</div>
-          ) : inscripciones.map((i) => (
-            <div key={i.id} style={{
-              background: C.card, border: `1px solid ${C.border}`, borderRadius: 8,
-              padding: "12px 16px", marginBottom: 6, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8,
-            }}>
-              <div style={TEXTO_FLEXIBLE}>
-                <span style={{ color: C.text, fontSize: 13, fontWeight: 600 }}>{cursos[i.curso_id] || "Curso"}</span>
-                <span style={{ marginLeft: 8, color: C.muted, fontSize: 12 }}>{fmtDate(i.fecha_inscripcion)}</span>
-              </div>
-              <EstadoBadge estado={i.estado} />
+            <p className="ax-sub" style={{ margin: 0 }}>Sin inscripciones.</p>
+          ) : (
+            <div className="ax-lista">
+              {inscripciones.map((i) => (
+                <Card key={i.id} style={{ padding: "12px 16px" }}>
+                  <div className="ax-fila">
+                    <div className="ax-aparecer">
+                      <div className="ax-nombre">{cursos[i.curso_id] || "Curso"}</div>
+                      <div className="ax-sub" style={{ marginTop: 2 }}>{fmtDate(i.fecha_inscripcion)}</div>
+                    </div>
+                    <BadgeEstado estado={i.estado} />
+                  </div>
+                </Card>
+              ))}
             </div>
-          ))}
-        </div>
+          )}
+        </Seccion>
 
         {/* Cargos */}
-        <div>
-          <span style={{ color: C.dim, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: 10 }}>Cargos · {cargos.length}</span>
+        <Seccion titulo="Cargos" count={cargos.length}>
           {cargos.length === 0 ? (
-            <div style={{ color: C.muted, fontSize: 13 }}>Sin cargos</div>
-          ) : cargos.map((cg) => (
-            <div key={cg.id} style={{
-              background: C.card, border: `1px solid ${C.border}`, borderRadius: 8,
-              padding: "12px 16px", marginBottom: 6, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8,
-            }}>
-              <div style={TEXTO_FLEXIBLE}>
-                <span style={{ color: C.text, fontSize: 13, fontWeight: 600 }}>{cg.concepto}</span>
-                <span style={{ marginLeft: 8, color: C.muted, fontSize: 12 }}>vence {fmtDate(cg.fecha_vencimiento)}</span>
-              </div>
-              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                <span style={{ color: C.text, fontWeight: 700, fontSize: 14 }}>{fmtMoney(cg.monto)}</span>
-                <EstadoBadge estado={cg.estado} />
-              </div>
+            <p className="ax-sub" style={{ margin: 0 }}>Sin cargos.</p>
+          ) : (
+            <div className="ax-lista">
+              {cargos.map((cg) => (
+                <Card key={cg.id} style={{ padding: "12px 16px" }}>
+                  <div className="ax-fila">
+                    <div className="ax-aparecer">
+                      <div className="ax-nombre">{cg.concepto}</div>
+                      <div className="ax-sub" style={{ marginTop: 2 }}>vence {fmtDate(cg.fecha_vencimiento)}</div>
+                    </div>
+                    <span className="ax-pct-num" style={{ fontSize: "var(--fx-body-size)" }}>{fmtMoney(cg.monto)}</span>
+                    <BadgeEstado estado={cg.estado} />
+                  </div>
+                </Card>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
+          )}
+        </Seccion>
+      </Page>
 
-      {/* Modales */}
       {showTutorPicker && (
-        <Modal title="Agregar tutor" onClose={() => setShowTutorPicker(false)}>
+        <Modal titulo="Agregar tutor" onClose={() => setShowTutorPicker(false)}>
           <TutorPicker
             tutores={allTutores}
             assignedIds={new Set(tutores.map((t) => t.id))}
@@ -509,15 +404,15 @@ export default function AdminAlumnoDetalle() {
         </Modal>
       )}
       {showTutorForm && (
-        <Modal title={editTutor ? "Editar tutor" : "Nuevo tutor"} onClose={() => { setShowTutorForm(false); setEditTutor(null); }}>
+        <Modal titulo={editTutor ? "Editar tutor" : "Nuevo tutor"} onClose={() => { setShowTutorForm(false); setEditTutor(null); }}>
           <TutorForm initial={editTutor || undefined} onSave={handleSaveTutor} onCancel={() => { setShowTutorForm(false); setEditTutor(null); }} />
         </Modal>
       )}
       {showContactoForm && (
-        <Modal title={editContacto ? "Editar contacto" : "Nuevo contacto"} onClose={() => { setShowContactoForm(false); setEditContacto(null); }}>
+        <Modal titulo={editContacto ? "Editar contacto" : "Nuevo contacto"} onClose={() => { setShowContactoForm(false); setEditContacto(null); }}>
           <ContactoForm initial={editContacto || undefined} onSave={handleSaveContacto} onCancel={() => { setShowContactoForm(false); setEditContacto(null); }} />
         </Modal>
       )}
-    </div>
+    </AdminLayout>
   );
 }

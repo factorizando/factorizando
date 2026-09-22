@@ -703,4 +703,23 @@ media query. A 320 px sigue habiendo ~25 px de desborde, pero viene de la barra 
 compartida (wordmark + cuenta), no del contenido, y es anterior a esta fase; el checklist de §3
 se mide a 375, donde queda limpio.
 
+### 2026-09-22 · Cobranza y la ficha del alumno cierran el panel
+
+*Qué:* el grupo **Cobranza** —Inscripciones, Cargos y Suscripciones— y la **ficha de alumno**
+(`AdminAlumnoDetalle.jsx`, que había quedado atrás en Personas) dejan la paleta oscura local,
+`DM Sans`, los emojis (`🗓 ↧`) y el semáforo. Los tres tabs cobran `embedded` + `AdminLayout`,
+como el resto, y la ficha se abre en `/admin/alumnos/:id` dentro del mismo shell.
+
+*Cómo:* nace la primitiva **`BadgeEstado`** en `ui.jsx`: un mapa estado → `tone` + ícono +
+texto. El ícono es obligatorio y el color solo refuerza, porque §2 prohíbe que algo se
+distinga **solo** por matiz, y los tonos de estado de `fx.css` ya eran azul y dos ámbares,
+nunca verde ni rojo. Los borrados que eran un `✕` rojo pasan a botón con ícono; los pagos y
+grupos usan `Card` y `.ax-lista`; el chrome de los modales de comprobante y calendario de
+pagos pasa a tokens, sin tocar sus componentes de impresión.
+
+*Por qué:* `AdminHeader.jsx` era el último chrome oscuro del back-office. Sobrevive únicamente
+como cáscara de `/regularizacion` —otra superficie, fuera de `/admin`— y el viejo
+`EstadoBadge.jsx` solo para las páginas del alumno (`/alumno`), que no entran en esta fase.
+El panel completo queda ya en el sistema claro.
+
 

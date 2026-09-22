@@ -1,27 +1,17 @@
 // src/pages/admin/AdminSuscripciones.jsx
 // Panel de administración de suscripciones: gestionar suscripciones de alumnos, planes, pagos.
+//
+// En el design system (tema claro): tokens `--fx-*`, estados con `BadgeEstado`
+// y primitivas de `ui.jsx`.
 
 import { useState, useEffect } from "react";
+import { Plus, RefreshCw, CircleCheck, CircleX, Repeat } from "lucide-react";
 import { supabase } from "../../lib/supabase";
-import EstadoBadge from "../../components/admin/EstadoBadge.jsx";
-import AdminHeader from "../../components/admin/AdminHeader.jsx";
+import AdminLayout from "../../components/admin/AdminLayout.jsx";
+import {
+  Page, Card, Badge, BadgeEstado, Button, Stat, Field, Select, Modal, EmptyState,
+} from "../../components/admin/ui.jsx";
 import { aFechaISO, desdeFechaISO, sumarMeses } from "../../utils/fechas.js";
-
-const font = "'DM Sans', sans-serif";
-const C = {
-  bg:      "#0e0f11",
-  surface: "#13151a",
-  card:    "#16181f",
-  border:  "#252830",
-  blue:    "#3b9eff",
-  green:   "#34d399",
-  yellow:  "#fbbf24",
-  red:     "#f43f5e",
-  purple:  "#a78bfa",
-  text:    "#e8eaf0",
-  muted:   "#5a6070",
-  dim:     "#8a9ab8",
-};
 
 function fmtDate(iso) {
   if (!iso) return "—";
@@ -31,57 +21,6 @@ function fmtDate(iso) {
 
 function fmtMoney(n) {
   return `$${Number(n).toLocaleString("es-MX", { minimumFractionDigits: 2 })}`;
-}
-
-function Spinner() {
-  return (
-    <div style={{ display: "flex", justifyContent: "center", padding: 60 }}>
-      <div style={{
-        width: 28, height: 28, borderRadius: "50%",
-        border: `2px solid ${C.blue}22`, borderTopColor: C.blue,
-        animation: "spin .7s linear infinite",
-      }} />
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-    </div>
-  );
-}
-
-const inputStyle = {
-  background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
-  padding: "9px 12px", color: C.text, fontSize: 13, fontFamily: font,
-  outline: "none", width: "100%", boxSizing: "border-box",
-};
-
-function Field({ label, children }) {
-  return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-      <label style={{ color: C.dim, fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", fontFamily: font }}>
-        {label}
-      </label>
-      {children}
-    </div>
-  );
-}
-
-function Modal({ title, onClose, children }) {
-  return (
-    <div style={{
-      position: "fixed", inset: 0, zIndex: 100,
-      display: "flex", alignItems: "center", justifyContent: "center",
-      background: "rgba(0,0,0,.6)", backdropFilter: "blur(4px)",
-    }} onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
-      <div style={{
-        background: C.card, border: `1px solid ${C.border}`, borderRadius: 14,
-        width: "90%", maxWidth: 480, maxHeight: "85vh", overflow: "auto", padding: "24px 28px",
-      }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
-          <h3 style={{ margin: 0, color: C.text, fontSize: 16, fontWeight: 700, fontFamily: font }}>{title}</h3>
-          <button onClick={onClose} style={{ background: "none", border: "none", color: C.muted, fontSize: 20, cursor: "pointer", padding: 4 }}>×</button>
-        </div>
-        {children}
-      </div>
-    </div>
-  );
 }
 
 // ── Formulario nueva suscripción ─────────────────────────────────────────────
@@ -112,42 +51,37 @@ function SuscripcionForm({ alumnos, planes, onSave, onCancel }) {
   return (
     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       <Field label="Alumno">
-        <select value={alumnoId} onChange={(e) => setAlumnoId(e.target.value)} style={{ ...inputStyle, cursor: "pointer" }} required>
+        <Select value={alumnoId} onChange={(e) => setAlumnoId(e.target.value)} required>
           <option value="">Seleccionar alumno…</option>
           {alumnos.map((a) => (
             <option key={a.id} value={a.id}>{a.nombre} {a.apellidos}</option>
           ))}
-        </select>
+        </Select>
       </Field>
 
       <Field label="Plan">
-        <select value={planId} onChange={(e) => setPlanId(e.target.value)} style={{ ...inputStyle, cursor: "pointer" }} required>
+        <Select value={planId} onChange={(e) => setPlanId(e.target.value)} required>
           <option value="">Seleccionar plan…</option>
           {planes.filter((p) => p.activo).map((p) => (
             <option key={p.id} value={p.id}>{p.nombre} — {fmtMoney(p.precio_mensual)}/mes</option>
           ))}
-        </select>
+        </Select>
       </Field>
 
       <Field label="Método de pago">
-        <select value={metodo} onChange={(e) => setMetodo(e.target.value)} style={{ ...inputStyle, cursor: "pointer" }}>
+        <Select value={metodo} onChange={(e) => setMetodo(e.target.value)}>
           <option value="efectivo">Efectivo</option>
           <option value="transferencia">Transferencia</option>
           <option value="tarjeta">Tarjeta</option>
           <option value="oxxo">OXXO</option>
-        </select>
+        </Select>
       </Field>
 
-      <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", marginTop: 8 }}>
-        <button type="button" onClick={onCancel} style={{
-          background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
-          padding: "8px 18px", color: C.muted, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: font,
-        }}>Cancelar</button>
-        <button type="submit" disabled={saving || !alumnoId || !planId} style={{
-          background: C.blue, border: "none", borderRadius: 8,
-          padding: "8px 22px", color: "#fff", fontSize: 13, fontWeight: 700,
-          cursor: saving ? "default" : "pointer", opacity: saving || !alumnoId || !planId ? 0.6 : 1, fontFamily: font,
-        }}>{saving ? "Creando…" : "Crear suscripción"}</button>
+      <div className="ax-acciones" style={{ justifyContent: "flex-end", marginTop: 8 }}>
+        <Button variante="ghost" onClick={onCancel}>Cancelar</Button>
+        <Button variante="primary" type="submit" disabled={saving || !alumnoId || !planId}>
+          {saving ? "Creando…" : "Crear suscripción"}
+        </Button>
       </div>
     </form>
   );
@@ -160,53 +94,27 @@ function SuscripcionRow({ susc, alumnos, planes, onPay }) {
   const vencePronto = susc.estado === "activa" && new Date(susc.fecha_vencimiento_actual) < new Date(Date.now() + 7 * 86400000);
 
   return (
-    <div style={{
-      background: C.card,
-      border: `1px solid ${vencePronto ? C.yellow + "44" : C.border}`,
-      borderRadius: 10,
-      padding: "14px 16px",
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      flexWrap: "wrap",
-      gap: 8,
-    }}>
-      <div>
-        <span style={{ color: C.text, fontWeight: 600, fontSize: 14, fontFamily: font }}>
-          {alumno ? `${alumno.nombre} ${alumno.apellidos}` : susc.alumno_id.slice(0, 8)}
-        </span>
-        <span style={{ color: C.muted, fontSize: 13, fontFamily: font }}> · </span>
-        <span style={{ color: C.dim, fontSize: 13, fontFamily: font }}>
-          {plan?.nombre || "Plan eliminado"}
-        </span>
-        {plan && (
-          <span style={{ marginLeft: 6, color: C.muted, fontSize: 12, fontFamily: font }}>
-            ({fmtMoney(plan.precio_mensual)}/mes)
-          </span>
-        )}
-      </div>
-      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        <div style={{ textAlign: "right" }}>
-          <div style={{ color: vencePronto ? C.yellow : C.muted, fontSize: 12, fontFamily: font }}>
-            Vence: {fmtDate(susc.fecha_vencimiento_actual)}
+    <Card style={vencePronto ? { borderColor: "var(--fx-warning-border)" } : undefined}>
+      <div className="ax-fila">
+        <div className="ax-aparecer">
+          <div className="ax-nombre">
+            {alumno ? `${alumno.nombre} ${alumno.apellidos}` : susc.alumno_id.slice(0, 8)}
+            <span className="ax-sub" style={{ fontWeight: 400 }}> · {plan?.nombre || "Plan eliminado"}</span>
           </div>
-          <div style={{ color: C.muted, fontSize: 11, fontFamily: font }}>
-            Inicio: {fmtDate(susc.fecha_inicio)}
+          <div className="ax-sub" style={{ marginTop: 2 }}>
+            {plan ? `${fmtMoney(plan.precio_mensual)}/mes · ` : ""}
+            Vence {fmtDate(susc.fecha_vencimiento_actual)} · Inicio {fmtDate(susc.fecha_inicio)}
           </div>
         </div>
-        <EstadoBadge estado={susc.estado} />
-        {susc.auto_renovar && (
-          <span style={{ color: C.green, fontSize: 10, fontWeight: 700, fontFamily: font }}>AUTO</span>
-        )}
-        {susc.estado === "activa" && (
-          <button onClick={() => onPay(susc)} style={{
-            background: C.green + "22", border: `1px solid ${C.green}44`, borderRadius: 6,
-            padding: "4px 12px", color: C.green, fontSize: 11, fontWeight: 700,
-            cursor: "pointer", fontFamily: font,
-          }}>Pago</button>
-        )}
+        <div className="ax-acciones">
+          {susc.auto_renovar && <Badge tone="accent" icono={Repeat}>Auto</Badge>}
+          <BadgeEstado estado={susc.estado} />
+          {susc.estado === "activa" && (
+            <Button variante="secondary" onClick={() => onPay(susc)}>Pago</Button>
+          )}
+        </div>
       </div>
-    </div>
+    </Card>
   );
 }
 
@@ -270,69 +178,50 @@ export default function AdminSuscripciones({ embedded }) {
     await loadAll();
   }
 
-  return (
-    <div style={{ minHeight: "100vh", background: C.bg, fontFamily: font }}>
-      {!embedded && <AdminHeader active="suscripciones" />}
-      <div style={{ maxWidth: 980, margin: "0 auto", padding: "32px 16px" }}>
-      {/* Stats */}
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginBottom: 20 }}>
-        {[
-          { label: "Activas", value: suscripciones.filter((s) => s.estado === "activa").length, color: C.green },
-          { label: "Vencidas", value: suscripciones.filter((s) => s.estado === "vencida").length, color: C.red },
-          { label: "Total", value: suscripciones.length, color: C.text },
-        ].map((s) => (
-          <div key={s.label} style={{
-            flex: "1 1 120px", background: C.surface, border: `1px solid ${C.border}`,
-            borderRadius: 10, padding: "12px 16px",
-          }}>
-            <div style={{ color: C.muted, fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", fontFamily: font }}>{s.label}</div>
-            <div style={{ color: s.color, fontSize: 20, fontWeight: 800, marginTop: 2, fontFamily: font }}>{s.value}</div>
-          </div>
-        ))}
+  const contenido = (
+    <Page
+      eyebrow="Cobranza"
+      titulo="Suscripciones"
+      descripcion="Planes recurrentes, vencimientos y registro de pagos."
+      acciones={
+        <Button variante="primary" icono={Plus} onClick={() => setShowForm(true)}>
+          Nueva suscripción
+        </Button>
+      }
+    >
+      <div className="ax-grid-stats">
+        <Stat label="Activas" value={suscripciones.filter((s) => s.estado === "activa").length} tone="success" icono={CircleCheck} />
+        <Stat label="Vencidas" value={suscripciones.filter((s) => s.estado === "vencida").length} tone="error" icono={CircleX} />
+        <Stat label="Total" value={suscripciones.length} tone="accent" icono={RefreshCw} />
       </div>
 
-      {/* Filtros */}
-      <div style={{ display: "flex", gap: 6, marginBottom: 20, flexWrap: "wrap", alignItems: "center" }}>
-        {["todos", "activa", "vencida", "cancelada", "pausada"].map((e) => (
-          <button
-            key={e}
-            onClick={() => setFiltroEstado(e)}
-            style={{
-              border: filtroEstado === e ? "none" : `1px solid ${C.border}`,
-              borderRadius: 99, padding: "8px 16px", fontSize: 12, fontWeight: 700,
-              cursor: "pointer", background: filtroEstado === e ? C.blue : C.surface,
-              color: filtroEstado === e ? "#fff" : C.muted, fontFamily: font,
-              transition: "background .15s, color .15s",
-            }}
-          >
-            {e === "todos" ? "Todas" : e.charAt(0).toUpperCase() + e.slice(1)}
-          </button>
-        ))}
-        <span style={{ marginLeft: 8, color: C.muted, fontSize: 12, fontFamily: font }}>{filtradas.length} suscripciones</span>
-        <div style={{ flex: 1 }} />
-        <button onClick={() => setShowForm(true)} style={{
-          background: C.blue, border: "none", borderRadius: 8,
-          padding: "8px 18px", color: "#fff", fontSize: 12, fontWeight: 700,
-          cursor: "pointer", fontFamily: font,
-        }}>+ Nueva suscripción</button>
-      </div>
-
-      {/* Lista */}
-      {loading ? <Spinner /> : filtradas.length === 0 ? (
-        <div style={{ textAlign: "center", padding: "60px 20px", color: C.muted, fontSize: 14, fontFamily: font }}>
-          {suscripciones.length === 0 ? "Aún no hay suscripciones registradas." : "Ninguna suscripción coincide con el filtro."}
+      <div className="ax-acciones" style={{ justifyContent: "space-between" }}>
+        <div className="ax-acciones">
+          {["todos", "activa", "vencida", "cancelada", "pausada"].map((e) => (
+            <Button key={e} variante={filtroEstado === e ? "primary" : "subtle"} onClick={() => setFiltroEstado(e)}>
+              {e === "todos" ? "Todas" : e.charAt(0).toUpperCase() + e.slice(1)}
+            </Button>
+          ))}
         </div>
+        <span className="ax-sub">{filtradas.length} suscripciones</span>
+      </div>
+
+      {loading ? (
+        <p className="ax-sub">Cargando…</p>
+      ) : filtradas.length === 0 ? (
+        <EmptyState icono={RefreshCw} titulo="Sin suscripciones">
+          {suscripciones.length === 0 ? "Aún no hay suscripciones registradas." : "Ninguna suscripción coincide con el filtro."}
+        </EmptyState>
       ) : (
-        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+        <div className="ax-lista">
           {filtradas.map((s) => (
             <SuscripcionRow key={s.id} susc={s} alumnos={alumnos} planes={planes} onPay={handlePago} />
           ))}
         </div>
       )}
 
-      {/* Modal crear suscripción */}
       {showForm && (
-        <Modal title="Nueva suscripción" onClose={() => setShowForm(false)}>
+        <Modal titulo="Nueva suscripción" ancho={520} onClose={() => setShowForm(false)}>
           <SuscripcionForm
             alumnos={alumnos}
             planes={planes}
@@ -341,7 +230,9 @@ export default function AdminSuscripciones({ embedded }) {
           />
         </Modal>
       )}
-      </div>
-    </div>
+    </Page>
   );
+
+  if (embedded) return contenido;
+  return <AdminLayout active="suscripciones">{contenido}</AdminLayout>;
 }

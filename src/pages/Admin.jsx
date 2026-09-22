@@ -1,6 +1,14 @@
 // src/pages/Admin.jsx
+// Panel de administración. El shell y los tabs viven en AdminLayout; aquí solo
+// se orquesta qué pestaña se muestra. Los tabs de Contenido (Estadísticas y
+// Presentaciones) siguen inline por indicación, pero ya sobre el design system
+// claro: cero hex a mano, cero verde/rojo, íconos lucide en vez de emoji/glifos.
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import {
+  Users, ClipboardList, TrendingUp, Presentation as PresentationIcon,
+  Layers, BookOpen, ListChecks, Pencil, Trash2, CircleCheck, CircleX, Minus,
+} from "lucide-react";
 import { supabase } from "../lib/supabase";
 import { listaPresentaciones, buscarPresentacion } from "../data/presentaciones/presentacionesIndex.js";
 import { obtenerTema } from "../data/presentaciones/temas.jsx";
@@ -17,39 +25,27 @@ import AdminCargos from "./admin/AdminCargos.jsx";
 import AdminSuscripciones from "./admin/AdminSuscripciones.jsx";
 import AdminCursos from "./admin/AdminCursos.jsx";
 import AdminLayout from "../components/admin/AdminLayout.jsx";
+import {
+  Page, Card, Badge, Button, SearchField, Stat, EmptyState, Medidor,
+} from "../components/admin/ui.jsx";
 
-const C = {
-  bg:      "#0e0f11",
-  surface: "#13151a",
-  card:    "#16181f",
-  border:  "#252830",
-  blue:    "#3b9eff",
-  green:   "#34d399",
-  yellow:  "#fbbf24",
-  orange:  "#f97316",
-  red:     "#f43f5e",
-  purple:  "#a78bfa",
-  text:    "#e8eaf0",
-  muted:   "#5a6070",
-  dim:     "#8a9ab8",
+const NIVEL_LABEL = {
+  primaria: "Primaria", secundaria: "Secundaria",
+  prepa: "Preparatoria", preparatoria: "Preparatoria", universidad: "Universidad",
 };
 
-const font = "'DM Sans', sans-serif";
-
-function pctColor(p) {
-  if (p >= 80) return C.green;
-  if (p >= 60) return C.yellow;
-  if (p >= 40) return C.orange;
-  return C.red;
-}
-
 function fmtDate(iso) {
-  const d = new Date(iso);
-  return d.toLocaleDateString("es-MX", {
+  if (!iso) return "—";
+  const [y, m, d] = iso.split("T")[0].split("-").map(Number);
+  const fecha = new Date(y, m - 1, d).toLocaleDateString("es-MX", {
     day: "2-digit", month: "short", year: "numeric",
-    hour: "2-digit", minute: "2-digit",
   });
+  if (!iso.includes("T")) return fecha;
+  const hora = new Date(iso).toLocaleTimeString("es-MX", { hour: "2-digit", minute: "2-digit" });
+  return `${fecha} · ${hora}`;
 }
+
+function Cargando() { return <p className="ax-sub">Cargando…</p>; }
 
 // ── Índice inverso: en qué nivel(es) se usa cada presentación ─────────────────
 function recolectarSlugs(nodos, set) {
@@ -77,257 +73,253 @@ const NIVELES_POR_SLUG = (() => {
   return map; // slug -> [niveles]
 })();
 
-const NIVEL_COLOR = { "Prepa": "#3b9eff", "UNAM": "#a78bfa", "EXANI-II": "#34d399" };
-
-function NivelBadges({ niveles }) {
-  if (!niveles || niveles.length === 0) return null;
-  return (
-    <>
-      {niveles.map((n) => (
-        <span key={n} style={{
-          background: NIVEL_COLOR[n] + "22", color: NIVEL_COLOR[n],
-          borderRadius: 5, padding: "1px 7px", fontSize: 10, fontWeight: 700,
-          fontFamily: font, whiteSpace: "nowrap",
-        }}>{n}</span>
-      ))}
-    </>
-  );
-}
-
-// ── Stat compacto (tira horizontal) ──────────────────────────────────────────
-function CompactStat({ label, value, color, last }) {
-  return (
-    <div style={{
-      flex: "1 1 120px",
-      minWidth: 110,
-      padding: "6px 18px",
-      borderRight: last ? "none" : `1px solid ${C.border}`,
-      display: "flex",
-      alignItems: "baseline",
-      gap: 8,
-    }}>
-      <span style={{ color: color || C.text, fontWeight: 800, fontSize: 21, letterSpacing: "-0.5px", fontFamily: font, lineHeight: 1 }}>
-        {value}
-      </span>
-      <span style={{ color: C.muted, fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: 0.5, fontFamily: font }}>
-        {label}
-      </span>
-    </div>
-  );
-}
-
-// ── Tab button ────────────────────────────────────────────────────────────────
-// ── Tarjeta de presentación (compacta) ───────────────────────────────────────
+// ── Tarjeta de presentación ───────────────────────────────────────────────────
 function PresentacionCard({ id, titulo, materia, subtema }) {
-  const tema = obtenerTema(materia);
+  const tema = obtenerTema(materia, "claro");
   const pres = buscarPresentacion(id);
   const slides = pres?.slides || [];
-  const nReglas = slides.filter((s) => ["regla","regla_rica","criterio_detalle","concepto","definicion"].includes(s.tipo)).length;
-  const nEjerc  = slides.filter((s) => s.tipo === "ejercicio").length;
+  const nSecc = slides.filter((s) => ["regla", "regla_rica", "criterio_detalle", "concepto", "definicion"].includes(s.tipo)).length;
+  const nEj = slides.filter((s) => s.tipo === "ejercicio").length;
+  const niveles = NIVELES_POR_SLUG[id] || [];
 
   return (
-    <div style={{
-      background: C.card,
-      border: `1px solid ${C.border}`,
-      borderLeft: `3px solid ${tema.acento}`,
-      borderRadius: 10,
-      display: "flex",
-      alignItems: "center",
-      gap: 14,
-      padding: "10px 14px",
-      transition: "background .15s",
-    }}
-      onMouseEnter={(e) => { e.currentTarget.style.background = "#1e2130"; }}
-      onMouseLeave={(e) => { e.currentTarget.style.background = C.card; }}
-    >
-      {/* Título + subtema */}
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ color: C.text, fontWeight: 600, fontSize: 13, fontFamily: font, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-          {titulo}
-        </div>
+    <Card style={{ borderTop: `3px solid ${tema.acento}`, display: "flex", flexDirection: "column", gap: 12 }}>
+      <div>
+        <div className="ax-nombre" style={{ whiteSpace: "normal" }}>{titulo}</div>
         {subtema && (
-          <div style={{ color: tema.acento, fontSize: 11, fontFamily: font, marginTop: 2, opacity: 0.8 }}>
-            {subtema}
-          </div>
+          <div className="ax-sub" style={{ marginTop: 3, color: tema.acento }}>{subtema}</div>
         )}
       </div>
 
-      {/* Niveles donde se usa */}
-      <div style={{ display: "flex", gap: 4, flexShrink: 0 }}>
-        <NivelBadges niveles={NIVELES_POR_SLUG[id]} />
-      </div>
-
-      {/* Conteos */}
-      <div style={{ display: "flex", gap: 10, flexShrink: 0 }}>
-        {nReglas > 0 && (
-          <span style={{ color: C.muted, fontSize: 11, fontFamily: font }}>
-            {nReglas} secc.
+      <div className="ax-acciones" style={{ gap: 14 }}>
+        <span className="ax-sub" style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+          <Layers size={14} aria-hidden="true" /> {slides.length} diapositivas
+        </span>
+        {nSecc > 0 && (
+          <span className="ax-sub" style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+            <BookOpen size={14} aria-hidden="true" /> {nSecc} secciones
           </span>
         )}
-        {nEjerc > 0 && (
-          <span style={{ color: C.muted, fontSize: 11, fontFamily: font }}>
-            {nEjerc} ej.
-          </span>
-        )}
-        {nReglas === 0 && nEjerc === 0 && (
-          <span style={{ color: C.muted, fontSize: 11, fontFamily: font }}>
-            {slides.length} slides
+        {nEj > 0 && (
+          <span className="ax-sub" style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+            <ListChecks size={14} aria-hidden="true" /> {nEj} ejercicios
           </span>
         )}
       </div>
 
-      {/* Botón */}
-      <Link
-        to={`/presentacion/${id}`}
-        style={{
-          flexShrink: 0,
-          background: tema.acento + "22",
-          color: tema.acento,
-          border: `1px solid ${tema.acento}55`,
-          borderRadius: 7,
-          padding: "5px 12px",
-          textDecoration: "none",
-          fontSize: 12,
-          fontWeight: 700,
-          fontFamily: font,
-          whiteSpace: "nowrap",
-        }}
-      >
-        Abrir →
-      </Link>
-    </div>
-  );
-}
-
-// ── Acordeón de materia ───────────────────────────────────────────────────────
-function MateriaAccordion({ materia, presentaciones: items }) {
-  const tema = obtenerTema(materia);
-  const [open, setOpen] = useState(true);
-
-  // Agrupar por subtema dentro de la materia
-  const grupos = {};
-  items.forEach((p) => {
-    const key = p.subtema || "";
-    if (!grupos[key]) grupos[key] = [];
-    grupos[key].push(p);
-  });
-  const tieneSubtemas = Object.keys(grupos).some((k) => k !== "");
-
-  return (
-    <div style={{ borderRadius: 12, overflow: "hidden", border: `1px solid ${C.border}` }}>
-      {/* Cabecera */}
-      <button
-        onClick={() => setOpen((o) => !o)}
-        style={{
-          width: "100%",
-          display: "flex",
-          alignItems: "center",
-          gap: 12,
-          padding: "12px 18px",
-          background: C.surface,
-          border: "none",
-          cursor: "pointer",
-          textAlign: "left",
-        }}
-      >
-        <span style={{ color: tema.acento, fontSize: 16, lineHeight: 1 }}>
-          {open ? "▼" : "▶"}
-        </span>
-        <span style={{ color: C.text, fontWeight: 700, fontSize: 14, fontFamily: font, flex: 1 }}>
-          {materia}
-        </span>
-        <span style={{
-          background: tema.acentoSuave,
-          color: tema.acento,
-          borderRadius: 99,
-          padding: "2px 10px",
-          fontSize: 11,
-          fontWeight: 700,
-          fontFamily: font,
-        }}>
-          {items.length}
-        </span>
-      </button>
-
-      {/* Contenido */}
-      {open && (
-        <div style={{ background: C.bg, padding: "12px 14px", display: "flex", flexDirection: "column", gap: 6 }}>
-          {tieneSubtemas
-            ? Object.entries(grupos).map(([sub, pres]) => (
-                <div key={sub}>
-                  {sub && (
-                    <div style={{
-                      color: C.muted,
-                      fontSize: 10,
-                      fontWeight: 700,
-                      textTransform: "uppercase",
-                      letterSpacing: "0.12em",
-                      fontFamily: font,
-                      padding: "6px 4px 4px",
-                    }}>
-                      {sub}
-                    </div>
-                  )}
-                  <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
-                    {pres.map((p) => (
-                      <PresentacionCard key={p.id} {...p} />
-                    ))}
-                  </div>
-                </div>
-              ))
-            : items.map((p) => <PresentacionCard key={p.id} {...p} />)
-          }
+      {niveles.length > 0 && (
+        <div className="ax-acciones" style={{ gap: 6 }}>
+          {niveles.map((n) => <Badge key={n} tone="neutral">{n}</Badge>)}
         </div>
       )}
+
+      <Link to={`/presentacion/${id}`} className="ax-btn ax-btn-secondary" style={{ alignSelf: "flex-start" }}>
+        <PresentationIcon size={16} aria-hidden="true" /> Abrir
+      </Link>
+    </Card>
+  );
+}
+
+// ── Sección de materia del catálogo ───────────────────────────────────────────
+function MateriaSeccion({ materia, presentaciones: items }) {
+  const tema = obtenerTema(materia, "claro");
+  return (
+    <section style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+      <div className="ax-fila" style={{ gap: 10 }}>
+        <span style={{ width: 10, height: 10, borderRadius: "50%", background: tema.acento, flex: "none" }} aria-hidden="true" />
+        <h2 className="ax-card-tit" style={{ margin: 0 }}>{materia}</h2>
+        <Badge tone="neutral">{items.length}</Badge>
+      </div>
+      <div style={{ display: "grid", gap: 14, gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))" }}>
+        {items.map((p) => <PresentacionCard key={p.id} {...p} />)}
+      </div>
+    </section>
+  );
+}
+
+// ── Tabla de intentos (cuestionarios o presentaciones) ────────────────────────
+function TablaIntentos({ rows, primeraCol, getTitulo, onDelete, onUpdate }) {
+  const [editingId, setEditingId] = useState(null);
+  const [editValues, setEditValues] = useState({ puntaje: 0, total: 1 });
+  const [confirmId, setConfirmId] = useState(null);
+  const inp = { width: 58, minHeight: "auto", padding: "4px 8px", textAlign: "center" };
+
+  return (
+    <div style={{ overflowX: "auto" }}>
+      <table className="ax-tabla">
+        <thead>
+          <tr>{[primeraCol, "Puntaje", "%", "Fecha", ""].map((h, i) => <th key={i}>{h}</th>)}</tr>
+        </thead>
+        <tbody>
+          {rows.map((r) => {
+            const editing = editingId === r.id;
+            const pct = editing
+              ? Math.round((editValues.puntaje / Math.max(1, editValues.total)) * 100)
+              : Math.round((r.puntaje / Math.max(1, r.total)) * 100);
+            return (
+              <tr key={r.id}>
+                <td>{getTitulo(r)}</td>
+                <td>
+                  {editing ? (
+                    <span style={{ display: "inline-flex", gap: 4, alignItems: "center" }}>
+                      <input className="ax-input" type="number" min={0} value={editValues.puntaje} style={inp}
+                        onChange={(e) => setEditValues((v) => ({ ...v, puntaje: Number(e.target.value) }))} />
+                      <span className="ax-sub">/</span>
+                      <input className="ax-input" type="number" min={1} value={editValues.total} style={inp}
+                        onChange={(e) => setEditValues((v) => ({ ...v, total: Number(e.target.value) }))} />
+                    </span>
+                  ) : `${r.puntaje}/${r.total}`}
+                </td>
+                <td><Medidor valor={pct} /></td>
+                <td className="ax-sub" style={{ whiteSpace: "nowrap" }}>{fmtDate(r.created_at)}</td>
+                <td>
+                  <div className="ax-acciones" style={{ justifyContent: "flex-end" }}>
+                    {editing ? (
+                      <>
+                        <Button variante="subtle" onClick={() => { onUpdate(r.id, editValues); setEditingId(null); }}>Guardar</Button>
+                        <Button variante="ghost" onClick={() => setEditingId(null)}>Cancelar</Button>
+                      </>
+                    ) : confirmId === r.id ? (
+                      <>
+                        <span className="ax-sub">¿Eliminar?</span>
+                        <Button variante="primary" onClick={() => { onDelete(r.id); setConfirmId(null); }}>Sí</Button>
+                        <Button variante="ghost" onClick={() => setConfirmId(null)}>No</Button>
+                      </>
+                    ) : (
+                      <>
+                        <Button variante="ghost" icono={Pencil} title="Editar puntaje"
+                          onClick={() => { setEditingId(r.id); setEditValues({ puntaje: r.puntaje, total: r.total }); }} />
+                        <Button variante="ghost" icono={Trash2} title="Eliminar registro" onClick={() => setConfirmId(r.id)} />
+                      </>
+                    )}
+                  </div>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
   );
 }
 
-// ── Resultados de una presentación ───────────────────────────────────────────
-// Tabla de una sesión: alumnos (filas) × preguntas (columnas) con ✓/✗.
+// ── Resumen por alumno (cuestionarios + presentaciones) ──────────────────────
+function ResumenAlumno({ nombre, nivel, resultados, onDelete, onUpdate }) {
+  const [open, setOpen] = useState(false);
+  const intentos = resultados.length;
+  const promedio = intentos
+    ? Math.round(resultados.reduce((s, r) => s + Math.round((r.puntaje / Math.max(1, r.total)) * 100), 0) / intentos)
+    : 0;
+  const mejorPct = intentos
+    ? Math.max(...resultados.map((r) => Math.round((r.puntaje / Math.max(1, r.total)) * 100)))
+    : 0;
+
+  const esPres = (r) => typeof r.cuestionario_id === "string" && r.cuestionario_id.startsWith("presentacion-");
+  const ordenar = (arr) => [...arr].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+  const cuests = ordenar(resultados.filter((r) => !esPres(r)));
+  const preses = ordenar(resultados.filter(esPres));
+
+  const tituloPres = (r) => {
+    if (r.cuestionario_titulo) return r.cuestionario_titulo;
+    const slug = r.cuestionario_id.replace(/^presentacion-/, "");
+    return buscarPresentacion(slug)?.titulo || r.cuestionario_id;
+  };
+
+  return (
+    <Card>
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        style={{
+          display: "flex", alignItems: "center", gap: 14, width: "100%",
+          background: "none", border: "none", padding: 0, cursor: "pointer",
+          font: "inherit", textAlign: "left", color: "inherit", flexWrap: "wrap",
+        }}
+      >
+        <span className="ax-avatar">{(nombre || "?").slice(0, 1).toUpperCase()}</span>
+        <div className="ax-aparecer">
+          <div className="ax-nombre">{nombre || "Sin nombre"}</div>
+          <div style={{ marginTop: 4 }}>
+            <Badge tone="accent">{NIVEL_LABEL[nivel] || nivel || "—"}</Badge>
+          </div>
+        </div>
+        <div className="ax-acciones" style={{ gap: 16, justifyContent: "flex-end" }}>
+          <div style={{ textAlign: "right" }}>
+            <div className="ax-stat-val" style={{ fontSize: 18 }}>{intentos}</div>
+            <div className="ax-stat-lbl">intentos</div>
+          </div>
+          <div style={{ textAlign: "right" }}>
+            <Medidor valor={promedio} />
+            <div className="ax-stat-lbl">promedio</div>
+          </div>
+          <div style={{ textAlign: "right" }}>
+            <Medidor valor={mejorPct} />
+            <div className="ax-stat-lbl">mejor</div>
+          </div>
+        </div>
+      </button>
+
+      {open && (
+        <div style={{ marginTop: 16 }}>
+          {resultados.length === 0 ? (
+            <p className="ax-sub" style={{ margin: 0 }}>Sin resultados registrados.</p>
+          ) : (
+            <>
+              {cuests.length > 0 && (
+                <div style={{ marginBottom: preses.length ? 20 : 0 }}>
+                  <span className="ax-eyebrow">Cuestionarios · {cuests.length}</span>
+                  <TablaIntentos rows={cuests} primeraCol="Cuestionario"
+                    getTitulo={(r) => r.cuestionario_titulo || r.cuestionario_id}
+                    onDelete={onDelete} onUpdate={onUpdate} />
+                </div>
+              )}
+              {preses.length > 0 && (
+                <div>
+                  <span className="ax-eyebrow">Presentaciones · {preses.length}</span>
+                  <TablaIntentos rows={preses} primeraCol="Presentación"
+                    getTitulo={tituloPres} onDelete={onDelete} onUpdate={onUpdate} />
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      )}
+    </Card>
+  );
+}
+
+// ── Desglose por pregunta ─────────────────────────────────────────────────────
+function Celda({ v }) {
+  if (v === "ok") return <CircleCheck size={16} className="ax-celda-ok" aria-label="Acierto" />;
+  if (v === "bad") return <CircleX size={16} className="ax-celda-no" aria-label="Error" />;
+  return <Minus size={14} style={{ color: "var(--fx-text-disabled)" }} aria-label="Sin responder" />;
+}
+
 function DesgloseSesion({ sesion }) {
-  const th = (align) => ({
-    color: C.dim, fontWeight: 600, textAlign: align,
-    padding: "4px 8px", fontSize: 10,
-    textTransform: "uppercase", letterSpacing: 1, whiteSpace: "nowrap",
-  });
   return (
     <div style={{ marginTop: 14 }}>
-      <div style={{ color: C.dim, fontSize: 11, fontFamily: font, marginBottom: 6 }}>
-        Sesión <strong style={{ color: C.purple }}>{sesion.codigo}</strong> · {fmtDate(sesion.created_at)} · {sesion.rows.length} alumno{sesion.rows.length === 1 ? "" : "s"}
+      <div className="ax-sub" style={{ marginBottom: 6 }}>
+        Sesión <strong>{sesion.codigo}</strong> · {fmtDate(sesion.created_at)} · {sesion.rows.length} alumno{sesion.rows.length === 1 ? "" : "s"}
       </div>
       <div style={{ overflowX: "auto" }}>
-        <table style={{ borderCollapse: "collapse", fontSize: 12, fontFamily: font }}>
+        <table className="ax-tabla">
           <thead>
             <tr>
-              <th style={th("left")}>Alumno</th>
-              {sesion.cols.map((c) => (
-                <th key={c.sid} title={c.pregunta} style={{ ...th("center"), minWidth: 30, cursor: "help" }}>
-                  P{c.n}
-                </th>
-              ))}
-              <th style={th("center")}>Aciertos</th>
+              <th>Alumno</th>
+              {sesion.cols.map((c) => <th key={c.sid} title={c.pregunta} style={{ textAlign: "center" }}>P{c.n}</th>)}
+              <th style={{ textAlign: "center" }}>Aciertos</th>
             </tr>
           </thead>
           <tbody>
             {sesion.rows.map((r) => {
               const pct = r.respondidas ? Math.round((r.aciertos / r.respondidas) * 100) : 0;
               return (
-                <tr key={r.uid} style={{ borderTop: `1px solid ${C.border}` }}>
-                  <td style={{ padding: "6px 8px", color: C.text, whiteSpace: "nowrap" }}>{r.nombre}</td>
-                  {sesion.cols.map((c) => {
-                    const v = r.cells[c.sid];
-                    const col = v === "ok" ? C.green : v === "bad" ? C.red : C.muted;
-                    const g = v === "ok" ? "✓" : v === "bad" ? "✗" : "·";
-                    return (
-                      <td key={c.sid} style={{ padding: "6px 6px", textAlign: "center", color: col, fontWeight: 700 }}>
-                        {g}
-                      </td>
-                    );
-                  })}
-                  <td style={{ padding: "6px 8px", textAlign: "center", color: pctColor(pct), fontWeight: 700, whiteSpace: "nowrap" }}>
-                    {r.aciertos}/{r.respondidas}
-                  </td>
+                <tr key={r.uid}>
+                  <td style={{ whiteSpace: "nowrap" }}>{r.nombre}</td>
+                  {sesion.cols.map((c) => (
+                    <td key={c.sid} style={{ textAlign: "center" }}><Celda v={r.cells[c.sid]} /></td>
+                  ))}
+                  <td style={{ textAlign: "center" }}><Medidor valor={pct} ancho={56} /></td>
                 </tr>
               );
             })}
@@ -338,7 +330,6 @@ function DesgloseSesion({ sesion }) {
   );
 }
 
-// Carga (bajo demanda) el detalle por pregunta a partir de respuestas_presentacion.
 function DesglosePresentacion({ presentacion, profiles }) {
   const [estado, setEstado] = useState("idle"); // idle | cargando | listo | error
   const [sesiones, setSesiones] = useState([]);
@@ -408,410 +399,105 @@ function DesglosePresentacion({ presentacion, profiles }) {
     setEstado("listo");
   }
 
-  const btn = {
-    background: C.blue + "18", color: C.blue, border: `1px solid ${C.blue}44`,
-    borderRadius: 6, padding: "6px 12px", fontSize: 12, cursor: "pointer",
-    fontFamily: font, marginTop: 12,
-  };
-
   if (estado === "idle") {
-    return <button onClick={cargar} style={btn}>Ver desglose por pregunta ✦</button>;
+    return (
+      <Button variante="subtle" icono={ListChecks} onClick={cargar} style={{ marginTop: 12 }}>
+        Ver desglose por pregunta
+      </Button>
+    );
   }
-  if (estado === "cargando") {
-    return <p style={{ color: C.muted, fontSize: 13, fontFamily: font, marginTop: 12 }}>Cargando desglose…</p>;
-  }
+  if (estado === "cargando") return <div style={{ marginTop: 12 }}><Cargando /></div>;
   if (estado === "error") {
-    return <p style={{ color: C.red, fontSize: 13, fontFamily: font, marginTop: 12 }}>No se pudo cargar el desglose (permisos o conexión).</p>;
+    return <p className="ax-sub" style={{ marginTop: 12, whiteSpace: "normal" }}>No se pudo cargar el desglose (permisos o conexión).</p>;
   }
   if (sesiones.length === 0) {
-    return <p style={{ color: C.muted, fontSize: 13, fontFamily: font, marginTop: 12 }}>No hay respuestas registradas por pregunta para esta presentación.</p>;
+    return <p className="ax-sub" style={{ marginTop: 12, whiteSpace: "normal" }}>No hay respuestas registradas por pregunta para esta presentación.</p>;
   }
   return (
-    <div style={{ marginTop: 14, borderTop: `1px dashed ${C.border}`, paddingTop: 8 }}>
-      <div style={{ color: C.dim, fontSize: 11, fontFamily: font, textTransform: "uppercase", letterSpacing: 1, marginBottom: 2 }}>
-        Desglose por pregunta
-      </div>
+    <div style={{ marginTop: 14 }}>
+      <span className="ax-eyebrow">Desglose por pregunta</span>
       {sesiones.map((s) => <DesgloseSesion key={s.id} sesion={s} />)}
     </div>
   );
 }
 
+// ── Resultados de una presentación ────────────────────────────────────────────
 function ResultadosPresentacion({ presentacion, resultados, profiles, onDelete, onUpdate }) {
   const [open, setOpen] = useState(false);
-  const [deletingId, setDeletingId] = useState(null);
-  const [editingId, setEditingId] = useState(null);
-  const [editValues, setEditValues] = useState({ puntaje: 0, total: 0 });
   const propios = resultados
     .filter((r) => r.cuestionario_id === "presentacion-" + presentacion.id)
     .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
   const promedio = propios.length
-    ? Math.round(propios.reduce((s, r) => s + Math.round((r.puntaje / r.total) * 100), 0) / propios.length)
+    ? Math.round(propios.reduce((s, r) => s + Math.round((r.puntaje / Math.max(1, r.total)) * 100), 0) / propios.length)
     : 0;
 
   return (
-    <div style={{ border: `1px solid ${C.border}`, borderRadius: 12, overflow: "hidden", marginBottom: 10 }}>
-      <button
-        onClick={() => setOpen((o) => !o)}
-        style={{
-          width: "100%",
-          background: open ? C.card : C.surface,
-          border: "none",
-          cursor: "pointer",
-          padding: "14px 18px",
-          display: "flex",
-          alignItems: "center",
-          gap: 12,
-          textAlign: "left",
-        }}
-      >
-        <div style={{
-          width: 36, height: 36, borderRadius: 8,
-          background: C.purple + "22",
-          border: `1px solid ${C.purple}44`,
-          display: "flex", alignItems: "center", justifyContent: "center",
-          fontSize: 18, flexShrink: 0,
-        }}>
-          📽
+    <Card>
+      <div className="ax-fila">
+        <div className="ax-aparecer">
+          <div className="ax-nombre">{presentacion.titulo}</div>
+          <div className="ax-sub">{presentacion.materia}</div>
         </div>
-
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ color: C.text, fontWeight: 700, fontSize: 14, fontFamily: font }}>
-            {presentacion.titulo}
-          </div>
-          <div style={{ color: C.muted, fontSize: 11, marginTop: 2, fontFamily: font }}>
-            {presentacion.materia}
-          </div>
-        </div>
-
-        <div style={{ textAlign: "center", minWidth: 64 }}>
-          <div style={{ color: C.dim, fontSize: 10, fontFamily: font, textTransform: "uppercase", letterSpacing: 1 }}>Sesiones</div>
-          <div style={{ color: C.text, fontWeight: 700, fontSize: 17, fontFamily: font }}>{propios.length}</div>
+        <div style={{ textAlign: "right" }}>
+          <div className="ax-stat-val" style={{ fontSize: 18 }}>{propios.length}</div>
+          <div className="ax-stat-lbl">sesiones</div>
         </div>
         {propios.length > 0 && (
-          <div style={{ textAlign: "center", minWidth: 66 }}>
-            <div style={{ color: C.dim, fontSize: 10, fontFamily: font, textTransform: "uppercase", letterSpacing: 1 }}>Promedio</div>
-            <div style={{ color: pctColor(promedio), fontWeight: 700, fontSize: 17, fontFamily: font }}>{promedio}%</div>
+          <div style={{ textAlign: "right" }}>
+            <Medidor valor={promedio} />
+            <div className="ax-stat-lbl">promedio</div>
           </div>
         )}
-        <div style={{ color: C.muted, fontSize: 18, marginLeft: 4 }}>{open ? "▲" : "▼"}</div>
-      </button>
+        <Button variante="ghost" onClick={() => setOpen((o) => !o)}>
+          {open ? "Ocultar" : "Ver"}
+        </Button>
+      </div>
 
       {open && (
-        <div style={{ background: C.card, borderTop: `1px solid ${C.border}`, padding: "14px 18px" }}>
+        <div style={{ marginTop: 16 }}>
           {propios.length === 0 ? (
-            <p style={{ color: C.muted, fontSize: 13, fontFamily: font }}>
-              Ningún alumno ha completado esta presentación aún.
-            </p>
+            <p className="ax-sub" style={{ margin: 0 }}>Ningún alumno ha completado esta presentación aún.</p>
           ) : (
-            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, fontFamily: font }}>
-              <thead>
-                <tr>
-                  {["Alumno", "Puntaje", "%", "Fecha", ""].map((h) => (
-                    <th key={h} style={{
-                      color: C.dim, fontWeight: 600, textAlign: "left",
-                      padding: "4px 8px", fontSize: 11,
-                      textTransform: "uppercase", letterSpacing: 1,
-                    }}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {propios.map((r) => {
-                  const profile = profiles[r.user_id] || {};
-                  const nombre = profile.nombre || profile.email || r.user_id.slice(0, 8);
-                  const editing = editingId === r.id;
-                  const pct = editing
-                    ? Math.round((editValues.puntaje / editValues.total) * 100)
-                    : Math.round((r.puntaje / r.total) * 100);
-                  const confirming = deletingId === r.id;
-                  return (
-                    <tr key={r.id} style={{ borderTop: `1px solid ${C.border}` }}>
-                      <td style={{ padding: "8px 8px", color: C.text }}>{nombre}</td>
-                      <td style={{ padding: "8px 8px", color: C.dim }}>
-                        {editing ? (
-                          <span style={{ display: "flex", gap: 4, alignItems: "center" }}>
-                            <input type="number" min={0} value={editValues.puntaje} onChange={(e) => setEditValues((v) => ({ ...v, puntaje: Number(e.target.value) }))} style={{ width: 44, background: C.surface, border: `1px solid ${C.blue}66`, borderRadius: 4, color: C.text, padding: "2px 5px", fontSize: 12, fontFamily: font, textAlign: "center" }} />
-                            <span style={{ color: C.muted }}>/</span>
-                            <input type="number" min={1} value={editValues.total} onChange={(e) => setEditValues((v) => ({ ...v, total: Number(e.target.value) }))} style={{ width: 44, background: C.surface, border: `1px solid ${C.blue}66`, borderRadius: 4, color: C.text, padding: "2px 5px", fontSize: 12, fontFamily: font, textAlign: "center" }} />
-                          </span>
-                        ) : (
-                          `${r.puntaje}/${r.total}`
-                        )}
-                      </td>
-                      <td style={{ padding: "8px 8px" }}>
-                        <span style={{
-                          background: pctColor(pct) + "22",
-                          color: pctColor(pct),
-                          borderRadius: 6,
-                          padding: "2px 10px",
-                          fontWeight: 700,
-                          fontSize: 12,
-                        }}>
-                          {pct}%
-                        </span>
-                      </td>
-                      <td style={{ padding: "8px 8px", color: C.muted, fontSize: 12, whiteSpace: "nowrap" }}>
-                        {fmtDate(r.created_at)}
-                      </td>
-                      <td style={{ padding: "8px 8px", textAlign: "right", whiteSpace: "nowrap" }}>
-                        {editing ? (
-                          <span style={{ display: "flex", gap: 6, justifyContent: "flex-end", alignItems: "center" }}>
-                            <button onClick={() => { onUpdate(r.id, editValues); setEditingId(null); }} style={{ background: C.blue + "22", color: C.blue, border: `1px solid ${C.blue}44`, borderRadius: 5, padding: "2px 8px", fontSize: 11, cursor: "pointer", fontFamily: font }}>Guardar</button>
-                            <button onClick={() => setEditingId(null)} style={{ background: "none", color: C.muted, border: `1px solid ${C.border}`, borderRadius: 5, padding: "2px 8px", fontSize: 11, cursor: "pointer", fontFamily: font }}>Cancelar</button>
-                          </span>
-                        ) : confirming ? (
-                          <span style={{ display: "flex", gap: 6, justifyContent: "flex-end", alignItems: "center" }}>
-                            <span style={{ color: C.muted, fontSize: 11 }}>¿Eliminar?</span>
-                            <button onClick={() => { onDelete(r.id); setDeletingId(null); }} style={{ background: C.red + "22", color: C.red, border: `1px solid ${C.red}44`, borderRadius: 5, padding: "2px 8px", fontSize: 11, cursor: "pointer", fontFamily: font }}>Sí</button>
-                            <button onClick={() => setDeletingId(null)} style={{ background: "none", color: C.muted, border: `1px solid ${C.border}`, borderRadius: 5, padding: "2px 8px", fontSize: 11, cursor: "pointer", fontFamily: font }}>No</button>
-                          </span>
-                        ) : (
-                          <span style={{ display: "flex", gap: 4, justifyContent: "flex-end" }}>
-                            <button onClick={() => { setEditingId(r.id); setEditValues({ puntaje: r.puntaje, total: r.total }); }} style={{ background: "none", color: C.dim, border: "none", cursor: "pointer", fontSize: 13, padding: "2px 4px", lineHeight: 1, borderRadius: 4 }} title="Editar puntaje">✎</button>
-                            <button onClick={() => setDeletingId(r.id)} style={{ background: "none", color: C.muted, border: "none", cursor: "pointer", fontSize: 14, padding: "2px 4px", lineHeight: 1, borderRadius: 4 }} title="Eliminar registro">✕</button>
-                          </span>
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+            <TablaIntentos
+              rows={propios}
+              primeraCol="Alumno"
+              getTitulo={(r) => {
+                const profile = profiles[r.user_id] || {};
+                return profile.nombre || profile.email || r.user_id.slice(0, 8);
+              }}
+              onDelete={onDelete}
+              onUpdate={onUpdate}
+            />
           )}
           <DesglosePresentacion presentacion={presentacion} profiles={profiles} />
         </div>
       )}
-    </div>
-  );
-}
-
-// ── Tabla de intentos (reutilizable: cuestionarios o presentaciones) ──────────
-function TablaIntentos({ rows, primeraCol, getTitulo, onDelete, onUpdate }) {
-  const [deletingId, setDeletingId] = useState(null);
-  const [editingId, setEditingId] = useState(null);
-  const [editValues, setEditValues] = useState({ puntaje: 0, total: 0 });
-  const inp = { width: 44, background: C.surface, border: `1px solid ${C.blue}66`, borderRadius: 4, color: C.text, padding: "2px 5px", fontSize: 12, fontFamily: font, textAlign: "center" };
-  return (
-    <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, fontFamily: font }}>
-      <thead>
-        <tr>
-          {[primeraCol, "Puntaje", "%", "Fecha", ""].map((h, i) => (
-            <th key={i} style={{
-              color: C.dim, fontWeight: 600, textAlign: "left",
-              padding: "4px 8px", fontSize: 11,
-              textTransform: "uppercase", letterSpacing: 1,
-            }}>{h}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {rows.map((r) => {
-          const editing = editingId === r.id;
-          const pct = editing
-            ? Math.round((editValues.puntaje / editValues.total) * 100)
-            : Math.round((r.puntaje / r.total) * 100);
-          const confirming = deletingId === r.id;
-          return (
-            <tr key={r.id} style={{ borderTop: `1px solid ${C.border}` }}>
-              <td style={{ padding: "8px 8px", color: C.text, maxWidth: 260 }}>
-                {getTitulo(r)}
-              </td>
-              <td style={{ padding: "8px 8px", color: C.dim }}>
-                {editing ? (
-                  <span style={{ display: "flex", gap: 4, alignItems: "center" }}>
-                    <input type="number" min={0} value={editValues.puntaje} onChange={(e) => setEditValues((v) => ({ ...v, puntaje: Number(e.target.value) }))} style={inp} />
-                    <span style={{ color: C.muted }}>/</span>
-                    <input type="number" min={1} value={editValues.total} onChange={(e) => setEditValues((v) => ({ ...v, total: Number(e.target.value) }))} style={inp} />
-                  </span>
-                ) : (
-                  `${r.puntaje}/${r.total}`
-                )}
-              </td>
-              <td style={{ padding: "8px 8px" }}>
-                <span style={{
-                  background: pctColor(pct) + "22",
-                  color: pctColor(pct),
-                  borderRadius: 6,
-                  padding: "2px 10px",
-                  fontWeight: 700,
-                  fontSize: 12,
-                }}>
-                  {pct}%
-                </span>
-              </td>
-              <td style={{ padding: "8px 8px", color: C.muted, fontSize: 12, whiteSpace: "nowrap" }}>
-                {fmtDate(r.created_at)}
-              </td>
-              <td style={{ padding: "8px 8px", textAlign: "right", whiteSpace: "nowrap" }}>
-                {editing ? (
-                  <span style={{ display: "flex", gap: 6, justifyContent: "flex-end", alignItems: "center" }}>
-                    <button onClick={() => { onUpdate(r.id, editValues); setEditingId(null); }} style={{ background: C.blue + "22", color: C.blue, border: `1px solid ${C.blue}44`, borderRadius: 5, padding: "2px 8px", fontSize: 11, cursor: "pointer", fontFamily: font }}>Guardar</button>
-                    <button onClick={() => setEditingId(null)} style={{ background: "none", color: C.muted, border: `1px solid ${C.border}`, borderRadius: 5, padding: "2px 8px", fontSize: 11, cursor: "pointer", fontFamily: font }}>Cancelar</button>
-                  </span>
-                ) : confirming ? (
-                  <span style={{ display: "flex", gap: 6, justifyContent: "flex-end", alignItems: "center" }}>
-                    <span style={{ color: C.muted, fontSize: 11 }}>¿Eliminar?</span>
-                    <button onClick={() => { onDelete(r.id); setDeletingId(null); }} style={{ background: C.red + "22", color: C.red, border: `1px solid ${C.red}44`, borderRadius: 5, padding: "2px 8px", fontSize: 11, cursor: "pointer", fontFamily: font }}>Sí</button>
-                    <button onClick={() => setDeletingId(null)} style={{ background: "none", color: C.muted, border: `1px solid ${C.border}`, borderRadius: 5, padding: "2px 8px", fontSize: 11, cursor: "pointer", fontFamily: font }}>No</button>
-                  </span>
-                ) : (
-                  <span style={{ display: "flex", gap: 4, justifyContent: "flex-end" }}>
-                    <button onClick={() => { setEditingId(r.id); setEditValues({ puntaje: r.puntaje, total: r.total }); }} style={{ background: "none", color: C.dim, border: "none", cursor: "pointer", fontSize: 13, padding: "2px 4px", lineHeight: 1, borderRadius: 4 }} title="Editar puntaje">✎</button>
-                    <button onClick={() => setDeletingId(r.id)} style={{ background: "none", color: C.muted, border: "none", cursor: "pointer", fontSize: 14, padding: "2px 4px", lineHeight: 1, borderRadius: 4 }} title="Eliminar registro">✕</button>
-                  </span>
-                )}
-              </td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
-  );
-}
-
-function SubTitulo({ children }) {
-  return (
-    <div style={{
-      color: C.dim, fontSize: 10, fontWeight: 700,
-      textTransform: "uppercase", letterSpacing: "0.12em",
-      fontFamily: font, padding: "0 2px 8px",
-    }}>
-      {children}
-    </div>
-  );
-}
-
-// ── Resumen por alumno (cuestionarios + presentaciones) ──────────────────────
-function ResumenAlumno({ nombre, nivel, resultados, onDelete, onUpdate }) {
-  const [open, setOpen] = useState(false);
-  const intentos  = resultados.length;
-  const promedio  = intentos
-    ? Math.round(resultados.reduce((s, r) => s + Math.round((r.puntaje / r.total) * 100), 0) / intentos)
-    : 0;
-  const mejorPct  = intentos
-    ? Math.max(...resultados.map((r) => Math.round((r.puntaje / r.total) * 100)))
-    : 0;
-
-  const nivelColor =
-    nivel === "preparatoria" ? C.blue :
-    nivel === "universidad"  ? C.purple : C.green;
-
-  // Separar cuestionarios de presentaciones (estas llevan id "presentacion-…")
-  const esPres = (r) => typeof r.cuestionario_id === "string" && r.cuestionario_id.startsWith("presentacion-");
-  const ordenar = (arr) => [...arr].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-  const cuests = ordenar(resultados.filter((r) => !esPres(r)));
-  const preses = ordenar(resultados.filter(esPres));
-
-  const tituloPres = (r) => {
-    if (r.cuestionario_titulo) return r.cuestionario_titulo;
-    const slug = r.cuestionario_id.replace(/^presentacion-/, "");
-    return buscarPresentacion(slug)?.titulo || r.cuestionario_id;
-  };
-
-  return (
-    <div style={{ border: `1px solid ${C.border}`, borderRadius: 12, overflow: "hidden", marginBottom: 10 }}>
-      <button
-        onClick={() => setOpen((o) => !o)}
-        style={{
-          width: "100%",
-          background: open ? C.card : C.surface,
-          border: "none",
-          cursor: "pointer",
-          padding: "14px 18px",
-          display: "flex",
-          alignItems: "center",
-          gap: 12,
-          textAlign: "left",
-        }}
-      >
-        {/* Avatar inicial */}
-        <div style={{
-          width: 36, height: 36, borderRadius: "50%",
-          background: nivelColor + "22",
-          border: `1px solid ${nivelColor}44`,
-          display: "flex", alignItems: "center", justifyContent: "center",
-          color: nivelColor, fontWeight: 700, fontSize: 15, fontFamily: font,
-          flexShrink: 0,
-        }}>
-          {(nombre || "?")[0].toUpperCase()}
-        </div>
-
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ color: C.text, fontWeight: 700, fontSize: 14, fontFamily: font }}>
-            {nombre || "Sin nombre"}
-          </div>
-          <span style={{
-            display: "inline-block",
-            background: nivelColor + "22",
-            color: nivelColor,
-            borderRadius: 99,
-            padding: "2px 10px",
-            fontSize: 11,
-            fontWeight: 700,
-            fontFamily: font,
-            marginTop: 3,
-          }}>
-            {nivel}
-          </span>
-        </div>
-
-        <div style={{ textAlign: "center", minWidth: 56 }}>
-          <div style={{ color: C.dim, fontSize: 10, fontFamily: font, textTransform: "uppercase", letterSpacing: 1 }}>Intentos</div>
-          <div style={{ color: C.text, fontWeight: 700, fontSize: 17, fontFamily: font }}>{intentos}</div>
-        </div>
-        <div style={{ textAlign: "center", minWidth: 66 }}>
-          <div style={{ color: C.dim, fontSize: 10, fontFamily: font, textTransform: "uppercase", letterSpacing: 1 }}>Promedio</div>
-          <div style={{ color: pctColor(promedio), fontWeight: 700, fontSize: 17, fontFamily: font }}>{promedio}%</div>
-        </div>
-        <div style={{ textAlign: "center", minWidth: 56 }}>
-          <div style={{ color: C.dim, fontSize: 10, fontFamily: font, textTransform: "uppercase", letterSpacing: 1 }}>Mejor</div>
-          <div style={{ color: pctColor(mejorPct), fontWeight: 700, fontSize: 17, fontFamily: font }}>{mejorPct}%</div>
-        </div>
-        <div style={{ color: C.muted, fontSize: 18, marginLeft: 4 }}>{open ? "▲" : "▼"}</div>
-      </button>
-
-      {open && (
-        <div style={{ background: C.card, borderTop: `1px solid ${C.border}`, padding: "14px 18px" }}>
-          {resultados.length === 0 ? (
-            <p style={{ color: C.muted, fontSize: 13, fontFamily: font }}>Sin resultados registrados.</p>
-          ) : (
-            <>
-              {cuests.length > 0 && (
-                <div style={{ marginBottom: preses.length ? 20 : 0 }}>
-                  <SubTitulo>Cuestionarios · {cuests.length}</SubTitulo>
-                  <TablaIntentos rows={cuests} primeraCol="Cuestionario" getTitulo={(r) => r.cuestionario_titulo || r.cuestionario_id} onDelete={onDelete} onUpdate={onUpdate} />
-                </div>
-              )}
-              {preses.length > 0 && (
-                <div>
-                  <SubTitulo>Presentaciones · {preses.length}</SubTitulo>
-                  <TablaIntentos rows={preses} primeraCol="Presentación" getTitulo={tituloPres} onDelete={onDelete} onUpdate={onUpdate} />
-                </div>
-              )}
-            </>
-          )}
-        </div>
-      )}
-    </div>
+    </Card>
   );
 }
 
 // ── Página principal ──────────────────────────────────────────────────────────
 export default function Admin() {
   const [tab, setTab] = useState("inicio");
-  const [loading, setLoading] = useState(true);
   const [resultados, setResultados] = useState([]);
   const [profiles, setProfiles] = useState({});
+  const [datosListos, setDatosListos] = useState(false);
+  const [cargandoDatos, setCargandoDatos] = useState(false);
   const [filtroNivel, setFiltroNivel] = useState("todos");
   const [busqueda, setBusqueda] = useState("");
   const [presBusqueda, setPresBusqueda] = useState("");
   const [presNivel, setPresNivel] = useState("todas");
 
   const presentaciones = listaPresentaciones();
+  const quiereDatos = tab === "cuestionarios" || tab === "presentaciones";
 
+  // Los resultados solo se cargan al abrir un tab de Contenido: Inicio y Personas
+  // no se bloquean tras un RPC que no usan.
   useEffect(() => {
-    const load = async () => {
+    if (!quiereDatos || datosListos || cargandoDatos) return;
+    setCargandoDatos(true);
+    (async () => {
       const [{ data: results }, { data: profs }] = await Promise.all([
         supabase.rpc("get_all_resultados"),
         supabase.rpc("get_all_profiles"),
@@ -820,10 +506,10 @@ export default function Admin() {
       const map = {};
       (profs || []).forEach((p) => { map[p.id] = p; });
       setProfiles(map);
-      setLoading(false);
-    };
-    load();
-  }, []);
+      setDatosListos(true);
+      setCargandoDatos(false);
+    })();
+  }, [quiereDatos, datosListos, cargandoDatos]);
 
   async function handleDelete(id) {
     const { error } = await supabase.from("resultados").delete().eq("id", id);
@@ -852,148 +538,80 @@ export default function Admin() {
     }))
     .filter((a) => {
       if (filtroNivel !== "todos" && a.profile.nivel !== filtroNivel) return false;
-      if (busqueda && !a.profile.nombre.toLowerCase().includes(busqueda.toLowerCase())) return false;
+      if (busqueda && !(a.profile.nombre || "").toLowerCase().includes(busqueda.toLowerCase())) return false;
       return true;
     });
 
-  const totalIntentos   = resultados.length;
-  const promedioGlobal  = totalIntentos
-    ? Math.round(resultados.reduce((s, r) => s + Math.round((r.puntaje / r.total) * 100), 0) / totalIntentos)
+  const totalIntentos = resultados.length;
+  const promedioGlobal = totalIntentos
+    ? Math.round(resultados.reduce((s, r) => s + Math.round((r.puntaje / Math.max(1, r.total)) * 100), 0) / totalIntentos)
     : 0;
-
-  if (loading) {
-    return (
-      <div style={{ minHeight: "100vh", background: C.bg, display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <div style={{
-          width: 32, height: 32, borderRadius: "50%",
-          border: "2px solid rgba(59,158,255,.15)",
-          borderTopColor: C.blue,
-          animation: "spin .7s linear infinite",
-        }} />
-        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-      </div>
-    );
-  }
 
   return (
     <AdminLayout active={tab} onChange={setTab}>
 
-        {/* ── Tab: Inicio ───────────────────────────────────────────────── */}
-        {tab === "inicio" && <AdminInicio onNavigate={setTab} />}
+      {/* ── Tab: Inicio ───────────────────────────────────────────────── */}
+      {tab === "inicio" && <AdminInicio onNavigate={setTab} />}
 
-        {/* ── Tab: Dashboard (interno) ──────────────────────────────────── */}
-        {tab === "dashboard" && <AdminDashboard onNavigate={setTab} />}
+      {/* ── Tab: Dashboard (interno) ──────────────────────────────────── */}
+      {tab === "dashboard" && <AdminDashboard onNavigate={setTab} />}
 
-        {/* ── Tab: Alumnos ──────────────────────────────────────────────── */}
-        {tab === "alumnos" && <AdminAlumnos embedded />}
+      {/* ── Tab: Alumnos ──────────────────────────────────────────────── */}
+      {tab === "alumnos" && <AdminAlumnos embedded />}
 
-        {/* ── Tab: Solicitudes ──────────────────────────────────────────── */}
-        {tab === "solicitudes" && <AdminSolicitudes embedded />}
+      {/* ── Tab: Solicitudes ──────────────────────────────────────────── */}
+      {tab === "solicitudes" && <AdminSolicitudes embedded />}
 
-        {/* ── Tab: Tutores ──────────────────────────────────────────────── */}
-        {tab === "tutores" && <AdminTutores embedded />}
+      {/* ── Tab: Tutores ──────────────────────────────────────────────── */}
+      {tab === "tutores" && <AdminTutores embedded />}
 
-        {/* ── Tab: Inscripciones ────────────────────────────────────────── */}
-        {tab === "inscripciones" && <AdminInscripciones embedded />}
+      {/* ── Tab: Inscripciones ────────────────────────────────────────── */}
+      {tab === "inscripciones" && <AdminInscripciones embedded />}
 
-        {/* ── Tab: Cursos ───────────────────────────────────────────────── */}
-        {tab === "cursos" && <AdminCursos embedded />}
+      {/* ── Tab: Cursos ───────────────────────────────────────────────── */}
+      {tab === "cursos" && <AdminCursos embedded />}
 
-        {/* ── Tab: Cargos ───────────────────────────────────────────────── */}
-        {tab === "cargos" && <AdminCargos embedded />}
+      {/* ── Tab: Cargos ───────────────────────────────────────────────── */}
+      {tab === "cargos" && <AdminCargos embedded />}
 
-        {/* ── Tab: Suscripciones ────────────────────────────────────────── */}
-        {tab === "suscripciones" && <AdminSuscripciones embedded />}
+      {/* ── Tab: Suscripciones ────────────────────────────────────────── */}
+      {tab === "suscripciones" && <AdminSuscripciones embedded />}
 
-        {/* ── Tab: Estadísticas (Cuestionarios) ──────────────────────────── */}
-        {tab === "cuestionarios" && (
-          <>
-            {/* ── Stats globales (tira compacta) ───────────────────────── */}
-            <div style={{
-              display: "flex",
-              flexWrap: "wrap",
-              alignItems: "center",
-              background: C.surface,
-              border: `1px solid ${C.border}`,
-              borderRadius: 12,
-              padding: "8px 4px",
-              marginBottom: 28,
-            }}>
-              <CompactStat label="Alumnos"   value={Object.keys(byUser).length} />
-              <CompactStat label="Intentos"  value={totalIntentos} />
-              <CompactStat label="Promedio"  value={`${promedioGlobal}%`} color={promedioGlobal > 0 ? pctColor(promedioGlobal) : C.muted} />
-              <CompactStat label="Presentaciones" value={presentaciones.length} color={C.purple} last />
+      {/* ── Tab: Estadísticas (Cuestionarios) ──────────────────────────── */}
+      {tab === "cuestionarios" && (
+        <Page
+          eyebrow="Contenido"
+          titulo="Estadísticas"
+          descripcion="Resultados de cuestionarios y presentaciones por alumno."
+        >
+          <div className="ax-grid-stats">
+            <Stat label="Alumnos" value={datosListos ? Object.keys(byUser).length : "…"} tone="accent" icono={Users} />
+            <Stat label="Intentos" value={datosListos ? totalIntentos : "…"} tone="accent" icono={ClipboardList} />
+            <Stat label="Promedio" value={datosListos ? `${promedioGlobal}%` : "…"} tone="accent" icono={TrendingUp} />
+            <Stat label="Presentaciones" value={presentaciones.length} tone="accent" icono={PresentationIcon} />
+          </div>
+
+          <div className="ax-acciones" style={{ justifyContent: "space-between" }}>
+            <SearchField value={busqueda} onChange={(e) => setBusqueda(e.target.value)}
+              placeholder="Buscar alumno…" style={{ flex: "1 1 220px", maxWidth: 320 }} />
+            <div className="ax-acciones">
+              {["todos", "preparatoria", "universidad"].map((n) => (
+                <Button key={n} variante={filtroNivel === n ? "primary" : "subtle"} onClick={() => setFiltroNivel(n)}>
+                  {n === "todos" ? "Todos" : NIVEL_LABEL[n] || n}
+                </Button>
+              ))}
             </div>
+          </div>
 
-            {/* Filtros */}
-            <div style={{ display: "flex", gap: 10, marginBottom: 20, flexWrap: "wrap", alignItems: "center" }}>
-              <div style={{ position: "relative", flex: "1 1 200px", maxWidth: 300 }}>
-                <span style={{
-                  position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)",
-                  color: C.muted, fontSize: 14, pointerEvents: "none",
-                }}>
-                  ⌕
-                </span>
-                <input
-                  value={busqueda}
-                  onChange={(e) => setBusqueda(e.target.value)}
-                  placeholder="Buscar alumno…"
-                  style={{
-                    width: "100%",
-                    background: C.surface,
-                    border: `1px solid ${C.border}`,
-                    borderRadius: 9,
-                    padding: "9px 14px 9px 34px",
-                    color: C.text,
-                    fontSize: 13,
-                    fontFamily: font,
-                    outline: "none",
-                    boxSizing: "border-box",
-                  }}
-                  onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }}
-                  onBlur={(e)  => { e.target.style.borderColor = C.border; }}
-                />
-              </div>
-              <div style={{ display: "flex", gap: 6 }}>
-                {["todos", "preparatoria", "universidad"].map((n) => (
-                  <button
-                    key={n}
-                    onClick={() => setFiltroNivel(n)}
-                    style={{
-                      border: filtroNivel === n ? "none" : `1px solid ${C.border}`,
-                      borderRadius: 99,
-                      padding: "8px 16px",
-                      fontSize: 12,
-                      fontWeight: 700,
-                      cursor: "pointer",
-                      background: filtroNivel === n ? C.blue : C.surface,
-                      color: filtroNivel === n ? "#fff" : C.muted,
-                      fontFamily: font,
-                      transition: "background .15s, color .15s",
-                    }}
-                  >
-                    {n.charAt(0).toUpperCase() + n.slice(1)}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Lista de alumnos */}
-            {alumnos.length === 0 ? (
-              <div style={{
-                textAlign: "center",
-                padding: "80px 20px",
-                color: C.muted,
-                fontSize: 15,
-                fontFamily: font,
-              }}>
-                <div style={{ fontSize: 40, marginBottom: 16, opacity: 0.4 }}>📋</div>
-                {totalIntentos === 0
-                  ? "Aún no hay resultados registrados."
-                  : "No hay alumnos que coincidan con el filtro."}
-              </div>
-            ) : (
-              alumnos.map((a) => (
+          {!datosListos ? <Cargando /> : alumnos.length === 0 ? (
+            <EmptyState icono={ClipboardList} titulo="Sin resultados">
+              {totalIntentos === 0
+                ? "Aún no hay resultados registrados."
+                : "Ningún alumno coincide con el filtro."}
+            </EmptyState>
+          ) : (
+            <div className="ax-lista">
+              {alumnos.map((a) => (
                 <ResumenAlumno
                   key={a.uid}
                   nombre={a.profile.nombre || a.profile.email || a.uid.slice(0, 8)}
@@ -1002,135 +620,82 @@ export default function Admin() {
                   onDelete={handleDelete}
                   onUpdate={handleUpdate}
                 />
-              ))
-            )}
-          </>
-        )}
+              ))}
+            </div>
+          )}
+        </Page>
+      )}
 
-        {/* ── Tab: Presentaciones ─────────────────────────────────────────── */}
-        {tab === "presentaciones" && (
-          <>
-            {presentaciones.length === 0 ? (
-              <div style={{
-                textAlign: "center",
-                padding: "80px 20px",
-                color: C.muted,
-                fontSize: 15,
-                fontFamily: font,
-              }}>
-                <div style={{ fontSize: 40, marginBottom: 16, opacity: 0.4 }}>📽</div>
-                No hay presentaciones registradas aún.
-              </div>
-            ) : (
-              <>
-                {/* Buscador + filtro de nivel */}
-                <div style={{ display: "flex", gap: 10, marginBottom: 18, flexWrap: "wrap", alignItems: "center" }}>
-                  <div style={{ position: "relative", flex: "1 1 220px", maxWidth: 340 }}>
-                    <span style={{
-                      position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)",
-                      color: C.muted, fontSize: 14, pointerEvents: "none",
-                    }}>⌕</span>
-                    <input
-                      value={presBusqueda}
-                      onChange={(e) => setPresBusqueda(e.target.value)}
-                      placeholder="Buscar presentación…"
-                      style={{
-                        width: "100%", background: C.surface, border: `1px solid ${C.border}`,
-                        borderRadius: 9, padding: "9px 14px 9px 34px", color: C.text,
-                        fontSize: 13, fontFamily: font, outline: "none", boxSizing: "border-box",
-                      }}
-                      onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }}
-                      onBlur={(e)  => { e.target.style.borderColor = C.border; }}
-                    />
-                  </div>
-                  <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-                    {["todas", ...NIVELES].map((n) => {
-                      const activo = presNivel === n;
-                      const col = n === "todas" ? C.blue : NIVEL_COLOR[n];
-                      return (
-                        <button
-                          key={n}
-                          onClick={() => setPresNivel(n)}
-                          style={{
-                            border: activo ? "none" : `1px solid ${C.border}`,
-                            borderRadius: 99, padding: "8px 16px", fontSize: 12, fontWeight: 700,
-                            cursor: "pointer", background: activo ? col : C.surface,
-                            color: activo ? "#fff" : C.muted, fontFamily: font,
-                            transition: "background .15s, color .15s",
-                          }}
-                        >
-                          {n === "todas" ? "Todas" : n}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {(() => {
-                  const presFiltradas = presentaciones.filter((p) => {
-                    const nivs = NIVELES_POR_SLUG[p.id] || [];
-                    if (presNivel !== "todas" && !nivs.includes(presNivel)) return false;
-                    if (presBusqueda) {
-                      const q = presBusqueda.toLowerCase();
-                      if (!`${p.titulo} ${p.materia} ${p.subtema || ""}`.toLowerCase().includes(q)) return false;
-                    }
-                    return true;
-                  });
-                  if (presFiltradas.length === 0) {
-                    return (
-                      <div style={{ textAlign: "center", padding: "40px 20px", color: C.muted, fontSize: 14, fontFamily: font }}>
-                        Ninguna presentación coincide con la búsqueda o el filtro.
-                      </div>
-                    );
-                  }
-                  const byMateria = {};
-                  presFiltradas.forEach((p) => { (byMateria[p.materia] ||= []).push(p); });
-                  return (
-                    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                      {Object.entries(byMateria).map(([materia, items]) => (
-                        <MateriaAccordion key={materia} materia={materia} presentaciones={items} />
-                      ))}
-                    </div>
-                  );
-                })()}
-
-                {/* Historial de puntuaciones */}
-                <div style={{ marginTop: 40 }}>
-                  <div style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 10,
-                    marginBottom: 18,
-                  }}>
-                    <div style={{ flex: 1, height: 1, background: C.border }} />
-                    <span style={{
-                      color: C.dim,
-                      fontSize: 11,
-                      fontWeight: 700,
-                      textTransform: "uppercase",
-                      letterSpacing: "0.12em",
-                      fontFamily: font,
-                      whiteSpace: "nowrap",
-                    }}>
-                      Puntuaciones por presentación
-                    </span>
-                    <div style={{ flex: 1, height: 1, background: C.border }} />
-                  </div>
-                  {presentaciones.map((p) => (
-                    <ResultadosPresentacion
-                      key={p.id}
-                      presentacion={p}
-                      resultados={resultados}
-                      profiles={profiles}
-                      onDelete={handleDelete}
-                      onUpdate={handleUpdate}
-                    />
+      {/* ── Tab: Presentaciones ─────────────────────────────────────────── */}
+      {tab === "presentaciones" && (
+        <Page
+          eyebrow="Contenido"
+          titulo="Presentaciones"
+          descripcion="Catálogo de presentaciones y las puntuaciones que han dejado."
+        >
+          {presentaciones.length === 0 ? (
+            <EmptyState icono={PresentationIcon} titulo="Sin presentaciones">
+              No hay presentaciones registradas aún.
+            </EmptyState>
+          ) : (
+            <>
+              <div className="ax-acciones" style={{ justifyContent: "space-between" }}>
+                <SearchField value={presBusqueda} onChange={(e) => setPresBusqueda(e.target.value)}
+                  placeholder="Buscar presentación…" style={{ flex: "1 1 220px", maxWidth: 340 }} />
+                <div className="ax-acciones">
+                  {["todas", ...NIVELES].map((n) => (
+                    <Button key={n} variante={presNivel === n ? "primary" : "subtle"} onClick={() => setPresNivel(n)}>
+                      {n === "todas" ? "Todas" : n}
+                    </Button>
                   ))}
                 </div>
-              </>
-            )}
-          </>
-        )}
+              </div>
+
+              {(() => {
+                const presFiltradas = presentaciones.filter((p) => {
+                  const nivs = NIVELES_POR_SLUG[p.id] || [];
+                  if (presNivel !== "todas" && !nivs.includes(presNivel)) return false;
+                  if (presBusqueda) {
+                    const q = presBusqueda.toLowerCase();
+                    if (!`${p.titulo} ${p.materia} ${p.subtema || ""}`.toLowerCase().includes(q)) return false;
+                  }
+                  return true;
+                });
+                if (presFiltradas.length === 0) {
+                  return (
+                    <EmptyState icono={PresentationIcon} titulo="Nada que mostrar">
+                      Ninguna presentación coincide con la búsqueda o el filtro.
+                    </EmptyState>
+                  );
+                }
+                const byMateria = {};
+                presFiltradas.forEach((p) => { (byMateria[p.materia] ||= []).push(p); });
+                return (
+                  <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
+                    {Object.entries(byMateria).map(([materia, items]) => (
+                      <MateriaSeccion key={materia} materia={materia} presentaciones={items} />
+                    ))}
+                  </div>
+                );
+              })()}
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <span className="ax-eyebrow">Puntuaciones por presentación</span>
+                {!datosListos ? <Cargando /> : presentaciones.map((p) => (
+                  <ResultadosPresentacion
+                    key={p.id}
+                    presentacion={p}
+                    resultados={resultados}
+                    profiles={profiles}
+                    onDelete={handleDelete}
+                    onUpdate={handleUpdate}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+        </Page>
+      )}
     </AdminLayout>
   );
 }

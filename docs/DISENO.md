@@ -672,4 +672,35 @@ definición, como pide §0— y el panel usa el mismo componente `FxMarca` que l
 chip «Panel admin» desaparece, y la barra del panel toma el mismo `--fx-nav-bg`, el mismo
 `backdrop-filter` y los mismos 64 px de alto, para que las dos se lean como la misma barra.
 
+### 2026-09-22 · Contenido entra al sistema claro, y el catálogo de presentaciones se rediseña
+
+*Qué:* el grupo **Contenido** cierra su fase. Los tabs **Estadísticas** y **Presentaciones**
+—inline en `src/pages/Admin.jsx`— y **Cursos** (`AdminCursos.jsx`) dejan la paleta oscura
+local `C`, `DM Sans`, los emojis (`📽 📋 ⌕ ✎ ✕`) y el semáforo `pctColor`
+(verde/ámbar/naranja/rojo). Nace la primitiva **`Medidor`** en `ui.jsx`. `AdminCursos` ya no
+monta `AdminHeader`: usa el mismo shell (`AdminLayout`) que el resto.
+
+*Por qué:* §2.4 y §2.1. Las calificaciones son **agregados**, así que van en **escala
+secuencial de un solo matiz**: el largo de la barra dice cuánto, nunca el color. La matriz
+alumno×pregunta usa `CircleCheck`/`CircleX`/`Minus` de lucide —forma además del token de
+estado—, y `pctColor` desaparece. Los estados del catálogo (`activo`, `inactivo`, `curso`,
+`asesoría`) son `Badge` con texto e ícono.
+
+**El catálogo de presentaciones se rediseñó, no solo se re-vistió.** Antes era un acordeón de
+filas apretadas con badges hex por nivel y conteos crípticos (`N secc.`, `N ej.`). Ahora cada
+materia es una sección con su punto de acento, y sus presentaciones van en **rejilla de
+tarjetas** con **franja superior del acento de la materia** —`obtenerTema(materia, "claro")`,
+los del `:root`, legibles sobre blanco; antes se pedía el tema oscuro por defecto—, conteos con
+ícono (`Layers`, `BookOpen`, `ListChecks`) y niveles como `Badge` neutro. Los resultados se
+cargan **bajo demanda** al abrir un tab de Contenido: Inicio y Personas ya no se bloquean tras
+un RPC que no usan.
+
+**Un defecto del shell que el catálogo destapó.** A ≤899 px, `.ax-body` pasaba a columna pero
+conservaba `align-items: flex-start`; como `align-items` reparte el eje transversal, `.ax-main`
+se **encogía al contenido** en vez de llenar el ancho. Con la rejilla nueva eso lo desbordaba a
+390 px. Se corrige con `align-items: stretch` (y `align-self: stretch` en el sidebar) en el
+media query. A 320 px sigue habiendo ~25 px de desborde, pero viene de la barra de marca
+compartida (wordmark + cuenta), no del contenido, y es anterior a esta fase; el checklist de §3
+se mide a 375, donde queda limpio.
+
 

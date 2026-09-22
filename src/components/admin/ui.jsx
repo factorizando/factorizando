@@ -111,6 +111,15 @@ export const ADMIN_CSS = `
 .ax-tabla td { padding: 12px; border-bottom: 1px solid var(--fx-border); color: var(--fx-text-body); }
 .ax-tabla tr:last-child td { border-bottom: none; }
 
+.ax-pct { display: inline-flex; align-items: center; gap: 8px; }
+.ax-pct-num { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--fx-text-heading); }
+.ax-medidor { height: 6px; border-radius: var(--fx-radius-pill); background: var(--fx-surface-sunken);
+  overflow: hidden; flex: none; }
+.ax-medidor > span { display: block; height: 100%; border-radius: var(--fx-radius-pill);
+  background: var(--fx-primary-500); }
+.ax-celda-ok { color: var(--fx-success-text); }
+.ax-celda-no { color: var(--fx-error-text); }
+
 .ax-lista { display: flex; flex-direction: column; gap: 12px; }
 .ax-fila { display: flex; align-items: center; gap: 14px; }
 .ax-aparecer { flex: 1; min-width: 0; }
@@ -196,6 +205,20 @@ export function Button({ variante = "secondary", icono: Icono, children, classNa
       {Icono && <Icono size={16} aria-hidden="true" />}
       {children}
     </button>
+  );
+}
+
+// Agregado en escala secuencial de UN matiz (docs/DISENO.md §2.4): el largo de la
+// barra dice cuánto, no el color. Nunca rojo, nunca verde.
+export function Medidor({ valor, ancho = 72, mostrarNumero = true }) {
+  const pct = Math.max(0, Math.min(100, Math.round(Number(valor) || 0)));
+  return (
+    <span className="ax-pct">
+      <span className="ax-medidor" style={{ width: ancho }} aria-hidden="true">
+        <span style={{ width: `${pct}%` }} />
+      </span>
+      {mostrarNumero && <span className="ax-pct-num">{pct}%</span>}
+    </span>
   );
 }
 

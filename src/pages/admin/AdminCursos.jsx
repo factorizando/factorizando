@@ -1,78 +1,23 @@
 // src/pages/admin/AdminCursos.jsx
 // Panel de administración de cursos: catálogo, grupos, planes de precio, tarifas de asesoría.
+//
+// En el design system (tema claro): ningún hex a mano —todo sale de tokens
+// `--fx-*`—, los estados llevan icono además del color (nada se distingue solo
+// por matiz) y los controles usan las primitivas de `ui.jsx` y lucide.
 
 import { useState, useEffect } from "react";
+import {
+  Plus, Pencil, Trash2, BookOpen, CalendarRange, CircleCheck, CircleX,
+  Clock, Users, Receipt,
+} from "lucide-react";
 import { supabase } from "../../lib/supabase";
-import AdminHeader from "../../components/admin/AdminHeader.jsx";
+import AdminLayout from "../../components/admin/AdminLayout.jsx";
+import {
+  Page, Card, Badge, Button, Field, Input, Select, Modal, EmptyState,
+} from "../../components/admin/ui.jsx";
 import { GRID_FORM } from "../../components/admin/layout.js";
 
-const font = "'DM Sans', sans-serif";
-const C = {
-  bg:      "#0e0f11",
-  surface: "#13151a",
-  card:    "#16181f",
-  border:  "#252830",
-  blue:    "#3b9eff",
-  green:   "#34d399",
-  yellow:  "#fbbf24",
-  orange:  "#f97316",
-  red:     "#f43f5e",
-  purple:  "#a78bfa",
-  text:    "#e8eaf0",
-  muted:   "#5a6070",
-  dim:     "#8a9ab8",
-};
-
 function fmtMoney(n) { return `$${Number(n).toLocaleString("es-MX", { minimumFractionDigits: 2 })}`; }
-
-function Spinner() {
-  return (
-    <div style={{ display: "flex", justifyContent: "center", padding: 60 }}>
-      <div style={{
-        width: 28, height: 28, borderRadius: "50%",
-        border: `2px solid ${C.blue}22`, borderTopColor: C.blue,
-        animation: "spin .7s linear infinite",
-      }} />
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-    </div>
-  );
-}
-
-const inputStyle = {
-  background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
-  padding: "9px 12px", color: C.text, fontSize: 13, fontFamily: font,
-  outline: "none", width: "100%", boxSizing: "border-box",
-};
-
-function Field({ label, children }) {
-  return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-      <label style={{ color: C.dim, fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", fontFamily: font }}>{label}</label>
-      {children}
-    </div>
-  );
-}
-
-function Modal({ title, onClose, children }) {
-  return (
-    <div style={{
-      position: "fixed", inset: 0, zIndex: 100,
-      display: "flex", alignItems: "center", justifyContent: "center",
-      background: "rgba(0,0,0,.6)", backdropFilter: "blur(4px)",
-    }} onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
-      <div style={{
-        background: C.card, border: `1px solid ${C.border}`, borderRadius: 14,
-        width: "90%", maxWidth: 520, maxHeight: "85vh", overflow: "auto", padding: "24px 28px",
-      }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
-          <h3 style={{ margin: 0, color: C.text, fontSize: 16, fontWeight: 700, fontFamily: font }}>{title}</h3>
-          <button onClick={onClose} style={{ background: "none", border: "none", color: C.muted, fontSize: 20, cursor: "pointer", padding: 4 }}>×</button>
-        </div>
-        {children}
-      </div>
-    </div>
-  );
-}
 
 // ── Formulario curso ─────────────────────────────────────────────────────────
 function CursoForm({ initial, onSave, onCancel }) {
@@ -94,44 +39,37 @@ function CursoForm({ initial, onSave, onCancel }) {
 
   return (
     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-      <Field label="Nombre"><input value={form.nombre} onChange={set("nombre")} placeholder="Curso de Álgebra" style={inputStyle} required
-        onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }}
-        onBlur={(e)  => { e.target.style.borderColor = C.border; }} /></Field>
-      <Field label="Descripción"><input value={form.descripcion} onChange={set("descripcion")} placeholder="(opcional)" style={inputStyle}
-        onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }}
-        onBlur={(e)  => { e.target.style.borderColor = C.border; }} /></Field>
+      <Field label="Nombre">
+        <Input value={form.nombre} onChange={set("nombre")} placeholder="Curso de Álgebra" required />
+      </Field>
+      <Field label="Descripción">
+        <Input value={form.descripcion} onChange={set("descripcion")} placeholder="(opcional)" />
+      </Field>
       <div style={{ display: "grid", gridTemplateColumns: GRID_FORM, gap: 12 }}>
         <Field label="Tipo">
-          <select value={form.tipo} onChange={set("tipo")} style={{ ...inputStyle, cursor: "pointer" }}>
+          <Select value={form.tipo} onChange={set("tipo")}>
             <option value="curso">Curso</option>
             <option value="asesoria">Asesoría</option>
-          </select>
+          </Select>
         </Field>
         {form.tipo !== "asesoria" && (
           <Field label="Modalidad de fechas">
-            <select value={form.modalidad_fechas} onChange={set("modalidad_fechas")} style={{ ...inputStyle, cursor: "pointer" }}>
+            <Select value={form.modalidad_fechas} onChange={set("modalidad_fechas")}>
               <option value="libre">Libre (sin cohortes)</option>
               <option value="fija">Fija (con generaciones)</option>
-            </select>
+            </Select>
           </Field>
         )}
       </div>
       <Field label="Activo">
-        <select value={form.activo ? "si" : "no"} onChange={(e) => setForm((f) => ({ ...f, activo: e.target.value === "si" }))} style={{ ...inputStyle, cursor: "pointer" }}>
+        <Select value={form.activo ? "si" : "no"} onChange={(e) => setForm((f) => ({ ...f, activo: e.target.value === "si" }))}>
           <option value="si">Sí</option>
           <option value="no">No</option>
-        </select>
+        </Select>
       </Field>
-      <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", marginTop: 8 }}>
-        <button type="button" onClick={onCancel} style={{
-          background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
-          padding: "8px 18px", color: C.muted, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: font,
-        }}>Cancelar</button>
-        <button type="submit" disabled={saving} style={{
-          background: C.blue, border: "none", borderRadius: 8,
-          padding: "8px 22px", color: "#fff", fontSize: 13, fontWeight: 700,
-          cursor: saving ? "default" : "pointer", opacity: saving ? 0.6 : 1, fontFamily: font,
-        }}>{saving ? "Guardando…" : "Guardar"}</button>
+      <div className="ax-acciones" style={{ justifyContent: "flex-end", marginTop: 8 }}>
+        <Button variante="ghost" onClick={onCancel}>Cancelar</Button>
+        <Button variante="primary" type="submit" disabled={saving}>{saving ? "Guardando…" : "Guardar"}</Button>
       </div>
     </form>
   );
@@ -152,24 +90,17 @@ function GrupoForm({ onSave, onCancel }) {
 
   return (
     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-      <Field label="Nombre del grupo"><input value={form.nombre} onChange={set("nombre")} placeholder="Generación Ago-Dic 2026" style={inputStyle} required
-        onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }}
-        onBlur={(e)  => { e.target.style.borderColor = C.border; }} /></Field>
+      <Field label="Nombre del grupo">
+        <Input value={form.nombre} onChange={set("nombre")} placeholder="Generación Ago-Dic 2026" required />
+      </Field>
       <div style={{ display: "grid", gridTemplateColumns: GRID_FORM, gap: 12 }}>
-        <Field label="Fecha inicio"><input type="date" value={form.fecha_inicio} onChange={set("fecha_inicio")} style={inputStyle} required /></Field>
-        <Field label="Fecha fin"><input type="date" value={form.fecha_fin} onChange={set("fecha_fin")} style={inputStyle} required /></Field>
+        <Field label="Fecha inicio"><Input type="date" value={form.fecha_inicio} onChange={set("fecha_inicio")} required /></Field>
+        <Field label="Fecha fin"><Input type="date" value={form.fecha_fin} onChange={set("fecha_fin")} required /></Field>
       </div>
-      <Field label="Cupo máximo"><input type="number" min="1" value={form.cupo_max} onChange={set("cupo_max")} style={inputStyle} required /></Field>
-      <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", marginTop: 4 }}>
-        <button type="button" onClick={onCancel} style={{
-          background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
-          padding: "6px 14px", color: C.muted, fontSize: 12, fontWeight: 600, cursor: "pointer", fontFamily: font,
-        }}>Cancelar</button>
-        <button type="submit" disabled={saving} style={{
-          background: C.blue, border: "none", borderRadius: 8,
-          padding: "6px 16px", color: "#fff", fontSize: 12, fontWeight: 700,
-          cursor: saving ? "default" : "pointer", opacity: saving ? 0.6 : 1, fontFamily: font,
-        }}>{saving ? "Guardando…" : "Guardar"}</button>
+      <Field label="Cupo máximo"><Input type="number" min="1" value={form.cupo_max} onChange={set("cupo_max")} required /></Field>
+      <div className="ax-acciones" style={{ justifyContent: "flex-end", marginTop: 4 }}>
+        <Button variante="ghost" onClick={onCancel}>Cancelar</Button>
+        <Button variante="primary" type="submit" disabled={saving}>{saving ? "Guardando…" : "Guardar"}</Button>
       </div>
     </form>
   );
@@ -192,30 +123,21 @@ function PlanForm({ onSave, onCancel }) {
     <form onSubmit={handleSubmit} style={{ display: "flex", gap: 12, alignItems: "flex-end", flexWrap: "wrap" }}>
       <div style={{ flex: "1 1 140px" }}>
         <Field label="Tipo">
-          <select value={form.tipo_cobro} onChange={set("tipo_cobro")} style={{ ...inputStyle, cursor: "pointer" }}>
+          <Select value={form.tipo_cobro} onChange={set("tipo_cobro")}>
             <option value="semanal">Semanal</option>
             <option value="mensual">Mensual</option>
             <option value="unico">Único</option>
-          </select>
+          </Select>
         </Field>
       </div>
       <div style={{ flex: "1 1 120px" }}>
         <Field label="Monto">
-          <input type="number" step="0.01" min="0" value={form.monto} onChange={set("monto")} style={inputStyle} required
-            onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }}
-            onBlur={(e)  => { e.target.style.borderColor = C.border; }} />
+          <Input type="number" step="0.01" min="0" value={form.monto} onChange={set("monto")} required />
         </Field>
       </div>
-      <div style={{ display: "flex", gap: 6, paddingBottom: 2 }}>
-        <button type="button" onClick={onCancel} style={{
-          background: C.surface, border: `1px solid ${C.border}`, borderRadius: 6,
-          padding: "6px 12px", color: C.muted, fontSize: 12, cursor: "pointer", fontFamily: font,
-        }}>Cancelar</button>
-        <button type="submit" disabled={saving || !form.monto} style={{
-          background: C.blue, border: "none", borderRadius: 6,
-          padding: "6px 14px", color: "#fff", fontSize: 12, fontWeight: 700,
-          cursor: saving ? "default" : "pointer", opacity: saving || !form.monto ? 0.6 : 1, fontFamily: font,
-        }}>Agregar</button>
+      <div className="ax-acciones" style={{ paddingBottom: 2 }}>
+        <Button variante="ghost" onClick={onCancel}>Cancelar</Button>
+        <Button variante="primary" type="submit" disabled={saving || !form.monto}>Agregar</Button>
       </div>
     </form>
   );
@@ -238,55 +160,51 @@ function TarifaForm({ onSave, onCancel }) {
     <form onSubmit={handleSubmit} style={{ display: "flex", gap: 12, alignItems: "flex-end", flexWrap: "wrap" }}>
       <div style={{ flex: "1 1 140px" }}>
         <Field label="Duración">
-          <select value={form.duracion_bloque} onChange={set("duracion_bloque")} style={{ ...inputStyle, cursor: "pointer" }}>
+          <Select value={form.duracion_bloque} onChange={set("duracion_bloque")}>
             <option value="1h">1 hora</option>
             <option value="2h">2 horas</option>
-          </select>
+          </Select>
         </Field>
       </div>
       <div style={{ flex: "1 1 120px" }}>
         <Field label="Tarifa individual">
-          <input type="number" step="0.01" min="0" value={form.tarifa_individual} onChange={set("tarifa_individual")} style={inputStyle} required
-            onFocus={(e) => { e.target.style.borderColor = C.blue + "66"; }}
-            onBlur={(e)  => { e.target.style.borderColor = C.border; }} />
+          <Input type="number" step="0.01" min="0" value={form.tarifa_individual} onChange={set("tarifa_individual")} required />
         </Field>
       </div>
-      <div style={{ display: "flex", gap: 6, paddingBottom: 2 }}>
-        <button type="button" onClick={onCancel} style={{
-          background: C.surface, border: `1px solid ${C.border}`, borderRadius: 6,
-          padding: "6px 12px", color: C.muted, fontSize: 12, cursor: "pointer", fontFamily: font,
-        }}>Cancelar</button>
-        <button type="submit" disabled={saving || !form.tarifa_individual} style={{
-          background: C.blue, border: "none", borderRadius: 6,
-          padding: "6px 14px", color: "#fff", fontSize: 12, fontWeight: 700,
-          cursor: saving ? "default" : "pointer", opacity: saving || !form.tarifa_individual ? 0.6 : 1, fontFamily: font,
-        }}>Agregar</button>
+      <div className="ax-acciones" style={{ paddingBottom: 2 }}>
+        <Button variante="ghost" onClick={onCancel}>Cancelar</Button>
+        <Button variante="primary" type="submit" disabled={saving || !form.tarifa_individual}>Agregar</Button>
       </div>
     </form>
   );
 }
 
-// ── Detalle de curso (sub-secciones) ─────────────────────────────────────────
-function ConfirmModal({ title, message, onConfirm, onCancel }) {
-  const [saving, setSaving] = useState(false);
+// ── Sección dentro del detalle ───────────────────────────────────────────────
+function Seccion({ titulo, count, onAdd, children }) {
   return (
-    <Modal title={title} onClose={onCancel}>
-      <p style={{ color: C.dim, fontSize: 13, fontFamily: font, margin: "0 0 18px" }}>{message}</p>
-      <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
-        <button onClick={onCancel} style={{
-          background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
-          padding: "8px 18px", color: C.muted, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: font,
-        }}>Cancelar</button>
-        <button onClick={async () => { setSaving(true); await onConfirm(); }} disabled={saving} style={{
-          background: C.red, border: "none", borderRadius: 8,
-          padding: "8px 22px", color: "#fff", fontSize: 13, fontWeight: 700,
-          cursor: saving ? "default" : "pointer", opacity: saving ? 0.6 : 1, fontFamily: font,
-        }}>{saving ? "Eliminando…" : "Eliminar"}</button>
+    <div>
+      <div className="ax-fila" style={{ justifyContent: "space-between", marginBottom: 8 }}>
+        <span className="ax-eyebrow">{titulo} · {count}</span>
+        <Button variante="subtle" icono={Plus} onClick={onAdd}>Agregar</Button>
       </div>
-    </Modal>
+      <div className="ax-lista">{children}</div>
+    </div>
   );
 }
 
+function SubFila({ children, onDelete }) {
+  return (
+    <div className="ax-fila" style={{
+      background: "var(--fx-surface)", border: "1px solid var(--fx-border)",
+      borderRadius: "var(--fx-radius-md)", padding: "10px 14px",
+    }}>
+      <div className="ax-aparecer">{children}</div>
+      <Button variante="ghost" icono={Trash2} title="Eliminar" onClick={onDelete} />
+    </div>
+  );
+}
+
+// ── Detalle de curso (sub-secciones) ─────────────────────────────────────────
 function CursoDetalle({ curso, onEdit, onDelete }) {
   const [grupos, setGrupos] = useState([]);
   const [planes, setPlanes] = useState([]);
@@ -317,29 +235,15 @@ function CursoDetalle({ curso, onEdit, onDelete }) {
     setShowGrupo(false);
     await loadSub();
   }
-
-  async function handleDeleteGrupo(id) {
-    setConfirmDelete({ type: "grupo", id, message: "¿Eliminar este grupo?" });
-  }
-
   async function handleAddPlan(form) {
     await supabase.from("planes_precio").insert({ ...form, curso_id: curso.id });
     setShowPlan(false);
     await loadSub();
   }
-
-  async function handleDeletePlan(id) {
-    setConfirmDelete({ type: "plan", id, message: "¿Eliminar este plan de precio?" });
-  }
-
   async function handleAddTarifa(form) {
     await supabase.from("tarifas_asesoria").insert({ ...form, curso_id: curso.id });
     setShowTarifa(false);
     await loadSub();
-  }
-
-  async function handleDeleteTarifa(id) {
-    setConfirmDelete({ type: "tarifa", id, message: "¿Eliminar esta tarifa?" });
   }
 
   async function confirmDeleteAction() {
@@ -352,235 +256,146 @@ function CursoDetalle({ curso, onEdit, onDelete }) {
 
   if (!curso) {
     return (
-      <div style={{
-        display: "flex", alignItems: "center", justifyContent: "center",
-        height: "100%", color: C.muted, fontSize: 14, fontFamily: font,
-      }}>
-        Selecciona un curso para ver su detalle
-      </div>
+      <EmptyState icono={BookOpen} titulo="Selecciona un curso">
+        Elige un curso de la lista para ver sus grupos, planes y tarifas.
+      </EmptyState>
     );
   }
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-      {/* Cabecera */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-        <div>
-          <h3 style={{ margin: 0, color: C.text, fontSize: 18, fontWeight: 700, fontFamily: font }}>{curso.nombre}</h3>
-          <div style={{ display: "flex", gap: 8, marginTop: 6 }}>
-            <span style={{
-              background: curso.tipo === "curso" ? C.blue + "22" : C.orange + "22",
-              color: curso.tipo === "curso" ? C.blue : C.orange,
-              borderRadius: 5, padding: "1px 7px", fontSize: 10, fontWeight: 700, fontFamily: font,
-            }}>{curso.tipo}</span>
+      <div className="ax-fila" style={{ justifyContent: "space-between", alignItems: "flex-start" }}>
+        <div className="ax-aparecer">
+          <h3 className="ax-card-tit" style={{ margin: 0 }}>{curso.nombre}</h3>
+          <div className="ax-acciones" style={{ marginTop: 8, gap: 6 }}>
+            <Badge tone={curso.tipo === "curso" ? "accent" : "neutral"}>{curso.tipo}</Badge>
             {curso.modalidad_fechas && (
-              <span style={{
-                background: C.surface, color: C.dim, borderRadius: 5, padding: "1px 7px",
-                fontSize: 10, fontWeight: 600, fontFamily: font,
-              }}>modalidad {curso.modalidad_fechas}</span>
+              <Badge tone="neutral">modalidad {curso.modalidad_fechas}</Badge>
             )}
-            {!curso.activo && (
-              <span style={{ background: C.red + "22", color: C.red, borderRadius: 5, padding: "1px 7px", fontSize: 10, fontWeight: 700, fontFamily: font }}>inactivo</span>
-            )}
+            {!curso.activo && <Badge tone="warning" icono={Clock}>inactivo</Badge>}
           </div>
         </div>
-        <div style={{ display: "flex", gap: 8 }}>
-          <button onClick={() => onEdit(curso)} style={{
-            background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
-            padding: "6px 14px", color: C.dim, fontSize: 12, fontWeight: 600, cursor: "pointer", fontFamily: font,
-          }}>Editar</button>
-          <button onClick={() => onDelete(curso)} style={{
-            background: C.red + "18", border: `1px solid ${C.red}33`, borderRadius: 8,
-            padding: "6px 14px", color: C.red, fontSize: 12, fontWeight: 600, cursor: "pointer", fontFamily: font,
-          }}>Eliminar</button>
+        <div className="ax-acciones">
+          <Button variante="subtle" icono={Pencil} onClick={() => onEdit(curso)}>Editar</Button>
+          <Button variante="ghost" icono={Trash2} onClick={() => onDelete(curso)}>Eliminar</Button>
         </div>
       </div>
 
-      {curso.descripcion && (
-        <div style={{ color: C.dim, fontSize: 13, fontFamily: font }}>{curso.descripcion}</div>
-      )}
+      {curso.descripcion && <p className="ax-sub" style={{ margin: 0, whiteSpace: "normal" }}>{curso.descripcion}</p>}
 
-      {loading ? <Spinner /> : (
+      {loading ? <p className="ax-sub">Cargando…</p> : (
         <>
-          {/* Grupos */}
           {curso.modalidad_fechas === "fija" && (
-            <Section
-              title="Grupos"
-              count={grupos.length}
-              onAdd={() => setShowGrupo(true)}
-            >
+            <Seccion titulo="Grupos" count={grupos.length} onAdd={() => setShowGrupo(true)}>
               {grupos.length === 0 ? (
-                <Empty text="Sin grupos registrados" />
+                <p className="ax-sub" style={{ margin: 0 }}>Sin grupos registrados.</p>
               ) : grupos.map((g) => (
-                <div key={g.id} style={{
-                  background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
-                  padding: "10px 14px", display: "flex", justifyContent: "space-between", alignItems: "center",
-                }}>
-                  <div>
-                    <span style={{ color: C.text, fontSize: 13, fontWeight: 600, fontFamily: font }}>{g.nombre}</span>
-                    <div style={{ color: C.muted, fontSize: 12, marginTop: 2, fontFamily: font }}>
-                      {g.fecha_inicio} → {g.fecha_fin} · Cupo: {g.cupo_max}
-                    </div>
+                <SubFila key={g.id} onDelete={() => setConfirmDelete({ type: "grupo", id: g.id })}>
+                  <span className="ax-nombre" style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                    <CalendarRange size={16} aria-hidden="true" />{g.nombre}
+                  </span>
+                  <div className="ax-sub" style={{ marginTop: 2 }}>
+                    {g.fecha_inicio} → {g.fecha_fin} · Cupo: {g.cupo_max}
                   </div>
-                  <button onClick={() => handleDeleteGrupo(g.id)} style={{
-                    background: "none", border: "none", color: C.red, fontSize: 16, cursor: "pointer", padding: 4,
-                  }} title="Eliminar">×</button>
-                </div>
+                </SubFila>
               ))}
-            </Section>
+            </Seccion>
           )}
 
-          {/* Planes de precio */}
-          <Section
-            title="Planes de precio"
-            count={planes.length}
-            onAdd={() => setShowPlan(true)}
-          >
+          <Seccion titulo="Planes de precio" count={planes.length} onAdd={() => setShowPlan(true)}>
             {planes.length === 0 ? (
-              <Empty text="Sin planes registrados" />
+              <p className="ax-sub" style={{ margin: 0 }}>Sin planes registrados.</p>
             ) : planes.map((p) => (
-              <div key={p.id} style={{
-                background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
-                padding: "10px 14px", display: "flex", justifyContent: "space-between", alignItems: "center",
-              }}>
-                <div>
-                  <span style={{ color: C.text, fontSize: 13, fontWeight: 600, fontFamily: font }}>
-                    {p.tipo_cobro.charAt(0).toUpperCase() + p.tipo_cobro.slice(1)}
-                  </span>
-                  <span style={{ marginLeft: 8, color: C.green, fontSize: 14, fontWeight: 700, fontFamily: font }}>
-                    {fmtMoney(p.monto)}
-                  </span>
+              <SubFila key={p.id} onDelete={() => setConfirmDelete({ type: "plan", id: p.id })}>
+                <span className="ax-nombre" style={{ textTransform: "capitalize" }}>{p.tipo_cobro}</span>
+                <span style={{ marginLeft: 8, color: "var(--fx-text-heading)", fontWeight: 700 }}>{fmtMoney(p.monto)}</span>
+                <div style={{ marginTop: 4 }}>
+                  <Badge tone={p.activo ? "success" : "neutral"} icono={p.activo ? CircleCheck : CircleX}>
+                    {p.activo ? "activo" : "inactivo"}
+                  </Badge>
                 </div>
-                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <span style={{
-                    background: p.activo ? C.green + "22" : C.red + "22",
-                    color: p.activo ? C.green : C.red,
-                    borderRadius: 99, padding: "1px 8px", fontSize: 10, fontWeight: 700, fontFamily: font,
-                  }}>{p.activo ? "activo" : "inactivo"}</span>
-                  <button onClick={() => handleDeletePlan(p.id)} style={{
-                    background: "none", border: "none", color: C.red, fontSize: 16, cursor: "pointer", padding: 4,
-                  }} title="Eliminar">×</button>
-                </div>
-              </div>
+              </SubFila>
             ))}
-          </Section>
+          </Seccion>
 
-          {/* Tarifas de asesoría */}
           {curso.tipo === "asesoria" && (
-            <Section
-              title="Tarifas de asesoría"
-              count={tarifas.length}
-              onAdd={() => setShowTarifa(true)}
-            >
+            <Seccion titulo="Tarifas de asesoría" count={tarifas.length} onAdd={() => setShowTarifa(true)}>
               {tarifas.length === 0 ? (
-                <Empty text="Sin tarifas registradas" />
+                <p className="ax-sub" style={{ margin: 0 }}>Sin tarifas registradas.</p>
               ) : tarifas.map((t) => (
-                <div key={t.id} style={{
-                  background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
-                  padding: "10px 14px", display: "flex", justifyContent: "space-between", alignItems: "center",
-                }}>
-                  <div>
-                    <span style={{ color: C.text, fontSize: 13, fontWeight: 600, fontFamily: font }}>
-                      Bloque {t.duracion_bloque}
-                    </span>
-                    <span style={{ marginLeft: 8, color: C.green, fontSize: 14, fontWeight: 700, fontFamily: font }}>
-                      {fmtMoney(t.tarifa_individual)}
-                    </span>
-                    <span style={{ marginLeft: 6, color: C.muted, fontSize: 12, fontFamily: font }}>por persona</span>
-                  </div>
-                  <button onClick={() => handleDeleteTarifa(t.id)} style={{
-                    background: "none", border: "none", color: C.red, fontSize: 16, cursor: "pointer", padding: 4,
-                  }} title="Eliminar">×</button>
-                </div>
+                <SubFila key={t.id} onDelete={() => setConfirmDelete({ type: "tarifa", id: t.id })}>
+                  <span className="ax-nombre">Bloque {t.duracion_bloque}</span>
+                  <span style={{ marginLeft: 8, color: "var(--fx-text-heading)", fontWeight: 700 }}>{fmtMoney(t.tarifa_individual)}</span>
+                  <span className="ax-sub" style={{ marginLeft: 6 }}>por persona</span>
+                </SubFila>
               ))}
-            </Section>
+            </Seccion>
           )}
         </>
       )}
 
-      {/* Modales */}
       {showGrupo && (
-        <Modal title="Nuevo grupo" onClose={() => setShowGrupo(false)}>
+        <Modal titulo="Nuevo grupo" onClose={() => setShowGrupo(false)}>
           <GrupoForm onSave={handleAddGrupo} onCancel={() => setShowGrupo(false)} />
         </Modal>
       )}
       {showPlan && (
-        <Modal title="Nuevo plan de precio" onClose={() => setShowPlan(false)}>
+        <Modal titulo="Nuevo plan de precio" onClose={() => setShowPlan(false)}>
           <PlanForm onSave={handleAddPlan} onCancel={() => setShowPlan(false)} />
         </Modal>
       )}
       {showTarifa && (
-        <Modal title="Nueva tarifa" onClose={() => setShowTarifa(false)}>
+        <Modal titulo="Nueva tarifa" onClose={() => setShowTarifa(false)}>
           <TarifaForm onSave={handleAddTarifa} onCancel={() => setShowTarifa(false)} />
         </Modal>
       )}
       {confirmDelete && (
-        <ConfirmModal
-          title={`Eliminar ${confirmDelete.type}`}
-          message={confirmDelete.message}
-          onConfirm={confirmDeleteAction}
-          onCancel={() => setConfirmDelete(null)}
-        />
+        <Modal titulo={`Eliminar ${confirmDelete.type}`} onClose={() => setConfirmDelete(null)}>
+          <p className="ax-sub" style={{ margin: "0 0 18px" }}>
+            {confirmDelete.type === "grupo"
+              ? "¿Eliminar este grupo?"
+              : confirmDelete.type === "plan"
+                ? "¿Eliminar este plan de precio?"
+                : "¿Eliminar esta tarifa?"}
+          </p>
+          <div className="ax-acciones" style={{ justifyContent: "flex-end" }}>
+            <Button variante="ghost" onClick={() => setConfirmDelete(null)}>Cancelar</Button>
+            <Button variante="primary" icono={Trash2} onClick={confirmDeleteAction}>Eliminar</Button>
+          </div>
+        </Modal>
       )}
     </div>
   );
-}
-
-// ── Helpers UI ───────────────────────────────────────────────────────────────
-function Section({ title, count, onAdd, children }) {
-  return (
-    <div>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-        <span style={{ color: C.dim, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", fontFamily: font }}>
-          {title} · {count}
-        </span>
-        <button onClick={onAdd} style={{
-          background: "none", border: `1px solid ${C.border}`, borderRadius: 6,
-          padding: "3px 10px", color: C.blue, fontSize: 11, fontWeight: 700, cursor: "pointer", fontFamily: font,
-        }}>+ Agregar</button>
-      </div>
-      <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>{children}</div>
-    </div>
-  );
-}
-
-function Empty({ text }) {
-  return <div style={{ color: C.muted, fontSize: 13, fontFamily: font }}>{text}</div>;
 }
 
 // ── Fila de curso ────────────────────────────────────────────────────────────
 function CursoRow({ curso, onSelect, selected, grupos, planes }) {
   return (
-    <div
-      onClick={() => onSelect(curso)}
+    <Card
       style={{
-        background: selected ? C.blue + "11" : C.card,
-        border: `1px solid ${selected ? C.blue + "44" : C.border}`,
-        borderRadius: 10, padding: "12px 16px", cursor: "pointer",
-        transition: "border-color .15s, background .15s",
+        cursor: "pointer",
+        borderColor: selected ? "var(--fx-primary-400)" : undefined,
+        background: selected ? "var(--fx-primary-50)" : undefined,
       }}
-      onMouseEnter={(e) => { if (!selected) e.currentTarget.style.borderColor = C.blue + "33"; }}
-      onMouseLeave={(e) => { if (!selected) e.currentTarget.style.borderColor = C.border; }}
     >
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <div>
-          <span style={{ color: C.text, fontWeight: 600, fontSize: 14, fontFamily: font }}>{curso.nombre}</span>
-          <span style={{
-            marginLeft: 8,
-            background: curso.tipo === "curso" ? C.blue + "22" : C.orange + "22",
-            color: curso.tipo === "curso" ? C.blue : C.orange,
-            borderRadius: 5, padding: "1px 7px", fontSize: 10, fontWeight: 700, fontFamily: font,
-          }}>{curso.tipo}</span>
-          {!curso.activo && (
-            <span style={{ marginLeft: 4, background: C.red + "22", color: C.red, borderRadius: 5, padding: "1px 7px", fontSize: 10, fontWeight: 700, fontFamily: font }}>off</span>
-          )}
+      <div onClick={() => onSelect(curso)}>
+        <div className="ax-fila">
+          <div className="ax-aparecer">
+            <div className="ax-nombre">{curso.nombre}</div>
+          </div>
+          <Badge tone={curso.tipo === "curso" ? "accent" : "neutral"}>{curso.tipo}</Badge>
+          {!curso.activo && <Badge tone="warning" icono={Clock}>off</Badge>}
         </div>
-        <div style={{ display: "flex", gap: 8, color: C.muted, fontSize: 11, fontFamily: font }}>
-          <span>{grupos.length} grupos</span>
-          <span>{planes.length} planes</span>
+        <div className="ax-acciones" style={{ marginTop: 10, gap: 16 }}>
+          <span className="ax-sub" style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+            <Users size={14} aria-hidden="true" /> {grupos.length} grupos
+          </span>
+          <span className="ax-sub" style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+            <Receipt size={14} aria-hidden="true" /> {planes.length} planes
+          </span>
         </div>
       </div>
-    </div>
+    </Card>
   );
 }
 
@@ -638,59 +453,55 @@ export default function AdminCursos({ embedded }) {
     await loadAll();
   }
 
-  return (
-    <div style={{ minHeight: "100vh", background: C.bg, fontFamily: font }}>
-      {!embedded && <AdminHeader active="cursos" />}
-      <div style={{ maxWidth: 980, margin: "0 auto", padding: "32px 16px" }}>
-      {/* Acción */}
-      <div style={{ display: "flex", gap: 10, marginBottom: 20, alignItems: "center" }}>
-        <span style={{ color: C.muted, fontSize: 12, fontFamily: font }}>{cursos.length} cursos</span>
-        <div style={{ flex: 1 }} />
-        <button onClick={() => { setEditCurso(null); setShowForm(true); }} style={{
-          background: C.blue, border: "none", borderRadius: 8,
-          padding: "8px 18px", color: "#fff", fontSize: 12, fontWeight: 700,
-          cursor: "pointer", fontFamily: font,
-        }}>+ Nuevo curso</button>
-      </div>
-
-      {/* Layout maestro-detalle. Con wrap, en teléfono el detalle baja debajo de
-          la lista en vez de quedarse fuera de pantalla; el maxWidth de la lista
-          solo aplica cuando conviven en la misma fila. */}
+  const contenido = (
+    <Page
+      eyebrow="Contenido"
+      titulo="Cursos"
+      descripcion="Catálogo de cursos y asesorías, con sus grupos, planes de precio y tarifas."
+      acciones={
+        <Button variante="primary" icono={Plus} onClick={() => { setEditCurso(null); setShowForm(true); }}>
+          Nuevo curso
+        </Button>
+      }
+    >
       <div style={{ display: "flex", gap: 20, minHeight: 400, flexWrap: "wrap" }}>
-        <div style={{ flex: "1 1 280px", maxWidth: 340, display: "flex", flexDirection: "column", gap: 6 }}>
-          {loading ? <Spinner /> : cursos.length === 0 ? (
-            <div style={{ textAlign: "center", padding: "60px 20px", color: C.muted, fontSize: 14, fontFamily: font }}>
+        <div style={{ flex: "1 1 280px", maxWidth: 360, display: "flex", flexDirection: "column", gap: 12 }}>
+          {loading ? (
+            <p className="ax-sub">Cargando…</p>
+          ) : cursos.length === 0 ? (
+            <EmptyState icono={BookOpen} titulo="Sin cursos">
               Aún no hay cursos registrados.
-            </div>
+            </EmptyState>
           ) : cursos.map((c) => (
             <CursoRow key={c.id} curso={c} onSelect={setSelected} selected={selected?.id === c.id}
               grupos={gruposMap[c.id] || []} planes={planesMap[c.id] || []} />
           ))}
         </div>
 
-        <div style={{
-          flex: "1 1 300px", background: C.surface, border: `1px solid ${C.border}`,
-          borderRadius: 12, padding: 24,
-        }}>
+        <Card style={{ flex: "1 1 320px" }}>
           <CursoDetalle curso={selected} onEdit={handleEdit} onDelete={(curso) => setDeleteCurso(curso)} />
-        </div>
+        </Card>
       </div>
 
-      {/* Modal */}
       {showForm && (
-        <Modal title={editCurso ? "Editar curso" : "Nuevo curso"} onClose={() => { setShowForm(false); setEditCurso(null); }}>
+        <Modal titulo={editCurso ? "Editar curso" : "Nuevo curso"} ancho={560} onClose={() => { setShowForm(false); setEditCurso(null); }}>
           <CursoForm initial={editCurso || undefined} onSave={handleSave} onCancel={() => { setShowForm(false); setEditCurso(null); }} />
         </Modal>
       )}
       {deleteCurso && (
-        <ConfirmModal
-          title="Eliminar curso"
-          message={`¿Eliminar "${deleteCurso.name || deleteCurso.nombre}"? Todos sus grupos, planes y tarifas se eliminarán también.`}
-          onConfirm={handleDeleteCurso}
-          onCancel={() => setDeleteCurso(null)}
-        />
+        <Modal titulo="Eliminar curso" onClose={() => setDeleteCurso(null)}>
+          <p className="ax-sub" style={{ margin: "0 0 18px" }}>
+            ¿Eliminar "{deleteCurso.nombre}"? Todos sus grupos, planes y tarifas se eliminarán también.
+          </p>
+          <div className="ax-acciones" style={{ justifyContent: "flex-end" }}>
+            <Button variante="ghost" onClick={() => setDeleteCurso(null)}>Cancelar</Button>
+            <Button variante="primary" icono={Trash2} onClick={handleDeleteCurso}>Eliminar</Button>
+          </div>
+        </Modal>
       )}
-      </div>
-    </div>
+    </Page>
   );
+
+  if (embedded) return contenido;
+  return <AdminLayout active="cursos">{contenido}</AdminLayout>;
 }

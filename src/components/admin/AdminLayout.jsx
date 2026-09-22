@@ -182,8 +182,8 @@ const CSS = `
 .ax-main { flex: 1; min-width: 0; max-width: 1080px; padding: clamp(22px, 3vw, 40px) var(--fx-gutter) 80px; }
 
 @media (max-width: 899px) {
-  .ax-body { flex-direction: column; }
-  .ax-side { position: static; width: 100%; max-height: none; overflow: visible;
+  .ax-body { flex-direction: column; align-items: stretch; }
+  .ax-side { position: static; align-self: stretch; width: 100%; max-height: none; overflow: visible;
     display: flex; flex-direction: row; gap: 6px; padding: 10px var(--fx-gutter);
     border-right: none; border-bottom: 1px solid var(--fx-border); overflow-x: auto;
     scrollbar-width: none; }

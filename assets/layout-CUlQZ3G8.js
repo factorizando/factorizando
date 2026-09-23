@@ -1,0 +1,1 @@
+const i="repeat(auto-fit, minmax(160px, 1fr))",e=[{value:"preparatoria",label:"Admisión Preparatoria"},{value:"universidad",label:"Admisión Universidad"},{value:"regularizacion",label:"Regularización"}],r=Object.fromEntries(e.map(a=>[a.value,a.label]));export{r as B,i as G,e as a};

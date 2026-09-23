@@ -1,2 +1,0 @@
-import{u as s,a as i,r,s as n,j as a,A as o}from"./index-CD_zgiCm.js";function u(){const e=s();return i(),r.useEffect(()=>{n.auth.getSession().then(({data:{session:t}})=>{t&&e("/completar-perfil")})},[e]),a.jsxs("div",{className:"auth-page",children:[a.jsx("style",{children:`.auth-page { min-height: 100vh; min-height: 100dvh; background: var(--fx-bg);
-        display: flex; align-items: center; justify-content: center; padding: 24px 16px; }`}),a.jsx(o,{mode:"registro",onSwitchMode:t=>e(t==="registro"?"/registro":"/login")})]})}export{u as default};

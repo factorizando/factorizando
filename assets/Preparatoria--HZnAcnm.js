@@ -1,1 +1,0 @@
-import{j as r}from"./index-DxdbHAgD.js";import{S as t}from"./SubjectPage-B_rDBxse.js";import{S as a}from"./preparatoriaData-BWFIp7Ab.js";import"./BrandName-C-SEnI_u.js";function i(){return r.jsx(t,{level:"preparatoria",subjects:a})}export{i as default};

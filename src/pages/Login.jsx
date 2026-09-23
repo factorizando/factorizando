@@ -19,7 +19,7 @@ export default function Login() {
 
   return (
     <div className="auth-page">
-      <style>{`.auth-page { min-height: 100vh; min-height: 100dvh; background: var(--app-bg);
+      <style>{`.auth-page { min-height: 100vh; min-height: 100dvh; background: var(--fx-bg);
         display: flex; align-items: center; justify-content: center; padding: 24px 16px; }`}</style>
       <AuthCard mode="login" dest={dest} onSwitchMode={(m) => navigate(m === "registro" ? "/registro" : "/login")} />
     </div>

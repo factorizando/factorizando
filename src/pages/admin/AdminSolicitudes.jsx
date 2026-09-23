@@ -58,6 +58,15 @@ function partirNombre(completo) {
   return { nombre: partes[0], apellidos: partes.slice(1).join(" ") };
 }
 
+// Nombre y apellidos: usa `apellidos` si el alta lo capturó; si no (perfiles
+// anteriores a la columna), parte el nombre completo como antes.
+function nombreApellidos(perfil) {
+  if (perfil?.apellidos && perfil.apellidos.trim()) {
+    return { nombre: (perfil.nombre || "").trim(), apellidos: perfil.apellidos.trim() };
+  }
+  return partirNombre(perfil?.nombre);
+}
+
 const TONO_ESTADO = {
   pendiente: { tone: "warning", Icon: Clock, label: "Pendiente" },
   aprobado: { tone: "success", Icon: CircleCheck, label: "Aprobada" },
@@ -82,18 +91,27 @@ function SolicitudCard({ perfil, onAprobar, onRechazar }) {
       <div className="ax-fila">
         <span className="ax-avatar">{(perfil.nombre || perfil.email || "?").slice(0, 1).toUpperCase()}</span>
         <div className="ax-aparecer">
-          <div className="ax-nombre">{perfil.nombre || "(sin nombre)"}</div>
+          <div className="ax-nombre">{perfil.nombre}{perfil.apellidos ? ` ${perfil.apellidos}` : ""}</div>
           <div className="ax-sub">{perfil.email || "—"}</div>
         </div>
+        {perfil.tipo_solicitado && (
+          <Badge tone="neutral">{perfil.tipo_solicitado === "tutor" ? "Tutor" : "Alumno"}</Badge>
+        )}
         <Badge tone={est.tone} icono={est.Icon}>{est.label}</Badge>
       </div>
 
       <div className="ax-acciones" style={{ marginTop: 14, gap: 16 }}>
         <Dato icono={Phone}>{perfil.telefono}</Dato>
-        <Dato icono={MapPin}>{perfil.estado}{perfil.ciudad ? `, ${perfil.ciudad}` : ""}</Dato>
-        <Dato icono={CalendarDays}>{fmtFecha(perfil.fecha_nacimiento)}{edad != null ? ` · ${edad} años` : ""}</Dato>
-        <Dato icono={GraduationCap}>{NIVEL_EDU[perfil.nivel_educativo] || perfil.nivel_educativo}</Dato>
-        <Dato icono={Building2}>{perfil.institucion}</Dato>
+        {(perfil.estado || perfil.ciudad) && (
+          <Dato icono={MapPin}>{perfil.estado}{perfil.ciudad ? `, ${perfil.ciudad}` : ""}</Dato>
+        )}
+        {perfil.fecha_nacimiento && (
+          <Dato icono={CalendarDays}>{fmtFecha(perfil.fecha_nacimiento)}{edad != null ? ` · ${edad} años` : ""}</Dato>
+        )}
+        {perfil.nivel_educativo && (
+          <Dato icono={GraduationCap}>{NIVEL_EDU[perfil.nivel_educativo] || perfil.nivel_educativo}</Dato>
+        )}
+        {perfil.institucion && <Dato icono={Building2}>{perfil.institucion}</Dato>}
       </div>
 
       {perfil.estado_acceso === "aprobado" && perfil.bloque && (
@@ -125,7 +143,7 @@ function SolicitudCard({ perfil, onAprobar, onRechazar }) {
 }
 
 function AprobarModal({ perfil, tutores, onClose, onConfirm }) {
-  const [tipo, setTipo] = useState("alumno");
+  const [tipo, setTipo] = useState(perfil.tipo_solicitado === "tutor" ? "tutor" : "alumno");
   const [bloque, setBloque] = useState("preparatoria");
   const [tutorId, setTutorId] = useState("nuevo");
   const [saving, setSaving] = useState(false);
@@ -277,7 +295,7 @@ export default function AdminSolicitudes({ embedded }) {
     if (!perfil.fecha_nacimiento) {
       return { error: "El perfil no tiene fecha de nacimiento; el alumno no podría registrarse en regularización." };
     }
-    const { nombre, apellidos } = partirNombre(perfil.nombre);
+    const { nombre, apellidos } = nombreApellidos(perfil);
     const fila = {
       id: perfil.id,
       nombre: nombre || "(sin nombre)",
@@ -307,7 +325,7 @@ export default function AdminSolicitudes({ embedded }) {
       if (error) return { error: error.message || "No se pudo aprobar." };
 
       if (payload.tutorId === "nuevo") {
-        const { nombre, apellidos } = partirNombre(perfil.nombre);
+        const { nombre, apellidos } = nombreApellidos(perfil);
         const { error: terr } = await supabase.from("tutores").insert({
           nombre: nombre || "(sin nombre)",
           apellidos,
@@ -351,6 +369,9 @@ export default function AdminSolicitudes({ embedded }) {
       })
       .eq("id", perfil.id);
     if (error) return { error: error.message || "No se pudo rechazar." };
+    // El alta del alumno creó su expediente (id = cuenta); al rechazar se borra,
+    // y con él sus contactos de emergencia (FK en cascada).
+    await supabase.from("alumnos").delete().eq("id", perfil.id);
     setRechazar(null);
     await load();
     return {};

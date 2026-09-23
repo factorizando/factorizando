@@ -4,6 +4,7 @@
 // ahora), correo+contraseña, CAPTCHA (Turnstile) y manejo de Supabase Auth.
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { X, Mail, Eye, EyeOff } from "lucide-react";
 import { supabase } from "../lib/supabase";
 import Turnstile, { TURNSTILE_SITE_KEY } from "./Turnstile";
 
@@ -288,12 +289,14 @@ export default function AuthCard({ mode = "login", onSwitchMode, onClose, dest }
     <div className="ac-card">
       <style>{CSS}</style>
       {onClose && (
-        <button type="button" className="ac-close" onClick={onClose} aria-label="Cerrar">✕</button>
+        <button type="button" className="ac-close" onClick={onClose} aria-label="Cerrar">
+          <X size={18} aria-hidden="true" />
+        </button>
       )}
 
       {enviado ? (
         <div className="ac-state">
-          <div className="ac-state-ic">✉️</div>
+          <div className="ac-state-ic"><Mail size={30} aria-hidden="true" /></div>
           <h1 className="ac-h1">Revisa tu correo</h1>
           <p className="ac-p">
             Te enviamos un enlace de confirmación a <strong>{email}</strong>. Ábrelo para
@@ -343,7 +346,7 @@ export default function AuthCard({ mode = "login", onSwitchMode, onClose, dest }
                   value={password} onChange={(e) => setPassword(e.target.value)}
                 />
                 <button type="button" className="ac-eye" onClick={() => setShowPw(!showPw)} aria-label="Mostrar u ocultar contraseña">
-                  {showPw ? "🙈" : "👁"}
+                  {showPw ? <EyeOff size={18} aria-hidden="true" /> : <Eye size={18} aria-hidden="true" />}
                 </button>
               </div>
             </div>
@@ -427,7 +430,7 @@ export default function AuthCard({ mode = "login", onSwitchMode, onClose, dest }
                   value={password} onChange={(e) => setPassword(e.target.value)}
                 />
                 <button type="button" className="ac-eye" onClick={() => setShowPw(!showPw)} aria-label="Mostrar u ocultar contraseña">
-                  {showPw ? "🙈" : "👁"}
+                  {showPw ? <EyeOff size={18} aria-hidden="true" /> : <Eye size={18} aria-hidden="true" />}
                 </button>
               </div>
               {!esRegistro && (
@@ -464,94 +467,101 @@ export default function AuthCard({ mode = "login", onSwitchMode, onClose, dest }
 }
 
 const CSS = `
-.ac-card { position: relative; width: 100%; max-width: 430px; background: var(--card-bg);
-  border: 1px solid var(--card-border); border-radius: 16px; box-shadow: var(--card-shadow);
-  padding: 38px 40px 30px; font-family: var(--font-ui); }
+.ac-card { position: relative; width: 100%; max-width: 430px; background: var(--fx-surface);
+  border: 1px solid var(--fx-border); border-radius: var(--fx-radius-xl); box-shadow: var(--fx-shadow-float);
+  padding: 38px 40px 30px; font-family: var(--fx-font-body); }
 .ac-card * { box-sizing: border-box; }
-.ac-close { position: absolute; top: 14px; right: 14px; width: 32px; height: 32px;
+.ac-close { position: absolute; top: 14px; right: 14px; width: 34px; height: 34px;
   display: grid; place-items: center; background: none; border: none; cursor: pointer;
-  color: var(--gray-500); font-size: 1rem; border-radius: 8px; transition: background .15s, color .15s; }
-.ac-close:hover { background: var(--gray-100); color: var(--gray-900); }
+  color: var(--fx-text-muted); border-radius: var(--fx-radius-md);
+  transition: background var(--fx-transition), color var(--fx-transition); }
+.ac-close:hover { background: var(--fx-surface-sunken); color: var(--fx-text-heading); }
 .ac-brandrow { display: flex; justify-content: center; margin-bottom: 16px; }
-.ac-logo { width: 46px; height: 46px; border-radius: 50%; overflow: hidden; border: 1px solid var(--card-border); }
+.ac-logo { width: 46px; height: 46px; border-radius: 50%; overflow: hidden; border: 1px solid var(--fx-border); }
 .ac-logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.ac-h1 { font-size: 1.55rem; font-weight: 700; color: var(--gray-900); text-align: center; margin-bottom: 22px; letter-spacing: -.01em; }
+.ac-h1 { font-family: var(--fx-font-heading); font-size: 1.5rem; font-weight: 600; color: var(--fx-text-heading);
+  text-align: center; margin-bottom: 22px; letter-spacing: -.02em; }
 
-.ac-lockbadge { width: 60px; height: 60px; margin: 0 auto 18px; border-radius: 16px;
-  background: var(--gray-900); color: #fff; display: grid; place-items: center;
+.ac-lockbadge { width: 60px; height: 60px; margin: 0 auto 18px; border-radius: var(--fx-radius-lg);
+  background: var(--fx-primary-600); color: var(--fx-text-on-primary); display: grid; place-items: center;
   transition: transform .3s ease; }
 .ac-lockbadge:hover { transform: scale(1.1) rotate(10deg); }
 .ac-lockbadge svg { width: 28px; height: 28px; }
 .ac-p-tight { margin-bottom: 4px; }
-.ac-email { text-align: center; font-size: .9rem; font-weight: 600; color: var(--gray-700); margin: 0 0 6px; }
+.ac-email { text-align: center; font-size: var(--fx-small-size); font-weight: 600; color: var(--fx-text-heading); margin: 0 0 6px; }
 
 .ac-social-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 .ac-social { display: inline-flex; align-items: center; justify-content: center; gap: 7px;
-  height: 44px; padding: 0 8px; background: var(--card-bg); border: 2px solid var(--input-border); border-radius: 11px;
-  color: var(--gray-700); font-size: .9rem; font-weight: 600; cursor: pointer; transition: background .15s, border-color .15s, box-shadow .15s; }
-.ac-social:hover:not(:disabled) { background: var(--gray-50); border-color: var(--input-border-hover); box-shadow: 0 2px 6px rgba(17,24,39,.06); }
+  height: 44px; padding: 0 8px; background: var(--fx-surface); border: 1px solid var(--fx-border);
+  border-radius: var(--fx-radius-md); color: var(--fx-text-body); font-size: var(--fx-small-size);
+  font-weight: 600; cursor: pointer; transition: background var(--fx-transition), border-color var(--fx-transition); }
+.ac-social:hover:not(:disabled) { background: var(--fx-surface-sunken); border-color: var(--fx-border-strong); }
 .ac-social:disabled { opacity: .55; cursor: not-allowed; }
 
-.ac-or { display: flex; align-items: center; gap: 12px; margin: 18px 0; color: var(--gray-400); font-size: .82rem; }
-.ac-or::before, .ac-or::after { content: ""; flex: 1; height: 1px; background: var(--gray-200); }
+.ac-or { display: flex; align-items: center; gap: 12px; margin: 18px 0; color: var(--fx-text-muted); font-size: var(--fx-small-size); }
+.ac-or::before, .ac-or::after { content: ""; flex: 1; height: 1px; background: var(--fx-border); }
 
 .ac-form { display: flex; flex-direction: column; gap: 16px; }
 .ac-field { display: flex; flex-direction: column; gap: 7px; }
-.ac-field label { font-size: .86rem; font-weight: 600; color: var(--gray-700); }
-.ac-field input { width: 100%; height: 46px; padding: 0 13px; background: var(--input-bg);
-  border: 2px solid var(--input-border); border-radius: 11px; color: var(--gray-900); font-size: .95rem; outline: none;
-  font-family: var(--font-ui); transition: border-color .18s, background .18s, box-shadow .18s; }
-.ac-field input::placeholder { color: var(--gray-400); }
-.ac-field input:hover { border-color: var(--input-border-hover); }
-.ac-field input:focus { border-color: var(--accent-blue-ink); background: var(--card-bg); box-shadow: 0 0 0 4px var(--focus-ring); }
+.ac-field label { font-size: var(--fx-caption-size); letter-spacing: .06em; text-transform: uppercase;
+  font-weight: 700; color: var(--fx-text-muted); }
+.ac-field input { width: 100%; min-height: var(--fx-control-md); padding: 11px 13px; background: var(--fx-surface);
+  border: 1px solid var(--fx-border); border-radius: var(--fx-radius-md); color: var(--fx-text-heading);
+  font-size: var(--fx-small-size); outline: none; font-family: inherit;
+  transition: border-color var(--fx-transition), box-shadow var(--fx-transition); }
+.ac-field input::placeholder { color: var(--fx-text-disabled); }
+.ac-field input:hover { border-color: var(--fx-border-strong); }
+.ac-field input:focus { border-color: var(--fx-primary-400); box-shadow: var(--fx-focus-ring); }
 .ac-pw { position: relative; }
-.ac-pw input { padding-right: 44px; }
+.ac-pw input { padding-right: 46px; }
 
 .ac-otp { display: flex; justify-content: center; gap: 10px; }
 .ac-otp-box { width: 46px; height: 54px; text-align: center; font-size: 1.35rem; font-weight: 700;
-  color: var(--gray-900); background: var(--input-bg); border: 2px solid var(--input-border); border-radius: 12px; outline: none;
-  font-family: var(--font-ui); transition: border-color .18s, background .18s, box-shadow .18s, transform .18s; }
-.ac-otp-box::placeholder { color: var(--gray-300); }
-.ac-otp-box:hover { border-color: var(--input-border-hover); box-shadow: 0 2px 6px rgba(17,24,39,.06); }
-.ac-otp-box:focus { border-color: var(--accent-blue-ink); background: var(--card-bg); box-shadow: 0 0 0 4px var(--focus-ring); transform: scale(1.06); }
+  color: var(--fx-text-heading); background: var(--fx-surface); border: 1px solid var(--fx-border);
+  border-radius: var(--fx-radius-md); outline: none; font-family: inherit;
+  transition: border-color var(--fx-transition), box-shadow var(--fx-transition), transform var(--fx-transition); }
+.ac-otp-box::placeholder { color: var(--fx-text-disabled); }
+.ac-otp-box:hover { border-color: var(--fx-border-strong); }
+.ac-otp-box:focus { border-color: var(--fx-primary-400); box-shadow: var(--fx-focus-ring); transform: scale(1.06); }
 
 .ac-forgot { align-self: flex-start; background: none; border: none; cursor: pointer; padding: 2px 0;
-  margin-top: -2px; color: var(--accent-blue-ink); font-size: .82rem; font-weight: 600; font-family: var(--font-ui); }
-.ac-forgot:hover { color: var(--accent-blue-ink-hover); text-decoration: underline; }
-.ac-eye { position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
-  background: none; border: none; cursor: pointer; font-size: 1rem; padding: 6px; line-height: 1; }
+  margin-top: -2px; color: var(--fx-primary-700); font-size: var(--fx-small-size); font-weight: 600; font-family: inherit; }
+.ac-forgot:hover { text-decoration: underline; }
+.ac-eye { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); display: grid;
+  place-items: center; background: none; border: none; cursor: pointer; color: var(--fx-text-muted); padding: 6px; }
+.ac-eye:hover { color: var(--fx-text-heading); }
 
-.ac-error { font-size: .85rem; color: #b42318; background: #fef3f2; border: 1px solid #fecdca;
-  border-radius: 8px; padding: .6rem .8rem; }
+.ac-error { display: flex; align-items: center; gap: 8px; font-size: var(--fx-small-size);
+  color: var(--fx-error-text); background: var(--fx-error-bg); border: 1px solid var(--fx-error-border);
+  border-radius: var(--fx-radius-md); padding: .6rem .8rem; }
 
 .ac-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  width: 100%; height: 48px; background-image: linear-gradient(to right, var(--gray-900), var(--gray-700)); border: none; border-radius: 12px;
-  color: #fff; font-size: .98rem; font-weight: 600; cursor: pointer; font-family: var(--font-ui);
-  transition: background-image .25s, box-shadow .25s, transform .25s; margin-top: 2px; }
-.ac-primary:hover:not(:disabled) { background-image: linear-gradient(to right, var(--gray-800), var(--gray-600));
-  box-shadow: 0 12px 24px rgba(17,24,39,.25); transform: scale(1.015); }
-.ac-primary:active:not(:disabled) { transform: scale(.985); }
+  width: 100%; min-height: 48px; background: var(--fx-primary-500); border: none; border-radius: var(--fx-radius-md);
+  color: var(--fx-text-on-primary); font-size: 1rem; font-weight: 600; cursor: pointer; font-family: inherit;
+  transition: background var(--fx-transition); margin-top: 2px; }
+.ac-primary:hover:not(:disabled) { background: var(--fx-primary-600); }
 .ac-primary:disabled { opacity: .7; cursor: not-allowed; }
-.ac-spin { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,.45);
-  border-top-color: #fff; border-radius: 50%; animation: ac-spin .6s linear infinite; }
+.ac-spin { width: 16px; height: 16px; border: 2px solid color-mix(in srgb, var(--fx-text-on-primary) 40%, transparent);
+  border-top-color: var(--fx-text-on-primary); border-radius: 50%; animation: ac-spin .6s linear infinite; }
 @keyframes ac-spin { to { transform: rotate(360deg); } }
 
-.ac-foot { text-align: center; font-size: .9rem; color: var(--gray-600); margin-top: 22px; }
-.ac-foot a, .ac-switch-link { color: var(--accent-blue-ink); text-decoration: none; font-weight: 600;
-  background: none; border: none; cursor: pointer; font-size: inherit; font-family: var(--font-ui); padding: 0; }
-.ac-foot a:hover, .ac-switch-link:hover { color: var(--accent-blue-ink-hover); text-decoration: underline; }
+.ac-foot { text-align: center; font-size: var(--fx-small-size); color: var(--fx-text-muted); margin-top: 22px; }
+.ac-foot a, .ac-switch-link { color: var(--fx-primary-700); text-decoration: none; font-weight: 600;
+  background: none; border: none; cursor: pointer; font-size: inherit; font-family: inherit; padding: 0; }
+.ac-foot a:hover, .ac-switch-link:hover { text-decoration: underline; }
 
 .ac-resend { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 8px;
-  text-align: center; font-size: .88rem; color: var(--gray-500); margin-top: 18px; }
-.ac-resend-timer { font-weight: 600; color: var(--gray-700); }
+  text-align: center; font-size: var(--fx-small-size); color: var(--fx-text-muted); margin-top: 18px; }
+.ac-resend-timer { font-weight: 600; color: var(--fx-text-heading); }
 
 .ac-state { text-align: center; padding: 8px 0; }
-.ac-state-ic { font-size: 2.6rem; margin-bottom: 8px; }
-.ac-p { font-size: .92rem; color: var(--gray-600); line-height: 1.6; margin-bottom: 18px; }
+.ac-state-ic { display: grid; place-items: center; width: 60px; height: 60px; margin: 0 auto 12px;
+  border-radius: 50%; background: var(--fx-primary-50); color: var(--fx-primary-600); }
+.ac-p { font-size: var(--fx-small-size); color: var(--fx-text-body); line-height: 1.6; margin-bottom: 18px; }
 
 @media (max-width: 460px) {
   .ac-card { padding: 30px 22px 24px; }
-  .ac-social { font-size: .82rem; gap: 5px; }
+  .ac-social { font-size: var(--fx-caption-size); gap: 5px; }
   .ac-otp { gap: 7px; }
   .ac-otp-box { width: 42px; height: 50px; font-size: 1.2rem; }
 }

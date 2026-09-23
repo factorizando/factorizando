@@ -756,4 +756,32 @@ compara con `alumnos_del_tutor()`, que devuelve ids de `alumnos`—. Así que un
 abierto por el tutor para un alumno sin cuenta escribe `user_id = id del alumno` y cae en su
 expediente, sin añadir `alumno_id` ni tocar el RPC del admin. La convención queda documentada.
 
+### 2026-09-22 · El alta entra al sistema, y pregunta por el tipo de cuenta
+
+*Qué:* las pantallas de autenticación —`AuthCard` (login, registro, recuperación por OTP),
+`Login`, `Registro`, `CompletarPerfil`, `NuevaContrasena`— dejan el `theme.css` heredado
+(Inter, `--accent-blue-ink`, botón con degradado gris, errores con hex rojizo a mano, emojis
+como `✉️ 🙈 👁 ✕`) y pasan a tokens `--fx-*` con Figtree/Sora, `--fx-primary-500` e íconos
+lucide. `CuentaPendiente` ya estaba en el sistema y sirvió de patrón.
+
+*Por qué:* el tema no distingue "admin" de "alumno", distingue **superficie de producto** de
+**contenido**. El alta es la primera pantalla que ve una persona; tenerla en otro sistema de
+diseño —otra tipografía, otro azul, un botón gris que no es el de la marca— era la peor
+primera impresión posible. El formulario de registro, además, usaba emojis donde §2 pide
+íconos dibujados.
+
+**El alta ahora pregunta si la cuenta es de alumno o de tutor**, y el formulario cambia. Se
+guarda en `profiles.tipo_solicitado` y el admin lo ve (preseleccionado) al aprobar. La decisión
+de dónde preguntarlo pesó: en el registro no sirve, porque tras el alta hay **confirmación por
+correo** y no hay sesión hasta abrir el enlace; la intención se perdería. Se pregunta en el
+**paso 1 de `CompletarPerfil`**, donde ya hay sesión.
+
+**Dos campos nuevos y un expediente que nace antes.** `profiles.apellidos` deja de adivinar el
+apellido (antes se partía el nombre completo con `partirNombre`), y completar el perfil del
+alumno **crea su expediente de `alumnos`** (`id = profile_id = cuenta`) — que es lo que permite
+guardar hasta **dos contactos de emergencia** con parentesco y que `/alumno` funcione al
+aprobar. Si la cuenta se rechaza, el admin borra ese expediente y sus contactos caen en
+cascada.
+
+
 

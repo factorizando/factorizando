@@ -818,5 +818,21 @@ reactivar y permite decir *por qué* se cortó. La pestaña muestra el contexto 
 en los datos de cobro dejaría a todos fuera. Se documenta que es un gate de **navegación** (el
 contenido viaja en el bundle), no una política RLS.
 
+### 2026-09-23 · El nivel de acceso se puede cambiar después de aprobar
+
+*Qué:* el bloque de contenido de un alumno (`profiles.bloque` ∈ Admisión Preparatoria / Admisión
+Universidad / Regularización) deja de estar congelado en la aprobación. Se edita desde **Cuentas**
+y desde la ficha del alumno (`AdminAlumnoDetalle`), que ahora carga la cuenta (`profiles` por
+`alumno.profile_id`) para mostrar "Acceso:". Los nombres formales viven en un solo lugar
+(`components/admin/layout.js`, `BLOQUES`/`BLOQUE_LABEL`) que consumen Solicitudes y Cuentas. Un
+alumno sin cuenta muestra "no accede al contenido"; tutores y staff no llevan bloque.
+
+*Por qué:* `bloque` es el **único eje de autorización** de un alumno, y hasta hoy solo se podía
+asignar al aprobar: mover a alguien de Preparatoria a Universidad exigía rehacer la aprobación o
+SQL. No hizo falta migración —el CHECK ya admite los tres valores y `NULL`— ni tocar
+`ProtectedRoute`, porque el gate y los destinos releen el campo. Se decidió **un nivel por cuenta**
+y cambio **manual**; derivarlo de la inscripción o permitir varios niveles queda como trabajo
+aparte si la operación lo pide.
+
 
 

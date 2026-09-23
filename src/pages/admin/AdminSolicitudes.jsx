@@ -16,13 +16,7 @@ import AdminLayout from "../../components/admin/AdminLayout.jsx";
 import {
   Page, Card, Badge, Button, SearchField, Field, Input, Select, Textarea, Modal, EmptyState,
 } from "../../components/admin/ui.jsx";
-
-const BLOQUES = [
-  { value: "preparatoria", label: "Admisión preparatoria" },
-  { value: "universidad", label: "Admisión universidad" },
-  { value: "regularizacion", label: "Regularización" },
-];
-const BLOQUE_LABEL = Object.fromEntries(BLOQUES.map((b) => [b.value, b.label]));
+import { BLOQUES, BLOQUE_LABEL } from "../../components/admin/layout.js";
 
 const NIVEL_EDU = { basica: "Secundaria", media_superior: "Preparatoria", superior: "Universidad" };
 

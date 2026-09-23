@@ -12,7 +12,7 @@ import AdminLayout from "../../components/admin/AdminLayout.jsx";
 import {
   Page, Card, Badge, BadgeEstado, Button, Field, Input, Select, Modal, EmptyState,
 } from "../../components/admin/ui.jsx";
-import { GRID_FORM } from "../../components/admin/layout.js";
+import { GRID_FORM, BLOQUES, BLOQUE_LABEL } from "../../components/admin/layout.js";
 
 const NIVEL_LABEL = {
   primaria: "Primaria", secundaria: "Secundaria",
@@ -168,6 +168,9 @@ export default function AdminAlumnoDetalle() {
   const [allTutores, setAllTutores] = useState([]);
   const [showTutorPicker, setShowTutorPicker] = useState(false);
   const [quitarTarget, setQuitarTarget] = useState(null);
+  const [perfil, setPerfil] = useState(null);
+  const [guardandoBloque, setGuardandoBloque] = useState(false);
+  const [bloqueError, setBloqueError] = useState(null);
 
   useEffect(() => { loadAll(); }, [id]);
 
@@ -177,6 +180,12 @@ export default function AdminAlumnoDetalle() {
     setAlumno(al);
 
     if (al) {
+      // Cuenta de la persona (si la tiene): de ahí sale el bloque de acceso.
+      const { data: prof } = await supabase
+        .from("profiles").select("id, rol, estado_acceso, bloque")
+        .eq("id", al.profile_id || al.id).maybeSingle();
+      setPerfil(prof || null);
+
       const { data: vinculos } = await supabase
         .from("alumno_tutor").select("tutor_id, estado").eq("alumno_id", id);
       const ids = (vinculos || []).map((r) => r.tutor_id);
@@ -246,6 +255,19 @@ export default function AdminAlumnoDetalle() {
     await loadAll();
   }
 
+  // ── Bloque de acceso ─────────────────────────────────────────────────────
+  // Único eje de autorización de una cuenta de alumno. Cambiarlo aquí o en
+  // Cuentas es equivalente; el gate lo relee al recargar.
+  async function handleBloque(nuevo) {
+    if (!perfil || (nuevo || null) === (perfil.bloque || null)) return;
+    setGuardandoBloque(true);
+    setBloqueError(null);
+    const { error } = await supabase.from("profiles").update({ bloque: nuevo || null }).eq("id", perfil.id);
+    setGuardandoBloque(false);
+    if (error) { setBloqueError(error.message || "No se pudo cambiar el nivel."); return; }
+    setPerfil((p) => ({ ...p, bloque: nuevo || null }));
+  }
+
   // ── Contactos CRUD ───────────────────────────────────────────────────────
   async function handleSaveContacto(form) {
     if (editContacto) {
@@ -302,6 +324,42 @@ export default function AdminAlumnoDetalle() {
             <span className="ax-sub">Nacimiento: {fmtDate(alumno.fecha_nacimiento)}</span>
             <span className="ax-sub">Registro: {fmtDate(alumno.created_at)}</span>
           </div>
+
+          {(() => {
+            const editable = perfil && perfil.estado_acceso === "aprobado"
+              && !["admin", "profesor", "tutor"].includes(perfil.rol);
+            return (
+              <div className="ax-acciones" style={{ gap: 10, marginTop: 12, alignItems: "center" }}>
+                <span className="ax-sub">Acceso:</span>
+                {editable ? (
+                  <>
+                    <Select
+                      value={perfil.bloque || ""}
+                      disabled={guardandoBloque}
+                      onChange={(e) => handleBloque(e.target.value)}
+                      style={{ maxWidth: 260 }}
+                    >
+                      {!perfil.bloque && <option value="" disabled>Sin asignar</option>}
+                      {BLOQUES.map((b) => <option key={b.value} value={b.value}>{b.label}</option>)}
+                    </Select>
+                    {guardandoBloque && <span className="ax-sub">Guardando…</span>}
+                  </>
+                ) : perfil ? (
+                  <span className="ax-sub" style={{ whiteSpace: "normal" }}>
+                    {perfil.estado_acceso === "aprobado"
+                      ? (perfil.bloque ? BLOQUE_LABEL[perfil.bloque] : "Cuenta con acceso completo")
+                      : `Cuenta ${perfil.estado_acceso}`}
+                  </span>
+                ) : (
+                  <span className="ax-sub">Sin cuenta: no accede al contenido.</span>
+                )}
+              </div>
+            );
+          })()}
+
+          {bloqueError && (
+            <div className="ax-badge ax-badge-error" style={{ display: "block", marginTop: 10 }}>{bloqueError}</div>
+          )}
           {medico && (
             <div style={{
               marginTop: 14, background: "var(--fx-warning-bg)", border: "1px solid var(--fx-warning-border)",

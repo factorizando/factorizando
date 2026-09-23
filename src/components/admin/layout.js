@@ -27,3 +27,17 @@ export const GRID_FORM = "repeat(auto-fit, minmax(160px, 1fr))";
  * `overflowWrap` permite partir la cadena.
  */
 export const TEXTO_FLEXIBLE = { minWidth: 0, overflowWrap: "anywhere" };
+
+/**
+ * Los tres bloques de contenido de la plataforma, con sus nombres formales.
+ * Son el único eje de autorización de una cuenta de alumno (`profiles.bloque`,
+ * CHECK en `20260921000000_acceso_por_bloque.sql`). Se elige al aprobar en
+ * Solicitudes y se puede cambiar después desde Cuentas o desde la ficha del
+ * alumno. Tutores no llevan bloque.
+ */
+export const BLOQUES = [
+  { value: "preparatoria", label: "Admisión Preparatoria" },
+  { value: "universidad", label: "Admisión Universidad" },
+  { value: "regularizacion", label: "Regularización" },
+];
+export const BLOQUE_LABEL = Object.fromEntries(BLOQUES.map((b) => [b.value, b.label]));

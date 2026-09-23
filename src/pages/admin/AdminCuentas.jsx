@@ -15,11 +15,10 @@ import AdminLayout from "../../components/admin/AdminLayout.jsx";
 import {
   Page, Card, Badge, Button, SearchField, Field, Input, Select, Textarea, Modal, EmptyState,
 } from "../../components/admin/ui.jsx";
+import { BLOQUES, BLOQUE_LABEL } from "../../components/admin/layout.js";
 
 const ROL_LABEL = { alumno: "Alumno", tutor: "Tutor", profesor: "Profesor", admin: "Admin" };
-const BLOQUE_LABEL = {
-  preparatoria: "Preparatoria", universidad: "Universidad", regularizacion: "Regularización",
-};
+
 const ORIGENES = [
   { value: "pago", label: "Falta de pago" },
   { value: "ban", label: "Cuenta bloqueada (ban)" },
@@ -37,6 +36,9 @@ const FILTROS = [
 ];
 
 const ES_STAFF = (c) => c.rol === "admin" || c.rol === "profesor";
+
+// Un alumno aprobado y sin perfil de staff/tutor es quien recibe un bloque.
+const ES_ALUMNO = (c) => !ES_STAFF(c) && c.rol !== "tutor";
 
 function hoyLocal() {
   const n = new Date();
@@ -118,6 +120,8 @@ export default function AdminCuentas({ embedded, onNavigate }) {
   const [suspTarget, setSuspTarget] = useState(null);
   const [reactTarget, setReactTarget] = useState(null);
   const [accionError, setAccionError] = useState(null);
+  const [bloqueSaving, setBloqueSaving] = useState(null);
+  const [bloqueError, setBloqueError] = useState(null);
 
   useEffect(() => { load(); }, []);
 
@@ -192,6 +196,18 @@ export default function AdminCuentas({ embedded, onNavigate }) {
     await load();
   }
 
+  // Cambia el bloque de contenido de un alumno ya aprobado. Es el único eje de
+  // autorización (`profiles.bloque`); el gate lo relee al recargar.
+  async function handleBloque(cuenta, nuevo) {
+    if ((nuevo || null) === (cuenta.bloque || null)) return;
+    setBloqueSaving(cuenta.id);
+    setBloqueError(null);
+    const { error } = await supabase.from("profiles").update({ bloque: nuevo || null }).eq("id", cuenta.id);
+    setBloqueSaving(null);
+    if (error) { setBloqueError(error.message || "No se pudo cambiar el nivel."); return; }
+    await load();
+  }
+
   function irASolicitudes() {
     if (onNavigate) onNavigate("solicitudes");
     else navigate("/admin/solicitudes");
@@ -220,6 +236,10 @@ export default function AdminCuentas({ embedded, onNavigate }) {
         </div>
       </div>
 
+      {bloqueError && (
+        <div className="ax-badge ax-badge-error" style={{ display: "block" }}>{bloqueError}</div>
+      )}
+
       {loading ? (
         <p className="ax-sub">Cargando…</p>
       ) : filtradas.length === 0 ? (
@@ -234,6 +254,7 @@ export default function AdminCuentas({ embedded, onNavigate }) {
             const susVenc = contexto.susVenc.has(c.id);
             const cursoFin = contexto.cursoFin.has(c.id);
             const suspendida = suspVigente(c);
+            const editable = ES_ALUMNO(c) && c.estado_acceso === "aprobado";
             return (
               <Card key={c.id}>
                 <div className="ax-fila">
@@ -245,7 +266,7 @@ export default function AdminCuentas({ embedded, onNavigate }) {
                     </div>
                     <div className="ax-sub">{c.email || "—"}</div>
                   </div>
-                  {c.bloque && <Badge tone="accent">{BLOQUE_LABEL[c.bloque] || c.bloque}</Badge>}
+                  {c.bloque && !editable && <Badge tone="accent">{BLOQUE_LABEL[c.bloque] || c.bloque}</Badge>}
                   <Badge tone={est.tone}>{est.label}</Badge>
                   {suspendida && <Badge tone="warning" icono={ShieldOff}>Suspendida</Badge>}
                   {!suspendida && c.suspendido_en && <Badge tone="neutral">Suspensión vencida</Badge>}
@@ -263,6 +284,22 @@ export default function AdminCuentas({ embedded, onNavigate }) {
                     ) : null}
                   </div>
                 </div>
+
+                {editable && (
+                  <div className="ax-acciones" style={{ marginTop: 10, alignItems: "center", gap: 10 }}>
+                    <span className="ax-sub">Acceso:</span>
+                    <Select
+                      value={c.bloque || ""}
+                      disabled={bloqueSaving === c.id}
+                      onChange={(e) => handleBloque(c, e.target.value)}
+                      style={{ maxWidth: 260 }}
+                    >
+                      {!c.bloque && <option value="" disabled>Sin asignar</option>}
+                      {BLOQUES.map((b) => <option key={b.value} value={b.value}>{b.label}</option>)}
+                    </Select>
+                    {bloqueSaving === c.id && <span className="ax-sub">Guardando…</span>}
+                  </div>
+                )}
 
                 {suspendida && (
                   <div className="ax-sub" style={{ marginTop: 10, whiteSpace: "normal" }}>

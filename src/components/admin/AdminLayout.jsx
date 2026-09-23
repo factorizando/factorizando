@@ -7,7 +7,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
-  LayoutDashboard, Inbox, GraduationCap, Users,
+  LayoutDashboard, Inbox, GraduationCap, Users, ShieldCheck,
   BarChart3, Presentation, BookOpen,
   ClipboardList, Receipt, RefreshCw,
   Blocks, LogOut, ChevronRight, Gauge,
@@ -26,6 +26,7 @@ const GRUPOS = [
     { id: "solicitudes", label: "Solicitudes", Icon: Inbox },
     { id: "alumnos", label: "Alumnos", Icon: GraduationCap },
     { id: "tutores", label: "Tutores", Icon: Users },
+    { id: "cuentas", label: "Cuentas", Icon: ShieldCheck },
   ] },
   { titulo: "Contenido", items: [
     { id: "cuestionarios", label: "Estadísticas", Icon: BarChart3 },

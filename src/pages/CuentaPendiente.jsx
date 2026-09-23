@@ -42,7 +42,7 @@ export default function CuentaPendiente() {
       setUid(session.user.id);
       const { data } = await supabase
         .from("profiles")
-        .select("rol, bloque, estado_acceso, motivo_rechazo, perfil_completo")
+        .select("*")
         .eq("id", session.user.id)
         .single();
       if (cancelado) return;
@@ -50,6 +50,11 @@ export default function CuentaPendiente() {
       // Si ya no hay nada que esperar, cada quien a su sitio.
       if (data && !data.perfil_completo) { navigate("/completar-perfil", { replace: true }); return; }
       if (data?.rol === "admin") { navigate("/admin", { replace: true }); return; }
+      if (data?.estado_acceso === "aprobado" && data?.suspendido_en
+          && (!data.suspendido_hasta || new Date(data.suspendido_hasta) > new Date())) {
+        navigate("/cuenta-suspendida", { replace: true });
+        return;
+      }
       if (data?.estado_acceso === "aprobado") {
         navigate(data.rol === "tutor" ? "/tutor" : `/${data.bloque || ""}`, { replace: true });
         return;

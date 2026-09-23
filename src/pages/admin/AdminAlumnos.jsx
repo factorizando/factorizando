@@ -2,7 +2,7 @@
 // Panel de alumnos: lista, búsqueda, crear/editar/eliminar.
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { GraduationCap, Plus, Pencil, Trash2 } from "lucide-react";
+import { GraduationCap, Plus, Pencil, Trash2, Archive, RotateCcw } from "lucide-react";
 import { supabase } from "../../lib/supabase";
 import AdminLayout from "../../components/admin/AdminLayout.jsx";
 import {
@@ -129,6 +129,7 @@ export default function AdminAlumnos({ embedded }) {
   const [showForm, setShowForm] = useState(false);
   const [editAlumno, setEditAlumno] = useState(null);
   const [deleteTarget, setDeleteTarget] = useState(null);
+  const [mostrarArchivados, setMostrarArchivados] = useState(false);
 
   useEffect(() => { loadAlumnos(); }, []);
 
@@ -146,6 +147,7 @@ export default function AdminAlumnos({ embedded }) {
   }
 
   const filtrados = alumnos.filter((a) => {
+    if (!!a.archivado_en !== mostrarArchivados) return false;
     if (filtroNivel !== "todos" && a.nivel !== filtroNivel) return false;
     if (busqueda) {
       const q = busqueda.toLowerCase();
@@ -179,11 +181,57 @@ export default function AdminAlumnos({ embedded }) {
     await loadAlumnos();
   }
 
-  async function handleDelete() {
-    if (!deleteTarget) return;
-    const { error } = await supabase.from("alumnos").delete().eq("id", deleteTarget.id);
-    if (error) console.error(error);
+  // Anula la cuenta de login (no borra `profiles`, para no perder el correo).
+  async function anularCuenta(alumno, estado = "rechazado") {
+    const pid = alumno.profile_id || alumno.id;
+    if (!pid) return;
+    await supabase.from("profiles").update({ estado_acceso: estado }).eq("id", pid);
+  }
+
+  // Antes de decidir archivar vs eliminar, cuenta el historial que obliga a
+  // conservar la ficha (cargos) y lo que se llevaría un borrado duro.
+  async function abrirEliminar(a) {
+    setDeleteTarget({ alumno: a, cargando: true, guardando: false, error: null, cargos: 0, sesiones: 0, resultados: 0 });
+    const [cg, ses, res] = await Promise.all([
+      supabase.from("cargos").select("id", { count: "exact", head: true }).eq("alumno_id", a.id),
+      supabase.from("taller_sesiones").select("id", { count: "exact", head: true }).eq("alumno_id", a.id),
+      supabase.from("resultados").select("id", { count: "exact", head: true }).eq("user_id", a.id),
+    ]);
+    setDeleteTarget((t) => (t && t.alumno.id === a.id
+      ? { ...t, cargando: false, cargos: cg.count || 0, sesiones: ses.count || 0, resultados: res.count || 0 }
+      : t));
+  }
+
+  async function handleArchivar() {
+    const a = deleteTarget.alumno;
+    setDeleteTarget((t) => ({ ...t, guardando: true, error: null }));
+    const { error } = await supabase
+      .from("alumnos").update({ archivado_en: new Date().toISOString() }).eq("id", a.id);
+    if (error) { setDeleteTarget((t) => ({ ...t, guardando: false, error: error.message || "No se pudo archivar." })); return; }
+    // Fuera de los flujos activos: vínculos inactivos y cuenta anulada.
+    await supabase.from("alumno_tutor").update({ estado: "rechazado" }).eq("alumno_id", a.id);
+    await anularCuenta(a, "rechazado");
     setDeleteTarget(null);
+    await loadAlumnos();
+  }
+
+  async function handleDelete() {
+    const a = deleteTarget.alumno;
+    setDeleteTarget((t) => ({ ...t, guardando: true, error: null }));
+    // `resultados` no tiene FK: se limpian a mano o quedarían huérfanos.
+    const { error: rerr } = await supabase.from("resultados").delete().eq("user_id", a.id);
+    if (rerr) { setDeleteTarget((t) => ({ ...t, guardando: false, error: `No se pudieron borrar sus resultados: ${rerr.message}` })); return; }
+    const { error } = await supabase.from("alumnos").delete().eq("id", a.id);
+    if (error) { setDeleteTarget((t) => ({ ...t, guardando: false, error: error.message || "No se pudo eliminar." })); return; }
+    await anularCuenta(a, "rechazado");
+    setDeleteTarget(null);
+    await loadAlumnos();
+  }
+
+  async function handleRestaurar(a) {
+    await supabase.from("alumnos").update({ archivado_en: null }).eq("id", a.id);
+    const pid = a.profile_id || a.id;
+    await supabase.from("profiles").update({ estado_acceso: "pendiente" }).eq("id", pid);
     await loadAlumnos();
   }
 
@@ -211,14 +259,19 @@ export default function AdminAlumnos({ embedded }) {
               {n === "todos" ? "Todos" : NIVEL_LABEL[n] || n}
             </Button>
           ))}
+          <Button variante={mostrarArchivados ? "primary" : "subtle"} icono={Archive} onClick={() => setMostrarArchivados((v) => !v)}>
+            {mostrarArchivados ? "Ver activos" : "Ver archivados"}
+          </Button>
         </div>
       </div>
 
       {loading ? (
         <p className="ax-sub">Cargando…</p>
       ) : filtrados.length === 0 ? (
-        <EmptyState icono={GraduationCap} titulo="Sin alumnos">
-          {alumnos.length === 0 ? "Aún no hay alumnos registrados." : "Ningún alumno coincide con la búsqueda."}
+        <EmptyState icono={GraduationCap} titulo={mostrarArchivados ? "Sin archivados" : "Sin alumnos"}>
+          {mostrarArchivados
+            ? "No hay alumnos archivados."
+            : alumnos.length === 0 ? "Aún no hay alumnos registrados." : "Ningún alumno coincide con la búsqueda."}
         </EmptyState>
       ) : (
         <div className="ax-lista">
@@ -231,10 +284,15 @@ export default function AdminAlumnos({ embedded }) {
                   <div className="ax-sub">{a.email || a.telefono || "Sin contacto"}</div>
                 </div>
                 <Badge tone="accent">{NIVEL_LABEL[a.nivel] || a.nivel}</Badge>
+                {a.archivado_en && <Badge tone="neutral">Archivado</Badge>}
                 <span className="ax-sub" style={{ whiteSpace: "nowrap" }}>{fmtDate(a.created_at)}</span>
                 <div className="ax-acciones">
                   <Button variante="ghost" icono={Pencil} title="Editar" onClick={() => { setEditAlumno(a); setShowForm(true); }} />
-                  <Button variante="ghost" icono={Trash2} title="Eliminar" onClick={() => setDeleteTarget(a)} />
+                  {a.archivado_en ? (
+                    <Button variante="ghost" icono={RotateCcw} title="Restaurar" onClick={() => handleRestaurar(a)} />
+                  ) : (
+                    <Button variante="ghost" icono={Trash2} title="Eliminar" onClick={() => abrirEliminar(a)} />
+                  )}
                 </div>
               </div>
               <div className="ax-acciones" style={{ marginTop: 10 }}>
@@ -259,14 +317,45 @@ export default function AdminAlumnos({ embedded }) {
       )}
 
       {deleteTarget && (
-        <Modal titulo="Eliminar alumno" onClose={() => setDeleteTarget(null)}>
-          <p className="ax-sub" style={{ margin: "0 0 18px" }}>
-            ¿Eliminar a "{deleteTarget.nombre} {deleteTarget.apellidos}"? Esta acción no se puede deshacer.
-          </p>
-          <div className="ax-acciones" style={{ justifyContent: "flex-end" }}>
-            <Button variante="ghost" onClick={() => setDeleteTarget(null)}>Cancelar</Button>
-            <Button variante="primary" icono={Trash2} onClick={handleDelete}>Eliminar</Button>
-          </div>
+        <Modal
+          titulo={deleteTarget.cargando ? "Eliminar alumno" : deleteTarget.cargos > 0 ? "Archivar alumno" : "Eliminar alumno"}
+          onClose={() => setDeleteTarget(null)}
+        >
+          {deleteTarget.cargando ? (
+            <p className="ax-sub" style={{ margin: 0 }}>Revisando historial…</p>
+          ) : (
+            <>
+              {deleteTarget.cargos > 0 ? (
+                <p className="ax-sub" style={{ margin: "0 0 12px", whiteSpace: "normal" }}>
+                  <strong>{deleteTarget.alumno.nombre} {deleteTarget.alumno.apellidos}</strong> tiene{" "}
+                  {deleteTarget.cargos} {deleteTarget.cargos === 1 ? "cargo" : "cargos"}. Se archivará: deja de
+                  aparecer y se le retira el acceso, pero su historial de cobro se conserva.
+                </p>
+              ) : (
+                <p className="ax-sub" style={{ margin: "0 0 12px", whiteSpace: "normal" }}>
+                  <strong>{deleteTarget.alumno.nombre} {deleteTarget.alumno.apellidos}</strong> no tiene cargos. Se
+                  eliminará permanentemente junto con {deleteTarget.sesiones}{" "}
+                  {deleteTarget.sesiones === 1 ? "sesión" : "sesiones"} de taller y {deleteTarget.resultados}{" "}
+                  {deleteTarget.resultados === 1 ? "resultado" : "resultados"} de cuestionario. Esta acción no se puede deshacer.
+                </p>
+              )}
+              {deleteTarget.error && (
+                <div className="ax-badge ax-badge-error" style={{ display: "block", marginBottom: 12 }}>{deleteTarget.error}</div>
+              )}
+              <div className="ax-acciones" style={{ justifyContent: "flex-end" }}>
+                <Button variante="ghost" onClick={() => setDeleteTarget(null)}>Cancelar</Button>
+                {deleteTarget.cargos > 0 ? (
+                  <Button variante="primary" icono={Archive} disabled={deleteTarget.guardando} onClick={handleArchivar}>
+                    {deleteTarget.guardando ? "Archivando…" : "Archivar"}
+                  </Button>
+                ) : (
+                  <Button variante="primary" icono={Trash2} disabled={deleteTarget.guardando} onClick={handleDelete}>
+                    {deleteTarget.guardando ? "Eliminando…" : "Eliminar"}
+                  </Button>
+                )}
+              </div>
+            </>
+          )}
         </Modal>
       )}
     </Page>

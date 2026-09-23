@@ -20,6 +20,7 @@ import ActualizacionDisponible from "./components/ActualizacionDisponible";
 // tiene que exportar el componente por omisión (`export default`).
 const Registro             = lazy(() => import("./pages/Registro"));
 const CuentaPendiente      = lazy(() => import("./pages/CuentaPendiente"));
+const CuentaSuspendida     = lazy(() => import("./pages/CuentaSuspendida"));
 const CompletarPerfil      = lazy(() => import("./pages/CompletarPerfil"));
 const NuevaContrasena      = lazy(() => import("./pages/NuevaContrasena"));
 const Preparatoria         = lazy(() => import("./pages/Preparatoria"));
@@ -47,6 +48,7 @@ const TemaPreview          = lazy(() => import("./pages/TemaPreview.jsx"));
 const AdminAlumnos         = lazy(() => import("./pages/admin/AdminAlumnos.jsx"));
 const AdminSolicitudes     = lazy(() => import("./pages/admin/AdminSolicitudes.jsx"));
 const AdminTutores         = lazy(() => import("./pages/admin/AdminTutores.jsx"));
+const AdminCuentas         = lazy(() => import("./pages/admin/AdminCuentas.jsx"));
 const AdminInscripciones   = lazy(() => import("./pages/admin/AdminInscripciones.jsx"));
 const AdminCargos          = lazy(() => import("./pages/admin/AdminCargos.jsx"));
 const AdminSuscripciones   = lazy(() => import("./pages/admin/AdminSuscripciones.jsx"));
@@ -106,6 +108,7 @@ function AppRoutes() {
         <Route path="/registro" element={<Registro />} />
         <Route path="/completar-perfil" element={<CompletarPerfil />} />
         <Route path="/cuenta-pendiente" element={<CuentaPendiente />} />
+        <Route path="/cuenta-suspendida" element={<CuentaSuspendida />} />
         <Route path="/nueva-contrasena" element={<NuevaContrasena />} />
         <Route path="/exani-i" element={<ExaniI />} />
         <Route path="/exani-ii" element={<ExaniII />} />
@@ -238,6 +241,14 @@ function AppRoutes() {
           element={
             <ProtectedRoute requiredNivel="admin">
               <AdminTutores />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/cuentas"
+          element={
+            <ProtectedRoute requiredNivel="admin">
+              <AdminCuentas />
             </ProtectedRoute>
           }
         />

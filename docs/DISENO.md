@@ -783,5 +783,40 @@ guardar hasta **dos contactos de emergencia** con parentesco y que `/alumno` fun
 aprobar. Si la cuenta se rechaza, el admin borra ese expediente y sus contactos caen en
 cascada.
 
+### 2026-09-23 · Borrado mixto: archivar con historial, eliminar sin él
+
+*Qué:* los borrados de alumno y tutor dejan de ser un `DELETE` que fallaba en silencio.
+Antes de confirmar, el panel cuenta el historial: **con cargos** (alumno) o **con alumnos
+vinculados** (tutor) la ficha se **archiva** (`archivado_en`, soft delete) y se conserva; **sin
+historial** se elimina de verdad. En ambos casos se **anula la cuenta** (`estado_acceso =
+rechazado`, sin borrar `profiles`, para no perder el correo) y se desactivan los vínculos
+`alumno_tutor`, de modo que el alumno/tutor desaparece de los flujos activos sin tocar las
+funciones RLS. Las listas ganan un conmutador *Ver archivados* y un botón *Restaurar*.
+
+*Por qué:* `cargos.alumno_id` es `ON DELETE RESTRICT`, así que borrar un alumno con cualquier
+cargo no solo fallaba: la UI cerraba el modal como si hubiera funcionado. Y la ficha del alumno
+ofrecía un borrado de tutor que eliminaba la fila global —sin confirmación— aunque tuviera otros
+alumnos. La distinción que faltaba era semántica: **quitar un tutor de un alumno** (borra solo
+el vínculo; la ficha sigue existiendo) es otra cosa que **eliminar un tutor** (global, desde
+Tutores). El panel ahora dice cuál de las dos va a hacer y qué se lleva por delante.
+
+### 2026-09-23 · Suspensión de cuentas: control de acceso sin mezclarlo con el alta
+
+*Qué:* nace una pestaña **Cuentas** (grupo Personas, `/admin/cuentas`) para cortar y restaurar el
+acceso de una cuenta ya aprobada. La suspensión es una **capa aparte** de `estado_acceso`
+(`suspendido_en`, `suspendido_hasta`, `motivo_suspension`, `suspension_origen`): `estado_acceso`
+sigue siendo el ciclo de la solicitud y la suspensión se aplica encima, con motivo y origen
+(`pago | ban | curso | manual`). Reactivar es limpiar cuatro columnas, sin rehacer la aprobación;
+`suspendido_hasta` vence sola. Se aplica en `ProtectedRoute` y en el enrutado post-login, y una
+pantalla nueva `/cuenta-suspendida` explica el corte. El staff queda exento para no autobloquearse.
+
+*Por qué:* hasta ahora la única forma de cortar el acceso a un aprobado era `estado_acceso =
+'rechazado'`, que es la semántica de una **solicitud denegada**, no la de un alumno activo al que
+se le corta por adeudo, ban o fin de curso. Separar las dos capas evita rehacer el alta al
+reactivar y permite decir *por qué* se cortó. La pestaña muestra el contexto para decidir a mano
+—cargos vencidos, suscripción vencida y curso finalizado— en vez de automatizar el corte: un error
+en los datos de cobro dejaría a todos fuera. Se documenta que es un gate de **navegación** (el
+contenido viaja en el bundle), no una política RLS.
+
 
 

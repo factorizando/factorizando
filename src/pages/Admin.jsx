@@ -18,6 +18,7 @@ import { SUBJECTS_EXANI_II } from "../data/exaniIIData.js";
 import AdminAlumnos from "./admin/AdminAlumnos.jsx";
 import AdminSolicitudes from "./admin/AdminSolicitudes.jsx";
 import AdminTutores from "./admin/AdminTutores.jsx";
+import AdminCuentas from "./admin/AdminCuentas.jsx";
 import AdminInicio from "./admin/AdminInicio.jsx";
 import AdminDashboard from "./admin/AdminDashboard.jsx";
 import AdminInscripciones from "./admin/AdminInscripciones.jsx";
@@ -571,6 +572,9 @@ export default function Admin() {
 
       {/* ── Tab: Tutores ──────────────────────────────────────────────── */}
       {tab === "tutores" && <AdminTutores embedded />}
+
+      {/* ── Tab: Cuentas (control de acceso) ──────────────────────────── */}
+      {tab === "cuentas" && <AdminCuentas embedded onNavigate={setTab} />}
 
       {/* ── Tab: Inscripciones ────────────────────────────────────────── */}
       {tab === "inscripciones" && <AdminInscripciones embedded />}

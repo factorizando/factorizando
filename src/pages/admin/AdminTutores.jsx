@@ -1,7 +1,7 @@
 // src/pages/admin/AdminTutores.jsx
 // Panel de tutores: gestionar tutores y vincular su cuenta para el portal.
 import { useState, useEffect } from "react";
-import { Users, Plus, Pencil, Trash2, Link2, Unlink } from "lucide-react";
+import { Users, Plus, Pencil, Trash2, Link2, Unlink, Archive, RotateCcw } from "lucide-react";
 import { supabase } from "../../lib/supabase";
 import AdminLayout from "../../components/admin/AdminLayout.jsx";
 import {
@@ -90,6 +90,9 @@ export default function AdminTutores({ embedded }) {
   const [showForm, setShowForm] = useState(false);
   const [editTutor, setEditTutor] = useState(null);
   const [deleteTarget, setDeleteTarget] = useState(null);
+  const [deleteError, setDeleteError] = useState(null);
+  const [guardando, setGuardando] = useState(false);
+  const [mostrarArchivados, setMostrarArchivados] = useState(false);
   const [linkTarget, setLinkTarget] = useState(null);
 
   useEffect(() => { loadAll(); }, []);
@@ -112,6 +115,7 @@ export default function AdminTutores({ embedded }) {
   const perfilPorId = Object.fromEntries(profiles.map((p) => [p.id, p]));
 
   const filtrados = tutores.filter((t) => {
+    if (!!t.archivado_en !== mostrarArchivados) return false;
     if (!search) return true;
     const q = search.toLowerCase();
     return `${t.nombre} ${t.apellidos}`.toLowerCase().includes(q)
@@ -133,10 +137,42 @@ export default function AdminTutores({ embedded }) {
     return {};
   }
 
+  // Anula la cuenta vinculada (no borra `profiles`, para no perder el correo).
+  async function anularCuenta(tutor) {
+    if (!tutor.profile_id) return;
+    await supabase.from("profiles").update({ estado_acceso: "rechazado" }).eq("id", tutor.profile_id);
+  }
+
+  async function handleArchivar() {
+    if (!deleteTarget) return;
+    setGuardando(true); setDeleteError(null);
+    const { error } = await supabase
+      .from("tutores").update({ archivado_en: new Date().toISOString() }).eq("id", deleteTarget.id);
+    if (error) { setDeleteError(error.message || "No se pudo archivar."); setGuardando(false); return; }
+    // Sus alumnos dejan de verlo: vínculos inactivos + cuenta anulada.
+    await supabase.from("alumno_tutor").update({ estado: "rechazado" }).eq("tutor_id", deleteTarget.id);
+    await anularCuenta(deleteTarget);
+    setDeleteTarget(null);
+    setGuardando(false);
+    await loadAll();
+  }
+
   async function handleDelete() {
     if (!deleteTarget) return;
-    await supabase.from("tutores").delete().eq("id", deleteTarget.id);
+    setGuardando(true); setDeleteError(null);
+    const { error } = await supabase.from("tutores").delete().eq("id", deleteTarget.id);
+    if (error) { setDeleteError(error.message || "No se pudo eliminar."); setGuardando(false); return; }
+    await anularCuenta(deleteTarget);
     setDeleteTarget(null);
+    setGuardando(false);
+    await loadAll();
+  }
+
+  async function handleRestaurar(tutor) {
+    await supabase.from("tutores").update({ archivado_en: null }).eq("id", tutor.id);
+    if (tutor.profile_id) {
+      await supabase.from("profiles").update({ estado_acceso: "pendiente" }).eq("id", tutor.profile_id);
+    }
     await loadAll();
   }
 
@@ -175,14 +211,21 @@ export default function AdminTutores({ embedded }) {
           placeholder="Buscar tutor…"
           style={{ flex: "1 1 240px", maxWidth: 340 }}
         />
-        <span className="ax-sub">{filtrados.length} tutores</span>
+        <div className="ax-acciones">
+          <span className="ax-sub">{filtrados.length} tutores</span>
+          <Button variante={mostrarArchivados ? "primary" : "subtle"} icono={Archive} onClick={() => setMostrarArchivados((v) => !v)}>
+            {mostrarArchivados ? "Ver activos" : "Ver archivados"}
+          </Button>
+        </div>
       </div>
 
       {loading ? (
         <p className="ax-sub">Cargando…</p>
       ) : filtrados.length === 0 ? (
-        <EmptyState icono={Users} titulo="Sin tutores">
-          {tutores.length === 0 ? "Aún no hay tutores registrados." : "Ningún tutor coincide con la búsqueda."}
+        <EmptyState icono={Users} titulo={mostrarArchivados ? "Sin archivados" : "Sin tutores"}>
+          {mostrarArchivados
+            ? "No hay tutores archivados."
+            : tutores.length === 0 ? "Aún no hay tutores registrados." : "Ningún tutor coincide con la búsqueda."}
         </EmptyState>
       ) : (
         <div className="ax-lista">
@@ -197,22 +240,32 @@ export default function AdminTutores({ embedded }) {
                     <div className="ax-sub">{t.telefono}{t.email ? ` · ${t.email}` : ""}</div>
                   </div>
                   <Badge tone="accent">{RELACION_LABEL[t.relacion] || t.relacion}</Badge>
-                  <Badge tone="neutral">{conteos[t.id] || 0} {(conteos[t.id] || 0) === 1 ? "alumno" : "alumnos"}</Badge>
+                  {t.archivado_en ? (
+                    <Badge tone="neutral">Archivado</Badge>
+                  ) : (
+                    <Badge tone="neutral">{conteos[t.id] || 0} {(conteos[t.id] || 0) === 1 ? "alumno" : "alumnos"}</Badge>
+                  )}
                   <div className="ax-acciones">
                     <Button variante="ghost" icono={Pencil} title="Editar" onClick={() => { setEditTutor(t); setShowForm(true); }} />
-                    <Button variante="ghost" icono={Trash2} title="Eliminar" onClick={() => setDeleteTarget(t)} />
+                    {t.archivado_en ? (
+                      <Button variante="ghost" icono={RotateCcw} title="Restaurar" onClick={() => handleRestaurar(t)} />
+                    ) : (
+                      <Button variante="ghost" icono={Trash2} title="Eliminar" onClick={() => setDeleteTarget(t)} />
+                    )}
                   </div>
                 </div>
-                <div className="ax-acciones" style={{ marginTop: 12, justifyContent: "space-between" }}>
-                  <span className="ax-sub">
-                    {perfil ? `Cuenta: ${perfil.nombre || perfil.email || "vinculada"}` : "Sin cuenta vinculada"}
-                  </span>
-                  {perfil ? (
-                    <Button variante="ghost" icono={Unlink} onClick={() => handleUnlink(t)}>Quitar vínculo</Button>
-                  ) : (
-                    <Button variante="secondary" icono={Link2} onClick={() => setLinkTarget(t)}>Vincular cuenta</Button>
-                  )}
-                </div>
+                {!t.archivado_en && (
+                  <div className="ax-acciones" style={{ marginTop: 12, justifyContent: "space-between" }}>
+                    <span className="ax-sub">
+                      {perfil ? `Cuenta: ${perfil.nombre || perfil.email || "vinculada"}` : "Sin cuenta vinculada"}
+                    </span>
+                    {perfil ? (
+                      <Button variante="ghost" icono={Unlink} onClick={() => handleUnlink(t)}>Quitar vínculo</Button>
+                    ) : (
+                      <Button variante="secondary" icono={Link2} onClick={() => setLinkTarget(t)}>Vincular cuenta</Button>
+                    )}
+                  </div>
+                )}
               </Card>
             );
           })}
@@ -225,17 +278,38 @@ export default function AdminTutores({ embedded }) {
         </Modal>
       )}
 
-      {deleteTarget && (
-        <Modal titulo="Eliminar tutor" onClose={() => setDeleteTarget(null)}>
-          <p className="ax-sub" style={{ margin: "0 0 18px" }}>
-            ¿Eliminar a {deleteTarget.nombre} {deleteTarget.apellidos}? Se eliminará de todos los alumnos asociados.
-          </p>
-          <div className="ax-acciones" style={{ justifyContent: "flex-end" }}>
-            <Button variante="ghost" onClick={() => setDeleteTarget(null)}>Cancelar</Button>
-            <Button variante="primary" icono={Trash2} onClick={handleDelete}>Eliminar</Button>
-          </div>
-        </Modal>
-      )}
+      {deleteTarget && (() => {
+        const nAlumnos = conteos[deleteTarget.id] || 0;
+        return (
+          <Modal titulo={nAlumnos > 0 ? "Archivar tutor" : "Eliminar tutor"} onClose={() => { setDeleteTarget(null); setDeleteError(null); }}>
+            {nAlumnos > 0 ? (
+              <p className="ax-sub" style={{ margin: "0 0 12px", whiteSpace: "normal" }}>
+                <strong>{deleteTarget.nombre} {deleteTarget.apellidos}</strong> tiene {nAlumnos}{" "}
+                {nAlumnos === 1 ? "alumno vinculado" : "alumnos vinculados"}. Se archivará: se desvincula de
+                todos ellos y se le retira el acceso, pero su ficha se conserva.
+              </p>
+            ) : (
+              <p className="ax-sub" style={{ margin: "0 0 12px", whiteSpace: "normal" }}>
+                <strong>{deleteTarget.nombre} {deleteTarget.apellidos}</strong> no tiene alumnos vinculados. Se
+                eliminará permanentemente. Esta acción no se puede deshacer.
+              </p>
+            )}
+            {deleteError && <div className="ax-badge ax-badge-error" style={{ display: "block", marginBottom: 12 }}>{deleteError}</div>}
+            <div className="ax-acciones" style={{ justifyContent: "flex-end" }}>
+              <Button variante="ghost" onClick={() => { setDeleteTarget(null); setDeleteError(null); }}>Cancelar</Button>
+              {nAlumnos > 0 ? (
+                <Button variante="primary" icono={Archive} disabled={guardando} onClick={handleArchivar}>
+                  {guardando ? "Archivando…" : "Archivar"}
+                </Button>
+              ) : (
+                <Button variante="primary" icono={Trash2} disabled={guardando} onClick={handleDelete}>
+                  {guardando ? "Eliminando…" : "Eliminar"}
+                </Button>
+              )}
+            </div>
+          </Modal>
+        );
+      })()}
 
       {linkTarget && (
         <Modal titulo={`Vincular cuenta a ${linkTarget.nombre} ${linkTarget.apellidos}`} onClose={() => setLinkTarget(null)}>

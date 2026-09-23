@@ -152,11 +152,16 @@ export default function AuthCard({ mode = "login", onSwitchMode, onClose, dest }
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) return;
     const { data } = await supabase
-      .from("profiles").select("rol, bloque, estado_acceso, perfil_completo").eq("id", session.user.id).single();
+      .from("profiles")
+      .select("*")
+      .eq("id", session.user.id).single();
     onClose?.();
     if (data && !data.perfil_completo) { navigate("/completar-perfil"); return; }
     if (data?.rol === "admin") { navigate("/admin"); return; }
     if (data?.estado_acceso !== "aprobado") { navigate("/cuenta-pendiente"); return; }
+    if (data?.suspendido_en && (!data.suspendido_hasta || new Date(data.suspendido_hasta) > new Date())) {
+      navigate("/cuenta-suspendida"); return;
+    }
     if (data?.rol === "tutor") { navigate("/tutor"); return; }
     if (dest) { navigate(`/${dest}`); return; }
     if (data?.bloque === "preparatoria" || data?.bloque === "universidad" || data?.bloque === "regularizacion") {

@@ -39,7 +39,7 @@ export default function ProtectedRoute({ children, requiredNivel = null }) {
 
       const { data: profile } = await supabase
         .from("profiles")
-        .select("rol, nivel, bloque, estado_acceso, perfil_completo")
+        .select("*")
         .eq("id", session.user.id)
         .single();
       if (cancelled) return;
@@ -54,6 +54,14 @@ export default function ProtectedRoute({ children, requiredNivel = null }) {
       // Sin aprobación no se entra a nada, ni siquiera con auth (salvo staff).
       if (!esStaff && profile.estado_acceso !== "aprobado") {
         setStatus("pendiente");
+        return;
+      }
+
+      // La suspensión corta a una cuenta aprobada; vence sola si `suspendido_hasta`
+      // ya pasó. El staff queda exento para no bloquear la operación.
+      if (!esStaff && profile.suspendido_en
+          && (!profile.suspendido_hasta || new Date(profile.suspendido_hasta) > new Date())) {
+        setStatus("suspendido");
         return;
       }
 
@@ -94,6 +102,8 @@ export default function ProtectedRoute({ children, requiredNivel = null }) {
   if (status === "incompleto") return <Navigate to="/completar-perfil" replace />;
 
   if (status === "pendiente") return <Navigate to="/cuenta-pendiente" replace />;
+
+  if (status === "suspendido") return <Navigate to="/cuenta-suspendida" replace />;
 
   if (status === "unauthorized") return <Navigate to="/" replace />;
 

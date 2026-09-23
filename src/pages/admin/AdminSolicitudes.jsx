@@ -371,7 +371,12 @@ export default function AdminSolicitudes({ embedded }) {
     if (error) return { error: error.message || "No se pudo rechazar." };
     // El alta del alumno creó su expediente (id = cuenta); al rechazar se borra,
     // y con él sus contactos de emergencia (FK en cascada).
-    await supabase.from("alumnos").delete().eq("id", perfil.id);
+    const { error: delErr } = await supabase.from("alumnos").delete().eq("id", perfil.id);
+    if (delErr) {
+      // Si no se puede borrar (p. ej. tiene cargos: `ON DELETE RESTRICT`), se
+      // archiva para que el rechazo no deje el expediente activo.
+      await supabase.from("alumnos").update({ archivado_en: new Date().toISOString() }).eq("id", perfil.id);
+    }
     setRechazar(null);
     await load();
     return {};

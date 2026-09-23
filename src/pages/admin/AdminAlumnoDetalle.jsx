@@ -6,7 +6,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Plus, Pencil, Trash2, UserRound, Phone, TriangleAlert } from "lucide-react";
+import { Plus, Pencil, Trash2, Unlink, UserRound, Phone, TriangleAlert } from "lucide-react";
 import { supabase } from "../../lib/supabase";
 import AdminLayout from "../../components/admin/AdminLayout.jsx";
 import {
@@ -167,6 +167,7 @@ export default function AdminAlumnoDetalle() {
   const [editContacto, setEditContacto] = useState(null);
   const [allTutores, setAllTutores] = useState([]);
   const [showTutorPicker, setShowTutorPicker] = useState(false);
+  const [quitarTarget, setQuitarTarget] = useState(null);
 
   useEffect(() => { loadAll(); }, [id]);
 
@@ -226,9 +227,11 @@ export default function AdminAlumnoDetalle() {
     await loadAll();
   }
 
-  async function handleDeleteTutor(tutorId) {
+  // Quitar de ESTE alumno: solo borra el vínculo. El tutor sigue existiendo
+  // (y vinculado a otros alumnos). La eliminación global vive en Tutores.
+  async function handleQuitarTutor(tutorId) {
     await supabase.from("alumno_tutor").delete().eq("alumno_id", id).eq("tutor_id", tutorId);
-    await supabase.from("tutores").delete().eq("id", tutorId);
+    setQuitarTarget(null);
     await loadAll();
   }
 
@@ -337,7 +340,7 @@ export default function AdminAlumnoDetalle() {
                     </div>
                     <div className="ax-acciones">
                       <Button variante="ghost" icono={Pencil} title="Editar" onClick={() => { setEditTutor(t); setShowTutorForm(true); }} />
-                      <Button variante="ghost" icono={Trash2} title="Eliminar" onClick={() => handleDeleteTutor(t.id)} />
+                      <Button variante="ghost" icono={Unlink} title="Quitar de este alumno" onClick={() => setQuitarTarget(t)} />
                     </div>
                   </div>
                 </Card>
@@ -430,6 +433,18 @@ export default function AdminAlumnoDetalle() {
       {showTutorForm && (
         <Modal titulo={editTutor ? "Editar tutor" : "Nuevo tutor"} onClose={() => { setShowTutorForm(false); setEditTutor(null); }}>
           <TutorForm initial={editTutor || undefined} onSave={handleSaveTutor} onCancel={() => { setShowTutorForm(false); setEditTutor(null); }} />
+        </Modal>
+      )}
+      {quitarTarget && (
+        <Modal titulo="Quitar tutor" onClose={() => setQuitarTarget(null)}>
+          <p className="ax-sub" style={{ margin: "0 0 18px", whiteSpace: "normal" }}>
+            ¿Quitar a <strong>{quitarTarget.nombre} {quitarTarget.apellidos}</strong> de {alumno?.nombre} {alumno?.apellidos}?
+            El tutor seguirá existiendo (y vinculado a sus otros alumnos). Para eliminarlo por completo, hazlo desde Tutores.
+          </p>
+          <div className="ax-acciones" style={{ justifyContent: "flex-end" }}>
+            <Button variante="ghost" onClick={() => setQuitarTarget(null)}>Cancelar</Button>
+            <Button variante="primary" icono={Unlink} onClick={() => handleQuitarTutor(quitarTarget.id)}>Quitar</Button>
+          </div>
         </Modal>
       )}
       {showContactoForm && (

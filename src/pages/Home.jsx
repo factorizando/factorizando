@@ -64,7 +64,7 @@ export default function Home() {
       if (!session) return;
       const { data } = await supabase
         .from("profiles")
-        .select("rol, nombre, avatar_url, estado_acceso, bloque, perfil_completo")
+        .select("*")
         .eq("id", session.user.id)
         .single();
       // Tras confirmar el correo se aterriza aquí: si falta el perfil, completarlo.
@@ -75,6 +75,12 @@ export default function Home() {
       // Cuenta registrada pero todavía sin aprobar: no hay bloques que abrir.
       if (data?.rol !== "admin" && data?.estado_acceso !== "aprobado") {
         navigate("/cuenta-pendiente");
+        return;
+      }
+      // Suspensión vigente: se avisa antes de ofrecer cualquier destino.
+      if (data?.rol !== "admin" && data?.rol !== "profesor" && data?.suspendido_en
+          && (!data.suspendido_hasta || new Date(data.suspendido_hasta) > new Date())) {
+        navigate("/cuenta-suspendida");
         return;
       }
       if (data?.rol === "admin") setIsAdmin(true);

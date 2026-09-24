@@ -5,8 +5,8 @@
 // Se entra de dos maneras: hojeando por materia, o preguntando "hoy quiero
 // trabajar divisiones". Lo segundo se resuelve con los temas que declara cada
 // actividad (ver `src/data/talleres/temas.js`), no con el título del taller.
-import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AdminHeader from "../components/admin/AdminHeader.jsx";
 import { buscarPorTema, buscarTalleres } from "../data/talleres/talleresIndex.js";
 import { TEMAS_POR_ID, buscarTemas, temasPorArea, etiquetaTema } from "../data/talleres/temas.js";
@@ -24,6 +24,64 @@ const C = {
 };
 
 const font = "'DM Sans', sans-serif";
+
+// Estilos del catálogo compacto y del panel de detalle. El resto del archivo
+// sigue con estilos en línea; estas clases existen porque el drawer necesita
+// transición, media query y `:hover`, que en línea no se pueden.
+const CSS = `
+.rz-card { display:block; width:100%; text-align:left; background:${C.card};
+  border:1px solid ${C.border}; border-radius:14px; padding:14px 16px;
+  color:${C.text}; font-family:${font}; cursor:pointer;
+  transition:border-color .15s ease, transform .1s ease; }
+.rz-card:hover { border-color:#3a4250; }
+.rz-card:active { transform:translateY(1px); }
+.rz-card-ic { display:grid; place-items:center; width:38px; height:38px; flex:none;
+  border-radius:10px; background:${C.surface}; font-size:21px; line-height:1; }
+.rz-card-tit { font-size:15px; font-weight:700; line-height:1.2; }
+.rz-card-tema { font-size:12px; color:${C.muted}; margin-top:2px; }
+.rz-desc { font-size:12.5px; color:${C.dim}; line-height:1.45; margin:10px 0 12px;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.rz-chips { display:flex; gap:6px; flex-wrap:wrap; align-items:center; }
+
+.rz-velo { position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:60;
+  animation:rz-velo .16s ease; }
+@keyframes rz-velo { from{opacity:0} to{opacity:1} }
+.rz-drawer { position:fixed; z-index:61; top:0; right:0; height:100dvh;
+  width:min(440px, 100vw); background:${C.bg}; border-left:1px solid ${C.border};
+  display:flex; flex-direction:column; animation:rz-entra .2s ease; }
+@keyframes rz-entra { from{transform:translateX(24px); opacity:.4} to{transform:none; opacity:1} }
+.rz-drawer-cab { display:flex; align-items:flex-start; gap:12px;
+  padding:20px 20px 14px; border-bottom:1px solid ${C.border}; }
+.rz-drawer-ic { display:grid; place-items:center; width:44px; height:44px; flex:none;
+  border-radius:12px; background:${C.surface}; font-size:24px; line-height:1; }
+.rz-drawer-tit { font-size:19px; font-weight:700; margin:0; line-height:1.2; }
+.rz-drawer-tema { font-size:13px; color:${C.muted}; margin-top:3px; }
+.rz-cerrar { margin-left:auto; width:40px; height:40px; flex:none; border-radius:10px;
+  border:1px solid ${C.border}; background:transparent; color:${C.dim};
+  font-size:15px; cursor:pointer; font-family:${font}; }
+.rz-cerrar:hover { color:${C.text}; border-color:#3a4250; }
+.rz-drawer-cuerpo { padding:18px 20px; overflow-y:auto; flex:1; }
+.rz-drawer-desc { font-size:14px; color:${C.dim}; line-height:1.6; margin:14px 0 20px; }
+.rz-sec { margin-bottom:22px; }
+.rz-sec-tit { font-size:11px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.07em; color:${C.muted}; margin:0 0 10px; }
+.rz-obj { list-style:none; margin:0; padding:0; display:grid; gap:8px; }
+.rz-obj li { font-size:13px; color:${C.dim}; line-height:1.5; padding-left:18px; position:relative; }
+.rz-obj li::before { content:"–"; position:absolute; left:0; color:${C.muted}; }
+.rz-act { list-style:none; margin:0; padding:0; display:grid; gap:12px; }
+.rz-drawer-pie { padding:14px 20px calc(14px + env(safe-area-inset-bottom,0px));
+  border-top:1px solid ${C.border}; }
+.rz-abrir { width:100%; min-height:48px; border:none; border-radius:12px;
+  background:${C.blue}; color:#0e0f11; font-family:${font}; font-size:15px;
+  font-weight:700; cursor:pointer; }
+.rz-abrir:hover { filter:brightness(1.05); }
+@media (max-width: 720px) {
+  .rz-drawer { top:auto; bottom:0; left:0; right:0; width:auto; height:auto;
+    max-height:86dvh; border-left:none; border-top:1px solid ${C.border};
+    border-radius:18px 18px 0 0; animation:rz-sube .2s ease; }
+  @keyframes rz-sube { from{transform:translateY(24px); opacity:.4} to{transform:none; opacity:1} }
+}
+`;
 
 const NIVELES = [
   { id: "todos",      label: "Todos" },
@@ -66,6 +124,10 @@ export default function Regularizacion() {
   const [q, setQ] = useState("");
   const [tema, setTema] = useState(null);
   const [verTemas, setVerTemas] = useState(false);
+  const [seleccionado, setSeleccionado] = useState(null);
+  const refCerrar = useRef(null);
+  const refTarjeta = useRef(null);
+  const navigate = useNavigate();
 
   const consulta = q.trim();
   const hayFiltro = Boolean(tema || consulta);
@@ -93,8 +155,43 @@ export default function Regularizacion() {
     setVerTemas(false);
   }
 
+  const cerrarDetalle = useCallback(() => {
+    setSeleccionado(null);
+    refTarjeta.current?.focus?.();
+  }, []);
+
+  // Detalle abierto: foco al botón de cerrar, Escape cierra y el fondo no se
+  // desplaza (mismo cuidado que el menú móvil del header).
+  useEffect(() => {
+    if (!seleccionado) return;
+    refCerrar.current?.focus();
+    const alTeclear = (e) => { if (e.key === "Escape") cerrarDetalle(); };
+    const previo = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", alTeclear);
+    return () => {
+      document.body.style.overflow = previo;
+      window.removeEventListener("keydown", alTeclear);
+    };
+  }, [seleccionado, cerrarDetalle]);
+
+  // Si un cambio de filtro deja fuera al taller abierto, se cierra solo.
+  useEffect(() => {
+    if (seleccionado && !visibles.some((v) => v.taller.id === seleccionado.id)) {
+      setSeleccionado(null);
+    }
+  }, [visibles, seleccionado]);
+
+  // Actividades que muestra el detalle: si hay filtro, solo las que lo
+  // trabajan —y con el tema resaltado—; si no, todas.
+  const match = seleccionado ? resultados.find((r) => r.taller.id === seleccionado.id) : null;
+  const mostradasDetalle = seleccionado
+    ? (hayFiltro && match?.actividades?.length ? match.actividades : seleccionado.actividades)
+    : [];
+
   return (
     <div style={{ minHeight: "100vh", background: C.bg, color: C.text, fontFamily: font }}>
+      <style>{CSS}</style>
       {/* Sin las pestañas del back-office: desde aquí no se llega a Alumnos,
           Cargos ni Suscripciones. La entrada es de ida — se accede desde el
           panel admin o desde Inicio, no al revés. */}
@@ -271,91 +368,134 @@ export default function Regularizacion() {
               </div>
 
               <div style={{
-                display: "grid", gap: 16,
-                gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+                display: "grid", gap: 12,
+                gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
               }}>
-                {lista.map(({ taller: t, actividades }) => {
-                  // Con filtro se listan solo las actividades que lo trabajan;
-                  // sin filtro, todas: la tarjeta es la ficha del taller.
-                  const mostradas = hayFiltro && actividades.length ? actividades : t.actividades;
-                  return (
-                    <Link
-                      key={t.id}
-                      to={`/regularizacion/${t.id}`}
-                      style={{
-                        display: "block", background: C.card, border: `1px solid ${C.border}`,
-                        borderRadius: 16, padding: "20px 22px", textDecoration: "none", color: C.text,
-                      }}
-                    >
-                      <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 12 }}>
-                        <span style={{
-                          display: "grid", placeItems: "center", width: 48, height: 48, flexShrink: 0,
-                          borderRadius: 13, background: C.surface, fontSize: 26, lineHeight: 1,
-                        }}>{t.icono}</span>
-                        <div style={{ minWidth: 0 }}>
-                          <div style={{ fontSize: 17, fontWeight: 700, marginBottom: 3 }}>{t.titulo}</div>
-                          {/* La materia ya la dice el encabezado del bloque. */}
-                          <div style={{ fontSize: 13, color: C.muted }}>{t.tema}</div>
-                        </div>
+                {lista.map(({ taller: t }) => (
+                  <button
+                    key={t.id}
+                    type="button"
+                    className="rz-card"
+                    onClick={(e) => { refTarjeta.current = e.currentTarget; setSeleccionado(t); }}
+                  >
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 2 }}>
+                      <span className="rz-card-ic">{t.icono}</span>
+                      <div style={{ minWidth: 0 }}>
+                        <div className="rz-card-tit">{t.titulo}</div>
+                        {/* La materia ya la dice el encabezado del bloque. */}
+                        <div className="rz-card-tema">{t.tema}</div>
                       </div>
+                    </div>
 
-                      <p style={{ fontSize: 13.5, color: C.dim, lineHeight: 1.55, margin: "0 0 14px" }}>
-                        {t.descripcion}
-                      </p>
+                    <p className="rz-desc">{t.descripcion}</p>
 
-                      {mostradas.length > 0 && (
-                        <div style={{ marginBottom: 14 }}>
-                          <div style={{
-                            fontSize: 11, fontWeight: 700, textTransform: "uppercase",
-                            letterSpacing: ".06em", color: C.muted, marginBottom: 7,
-                          }}>
-                            {hayFiltro && actividades.length
-                              ? `Lo trabaja en ${actividades.length === 1 ? "esta actividad" : "estas actividades"}`
-                              : "Lo que se trabaja"}
-                          </div>
-                          <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "grid", gap: 7 }}>
-                            {mostradas.map((a) => (
-                              <li key={a.id} style={{ fontSize: 13, lineHeight: 1.4 }}>
-                                <div style={{ display: "flex", gap: 8, alignItems: "baseline" }}>
-                                  <span style={{ color: C.text, fontWeight: 600 }}>{a.nombre}</span>
-                                  <span style={{ color: C.muted, fontSize: 11, whiteSpace: "nowrap" }}>
-                                    {a.edades} años
-                                  </span>
-                                </div>
-                                <div style={{ display: "flex", gap: 5, flexWrap: "wrap", marginTop: 4 }}>
-                                  {a.temas.map((id) => (
-                                    <Chip
-                                      key={id}
-                                      color={id === tema ? C.green : C.muted}
-                                      fondo={id === tema ? C.green + "22" : C.surface}
-                                    >
-                                      {etiquetaTema(id)}
-                                    </Chip>
-                                  ))}
-                                </div>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-
-                      <div style={{ display: "flex", gap: 7, flexWrap: "wrap" }}>
-                        <Chip
-                          color={NIVEL_COLOR[t.nivel] || C.blue}
-                          fondo={(NIVEL_COLOR[t.nivel] || C.blue) + "22"}
-                        >
-                          <span style={{ textTransform: "capitalize" }}>{t.nivel}</span>
-                        </Chip>
-                        <Chip>{t.edades}</Chip>
-                      </div>
-                    </Link>
-                  );
-                })}
+                    <div className="rz-chips">
+                      <Chip
+                        color={NIVEL_COLOR[t.nivel] || C.blue}
+                        fondo={(NIVEL_COLOR[t.nivel] || C.blue) + "22"}
+                      >
+                        <span style={{ textTransform: "capitalize" }}>{t.nivel}</span>
+                      </Chip>
+                      <Chip>{t.edades}</Chip>
+                      <Chip>{t.actividades.length} {t.actividades.length === 1 ? "actividad" : "actividades"}</Chip>
+                    </div>
+                  </button>
+                ))}
               </div>
             </section>
           ))
         )}
       </main>
+
+      {/* ── Detalle del taller ──────────────────────────────────────────── */}
+      {seleccionado && (
+        <>
+          <div className="rz-velo" onClick={cerrarDetalle} aria-hidden="true" />
+          <aside
+            className="rz-drawer" role="dialog" aria-modal="true"
+            aria-label={`Detalle de ${seleccionado.titulo}`}
+          >
+            <div className="rz-drawer-cab">
+              <span className="rz-drawer-ic">{seleccionado.icono}</span>
+              <div style={{ minWidth: 0 }}>
+                <h2 className="rz-drawer-tit">{seleccionado.titulo}</h2>
+                <div className="rz-drawer-tema">{seleccionado.tema}</div>
+              </div>
+              <button
+                ref={refCerrar} type="button" className="rz-cerrar"
+                onClick={cerrarDetalle} aria-label="Cerrar"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="rz-drawer-cuerpo">
+              <div className="rz-chips">
+                <Chip
+                  color={NIVEL_COLOR[seleccionado.nivel] || C.blue}
+                  fondo={(NIVEL_COLOR[seleccionado.nivel] || C.blue) + "22"}
+                >
+                  <span style={{ textTransform: "capitalize" }}>{seleccionado.nivel}</span>
+                </Chip>
+                <Chip>{seleccionado.edades}</Chip>
+              </div>
+
+              <p className="rz-drawer-desc">{seleccionado.descripcion}</p>
+
+              {seleccionado.objetivos?.length > 0 && (
+                <div className="rz-sec">
+                  <div className="rz-sec-tit">Qué se trabaja</div>
+                  <ul className="rz-obj">
+                    {seleccionado.objetivos.map((o) => <li key={o}>{o}</li>)}
+                  </ul>
+                </div>
+              )}
+
+              {mostradasDetalle.length > 0 && (
+                <div className="rz-sec">
+                  <div className="rz-sec-tit">
+                    {hayFiltro && match?.actividades?.length
+                      ? `Lo trabaja en ${match.actividades.length === 1 ? "esta actividad" : "estas actividades"}`
+                      : "Lo que se trabaja"}
+                  </div>
+                  <ul className="rz-act">
+                    {mostradasDetalle.map((a) => (
+                      <li key={a.id} style={{ fontSize: 13, lineHeight: 1.4 }}>
+                        <div style={{ display: "flex", gap: 8, alignItems: "baseline" }}>
+                          <span style={{ color: C.text, fontWeight: 600 }}>{a.nombre}</span>
+                          <span style={{ color: C.muted, fontSize: 11, whiteSpace: "nowrap" }}>
+                            {a.edades} años
+                          </span>
+                        </div>
+                        <div style={{ display: "flex", gap: 5, flexWrap: "wrap", marginTop: 4 }}>
+                          {a.temas.map((id) => (
+                            <Chip
+                              key={id}
+                              color={id === tema ? C.green : C.muted}
+                              fondo={id === tema ? C.green + "22" : C.surface}
+                            >
+                              {etiquetaTema(id)}
+                            </Chip>
+                          ))}
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+
+            <div className="rz-drawer-pie">
+              <button
+                type="button" className="rz-abrir"
+                onClick={() => navigate(`/regularizacion/${seleccionado.id}`)}
+              >
+                Abrir taller →
+              </button>
+            </div>
+          </aside>
+        </>
+      )}
     </div>
   );
 }

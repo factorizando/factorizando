@@ -71,6 +71,10 @@ function AlumnoForm({ profiles, initial, onSave, onCancel }) {
   }
 
   const profilesSinAlumno = (profiles || []).filter((p) => !p.ya_es_alumno || isEdit);
+  // Con cuenta, la identidad manda desde `profiles` (un trigger la copia al
+  // expediente); aquí solo se editan nivel y datos médicos.
+  const esCuenta = isEdit ? !!initial?.profile_id : (!isManual && !!form.id);
+  const identidadDisabled = { disabled: esCuenta };
 
   return (
     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
@@ -86,12 +90,18 @@ function AlumnoForm({ profiles, initial, onSave, onCancel }) {
         </Field>
       )}
 
+      {esCuenta && (
+        <p className="ax-sub" style={{ margin: 0 }}>
+          Su identidad se edita en la cuenta (Cuentas); aquí solo el nivel y los datos médicos.
+        </p>
+      )}
+
       <div style={{ display: "grid", gridTemplateColumns: GRID_FORM, gap: 12 }}>
-        <Field label="Nombre"><Input value={form.nombre} onChange={set("nombre")} required /></Field>
-        <Field label="Apellidos"><Input value={form.apellidos} onChange={set("apellidos")} required /></Field>
+        <Field label="Nombre"><Input value={form.nombre} onChange={set("nombre")} required {...identidadDisabled} /></Field>
+        <Field label="Apellidos"><Input value={form.apellidos} onChange={set("apellidos")} required {...identidadDisabled} /></Field>
       </div>
       <div style={{ display: "grid", gridTemplateColumns: GRID_FORM, gap: 12 }}>
-        <Field label="Fecha de nacimiento"><Input type="date" value={form.fecha_nacimiento} onChange={set("fecha_nacimiento")} required /></Field>
+        <Field label="Fecha de nacimiento"><Input type="date" value={form.fecha_nacimiento} onChange={set("fecha_nacimiento")} required {...identidadDisabled} /></Field>
         <Field label="Nivel">
           <Select value={form.nivel} onChange={set("nivel")}>
             <option value="primaria">Primaria</option>
@@ -102,8 +112,8 @@ function AlumnoForm({ profiles, initial, onSave, onCancel }) {
         </Field>
       </div>
       <div style={{ display: "grid", gridTemplateColumns: GRID_FORM, gap: 12 }}>
-        <Field label="Email"><Input type="email" value={form.email} onChange={set("email")} /></Field>
-        <Field label="Teléfono"><Input value={form.telefono} onChange={set("telefono")} /></Field>
+        <Field label="Email"><Input type="email" value={form.email} onChange={set("email")} {...identidadDisabled} /></Field>
+        <Field label="Teléfono"><Input value={form.telefono} onChange={set("telefono")} {...identidadDisabled} /></Field>
       </div>
       <Field label="Alergias"><Input value={form.alergias} onChange={set("alergias")} placeholder="(opcional)" /></Field>
       <Field label="Condiciones médicas"><Input value={form.condiciones_medicas} onChange={set("condiciones_medicas")} placeholder="(opcional)" /></Field>

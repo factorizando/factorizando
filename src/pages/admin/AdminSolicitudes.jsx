@@ -136,14 +136,13 @@ function SolicitudCard({ perfil, onAprobar, onRechazar }) {
   );
 }
 
-function AprobarModal({ perfil, tutores, onClose, onConfirm }) {
+function AprobarModal({ perfil, onClose, onConfirm }) {
   const [tipo, setTipo] = useState(perfil.tipo_solicitado === "tutor" ? "tutor" : "alumno");
   const [bloque, setBloque] = useState("preparatoria");
-  const [tutorId, setTutorId] = useState("nuevo");
+  const [relacion, setRelacion] = useState("tutor");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
   const esRegularizacion = tipo === "alumno" && bloque === "regularizacion";
-  const tutoresLibres = (tutores || []).filter((t) => !t.profile_id);
 
   return (
     <Modal titulo="Aprobar solicitud" onClose={onClose}>
@@ -179,19 +178,15 @@ function AprobarModal({ perfil, tutores, onClose, onConfirm }) {
         </div>
       ) : (
         <div style={{ marginTop: 14, display: "flex", flexDirection: "column", gap: 10 }}>
-          <Field label="Ficha de tutor">
-            <Select value={tutorId} onChange={(e) => setTutorId(e.target.value)}>
-              <option value="nuevo">— Crear ficha nueva con estos datos —</option>
-              {tutoresLibres.map((t) => (
-                <option key={t.id} value={t.id}>{t.nombre} {t.apellidos}</option>
-              ))}
+          <Field label="Relación">
+            <Select value={relacion} onChange={(e) => setRelacion(e.target.value)}>
+              <option value="padre">Padre</option>
+              <option value="madre">Madre</option>
+              <option value="tutor">Tutor</option>
             </Select>
           </Field>
           <p className="ax-sub" style={{ margin: 0 }}>
-            {tutorId === "nuevo"
-              ? "Se creará una ficha de tutor con su nombre, teléfono y correo."
-              : "Se vinculará su cuenta a la ficha elegida."}
-            {" "}Luego podrás asociarle alumnos desde Tutores.
+            Su cuenta queda con rol de tutor. Luego podrás asociarle alumnos desde su ficha.
           </p>
         </div>
       )}
@@ -205,7 +200,7 @@ function AprobarModal({ perfil, tutores, onClose, onConfirm }) {
           disabled={saving}
           onClick={async () => {
             setSaving(true); setError(null);
-            const res = await onConfirm(perfil, { tipo, bloque, tutorId });
+            const res = await onConfirm(perfil, { tipo, bloque, relacion });
             if (res?.error) { setError(res.error); setSaving(false); }
           }}
         >{saving ? "Aprobando…" : "Aprobar"}</Button>
@@ -249,7 +244,6 @@ function RechazarModal({ perfil, onClose, onConfirm }) {
 
 export default function AdminSolicitudes({ embedded }) {
   const [perfiles, setPerfiles] = useState([]);
-  const [tutores, setTutores] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filtro, setFiltro] = useState("pendiente");
   const [busqueda, setBusqueda] = useState("");
@@ -260,13 +254,9 @@ export default function AdminSolicitudes({ embedded }) {
 
   async function load() {
     setLoading(true);
-    const [{ data, error }, { data: tuts }] = await Promise.all([
-      supabase.from("profiles").select("*").order("nombre", { ascending: true }),
-      supabase.from("tutores").select("id, nombre, apellidos, profile_id").order("apellidos", { ascending: true }),
-    ]);
+    const { data, error } = await supabase.from("profiles").select("*").order("nombre", { ascending: true });
     if (error) console.error("Error cargando solicitudes:", error);
     setPerfiles(data || []);
-    setTutores(tuts || []);
     setLoading(false);
   }
 
@@ -314,26 +304,9 @@ export default function AdminSolicitudes({ embedded }) {
     if (payload.tipo === "tutor") {
       const { error } = await supabase
         .from("profiles")
-        .update({ ...base, rol: "tutor", bloque: null })
+        .update({ ...base, rol: "tutor", bloque: null, relacion: payload.relacion || "tutor" })
         .eq("id", perfil.id);
       if (error) return { error: error.message || "No se pudo aprobar." };
-
-      if (payload.tutorId === "nuevo") {
-        const { nombre, apellidos } = nombreApellidos(perfil);
-        const { error: terr } = await supabase.from("tutores").insert({
-          nombre: nombre || "(sin nombre)",
-          apellidos,
-          telefono: perfil.telefono || "",
-          email: perfil.email || null,
-          relacion: "tutor",
-          profile_id: perfil.id,
-        });
-        if (terr) return { error: `Se aprobó la cuenta pero no se pudo crear la ficha de tutor: ${terr.message}` };
-      } else {
-        const { error: terr } = await supabase
-          .from("tutores").update({ profile_id: perfil.id }).eq("id", payload.tutorId);
-        if (terr) return { error: `No se pudo vincular la ficha de tutor: ${terr.message}` };
-      }
     } else {
       const { error } = await supabase
         .from("profiles")
@@ -419,7 +392,7 @@ export default function AdminSolicitudes({ embedded }) {
       )}
 
       {aprobar && (
-        <AprobarModal perfil={aprobar} tutores={tutores} onClose={() => setAprobar(null)} onConfirm={handleAprobar} />
+        <AprobarModal perfil={aprobar} onClose={() => setAprobar(null)} onConfirm={handleAprobar} />
       )}
       {rechazar && (
         <RechazarModal perfil={rechazar} onClose={() => setRechazar(null)} onConfirm={handleRechazar} />

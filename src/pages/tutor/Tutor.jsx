@@ -176,19 +176,17 @@ export default function Tutor() {
       if (!session) { setCargando(false); return; }
 
       const { data: p } = await supabase
-        .from("profiles").select("nombre, rol").eq("id", session.user.id).single();
+        .from("profiles").select("*").eq("id", session.user.id).single();
       if (cancelado) return;
       setPerfil(p);
 
-      const { data: t } = await supabase
-        .from("tutores").select("id, nombre, apellidos")
-        .eq("profile_id", session.user.id).maybeSingle();
-      if (cancelado) return;
+      // El tutor es la propia cuenta (rol='tutor'); ya no hay ficha aparte.
+      const t = p;
       setTutor(t);
 
       if (t) {
         const { data: vinculos } = await supabase
-          .from("alumno_tutor").select("alumno_id").eq("tutor_id", t.id).eq("estado", "activo");
+          .from("alumno_tutor").select("alumno_id").eq("tutor_id", p.id).eq("estado", "activo");
         const ids = (vinculos || []).map((v) => v.alumno_id);
         if (ids.length) {
           const { data: als } = await supabase

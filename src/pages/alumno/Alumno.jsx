@@ -41,7 +41,7 @@ export default function Alumno() {
     if (ids.length === 0) { setTutores([]); return; }
 
     const { data: ts } = await supabase
-      .from("tutores").select("id, nombre, apellidos, relacion").in("id", ids);
+      .from("profiles").select("id, nombre, apellidos, relacion").in("id", ids);
     const porId = Object.fromEntries((ts || []).map((t) => [t.id, t]));
     setTutores(
       (vinculos || [])

@@ -27,43 +27,6 @@ function fmtDate(iso) {
 function fmtMoney(n) { return `$${Number(n).toLocaleString("es-MX", { minimumFractionDigits: 2 })}`; }
 
 // ── Formularios ──────────────────────────────────────────────────────────────
-function TutorForm({ initial, onSave, onCancel }) {
-  const [form, setForm] = useState(initial || { nombre: "", apellidos: "", telefono: "", email: "", relacion: "padre" });
-  const [saving, setSaving] = useState(false);
-  const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-    setSaving(true);
-    await onSave(form);
-    setSaving(false);
-  }
-
-  return (
-    <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-      <div style={{ display: "grid", gridTemplateColumns: GRID_FORM, gap: 12 }}>
-        <Field label="Nombre"><Input value={form.nombre} onChange={set("nombre")} required /></Field>
-        <Field label="Apellidos"><Input value={form.apellidos} onChange={set("apellidos")} required /></Field>
-      </div>
-      <div style={{ display: "grid", gridTemplateColumns: GRID_FORM, gap: 12 }}>
-        <Field label="Teléfono"><Input value={form.telefono} onChange={set("telefono")} required /></Field>
-        <Field label="Email"><Input type="email" value={form.email} onChange={set("email")} /></Field>
-      </div>
-      <Field label="Relación">
-        <Select value={form.relacion} onChange={set("relacion")}>
-          <option value="padre">Padre</option>
-          <option value="madre">Madre</option>
-          <option value="tutor">Tutor</option>
-        </Select>
-      </Field>
-      <div className="ax-acciones" style={{ justifyContent: "flex-end", marginTop: 8 }}>
-        <Button variante="ghost" onClick={onCancel}>Cancelar</Button>
-        <Button variante="primary" type="submit" disabled={saving}>{saving ? "Guardando…" : "Guardar"}</Button>
-      </div>
-    </form>
-  );
-}
-
 function ContactoForm({ initial, onSave, onCancel }) {
   const [form, setForm] = useState(initial || { nombre: "", telefono: "", relacion: "", orden: 1 });
   const [saving, setSaving] = useState(false);
@@ -97,19 +60,19 @@ function ContactoForm({ initial, onSave, onCancel }) {
   );
 }
 
-// ── Selector de tutor existente ─────────────────────────────────────────────
-function TutorPicker({ tutores, assignedIds, onSelect, onCreateNew, onCancel }) {
+// ── Selector de tutor (cuentas con rol='tutor') ──────────────────────────────
+function TutorPicker({ tutores, assignedIds, onSelect, onCancel }) {
   const [search, setSearch] = useState("");
   const disponibles = tutores.filter((t) => !assignedIds.has(t.id));
   const filtrados = disponibles.filter((t) => {
     if (!search) return true;
     const q = search.toLowerCase();
-    return `${t.nombre} ${t.apellidos}`.toLowerCase().includes(q) || t.telefono.includes(q);
+    return `${t.nombre || ""} ${t.apellidos || ""} ${t.email || ""}`.toLowerCase().includes(q);
   });
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-      <Input placeholder="Buscar tutor existente…" value={search} onChange={(e) => setSearch(e.target.value)} autoFocus />
+      <Input placeholder="Buscar tutor por nombre o correo…" value={search} onChange={(e) => setSearch(e.target.value)} autoFocus />
       <div style={{ maxHeight: 240, overflow: "auto", display: "flex", flexDirection: "column", gap: 6 }}>
         {filtrados.length === 0 ? (
           <p className="ax-sub" style={{ padding: 12, textAlign: "center", whiteSpace: "normal" }}>
@@ -120,15 +83,12 @@ function TutorPicker({ tutores, assignedIds, onSelect, onCreateNew, onCancel }) 
             <div className="ax-fila">
               <div className="ax-aparecer">
                 <div className="ax-nombre">{t.nombre} {t.apellidos}</div>
-                <div className="ax-sub">{t.telefono} · {t.relacion}</div>
+                <div className="ax-sub">{t.email || t.telefono || "—"} · {t.relacion || "tutor"}</div>
               </div>
               <Button variante="secondary" onClick={() => onSelect(t.id)}>Seleccionar</Button>
             </div>
           </Card>
         ))}
-      </div>
-      <div style={{ borderTop: "1px solid var(--fx-border)", paddingTop: 12, textAlign: "center" }}>
-        <Button variante="ghost" icono={Plus} onClick={onCreateNew}>Crear nuevo tutor</Button>
       </div>
       <div className="ax-acciones" style={{ justifyContent: "flex-end" }}>
         <Button variante="ghost" onClick={onCancel}>Cancelar</Button>
@@ -161,8 +121,6 @@ export default function AdminAlumnoDetalle() {
   const [cargos, setCargos] = useState([]);
   const [cursos, setCursos] = useState({});
   const [loading, setLoading] = useState(true);
-  const [showTutorForm, setShowTutorForm] = useState(false);
-  const [editTutor, setEditTutor] = useState(null);
   const [showContactoForm, setShowContactoForm] = useState(false);
   const [editContacto, setEditContacto] = useState(null);
   const [allTutores, setAllTutores] = useState([]);
@@ -193,11 +151,12 @@ export default function AdminAlumnoDetalle() {
       (vinculos || []).forEach((r) => { estadoMap[r.tutor_id] = r.estado; });
       setVinculosEstado(estadoMap);
 
+      const camposTutor = "id, nombre, apellidos, telefono, email, relacion";
       const [t, a, c, i, cg] = await Promise.all([
         ids.length
-          ? supabase.from("tutores").select("*").in("id", ids)
+          ? supabase.from("profiles").select(camposTutor).in("id", ids)
           : Promise.resolve({ data: [] }),
-        supabase.from("tutores").select("*").order("apellidos", { ascending: true }),
+        supabase.from("profiles").select(camposTutor).eq("rol", "tutor").eq("estado_acceso", "aprobado").order("apellidos", { ascending: true }),
         supabase.from("contactos_emergencia").select("*").eq("alumno_id", id).order("orden"),
         supabase.from("inscripciones").select("*").eq("alumno_id", id).order("fecha_inscripcion", { ascending: false }),
         supabase.from("cargos").select("*").eq("alumno_id", id).order("fecha_vencimiento"),
@@ -219,23 +178,7 @@ export default function AdminAlumnoDetalle() {
     setLoading(false);
   }
 
-  // ── Tutores CRUD ─────────────────────────────────────────────────────────
-  async function handleSaveTutor(form) {
-    if (editTutor) {
-      await supabase.from("tutores").update(form).eq("id", editTutor.id);
-    } else {
-      const { data } = await supabase.from("tutores").insert(form).select("id").single();
-      if (data) {
-        await supabase.from("alumno_tutor").insert({
-          alumno_id: id, tutor_id: data.id, estado: "activo", solicitado_por: "admin",
-        });
-      }
-    }
-    setShowTutorForm(false);
-    setEditTutor(null);
-    await loadAll();
-  }
-
+  // ── Vínculos con tutores ─────────────────────────────────────────────────
   // Quitar de ESTE alumno: solo borra el vínculo. El tutor sigue existiendo
   // (y vinculado a otros alumnos). La eliminación global vive en Tutores.
   async function handleQuitarTutor(tutorId) {
@@ -394,10 +337,9 @@ export default function AdminAlumnoDetalle() {
                           </Badge>
                         )}
                       </div>
-                      <div className="ax-sub" style={{ marginTop: 2 }}>{t.telefono} · {t.email || "—"}</div>
+                      <div className="ax-sub" style={{ marginTop: 2 }}>{t.email || t.telefono || "—"}</div>
                     </div>
                     <div className="ax-acciones">
-                      <Button variante="ghost" icono={Pencil} title="Editar" onClick={() => { setEditTutor(t); setShowTutorForm(true); }} />
                       <Button variante="ghost" icono={Unlink} title="Quitar de este alumno" onClick={() => setQuitarTarget(t)} />
                     </div>
                   </div>
@@ -483,14 +425,8 @@ export default function AdminAlumnoDetalle() {
             tutores={allTutores}
             assignedIds={new Set(tutores.map((t) => t.id))}
             onSelect={handleLinkTutor}
-            onCreateNew={() => { setShowTutorPicker(false); setEditTutor(null); setShowTutorForm(true); }}
             onCancel={() => setShowTutorPicker(false)}
           />
-        </Modal>
-      )}
-      {showTutorForm && (
-        <Modal titulo={editTutor ? "Editar tutor" : "Nuevo tutor"} onClose={() => { setShowTutorForm(false); setEditTutor(null); }}>
-          <TutorForm initial={editTutor || undefined} onSave={handleSaveTutor} onCancel={() => { setShowTutorForm(false); setEditTutor(null); }} />
         </Modal>
       )}
       {quitarTarget && (

@@ -37,7 +37,7 @@ export default function AdminDashboard({ onNavigate }) {
       ] = await Promise.all([
         supabase.from("profiles").select("id", { count: "exact", head: true }).eq("estado_acceso", "pendiente"),
         supabase.from("alumnos").select("id", { count: "exact", head: true }),
-        supabase.from("tutores").select("id", { count: "exact", head: true }),
+        supabase.from("profiles").select("id", { count: "exact", head: true }).eq("rol", "tutor"),
         supabase.from("cargos").select("monto, estado").in("estado", ["pendiente", "vencido"]),
         supabase.from("suscripciones").select("id", { count: "exact", head: true }).eq("estado", "activa"),
         supabase.from("profiles").select("id, nombre, email, telefono, estado, fecha_nacimiento")

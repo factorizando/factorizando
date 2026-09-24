@@ -834,5 +834,24 @@ SQL. No hizo falta migración —el CHECK ya admite los tres valores y `NULL`—
 y cambio **manual**; derivarlo de la inscripción o permitir varios niveles queda como trabajo
 aparte si la operación lo pide.
 
+### 2026-09-23 · Plegar `tutores` y una sola fuente de identidad
+
+*Qué:* se elimina la tabla `tutores`. Un tutor es ahora un `profiles` con `rol='tutor'` y
+`relacion` (`padre|madre|tutor`), y `alumno_tutor.tutor_id` referencia `profiles(id)`. Desaparecen
+el "Vincular cuenta", la ficha separada y la sincronización ficha↔cuenta que había que hacer a
+mano. Además, la identidad del alumno (nombre, apellidos, teléfono, fecha de nacimiento) deja de
+duplicarse sin control: un trigger `profiles → alumnos` la copia desde la cuenta al expediente;
+**manda la cuenta**, y el formulario de Alumnos solo edita nivel y datos médicos para los alumnos
+con cuenta. Los alumnos sin cuenta siguen capturando su identidad en `alumnos`.
+
+*Por qué:* `tutores` era una extensión 1:1 de `profiles` (su `profile_id` es UNIQUE) y todo tutor
+se registra, así que la ficha aparte solo aportaba duplicación y un bug recurrente: una ficha
+creada sin cuenta no aparecía en el portal. Al plegarla, la RLS se simplifica —`alumno_tutor`
+pasa a `tutor_id = auth.uid()` y desaparece la recursión entre tablas que se había parcheado en
+`20260922050000`—. La identidad duplicada se resolvió con un trigger en vez de un expediente
+delgado (que habría exigido una vista, una política nueva de RLS para que el tutor leyera los
+perfiles de sus alumnos, tocar los RPC y ~15 lectores): el resultado visible —una sola persona,
+un solo nombre— es el mismo con una fracción del riesgo.
+
 
 

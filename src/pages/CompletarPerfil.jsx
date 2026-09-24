@@ -471,24 +471,13 @@ export default function CompletarPerfil() {
                               <span className="cp-sug-nombre">{s.nombre}</span>
                               <span className="cp-sug-meta">
                                 {(() => {
-                                  // El RPC puede traer las columnas con otros nombres o traer
-                                  // más datos (nivel, turno...): se muestran en orden útil y
-                                  // luego el resto, para que la fila distinga aunque cambie
-                                  // el catálogo. El CCT solo sale si no hay nada más.
-                                  const PREFERIDAS = ["servicio", "nivel", "municipio", "localidad", "turno"];
-                                  const EXCLUIR = new Set(["cct", "nombre", "id", "estado", "created_at", "updated_at", ...PREFERIDAS]);
-                                  const partes = [];
-                                  for (const k of PREFERIDAS) {
-                                    const v = s[k];
-                                    if (v != null && String(v).trim() !== "") partes.push(titulo(String(v)));
-                                  }
-                                  for (const [k, v] of Object.entries(s || {})) {
-                                    if (partes.length >= 4) break;
-                                    if (EXCLUIR.has(String(k).toLowerCase())) continue;
-                                    if (v == null || typeof v === "object" || String(v).trim() === "") continue;
-                                    partes.push(titulo(String(v)));
-                                  }
-                                  return partes.length ? partes.join(" · ") : s.cct;
+                                  const partes = [titulo(s.servicio), titulo(s.municipio), titulo(s.localidad)].filter(Boolean);
+                                  return (
+                                    <>
+                                      {partes.join(" · ")}
+                                      {s.cct ? <span className="cp-sug-cct">{partes.length ? ` · ${s.cct}` : s.cct}</span> : null}
+                                    </>
+                                  );
                                 })()}
                               </span>
                             </li>
@@ -606,6 +595,7 @@ const CSS = `
 .cp-sug li:hover { background: var(--fx-surface-sunken); }
 .cp-sug-nombre { font-size: var(--fx-small-size); color: var(--fx-text-heading); }
 .cp-sug-meta { font-size: var(--fx-caption-size); color: var(--fx-text-muted); }
+.cp-sug-cct { font-family: var(--fx-font-mono); color: var(--fx-primary-700); font-weight: 600; }
 
 /* Contactos de emergencia */
 .cp-contactos { display: flex; flex-direction: column; gap: 10px; border-top: 1px solid var(--fx-border); padding-top: 16px; }

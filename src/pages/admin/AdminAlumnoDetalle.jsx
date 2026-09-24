@@ -140,7 +140,7 @@ export default function AdminAlumnoDetalle() {
     if (al) {
       // Cuenta de la persona (si la tiene): de ahí sale el bloque de acceso.
       const { data: prof } = await supabase
-        .from("profiles").select("id, rol, estado_acceso, bloque")
+        .from("profiles").select("id, rol, estado_acceso, bloque, email")
         .eq("id", al.profile_id || al.id).maybeSingle();
       setPerfil(prof || null);
 
@@ -258,7 +258,7 @@ export default function AdminAlumnoDetalle() {
       <Page
         eyebrow="Personas"
         titulo={`${alumno.nombre} ${alumno.apellidos}`}
-        descripcion={[alumno.email || "Sin email", alumno.telefono || "Sin teléfono"].join(" · ")}
+        descripcion={[perfil?.email || alumno.email || "Sin email", alumno.telefono || "Sin teléfono"].join(" · ")}
         acciones={<Link to="/admin/alumnos" className="ax-btn ax-btn-subtle">← Alumnos</Link>}
       >
         <Card>

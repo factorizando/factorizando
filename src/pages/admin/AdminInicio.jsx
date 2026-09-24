@@ -35,14 +35,37 @@ export default function AdminInicio({ onNavigate }) {
     let cancelado = false;
     const t = setTimeout(async () => {
       const like = `%${termino}%`;
-      const { data } = await supabase
-        .from("alumnos")
-        .select("id, nombre, apellidos, nivel, email")
-        .or(`nombre.ilike.${like},apellidos.ilike.${like},email.ilike.${like}`)
-        .order("apellidos", { ascending: true })
-        .limit(8);
+      // El correo de un alumno con cuenta vive en `profiles` (su expediente lo
+      // deja en NULL); el de un alumno manual, en `alumnos.email`. Se buscan los
+      // tres caminos y se unen por id.
+      const [{ data: porNombre }, { data: perfilesCorreo }] = await Promise.all([
+        supabase
+          .from("alumnos")
+          .select("id, nombre, apellidos, nivel, email, profile_id")
+          .or(`nombre.ilike.${like},apellidos.ilike.${like},email.ilike.${like}`)
+          .order("apellidos", { ascending: true })
+          .limit(8),
+        supabase.from("profiles").select("id").ilike("email", like).limit(8),
+      ]);
       if (cancelado) return;
-      setResultados(data || []);
+      const idsCorreo = (perfilesCorreo || []).map((p) => p.id);
+      const { data: porCorreo } = idsCorreo.length
+        ? await supabase
+            .from("alumnos")
+            .select("id, nombre, apellidos, nivel, email, profile_id")
+            .in("profile_id", idsCorreo)
+        : { data: [] };
+      if (cancelado) return;
+      const unicos = new Map();
+      [...(porNombre || []), ...(porCorreo || [])].forEach((a) => unicos.set(a.id, a));
+      const filas = [...unicos.values()].slice(0, 8);
+      const profileIds = [...new Set(filas.map((a) => a.profile_id).filter(Boolean))];
+      const { data: perfiles } = profileIds.length
+        ? await supabase.from("profiles").select("id, email").in("id", profileIds)
+        : { data: [] };
+      if (cancelado) return;
+      const emailDe = new Map((perfiles || []).map((p) => [p.id, p.email]));
+      setResultados(filas.map((a) => ({ ...a, email: emailDe.get(a.profile_id) || a.email || null })));
       setBuscando(false);
     }, 250);
     return () => { cancelado = true; clearTimeout(t); };

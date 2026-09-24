@@ -1,6 +1,6 @@
 // src/pages/admin/AdminAlumnos.jsx
 // Panel de alumnos: lista, búsqueda, crear/editar/eliminar.
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { GraduationCap, Plus, Pencil, Trash2, Archive, RotateCcw } from "lucide-react";
 import { supabase } from "../../lib/supabase";
@@ -156,12 +156,20 @@ export default function AdminAlumnos({ embedded }) {
     setLoading(false);
   }
 
+  const profilesById = useMemo(
+    () => new Map(profiles.map((p) => [p.id, p])),
+    [profiles]
+  );
+  // El correo del alumno con cuenta vive en `profiles` (el expediente lo deja en
+  // NULL); el de los alumnos manuales, sin cuenta, solo está en `alumnos`.
+  const emailDe = (a) => profilesById.get(a.profile_id || a.id)?.email || a.email || "";
+
   const filtrados = alumnos.filter((a) => {
     if (!!a.archivado_en !== mostrarArchivados) return false;
     if (filtroNivel !== "todos" && a.nivel !== filtroNivel) return false;
     if (busqueda) {
       const q = busqueda.toLowerCase();
-      if (!`${a.nombre} ${a.apellidos} ${a.email || ""}`.toLowerCase().includes(q)) return false;
+      if (!`${a.nombre} ${a.apellidos} ${emailDe(a)}`.toLowerCase().includes(q)) return false;
     }
     return true;
   });
@@ -291,7 +299,7 @@ export default function AdminAlumnos({ embedded }) {
                 <span className="ax-avatar">{(a.nombre || "?").slice(0, 1).toUpperCase()}</span>
                 <div className="ax-aparecer">
                   <div className="ax-nombre">{a.nombre} {a.apellidos}</div>
-                  <div className="ax-sub">{a.email || a.telefono || "Sin contacto"}</div>
+                  <div className="ax-sub">{emailDe(a) || a.telefono || "Sin contacto"}</div>
                 </div>
                 <Badge tone="accent">{NIVEL_LABEL[a.nivel] || a.nivel}</Badge>
                 {a.archivado_en && <Badge tone="neutral">Archivado</Badge>}

@@ -14,6 +14,7 @@ import { GraduationCap, Users, ArrowLeft, Plus, Trash2, X } from "lucide-react";
 import { supabase } from "../lib/supabase";
 import { ESTADOS } from "../data/estados";
 import { useTemaClaro } from "../lib/useTemaClaro";
+import Combo from "../components/Combo.jsx";
 
 const NIVELES = [
   { v: "basica", label: "Educación básica (primaria/secundaria)" },
@@ -99,8 +100,9 @@ export default function CompletarPerfil() {
         setNombre(data.nombre || "");
         setApellidos(data.apellidos || "");
         setTelefono(data.telefono || "");
-        setEstado(data.estado || "");
-        setCiudad(data.ciudad || "");
+        // Predeterminados solo en perfil nuevo: nunca pisan lo ya guardado.
+        setEstado(data.estado || "Puebla");
+        setCiudad(data.ciudad || "Tecamachalco");
         setFechaNac(data.fecha_nacimiento || "");
         setNivelEdu(data.nivel_educativo || "");
         setInstitucion(data.institucion || "");
@@ -372,35 +374,33 @@ export default function CompletarPerfil() {
                     <div className="cp-grid2">
                       <div className="cp-field">
                         <label>Estado</label>
-                        <select
+                        <Combo
                           value={estado}
-                          onChange={(e) => { setEstado(e.target.value); setCiudad(""); setInstitucion(""); setInstitucionCct(""); }}
-                        >
-                          <option value="" disabled>Selecciona…</option>
-                          {ESTADOS.map((s) => <option key={s} value={s}>{s}</option>)}
-                        </select>
+                          onChange={(v) => { setEstado(v); setCiudad(""); setInstitucion(""); setInstitucionCct(""); }}
+                          options={ESTADOS}
+                          placeholder="Selecciona…"
+                        />
                       </div>
                       <div className="cp-field">
                         <label>Ciudad / Municipio</label>
-                        <input
-                          list="cp-municipios"
+                        <Combo
                           value={ciudad}
-                          onChange={(e) => setCiudad(e.target.value)}
+                          onChange={setCiudad}
+                          options={municipios}
                           placeholder={estado ? "Escribe o elige tu municipio" : "Primero elige tu estado"}
-                          autoComplete="off"
+                          textoVacio={estado ? "Sin resultados" : "Primero elige tu estado"}
                         />
-                        <datalist id="cp-municipios">
-                          {municipios.map((m) => <option key={m} value={m} />)}
-                        </datalist>
                       </div>
                     </div>
 
                     <div className="cp-field">
                       <label>Nivel educativo actual</label>
-                      <select value={nivelEdu} onChange={(e) => setNivelEdu(e.target.value)}>
-                        <option value="" disabled>Selecciona…</option>
-                        {NIVELES.map((n) => <option key={n.v} value={n.v}>{n.label}</option>)}
-                      </select>
+                      <Combo
+                        value={nivelEdu}
+                        onChange={setNivelEdu}
+                        options={NIVELES.map((n) => ({ value: n.v, label: n.label }))}
+                        placeholder="Selecciona…"
+                      />
                     </div>
 
                     <div className="cp-field cp-autocomplete">
@@ -533,7 +533,7 @@ const CSS = `
 .cp-sug { position: absolute; top: 100%; left: 0; right: 0; z-index: 10; margin-top: 4px; list-style: none;
   padding: 4px; background: var(--fx-surface); border: 1px solid var(--fx-border);
   border-radius: var(--fx-radius-md); box-shadow: var(--fx-shadow-float); max-height: 260px; overflow-y: auto; }
-.cp-sug li { padding: 8px 10px; border-radius: var(--fx-radius-sm); cursor: pointer; display: flex; flex-direction: column; gap: 2px; }
+.cp-sug li { min-height: 44px; justify-content: center; padding: 8px 10px; border-radius: var(--fx-radius-sm); cursor: pointer; display: flex; flex-direction: column; gap: 2px; }
 .cp-sug li:hover { background: var(--fx-surface-sunken); }
 .cp-sug-nombre { font-size: var(--fx-small-size); color: var(--fx-text-heading); }
 .cp-sug-meta { font-size: var(--fx-caption-size); color: var(--fx-text-muted); }
@@ -569,6 +569,10 @@ const CSS = `
   transition: background var(--fx-transition); }
 .cp-submit:hover:not(:disabled) { background: var(--fx-primary-600); }
 .cp-submit:disabled { opacity: .6; cursor: default; }
+/* iOS hace auto-zoom al enfocar controles de menos de 16px: en teléfono van a 16px. */
+@media (max-width: 480px) {
+  .cp-field input, .cp-contacto-campos input, .cp-sug-nombre { font-size: 16px; }
+}
 .cp-spinner { width: 18px; height: 18px; border: 2px solid color-mix(in srgb, var(--fx-primary-500) 30%, transparent);
   border-top-color: var(--fx-primary-500); border-radius: 50%; animation: cp-spin .6s linear infinite; }
 .cp-spinner-w { border-color: color-mix(in srgb, var(--fx-text-on-primary) 40%, transparent); border-top-color: var(--fx-text-on-primary); }

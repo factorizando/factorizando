@@ -300,7 +300,10 @@ export default function CompletarPerfil() {
       navigate("/cuenta-pendiente");
     } catch (err) {
       console.error(err);
-      setError("No se pudo guardar tu perfil. Intenta de nuevo.");
+      const detalle = err?.message || err?.error_description || err?.details || "";
+      setError(detalle
+        ? `No se pudo guardar tu perfil: ${detalle}`
+        : "No se pudo guardar tu perfil. Intenta de nuevo.");
       setGuardando(false);
     }
   }

@@ -15,6 +15,7 @@ import { MATERIAS } from "../data/materias";
 import catalogo from "../data/catalogo.generado.json";
 import { ICONOS } from "../components/iconos";
 import { supabase } from "../lib/supabase";
+import { cuentaCacheada, guardarCuenta } from "../lib/cuentaCache";
 
 const WHATSAPP = "https://wa.me/522491374886";
 
@@ -30,7 +31,7 @@ const cifra = (n) => n.toLocaleString("es-MX").replace(/,/g, " ");
 export default function Home() {
   const navigate = useNavigate();
   const [isAdmin, setIsAdmin] = useState(false);
-  const [cuenta, setCuenta] = useState(null);
+  const [cuenta, setCuenta] = useState(cuentaCacheada);
   const [authOpen, setAuthOpen] = useState(false);
   const [authMode, setAuthMode] = useState("login");
   const cursos = listaCursos();
@@ -43,6 +44,7 @@ export default function Home() {
 
   const cerrarSesion = async () => {
     await supabase.auth.signOut();
+    guardarCuenta(null);
     setCuenta(null);
     setIsAdmin(false);
   };
@@ -60,13 +62,17 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
-      if (!session) return;
+    let cancelado = false;
+    (async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (cancelado) return;
+      if (!session) { guardarCuenta(null); setCuenta(null); return; }
       const { data } = await supabase
         .from("profiles")
         .select("*")
         .eq("id", session.user.id)
         .single();
+      if (cancelado) return;
       // Tras confirmar el correo se aterriza aquí: si falta el perfil, completarlo.
       if (data && !data.perfil_completo) {
         navigate("/completar-perfil");
@@ -92,10 +98,14 @@ export default function Home() {
       else if (data?.bloque) {
         const { data: al } = await supabase
           .from("alumnos").select("id").eq("profile_id", session.user.id).maybeSingle();
+        if (cancelado) return;
         destino = al ? "/alumno" : `/${data.bloque}`;
       } else destino = "/";
-      setCuenta({ nombre: data?.nombre, email: session.user.email, avatarUrl: data?.avatar_url, destino });
-    });
+      const usuario = { nombre: data?.nombre, email: session.user.email, avatarUrl: data?.avatar_url, destino };
+      guardarCuenta(usuario);
+      setCuenta(usuario);
+    })();
+    return () => { cancelado = true; };
   }, [navigate]);
 
   return (
@@ -107,6 +117,7 @@ export default function Home() {
         onRegistro={() => abrirAuth("registro")}
         ctaLabel="Crear cuenta"
         usuario={cuenta}
+        usuarioCargando={cuenta === undefined}
         onLogout={cerrarSesion}
       />
 

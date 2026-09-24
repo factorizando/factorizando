@@ -63,7 +63,7 @@ export function FxMarca({ wordmark = 22, to = "/" }) {
   );
 }
 
-export default function FxHeader({ onLogin, onRegistro, ctaLabel = "Comenzar", usuario = null, onLogout }) {
+export default function FxHeader({ onLogin, onRegistro, ctaLabel = "Comenzar", usuario = null, usuarioCargando = false, onLogout }) {
   const [menuAbierto, setMenuAbierto] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
@@ -138,7 +138,12 @@ export default function FxHeader({ onLogin, onRegistro, ctaLabel = "Comenzar", u
             los dos al panel. Antes el CTA competía en la barra con la marca en
             300 px de ancho y la marca era la que perdía. */}
         <div className="fx-nav-acciones">
-          {usuario ? (
+          {usuarioCargando && !usuario ? (
+            // La sesión aún se está resolviendo: no se ofrecen "Entrar/Crear
+            // cuenta" para no mostrarlos y quitarlos al llegar el avatar. El
+            // hueco queda vacío y sin descolocar la navegación.
+            <span className="fx-perfil-hueco" aria-hidden="true" />
+          ) : usuario ? (
             <Link to={usuario.destino || "/"} className="fx-perfil" title={usuario.nombre || "Mi cuenta"}>
               <span className="fx-perfil-avatar">
                 {usuario.avatarUrl ? <img src={usuario.avatarUrl} alt="" /> : inicial}
@@ -187,7 +192,7 @@ export default function FxHeader({ onLogin, onRegistro, ctaLabel = "Comenzar", u
                 principal como botón lleno, "Entrar" debajo para quien ya la tiene.
                 Con sesión, el panel lleva a su espacio y permite cerrar sesión. */}
             <div className="fx-nav-movil-cuenta">
-              {usuario ? (
+              {usuarioCargando && !usuario ? null : usuario ? (
                 <>
                   <Link to={usuario.destino || "/"} className="fx-btn-primario fx-nav-movil-cta" onClick={cerrar}>
                     Mi panel
@@ -258,6 +263,9 @@ const CSS = `
 .fx-nav-entrar:hover { background: var(--fx-primary-50); }
 /* Avatar de sesión: sustituye a "Entrar"/CTA cuando hay cuenta. */
 .fx-perfil { display: inline-flex; align-items: center; text-decoration: none; }
+/* Reserva el sitio del avatar mientras la sesión se resuelve: así la aparición
+   no ensancha ni encoge las acciones, y no parpadean los botones de sesión. */
+.fx-perfil-hueco { display: inline-block; width: 40px; height: 40px; flex: none; }
 .fx-perfil-avatar { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
   background: var(--fx-primary-50); color: var(--fx-primary-700); overflow: hidden;
   font-family: var(--fx-font-heading); font-weight: 700; font-size: 16px;

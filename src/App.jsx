@@ -2,6 +2,7 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 import { HashRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { supabase } from "./lib/supabase";
+import { observarSesion } from "./lib/cuentaCache";
 import { MANTENIMIENTO } from "./config";
 import Proximamente from "./pages/Proximamente";
 import Home from "./pages/Home";
@@ -498,6 +499,9 @@ function Mantenimiento() {
 }
 
 export default function App() {
+  // Mantiene el caché del header público al día: si la sesión se cierra en
+  // cualquier pantalla, el avatar no se queda pegado al volver a la Home.
+  useEffect(() => { observarSesion(); }, []);
   return (
     <HashRouter>
       <RecoveryWatcher />

@@ -17,9 +17,10 @@ import { useTemaClaro } from "../lib/useTemaClaro";
 import Combo from "../components/Combo.jsx";
 
 const NIVELES = [
-  { v: "basica", label: "Educación básica (primaria/secundaria)" },
-  { v: "media_superior", label: "Media superior (preparatoria)" },
-  { v: "superior", label: "Superior (universidad)" },
+  { v: "primaria", label: "Educación Básica (Primaria)" },
+  { v: "secundaria", label: "Educación Básica (Secundaria)" },
+  { v: "media_superior", label: "Educación Media Superior (Preparatoria/Bachillerato)" },
+  { v: "superior", label: "Educación Superior" },
 ];
 
 const MESES = [
@@ -49,7 +50,10 @@ function calcEdad(fecha) {
 }
 
 // Nivel del expediente de `alumnos` a partir del nivel educativo y la edad.
+// El `else` final cubre el valor heredado "basica".
 function nivelDeExpediente(nivelEdu, fechaNac) {
+  if (nivelEdu === "primaria") return "primaria";
+  if (nivelEdu === "secundaria") return "secundaria";
   if (nivelEdu === "media_superior") return "prepa";
   if (nivelEdu === "superior") return "universidad";
   const edad = calcEdad(fechaNac);
@@ -113,6 +117,10 @@ export default function CompletarPerfil() {
         setEstado(data.estado || "Puebla");
         setCiudad(data.ciudad || "Tecamachalco");
         setFechaNac(data.fecha_nacimiento || "");
+        {
+          const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(data.fecha_nacimiento || "");
+          if (m) setPartesFecha({ d: m[3], m: m[2], a: m[1] });
+        }
         setNivelEdu(data.nivel_educativo || "");
         setInstitucion(data.institucion || "");
         setInstitucionCct(data.institucion_cct || "");
@@ -300,12 +308,10 @@ export default function CompletarPerfil() {
   const edad = calcEdad(fechaNac);
   const preview = avatarPreview || avatarUrl;
 
-  // Fecha de nacimiento en tres Combos (día/mes/año): `fechaNac` ("AAAA-MM-DD")
-  // sigue siendo la única fuente; día/mes/año se derivan de ella.
-  const [diaSel, mesSel, anioSel] = useMemo(() => {
-    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(fechaNac || "");
-    return m ? [m[3], m[2], m[1]] : ["", "", ""];
-  }, [fechaNac]);
+  // Fecha de nacimiento en tres Combos (día/mes/año). Cada parte se muestra en
+  // cuanto se elige; `fechaNac` ("AAAA-MM-DD") se compone cuando están las tres
+  // y es lo que se valida y se guarda.
+  const [partesFecha, setPartesFecha] = useState({ d: "", m: "", a: "" });
 
   const anios = useMemo(() => {
     const tope = new Date().getFullYear() - 8;
@@ -315,19 +321,21 @@ export default function CompletarPerfil() {
   }, []);
 
   const dias = useMemo(() => {
-    const max = mesSel && anioSel
-      ? new Date(Number(anioSel), Number(mesSel), 0).getDate()
+    const max = partesFecha.m && partesFecha.a
+      ? new Date(Number(partesFecha.a), Number(partesFecha.m), 0).getDate()
       : 31;
     const arr = [];
     for (let d = 1; d <= max; d++) arr.push(String(d).padStart(2, "0"));
     return arr;
-  }, [mesSel, anioSel]);
+  }, [partesFecha.m, partesFecha.a]);
 
-  function cambiarFecha({ d = diaSel, m = mesSel, a = anioSel }) {
-    if (!d || !m || !a) { setFechaNac(""); return; }
-    const max = new Date(Number(a), Number(m), 0).getDate();
-    const dd = String(Math.min(Number(d), max)).padStart(2, "0");
-    setFechaNac(`${a}-${m}-${dd}`);
+  function cambiarFecha(cambio) {
+    const p = { ...partesFecha, ...cambio };
+    setPartesFecha(p);
+    if (!p.d || !p.m || !p.a) { setFechaNac(""); return; }
+    const max = new Date(Number(p.a), Number(p.m), 0).getDate();
+    const dd = String(Math.min(Number(p.d), max)).padStart(2, "0");
+    setFechaNac(`${p.a}-${p.m}-${dd}`);
   }
 
   return (
@@ -408,9 +416,9 @@ export default function CompletarPerfil() {
                     <div className="cp-field">
                       <label>Fecha de nacimiento {edad != null && <span className="cp-edad">· {edad} años</span>}</label>
                       <div className="cp-fecha">
-                        <Combo value={diaSel} onChange={(d) => cambiarFecha({ d })} options={dias} placeholder="Día" aria-label="Día de nacimiento" />
-                        <Combo value={mesSel} onChange={(m) => cambiarFecha({ m })} options={MESES} placeholder="Mes" aria-label="Mes de nacimiento" />
-                        <Combo value={anioSel} onChange={(a) => cambiarFecha({ a })} options={anios} placeholder="Año" aria-label="Año de nacimiento" />
+                        <Combo value={partesFecha.d} onChange={(d) => cambiarFecha({ d })} options={dias} placeholder="Día" aria-label="Día de nacimiento" />
+                        <Combo value={partesFecha.m} onChange={(m) => cambiarFecha({ m })} options={MESES} placeholder="Mes" aria-label="Mes de nacimiento" />
+                        <Combo value={partesFecha.a} onChange={(a) => cambiarFecha({ a })} options={anios} placeholder="Año" aria-label="Año de nacimiento" />
                       </div>
                     </div>
 

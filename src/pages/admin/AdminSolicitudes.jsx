@@ -18,7 +18,10 @@ import {
 } from "../../components/admin/ui.jsx";
 import { BLOQUES, BLOQUE_LABEL } from "../../components/admin/layout.js";
 
-const NIVEL_EDU = { basica: "Secundaria", media_superior: "Preparatoria", superior: "Universidad" };
+const NIVEL_EDU = {
+  primaria: "Primaria", secundaria: "Secundaria",
+  basica: "Secundaria", media_superior: "Preparatoria", superior: "Universidad",
+};
 
 const ESTADOS = [
   { value: "pendiente", label: "Pendientes" },

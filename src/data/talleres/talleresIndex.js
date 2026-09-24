@@ -14,6 +14,9 @@ import { TALLER as PIZZAS_CAJAS_VASOS } from "./matematicas/pizzas-cajas-vasos.j
 import { TALLER as EL_TERRENO } from "./matematicas/el-terreno.js";
 import { TALLER as REINO_PLEGADO } from "./matematicas/reino-plegado.js";
 import { TALLER as SOLIDOS_PLATONICOS } from "./matematicas/solidos-platonicos.js";
+import { TALLER as SUMAR_DESCOMPONIENDO } from "./matematicas/sumar-descomponiendo.js";
+import { TALLER as MULTIPLICAR_DESCOMPONIENDO } from "./matematicas/multiplicar-descomponiendo.js";
+import { TALLER as DIVIDIR_DESCOMPONIENDO } from "./matematicas/dividir-descomponiendo.js";
 import { TALLER as COMPRENSION } from "./espanol/comprension-lectora.js";
 import { TALLER as DECODIFICACION } from "./espanol/decodificacion.js";
 import { TALLER as CARRERA_MATE } from "./juegos/carrera-autos-matematicas.js";
@@ -23,12 +26,18 @@ import PizzasCajasVasos from "../../components/talleres/pizzas-cajas-vasos/Pizza
 import ElTerreno from "../../components/talleres/el-terreno/ElTerreno.jsx";
 import ReinoPlegado from "../../components/talleres/reino-plegado/ReinoPlegado.jsx";
 import SolidosPlatonicos from "../../components/talleres/solidos-platonicos/SolidosPlatonicos.jsx";
+import DescomponerSuma from "../../components/talleres/descomponer/DescomponerSuma.jsx";
+import DescomponerProducto from "../../components/talleres/descomponer/DescomponerProducto.jsx";
+import DescomponerDivision from "../../components/talleres/descomponer/DescomponerDivision.jsx";
 
 export const TALLERES_INDEX = {
   [REINO_PLEGADO.id]: REINO_PLEGADO,
   [SOLIDOS_PLATONICOS.id]: SOLIDOS_PLATONICOS,
   [PIZZAS_CAJAS_VASOS.id]: PIZZAS_CAJAS_VASOS,
   [EL_TERRENO.id]: EL_TERRENO,
+  [SUMAR_DESCOMPONIENDO.id]: SUMAR_DESCOMPONIENDO,
+  [MULTIPLICAR_DESCOMPONIENDO.id]: MULTIPLICAR_DESCOMPONIENDO,
+  [DIVIDIR_DESCOMPONIENDO.id]: DIVIDIR_DESCOMPONIENDO,
   [PRODUCTO.id]: PRODUCTO,
   [DIVISIONES.id]: DIVISIONES,
   [CARRERA_MATE.id]: CARRERA_MATE,
@@ -45,6 +54,9 @@ export const TALLERES_REACT = {
   "el-terreno": ElTerreno,
   "reino-plegado": ReinoPlegado,
   "solidos-platonicos": SolidosPlatonicos,
+  "sumar-descomponiendo": DescomponerSuma,
+  "multiplicar-descomponiendo": DescomponerProducto,
+  "dividir-descomponiendo": DescomponerDivision,
 };
 
 export function buscarTaller(id) {

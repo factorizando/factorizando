@@ -22,6 +22,10 @@ export const TEMAS = [
   // ── Matemáticas ─────────────────────────────────────────────────────────
   { id: "suma-resta", label: "Suma y resta", materia: "Matemáticas", area: "Números y operaciones",
     alias: ["sumar", "restar", "llevada", "adición", "sustracción"] },
+  { id: "complementos", label: "Completar a 10, 20 y 100", materia: "Matemáticas", area: "Números y operaciones",
+    alias: ["completar", "lo que falta", "hacer decena", "decena", "complemento", "complementos"] },
+  { id: "descomposicion", label: "Descomponer números para calcular", materia: "Matemáticas", area: "Números y operaciones",
+    alias: ["descomponer", "romper el número", "por partes", "parte-todo", "descomposición"] },
   { id: "multiplicacion", label: "Multiplicación y tablas", materia: "Matemáticas", area: "Números y operaciones",
     alias: ["tablas", "multiplicar", "producto", "por"] },
   { id: "dobles-mitades", label: "Dobles, mitades y triples", materia: "Matemáticas", area: "Números y operaciones",

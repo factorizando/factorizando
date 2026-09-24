@@ -71,6 +71,9 @@ const PizzasCajasVasos     = lazy(() => import("./components/talleres/pizzas-caj
 const ElTerreno            = lazy(() => import("./components/talleres/el-terreno/ElTerreno.jsx"));
 const ReinoPlegado         = lazy(() => import("./components/talleres/reino-plegado/ReinoPlegado.jsx"));
 const SolidosPlatonicos    = lazy(() => import("./components/talleres/solidos-platonicos/SolidosPlatonicos.jsx"));
+const DescomponerSuma      = lazy(() => import("./components/talleres/descomponer/DescomponerSuma.jsx"));
+const DescomponerProducto  = lazy(() => import("./components/talleres/descomponer/DescomponerProducto.jsx"));
+const DescomponerDivision  = lazy(() => import("./components/talleres/descomponer/DescomponerDivision.jsx"));
 
 // Lo que se ve mientras baja el pedazo de una ruta. En una conexión de
 // salón esto dura un parpadeo; en la primera visita, poco más.
@@ -171,6 +174,36 @@ function AppRoutes() {
             element={
               <div style={{ height: "100vh" }}>
                 <SolidosPlatonicos alumnoId={null} />
+              </div>
+            }
+          />
+        )}
+        {import.meta.env.DEV && (
+          <Route
+            path="/preview-sumar-descomponiendo"
+            element={
+              <div style={{ height: "100vh" }}>
+                <DescomponerSuma alumnoId={null} />
+              </div>
+            }
+          />
+        )}
+        {import.meta.env.DEV && (
+          <Route
+            path="/preview-multiplicar-descomponiendo"
+            element={
+              <div style={{ height: "100vh" }}>
+                <DescomponerProducto alumnoId={null} />
+              </div>
+            }
+          />
+        )}
+        {import.meta.env.DEV && (
+          <Route
+            path="/preview-dividir-descomponiendo"
+            element={
+              <div style={{ height: "100vh" }}>
+                <DescomponerDivision alumnoId={null} />
               </div>
             }
           />

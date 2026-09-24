@@ -471,11 +471,24 @@ export default function CompletarPerfil() {
                               <span className="cp-sug-nombre">{s.nombre}</span>
                               <span className="cp-sug-meta">
                                 {(() => {
-                                  const partes = [titulo(s.servicio), titulo(s.municipio), titulo(s.localidad)].filter(Boolean);
-                                  // Con localidad: "Secundaria · Tecamachalco · Centro". Sin ella
-                                  // (el RPC aún no la trae), se conserva el CCT para no perder
-                                  // capacidad de distinguirlas.
-                                  return s.localidad ? partes.join(" · ") : [s.cct, ...partes].filter(Boolean).join(" · ");
+                                  // El RPC puede traer las columnas con otros nombres o traer
+                                  // más datos (nivel, turno...): se muestran en orden útil y
+                                  // luego el resto, para que la fila distinga aunque cambie
+                                  // el catálogo. El CCT solo sale si no hay nada más.
+                                  const PREFERIDAS = ["servicio", "nivel", "municipio", "localidad", "turno"];
+                                  const EXCLUIR = new Set(["cct", "nombre", "id", "estado", "created_at", "updated_at", ...PREFERIDAS]);
+                                  const partes = [];
+                                  for (const k of PREFERIDAS) {
+                                    const v = s[k];
+                                    if (v != null && String(v).trim() !== "") partes.push(titulo(String(v)));
+                                  }
+                                  for (const [k, v] of Object.entries(s || {})) {
+                                    if (partes.length >= 4) break;
+                                    if (EXCLUIR.has(String(k).toLowerCase())) continue;
+                                    if (v == null || typeof v === "object" || String(v).trim() === "") continue;
+                                    partes.push(titulo(String(v)));
+                                  }
+                                  return partes.length ? partes.join(" · ") : s.cct;
                                 })()}
                               </span>
                             </li>

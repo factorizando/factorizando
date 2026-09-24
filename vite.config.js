@@ -82,6 +82,14 @@ export default defineConfig({
         // nueva se purgan las precachés anteriores. En modo prompt esto solo
         // ocurre después de que el usuario acepta, no a mitad de sesión.
         cleanupOutdatedCaches: true,
+        // `clientsClaim` SÍ, `skipWaiting` NO: con prompt la versión nueva solo
+        // se activa cuando el usuario pulsa Actualizar (SKIP_WAITING); pero sin
+        // clientsClaim esa activación no tomaba el control de la pestaña
+        // abierta, no se disparaba `controlling` y el botón no recargaba nada.
+        // Con claim, al activar toma el control y la página recarga a la
+        // versión nueva. No reintroduce el problema de autoUpdate porque la
+        // activación sigue esperando la aceptación del usuario.
+        clientsClaim: true,
         navigateFallback: '/factorizando/index.html',
         navigateFallbackDenylist: [/^\/factorizando\/guias\//],
         runtimeCaching: [

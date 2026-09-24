@@ -8,7 +8,7 @@
 // El alta del alumno crea su expediente de `alumnos` (id = profile_id = cuenta),
 // que es lo que permite guardar los contactos y que /alumno funcione al aprobar.
 // Si la cuenta se rechaza, el admin borra ese expediente.
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { GraduationCap, Users, ArrowLeft, Plus, Trash2, X } from "lucide-react";
 import { supabase } from "../lib/supabase";
@@ -20,6 +20,15 @@ const NIVELES = [
   { v: "basica", label: "Educación básica (primaria/secundaria)" },
   { v: "media_superior", label: "Media superior (preparatoria)" },
   { v: "superior", label: "Superior (universidad)" },
+];
+
+const MESES = [
+  { value: "01", label: "Ene" }, { value: "02", label: "Feb" },
+  { value: "03", label: "Mar" }, { value: "04", label: "Abr" },
+  { value: "05", label: "May" }, { value: "06", label: "Jun" },
+  { value: "07", label: "Jul" }, { value: "08", label: "Ago" },
+  { value: "09", label: "Sep" }, { value: "10", label: "Oct" },
+  { value: "11", label: "Nov" }, { value: "12", label: "Dic" },
 ];
 
 // Estados con catálogo de escuelas cargado: en estos exigimos elegir del listado.
@@ -291,6 +300,36 @@ export default function CompletarPerfil() {
   const edad = calcEdad(fechaNac);
   const preview = avatarPreview || avatarUrl;
 
+  // Fecha de nacimiento en tres Combos (día/mes/año): `fechaNac` ("AAAA-MM-DD")
+  // sigue siendo la única fuente; día/mes/año se derivan de ella.
+  const [diaSel, mesSel, anioSel] = useMemo(() => {
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(fechaNac || "");
+    return m ? [m[3], m[2], m[1]] : ["", "", ""];
+  }, [fechaNac]);
+
+  const anios = useMemo(() => {
+    const tope = new Date().getFullYear() - 8;
+    const arr = [];
+    for (let a = tope; a >= tope - 92; a--) arr.push(String(a));
+    return arr;
+  }, []);
+
+  const dias = useMemo(() => {
+    const max = mesSel && anioSel
+      ? new Date(Number(anioSel), Number(mesSel), 0).getDate()
+      : 31;
+    const arr = [];
+    for (let d = 1; d <= max; d++) arr.push(String(d).padStart(2, "0"));
+    return arr;
+  }, [mesSel, anioSel]);
+
+  function cambiarFecha({ d = diaSel, m = mesSel, a = anioSel }) {
+    if (!d || !m || !a) { setFechaNac(""); return; }
+    const max = new Date(Number(a), Number(m), 0).getDate();
+    const dd = String(Math.min(Number(d), max)).padStart(2, "0");
+    setFechaNac(`${a}-${m}-${dd}`);
+  }
+
   return (
     <>
       <style>{CSS}</style>
@@ -368,7 +407,11 @@ export default function CompletarPerfil() {
                   <>
                     <div className="cp-field">
                       <label>Fecha de nacimiento {edad != null && <span className="cp-edad">· {edad} años</span>}</label>
-                      <input type="date" value={fechaNac} onChange={(e) => setFechaNac(e.target.value)} max={new Date().toISOString().slice(0, 10)} />
+                      <div className="cp-fecha">
+                        <Combo value={diaSel} onChange={(d) => cambiarFecha({ d })} options={dias} placeholder="Día" aria-label="Día de nacimiento" />
+                        <Combo value={mesSel} onChange={(m) => cambiarFecha({ m })} options={MESES} placeholder="Mes" aria-label="Mes de nacimiento" />
+                        <Combo value={anioSel} onChange={(a) => cambiarFecha({ a })} options={anios} placeholder="Año" aria-label="Año de nacimiento" />
+                      </div>
                     </div>
 
                     <div className="cp-grid2">
@@ -419,8 +462,13 @@ export default function CompletarPerfil() {
                             <li key={s.cct} onMouseDown={() => { setInstitucion(s.nombre); setInstitucionCct(s.cct); setMostrarSug(false); }}>
                               <span className="cp-sug-nombre">{s.nombre}</span>
                               <span className="cp-sug-meta">
-                                <span className="cp-sug-cct">{s.cct}</span>
-                                {" · "}{[titulo(s.servicio), titulo(s.municipio)].filter(Boolean).join(" · ")}
+                                {(() => {
+                                  const partes = [titulo(s.servicio), titulo(s.municipio), titulo(s.localidad)].filter(Boolean);
+                                  // Con localidad: "Secundaria · Tecamachalco · Centro". Sin ella
+                                  // (el RPC aún no la trae), se conserva el CCT para no perder
+                                  // capacidad de distinguirlas.
+                                  return s.localidad ? partes.join(" · ") : [s.cct, ...partes].filter(Boolean).join(" · ");
+                                })()}
                               </span>
                             </li>
                           ))}
@@ -537,7 +585,6 @@ const CSS = `
 .cp-sug li:hover { background: var(--fx-surface-sunken); }
 .cp-sug-nombre { font-size: var(--fx-small-size); color: var(--fx-text-heading); }
 .cp-sug-meta { font-size: var(--fx-caption-size); color: var(--fx-text-muted); }
-.cp-sug-cct { font-family: var(--fx-font-mono); color: var(--fx-primary-700); font-weight: 600; }
 
 /* Contactos de emergencia */
 .cp-contactos { display: flex; flex-direction: column; gap: 10px; border-top: 1px solid var(--fx-border); padding-top: 16px; }
@@ -572,6 +619,13 @@ const CSS = `
 /* iOS hace auto-zoom al enfocar controles de menos de 16px: en teléfono van a 16px. */
 @media (max-width: 480px) {
   .cp-field input, .cp-contacto-campos input, .cp-sug-nombre { font-size: 16px; }
+}
+.cp-fecha { display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 8px; }
+@media (max-width: 480px) {
+  .cp-root { padding: 24px 12px; }
+  .cp-card { padding: 24px 18px; }
+  .cp-fecha .combo-entrada { padding: 10px 30px 10px 10px; }
+  .cp-fecha .combo-flecha { width: 26px; right: 4px; }
 }
 .cp-spinner { width: 18px; height: 18px; border: 2px solid color-mix(in srgb, var(--fx-primary-500) 30%, transparent);
   border-top-color: var(--fx-primary-500); border-radius: 50%; animation: cp-spin .6s linear infinite; }

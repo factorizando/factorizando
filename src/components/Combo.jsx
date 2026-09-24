@@ -26,6 +26,7 @@ export default function Combo({
   placeholder = "Selecciona…",
   disabled = false,
   textoVacio = "Sin resultados",
+  ...rest
 }) {
   const [abierto, setAbierto] = useState(false);
   const [filtro, setFiltro] = useState(value || "");
@@ -55,14 +56,15 @@ export default function Combo({
     );
   }, [normalizadas, filtro]);
 
+  // Al abrir se muestra la lista completa (toques el campo o la flecha); el
+  // valor actual queda marcado. Escribir filtra.
   function abrir() {
     if (disabled) return;
-    setFiltro(etiqueta);
+    setFiltro("");
     setResaltado(-1);
     setAbierto(true);
     requestAnimationFrame(() => {
       entradaRef.current?.focus();
-      entradaRef.current?.select();
     });
   }
 
@@ -105,6 +107,26 @@ export default function Combo({
       ?.scrollIntoView({ block: "nearest" });
   }, [abierto, resaltado, listaId]);
 
+  // En teléfono, el teclado tapa la hoja fija: se sube lo que mida el teclado
+  // (Visual Viewport API). Solo aplica al modo hoja (≤ 480px).
+  const [ajusteTeclado, setAjusteTeclado] = useState(0);
+  useEffect(() => {
+    if (!abierto) { setAjusteTeclado(0); return; }
+    const movil = window.matchMedia("(max-width: 480px)").matches;
+    const vv = window.visualViewport;
+    if (!movil || !vv) return;
+    const actualizar = () => {
+      setAjusteTeclado(Math.max(0, window.innerHeight - vv.height - (vv.offsetTop || 0)));
+    };
+    actualizar();
+    vv.addEventListener("resize", actualizar);
+    vv.addEventListener("scroll", actualizar);
+    return () => {
+      vv.removeEventListener("resize", actualizar);
+      vv.removeEventListener("scroll", actualizar);
+    };
+  }, [abierto]);
+
   function alTeclar(e) {
     if (e.key === "ArrowDown" || e.key === "ArrowUp") {
       e.preventDefault();
@@ -135,6 +157,7 @@ export default function Combo({
       <input
         ref={entradaRef}
         className="combo-entrada"
+        {...rest}
         role="combobox"
         aria-expanded={abierto}
         aria-controls={listaId}
@@ -163,7 +186,10 @@ export default function Combo({
         <ChevronDown size={18} className={abierto ? "combo-flecha-arriba" : ""} />
       </button>
       {abierto && (
-        <div className="combo-desplegable">
+        <div
+          className="combo-desplegable"
+          style={ajusteTeclado > 0 ? { bottom: 12 + ajusteTeclado } : undefined}
+        >
           <ul className="combo-lista" role="listbox" id={listaId}>
             {filtradas.length === 0 ? (
               <li className="combo-vacio" role="presentation">{textoVacio}</li>

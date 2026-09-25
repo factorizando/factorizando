@@ -98,6 +98,7 @@ export default function Alumno() {
         </Link>
         <div className="al-cuenta">
           {perfil?.nombre && <span className="al-nombre">{perfil.nombre}</span>}
+          <Link to="/mis-datos" className="al-ghost" style={{ textDecoration: "none" }}>Mis datos</Link>
           <button type="button" onClick={salir} className="al-ghost">Cerrar sesión</button>
         </div>
       </header>

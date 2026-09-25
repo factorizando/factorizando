@@ -8,13 +8,14 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  ShieldCheck, ShieldOff, RotateCcw, AlertTriangle, GraduationCap,
+  ShieldCheck, ShieldOff, RotateCcw, AlertTriangle, GraduationCap, Pencil, MailWarning, Trash2,
 } from "lucide-react";
 import { supabase } from "../../lib/supabase";
 import AdminLayout from "../../components/admin/AdminLayout.jsx";
 import {
   Page, Card, Badge, Button, SearchField, Field, Input, Select, Textarea, Modal, EmptyState,
 } from "../../components/admin/ui.jsx";
+import CuentaEditModal from "../../components/admin/CuentaEditModal.jsx";
 import { BLOQUES, BLOQUE_LABEL } from "../../components/admin/layout.js";
 
 const ROL_LABEL = { alumno: "Alumno", tutor: "Tutor", profesor: "Profesor", admin: "Admin" };
@@ -31,6 +32,7 @@ const FILTROS = [
   { value: "activas", label: "Activas" },
   { value: "suspendidas", label: "Suspendidas" },
   { value: "pendientes", label: "Pendientes" },
+  { value: "sin-confirmar", label: "Sin confirmar" },
   { value: "staff", label: "Staff" },
   { value: "todas", label: "Todas" },
 ];
@@ -119,11 +121,55 @@ export default function AdminCuentas({ embedded, onNavigate }) {
   const [busqueda, setBusqueda] = useState("");
   const [suspTarget, setSuspTarget] = useState(null);
   const [reactTarget, setReactTarget] = useState(null);
+  const [editTarget, setEditTarget] = useState(null);
   const [accionError, setAccionError] = useState(null);
   const [bloqueSaving, setBloqueSaving] = useState(null);
   const [bloqueError, setBloqueError] = useState(null);
+  const [sinConfirmar, setSinConfirmar] = useState(null); // null = sin consultar
+  const [scError, setScError] = useState(null);
+  const [scAviso, setScAviso] = useState("");
+  const [scAccion, setScAccion] = useState(null);
 
   useEffect(() => { load(); }, []);
+
+  // Las cuentas sin confirmar viven en auth.users y solo las ve la Edge
+  // Function con service role. Se consultan al abrir ese filtro.
+  useEffect(() => {
+    if (filtro !== "sin-confirmar") return;
+    let vivo = true;
+    setScError(null); setScAviso(""); setSinConfirmar(null);
+    (async () => {
+      try {
+        const { data, error } = await supabase.functions.invoke("admin-cuentas", { body: { accion: "listar" } });
+        if (error) throw new Error(error.message || "No se pudo consultar.");
+        if (vivo) setSinConfirmar(data?.usuarios || []);
+      } catch (e) {
+        if (vivo) {
+          setScError(`${e.message || "No se pudo consultar."} ¿Está desplegada la función admin-cuentas?`);
+          setSinConfirmar([]);
+        }
+      }
+    })();
+    return () => { vivo = false; };
+  }, [filtro]);
+
+  async function reenviarConfirmacion(email) {
+    setScAviso(""); setScError(null);
+    const { error } = await supabase.auth.resend({
+      type: "signup", email, options: { emailRedirectTo: window.location.origin + import.meta.env.BASE_URL },
+    });
+    if (error) { setScError(`No se pudo reenviar a ${email}: ${error.message}`); return; }
+    setScAviso(`Correo de confirmación reenviado a ${email}.`);
+  }
+
+  async function eliminarSinConfirmar(u) {
+    setScAccion(u.id); setScError(null); setScAviso("");
+    const { data, error } = await supabase.functions.invoke("admin-cuentas", { body: { accion: "eliminar", id: u.id } });
+    setScAccion(null);
+    const detalle = error?.message || data?.error;
+    if (detalle) { setScError(`No se pudo eliminar ${u.email}: ${detalle}`); return; }
+    setSinConfirmar((l) => (l || []).filter((x) => x.id !== u.id));
+  }
 
   async function load() {
     setLoading(true);
@@ -240,7 +286,46 @@ export default function AdminCuentas({ embedded, onNavigate }) {
         <div className="ax-badge ax-badge-error" style={{ display: "block" }}>{bloqueError}</div>
       )}
 
-      {loading ? (
+      {filtro === "sin-confirmar" ? (
+        <div style={{ display: "grid", gap: 12 }}>
+          {scAviso && <p className="ax-sub" style={{ margin: 0 }}>{scAviso}</p>}
+          {scError && <div className="ax-badge ax-badge-error" style={{ display: "block" }}>{scError}</div>}
+          {sinConfirmar === null ? (
+            <p className="ax-sub">Consultando cuentas sin confirmar…</p>
+          ) : sinConfirmar.length === 0 ? (
+            <EmptyState icono={MailWarning} titulo="Sin cuentas pendientes">
+              Todas las cuentas registradas confirmaron su correo.
+            </EmptyState>
+          ) : (
+            <div className="ax-lista">
+              {sinConfirmar.map((u) => (
+                <Card key={u.id}>
+                  <div className="ax-fila">
+                    <span className="ax-avatar">{(u.nombre || u.email || "?").slice(0, 1).toUpperCase()}</span>
+                    <div className="ax-aparecer">
+                      <div className="ax-nombre">{u.nombre || "Sin nombre"}</div>
+                      <div className="ax-sub">{u.email || "—"} · registrada {fmtFecha(u.creado_en)}</div>
+                    </div>
+                    <Badge tone="warning">Sin confirmar</Badge>
+                    <div className="ax-acciones">
+                      <Button variante="secondary" icono={MailWarning} onClick={() => reenviarConfirmacion(u.email)}>
+                        Reenviar confirmación
+                      </Button>
+                      <Button
+                        variante="ghost" icono={Trash2}
+                        disabled={scAccion === u.id}
+                        onClick={() => eliminarSinConfirmar(u)}
+                      >
+                        {scAccion === u.id ? "Eliminando…" : "Eliminar"}
+                      </Button>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          )}
+        </div>
+      ) : loading ? (
         <p className="ax-sub">Cargando…</p>
       ) : filtradas.length === 0 ? (
         <EmptyState icono={ShieldCheck} titulo="Sin cuentas">
@@ -273,15 +358,22 @@ export default function AdminCuentas({ embedded, onNavigate }) {
                   <div className="ax-acciones">
                     {ES_STAFF(c) ? (
                       <span className="ax-sub">Acceso completo</span>
-                    ) : c.suspendido_en ? (
-                      <Button variante="secondary" icono={RotateCcw} onClick={() => { setAccionError(null); setReactTarget(c); }}>
-                        Reactivar
-                      </Button>
-                    ) : c.estado_acceso === "aprobado" ? (
-                      <Button variante="ghost" icono={ShieldOff} onClick={() => setSuspTarget(c)}>Suspender</Button>
-                    ) : c.estado_acceso === "pendiente" ? (
-                      <Button variante="ghost" onClick={irASolicitudes}>Revisar solicitud</Button>
-                    ) : null}
+                    ) : (
+                      <>
+                        <Button variante="ghost" icono={Pencil} title="Editar datos" onClick={() => setEditTarget(c)}>
+                          Editar
+                        </Button>
+                        {c.suspendido_en ? (
+                          <Button variante="secondary" icono={RotateCcw} onClick={() => { setAccionError(null); setReactTarget(c); }}>
+                            Reactivar
+                          </Button>
+                        ) : c.estado_acceso === "aprobado" ? (
+                          <Button variante="ghost" icono={ShieldOff} onClick={() => setSuspTarget(c)}>Suspender</Button>
+                        ) : c.estado_acceso === "pendiente" ? (
+                          <Button variante="ghost" onClick={irASolicitudes}>Revisar solicitud</Button>
+                        ) : null}
+                      </>
+                    )}
                   </div>
                 </div>
 
@@ -328,6 +420,14 @@ export default function AdminCuentas({ embedded, onNavigate }) {
 
       {suspTarget && (
         <SuspendModal cuenta={suspTarget} onClose={() => setSuspTarget(null)} onConfirm={handleSuspender} />
+      )}
+
+      {editTarget && (
+        <CuentaEditModal
+          cuentaId={editTarget.id}
+          onClose={() => setEditTarget(null)}
+          onSaved={() => { setEditTarget(null); load(); }}
+        />
       )}
 
       {reactTarget && (

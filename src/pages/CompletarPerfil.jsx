@@ -62,15 +62,16 @@ function nivelDeExpediente(nivelEdu, fechaNac) {
 
 const CONTACTO_VACIO = { nombre: "", telefono: "", parentesco: "" };
 
-export default function CompletarPerfil() {
+export default function CompletarPerfil({ modo = "alta" }) {
   useTemaClaro();
   const navigate = useNavigate();
+  const esEdicion = modo === "editar";
   const [uid, setUid] = useState(null);
   const [cargando, setCargando] = useState(true);
   const [guardando, setGuardando] = useState(false);
   const [error, setError] = useState("");
 
-  const [paso, setPaso] = useState("tipo"); // "tipo" | "form"
+  const [paso, setPaso] = useState(esEdicion ? "form" : "tipo"); // "tipo" | "form"
   const [tipo, setTipo] = useState(null);   // "alumno" | "tutor"
 
   const [nombre, setNombre] = useState("");
@@ -101,11 +102,11 @@ export default function CompletarPerfil() {
     let cancel = false;
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       if (cancel) return;
-      if (!session) { navigate("/login?dest=completar-perfil"); return; }
+      if (!session) { navigate(`/login?dest=${esEdicion ? "mis-datos" : "completar-perfil"}`); return; }
       setUid(session.user.id);
       const { data } = await supabase
         .from("profiles")
-        .select("nombre, apellidos, telefono, estado, ciudad, fecha_nacimiento, nivel_educativo, institucion, institucion_cct, avatar_url, tipo_solicitado")
+        .select("nombre, apellidos, telefono, estado, ciudad, fecha_nacimiento, nivel_educativo, institucion, institucion_cct, avatar_url, tipo_solicitado, rol")
         .eq("id", session.user.id)
         .single();
       if (cancel) return;
@@ -125,7 +126,11 @@ export default function CompletarPerfil() {
         setInstitucion(data.institucion || "");
         setInstitucionCct(data.institucion_cct || "");
         setAvatarUrl(data.avatar_url || "");
-        if (data.tipo_solicitado) { setTipo(data.tipo_solicitado); setPaso("form"); }
+        // El tipo ya se eligió en el alta. En edición, si por alguna razón
+        // falta, se infiere del rol para no volver a preguntarlo.
+        const tipoPrevio = data.tipo_solicitado
+          || (esEdicion ? (data.rol === "tutor" ? "tutor" : "alumno") : null);
+        if (tipoPrevio) { setTipo(tipoPrevio); setPaso("form"); }
       }
 
       // Expediente y contactos previos (al re-completar el perfil del alumno)
@@ -142,7 +147,7 @@ export default function CompletarPerfil() {
       setCargando(false);
     });
     return () => { cancel = true; };
-  }, [navigate]);
+  }, [navigate, esEdicion]);
 
   // Municipios del estado seleccionado
   useEffect(() => {
@@ -247,9 +252,12 @@ export default function CompletarPerfil() {
         apellidos: apellidos.trim(),
         telefono: tel,
         avatar_url: url || null,
-        perfil_completo: true,
-        tipo_solicitado: tipo,
       };
+      // En el alta se marca el perfil como completo y se fija el tipo; en la
+      // edición esos dos campos ya están puestos y no se tocan.
+      if (!esEdicion) {
+        Object.assign(perfil, { perfil_completo: true, tipo_solicitado: tipo });
+      }
       if (tipo === "alumno") {
         Object.assign(perfil, {
           estado,
@@ -297,7 +305,7 @@ export default function CompletarPerfil() {
         }
       }
 
-      navigate("/cuenta-pendiente");
+      navigate(esEdicion ? (tipo === "alumno" ? "/alumno" : "/tutor") : "/cuenta-pendiente");
     } catch (err) {
       console.error(err);
       const detalle = err?.message || err?.error_description || err?.details || "";
@@ -371,15 +379,30 @@ export default function CompletarPerfil() {
           ) : (
             <>
               <div className="cp-head">
-                <button type="button" className="cp-volver" onClick={() => setPaso("tipo")}>
-                  <ArrowLeft size={15} aria-hidden="true" /> Cambiar tipo
-                </button>
-                <span className="cp-eyebrow">Casi listo</span>
-                <h1 className="cp-title">{tipo === "alumno" ? "Completa tu perfil de alumno" : "Completa tu perfil de tutor"}</h1>
+                {esEdicion ? (
+                  <button
+                    type="button" className="cp-volver"
+                    onClick={() => navigate(tipo === "alumno" ? "/alumno" : "/tutor")}
+                  >
+                    <ArrowLeft size={15} aria-hidden="true" /> Volver
+                  </button>
+                ) : (
+                  <button type="button" className="cp-volver" onClick={() => setPaso("tipo")}>
+                    <ArrowLeft size={15} aria-hidden="true" /> Cambiar tipo
+                  </button>
+                )}
+                <span className="cp-eyebrow">{esEdicion ? "Mi cuenta" : "Casi listo"}</span>
+                <h1 className="cp-title">
+                  {esEdicion
+                    ? (tipo === "alumno" ? "Edita tus datos de alumno" : "Edita tus datos de tutor")
+                    : (tipo === "alumno" ? "Completa tu perfil de alumno" : "Completa tu perfil de tutor")}
+                </h1>
                 <p className="cp-sub">
-                  {tipo === "alumno"
-                    ? "Necesitamos estos datos para personalizar tu preparación."
-                    : "Solo lo básico para identificarte."}
+                  {esEdicion
+                    ? "Corrige lo que haga falta. Los cambios se guardan en tu cuenta y en tu expediente."
+                    : tipo === "alumno"
+                      ? "Necesitamos estos datos para personalizar tu preparación."
+                      : "Solo lo básico para identificarte."}
                 </p>
               </div>
 
@@ -521,7 +544,7 @@ export default function CompletarPerfil() {
 
                 <button type="submit" className="cp-submit" disabled={guardando}>
                   {guardando && <span className="cp-spinner cp-spinner-w" />}
-                  {guardando ? "Guardando…" : "Guardar y continuar"}
+                  {guardando ? "Guardando…" : esEdicion ? "Guardar cambios" : "Guardar y continuar"}
                 </button>
               </form>
             </>

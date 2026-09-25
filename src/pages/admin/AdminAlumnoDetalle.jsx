@@ -12,6 +12,7 @@ import AdminLayout from "../../components/admin/AdminLayout.jsx";
 import {
   Page, Card, Badge, BadgeEstado, Button, Field, Input, Select, Modal, EmptyState,
 } from "../../components/admin/ui.jsx";
+import CuentaEditModal from "../../components/admin/CuentaEditModal.jsx";
 import { GRID_FORM, BLOQUES, BLOQUE_LABEL } from "../../components/admin/layout.js";
 
 const NIVEL_LABEL = {
@@ -129,6 +130,7 @@ export default function AdminAlumnoDetalle() {
   const [perfil, setPerfil] = useState(null);
   const [guardandoBloque, setGuardandoBloque] = useState(false);
   const [bloqueError, setBloqueError] = useState(null);
+  const [showEditarCuenta, setShowEditarCuenta] = useState(false);
 
   useEffect(() => { loadAll(); }, [id]);
 
@@ -259,7 +261,16 @@ export default function AdminAlumnoDetalle() {
         eyebrow="Personas"
         titulo={`${alumno.nombre} ${alumno.apellidos}`}
         descripcion={[perfil?.email || alumno.email || "Sin email", alumno.telefono || "Sin teléfono"].join(" · ")}
-        acciones={<Link to="/admin/alumnos" className="ax-btn ax-btn-subtle">← Alumnos</Link>}
+        acciones={
+          <div className="ax-acciones">
+            {perfil && (
+              <Button variante="secondary" icono={Pencil} onClick={() => setShowEditarCuenta(true)}>
+                Editar datos de la cuenta
+              </Button>
+            )}
+            <Link to="/admin/alumnos" className="ax-btn ax-btn-subtle">← Alumnos</Link>
+          </div>
+        }
       >
         <Card>
           <div className="ax-acciones" style={{ gap: 12 }}>
@@ -445,6 +456,13 @@ export default function AdminAlumnoDetalle() {
         <Modal titulo={editContacto ? "Editar contacto" : "Nuevo contacto"} onClose={() => { setShowContactoForm(false); setEditContacto(null); }}>
           <ContactoForm initial={editContacto || undefined} onSave={handleSaveContacto} onCancel={() => { setShowContactoForm(false); setEditContacto(null); }} />
         </Modal>
+      )}
+      {showEditarCuenta && perfil && (
+        <CuentaEditModal
+          cuentaId={perfil.id}
+          onClose={() => setShowEditarCuenta(false)}
+          onSaved={() => { setShowEditarCuenta(false); loadAll(); }}
+        />
       )}
     </AdminLayout>
   );

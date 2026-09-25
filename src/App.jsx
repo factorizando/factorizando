@@ -111,6 +111,7 @@ function AppRoutes() {
         <Route path="/login" element={<Login />} />
         <Route path="/registro" element={<Registro />} />
         <Route path="/completar-perfil" element={<CompletarPerfil />} />
+        <Route path="/mis-datos" element={<CompletarPerfil modo="editar" />} />
         <Route path="/cuenta-pendiente" element={<CuentaPendiente />} />
         <Route path="/cuenta-suspendida" element={<CuentaSuspendida />} />
         <Route path="/nueva-contrasena" element={<NuevaContrasena />} />

@@ -109,6 +109,9 @@ function mensajeErrorAuth(err, esRegistro) {
   if (code === "user_already_exists" || code === "email_exists" || /already registered|already exists/i.test(msg)) {
     return "Ese correo ya está registrado. Inicia sesión.";
   }
+  if (code === "email_not_confirmed" || /email not confirmed|not confirmed/i.test(msg)) {
+    return "Tu correo aún no está confirmado. Revisa tu bandeja (y la carpeta de spam) o pide que te lo enviemos de nuevo.";
+  }
   if (code === "weak_password" || /password should be/i.test(msg)) {
     return "La contraseña no es suficientemente segura. Usa al menos 8 caracteres.";
   }
@@ -138,6 +141,29 @@ export default function AuthCard({ mode = "login", onSwitchMode, onClose, dest }
   const [captchaToken, setCaptchaToken] = useState("");
   const captchaRef = useRef(null);
   const triedCode = useRef("");  // último código auto-verificado (evita bucle si es inválido)
+  const [email2, setEmail2] = useState("");          // doble captura en registro
+  const [noConfirmado, setNoConfirmado] = useState(false);
+  const [reenviandoConf, setReenviandoConf] = useState(false);
+  const [confEnviada, setConfEnviada] = useState(false);
+
+  const redirectUrl = window.location.origin + import.meta.env.BASE_URL;
+
+  // Reenvía el correo de confirmación del registro. No necesita sesión: sirve
+  // igual desde el login (cuenta sin confirmar) que desde la pantalla de aviso.
+  const reenviarConfirmacion = async () => {
+    if (cooldown > 0 || reenviandoConf) return;
+    const correo = email.trim().toLowerCase();
+    if (!correo) return;
+    setError("");
+    setReenviandoConf(true);
+    const { error: err } = await supabase.auth.resend({
+      type: "signup", email: correo, options: { emailRedirectTo: redirectUrl },
+    });
+    setReenviandoConf(false);
+    if (err) { setError(mensajeErrorAuth(err, true)); return; }
+    setConfEnviada(true);
+    setCooldown(30);
+  };
 
   // Cuenta regresiva para habilitar el botón "Reenviar código".
   useEffect(() => {
@@ -145,6 +171,11 @@ export default function AuthCard({ mode = "login", onSwitchMode, onClose, dest }
     const t = setTimeout(() => setCooldown((c) => c - 1), 1000);
     return () => clearTimeout(t);
   }, [cooldown]);
+
+  // Al alternar entre iniciar sesión y registro, limpia el estado que no aplica.
+  useEffect(() => {
+    setError(""); setNoConfirmado(false); setConfEnviada(false); setEmail2("");
+  }, [mode]);
 
   // A dónde llevar tras iniciar sesión: completar perfil si falta, la pantalla
   // de revisión si la cuenta aún no está aprobada, o su bloque asignado.
@@ -172,7 +203,12 @@ export default function AuthCard({ mode = "login", onSwitchMode, onClose, dest }
   const submit = async (e) => {
     e.preventDefault();
     setError("");
+    setNoConfirmado(false);
+    setConfEnviada(false);
     if (esRegistro && password.length < 8) { setError("La contraseña debe tener al menos 8 caracteres."); return; }
+    if (esRegistro && email.trim().toLowerCase() !== email2.trim().toLowerCase()) {
+      setError("Los correos no coinciden. Revísalos."); return;
+    }
     if (!esRegistro && !password) { setError("Ingresa tu contraseña."); return; }
     if (TURNSTILE_SITE_KEY && !captchaToken) { setError("Completa la verificación anti-robots."); return; }
 
@@ -181,7 +217,7 @@ export default function AuthCard({ mode = "login", onSwitchMode, onClose, dest }
     const res = esRegistro
       ? await supabase.auth.signUp({
           email: correo, password,
-          options: { emailRedirectTo: window.location.origin + import.meta.env.BASE_URL, captchaToken: captchaToken || undefined },
+          options: { emailRedirectTo: redirectUrl, captchaToken: captchaToken || undefined },
         })
       : await supabase.auth.signInWithPassword({
           email: correo, password,
@@ -194,6 +230,8 @@ export default function AuthCard({ mode = "login", onSwitchMode, onClose, dest }
     const { data, error: err } = res;
     if (err) {
       console.error("Supabase auth error:", err);
+      const code = err?.code || "";
+      setNoConfirmado(!esRegistro && (code === "email_not_confirmed" || /email not confirmed|not confirmed/i.test(err?.message || "")));
       setError(mensajeErrorAuth(err, esRegistro));
       return;
     }
@@ -305,11 +343,29 @@ export default function AuthCard({ mode = "login", onSwitchMode, onClose, dest }
           <h1 className="ac-h1">Revisa tu correo</h1>
           <p className="ac-p">
             Te enviamos un enlace de confirmación a <strong>{email}</strong>. Ábrelo para
-            verificar tu cuenta y continuar con tu perfil.
+            verificar tu cuenta y continuar con tu perfil. Si no llega, revisa la carpeta de spam.
           </p>
-          <button type="button" className="ac-switch-link" onClick={() => { setEnviado(false); onSwitchMode?.("login"); }}>
-            Ir a iniciar sesión
-          </button>
+          {error && <div className="ac-error">{error}</div>}
+          <div className="ac-resend">
+            {confEnviada ? (
+              <span className="ac-resend-timer">Correo reenviado. Revisa tu bandeja.</span>
+            ) : cooldown > 0 ? (
+              <span className="ac-resend-timer">Reenviar en 0:{String(cooldown).padStart(2, "0")}</span>
+            ) : (
+              <button type="button" className="ac-switch-link" onClick={reenviarConfirmacion} disabled={reenviandoConf}>
+                {reenviandoConf ? "Enviando…" : "Reenviar correo"}
+              </button>
+            )}
+            <span aria-hidden="true">·</span>
+            <button type="button" className="ac-switch-link" onClick={() => { setEnviado(false); setError(""); }}>
+              ¿Escribiste mal tu correo?
+            </button>
+          </div>
+          <p className="ac-foot">
+            <button type="button" className="ac-switch-link" onClick={() => { setEnviado(false); onSwitchMode?.("login"); }}>
+              Ir a iniciar sesión
+            </button>
+          </p>
         </div>
       ) : vista === "resetCode" ? (
         <>
@@ -425,6 +481,17 @@ export default function AuthCard({ mode = "login", onSwitchMode, onClose, dest }
               />
             </div>
 
+            {esRegistro && (
+              <div className="ac-field">
+                <label htmlFor="ac-email2">Repite tu correo</label>
+                <input
+                  id="ac-email2" type="email" required autoComplete="email"
+                  placeholder="tucorreo@ejemplo.com"
+                  value={email2} onChange={(e) => setEmail2(e.target.value)}
+                />
+              </div>
+            )}
+
             <div className="ac-field">
               <label htmlFor="ac-password">Contraseña</label>
               <div className="ac-pw">
@@ -448,6 +515,21 @@ export default function AuthCard({ mode = "login", onSwitchMode, onClose, dest }
             <Turnstile ref={captchaRef} onToken={setCaptchaToken} />
 
             {error && <div className="ac-error">{error}</div>}
+
+            {noConfirmado && (
+              confEnviada ? (
+                <div className="ac-ok">Te reenviamos el correo. Revisa tu bandeja.</div>
+              ) : (
+                <button
+                  type="button" className="ac-switch-link"
+                  onClick={reenviarConfirmacion} disabled={reenviandoConf || cooldown > 0}
+                >
+                  {reenviandoConf ? "Enviando…"
+                    : cooldown > 0 ? `Reenviar en 0:${String(cooldown).padStart(2, "0")}`
+                      : "Reenviar correo de confirmación"}
+                </button>
+              )
+            )}
 
             <button type="submit" className="ac-primary" disabled={loading}>
               {loading && <span className="ac-spin" />}
@@ -539,6 +621,8 @@ const CSS = `
 .ac-error { display: flex; align-items: center; gap: 8px; font-size: var(--fx-small-size);
   color: var(--fx-error-text); background: var(--fx-error-bg); border: 1px solid var(--fx-error-border);
   border-radius: var(--fx-radius-md); padding: .6rem .8rem; }
+.ac-ok { text-align: center; font-size: var(--fx-small-size); font-weight: 600;
+  color: var(--fx-primary-700); }
 
 .ac-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   width: 100%; min-height: 48px; background: var(--fx-primary-500); border: none; border-radius: var(--fx-radius-md);

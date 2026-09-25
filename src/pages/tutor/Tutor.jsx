@@ -43,6 +43,7 @@ function Barra({ nombre }) {
       </Link>
       <div className="tut-cuenta">
         {nombre && <span className="tut-nombre">{nombre}</span>}
+        <Link to="/mis-datos" className="tut-ghost" style={{ textDecoration: "none" }}>Mis datos</Link>
         <button type="button" onClick={salir} className="tut-ghost">Cerrar sesión</button>
       </div>
     </header>

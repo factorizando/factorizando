@@ -113,6 +113,14 @@ directamente en `alumnos`.
 `nombre/apellidos/telefono/fecha_nacimiento`, copia al `alumnos` con ese
 `profile_id`. **Manda la cuenta.** El correo **no** se sincroniza.
 
+**El alumno y sus tutores.** El alumno lee el vínculo en `alumno_tutor`
+(`alumno_tutor_select_own`), pero el nombre del tutor vive en `profiles`, que el
+alumno **no** puede leer por RLS. Por eso `/alumno` usa `tutores_del_alumno()`
+(`20260924000000_tutores_del_alumno.sql`), un SECURITY DEFINER que devuelve id,
+nombre, apellidos, relación y estado sin abrir `profiles`. Antes funcionaba por
+la política `tutores_select_own` de la tabla `tutores`, que se perdió al plegarla
+en `profiles`.
+
 ## 5. Correo: confirmación y cuentas sin confirmar
 
 - **Reenvío de confirmación.** Si alguien no recibe el correo (o lo tecleó mal pero

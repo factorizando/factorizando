@@ -35,19 +35,12 @@ export default function Alumno() {
     setAlumno(al || null);
     if (!al) { setTutores([]); return; }
 
-    const { data: vinculos } = await supabase
-      .from("alumno_tutor").select("tutor_id, estado").eq("alumno_id", al.id);
-    const ids = [...new Set((vinculos || []).map((v) => v.tutor_id))];
-    if (ids.length === 0) { setTutores([]); return; }
-
-    const { data: ts } = await supabase
-      .from("profiles").select("id, nombre, apellidos, relacion").in("id", ids);
-    const porId = Object.fromEntries((ts || []).map((t) => [t.id, t]));
-    setTutores(
-      (vinculos || [])
-        .map((v) => ({ ...porId[v.tutor_id], estado: v.estado }))
-        .filter((t) => t.id)
-    );
+    // El nombre y la relación del tutor viven en `profiles`, que el alumno no
+    // puede leer por RLS: la función SECURITY DEFINER los devuelve ya resueltos
+    // junto con el estado del vínculo.
+    const { data: ts, error: tErr } = await supabase.rpc("tutores_del_alumno");
+    if (tErr) { setError(tErr.message); setTutores([]); return; }
+    setTutores(ts || []);
   }
 
   useEffect(() => {

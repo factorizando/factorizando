@@ -1,0 +1,1 @@
+import{j as r}from"./index-yp8oLty4.js";import{S as m}from"./Shell-Bwt-uDtP.js";import"./ui-DvqQCyK4.js";import"./PanelProfesor-DSe3IbKt.js";import"./hooks-DekttxbT.js";function a(o){return r.jsx(m,{operacion:"suma",...o})}export{a as default};

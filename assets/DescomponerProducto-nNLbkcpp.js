@@ -1,0 +1,1 @@
+import{j as r}from"./index-yp8oLty4.js";import{S as t}from"./Shell-Bwt-uDtP.js";import"./ui-DvqQCyK4.js";import"./PanelProfesor-DSe3IbKt.js";import"./hooks-DekttxbT.js";function n(o){return r.jsx(t,{operacion:"producto",...o})}export{n as default};

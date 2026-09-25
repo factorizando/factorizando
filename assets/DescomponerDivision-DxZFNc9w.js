@@ -1,1 +1,0 @@
-import{j as i}from"./index-DATqdMx1.js";import{S as r}from"./Shell-CGwWvFKE.js";import"./ui-dHPvNpiH.js";import"./PanelProfesor-Dp2l5bkv.js";import"./hooks-CHZcWKi5.js";function n(o){return i.jsx(r,{operacion:"division",...o})}export{n as default};

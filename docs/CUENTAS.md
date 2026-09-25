@@ -9,7 +9,7 @@ sistema de diseño y la arquitectura general, ver `docs/DISENO.md` y `CLAUDE.md`
 | Objeto | Qué es | Quién lo crea |
 |---|---|---|
 | `auth.users` | La credencial (correo/contraseña). La maneja Supabase. | Supabase Auth |
-| `profiles` | **La cuenta.** `id = auth.users.id`. Guarda identidad, `rol`, `estado_acceso`, `bloque`, `perfil_completo`, `suspendido_*`. | Un trigger del panel (**no versionado** en este repo), al registrarse |
+| `profiles` | **La cuenta.** `id = auth.users.id`. Guarda identidad, `rol`, `estado_acceso`, `bloque`, `perfil_completo`, `suspendido_*`. | Un trigger del panel (**no versionado** en este repo). Hasta aplicar `supabase/perfil_al_confirmar.sql`, se crea en el `signUp`; después, al confirmar el correo |
 | `alumnos` | **El expediente del alumno.** `profile_id` nullable; guarda nivel, bloque y datos médicos. | `CompletarPerfil` / aprobación (con cuenta) o el admin (manual) |
 | `alumno_tutor` | Vínculo N:M `alumnos.id ↔ profiles.id (tutor)` con `estado` (`pendiente\|activo\|rechazado`). | El tutor (solicita) o el admin (directo) |
 | `contactos_emergencia` | 1-2 por alumno (`orden` 1\|2). | `CompletarPerfil` o el admin |
@@ -85,11 +85,14 @@ directamente en `alumnos`.
 ## 4. Quién puede modificar qué (y efecto en tablas)
 
 **El alumno (su propia cuenta):**
-- **No hay pantalla de "editar perfil"** para usuarios aprobados. La única vía
-  es re-ejecutar `/completar-perfil` a mano (ruta pública con sesión), que
-  re-escribe `profiles`, re-upserta `alumnos` y reemplaza
-  `contactos_emergencia`. La identidad que cambie en `profiles` la copia el
-  trigger al expediente.
+- **Edita sus datos** en `/mis-datos` (`CompletarPerfil` en `modo="editar"`, enlazado
+  desde `/alumno` y `/tutor`): nombre, apellidos, teléfono, avatar, estado, ciudad,
+  nacimiento, nivel, escuela/CCT y contactos. Re-escribe `profiles`, re-upserta
+  `alumnos` y reemplaza `contactos_emergencia`; el trigger `sync_alumno_identidad`
+  copia la identidad al expediente. **No** toca `perfil_completo` ni
+  `tipo_solicitado` (ya están puestos).
+- El **correo no se edita en la app** (vive en `auth.users`): se cambia a mano en
+  Supabase.
 - En `/alumno`: **confirma o rechaza** vínculos de tutores
   (`alumno_tutor.estado` vía `resolver_vinculo_tutor`).
 - En talleres/cuestionarios: escribe `taller_sesiones` y `resultados`.
@@ -100,25 +103,51 @@ directamente en `alumnos`.
 | Dónde | Cambia | Tablas |
 |---|---|---|
 | Solicitudes | aprobar/rechazar, `bloque`, `rol='tutor'`, `relacion`, `motivo_rechazo` | `profiles` (+ `alumnos` si regularización) |
-| Cuentas | suspender/reactivar (`suspendido_*`), cambiar `bloque` | `profiles` |
+| Cuentas | suspender/reactivar (`suspendido_*`), cambiar `bloque`, **editar identidad** (nombre, apellidos, teléfono, nacimiento) | `profiles` |
+| Cuentas → «Sin confirmar» | reenviar confirmación y **eliminar** cuentas sin confirmar (Edge Function) | `auth.users` (+ `profiles` en cascada) |
 | Alumnos (lista) | nivel, datos médicos; **identidad solo lectura si tiene cuenta** | `alumnos` |
-| Ficha del alumno | `bloque`, médicos, contactos, vincular/quitar tutores | `profiles`, `alumnos`, `contactos_emergencia`, `alumno_tutor` |
+| Ficha del alumno | `bloque`, médicos, contactos, vincular/quitar tutores, **editar datos de la cuenta** | `profiles`, `alumnos`, `contactos_emergencia`, `alumno_tutor` |
 | Tutores | `relacion`, archivar/reactivar (corta acceso y desactiva vínculos) | `profiles`, `alumno_tutor` |
 
 **El trigger de identidad** (`sync_alumno_identidad`): cuando `profiles` cambia
 `nombre/apellidos/telefono/fecha_nacimiento`, copia al `alumnos` con ese
 `profile_id`. **Manda la cuenta.** El correo **no** se sincroniza.
 
-## 5. Huecos conocidos (pendientes)
+## 5. Correo: confirmación y cuentas sin confirmar
 
-- **P1 — Nadie edita la identidad de una cuenta aprobada desde el panel.**
-  El formulario de Alumnos la bloquea para alumnos con cuenta, y Cuentas no
-  edita nombre/teléfono. Hoy solo se corrige re-corriendo `/completar-perfil`.
-  Falta un "Editar datos" en la cuenta.
+- **Reenvío de confirmación.** Si alguien no recibe el correo (o lo tecleó mal pero
+  existe), el login lo detecta (`email_not_confirmed`) y ofrece reenviarlo; la
+  pantalla «Revisa tu correo» permite **corregir el correo** y volver a enviar. El
+  registro pide el correo **dos veces** para atajar el typo antes de crear la cuenta.
+- **Correo que no existe.** Sin confirmar no hay sesión: la cuenta no entra y no
+  se puede aprobar. Antes dejaba una fila fantasma en `profiles`; con la Fase 3
+  deja de llegar a `profiles`. Hasta entonces, el admin la ve en
+  **Cuentas → «Sin confirmar»**, puede reenviar el correo y **eliminarla**.
+- **Cambio de correo.** No hay UI: se hace a mano en Supabase.
+
+### Edge Function `admin-cuentas`
+
+`auth.users` no se alcanza con la llave anónima, así que existe
+`supabase/functions/admin-cuentas`: recibe el JWT, comprueba `profiles.rol='admin'`
+y con la service role lista las cuentas sin confirmar y las borra. Desplegar:
+
+```bash
+supabase functions deploy admin-cuentas
+```
+
+No hay que configurar secretos: `SUPABASE_SERVICE_ROLE_KEY` la inyecta Supabase.
+Si no está desplegada, el filtro «Sin confirmar» avisa y no rompe el resto.
+
+## 6. Huecos conocidos (pendientes)
+
 - **P2 — La aprobación de admisión no crea expediente `alumnos`.** Consecuencias:
   no hay `/alumno`, no hay contactos ni datos médicos, y **no se puede vincular
   a un tutor** (porque `alumno_tutor` apunta a `alumnos`). Esto es lo que
   resuelven la fase de `alumnos.bloque` y el modo operador.
+- **Fase 3 (manual) — mover el alta de `profiles` a la confirmación.** El SQL vive
+  en `supabase/perfil_al_confirmar.sql` y **se pega a mano** en Supabase, porque el
+  trigger actual vive en el panel y su nombre hay que confirmarlo antes. Sin eso,
+  las cuentas sin confirmar siguen generando fila en `profiles`.
 - La **suspensión es un gate de navegación**, no RLS: el contenido viaja en el
   bundle.
 - **`profiles` no está versionada en el repo** (se creó desde el panel): su
